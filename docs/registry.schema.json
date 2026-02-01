@@ -1,0 +1,211 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "https://kern-ux.local/schemas/registry.schema.json",
+	"title": "KERN UX MCP Registry Manifest",
+	"type": "object",
+	"$defs": {
+		"localizedString": {
+			"type": "object",
+			"required": ["de", "en"],
+			"properties": {
+				"de": { "type": "string" },
+				"en": { "type": "string" }
+			},
+			"additionalProperties": false
+		},
+		"guidanceSection": {
+			"type": "object",
+			"required": ["source", "heading", "de", "en"],
+			"properties": {
+				"source": { "type": "string" },
+				"heading": { "type": "string" },
+				"de": { "type": "string" },
+				"en": { "type": "string" }
+			},
+			"additionalProperties": false
+		},
+		"reviewedGuidanceEvidence": {
+			"type": "object",
+			"required": ["kind", "source"],
+			"properties": {
+				"kind": {
+					"type": "string",
+					"enum": [
+						"docs-snapshot",
+						"story",
+						"scss",
+						"schema",
+						"template",
+						"test",
+						"manual-review",
+						"other"
+					]
+				},
+				"source": { "type": "string" },
+				"locator": { "type": "string" },
+				"note": { "$ref": "#/$defs/localizedString" }
+			},
+			"additionalProperties": false
+		},
+		"reviewedGuidanceStatement": {
+			"type": "object",
+			"required": ["text", "confidence", "evidence"],
+			"properties": {
+				"text": { "$ref": "#/$defs/localizedString" },
+				"confidence": {
+					"type": "string",
+					"enum": ["high", "medium", "low"]
+				},
+				"evidence": {
+					"type": "array",
+					"minItems": 1,
+					"items": { "$ref": "#/$defs/reviewedGuidanceEvidence" }
+				}
+			},
+			"additionalProperties": false
+		},
+		"reviewedComponentGuidance": {
+			"type": "object",
+			"required": [
+				"status",
+				"summary",
+				"primaryUseCases",
+				"antiUseCases",
+				"requiredA11yPractices",
+				"semanticInvariants",
+				"compositionPatterns",
+				"authoringNotes",
+				"migrationNotes"
+			],
+			"properties": {
+				"status": {
+					"type": "string",
+					"enum": ["draft", "reviewed", "approved"]
+				},
+				"summary": { "$ref": "#/$defs/reviewedGuidanceStatement" },
+				"primaryUseCases": {
+					"type": "array",
+					"items": { "$ref": "#/$defs/reviewedGuidanceStatement" }
+				},
+				"antiUseCases": {
+					"type": "array",
+					"items": { "$ref": "#/$defs/reviewedGuidanceStatement" }
+				},
+				"requiredA11yPractices": {
+					"type": "array",
+					"items": { "$ref": "#/$defs/reviewedGuidanceStatement" }
+				},
+				"semanticInvariants": {
+					"type": "array",
+					"items": { "$ref": "#/$defs/reviewedGuidanceStatement" }
+				},
+				"compositionPatterns": {
+					"type": "array",
+					"items": { "$ref": "#/$defs/reviewedGuidanceStatement" }
+				},
+				"authoringNotes": {
+					"type": "array",
+					"items": { "$ref": "#/$defs/reviewedGuidanceStatement" }
+				},
+				"migrationNotes": {
+					"type": "array",
+					"items": { "$ref": "#/$defs/reviewedGuidanceStatement" }
+				}
+			},
+			"additionalProperties": false
+		}
+	},
+	"required": [
+		"manifestVersion",
+		"generatedAt",
+		"sourceRoot",
+		"tokens",
+		"components"
+	],
+	"properties": {
+		"manifestVersion": { "type": "string" },
+		"generatedAt": { "type": "string", "format": "date-time" },
+		"sourceRoot": { "type": "string" },
+		"tokens": {
+			"type": "object",
+			"required": ["colors", "spacing", "rawVariables"],
+			"properties": {
+				"colors": {
+					"type": "array",
+					"items": { "type": "string" }
+				},
+				"spacing": {
+					"type": "array",
+					"items": { "type": "string" }
+				},
+				"rawVariables": {
+					"type": "array",
+					"items": { "type": "string" }
+				}
+			},
+			"additionalProperties": false
+		},
+		"components": {
+			"type": "array",
+			"items": {
+				"type": "object",
+				"required": [
+					"id",
+					"title",
+					"status",
+					"category",
+					"strategy",
+					"guidance",
+					"warnings"
+				],
+				"properties": {
+					"id": { "type": "string", "minLength": 1 },
+					"title": { "type": "string", "minLength": 1 },
+					"status": {
+						"type": "string",
+						"enum": ["stable", "experimental", "deprecated"]
+					},
+					"category": {
+						"type": "string",
+						"enum": ["interactive", "foundational"]
+					},
+					"strategy": {
+						"type": "string",
+						"enum": ["interactive", "layout", "typography", "fallback"]
+					},
+					"guidance": {
+						"$ref": "#/$defs/localizedString"
+					},
+					"guidanceSections": {
+						"type": "array",
+						"items": { "$ref": "#/$defs/guidanceSection" }
+					},
+					"reviewedGuidance": {
+						"$ref": "#/$defs/reviewedComponentGuidance"
+					},
+					"sources": {
+						"type": "object",
+						"properties": {
+							"scss": {
+								"type": "array",
+								"items": { "type": "string" }
+							},
+							"stories": {
+								"type": "array",
+								"items": { "type": "string" }
+							}
+						},
+						"additionalProperties": false
+					},
+					"htmlCanonical": { "type": "string" },
+					"warnings": {
+						"type": "array",
+						"items": { "type": "string" }
+					}
+				},
+				"additionalProperties": false
+			}
+		}
+	},
+	"additionalProperties": false
+}

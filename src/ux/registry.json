@@ -1,0 +1,2055 @@
+{
+  "manifestVersion": "1.0.0",
+  "generatedAt": "2026-05-31T11:13:05.111Z",
+  "sourceRoot": "C:\\src\\github\\leonio\\kern-ux-plain",
+  "tokens": {
+    "colors": [
+      "--kern-color-action-default",
+      "--kern-color-action-focus-background",
+      "--kern-color-action-focus-border-inside",
+      "--kern-color-action-focus-border-outside",
+      "--kern-color-action-focus-default",
+      "--kern-color-action-on-default",
+      "--kern-color-action-state-indicator-default",
+      "--kern-color-action-state-indicator-shade",
+      "--kern-color-action-state-indicator-shade-active",
+      "--kern-color-action-state-indicator-shade-hover",
+      "--kern-color-action-state-indicator-tint",
+      "--kern-color-action-state-indicator-tint-active-opacity",
+      "--kern-color-action-state-indicator-tint-hover-opacity",
+      "--kern-color-action-state-opacity-active",
+      "--kern-color-action-state-opacity-disabled",
+      "--kern-color-action-state-opacity-hover",
+      "--kern-color-action-state-opacity-overlay",
+      "--kern-color-action-state-opacity-pressed",
+      "--kern-color-action-state-opacity-selected",
+      "--kern-color-action-visited",
+      "--kern-color-black",
+      "--kern-color-brand-colorpalette-1-025",
+      "--kern-color-brand-colorpalette-1-050",
+      "--kern-color-brand-colorpalette-1-100",
+      "--kern-color-brand-colorpalette-1-150",
+      "--kern-color-brand-colorpalette-1-200",
+      "--kern-color-brand-colorpalette-1-250",
+      "--kern-color-brand-colorpalette-1-300",
+      "--kern-color-brand-colorpalette-1-350",
+      "--kern-color-brand-colorpalette-1-400",
+      "--kern-color-brand-colorpalette-1-450",
+      "--kern-color-brand-colorpalette-1-500",
+      "--kern-color-brand-colorpalette-1-550",
+      "--kern-color-brand-colorpalette-1-600",
+      "--kern-color-brand-colorpalette-1-650",
+      "--kern-color-brand-colorpalette-1-700",
+      "--kern-color-brand-colorpalette-1-750",
+      "--kern-color-brand-colorpalette-1-800",
+      "--kern-color-brand-colorpalette-1-850",
+      "--kern-color-brand-colorpalette-1-900",
+      "--kern-color-brand-colorpalette-1-950",
+      "--kern-color-brand-colorpalette-2-025",
+      "--kern-color-brand-colorpalette-2-050",
+      "--kern-color-brand-colorpalette-2-100",
+      "--kern-color-brand-colorpalette-2-150",
+      "--kern-color-brand-colorpalette-2-200",
+      "--kern-color-brand-colorpalette-2-250",
+      "--kern-color-brand-colorpalette-2-300",
+      "--kern-color-brand-colorpalette-2-350",
+      "--kern-color-brand-colorpalette-2-400",
+      "--kern-color-brand-colorpalette-2-450",
+      "--kern-color-brand-colorpalette-2-500",
+      "--kern-color-brand-colorpalette-2-550",
+      "--kern-color-brand-colorpalette-2-600",
+      "--kern-color-brand-colorpalette-2-650",
+      "--kern-color-brand-colorpalette-2-700",
+      "--kern-color-brand-colorpalette-2-750",
+      "--kern-color-brand-colorpalette-2-800",
+      "--kern-color-brand-colorpalette-2-850",
+      "--kern-color-brand-colorpalette-2-900",
+      "--kern-color-brand-colorpalette-2-950",
+      "--kern-color-darkblue-025",
+      "--kern-color-darkblue-050",
+      "--kern-color-darkblue-100",
+      "--kern-color-darkblue-150",
+      "--kern-color-darkblue-200",
+      "--kern-color-darkblue-250",
+      "--kern-color-darkblue-300",
+      "--kern-color-darkblue-350",
+      "--kern-color-darkblue-400",
+      "--kern-color-darkblue-450",
+      "--kern-color-darkblue-500",
+      "--kern-color-darkblue-550",
+      "--kern-color-darkblue-600",
+      "--kern-color-darkblue-650",
+      "--kern-color-darkblue-700",
+      "--kern-color-darkblue-750",
+      "--kern-color-darkblue-800",
+      "--kern-color-darkblue-850",
+      "--kern-color-darkblue-900",
+      "--kern-color-darkblue-950",
+      "--kern-color-decorative-border-default",
+      "--kern-color-decorative-border-level-1",
+      "--kern-color-decorative-border-level-2",
+      "--kern-color-decorative-brand-default",
+      "--kern-color-feedback-danger",
+      "--kern-color-feedback-danger-background",
+      "--kern-color-feedback-default",
+      "--kern-color-feedback-default-background",
+      "--kern-color-feedback-info",
+      "--kern-color-feedback-info-background",
+      "--kern-color-feedback-loader",
+      "--kern-color-feedback-loader-background",
+      "--kern-color-feedback-success",
+      "--kern-color-feedback-success-background",
+      "--kern-color-feedback-warning",
+      "--kern-color-feedback-warning-background",
+      "--kern-color-form-input-background",
+      "--kern-color-form-input-background-inverted",
+      "--kern-color-form-input-border",
+      "--kern-color-green-025",
+      "--kern-color-green-050",
+      "--kern-color-green-100",
+      "--kern-color-green-150",
+      "--kern-color-green-200",
+      "--kern-color-green-250",
+      "--kern-color-green-300",
+      "--kern-color-green-350",
+      "--kern-color-green-400",
+      "--kern-color-green-450",
+      "--kern-color-green-500",
+      "--kern-color-green-550",
+      "--kern-color-green-600",
+      "--kern-color-green-650",
+      "--kern-color-green-700",
+      "--kern-color-green-750",
+      "--kern-color-green-800",
+      "--kern-color-green-850",
+      "--kern-color-green-900",
+      "--kern-color-green-950",
+      "--kern-color-grey-025",
+      "--kern-color-grey-050",
+      "--kern-color-grey-100",
+      "--kern-color-grey-150",
+      "--kern-color-grey-200",
+      "--kern-color-grey-250",
+      "--kern-color-grey-300",
+      "--kern-color-grey-350",
+      "--kern-color-grey-400",
+      "--kern-color-grey-450",
+      "--kern-color-grey-500",
+      "--kern-color-grey-550",
+      "--kern-color-grey-600",
+      "--kern-color-grey-650",
+      "--kern-color-grey-700",
+      "--kern-color-grey-750",
+      "--kern-color-grey-800",
+      "--kern-color-grey-850",
+      "--kern-color-grey-900",
+      "--kern-color-grey-950",
+      "--kern-color-layout-background-default",
+      "--kern-color-layout-background-default-surface",
+      "--kern-color-layout-background-hued",
+      "--kern-color-layout-background-inverted",
+      "--kern-color-layout-background-level-1",
+      "--kern-color-layout-background-level-1-surface",
+      "--kern-color-layout-background-level-2",
+      "--kern-color-layout-background-level-2-surface",
+      "--kern-color-layout-background-overlay",
+      "--kern-color-layout-border",
+      "--kern-color-layout-border-level-1",
+      "--kern-color-layout-border-level-2",
+      "--kern-color-layout-text-default",
+      "--kern-color-layout-text-inverse",
+      "--kern-color-layout-text-muted",
+      "--kern-color-lightblue-025",
+      "--kern-color-lightblue-050",
+      "--kern-color-lightblue-100",
+      "--kern-color-lightblue-150",
+      "--kern-color-lightblue-200",
+      "--kern-color-lightblue-250",
+      "--kern-color-lightblue-300",
+      "--kern-color-lightblue-350",
+      "--kern-color-lightblue-400",
+      "--kern-color-lightblue-450",
+      "--kern-color-lightblue-500",
+      "--kern-color-lightblue-550",
+      "--kern-color-lightblue-600",
+      "--kern-color-lightblue-650",
+      "--kern-color-lightblue-700",
+      "--kern-color-lightblue-750",
+      "--kern-color-lightblue-800",
+      "--kern-color-lightblue-850",
+      "--kern-color-lightblue-900",
+      "--kern-color-lightblue-950",
+      "--kern-color-limette-025",
+      "--kern-color-limette-050",
+      "--kern-color-limette-100",
+      "--kern-color-limette-150",
+      "--kern-color-limette-200",
+      "--kern-color-limette-250",
+      "--kern-color-limette-300",
+      "--kern-color-limette-350",
+      "--kern-color-limette-400",
+      "--kern-color-limette-450",
+      "--kern-color-limette-500",
+      "--kern-color-limette-550",
+      "--kern-color-limette-600",
+      "--kern-color-limette-650",
+      "--kern-color-limette-700",
+      "--kern-color-limette-750",
+      "--kern-color-limette-800",
+      "--kern-color-limette-850",
+      "--kern-color-limette-900",
+      "--kern-color-limette-950",
+      "--kern-color-neutral-025",
+      "--kern-color-neutral-050",
+      "--kern-color-neutral-100",
+      "--kern-color-neutral-150",
+      "--kern-color-neutral-200",
+      "--kern-color-neutral-250",
+      "--kern-color-neutral-300",
+      "--kern-color-neutral-350",
+      "--kern-color-neutral-400",
+      "--kern-color-neutral-450",
+      "--kern-color-neutral-500",
+      "--kern-color-neutral-550",
+      "--kern-color-neutral-600",
+      "--kern-color-neutral-650",
+      "--kern-color-neutral-700",
+      "--kern-color-neutral-750",
+      "--kern-color-neutral-800",
+      "--kern-color-neutral-850",
+      "--kern-color-neutral-900",
+      "--kern-color-neutral-950",
+      "--kern-color-orange-025",
+      "--kern-color-orange-050",
+      "--kern-color-orange-100",
+      "--kern-color-orange-150",
+      "--kern-color-orange-200",
+      "--kern-color-orange-250",
+      "--kern-color-orange-300",
+      "--kern-color-orange-350",
+      "--kern-color-orange-400",
+      "--kern-color-orange-450",
+      "--kern-color-orange-500",
+      "--kern-color-orange-550",
+      "--kern-color-orange-600",
+      "--kern-color-orange-650",
+      "--kern-color-orange-700",
+      "--kern-color-orange-750",
+      "--kern-color-orange-800",
+      "--kern-color-orange-850",
+      "--kern-color-orange-900",
+      "--kern-color-orange-950",
+      "--kern-color-red-025",
+      "--kern-color-red-050",
+      "--kern-color-red-100",
+      "--kern-color-red-150",
+      "--kern-color-red-200",
+      "--kern-color-red-250",
+      "--kern-color-red-300",
+      "--kern-color-red-350",
+      "--kern-color-red-400",
+      "--kern-color-red-450",
+      "--kern-color-red-500",
+      "--kern-color-red-550",
+      "--kern-color-red-600",
+      "--kern-color-red-650",
+      "--kern-color-red-700",
+      "--kern-color-red-750",
+      "--kern-color-red-800",
+      "--kern-color-red-850",
+      "--kern-color-red-900",
+      "--kern-color-red-950",
+      "--kern-color-turquois-025",
+      "--kern-color-turquois-050",
+      "--kern-color-turquois-100",
+      "--kern-color-turquois-150",
+      "--kern-color-turquois-200",
+      "--kern-color-turquois-250",
+      "--kern-color-turquois-300",
+      "--kern-color-turquois-350",
+      "--kern-color-turquois-400",
+      "--kern-color-turquois-450",
+      "--kern-color-turquois-500",
+      "--kern-color-turquois-550",
+      "--kern-color-turquois-600",
+      "--kern-color-turquois-650",
+      "--kern-color-turquois-700",
+      "--kern-color-turquois-750",
+      "--kern-color-turquois-800",
+      "--kern-color-turquois-850",
+      "--kern-color-turquois-900",
+      "--kern-color-turquois-950",
+      "--kern-color-violet-025",
+      "--kern-color-violet-050",
+      "--kern-color-violet-100",
+      "--kern-color-violet-150",
+      "--kern-color-violet-200",
+      "--kern-color-violet-250",
+      "--kern-color-violet-300",
+      "--kern-color-violet-350",
+      "--kern-color-violet-400",
+      "--kern-color-violet-450",
+      "--kern-color-violet-500",
+      "--kern-color-violet-550",
+      "--kern-color-violet-600",
+      "--kern-color-violet-650",
+      "--kern-color-violet-700",
+      "--kern-color-violet-750",
+      "--kern-color-violet-800",
+      "--kern-color-violet-850",
+      "--kern-color-violet-900",
+      "--kern-color-violet-950",
+      "--kern-color-white",
+      "--kern-color-yellow-025",
+      "--kern-color-yellow-050",
+      "--kern-color-yellow-100",
+      "--kern-color-yellow-150",
+      "--kern-color-yellow-200",
+      "--kern-color-yellow-250",
+      "--kern-color-yellow-300",
+      "--kern-color-yellow-350",
+      "--kern-color-yellow-400",
+      "--kern-color-yellow-450",
+      "--kern-color-yellow-500",
+      "--kern-color-yellow-550",
+      "--kern-color-yellow-600",
+      "--kern-color-yellow-650",
+      "--kern-color-yellow-700",
+      "--kern-color-yellow-750",
+      "--kern-color-yellow-800",
+      "--kern-color-yellow-850",
+      "--kern-color-yellow-900",
+      "--kern-color-yellow-950"
+    ],
+    "spacing": [
+      "--kern-component-badge-space-left",
+      "--kern-component-kopfzeile-padding",
+      "--kern-metric-baseline-body-default-padding-bottom",
+      "--kern-metric-baseline-body-default-padding-top",
+      "--kern-metric-baseline-body-large-padding-bottom",
+      "--kern-metric-baseline-body-large-padding-top",
+      "--kern-metric-baseline-body-small-padding-bottom",
+      "--kern-metric-baseline-body-small-padding-top",
+      "--kern-metric-baseline-heading-display-padding-bottom",
+      "--kern-metric-baseline-heading-display-padding-top",
+      "--kern-metric-baseline-heading-large-padding-bottom",
+      "--kern-metric-baseline-heading-large-padding-top",
+      "--kern-metric-baseline-heading-medium-padding-bottom",
+      "--kern-metric-baseline-heading-medium-padding-top",
+      "--kern-metric-baseline-heading-small-padding-bottom",
+      "--kern-metric-baseline-heading-small-padding-top",
+      "--kern-metric-baseline-heading-x-large-padding-bottom",
+      "--kern-metric-baseline-heading-x-large-padding-top",
+      "--kern-metric-baseline-label-default-padding-bottom",
+      "--kern-metric-baseline-label-default-padding-top",
+      "--kern-metric-baseline-label-large-padding-bottom",
+      "--kern-metric-baseline-label-large-padding-top",
+      "--kern-metric-baseline-label-small-padding-bottom",
+      "--kern-metric-baseline-label-small-padding-top",
+      "--kern-metric-baseline-preline-default-padding-bottom",
+      "--kern-metric-baseline-preline-default-padding-top",
+      "--kern-metric-baseline-preline-large-padding-bottom",
+      "--kern-metric-baseline-preline-large-padding-top",
+      "--kern-metric-baseline-preline-small-padding-bottom",
+      "--kern-metric-baseline-preline-small-padding-top",
+      "--kern-metric-baseline-subline-default-padding-bottom",
+      "--kern-metric-baseline-subline-default-padding-top",
+      "--kern-metric-baseline-subline-large-padding-bottom",
+      "--kern-metric-baseline-subline-large-padding-top",
+      "--kern-metric-baseline-subline-small-padding-bottom",
+      "--kern-metric-baseline-subline-small-padding-top",
+      "--kern-metric-baseline-title-default-padding-bottom",
+      "--kern-metric-baseline-title-default-padding-top",
+      "--kern-metric-baseline-title-large-padding-bottom",
+      "--kern-metric-baseline-title-large-padding-top",
+      "--kern-metric-baseline-title-small-padding-bottom",
+      "--kern-metric-baseline-title-small-padding-top",
+      "--kern-metric-dimension-2x-large",
+      "--kern-metric-dimension-2x-small",
+      "--kern-metric-dimension-3x-large",
+      "--kern-metric-dimension-4x-large",
+      "--kern-metric-dimension-5x-large",
+      "--kern-metric-dimension-6x-large",
+      "--kern-metric-dimension-7x-large",
+      "--kern-metric-dimension-default",
+      "--kern-metric-dimension-large",
+      "--kern-metric-dimension-media-default",
+      "--kern-metric-dimension-media-large",
+      "--kern-metric-dimension-media-small",
+      "--kern-metric-dimension-small",
+      "--kern-metric-dimension-x-large",
+      "--kern-metric-dimension-x-small",
+      "--kern-metric-space-10x-large",
+      "--kern-metric-space-11x-large",
+      "--kern-metric-space-2x-large",
+      "--kern-metric-space-2x-small",
+      "--kern-metric-space-3x-large",
+      "--kern-metric-space-4x-large",
+      "--kern-metric-space-5x-large",
+      "--kern-metric-space-6x-large",
+      "--kern-metric-space-7x-large",
+      "--kern-metric-space-8x-large",
+      "--kern-metric-space-9x-large",
+      "--kern-metric-space-default",
+      "--kern-metric-space-large",
+      "--kern-metric-space-none",
+      "--kern-metric-space-small",
+      "--kern-metric-space-x-large",
+      "--kern-metric-space-x-small"
+    ],
+    "rawVariables": [
+      "--kern-0",
+      "--kern-1",
+      "--kern-10",
+      "--kern-1024",
+      "--kern-112",
+      "--kern-1140",
+      "--kern-12",
+      "--kern-1248",
+      "--kern-128",
+      "--kern-1280",
+      "--kern-14",
+      "--kern-1504",
+      "--kern-1536",
+      "--kern-16",
+      "--kern-160",
+      "--kern-1600",
+      "--kern-18",
+      "--kern-192",
+      "--kern-1920",
+      "--kern-2",
+      "--kern-20",
+      "--kern-224",
+      "--kern-24",
+      "--kern-240",
+      "--kern-256",
+      "--kern-3",
+      "--kern-32",
+      "--kern-352",
+      "--kern-360",
+      "--kern-384",
+      "--kern-4",
+      "--kern-40",
+      "--kern-48",
+      "--kern-480",
+      "--kern-5",
+      "--kern-512",
+      "--kern-56",
+      "--kern-6",
+      "--kern-64",
+      "--kern-7",
+      "--kern-736",
+      "--kern-768",
+      "--kern-8",
+      "--kern-80",
+      "--kern-9",
+      "--kern-96",
+      "--kern-992",
+      "--kern-color-action-default",
+      "--kern-color-action-focus-background",
+      "--kern-color-action-focus-border-inside",
+      "--kern-color-action-focus-border-outside",
+      "--kern-color-action-focus-default",
+      "--kern-color-action-on-default",
+      "--kern-color-action-state-indicator-default",
+      "--kern-color-action-state-indicator-shade",
+      "--kern-color-action-state-indicator-shade-active",
+      "--kern-color-action-state-indicator-shade-hover",
+      "--kern-color-action-state-indicator-tint",
+      "--kern-color-action-state-indicator-tint-active-opacity",
+      "--kern-color-action-state-indicator-tint-hover-opacity",
+      "--kern-color-action-state-opacity-active",
+      "--kern-color-action-state-opacity-disabled",
+      "--kern-color-action-state-opacity-hover",
+      "--kern-color-action-state-opacity-overlay",
+      "--kern-color-action-state-opacity-pressed",
+      "--kern-color-action-state-opacity-selected",
+      "--kern-color-action-visited",
+      "--kern-color-black",
+      "--kern-color-brand-colorpalette-1-025",
+      "--kern-color-brand-colorpalette-1-050",
+      "--kern-color-brand-colorpalette-1-100",
+      "--kern-color-brand-colorpalette-1-150",
+      "--kern-color-brand-colorpalette-1-200",
+      "--kern-color-brand-colorpalette-1-250",
+      "--kern-color-brand-colorpalette-1-300",
+      "--kern-color-brand-colorpalette-1-350",
+      "--kern-color-brand-colorpalette-1-400",
+      "--kern-color-brand-colorpalette-1-450",
+      "--kern-color-brand-colorpalette-1-500",
+      "--kern-color-brand-colorpalette-1-550",
+      "--kern-color-brand-colorpalette-1-600",
+      "--kern-color-brand-colorpalette-1-650",
+      "--kern-color-brand-colorpalette-1-700",
+      "--kern-color-brand-colorpalette-1-750",
+      "--kern-color-brand-colorpalette-1-800",
+      "--kern-color-brand-colorpalette-1-850",
+      "--kern-color-brand-colorpalette-1-900",
+      "--kern-color-brand-colorpalette-1-950",
+      "--kern-color-brand-colorpalette-2-025",
+      "--kern-color-brand-colorpalette-2-050",
+      "--kern-color-brand-colorpalette-2-100",
+      "--kern-color-brand-colorpalette-2-150",
+      "--kern-color-brand-colorpalette-2-200",
+      "--kern-color-brand-colorpalette-2-250",
+      "--kern-color-brand-colorpalette-2-300",
+      "--kern-color-brand-colorpalette-2-350",
+      "--kern-color-brand-colorpalette-2-400",
+      "--kern-color-brand-colorpalette-2-450",
+      "--kern-color-brand-colorpalette-2-500",
+      "--kern-color-brand-colorpalette-2-550",
+      "--kern-color-brand-colorpalette-2-600",
+      "--kern-color-brand-colorpalette-2-650",
+      "--kern-color-brand-colorpalette-2-700",
+      "--kern-color-brand-colorpalette-2-750",
+      "--kern-color-brand-colorpalette-2-800",
+      "--kern-color-brand-colorpalette-2-850",
+      "--kern-color-brand-colorpalette-2-900",
+      "--kern-color-brand-colorpalette-2-950",
+      "--kern-color-darkblue-025",
+      "--kern-color-darkblue-050",
+      "--kern-color-darkblue-100",
+      "--kern-color-darkblue-150",
+      "--kern-color-darkblue-200",
+      "--kern-color-darkblue-250",
+      "--kern-color-darkblue-300",
+      "--kern-color-darkblue-350",
+      "--kern-color-darkblue-400",
+      "--kern-color-darkblue-450",
+      "--kern-color-darkblue-500",
+      "--kern-color-darkblue-550",
+      "--kern-color-darkblue-600",
+      "--kern-color-darkblue-650",
+      "--kern-color-darkblue-700",
+      "--kern-color-darkblue-750",
+      "--kern-color-darkblue-800",
+      "--kern-color-darkblue-850",
+      "--kern-color-darkblue-900",
+      "--kern-color-darkblue-950",
+      "--kern-color-decorative-border-default",
+      "--kern-color-decorative-border-level-1",
+      "--kern-color-decorative-border-level-2",
+      "--kern-color-decorative-brand-default",
+      "--kern-color-feedback-danger",
+      "--kern-color-feedback-danger-background",
+      "--kern-color-feedback-default",
+      "--kern-color-feedback-default-background",
+      "--kern-color-feedback-info",
+      "--kern-color-feedback-info-background",
+      "--kern-color-feedback-loader",
+      "--kern-color-feedback-loader-background",
+      "--kern-color-feedback-success",
+      "--kern-color-feedback-success-background",
+      "--kern-color-feedback-warning",
+      "--kern-color-feedback-warning-background",
+      "--kern-color-form-input-background",
+      "--kern-color-form-input-background-inverted",
+      "--kern-color-form-input-border",
+      "--kern-color-green-025",
+      "--kern-color-green-050",
+      "--kern-color-green-100",
+      "--kern-color-green-150",
+      "--kern-color-green-200",
+      "--kern-color-green-250",
+      "--kern-color-green-300",
+      "--kern-color-green-350",
+      "--kern-color-green-400",
+      "--kern-color-green-450",
+      "--kern-color-green-500",
+      "--kern-color-green-550",
+      "--kern-color-green-600",
+      "--kern-color-green-650",
+      "--kern-color-green-700",
+      "--kern-color-green-750",
+      "--kern-color-green-800",
+      "--kern-color-green-850",
+      "--kern-color-green-900",
+      "--kern-color-green-950",
+      "--kern-color-grey-025",
+      "--kern-color-grey-050",
+      "--kern-color-grey-100",
+      "--kern-color-grey-150",
+      "--kern-color-grey-200",
+      "--kern-color-grey-250",
+      "--kern-color-grey-300",
+      "--kern-color-grey-350",
+      "--kern-color-grey-400",
+      "--kern-color-grey-450",
+      "--kern-color-grey-500",
+      "--kern-color-grey-550",
+      "--kern-color-grey-600",
+      "--kern-color-grey-650",
+      "--kern-color-grey-700",
+      "--kern-color-grey-750",
+      "--kern-color-grey-800",
+      "--kern-color-grey-850",
+      "--kern-color-grey-900",
+      "--kern-color-grey-950",
+      "--kern-color-layout-background-default",
+      "--kern-color-layout-background-default-surface",
+      "--kern-color-layout-background-hued",
+      "--kern-color-layout-background-inverted",
+      "--kern-color-layout-background-level-1",
+      "--kern-color-layout-background-level-1-surface",
+      "--kern-color-layout-background-level-2",
+      "--kern-color-layout-background-level-2-surface",
+      "--kern-color-layout-background-overlay",
+      "--kern-color-layout-border",
+      "--kern-color-layout-border-level-1",
+      "--kern-color-layout-border-level-2",
+      "--kern-color-layout-text-default",
+      "--kern-color-layout-text-inverse",
+      "--kern-color-layout-text-muted",
+      "--kern-color-lightblue-025",
+      "--kern-color-lightblue-050",
+      "--kern-color-lightblue-100",
+      "--kern-color-lightblue-150",
+      "--kern-color-lightblue-200",
+      "--kern-color-lightblue-250",
+      "--kern-color-lightblue-300",
+      "--kern-color-lightblue-350",
+      "--kern-color-lightblue-400",
+      "--kern-color-lightblue-450",
+      "--kern-color-lightblue-500",
+      "--kern-color-lightblue-550",
+      "--kern-color-lightblue-600",
+      "--kern-color-lightblue-650",
+      "--kern-color-lightblue-700",
+      "--kern-color-lightblue-750",
+      "--kern-color-lightblue-800",
+      "--kern-color-lightblue-850",
+      "--kern-color-lightblue-900",
+      "--kern-color-lightblue-950",
+      "--kern-color-limette-025",
+      "--kern-color-limette-050",
+      "--kern-color-limette-100",
+      "--kern-color-limette-150",
+      "--kern-color-limette-200",
+      "--kern-color-limette-250",
+      "--kern-color-limette-300",
+      "--kern-color-limette-350",
+      "--kern-color-limette-400",
+      "--kern-color-limette-450",
+      "--kern-color-limette-500",
+      "--kern-color-limette-550",
+      "--kern-color-limette-600",
+      "--kern-color-limette-650",
+      "--kern-color-limette-700",
+      "--kern-color-limette-750",
+      "--kern-color-limette-800",
+      "--kern-color-limette-850",
+      "--kern-color-limette-900",
+      "--kern-color-limette-950",
+      "--kern-color-neutral-025",
+      "--kern-color-neutral-050",
+      "--kern-color-neutral-100",
+      "--kern-color-neutral-150",
+      "--kern-color-neutral-200",
+      "--kern-color-neutral-250",
+      "--kern-color-neutral-300",
+      "--kern-color-neutral-350",
+      "--kern-color-neutral-400",
+      "--kern-color-neutral-450",
+      "--kern-color-neutral-500",
+      "--kern-color-neutral-550",
+      "--kern-color-neutral-600",
+      "--kern-color-neutral-650",
+      "--kern-color-neutral-700",
+      "--kern-color-neutral-750",
+      "--kern-color-neutral-800",
+      "--kern-color-neutral-850",
+      "--kern-color-neutral-900",
+      "--kern-color-neutral-950",
+      "--kern-color-orange-025",
+      "--kern-color-orange-050",
+      "--kern-color-orange-100",
+      "--kern-color-orange-150",
+      "--kern-color-orange-200",
+      "--kern-color-orange-250",
+      "--kern-color-orange-300",
+      "--kern-color-orange-350",
+      "--kern-color-orange-400",
+      "--kern-color-orange-450",
+      "--kern-color-orange-500",
+      "--kern-color-orange-550",
+      "--kern-color-orange-600",
+      "--kern-color-orange-650",
+      "--kern-color-orange-700",
+      "--kern-color-orange-750",
+      "--kern-color-orange-800",
+      "--kern-color-orange-850",
+      "--kern-color-orange-900",
+      "--kern-color-orange-950",
+      "--kern-color-red-025",
+      "--kern-color-red-050",
+      "--kern-color-red-100",
+      "--kern-color-red-150",
+      "--kern-color-red-200",
+      "--kern-color-red-250",
+      "--kern-color-red-300",
+      "--kern-color-red-350",
+      "--kern-color-red-400",
+      "--kern-color-red-450",
+      "--kern-color-red-500",
+      "--kern-color-red-550",
+      "--kern-color-red-600",
+      "--kern-color-red-650",
+      "--kern-color-red-700",
+      "--kern-color-red-750",
+      "--kern-color-red-800",
+      "--kern-color-red-850",
+      "--kern-color-red-900",
+      "--kern-color-red-950",
+      "--kern-color-turquois-025",
+      "--kern-color-turquois-050",
+      "--kern-color-turquois-100",
+      "--kern-color-turquois-150",
+      "--kern-color-turquois-200",
+      "--kern-color-turquois-250",
+      "--kern-color-turquois-300",
+      "--kern-color-turquois-350",
+      "--kern-color-turquois-400",
+      "--kern-color-turquois-450",
+      "--kern-color-turquois-500",
+      "--kern-color-turquois-550",
+      "--kern-color-turquois-600",
+      "--kern-color-turquois-650",
+      "--kern-color-turquois-700",
+      "--kern-color-turquois-750",
+      "--kern-color-turquois-800",
+      "--kern-color-turquois-850",
+      "--kern-color-turquois-900",
+      "--kern-color-turquois-950",
+      "--kern-color-violet-025",
+      "--kern-color-violet-050",
+      "--kern-color-violet-100",
+      "--kern-color-violet-150",
+      "--kern-color-violet-200",
+      "--kern-color-violet-250",
+      "--kern-color-violet-300",
+      "--kern-color-violet-350",
+      "--kern-color-violet-400",
+      "--kern-color-violet-450",
+      "--kern-color-violet-500",
+      "--kern-color-violet-550",
+      "--kern-color-violet-600",
+      "--kern-color-violet-650",
+      "--kern-color-violet-700",
+      "--kern-color-violet-750",
+      "--kern-color-violet-800",
+      "--kern-color-violet-850",
+      "--kern-color-violet-900",
+      "--kern-color-violet-950",
+      "--kern-color-white",
+      "--kern-color-yellow-025",
+      "--kern-color-yellow-050",
+      "--kern-color-yellow-100",
+      "--kern-color-yellow-150",
+      "--kern-color-yellow-200",
+      "--kern-color-yellow-250",
+      "--kern-color-yellow-300",
+      "--kern-color-yellow-350",
+      "--kern-color-yellow-400",
+      "--kern-color-yellow-450",
+      "--kern-color-yellow-500",
+      "--kern-color-yellow-550",
+      "--kern-color-yellow-600",
+      "--kern-color-yellow-650",
+      "--kern-color-yellow-700",
+      "--kern-color-yellow-750",
+      "--kern-color-yellow-800",
+      "--kern-color-yellow-850",
+      "--kern-color-yellow-900",
+      "--kern-color-yellow-950",
+      "--kern-component-alert-icon-size",
+      "--kern-component-badge-space-left",
+      "--kern-component-description-list-term-max-width",
+      "--kern-component-kopfzeile-font-family",
+      "--kern-component-kopfzeile-font-size",
+      "--kern-component-kopfzeile-line-height",
+      "--kern-component-kopfzeile-padding",
+      "--kern-metric-baseline-body-default-padding-bottom",
+      "--kern-metric-baseline-body-default-padding-top",
+      "--kern-metric-baseline-body-large-padding-bottom",
+      "--kern-metric-baseline-body-large-padding-top",
+      "--kern-metric-baseline-body-small-padding-bottom",
+      "--kern-metric-baseline-body-small-padding-top",
+      "--kern-metric-baseline-heading-display-padding-bottom",
+      "--kern-metric-baseline-heading-display-padding-top",
+      "--kern-metric-baseline-heading-large-padding-bottom",
+      "--kern-metric-baseline-heading-large-padding-top",
+      "--kern-metric-baseline-heading-medium-padding-bottom",
+      "--kern-metric-baseline-heading-medium-padding-top",
+      "--kern-metric-baseline-heading-small-padding-bottom",
+      "--kern-metric-baseline-heading-small-padding-top",
+      "--kern-metric-baseline-heading-x-large-padding-bottom",
+      "--kern-metric-baseline-heading-x-large-padding-top",
+      "--kern-metric-baseline-label-default-padding-bottom",
+      "--kern-metric-baseline-label-default-padding-top",
+      "--kern-metric-baseline-label-large-padding-bottom",
+      "--kern-metric-baseline-label-large-padding-top",
+      "--kern-metric-baseline-label-small-padding-bottom",
+      "--kern-metric-baseline-label-small-padding-top",
+      "--kern-metric-baseline-preline-default-padding-bottom",
+      "--kern-metric-baseline-preline-default-padding-top",
+      "--kern-metric-baseline-preline-large-padding-bottom",
+      "--kern-metric-baseline-preline-large-padding-top",
+      "--kern-metric-baseline-preline-small-padding-bottom",
+      "--kern-metric-baseline-preline-small-padding-top",
+      "--kern-metric-baseline-subline-default-padding-bottom",
+      "--kern-metric-baseline-subline-default-padding-top",
+      "--kern-metric-baseline-subline-large-padding-bottom",
+      "--kern-metric-baseline-subline-large-padding-top",
+      "--kern-metric-baseline-subline-small-padding-bottom",
+      "--kern-metric-baseline-subline-small-padding-top",
+      "--kern-metric-baseline-title-default-padding-bottom",
+      "--kern-metric-baseline-title-default-padding-top",
+      "--kern-metric-baseline-title-large-padding-bottom",
+      "--kern-metric-baseline-title-large-padding-top",
+      "--kern-metric-baseline-title-small-padding-bottom",
+      "--kern-metric-baseline-title-small-padding-top",
+      "--kern-metric-border-radius-circle",
+      "--kern-metric-border-radius-default",
+      "--kern-metric-border-radius-large",
+      "--kern-metric-border-radius-none",
+      "--kern-metric-border-radius-small",
+      "--kern-metric-border-width-bold",
+      "--kern-metric-border-width-default",
+      "--kern-metric-border-width-heavy",
+      "--kern-metric-border-width-light",
+      "--kern-metric-border-width-none",
+      "--kern-metric-dimension-2x-large",
+      "--kern-metric-dimension-2x-small",
+      "--kern-metric-dimension-3x-large",
+      "--kern-metric-dimension-4x-large",
+      "--kern-metric-dimension-5x-large",
+      "--kern-metric-dimension-6x-large",
+      "--kern-metric-dimension-7x-large",
+      "--kern-metric-dimension-default",
+      "--kern-metric-dimension-large",
+      "--kern-metric-dimension-media-default",
+      "--kern-metric-dimension-media-large",
+      "--kern-metric-dimension-media-small",
+      "--kern-metric-dimension-small",
+      "--kern-metric-dimension-x-large",
+      "--kern-metric-dimension-x-small",
+      "--kern-metric-screen-size",
+      "--kern-metric-space-10x-large",
+      "--kern-metric-space-11x-large",
+      "--kern-metric-space-2x-large",
+      "--kern-metric-space-2x-small",
+      "--kern-metric-space-3x-large",
+      "--kern-metric-space-4x-large",
+      "--kern-metric-space-5x-large",
+      "--kern-metric-space-6x-large",
+      "--kern-metric-space-7x-large",
+      "--kern-metric-space-8x-large",
+      "--kern-metric-space-9x-large",
+      "--kern-metric-space-default",
+      "--kern-metric-space-large",
+      "--kern-metric-space-none",
+      "--kern-metric-space-small",
+      "--kern-metric-space-x-large",
+      "--kern-metric-space-x-small",
+      "--kern-typography-font-family-default",
+      "--kern-typography-font-size-2x-large-adaptive",
+      "--kern-typography-font-size-large-adaptive",
+      "--kern-typography-font-size-large-static",
+      "--kern-typography-font-size-medium-adaptive",
+      "--kern-typography-font-size-medium-static",
+      "--kern-typography-font-size-small-static",
+      "--kern-typography-font-size-x-large-adaptive",
+      "--kern-typography-font-weight-body-default",
+      "--kern-typography-font-weight-body-strong",
+      "--kern-typography-font-weight-heading-balanced",
+      "--kern-typography-font-weight-heading-default",
+      "--kern-typography-font-weight-label-default",
+      "--kern-typography-font-weight-label-subtle",
+      "--kern-typography-font-weight-medium",
+      "--kern-typography-font-weight-preline-default",
+      "--kern-typography-font-weight-regular",
+      "--kern-typography-font-weight-semi-bold",
+      "--kern-typography-font-weight-subline-default",
+      "--kern-typography-font-weight-title-default",
+      "--kern-typography-line-height-2x-large-adaptive",
+      "--kern-typography-line-height-large-adaptive",
+      "--kern-typography-line-height-large-static",
+      "--kern-typography-line-height-medium-adaptive",
+      "--kern-typography-line-height-medium-static",
+      "--kern-typography-line-height-x-large-adaptive"
+    ]
+  },
+  "components": [
+    {
+      "id": "accordion",
+      "title": "Accordion",
+      "status": "stable",
+      "category": "interactive",
+      "strategy": "interactive",
+      "docs": {
+        "excerpt": "[COMPONENTS.MD] ## Accordion\nBasisklasse: `kern-accordion` auf `<details>`. Header als `<summary class=\"kern-accordion__header\">` mit `kern-title`. Body: `kern-accordion__body`.\n\n- Offen: Native `<details open>`\n- Gruppe: Wrapper `kern-accordion-group` zur Isolation vom umgebenden Layout\n\n```html\n<details class=\"kern-accordion\" open>\n  <summary class=\"kern-accordion__header\">\n    <span class=\"kern-title\">Accordion Titel</span>\n  </summary>\n  <section class=\"kern-accordion__body\">\n    <p class=\"kern-body\">Inhalt…</p>\n  </section>\n</details>\n```\n\n---",
+        "sections": [
+          {
+            "source": "COMPONENTS.MD",
+            "heading": "## Accordion",
+            "content": "Basisklasse: `kern-accordion` auf `<details>`. Header als `<summary class=\"kern-accordion__header\">` mit `kern-title`. Body: `kern-accordion__body`.\n\n- Offen: Native `<details open>`\n- Gruppe: Wrapper `kern-accordion-group` zur Isolation vom umgebenden Layout\n\n```html\n<details class=\"kern-accordion\" open>\n  <summary class=\"kern-accordion__header\">\n    <span class=\"kern-title\">Accordion Titel</span>\n  </summary>\n  <section class=\"kern-accordion__body\">\n    <p class=\"kern-body\">Inhalt…</p>\n  </section>\n</details>\n```\n\n---"
+          }
+        ]
+      },
+      "sources": {
+        "scss": [
+          "src/scss/core/components/_accordion.scss"
+        ],
+        "stories": [
+          "stories/Accordion/Accordion.stories.js"
+        ]
+      },
+      "htmlCanonical": "<details class=\"kern-accordion\" open>\n  <summary class=\"kern-accordion__header\">\n    <span class=\"kern-title\">Accordion 1</span>\n  </summary>\n  <section class=\"kern-accordion__body\">\n    <p class=\"kern-body\">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>\n  </section>\n</details>",
+      "warnings": []
+    },
+    {
+      "id": "alert",
+      "title": "Alert",
+      "status": "stable",
+      "category": "interactive",
+      "strategy": "interactive",
+      "docs": {
+        "excerpt": "[COMPONENTS.MD] ## Alert\nBasisklasse: `kern-alert` mit Varianten `--info|--success|--warning|--danger`.\n\nStruktur:\n\n- Header: `kern-alert__header` mit Icon und `kern-title`\n- Optionaler Body: `kern-alert__body`\n- Rolle: `role=\"alert\"`\n\nA11y: Icon im Alert i. d. R. dekorativ (`aria-hidden=\"true\"`). Falls das Icon wesentliche Information trägt: `aria-hidden=\"false\"` + `aria-label`.\n\n```html\n<div class=\"kern-alert kern-alert--warning\" role=\"alert\">\n  <div class=\"kern-alert__header\">\n    <span class=\"kern-icon kern-icon--warning\" aria-hidden=\"true\"></span>\n    <span class=\"kern-title\">Warnung</span>\n  </div>\n</div>\n```\n\n---",
+        "sections": [
+          {
+            "source": "COMPONENTS.MD",
+            "heading": "## Alert",
+            "content": "Basisklasse: `kern-alert` mit Varianten `--info|--success|--warning|--danger`.\n\nStruktur:\n\n- Header: `kern-alert__header` mit Icon und `kern-title`\n- Optionaler Body: `kern-alert__body`\n- Rolle: `role=\"alert\"`\n\nA11y: Icon im Alert i. d. R. dekorativ (`aria-hidden=\"true\"`). Falls das Icon wesentliche Information trägt: `aria-hidden=\"false\"` + `aria-label`.\n\n```html\n<div class=\"kern-alert kern-alert--warning\" role=\"alert\">\n  <div class=\"kern-alert__header\">\n    <span class=\"kern-icon kern-icon--warning\" aria-hidden=\"true\"></span>\n    <span class=\"kern-title\">Warnung</span>\n  </div>\n</div>\n```\n\n---"
+          }
+        ]
+      },
+      "sources": {
+        "scss": [
+          "src/scss/core/components/_alert.scss"
+        ],
+        "stories": [
+          "stories/Alert/Alert.stories.js",
+          "stories/Alert/AlertContent.stories.js"
+        ]
+      },
+      "htmlCanonical": "<div class=\"kern-alert kern-alert--info\" role=\"alert\">\n  <div class=\"kern-alert__header\">\n    <span class=\"kern-icon kern-icon--info\" aria-hidden=\"true\"></span>\n    <span class=\"kern-title\">Hinweis</span>  \n  </div>\n</div>",
+      "warnings": []
+    },
+    {
+      "id": "badge",
+      "title": "Badge",
+      "status": "stable",
+      "category": "interactive",
+      "strategy": "interactive",
+      "docs": {
+        "excerpt": "[COMPONENTS.MD] ## Badge\nBasisklasse: `kern-badge`. Varianten: `--info`, `--success`, `--warning`, `--danger`. Inhalt typischerweise `kern-label kern-label--small`, optional mit `kern-icon`.\n\n```html\n<span class=\"kern-badge kern-badge--success\">\n  <span class=\"kern-icon kern-icon--success\" aria-hidden=\"true\"></span>\n  <span class=\"kern-label kern-label--small\">Erledigt</span>\n</span>\n```\n\n---",
+        "sections": [
+          {
+            "source": "COMPONENTS.MD",
+            "heading": "## Badge",
+            "content": "Basisklasse: `kern-badge`. Varianten: `--info`, `--success`, `--warning`, `--danger`. Inhalt typischerweise `kern-label kern-label--small`, optional mit `kern-icon`.\n\n```html\n<span class=\"kern-badge kern-badge--success\">\n  <span class=\"kern-icon kern-icon--success\" aria-hidden=\"true\"></span>\n  <span class=\"kern-label kern-label--small\">Erledigt</span>\n</span>\n```\n\n---"
+          }
+        ]
+      },
+      "sources": {
+        "scss": [
+          "src/scss/core/components/_badge.scss"
+        ],
+        "stories": [
+          "stories/Badge/Badge.stories.js",
+          "stories/Badge/BadgeIcon.stories.js"
+        ]
+      },
+      "htmlCanonical": "<span class=\"kern-badge kern-badge--info\">\n  <span class=\"kern-label\">Info</span>\n</span>",
+      "warnings": []
+    },
+    {
+      "id": "body",
+      "title": "Body",
+      "status": "stable",
+      "category": "foundational",
+      "strategy": "typography",
+      "sources": {
+        "stories": [
+          "stories/Body/Body.stories.js"
+        ]
+      },
+      "htmlCanonical": "<div class=\"kern-container\">\n  <div class=\"kern-row\">\n    <div class=\"kern-col\">\n      <p class=\"kern-body\">Das ist ein Text. Das ist ein Text. Das ist ein Text. Das ist ein Text. Das ist ein Text.</p>\n      <p class=\"kern-body\">Das ist ein Text. Das ist ein Text. Das ist ein Text. Das ist ein Text. Das ist ein Text.</p>\n    </div>\n    <div class=\"kern-col\">\n      <p class=\"kern-body kern-body--bold\">Das ist ein Text. Das ist ein Text. Das ist ein Text. Das ist ein Text. Das ist ein Text.</p>\n      <p class=\"kern-body kern-body--bold\">Das ist ein Text. Das ist ein Text. Das ist ein Text. Das ist ein Text. Das ist ein Text.</p>\n    </div>\n    <div class=\"kern-col\">\n      <p class=\"kern-body kern-body--small\">Das ist ein Text. Das ist ein Text. Das ist ein Text. Das ist ein Text. Das ist ein Text.</p>\n      <p class=\"kern-body kern-body--small\">Das ist ein Text. Das ist ein Text. Das ist ein Text. Das ist ein Text. Das ist ein Text.</p>\n    </div>\n    <div class=\"kern-col\">\n      <p class=\"kern-body kern-body--small kern-body--bold\">Das ist ein Text. Das ist ein Text. Das ist ein Text. Das ist ein Text. Das ist ein Text.</p>\n      <p class=\"kern-body kern-body--small kern-body--bold\">Das ist ein Text. Das ist ein Text. Das ist ein Text. Das ist ein Text. Das ist ein Text.</p>\n    </div>\n    <div class=\"kern-col\">\n      <p class=\"kern-body kern-body--large\">Das ist ein Text. Das ist ein Text. Das ist ein Text. Das ist ein Text. Das ist ein Text.</p>\n      <p class=\"kern-body kern-body--large\">Das ist ein Text. Das ist ein Text. Das ist ein Text. Das ist ein Text. Das ist ein Text.</p>\n    </div>\n    <div class=\"kern-col\">\n      <p class=\"kern-body kern-body--large kern-body--bold\">Das ist ein Text. Das ist ein Text. Das ist ein Text. Das ist ein Text. Das ist ein Text.</p>\n      <p class=\"kern-body kern-body--large kern-body--bold\">Das ist ein Text. Das ist ein Text. Das ist ein Text. Das ist ein Text. Das ist ein Text.</p>\n    </div>\n  </div>\n</div>",
+      "warnings": []
+    },
+    {
+      "id": "button",
+      "title": "Button",
+      "status": "stable",
+      "category": "interactive",
+      "strategy": "interactive",
+      "docs": {
+        "excerpt": "[COMPONENTS.MD] ## Button\nBasisklasse: `kern-btn`. Modifikatoren: `--primary`, `--secondary`, `--tertiary`, `--block`.\n\n- Label-Element: `.kern-label`\n- Optionales Icon: `.kern-icon …` links oder rechts\n- Icon-only: Label als Screenreader-Text `kern-sr-only` bzw. mobil `kern-sr-only-mobile`\n\n```html\n<button class=\"kern-btn kern-btn--primary\">\n  <span class=\"kern-label\">Primärer Button</span>\n</button>\n\n<button class=\"kern-btn kern-btn--secondary\">\n  <span class=\"kern-icon kern-icon--edit\" aria-hidden=\"true\"></span>\n  <span class=\"kern-label\">Bearbeiten</span>\n</button>\n\n<button class=\"kern-btn kern-btn--tertiary\">\n  <span class=\"kern-label\">Tertiärlink</span>\n</button>\n```\n\nZustände: `:hover`, `:active`, `:focus` sind visuell gestaltet; `disabled` setzt reduzierte Opazität und verbietet Interaktionen.\n\n---",
+        "sections": [
+          {
+            "source": "COMPONENTS.MD",
+            "heading": "## Button",
+            "content": "Basisklasse: `kern-btn`. Modifikatoren: `--primary`, `--secondary`, `--tertiary`, `--block`.\n\n- Label-Element: `.kern-label`\n- Optionales Icon: `.kern-icon …` links oder rechts\n- Icon-only: Label als Screenreader-Text `kern-sr-only` bzw. mobil `kern-sr-only-mobile`\n\n```html\n<button class=\"kern-btn kern-btn--primary\">\n  <span class=\"kern-label\">Primärer Button</span>\n</button>\n\n<button class=\"kern-btn kern-btn--secondary\">\n  <span class=\"kern-icon kern-icon--edit\" aria-hidden=\"true\"></span>\n  <span class=\"kern-label\">Bearbeiten</span>\n</button>\n\n<button class=\"kern-btn kern-btn--tertiary\">\n  <span class=\"kern-label\">Tertiärlink</span>\n</button>\n```\n\nZustände: `:hover`, `:active`, `:focus` sind visuell gestaltet; `disabled` setzt reduzierte Opazität und verbietet Interaktionen.\n\n---"
+          }
+        ]
+      },
+      "sources": {
+        "scss": [
+          "src/scss/core/components/_button.scss"
+        ],
+        "stories": [
+          "stories/Button/ButtonPrimary.stories.js",
+          "stories/Button/ButtonSecondary.stories.js",
+          "stories/Button/ButtonTertiary.stories.js"
+        ]
+      },
+      "htmlCanonical": "<button class=\"kern-btn kern-btn--primary\">\n  <span class=\"kern-label\">Primärer Button</span>\n</button>",
+      "warnings": []
+    },
+    {
+      "id": "card",
+      "title": "Card",
+      "status": "stable",
+      "category": "interactive",
+      "strategy": "interactive",
+      "docs": {
+        "excerpt": "[COMPONENTS.MD] ## Card\nBasisklasse: `kern-card`. Struktur:\n\n- Media: `kern-card__media`\n- Container: `kern-card__container`\n- Header: `kern-card__header` (typisch Preline, Title, Subline)\n- Body: `kern-card__body` (wächst)\n- Footer: `kern-card__footer` (Buttons)\n\nModifikatoren: `--small`, `--large` (typografie/Spacing), `--hug` (keine Equal Height), `--active` (stretched link, interaktive Zustände).\n\n```html\n<article class=\"kern-card\" style=\"max-width:320px\">\n  <div class=\"kern-card__media\"><img src=\"…\" alt=\"ALT\" /></div>\n  <div class=\"kern-card__container\">\n    <header class=\"kern-card__header\">\n      <p class=\"kern-preline\">Preline</p>\n      <h2 class=\"kern-title\">Title</h2>\n      <h3 class=\"kern-subline\">Subline</h3>\n    </header>\n    <section class=\"kern-card__body\">\n      <p class=\"kern-body\">Text…</p>\n    </section>\n    <footer class=\"kern-card__footer\">\n      <button class=\"kern-btn kern-btn--primary\">\n        <span class=\"kern-label\">Aktion</span>\n      </button>\n      <button class=\"kern-btn kern-btn--secondary\">\n        <span class=\"kern-label\">Mehr</span>\n      </button>\n    </footer>\n  </div>\n</article>\n```\n\n---",
+        "sections": [
+          {
+            "source": "COMPONENTS.MD",
+            "heading": "## Card",
+            "content": "Basisklasse: `kern-card`. Struktur:\n\n- Media: `kern-card__media`\n- Container: `kern-card__container`\n- Header: `kern-card__header` (typisch Preline, Title, Subline)\n- Body: `kern-card__body` (wächst)\n- Footer: `kern-card__footer` (Buttons)\n\nModifikatoren: `--small`, `--large` (typografie/Spacing), `--hug` (keine Equal Height), `--active` (stretched link, interaktive Zustände).\n\n```html\n<article class=\"kern-card\" style=\"max-width:320px\">\n  <div class=\"kern-card__media\"><img src=\"…\" alt=\"ALT\" /></div>\n  <div class=\"kern-card__container\">\n    <header class=\"kern-card__header\">\n      <p class=\"kern-preline\">Preline</p>\n      <h2 class=\"kern-title\">Title</h2>\n      <h3 class=\"kern-subline\">Subline</h3>\n    </header>\n    <section class=\"kern-card__body\">\n      <p class=\"kern-body\">Text…</p>\n    </section>\n    <footer class=\"kern-card__footer\">\n      <button class=\"kern-btn kern-btn--primary\">\n        <span class=\"kern-label\">Aktion</span>\n      </button>\n      <button class=\"kern-btn kern-btn--secondary\">\n        <span class=\"kern-label\">Mehr</span>\n      </button>\n    </footer>\n  </div>\n</article>\n```\n\n---"
+          }
+        ]
+      },
+      "sources": {
+        "scss": [
+          "src/scss/core/components/_card.scss"
+        ],
+        "stories": [
+          "stories/Card/Card.stories.js"
+        ]
+      },
+      "htmlCanonical": "<article class=\"kern-card\" style=\"max-width: 320px;\"> \n  <div class=\"kern-card__media\">\n    <img src=\"https://placehold.co/600x400?text=MEDIA\" alt=\"ALT Text\">\n  </div>\n  <div class=\"kern-card__container\">\n    <header class=\"kern-card__header\">\n      <hgroup>\n        <p class=\"kern-preline\">Vorzeile</p>\n        <h2 class=\"kern-title\">Default</h2>\n        <p class=\"kern-subline\">Unterzeile</p>\n      </hgroup>\n    </header>\n    <section class=\"kern-card__body\">\n      <p class=\"kern-body\">Hier werden soviele Informationen zur Verfügung gestellt, wie benötigt und nicht mehr. Ein Maximum von 150 characters empfohlen.</p>\n    </section>\n    <footer class=\"kern-card__footer\">\n      <button class=\"kern-btn kern-btn--primary\">\n        <span class=\"kern-label\">Primäraktion</span>\n      </button>\n      <button class=\"kern-btn kern-btn--secondary\">\n        <span class=\"kern-label\">Aktion</span>\n      </button>\n    </footer>\n  </div>\n</article>",
+      "warnings": []
+    },
+    {
+      "id": "checkbox",
+      "title": "Checkbox",
+      "status": "stable",
+      "category": "interactive",
+      "strategy": "interactive",
+      "sources": {
+        "scss": [
+          "src/scss/core/components/_checkbox.scss"
+        ],
+        "stories": [
+          "stories/Checkbox/Checkbox.stories.js"
+        ]
+      },
+      "htmlCanonical": "<div class=\"kern-form-check\">\n  <input class=\"kern-form-check__checkbox\" id=\"dsgvo1\" name=\"geschlecht1\" type=\"checkbox\">\n  <label class=\"kern-label\" for=\"dsgvo1\">Ich akzeptiere die Datenschutzerklärung</label>\n</div>",
+      "warnings": []
+    },
+    {
+      "id": "descriptionlist",
+      "title": "DescriptionList",
+      "status": "stable",
+      "category": "foundational",
+      "strategy": "layout",
+      "docs": {
+        "excerpt": "[COMPONENTS.MD] ## Description List\nZweispaltige Key/Value‑Auflistung. Basisklasse: `kern-description-list`.\n\n- Item: `kern-description-list-item`\n  - Key: `kern-description-list-item__key`\n  - Value: `kern-description-list-item__value` (kann Listen enthalten)\n- Variante: `kern-description-list--col` (Key/Value untereinander, für viel Content)\n\n```html\n<dl class=\"kern-description-list\">\n  <div class=\"kern-description-list-item\">\n    <dt class=\"kern-description-list-item__key\">Name</dt>\n    <dd class=\"kern-description-list-item__value\">Max</dd>\n  </div>\n</dl>\n```\n\n---",
+        "sections": [
+          {
+            "source": "COMPONENTS.MD",
+            "heading": "## Description List",
+            "content": "Zweispaltige Key/Value‑Auflistung. Basisklasse: `kern-description-list`.\n\n- Item: `kern-description-list-item`\n  - Key: `kern-description-list-item__key`\n  - Value: `kern-description-list-item__value` (kann Listen enthalten)\n- Variante: `kern-description-list--col` (Key/Value untereinander, für viel Content)\n\n```html\n<dl class=\"kern-description-list\">\n  <div class=\"kern-description-list-item\">\n    <dt class=\"kern-description-list-item__key\">Name</dt>\n    <dd class=\"kern-description-list-item__value\">Max</dd>\n  </div>\n</dl>\n```\n\n---"
+          }
+        ]
+      },
+      "sources": {
+        "scss": [
+          "src/scss/core/components/_description-list.scss"
+        ],
+        "stories": [
+          "stories/DescriptionList/DescriptionList.stories.js"
+        ]
+      },
+      "htmlCanonical": "<dl class=\"kern-description-list\">\n  <div class=\"kern-description-list-item\">\n    <dt class=\"kern-description-list-item__key\">Name</dt>\n    <dd class=\"kern-description-list-item__value\">Max</dd>\n  </div>\n  <div class=\"kern-description-list-item\">\n    <dt class=\"kern-description-list-item__key\">Vorname</dt>\n    <dd class=\"kern-description-list-item__value\">Mustermann</dd>\n  </div>\n  <div class=\"kern-description-list-item\">\n    <dt class=\"kern-description-list-item__key\">E-Mail</dt>\n    <dd class=\"kern-description-list-item__value\">dasisteinesehrlangeemailadressevonmaxmustermann@unternehmen.xy</dd>\n  </div>\n  <div class=\"kern-description-list-item\">\n    <dt class=\"kern-description-list-item__key\">Sachkundigen vor Ort</dt>\n    <dd class=\"kern-description-list-item__value\">\n      <ul>\n        <li>Berger Ernst</li>\n        <li>Müller, Hans</li>\n        <li>Sagmeister, Petra</li>\n        <li>Pan, Peter</li>\n      </ul>\n    </dd>\n  </div>\n</dl>",
+      "warnings": []
+    },
+    {
+      "id": "dialog",
+      "title": "Dialog",
+      "status": "stable",
+      "category": "interactive",
+      "strategy": "interactive",
+      "sources": {
+        "scss": [
+          "src/scss/core/components/_dialog.scss"
+        ],
+        "stories": [
+          "stories/Dialog/Dialog.stories.js"
+        ]
+      },
+      "htmlCanonical": "<dialog id=\"modal1\" class=\"kern-dialog\" aria-labelledby=\"modal1_heading\" style=\"display: block\">\n  <header class=\"kern-dialog__header\">\n    <h2 class=\"kern-title kern-title--large\" id=\"modal1_heading\">Frage?</h2>\n    <button class=\"kern-btn kern-btn--tertiary\">\n      <span class=\"kern-icon kern-icon--close\" aria-hidden=\"true\"></span>\n      <span class=\"kern-sr-only\">Schließen</span>\n    </button>\n  </header>\n  <section class=\"kern-dialog__body\">\n    <p class=\"kern-body\">\n      Folgen beschreiben...\n      Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. \n    </p>\n  </section>\n  <footer class=\"kern-dialog__footer\">\n    <button class=\"kern-btn kern-btn--secondary\">\n      <span class=\"kern-label\">Abbrechen</span>\n    </button>\n    <button id=\"confirmBtn\" class=\"kern-btn kern-btn--primary\">\n      <span class=\"kern-label\">Löschen</span>\n    </button>\n  </footer>\n</dialog>",
+      "warnings": []
+    },
+    {
+      "id": "divider",
+      "title": "Divider",
+      "status": "stable",
+      "category": "foundational",
+      "strategy": "layout",
+      "docs": {
+        "excerpt": "[COMPONENTS.MD] ## Divider\nEinfacher Trenner als `<hr class=\"kern-divider\">`.\n\nA11y: meist rein visuell – dann `aria-hidden=\"true\"` setzen.\n\n```html\n<hr class=\"kern-divider\" aria-hidden=\"true\" />\n```\n\n---",
+        "sections": [
+          {
+            "source": "COMPONENTS.MD",
+            "heading": "## Divider",
+            "content": "Einfacher Trenner als `<hr class=\"kern-divider\">`.\n\nA11y: meist rein visuell – dann `aria-hidden=\"true\"` setzen.\n\n```html\n<hr class=\"kern-divider\" aria-hidden=\"true\" />\n```\n\n---"
+          }
+        ]
+      },
+      "sources": {
+        "scss": [
+          "src/scss/core/components/_divider.scss"
+        ],
+        "stories": [
+          "stories/Divider/Divider.stories.js"
+        ]
+      },
+      "htmlCanonical": "<hr class=\"kern-divider\" aria-hidden=\"true\" />",
+      "warnings": []
+    },
+    {
+      "id": "dropdown",
+      "title": "dropdown",
+      "status": "experimental",
+      "category": "interactive",
+      "strategy": "interactive",
+      "docs": {
+        "excerpt": "[COMPONENTS.MD] ## Dropdown (experimentell)\nDie Klasse `kern-dropdown` ist als Entwurf vorhanden und noch nicht Teil des stabilen Frameworks. API und Styles können sich ändern.\n\n---",
+        "sections": [
+          {
+            "source": "COMPONENTS.MD",
+            "heading": "## Dropdown (experimentell)",
+            "content": "Die Klasse `kern-dropdown` ist als Entwurf vorhanden und noch nicht Teil des stabilen Frameworks. API und Styles können sich ändern.\n\n---"
+          }
+        ]
+      },
+      "reviewedGuidance": {
+        "status": "reviewed",
+        "summary": {
+          "text": {
+            "de": "Das aktuelle Dropdown-Tool ist explizit experimentell und bildet nur einen leichten Details/Summary-Wrapper mit eingebetteten Auswahloptionen ab, nicht ein vollwertiges Menu- oder Select-System.",
+            "en": "The current dropdown tool is explicitly experimental and only models a lightweight details/summary wrapper with embedded selection options, not a full menu or select system."
+          },
+          "confidence": "high",
+          "evidence": [
+            {
+              "kind": "schema",
+              "source": "src/ux/schemas/dropdown.ts"
+            },
+            {
+              "kind": "template",
+              "source": "src/ux/templates/dropdown.ts"
+            },
+            {
+              "kind": "manual-review",
+              "source": "docs/contributor-guide.md"
+            }
+          ]
+        },
+        "primaryUseCases": [
+          {
+            "text": {
+              "de": "Geeignet fuer dokumentierte experimentelle Ausgaben, in denen eine einfache, offen deklarierte Details-basierte Auswahlstruktur ausreicht.",
+              "en": "Suitable for documented experimental output where a simple, explicitly declared details-based choice structure is enough."
+            },
+            "confidence": "medium",
+            "evidence": [
+              {
+                "kind": "template",
+                "source": "src/ux/templates/dropdown.ts"
+              }
+            ]
+          }
+        ],
+        "antiUseCases": [
+          {
+            "text": {
+              "de": "Nicht als Ersatz fuer echte Select-, Menu- oder komplexe Navigationselemente verwenden.",
+              "en": "Do not use it as a replacement for real select, menu, or complex navigation elements."
+            },
+            "confidence": "high",
+            "evidence": [
+              {
+                "kind": "schema",
+                "source": "src/ux/schemas/dropdown.ts"
+              }
+            ]
+          }
+        ],
+        "requiredA11yPractices": [
+          {
+            "text": {
+              "de": "Der Summary-Trigger muss weiterhin einen aussagekraeftigen sichtbaren Text haben, weil die Interaktion an das native details/summary-Muster gebunden ist.",
+              "en": "The summary trigger should keep meaningful visible text because the interaction is tied to the native details/summary pattern."
+            },
+            "confidence": "medium",
+            "evidence": [
+              {
+                "kind": "template",
+                "source": "src/ux/templates/dropdown.ts"
+              }
+            ]
+          }
+        ],
+        "semanticInvariants": [
+          {
+            "text": {
+              "de": "Die experimentelle Kennzeichnung des Dropdown-Tools sollte in Guidance und UI erhalten bleiben, bis ein stabileres Pattern eingefuehrt wird.",
+              "en": "The dropdown tool's experimental status should remain visible in guidance and UI until a more stable pattern is introduced."
+            },
+            "confidence": "high",
+            "evidence": [
+              {
+                "kind": "schema",
+                "source": "src/ux/schemas/dropdown.ts"
+              }
+            ]
+          }
+        ],
+        "compositionPatterns": [],
+        "authoringNotes": [
+          {
+            "text": {
+              "de": "Wenn Nutzer:innen nach vollwertigen Menues oder Select-Interaktionen fragen, sollte auf die derzeitige Grenze des experimentellen Dropdown-Tools hingewiesen werden.",
+              "en": "When users ask for full menu or select interactions, point out the current boundary of the experimental dropdown tool."
+            },
+            "confidence": "medium",
+            "evidence": [
+              {
+                "kind": "manual-review",
+                "source": "docs/contributor-guide.md"
+              }
+            ]
+          }
+        ],
+        "migrationNotes": [
+          {
+            "text": {
+              "de": "Falls spaeter ein stabileres Dropdown- oder Menu-Pattern eingefuehrt wird, sollte diese Overlay-Notiz die bisherige Details/Summary-Variante als Legacy- oder Experimentalpfad kennzeichnen.",
+              "en": "If a more stable dropdown or menu pattern is introduced later, this overlay note should reframe the current details/summary variant as a legacy or experimental path."
+            },
+            "confidence": "medium",
+            "evidence": [
+              {
+                "kind": "schema",
+                "source": "src/ux/schemas/dropdown.ts"
+              }
+            ]
+          }
+        ]
+      },
+      "sources": {
+        "scss": [
+          "src/scss/core/components/_dropdown.scss"
+        ]
+      },
+      "warnings": [
+        "No canonical story template extracted for dropdown."
+      ]
+    },
+    {
+      "id": "fieldset",
+      "title": "Fieldset",
+      "status": "stable",
+      "category": "foundational",
+      "strategy": "layout",
+      "docs": {
+        "excerpt": "[COMPONENTS.MD] ## Fieldset\nGruppiert verwandte Formelemente. Basisklasse `kern-fieldset`.\n\n- Body: `kern-fieldset__body` (optional `--horizontal`)\n- Optionaler Hinweis: `kern-fieldset__hint` oder generisch `kern-hint`\n- Fehlerzustand: `kern-fieldset--error` (zeigt linken Fehlerbalken, gruppiert Fehlermeldungen)\n\n```html\n<fieldset class=\"kern-fieldset\" aria-describedby=\"hint-text\">\n  <legend class=\"kern-label\">Ansprechpartner</legend>\n  <div class=\"kern-fieldset__hint\" id=\"hint-text\">Hinweis</div>\n  <div class=\"kern-fieldset__body\">…</div>\n</fieldset>\n```\n\nFehlerzustand (aus Storybook)\n\n```html\n<fieldset class=\"kern-fieldset kern-fieldset--error\">\n  <legend class=\"kern-label\">Ansprechpartner</legend>\n  <div class=\"kern-fieldset__body\">\n    <div class=\"kern-form-input\">\n      <label class=\"kern-label\" for=\"vorname\">Vorname</label>\n      <input\n        class=\"kern-form-input__input kern-form-input__input--error\"\n        id=\"vorname\"\n        name=\"vorname\"\n        type=\"text\"\n        aria-describedby=\"kern-error\"\n      />\n    </div>\n    <div class=\"kern-form-input\">\n      <label class=\"kern-label\" for=\"name\">Name</label>\n      <input\n        class=\"kern-form-input__input kern-form-input__input--error\"\n        id=\"name\"\n        name=\"name\"\n        type=\"text\"\n        aria-describedby=\"kern-error\"\n      />\n    </div>\n  </div>\n  <p class=\"kern-error\" id=\"kern-error\" role=\"alert\">\n    <span class=\"kern-icon kern-icon--danger\" aria-hidden=\"true\"></span>\n    <span class=\"kern-body\">Der Name darf nicht leer sein</span>\n  </p>\n </fieldset>\n```\n\n---",
+        "sections": [
+          {
+            "source": "COMPONENTS.MD",
+            "heading": "## Fieldset",
+            "content": "Gruppiert verwandte Formelemente. Basisklasse `kern-fieldset`.\n\n- Body: `kern-fieldset__body` (optional `--horizontal`)\n- Optionaler Hinweis: `kern-fieldset__hint` oder generisch `kern-hint`\n- Fehlerzustand: `kern-fieldset--error` (zeigt linken Fehlerbalken, gruppiert Fehlermeldungen)\n\n```html\n<fieldset class=\"kern-fieldset\" aria-describedby=\"hint-text\">\n  <legend class=\"kern-label\">Ansprechpartner</legend>\n  <div class=\"kern-fieldset__hint\" id=\"hint-text\">Hinweis</div>\n  <div class=\"kern-fieldset__body\">…</div>\n</fieldset>\n```\n\nFehlerzustand (aus Storybook)\n\n```html\n<fieldset class=\"kern-fieldset kern-fieldset--error\">\n  <legend class=\"kern-label\">Ansprechpartner</legend>\n  <div class=\"kern-fieldset__body\">\n    <div class=\"kern-form-input\">\n      <label class=\"kern-label\" for=\"vorname\">Vorname</label>\n      <input\n        class=\"kern-form-input__input kern-form-input__input--error\"\n        id=\"vorname\"\n        name=\"vorname\"\n        type=\"text\"\n        aria-describedby=\"kern-error\"\n      />\n    </div>\n    <div class=\"kern-form-input\">\n      <label class=\"kern-label\" for=\"name\">Name</label>\n      <input\n        class=\"kern-form-input__input kern-form-input__input--error\"\n        id=\"name\"\n        name=\"name\"\n        type=\"text\"\n        aria-describedby=\"kern-error\"\n      />\n    </div>\n  </div>\n  <p class=\"kern-error\" id=\"kern-error\" role=\"alert\">\n    <span class=\"kern-icon kern-icon--danger\" aria-hidden=\"true\"></span>\n    <span class=\"kern-body\">Der Name darf nicht leer sein</span>\n  </p>\n </fieldset>\n```\n\n---"
+          }
+        ]
+      },
+      "sources": {
+        "scss": [
+          "src/scss/core/components/_fieldset.scss"
+        ],
+        "stories": [
+          "stories/Fieldset/Fieldset.stories.js"
+        ]
+      },
+      "htmlCanonical": "<fieldset class=\"kern-fieldset\">\n  <legend class=\"kern-label kern-label--large\">\n    Ansprechpartner\n  </legend>\n  <div class=\"kern-fieldset__body\">\n    <div class=\"kern-form-input\">\n      <label class=\"kern-label\" for=\"vorname\">Vorname</label>\n      <input class=\"kern-form-input__input\" id=\"vorname\" name=\"vorname\" type=\"text\">\n    </div>\n    <div class=\"kern-form-input\">\n      <label class=\"kern-label\" for=\"name\">Name</label>\n      <input class=\"kern-form-input__input\" id=\"name\" name=\"name\" type=\"text\">\n    </div>\n  <div>\n</fieldset>",
+      "warnings": []
+    },
+    {
+      "id": "grid",
+      "title": "Grid",
+      "status": "stable",
+      "category": "foundational",
+      "strategy": "layout",
+      "sources": {
+        "stories": [
+          "stories/Grid/Grid.stories.js"
+        ]
+      },
+      "htmlCanonical": "<div class=\"kern-container\">\n  <div class=\"kern-row\">\n    <div class=\"kern-col\">\n      <div class=\"kern-form-input\">\n        <label class=\"kern-label\" for=\"text\">Name</label>\n        <input class=\"kern-form-input__input\" id=\"text\" name=\"text\" type=\"text\">\n      </div>\n    </div>\n  </div>\n</div>",
+      "warnings": []
+    },
+    {
+      "id": "heading",
+      "title": "Heading",
+      "status": "stable",
+      "category": "foundational",
+      "strategy": "typography",
+      "sources": {
+        "stories": [
+          "stories/Heading/Heading.stories.js"
+        ]
+      },
+      "warnings": [
+        "No canonical story template extracted for heading."
+      ]
+    },
+    {
+      "id": "icon",
+      "title": "Icon",
+      "status": "stable",
+      "category": "interactive",
+      "strategy": "interactive",
+      "sources": {
+        "scss": [
+          "src/scss/core/components/_icon.scss"
+        ],
+        "stories": [
+          "stories/Icon/Icon.stories.js"
+        ]
+      },
+      "htmlCanonical": "<span class=\"kern-icon kern-icon--home\" aria-hidden=\"true\"></span>  \n<span class=\"kern-icon kern-icon--arrow-up\" aria-hidden=\"true\"></span>\n<span class=\"kern-icon kern-icon--arrow-down\" aria-hidden=\"true\"></span>\n<span class=\"kern-icon kern-icon--arrow-forward\" aria-hidden=\"true\"></span>\n<span class=\"kern-icon kern-icon--arrow-back\" aria-hidden=\"true\"></span>\n<span class=\"kern-icon kern-icon--info\" aria-hidden=\"true\"></span>\n<span class=\"kern-icon kern-icon--success\" aria-hidden=\"true\"></span>\n<span class=\"kern-icon kern-icon--calendar-today\" aria-hidden=\"true\"></span>\n<span class=\"kern-icon kern-icon--warning\" aria-hidden=\"true\"></span>\n<span class=\"kern-icon kern-icon--danger\" aria-hidden=\"true\"></span>  \n<span class=\"kern-icon kern-icon--open-in-new\" aria-hidden=\"true\"></span>  \n<span class=\"kern-icon kern-icon--download\" aria-hidden=\"true\"></span>  \n<span class=\"kern-icon kern-icon--account-circle\" aria-hidden=\"true\"></span>  \n<span class=\"kern-icon kern-icon--logout\" aria-hidden=\"true\"></span>  \n<span class=\"kern-icon kern-icon--checklist\" aria-hidden=\"true\"></span>  \n<span class=\"kern-icon kern-icon--mail\" aria-hidden=\"true\"></span>  \n<span class=\"kern-icon kern-icon--dehaze\" aria-hidden=\"true\"></span>  \n<span class=\"kern-icon kern-icon--edit\" aria-hidden=\"true\"></span>  \n<span class=\"kern-icon kern-icon--language\" aria-hidden=\"true\"></span>  \n<span class=\"kern-icon kern-icon--sign-language\" aria-hidden=\"true\"></span>  \n<span class=\"kern-icon kern-icon--easy-language\" aria-hidden=\"true\"></span>  \n<span class=\"kern-icon kern-icon--autorenew\" aria-hidden=\"true\"></span>  \n<span class=\"kern-icon kern-icon--add\" aria-hidden=\"true\"></span>  \n<span class=\"kern-icon kern-icon--close\" aria-hidden=\"true\"></span>  \n<span class=\"kern-icon kern-icon--delete\" aria-hidden=\"true\"></span>  \n<span class=\"kern-icon kern-icon--search\" aria-hidden=\"true\"></span>  \n<span class=\"kern-icon kern-icon--question-mark\" aria-hidden=\"true\"></span>  \n<span class=\"kern-icon kern-icon--more-vert\" aria-hidden=\"true\"></span>  \n<span class=\"kern-icon kern-icon--content-copy\" aria-hidden=\"true\"></span>  \n<span class=\"kern-icon kern-icon--visibility\" aria-hidden=\"true\"></span>  \n<span class=\"kern-icon kern-icon--visibility-off\" aria-hidden=\"true\"></span>  \n<span class=\"kern-icon kern-icon--check\" aria-hidden=\"true\"></span>\n<span class=\"kern-icon kern-icon--drive-folder-upload\" aria-hidden=\"true\"></span>  \n<span class=\"kern-icon kern-icon--chevron-left\" aria-hidden=\"true\"></span>  \n<span class=\"kern-icon kern-icon--chevron-right\" aria-hidden=\"true\"></span>  \n<span class=\"kern-icon kern-icon--keyboard-double-arrow-left\" aria-hidden=\"true\"></span>  \n<span class=\"kern-icon kern-icon--keyboard-double-arrow-right\" aria-hidden=\"true\"></span>  \n<span class=\"kern-icon kern-icon--brightness-medium\" aria-hidden=\"true\"></span>  \n<span class=\"kern-icon kern-icon--light-mode\" aria-hidden=\"true\"></span>  \n<span class=\"kern-icon kern-icon--dark-mode\" aria-hidden=\"true\"></span>  \n<span class=\"kern-icon kern-icon--help\" aria-hidden=\"true\"></span>",
+      "warnings": []
+    },
+    {
+      "id": "index",
+      "title": "index",
+      "status": "stable",
+      "category": "interactive",
+      "strategy": "fallback",
+      "sources": {
+        "scss": [
+          "src/scss/core/components/_index.scss"
+        ]
+      },
+      "warnings": [
+        "No canonical story template extracted for index."
+      ]
+    },
+    {
+      "id": "inputdate",
+      "title": "InputDate",
+      "status": "stable",
+      "category": "interactive",
+      "strategy": "fallback",
+      "reviewedGuidance": {
+        "status": "reviewed",
+        "summary": {
+          "text": {
+            "de": "Das MCP-Tool fuer InputDate modelliert bewusst nur ein einzelnes browser-natives Datumsfeld und nicht die upstream KERN-Variante mit getrennten Tag-/Monat-/Jahr-Eingaben.",
+            "en": "The MCP InputDate tool intentionally models only a single browser-native date field rather than the upstream KERN variant with separate day, month, and year inputs."
+          },
+          "confidence": "high",
+          "evidence": [
+            {
+              "kind": "story",
+              "source": "kern-ux-plain/stories/InputDate/InputDate.stories.js"
+            },
+            {
+              "kind": "schema",
+              "source": "src/ux/schemas/input-date.ts"
+            },
+            {
+              "kind": "template",
+              "source": "src/ux/templates/input-date.ts"
+            }
+          ]
+        },
+        "primaryUseCases": [
+          {
+            "text": {
+              "de": "Geeignet fuer einfache MCP-Ausgaben, bei denen ein nativer Datepicker ausreichend ist und die volle KERN-Feldgruppe nicht benoetigt wird.",
+              "en": "Suitable for simple MCP output where a native date picker is sufficient and the full KERN field group is not required."
+            },
+            "confidence": "high",
+            "evidence": [
+              {
+                "kind": "template",
+                "source": "src/ux/templates/input-date.ts"
+              }
+            ]
+          }
+        ],
+        "antiUseCases": [
+          {
+            "text": {
+              "de": "Nicht als vollstaendige Nachbildung der upstream KERN-Date-Gruppe mit separaten Eingaben, Hilfstexten und gruppierter Validierungslogik einsetzen.",
+              "en": "Do not treat it as a full reproduction of the upstream KERN date group with separate inputs, hints, and grouped validation logic."
+            },
+            "confidence": "high",
+            "evidence": [
+              {
+                "kind": "story",
+                "source": "kern-ux-plain/stories/InputDate/InputDate.stories.js"
+              }
+            ]
+          }
+        ],
+        "requiredA11yPractices": [
+          {
+            "text": {
+              "de": "Das vereinfachte native Datumsfeld muss weiterhin die allgemeinen Formularanforderungen aus Label-, Hint- und Error-Wiring einhalten, auch wenn die upstream Gruppensemantik hier nicht modelliert wird.",
+              "en": "The simplified native date field must still follow the general form requirements for label, hint, and error wiring, even though the upstream grouped semantics are not modeled here."
+            },
+            "confidence": "medium",
+            "evidence": [
+              {
+                "kind": "schema",
+                "source": "src/ux/schemas/input-date.ts"
+              },
+              {
+                "kind": "schema",
+                "source": "src/ux/schemas/foundations.ts"
+              }
+            ]
+          }
+        ],
+        "semanticInvariants": [
+          {
+            "text": {
+              "de": "Die Dokumentation muss klar zwischen der MCP-Vereinfachung und der richer upstream KERN-Datumseingabe unterscheiden.",
+              "en": "Documentation should clearly distinguish between the MCP simplification and the richer upstream KERN date input pattern."
+            },
+            "confidence": "high",
+            "evidence": [
+              {
+                "kind": "manual-review",
+                "source": "docs/contributor-guide.md"
+              }
+            ]
+          }
+        ],
+        "compositionPatterns": [],
+        "authoringNotes": [
+          {
+            "text": {
+              "de": "Wenn ein Nutzer explizit die KERN-Tag/Monat/Jahr-Struktur benoetigt, sollte die aktuelle Tool-Grenze offengelegt werden statt stillschweigend nativen Ersatz zu liefern.",
+              "en": "If a user explicitly needs the KERN day/month/year structure, the current tool boundary should be stated instead of silently substituting the native field."
+            },
+            "confidence": "high",
+            "evidence": [
+              {
+                "kind": "story",
+                "source": "kern-ux-plain/stories/InputDate/InputDate.stories.js"
+              },
+              {
+                "kind": "template",
+                "source": "src/ux/templates/input-date.ts"
+              }
+            ]
+          }
+        ],
+        "migrationNotes": [
+          {
+            "text": {
+              "de": "Eine spaetere Erweiterung auf getrennte Tag/Monat/Jahr-Felder sollte als additive Faehigkeit geplant werden, nicht als stiller Austausch des bestehenden nativen Date-Feldes.",
+              "en": "A later extension to separate day, month, and year fields should be planned as an additive capability, not as a silent replacement of the existing native date field."
+            },
+            "confidence": "medium",
+            "evidence": [
+              {
+                "kind": "manual-review",
+                "source": "docs/contributor-guide.md",
+                "locator": "input-date simplification"
+              }
+            ]
+          }
+        ]
+      },
+      "sources": {
+        "stories": [
+          "stories/InputDate/InputDate.stories.js"
+        ]
+      },
+      "htmlCanonical": "<fieldset class=\"kern-fieldset\" aria-describedby=\"hint-text\">\n  <legend class=\"kern-label\">\n    Wann wurde der Ausweis ausgestellt?\n  </legend>\n  <div class=\"kern-hint\" id=\"hint-text\">Beispielsweise: 17 3 2015</div>\n  <div class=\"kern-fieldset__body kern-fieldset__body--horizontal\">\n    <div class=\"kern-form-input\">\n      <label class=\"kern-label\" for=\"tag\">Tag</label>\n      <input class=\"kern-form-input__input kern-form-input__input--width-2\" id=\"tag\" name=\"tag\" type=\"text\" inputmode=\"numeric\">\n    </div>\n    <div class=\"kern-form-input\">\n      <label class=\"kern-label\" for=\"monat\">Monat</label>\n      <input class=\"kern-form-input__input kern-form-input__input--width-2\" id=\"monat\" name=\"monat\" type=\"text\" inputmode=\"numeric\">\n    </div>\n      <div class=\"kern-form-input\">\n      <label class=\"kern-label\" for=\"jahr\">Jahr</label>\n      <input class=\"kern-form-input__input kern-form-input__input--width-4\" id=\"jahr\" name=\"jahr\" type=\"text\" inputmode=\"numeric\">\n    </div>\n  <div>\n</fieldset>",
+      "warnings": []
+    },
+    {
+      "id": "inputemail",
+      "title": "InputEmail",
+      "status": "stable",
+      "category": "interactive",
+      "strategy": "fallback",
+      "sources": {
+        "stories": [
+          "stories/InputEmail/InputEmail.stories.js"
+        ]
+      },
+      "htmlCanonical": "<div class=\"kern-form-input\">\n  <label class=\"kern-label\" for=\"email\">Email</label>\n  <input class=\"kern-form-input__input\" id=\"email\" name=\"email\" type=\"email\" autocomplete=\"email\">\n</div>",
+      "warnings": []
+    },
+    {
+      "id": "inputfile",
+      "title": "InputFile",
+      "status": "stable",
+      "category": "interactive",
+      "strategy": "fallback",
+      "sources": {
+        "stories": [
+          "stories/InputFile/InputFile.stories.js"
+        ]
+      },
+      "htmlCanonical": "<div class=\"kern-form-input\">\n    <label class=\"kern-label\" for=\"input-file\">KERN Upload File</label>\n    <div class=\"kern-hint\" id=\"input-file-hint\">Erlaubte Formate: jpg, png, pdf</div>\n    <input class=\"kern-form-input__input\" id=\"input-file\" name=\"inputFile\" type=\"file\" aria-describedby=\"input-file-hint\">\n  </div>",
+      "warnings": []
+    },
+    {
+      "id": "inputgroup",
+      "title": "InputGroup",
+      "status": "stable",
+      "category": "interactive",
+      "strategy": "fallback",
+      "sources": {
+        "scss": [
+          "src/scss/core/components/_input-group.scss"
+        ],
+        "stories": [
+          "stories/InputGroup/InputGroup.stories.js"
+        ]
+      },
+      "htmlCanonical": "<div class=\"kern-input-group\">\n  <span class=\"kern-input-group-text\">Prefix</span>\n  <input class=\"kern-form-input__input\" id=\"group-text\" name=\"group-text\" type=\"text\" />\n  <span class=\"kern-input-group-text\">Suffix</span>\n</div>",
+      "warnings": []
+    },
+    {
+      "id": "inputnumber",
+      "title": "InputNumber",
+      "status": "stable",
+      "category": "interactive",
+      "strategy": "fallback",
+      "sources": {
+        "stories": [
+          "stories/InputNumber/InputNumber.stories.js"
+        ]
+      },
+      "htmlCanonical": "<div class=\"kern-form-input\">\n  <label class=\"kern-label\" for=\"number\">Number</label>\n  <input class=\"kern-form-input__input\" id=\"number\" name=\"number\" type=\"text\" inputmode=\"numeric\">\n</div>",
+      "warnings": []
+    },
+    {
+      "id": "inputpassword",
+      "title": "InputPassword",
+      "status": "stable",
+      "category": "interactive",
+      "strategy": "fallback",
+      "sources": {
+        "stories": [
+          "stories/InputPassword/InputPassword.stories.js"
+        ]
+      },
+      "htmlCanonical": "<div class=\"kern-form-input\">\n  <label class=\"kern-label\" for=\"password\">Password</label>\n  <input class=\"kern-form-input__input\" id=\"password\" name=\"password\" type=\"password\">\n</div>",
+      "warnings": []
+    },
+    {
+      "id": "inputtel",
+      "title": "InputTel",
+      "status": "stable",
+      "category": "interactive",
+      "strategy": "fallback",
+      "sources": {
+        "stories": [
+          "stories/InputTel/InputTel.stories.js"
+        ]
+      },
+      "htmlCanonical": "<div class=\"kern-form-input\">\n  <label class=\"kern-label\" for=\"tel\">Tel</label>\n  <input class=\"kern-form-input__input\" id=\"tel\" name=\"tel\" type=\"tel\" autocomplete=\"tel\">\n</div>",
+      "warnings": []
+    },
+    {
+      "id": "inputtext",
+      "title": "InputText",
+      "status": "stable",
+      "category": "interactive",
+      "strategy": "interactive",
+      "sources": {
+        "stories": [
+          "stories/InputText/InputText.stories.js"
+        ]
+      },
+      "htmlCanonical": "<div class=\"kern-form-input\">\n  <label class=\"kern-label\" for=\"text\">Name</label>\n  <input class=\"kern-form-input__input\" id=\"text\" name=\"text\" type=\"text\">\n</div>",
+      "warnings": []
+    },
+    {
+      "id": "inputurl",
+      "title": "InputUrl",
+      "status": "stable",
+      "category": "interactive",
+      "strategy": "fallback",
+      "sources": {
+        "stories": [
+          "stories/InputUrl/InputUrl.stories.js"
+        ]
+      },
+      "htmlCanonical": "<div class=\"kern-form-input\">\n  <label class=\"kern-label\" for=\"url\">Url</label>\n  <input class=\"kern-form-input__input\" id=\"url\" name=\"url\" type=\"url\">\n</div>",
+      "warnings": []
+    },
+    {
+      "id": "kopfzeile",
+      "title": "Kopfzeile",
+      "status": "stable",
+      "category": "foundational",
+      "strategy": "layout",
+      "docs": {
+        "excerpt": "[COMPONENTS.MD] ## Kopfzeile (Web Component und CSS)\nCSS-Variante\n\n```html\n<div class=\"kern-kopfzeile\">\n  <div class=\"kern-container\">\n    <div class=\"kern-kopfzeile__content\">\n      <span class=\"kern-kopfzeile__flagge\" aria-hidden=\"true\">…</span>\n      <span class=\"kern-kopfzeile__label\"\n        >Offizielle Website – Bundesrepublik Deutschland</span\n      >\n    </div>\n  </div>\n</div>\n```\n\nWeb Component `kern-kopfzeile`\n\n- Props:\n  - `fluid` (Container über gesamte Breite)\n  - `breakpoints` (z. B. `768px:720px, 1200px:1140px` – überschreibt Standard‑Breakpoints)\n- Slot: Überschreibt Standardlabel\n\n```html\n<kern-kopfzeile></kern-kopfzeile>\n<kern-kopfzeile fluid></kern-kopfzeile>\n<kern-kopfzeile>Custom Label</kern-kopfzeile>\n<kern-kopfzeile breakpoints=\"768px:720px, 1200px:1140px\"></kern-kopfzeile>\n```\n\n---",
+        "sections": [
+          {
+            "source": "COMPONENTS.MD",
+            "heading": "## Kopfzeile (Web Component und CSS)",
+            "content": "CSS-Variante\n\n```html\n<div class=\"kern-kopfzeile\">\n  <div class=\"kern-container\">\n    <div class=\"kern-kopfzeile__content\">\n      <span class=\"kern-kopfzeile__flagge\" aria-hidden=\"true\">…</span>\n      <span class=\"kern-kopfzeile__label\"\n        >Offizielle Website – Bundesrepublik Deutschland</span\n      >\n    </div>\n  </div>\n</div>\n```\n\nWeb Component `kern-kopfzeile`\n\n- Props:\n  - `fluid` (Container über gesamte Breite)\n  - `breakpoints` (z. B. `768px:720px, 1200px:1140px` – überschreibt Standard‑Breakpoints)\n- Slot: Überschreibt Standardlabel\n\n```html\n<kern-kopfzeile></kern-kopfzeile>\n<kern-kopfzeile fluid></kern-kopfzeile>\n<kern-kopfzeile>Custom Label</kern-kopfzeile>\n<kern-kopfzeile breakpoints=\"768px:720px, 1200px:1140px\"></kern-kopfzeile>\n```\n\n---"
+          }
+        ]
+      },
+      "reviewedGuidance": {
+        "status": "reviewed",
+        "summary": {
+          "text": {
+            "de": "Die MCP-Variante von Kopfzeile ist derzeit nur ein vereinfachter Platzhalter-Header und keine vollstaendige Abbildung der upstream KERN-Infoleiste oder Web Component.",
+            "en": "The MCP Kopfzeile variant is currently only a simplified placeholder header, not a full implementation of the upstream KERN info bar or web component."
+          },
+          "confidence": "high",
+          "evidence": [
+            {
+              "kind": "story",
+              "source": "kern-ux-plain/stories/Kopfzeile/Kopfzeile.stories.js"
+            },
+            {
+              "kind": "schema",
+              "source": "src/ux/schemas/kopfzeile.ts"
+            },
+            {
+              "kind": "template",
+              "source": "src/ux/templates/kopfzeile.ts"
+            }
+          ]
+        },
+        "primaryUseCases": [
+          {
+            "text": {
+              "de": "Als dokumentierter Hinweis fuer Repo-Nutzer:innen, dass der aktuelle Tool-Output nur eine einfache Header-Struktur fuer Demos und Platzhalter liefert.",
+              "en": "As documented guidance for repo users that the current tool output only provides a simple header structure for demos and placeholders."
+            },
+            "confidence": "high",
+            "evidence": [
+              {
+                "kind": "template",
+                "source": "src/ux/templates/kopfzeile.ts"
+              }
+            ]
+          }
+        ],
+        "antiUseCases": [
+          {
+            "text": {
+              "de": "Nicht als Beleg dafuer verwenden, dass bereits die offizielle KERN-Infoleiste mit Flagge, fluidem Layout oder Breakpoint-Konfiguration unterstuetzt wird.",
+              "en": "Do not use it as evidence that the official KERN info bar with flag, fluid layout, or breakpoint configuration is already supported."
+            },
+            "confidence": "high",
+            "evidence": [
+              {
+                "kind": "story",
+                "source": "kern-ux-plain/stories/Kopfzeile/Kopfzeile.stories.js"
+              },
+              {
+                "kind": "schema",
+                "source": "src/ux/schemas/kopfzeile.ts"
+              }
+            ]
+          }
+        ],
+        "requiredA11yPractices": [
+          {
+            "text": {
+              "de": "Wenn die Kopfzeile Navigation enthaelt, sollte diese weiterhin einen aussagekraeftigen Navigationsnamen haben; die aktuelle MCP-Vorlage nutzt dafuer aria-label=\"Hauptnavigation\".",
+              "en": "If the header contains navigation, it should keep a meaningful navigation name; the current MCP template uses aria-label=\"Hauptnavigation\" for that purpose."
+            },
+            "confidence": "medium",
+            "evidence": [
+              {
+                "kind": "template",
+                "source": "src/ux/templates/kopfzeile.ts"
+              }
+            ]
+          }
+        ],
+        "semanticInvariants": [
+          {
+            "text": {
+              "de": "Die Diskrepanz zwischen upstream Kopfzeile und MCP-Platzhalter muss fuer Autor:innen sichtbar bleiben, bis ein echter Komponentenausbau erfolgt.",
+              "en": "The gap between the upstream Kopfzeile and the MCP placeholder should remain visible to authors until a real component implementation exists."
+            },
+            "confidence": "high",
+            "evidence": [
+              {
+                "kind": "manual-review",
+                "source": "docs/contributor-guide.md"
+              }
+            ]
+          }
+        ],
+        "compositionPatterns": [],
+        "authoringNotes": [
+          {
+            "text": {
+              "de": "Beschreibe Kopfzeile derzeit als bekannte Vereinfachung und verweise bei Bedarf auf get_component_docs oder die Stories fuer den upstream Umfang.",
+              "en": "Describe Kopfzeile as a known simplification for now and refer to get_component_docs or the stories for the upstream scope when needed."
+            },
+            "confidence": "medium",
+            "evidence": [
+              {
+                "kind": "manual-review",
+                "source": "docs/contributor-guide.md"
+              }
+            ]
+          }
+        ],
+        "migrationNotes": [
+          {
+            "text": {
+              "de": "Wenn eine spaetere Implementierung die Web-Component-Properties oder das Flaggen-/Label-Layout uebernimmt, sollte diese Overlay-Notiz auf eine historische Kompatibilitaetsnotiz reduziert werden.",
+              "en": "If a later implementation adopts the web-component properties or the flag-and-label layout, this overlay note should be reduced to a historical compatibility note."
+            },
+            "confidence": "medium",
+            "evidence": [
+              {
+                "kind": "story",
+                "source": "kern-ux-plain/stories/Kopfzeile/Kopfzeile.stories.js"
+              }
+            ]
+          }
+        ]
+      },
+      "sources": {
+        "scss": [
+          "src/scss/core/components/_kopfzeile.scss"
+        ],
+        "stories": [
+          "stories/Kopfzeile/Kopfzeile.stories.js"
+        ]
+      },
+      "htmlCanonical": "<div class=\"kern-kopfzeile\">\n  <div class=\"kern-container-fluid\">\n    <div class=\"kern-kopfzeile__content\">\n      <span class=\"kern-kopfzeile__flagge\" aria-hidden=\"true\">\n        <svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 24 16\" style=\"max-width:24px\">\n          <path fill=\"#000\" d=\"M0 .5h24v5.333H0z\" />\n          <path fill=\"red\" d=\"M0 5.833h24v5.333H0z\" />\n          <path fill=\"#FACA2C\" d=\"M0 11.167h24V16.5H0z\" />\n        </svg>\n      </span>\n      <span class=\"kern-kopfzeile__label\">\n        Offizielle Website – Bundesrepublik Deutschland\n      </span>\n    </div>\n  </div>\n</div>",
+      "warnings": []
+    },
+    {
+      "id": "label",
+      "title": "Label",
+      "status": "stable",
+      "category": "foundational",
+      "strategy": "typography",
+      "sources": {
+        "stories": [
+          "stories/Label/Label.stories.js"
+        ]
+      },
+      "warnings": [
+        "No canonical story template extracted for label."
+      ]
+    },
+    {
+      "id": "layers",
+      "title": "Layers",
+      "status": "stable",
+      "category": "interactive",
+      "strategy": "fallback",
+      "sources": {
+        "stories": [
+          "stories/Layers/Layers.stories.js"
+        ]
+      },
+      "htmlCanonical": "<div class=\"kern-layer kern-level-0\">\n  <div class=\"kern-form-input\">\n    <label class=\"kern-label\" for=\"text\">Name</label>\n    <input class=\"kern-form-input__input\" id=\"text\" name=\"text\" type=\"text\">\n  </div>\n\n  <div class=\"kern-layer kern-level-1\">\n    <div class=\"kern-form-input\">\n      <label class=\"kern-label\" for=\"text\">Name</label>\n      <input class=\"kern-form-input__input\" id=\"text\" name=\"text\" type=\"text\">\n    </div>\n  \n    <div class=\"kern-layer kern-level-2\">\n      <div class=\"kern-form-input\">\n        <label class=\"kern-label\" for=\"text\">Name</label>\n        <input class=\"kern-form-input__input\" id=\"text\" name=\"text\" type=\"text\">\n      </div>\n    </div>\n  </div>\n</div>",
+      "warnings": []
+    },
+    {
+      "id": "link",
+      "title": "Link",
+      "status": "stable",
+      "category": "foundational",
+      "strategy": "typography",
+      "sources": {
+        "stories": [
+          "stories/Link/Link.stories.js",
+          "stories/Link/LinkButton.stories.js",
+          "stories/Link/LinkIcon.stories.js",
+          "stories/Link/LinkSmall.stories.js"
+        ]
+      },
+      "htmlCanonical": "<a href=\"#\" class=\"kern-btn kern-btn--tertiary\">\n  <span class=\"kern-icon kern-icon--arrow-back\" aria-hidden=\"true\"></span>\n  <span class=\"kern-label\">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat</span>\n</a>",
+      "warnings": []
+    },
+    {
+      "id": "lists",
+      "title": "Lists",
+      "status": "stable",
+      "category": "foundational",
+      "strategy": "typography",
+      "sources": {
+        "stories": [
+          "stories/Lists/Lists.stories.js"
+        ]
+      },
+      "htmlCanonical": "<ul class=\"kern-list\">\n  <li>\n    <a class=\"kern-link\" href=\"#\">\n      <span class=\"kern-icon kern-icon--arrow-forward\" aria-hidden=\"true\"></span>\n      Ein weitere Link\n    </a>\n  </li>\n  <li>\n    <a class=\"kern-link\" href=\"#\">\n      <span class=\"kern-icon kern-icon--arrow-forward\" aria-hidden=\"true\"></span>\n      Dataport Homepage\n    </a>\n  </li>\n  <li>\n    <a class=\"kern-link\" href=\"#\">\n      <span class=\"kern-icon kern-icon--arrow-forward\" aria-hidden=\"true\"></span>\n      Link zu Dokumentation\n    </a>\n  </li>\n  <li>\n    <a class=\"kern-link\" href=\"#\">\n      <span class=\"kern-icon kern-icon--arrow-forward\" aria-hidden=\"true\"></span>\n      More\n    </a>\n  </li>\n</ul>",
+      "warnings": []
+    },
+    {
+      "id": "loader",
+      "title": "Loader",
+      "status": "stable",
+      "category": "interactive",
+      "strategy": "interactive",
+      "docs": {
+        "excerpt": "[COMPONENTS.MD] ## Loader\nSpinner zur Ladeanzeige.\n\n- Basisklasse: `kern-loader`\n- Sichtbar-Schalter: `kern-loader--visible`\n- A11y: `role=\"status\"` + Screenreader-Text\n\n```html\n<div class=\"kern-loader kern-loader--visible\" role=\"status\">\n  <span class=\"kern-sr-only\">Wird geladen…</span>\n</div>\n```\n\n---",
+        "sections": [
+          {
+            "source": "COMPONENTS.MD",
+            "heading": "## Loader",
+            "content": "Spinner zur Ladeanzeige.\n\n- Basisklasse: `kern-loader`\n- Sichtbar-Schalter: `kern-loader--visible`\n- A11y: `role=\"status\"` + Screenreader-Text\n\n```html\n<div class=\"kern-loader kern-loader--visible\" role=\"status\">\n  <span class=\"kern-sr-only\">Wird geladen…</span>\n</div>\n```\n\n---"
+          }
+        ]
+      },
+      "sources": {
+        "scss": [
+          "src/scss/core/components/_loader.scss"
+        ],
+        "stories": [
+          "stories/Loader/Loader.stories.js"
+        ]
+      },
+      "htmlCanonical": "<div class=\"kern-loader kern-loader--visible\" role=\"status\">\n  <span class=\"kern-sr-only\">Wird geladen...</span>\n</div>",
+      "warnings": []
+    },
+    {
+      "id": "pattern",
+      "title": "Pattern",
+      "status": "stable",
+      "category": "interactive",
+      "strategy": "fallback",
+      "sources": {
+        "stories": [
+          "stories/Pattern/Header/FlexHeader.stories.js",
+          "stories/Pattern/Header/GrodHeader.stories.js"
+        ]
+      },
+      "htmlCanonical": "<header class=\"kern-flex kern-flex-col\">\n\n  <div class=\"kern-flex kern-justify-content-between kern-gap-x-xl kern-p-md\">\n    <div class=\"kern-brand\">\n      <img src=\"/logo.svg\">\n    </div>\n\n    <div class=\"kern-flex kern-flex-nowrap kern-hidden-lg\">\n      <button class=\"kern-btn kern-btn--tertiary kern-align-self-center\" id=\"search-trigger-flex\">\n        <span class=\"kern-icon kern-icon--search\" aria-hidden=\"true\"></span>\n        <span class=\"kern-label kern-sr-only\">Kopieren</span>\n      </button>\n      <button class=\"kern-btn kern-btn--tertiary kern-align-self-center\" id=\"navi-trigger-flex\">\n        <span class=\"kern-icon kern-icon--dehaze\" aria-hidden=\"true\"></span>\n        <span class=\"kern-label kern-sr-only\">Kopieren</span>\n      </button>\n    </div>\n\n    <div class=\"kern-hidden kern-flex-lg kern-flex-col kern-gap-lg\">\n      <nav class=\"kern-align-self-end\" aria-label=\"Hilfsnavigation\" id=\"hilfsnavigation-flex\">\n        <ul class=\"kern-list kern-flex-row-lg kern-gap-md kern-pt-none\">\n          <li>\n            <a class=\"kern-link kern-link--small\" href=\"#\">\n              <span class=\"kern-icon kern-icon--easy-language\" aria-hidden=\"true\"></span>\n              Leichte Sprache\n            </a>\n          </li>\n          <li>\n            <a class=\"kern-link kern-link--small\" href=\"#\">\n              <span class=\"kern-icon kern-icon--sign-language\" aria-hidden=\"true\"></span>\n              Gebärdensprache\n            </a>\n          </li>\n          <li>\n            <a class=\"kern-link kern-link--small\" href=\"#\">\n              <span class=\"kern-icon kern-icon--language\" aria-hidden=\"true\"></span>\n              Deutsch\n            </a>\n          </li>\n          <li>\n            <a class=\"kern-link kern-link--small\" href=\"#\">\n              <span class=\"kern-icon kern-icon--account-circle\" aria-hidden=\"true\"></span>\n              Mein Konto\n            </a>\n          </li>\n        </ul>\n      </nav>\n\n      <div class=\"kern-align-self-end\">\n        <form role=\"search\" class=\"kern-flex kern-gap-xs\">\n          <input class=\"kern-form-input__input\" id=\"search\" name=\"search\" type=\"search\" autocomplete=\"search\" aria-label=\"Suche\">\n          <button class=\"kern-btn kern-btn--primary\" type=\"submit\">\n            <span class=\"kern-icon kern-icon--search\" aria-hidden=\"true\"></span>\n            <span class=\"kern-label\">Suchen</span>\n          </button>\n        </form>\n      </div>\n\n    </div>\n  </div>\n\n\n  <div class=\"kern-hidden kern-hidden-lg kern-p-md\" id=\"search-mobile\">\n    <form role=\"search\" class=\"kern-flex kern-gap-xs\">\n      <input class=\"kern-form-input__input\" id=\"search-m\" name=\"search\" type=\"search\" autocomplete=\"search\" aria-label=\"Suche\">\n      <button class=\"kern-btn kern-btn--primary\" type=\"submit\">\n        <span class=\"kern-icon kern-icon--search\" aria-hidden=\"true\"></span>\n        <span class=\"kern-label kern-sr-only-mobile\">Suchen</span>\n      </button>\n    </form>\n  </div>\n  <nav class=\"kern-hidden kern-flex-lg\" aria-label=\"Hauptnavigation\" id=\"navi-flex\">\n    <ul class=\"kern-list kern-flex-row-lg kern-gap-x-xl kern-gap-y-lg kern-p-md kern-pt-none-lg\">\n      <li>\n        <a class=\"kern-link\" href=\"#\">Dienstleistungen</a>\n      </li>\n      <li>\n        <a class=\"kern-link\" href=\"#\">Standorte</a>\n      </li>\n      <li>\n        <a class=\"kern-link\" href=\"#\">Terminvereinbarung</a>\n      </li>\n      <li>\n        <a class=\"kern-link\" href=\"#\">Themen</a>\n      </li>\n      <li>\n        <a class=\"kern-link\" href=\"#\">Service</a>\n      </li>\n    </ul>\n    <ul class=\"kern-list kern-gap-y-lg kern-p-md kern-hidden-lg kern-pt-none\" style=\"background: var(--kern-color-form-input-background, #F7F7F9);\">\n      <li>\n        <a class=\"kern-link kern-link--small\" href=\"#\">\n          <span class=\"kern-icon kern-icon--easy-language\" aria-hidden=\"true\"></span>\n          Leichte Sprache\n        </a>\n      </li>\n      <li>\n        <a class=\"kern-link kern-link--small\" href=\"#\">\n          <span class=\"kern-icon kern-icon--sign-language\" aria-hidden=\"true\"></span>\n          Gebärdensprache\n        </a>\n      </li>\n      <li>\n        <a class=\"kern-link kern-link--small\" href=\"#\">\n          <span class=\"kern-icon kern-icon--language\" aria-hidden=\"true\"></span>\n          Deutsch\n        </a>\n      </li>\n      <li>\n        <a class=\"kern-link kern-link--small\" href=\"#\">\n          <span class=\"kern-icon kern-icon--account-circle\" aria-hidden=\"true\"></span>\n          Mein Konto\n        </a>\n      </li>\n    </ul>\n  </nav>\n\n</header>\n\n\n<script>\n  // Toggle Navi\n  const naviTriggerFlex = document.getElementById('navi-trigger-flex');\n  const naviFlex = document.getElementById('navi-flex');\n\n  naviTriggerFlex.addEventListener('click', (e) => {\n    e.preventDefault();\n    naviFlex.classList.toggle('kern-hidden');\n  });\n\n\n  // Toggle Suche\n  const searchTriggerFlex = document.getElementById('search-trigger-flex');\n  const searchBarFlex = document.getElementById('search-mobile');\n\n  searchTriggerFlex.addEventListener('click', (e) => {\n    e.preventDefault();\n    searchBarFlex.classList.toggle('kern-hidden');\n    \n    // Fokus direkt ins Suchfeld setzen\n    const input = document.getElementById('search-m');\n    if (input && !searchBarFlex.classList.contains('kern-hidden')) {\n      searchBarFlex.querySelector('input').focus();\n    }\n  });\n</script>",
+      "warnings": []
+    },
+    {
+      "id": "preline",
+      "title": "Preline",
+      "status": "stable",
+      "category": "foundational",
+      "strategy": "typography",
+      "sources": {
+        "stories": [
+          "stories/Preline/Preline.stories.js"
+        ]
+      },
+      "warnings": [
+        "No canonical story template extracted for preline."
+      ]
+    },
+    {
+      "id": "progress",
+      "title": "Progress",
+      "status": "stable",
+      "category": "interactive",
+      "strategy": "interactive",
+      "docs": {
+        "excerpt": "[COMPONENTS.MD] ## Progress\nNutzt natives `<progress>`. Optional Label darüber oder darunter.\n\n```html\n<div class=\"kern-progress\">\n  <label class=\"kern-label\" for=\"p1\">Schritt 2 von 5</label>\n  <progress id=\"p1\" value=\"2\" max=\"5\"></progress>\n</div>\n```\n\n---",
+        "sections": [
+          {
+            "source": "COMPONENTS.MD",
+            "heading": "## Progress",
+            "content": "Nutzt natives `<progress>`. Optional Label darüber oder darunter.\n\n```html\n<div class=\"kern-progress\">\n  <label class=\"kern-label\" for=\"p1\">Schritt 2 von 5</label>\n  <progress id=\"p1\" value=\"2\" max=\"5\"></progress>\n</div>\n```\n\n---"
+          }
+        ]
+      },
+      "sources": {
+        "scss": [
+          "src/scss/core/components/_progress.scss"
+        ],
+        "stories": [
+          "stories/Progress/Progress.stories.js"
+        ]
+      },
+      "htmlCanonical": "<div class=\"kern-progress\">\n  <progress value=\"35\" max=\"100\"></progress>\n</div>",
+      "warnings": []
+    },
+    {
+      "id": "radio",
+      "title": "Radio",
+      "status": "stable",
+      "category": "interactive",
+      "strategy": "interactive",
+      "sources": {
+        "scss": [
+          "src/scss/core/components/_radio.scss"
+        ],
+        "stories": [
+          "stories/Radio/Radio.stories.js"
+        ]
+      },
+      "htmlCanonical": "<div class=\"kern-form-check\">\n  <input class=\"kern-form-check__radio\" id=\"radio-herr1\" name=\"geschlecht1\" type=\"radio\">\n  <label class=\"kern-label\" for=\"radio-herr1\">Herr</label>\n</div>",
+      "warnings": []
+    },
+    {
+      "id": "select",
+      "title": "Select",
+      "status": "stable",
+      "category": "interactive",
+      "strategy": "interactive",
+      "sources": {
+        "scss": [
+          "src/scss/core/components/_select.scss"
+        ],
+        "stories": [
+          "stories/Select/Select.stories.js"
+        ]
+      },
+      "htmlCanonical": "<div class=\"kern-form-input\">\n    <label class=\"kern-label\" for=\"select\">Auswählen</label>\n    <div class=\"kern-form-input__select-wrapper\">\n      <select class=\"kern-form-input__select\" name=\"select\" id=\"select\">\n        <option>Option 1</option>\n        <option>Option 2</option>\n        <option>Option 3</option>\n      </select>\n    </div>\n  </div>",
+      "warnings": []
+    },
+    {
+      "id": "subline",
+      "title": "Subline",
+      "status": "stable",
+      "category": "foundational",
+      "strategy": "typography",
+      "sources": {
+        "stories": [
+          "stories/Subline/Subline.stories.js"
+        ]
+      },
+      "warnings": [
+        "No canonical story template extracted for subline."
+      ]
+    },
+    {
+      "id": "summary",
+      "title": "Summary",
+      "status": "stable",
+      "category": "interactive",
+      "strategy": "interactive",
+      "docs": {
+        "excerpt": "[COMPONENTS.MD] ## Summary\nZusammenfassungen von Aufgaben/Angaben. Basisklassen: `kern-summary` und Gruppierung `kern-summary-group`.\n\n- Header: `kern-summary__header` mit optionaler `kern-number` und `kern-title`\n- Body: `kern-summary__body` mit Inhalt (typisch `kern-description-list`) und `kern-summary__actions`\n\n```html\n<div class=\"kern-summary\">\n  <div class=\"kern-summary__header\">\n    <span class=\"kern-number\">1</span>\n    <h3 class=\"kern-title kern-title--small\" id=\"title\">Aufgabe</h3>\n  </div>\n  <div class=\"kern-summary__body\">\n    <dl class=\"kern-description-list\">…</dl>\n    <div class=\"kern-summary__actions\">\n      <a href=\"#\" class=\"kern-link\" aria-describedby=\"title\">\n        <span class=\"kern-icon kern-icon--edit\" aria-hidden=\"true\"></span>\n        Bearbeiten\n      </a>\n    </div>\n  </div>\n</div>\n```\n\n---",
+        "sections": [
+          {
+            "source": "COMPONENTS.MD",
+            "heading": "## Summary",
+            "content": "Zusammenfassungen von Aufgaben/Angaben. Basisklassen: `kern-summary` und Gruppierung `kern-summary-group`.\n\n- Header: `kern-summary__header` mit optionaler `kern-number` und `kern-title`\n- Body: `kern-summary__body` mit Inhalt (typisch `kern-description-list`) und `kern-summary__actions`\n\n```html\n<div class=\"kern-summary\">\n  <div class=\"kern-summary__header\">\n    <span class=\"kern-number\">1</span>\n    <h3 class=\"kern-title kern-title--small\" id=\"title\">Aufgabe</h3>\n  </div>\n  <div class=\"kern-summary__body\">\n    <dl class=\"kern-description-list\">…</dl>\n    <div class=\"kern-summary__actions\">\n      <a href=\"#\" class=\"kern-link\" aria-describedby=\"title\">\n        <span class=\"kern-icon kern-icon--edit\" aria-hidden=\"true\"></span>\n        Bearbeiten\n      </a>\n    </div>\n  </div>\n</div>\n```\n\n---"
+          }
+        ]
+      },
+      "sources": {
+        "scss": [
+          "src/scss/core/components/_summary.scss"
+        ],
+        "stories": [
+          "stories/Summary/Summary.stories.js"
+        ]
+      },
+      "htmlCanonical": "<div class=\"kern-summary\">\n\n  <div class=\"kern-summary__header\"> \n    <span class=\"kern-number\">1</span>\n    <h3 class=\"kern-title kern-title--small\" id=\"title\">Aufgabe</h3>\n  </div>\n\n  <div class=\"kern-summary__body\">\n    <dl class=\"kern-description-list\">\n      <div class=\"kern-description-list-item\">\n        <dt class=\"kern-description-list-item__key\">Name</dt>\n        <dd class=\"kern-description-list-item__value\">Max</dd>\n      </div>\n      <div class=\"kern-description-list-item\">\n        <dt class=\"kern-description-list-item__key\">Vorname</dt>\n        <dd class=\"kern-description-list-item__value\">Mustermann</dd>\n      </div>\n      <div class=\"kern-description-list-item\">\n        <dt class=\"kern-description-list-item__key\">E-Mail</dt>\n        <dd class=\"kern-description-list-item__value\">dasisteinesehrlangeemailadressevonmaxmustermann@unternehmen.xy</dd>\n      </div>\n      <div class=\"kern-description-list-item\">\n        <dt class=\"kern-description-list-item__key\">Sachkundigen vor Ort</dt>\n        <dd class=\"kern-description-list-item__value\">\n          <ul>\n            <li>Berger Ernst</li>\n            <li>Müller, Hans</li>\n            <li>Sagmeister, Petra</li>\n            <li>Pan, Peter</li>\n          </ul>\n        </dd>\n      </div>\n    </dl>\n    <div class=\"kern-summary__actions\">\n      <a href=\"#\" class=\"kern-link\" aria-describedby=\"title\">\n        <span class=\"kern-icon kern-icon--edit\" aria-hidden=\"true\"></span>\n        Bearbeiten\n      </a>\n    </div>\n  </div>\n</div>",
+      "warnings": []
+    },
+    {
+      "id": "table",
+      "title": "Table",
+      "status": "stable",
+      "category": "interactive",
+      "strategy": "interactive",
+      "docs": {
+        "excerpt": "[COMPONENTS.MD] ## Table\nBasisklasse: `kern-table` mit Elementen `__head`, `__body`, `__row`, `__header`, `__cell`, `__footer`.\n\n- Varianten: `kern-table--small` (kompakt), `kern-table--striped`\n- Numerische Spalten: `kern-table__header--numeric` / `kern-table__cell--numeric`\n- Responsive Wrapper: `kern-table-responsive` um `<table>` (horizontal scroll)\n\n```html\n<div class=\"kern-table-responsive\" tabindex=\"0\">\n  <table class=\"kern-table kern-table--striped\">\n    <caption class=\"kern-title\">\n      Titel\n    </caption>\n    <thead class=\"kern-table__head\">\n      <tr class=\"kern-table__row\">\n        <th scope=\"col\" class=\"kern-table__header\">Label</th>\n        <th scope=\"col\" class=\"kern-table__header kern-table__header--numeric\">\n          Wert\n        </th>\n      </tr>\n    </thead>\n    <tbody class=\"kern-table__body\">\n      <tr class=\"kern-table__row\">\n        <th scope=\"row\" class=\"kern-table__header\">A</th>\n        <td class=\"kern-table__cell kern-table__cell--numeric\">42</td>\n      </tr>\n    </tbody>\n  </table>\n</div>\n```\n\nA11y-Hinweise:\n\n- `<caption class=\"kern-title\">` als Tabellenbeschreibung\n- `scope=\"col|row\"` für Headerzellen\n\n---",
+        "sections": [
+          {
+            "source": "COMPONENTS.MD",
+            "heading": "## Table",
+            "content": "Basisklasse: `kern-table` mit Elementen `__head`, `__body`, `__row`, `__header`, `__cell`, `__footer`.\n\n- Varianten: `kern-table--small` (kompakt), `kern-table--striped`\n- Numerische Spalten: `kern-table__header--numeric` / `kern-table__cell--numeric`\n- Responsive Wrapper: `kern-table-responsive` um `<table>` (horizontal scroll)\n\n```html\n<div class=\"kern-table-responsive\" tabindex=\"0\">\n  <table class=\"kern-table kern-table--striped\">\n    <caption class=\"kern-title\">\n      Titel\n    </caption>\n    <thead class=\"kern-table__head\">\n      <tr class=\"kern-table__row\">\n        <th scope=\"col\" class=\"kern-table__header\">Label</th>\n        <th scope=\"col\" class=\"kern-table__header kern-table__header--numeric\">\n          Wert\n        </th>\n      </tr>\n    </thead>\n    <tbody class=\"kern-table__body\">\n      <tr class=\"kern-table__row\">\n        <th scope=\"row\" class=\"kern-table__header\">A</th>\n        <td class=\"kern-table__cell kern-table__cell--numeric\">42</td>\n      </tr>\n    </tbody>\n  </table>\n</div>\n```\n\nA11y-Hinweise:\n\n- `<caption class=\"kern-title\">` als Tabellenbeschreibung\n- `scope=\"col|row\"` für Headerzellen\n\n---"
+          }
+        ]
+      },
+      "sources": {
+        "scss": [
+          "src/scss/core/components/_table.scss"
+        ],
+        "stories": [
+          "stories/Table/Table.stories.js"
+        ]
+      },
+      "htmlCanonical": "<table class=\"kern-table\">\n  <caption class=\"kern-title\">Autovermietung Flotte</caption>\n\n  <thead class=\"kern-table__head\">\n    <tr class=\"kern-table__row\">\n      <th scope=\"col\" class=\"kern-table__header\">Marke</th>\n      <th scope=\"col\" class=\"kern-table__header\">Verfügbarkeit</th>\n      <th scope=\"col\" class=\"kern-table__header kern-table__header--numeric\">Tagespreis</th>\n    </tr>\n  </thead>\n\n  <tbody class=\"kern-table__body\">\n    <tr class=\"kern-table__row\">\n      <th scope=\"row\" class=\"kern-table__header\">BMW</th>\n      <td class=\"kern-table__cell\">Frei</td>\n      <td class=\"kern-table__cell kern-table__cell--numeric\">69,00 €</td>\n    </tr>\n    <tr class=\"kern-table__row\">\n      <th scope=\"row\" class=\"kern-table__header\">Fiat</th>\n      <td class=\"kern-table__cell\">Vermietet</td>\n      <td class=\"kern-table__cell kern-table__cell--numeric\">49,59 €</td>\n    </tr>\n    <tr class=\"kern-table__row\">\n      <th scope=\"row\" class=\"kern-table__header\">VW</th>\n      <td class=\"kern-table__cell\">Frei</td>\n      <td class=\"kern-table__cell kern-table__cell--numeric\">54,99 €</td>\n    </tr>\n  </tbody>\n\n</table>",
+      "warnings": []
+    },
+    {
+      "id": "tasklist",
+      "title": "Tasklist",
+      "status": "stable",
+      "category": "interactive",
+      "strategy": "fallback",
+      "docs": {
+        "excerpt": "[COMPONENTS.MD] ## Task List\nZeigt Aufgaben (nummeriert oder unnummeriert). Basisklasse: `kern-task-list`. Gruppierung: `kern-task-list-group`.\n\n- Header: `kern-task-list__header` (Headline in einheitlichem Stil)\n- Liste: `kern-task-list__list`\n- Eintrag: `kern-task-list__item` mit `kern-number` (optional), `kern-task-list__title` und `kern-task-list__status`\n- Gestreckte Links: `kern-link--stretched` für gesamten Eintrag\n- Statusanzeige häufig über Badges (`kern-badge`)\n\n```html\n<ul class=\"kern-task-list__list\">\n  <li class=\"kern-task-list__item\">\n    <span class=\"kern-number\">1</span>\n    <div class=\"kern-task-list__title\" id=\"task1\">\n      <a\n        href=\"#\"\n        class=\"kern-link kern-link--stretched\"\n        aria-describedby=\"task1-status\"\n        >Aufgabe X</a\n      >\n      <div class=\"kern-task-list__status\" id=\"task1-status\">\n        <span class=\"kern-badge kern-badge--success\"\n          ><span class=\"kern-label kern-label--small\">Erledigt</span></span\n        >\n      </div>\n    </div>\n  </li>\n</ul>\n```\n\n---",
+        "sections": [
+          {
+            "source": "COMPONENTS.MD",
+            "heading": "## Task List",
+            "content": "Zeigt Aufgaben (nummeriert oder unnummeriert). Basisklasse: `kern-task-list`. Gruppierung: `kern-task-list-group`.\n\n- Header: `kern-task-list__header` (Headline in einheitlichem Stil)\n- Liste: `kern-task-list__list`\n- Eintrag: `kern-task-list__item` mit `kern-number` (optional), `kern-task-list__title` und `kern-task-list__status`\n- Gestreckte Links: `kern-link--stretched` für gesamten Eintrag\n- Statusanzeige häufig über Badges (`kern-badge`)\n\n```html\n<ul class=\"kern-task-list__list\">\n  <li class=\"kern-task-list__item\">\n    <span class=\"kern-number\">1</span>\n    <div class=\"kern-task-list__title\" id=\"task1\">\n      <a\n        href=\"#\"\n        class=\"kern-link kern-link--stretched\"\n        aria-describedby=\"task1-status\"\n        >Aufgabe X</a\n      >\n      <div class=\"kern-task-list__status\" id=\"task1-status\">\n        <span class=\"kern-badge kern-badge--success\"\n          ><span class=\"kern-label kern-label--small\">Erledigt</span></span\n        >\n      </div>\n    </div>\n  </li>\n</ul>\n```\n\n---"
+          }
+        ]
+      },
+      "sources": {
+        "scss": [
+          "src/scss/core/components/_task-list.scss"
+        ],
+        "stories": [
+          "stories/Tasklist/Tasklist.stories.js"
+        ]
+      },
+      "htmlCanonical": "<div class=\"kern-task-list\">\n  <div class=\"kern-task-list__header\">\n    <h2 class=\"kern-heading-medium\">Aufgabengruppe 1</h2>\n  </div>\n  <ul class=\"kern-task-list__list\">\n    <li class=\"kern-task-list__item\">\n      <span class=\"kern-number\">1</span>\n      <div class=\"kern-task-list__title\" id=\"task1-title\">\n        <a href=\"#\" class=\"kern-link kern-link--stretched\" aria-describedby=\"task1-status\">Aufgabe xy erledigen</a>\n        <div class=\"kern-task-list__status\" id=\"task1-status\">\n          <span class=\"kern-badge kern-badge--success\">\n            <span class=\"kern-icon kern-icon--success\" aria-hidden=\"true\"></span>\n            <span class=\"kern-label kern-label--small\">Erledigt</span>\n          </span>\n        </div>\n      </div>\n    </li>\n    <li class=\"kern-task-list__item\">\n      <span class=\"kern-number\">2</span>\n      <div class=\"kern-task-list__title\" id=\"task2-title\">\n        <a href=\"#\" class=\"kern-link kern-link--stretched\" aria-describedby=\"task2-status\">Aufgabe xy erledigen</a>\n        <div class=\"kern-task-list__status\" id=\"task2-status\">\n          <span class=\"kern-badge kern-badge--warning\">\n            <span class=\"kern-label kern-label--small\">Unvollständig</span>\n          </span>\n        </div>\n      </div>\n    </li>\n    <li class=\"kern-task-list__item\">\n      <span class=\"kern-number\">3</span>\n      <div class=\"kern-task-list__title\" id=\"task3-title\">\n        <p class=\"kern-body\">Aufgabe xy erledigen</p>\n        <div class=\"kern-task-list__status\" id=\"task3-status\">\n          <span class=\"kern-badge kern-badge--info\">\n            <span class=\"kern-label kern-label--small\">Noch nicht zu bearbeiten</span>\n          </span>\n        </div>\n      </div>\n    </li>\n  </ul>\n</div>",
+      "warnings": []
+    },
+    {
+      "id": "textarea",
+      "title": "Textarea",
+      "status": "stable",
+      "category": "interactive",
+      "strategy": "interactive",
+      "sources": {
+        "stories": [
+          "stories/Textarea/Textarea.stories.js"
+        ]
+      },
+      "htmlCanonical": "<div class=\"kern-form-input\">\n  <label class=\"kern-label\" for=\"textarea\">Beschreibung</label>\n  <textarea class=\"kern-form-input__input\" id=\"textarea\" name=\"textarea\"></textarea>\n</div>",
+      "warnings": []
+    },
+    {
+      "id": "title",
+      "title": "Title",
+      "status": "stable",
+      "category": "foundational",
+      "strategy": "typography",
+      "sources": {
+        "stories": [
+          "stories/Title/Title.stories.js"
+        ]
+      },
+      "warnings": [
+        "No canonical story template extracted for title."
+      ]
+    }
+  ]
+}

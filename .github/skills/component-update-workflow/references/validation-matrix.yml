@@ -1,0 +1,22 @@
+version: 1
+scenarios:
+  overlay_only:
+    commands:
+      - npm run validate-guidance-overlay
+      - npm run generate-manifest
+      - npm test -- src/ux/manifest-generator.test.ts src/ux/tools.test.ts
+  runtime_only:
+    commands:
+      - nearest-focused-test-command
+      - npx tsc --noEmit
+  mixed:
+    commands:
+      - nearest-focused-test-command
+      - npm run validate-guidance-overlay
+      - npm run generate-manifest
+      - npm test -- src/ux/manifest-generator.test.ts src/ux/tools.test.ts
+      - npx tsc --noEmit
+principles:
+  - Start with the cheapest behavior-scoped check.
+  - Use typecheck when no narrower executable check exists or after mixed changes.
+  - Do not use git diff as the only validation when an executable check is available.

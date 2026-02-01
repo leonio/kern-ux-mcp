@@ -1,0 +1,11 @@
+@font-face {
+    font-family: Noto Sans Regular;
+    src: url(./noto-sans/NotoSans-Regular.woff2) format('woff2'),
+         url(./noto-sans/NotoSans-Regular.woff) format('woff');
+  }
+
+  @font-face {
+    font-family: Noto Sans Bold;
+    src: url(./noto-sans/NotoSans-Bold.woff2) format('woff2'),
+         url(./noto-sans/NotoSans-Bold.woff) format('woff');
+  }

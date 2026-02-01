@@ -1,0 +1,38 @@
+# Dependencies
+node_modules/
+
+# MCP artifacts
+kern-ux-plain/
+
+# Build output
+dist/
+
+# TypeScript cache
+*.tsbuildinfo
+
+# IDE/Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+npm-debug.log*
+
+# Test coverage
+coverage/
+
+# Temporary files
+*.tmp
+*.temp

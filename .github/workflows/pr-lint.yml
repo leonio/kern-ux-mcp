@@ -1,0 +1,59 @@
+name: PR Lint
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+
+jobs:
+  branch-name:
+    name: Validate Branch Name
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check branch naming convention
+        env:
+          BRANCH: ${{ github.head_ref }}
+        run: |
+          ALLOWED='^(main|develop|release\/|feature\/|fix\/|hotfix\/|chore\/|docs\/|refactor\/|ci\/)'
+          if [[ ! "$BRANCH" =~ $ALLOWED ]]; then
+            echo "::error::Branch name '$BRANCH' does not follow the naming convention."
+            echo ""
+            echo "Allowed prefixes: feature/, fix/, hotfix/, chore/, docs/, refactor/, ci/, release/"
+            echo "Allowed exact names: main, develop"
+            echo ""
+            echo "Examples:"
+            echo "  feature/add-button-component"
+            echo "  fix/checkbox-validation"
+            echo "  chore/update-dependencies"
+            echo "  ci/add-release-workflow"
+            exit 1
+          fi
+          echo "Branch name '$BRANCH' is valid."
+
+  conventional-commit-title:
+    name: Validate PR Title (Conventional Commit)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check PR title format
+        uses: amannn/action-semantic-pull-request@v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          types: |
+            feat
+            fix
+            chore
+            docs
+            style
+            refactor
+            test
+            ci
+            perf
+            build
+            revert
+          # Require a scope to be optional (not enforced)
+          requireScope: false
+          # Disallow uppercase first letter in subject (enforces sentence case after the colon)
+          subjectPattern: ^(?![A-Z]).+$
+          subjectPatternError: >
+            The subject in the PR title must start with a lowercase letter.
+            Example: "feat: add button component" not "feat: Add button component"

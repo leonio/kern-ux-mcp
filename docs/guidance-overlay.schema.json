@@ -1,0 +1,166 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "https://example.local/kern-mcp/guidance-overlay.schema.json",
+	"title": "KERN MCP Guidance Overlay",
+	"description": "Checked-in, human-reviewed guidance overlay merged with the generated implementation manifest at build time.",
+	"type": "object",
+	"additionalProperties": false,
+	"required": ["overlayVersion", "components"],
+	"properties": {
+		"overlayVersion": {
+			"type": "string",
+			"description": "Version of the overlay contract, for example '1'."
+		},
+		"generatedAt": {
+			"type": "string",
+			"format": "date-time",
+			"description": "Optional timestamp for a generated draft before human review."
+		},
+		"components": {
+			"type": "object",
+			"description": "Component guidance keyed by manifest component id.",
+			"propertyNames": {
+				"pattern": "^[a-z0-9-]+$"
+			},
+			"additionalProperties": {
+				"$ref": "#/$defs/componentGuidance"
+			}
+		}
+	},
+	"$defs": {
+		"localizedText": {
+			"type": "object",
+			"additionalProperties": false,
+			"required": ["de", "en"],
+			"properties": {
+				"de": {
+					"type": "string",
+					"minLength": 1
+				},
+				"en": {
+					"type": "string",
+					"minLength": 1
+				}
+			}
+		},
+		"evidenceRef": {
+			"type": "object",
+			"additionalProperties": false,
+			"required": ["kind", "source"],
+			"properties": {
+				"kind": {
+					"type": "string",
+					"enum": [
+						"docs-snapshot",
+						"story",
+						"scss",
+						"schema",
+						"template",
+						"test",
+						"manual-review",
+						"other"
+					]
+				},
+				"source": {
+					"type": "string",
+					"description": "Repo-relative path or human-readable source identifier."
+				},
+				"locator": {
+					"type": "string",
+					"description": "Optional heading, story export, selector, or line hint."
+				},
+				"note": {
+					"$ref": "#/$defs/localizedText"
+				}
+			}
+		},
+		"guidanceStatement": {
+			"type": "object",
+			"additionalProperties": false,
+			"required": ["text", "confidence", "evidence"],
+			"properties": {
+				"text": {
+					"$ref": "#/$defs/localizedText"
+				},
+				"confidence": {
+					"type": "string",
+					"enum": ["high", "medium", "low"]
+				},
+				"evidence": {
+					"type": "array",
+					"minItems": 1,
+					"items": {
+						"$ref": "#/$defs/evidenceRef"
+					}
+				}
+			}
+		},
+		"componentGuidance": {
+			"type": "object",
+			"additionalProperties": false,
+			"required": [
+				"status",
+				"summary",
+				"primaryUseCases",
+				"antiUseCases",
+				"requiredA11yPractices",
+				"semanticInvariants",
+				"compositionPatterns",
+				"authoringNotes",
+				"migrationNotes"
+			],
+			"properties": {
+				"status": {
+					"type": "string",
+					"enum": ["draft", "reviewed", "approved"],
+					"description": "Human review state of this component overlay entry."
+				},
+				"summary": {
+					"$ref": "#/$defs/guidanceStatement"
+				},
+				"primaryUseCases": {
+					"type": "array",
+					"items": {
+						"$ref": "#/$defs/guidanceStatement"
+					}
+				},
+				"antiUseCases": {
+					"type": "array",
+					"items": {
+						"$ref": "#/$defs/guidanceStatement"
+					}
+				},
+				"requiredA11yPractices": {
+					"type": "array",
+					"items": {
+						"$ref": "#/$defs/guidanceStatement"
+					}
+				},
+				"semanticInvariants": {
+					"type": "array",
+					"items": {
+						"$ref": "#/$defs/guidanceStatement"
+					}
+				},
+				"compositionPatterns": {
+					"type": "array",
+					"items": {
+						"$ref": "#/$defs/guidanceStatement"
+					}
+				},
+				"authoringNotes": {
+					"type": "array",
+					"items": {
+						"$ref": "#/$defs/guidanceStatement"
+					}
+				},
+				"migrationNotes": {
+					"type": "array",
+					"items": {
+						"$ref": "#/$defs/guidanceStatement"
+					}
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,363 @@
+{
+	"overlayVersion": "1",
+	"components": {
+		"kopfzeile": {
+			"status": "reviewed",
+			"summary": {
+				"text": {
+					"de": "Die MCP-Variante von Kopfzeile ist derzeit nur ein vereinfachter Platzhalter-Header und keine vollstaendige Abbildung der upstream KERN-Infoleiste oder Web Component.",
+					"en": "The MCP Kopfzeile variant is currently only a simplified placeholder header, not a full implementation of the upstream KERN info bar or web component."
+				},
+				"confidence": "high",
+				"evidence": [
+					{
+						"kind": "story",
+						"source": "kern-ux-plain/stories/Kopfzeile/Kopfzeile.stories.js"
+					},
+					{
+						"kind": "schema",
+						"source": "src/ux/schemas/kopfzeile.ts"
+					},
+					{
+						"kind": "template",
+						"source": "src/ux/templates/kopfzeile.ts"
+					}
+				]
+			},
+			"primaryUseCases": [
+				{
+					"text": {
+						"de": "Als dokumentierter Hinweis fuer Repo-Nutzer:innen, dass der aktuelle Tool-Output nur eine einfache Header-Struktur fuer Demos und Platzhalter liefert.",
+						"en": "As documented guidance for repo users that the current tool output only provides a simple header structure for demos and placeholders."
+					},
+					"confidence": "high",
+					"evidence": [
+						{
+							"kind": "template",
+							"source": "src/ux/templates/kopfzeile.ts"
+						}
+					]
+				}
+			],
+			"antiUseCases": [
+				{
+					"text": {
+						"de": "Nicht als Beleg dafuer verwenden, dass bereits die offizielle KERN-Infoleiste mit Flagge, fluidem Layout oder Breakpoint-Konfiguration unterstuetzt wird.",
+						"en": "Do not use it as evidence that the official KERN info bar with flag, fluid layout, or breakpoint configuration is already supported."
+					},
+					"confidence": "high",
+					"evidence": [
+						{
+							"kind": "story",
+							"source": "kern-ux-plain/stories/Kopfzeile/Kopfzeile.stories.js"
+						},
+						{
+							"kind": "schema",
+							"source": "src/ux/schemas/kopfzeile.ts"
+						}
+					]
+				}
+			],
+			"requiredA11yPractices": [
+				{
+					"text": {
+						"de": "Wenn die Kopfzeile Navigation enthaelt, sollte diese weiterhin einen aussagekraeftigen Navigationsnamen haben; die aktuelle MCP-Vorlage nutzt dafuer aria-label=\"Hauptnavigation\".",
+						"en": "If the header contains navigation, it should keep a meaningful navigation name; the current MCP template uses aria-label=\"Hauptnavigation\" for that purpose."
+					},
+					"confidence": "medium",
+					"evidence": [
+						{
+							"kind": "template",
+							"source": "src/ux/templates/kopfzeile.ts"
+						}
+					]
+				}
+			],
+			"semanticInvariants": [
+				{
+					"text": {
+						"de": "Die Diskrepanz zwischen upstream Kopfzeile und MCP-Platzhalter muss fuer Autor:innen sichtbar bleiben, bis ein echter Komponentenausbau erfolgt.",
+						"en": "The gap between the upstream Kopfzeile and the MCP placeholder should remain visible to authors until a real component implementation exists."
+					},
+					"confidence": "high",
+					"evidence": [
+						{
+							"kind": "manual-review",
+							"source": "docs/contributor-guide.md"
+						}
+					]
+				}
+			],
+			"compositionPatterns": [],
+			"authoringNotes": [
+				{
+					"text": {
+						"de": "Beschreibe Kopfzeile derzeit als bekannte Vereinfachung und verweise bei Bedarf auf get_component_docs oder die Stories fuer den upstream Umfang.",
+						"en": "Describe Kopfzeile as a known simplification for now and refer to get_component_docs or the stories for the upstream scope when needed."
+					},
+					"confidence": "medium",
+					"evidence": [
+						{
+							"kind": "manual-review",
+							"source": "docs/contributor-guide.md"
+						}
+					]
+				}
+			],
+			"migrationNotes": [
+				{
+					"text": {
+						"de": "Wenn eine spaetere Implementierung die Web-Component-Properties oder das Flaggen-/Label-Layout uebernimmt, sollte diese Overlay-Notiz auf eine historische Kompatibilitaetsnotiz reduziert werden.",
+						"en": "If a later implementation adopts the web-component properties or the flag-and-label layout, this overlay note should be reduced to a historical compatibility note."
+					},
+					"confidence": "medium",
+					"evidence": [
+						{
+							"kind": "story",
+							"source": "kern-ux-plain/stories/Kopfzeile/Kopfzeile.stories.js"
+						}
+					]
+				}
+			]
+		},
+		"inputdate": {
+			"status": "reviewed",
+			"summary": {
+				"text": {
+					"de": "Das MCP-Tool fuer InputDate modelliert bewusst nur ein einzelnes browser-natives Datumsfeld und nicht die upstream KERN-Variante mit getrennten Tag-/Monat-/Jahr-Eingaben.",
+					"en": "The MCP InputDate tool intentionally models only a single browser-native date field rather than the upstream KERN variant with separate day, month, and year inputs."
+				},
+				"confidence": "high",
+				"evidence": [
+					{
+						"kind": "story",
+						"source": "kern-ux-plain/stories/InputDate/InputDate.stories.js"
+					},
+					{
+						"kind": "schema",
+						"source": "src/ux/schemas/input-date.ts"
+					},
+					{
+						"kind": "template",
+						"source": "src/ux/templates/input-date.ts"
+					}
+				]
+			},
+			"primaryUseCases": [
+				{
+					"text": {
+						"de": "Geeignet fuer einfache MCP-Ausgaben, bei denen ein nativer Datepicker ausreichend ist und die volle KERN-Feldgruppe nicht benoetigt wird.",
+						"en": "Suitable for simple MCP output where a native date picker is sufficient and the full KERN field group is not required."
+					},
+					"confidence": "high",
+					"evidence": [
+						{
+							"kind": "template",
+							"source": "src/ux/templates/input-date.ts"
+						}
+					]
+				}
+			],
+			"antiUseCases": [
+				{
+					"text": {
+						"de": "Nicht als vollstaendige Nachbildung der upstream KERN-Date-Gruppe mit separaten Eingaben, Hilfstexten und gruppierter Validierungslogik einsetzen.",
+						"en": "Do not treat it as a full reproduction of the upstream KERN date group with separate inputs, hints, and grouped validation logic."
+					},
+					"confidence": "high",
+					"evidence": [
+						{
+							"kind": "story",
+							"source": "kern-ux-plain/stories/InputDate/InputDate.stories.js"
+						}
+					]
+				}
+			],
+			"requiredA11yPractices": [
+				{
+					"text": {
+						"de": "Das vereinfachte native Datumsfeld muss weiterhin die allgemeinen Formularanforderungen aus Label-, Hint- und Error-Wiring einhalten, auch wenn die upstream Gruppensemantik hier nicht modelliert wird.",
+						"en": "The simplified native date field must still follow the general form requirements for label, hint, and error wiring, even though the upstream grouped semantics are not modeled here."
+					},
+					"confidence": "medium",
+					"evidence": [
+						{
+							"kind": "schema",
+							"source": "src/ux/schemas/input-date.ts"
+						},
+						{
+							"kind": "schema",
+							"source": "src/ux/schemas/foundations.ts"
+						}
+					]
+				}
+			],
+			"semanticInvariants": [
+				{
+					"text": {
+						"de": "Die Dokumentation muss klar zwischen der MCP-Vereinfachung und der richer upstream KERN-Datumseingabe unterscheiden.",
+						"en": "Documentation should clearly distinguish between the MCP simplification and the richer upstream KERN date input pattern."
+					},
+					"confidence": "high",
+					"evidence": [
+						{
+							"kind": "manual-review",
+							"source": "docs/contributor-guide.md"
+						}
+					]
+				}
+			],
+			"compositionPatterns": [],
+			"authoringNotes": [
+				{
+					"text": {
+						"de": "Wenn ein Nutzer explizit die KERN-Tag/Monat/Jahr-Struktur benoetigt, sollte die aktuelle Tool-Grenze offengelegt werden statt stillschweigend nativen Ersatz zu liefern.",
+						"en": "If a user explicitly needs the KERN day/month/year structure, the current tool boundary should be stated instead of silently substituting the native field."
+					},
+					"confidence": "high",
+					"evidence": [
+						{
+							"kind": "story",
+							"source": "kern-ux-plain/stories/InputDate/InputDate.stories.js"
+						},
+						{
+							"kind": "template",
+							"source": "src/ux/templates/input-date.ts"
+						}
+					]
+				}
+			],
+			"migrationNotes": [
+				{
+					"text": {
+						"de": "Eine spaetere Erweiterung auf getrennte Tag/Monat/Jahr-Felder sollte als additive Faehigkeit geplant werden, nicht als stiller Austausch des bestehenden nativen Date-Feldes.",
+						"en": "A later extension to separate day, month, and year fields should be planned as an additive capability, not as a silent replacement of the existing native date field."
+					},
+					"confidence": "medium",
+					"evidence": [
+						{
+							"kind": "manual-review",
+							"source": "docs/contributor-guide.md",
+							"locator": "input-date simplification"
+						}
+					]
+				}
+			]
+		},
+		"dropdown": {
+			"status": "reviewed",
+			"summary": {
+				"text": {
+					"de": "Das aktuelle Dropdown-Tool ist explizit experimentell und bildet nur einen leichten Details/Summary-Wrapper mit eingebetteten Auswahloptionen ab, nicht ein vollwertiges Menu- oder Select-System.",
+					"en": "The current dropdown tool is explicitly experimental and only models a lightweight details/summary wrapper with embedded selection options, not a full menu or select system."
+				},
+				"confidence": "high",
+				"evidence": [
+					{
+						"kind": "schema",
+						"source": "src/ux/schemas/dropdown.ts"
+					},
+					{
+						"kind": "template",
+						"source": "src/ux/templates/dropdown.ts"
+					},
+					{
+						"kind": "manual-review",
+						"source": "docs/contributor-guide.md"
+					}
+				]
+			},
+			"primaryUseCases": [
+				{
+					"text": {
+						"de": "Geeignet fuer dokumentierte experimentelle Ausgaben, in denen eine einfache, offen deklarierte Details-basierte Auswahlstruktur ausreicht.",
+						"en": "Suitable for documented experimental output where a simple, explicitly declared details-based choice structure is enough."
+					},
+					"confidence": "medium",
+					"evidence": [
+						{
+							"kind": "template",
+							"source": "src/ux/templates/dropdown.ts"
+						}
+					]
+				}
+			],
+			"antiUseCases": [
+				{
+					"text": {
+						"de": "Nicht als Ersatz fuer echte Select-, Menu- oder komplexe Navigationselemente verwenden.",
+						"en": "Do not use it as a replacement for real select, menu, or complex navigation elements."
+					},
+					"confidence": "high",
+					"evidence": [
+						{
+							"kind": "schema",
+							"source": "src/ux/schemas/dropdown.ts"
+						}
+					]
+				}
+			],
+			"requiredA11yPractices": [
+				{
+					"text": {
+						"de": "Der Summary-Trigger muss weiterhin einen aussagekraeftigen sichtbaren Text haben, weil die Interaktion an das native details/summary-Muster gebunden ist.",
+						"en": "The summary trigger should keep meaningful visible text because the interaction is tied to the native details/summary pattern."
+					},
+					"confidence": "medium",
+					"evidence": [
+						{
+							"kind": "template",
+							"source": "src/ux/templates/dropdown.ts"
+						}
+					]
+				}
+			],
+			"semanticInvariants": [
+				{
+					"text": {
+						"de": "Die experimentelle Kennzeichnung des Dropdown-Tools sollte in Guidance und UI erhalten bleiben, bis ein stabileres Pattern eingefuehrt wird.",
+						"en": "The dropdown tool's experimental status should remain visible in guidance and UI until a more stable pattern is introduced."
+					},
+					"confidence": "high",
+					"evidence": [
+						{
+							"kind": "schema",
+							"source": "src/ux/schemas/dropdown.ts"
+						}
+					]
+				}
+			],
+			"compositionPatterns": [],
+			"authoringNotes": [
+				{
+					"text": {
+						"de": "Wenn Nutzer:innen nach vollwertigen Menues oder Select-Interaktionen fragen, sollte auf die derzeitige Grenze des experimentellen Dropdown-Tools hingewiesen werden.",
+						"en": "When users ask for full menu or select interactions, point out the current boundary of the experimental dropdown tool."
+					},
+					"confidence": "medium",
+					"evidence": [
+						{
+							"kind": "manual-review",
+							"source": "docs/contributor-guide.md"
+						}
+					]
+				}
+			],
+			"migrationNotes": [
+				{
+					"text": {
+						"de": "Falls spaeter ein stabileres Dropdown- oder Menu-Pattern eingefuehrt wird, sollte diese Overlay-Notiz die bisherige Details/Summary-Variante als Legacy- oder Experimentalpfad kennzeichnen.",
+						"en": "If a more stable dropdown or menu pattern is introduced later, this overlay note should reframe the current details/summary variant as a legacy or experimental path."
+					},
+					"confidence": "medium",
+					"evidence": [
+						{
+							"kind": "schema",
+							"source": "src/ux/schemas/dropdown.ts"
+						}
+					]
+				}
+			]
+		}
+	}
+}

@@ -1,0 +1,16 @@
+version: 1
+ordered_sources:
+  - id: docs_snapshots
+    use_when: Checked-in docs snapshots or curated exports exist for the component.
+  - id: kern_ux_plain
+    use_when: Stories, markdown docs, or source files exist in the upstream checkout.
+  - id: local_schema_template
+    use_when: The repo implementation boundary needs confirmation.
+  - id: local_tests_and_validation
+    use_when: Behavior expectations or validation obligations need confirmation.
+  - id: contributor_docs
+    use_when: Repo-specific audit notes or workflow context are needed.
+notes:
+  - Surface uncertainty explicitly instead of inventing guidance.
+  - Prefer checked-in local evidence over generic summaries.
+  - Keep evidence references aligned to current repo paths under docs/.

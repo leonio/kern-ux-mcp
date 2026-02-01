@@ -1,0 +1,32 @@
+version: 1
+routes:
+  overlay_only:
+    triggers:
+      - docs/guidance-overlay.json
+      - docs/guidance-overlay.schema.json
+      - docs/guidance-overlay-workflow.md
+      - tools/manifest/guidance-overlay.ts
+    primary_owner: docs and manifest overlay inputs
+    follow_up:
+      - validate-guidance-overlay
+      - generate-manifest
+      - focused-manifest-tests
+  runtime_only:
+    triggers:
+      - src/ux/schemas
+      - src/ux/templates
+      - src/ux/tool-builders
+      - src/ux/tools.ts
+    primary_owner: runtime schema/template/tool surfaces
+    follow_up:
+      - nearest-focused-tests
+      - typecheck-if-needed
+  mixed:
+    triggers:
+      - runtime change plus overlay or manifest input change
+    primary_owner: start at the closest behavior owner, then update overlay inputs if the user-facing docs contract changed
+    follow_up:
+      - nearest-focused-tests
+      - validate-guidance-overlay
+      - generate-manifest
+      - focused-manifest-tests

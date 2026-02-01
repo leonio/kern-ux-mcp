@@ -1,0 +1,21 @@
+version: 1
+phases:
+  - id: classify
+    goal: Determine whether the change is runtime-only, overlay-only, manifest-only, or mixed.
+    stop_if: The owning surface is unclear after one nearby read.
+  - id: evidence
+    goal: Gather checked-in evidence in repo-preferred order.
+    stop_if: Required evidence for a reviewed-guidance statement is missing.
+  - id: edit
+    goal: Apply the smallest local change in the owning schema, template, tool-builder, manifest, or overlay file.
+    stop_if: The change would require a broad refactor outside the requested slice.
+  - id: validate
+    goal: Run the narrowest relevant validation path first.
+    stop_if: Focused validation fails and points to a different nearby owner.
+  - id: review
+    goal: Confirm human review remains the final gate for reviewed guidance and mixed behavior changes.
+    stop_if: The workflow would merge or publish without review.
+requirements:
+  - Never edit generated registry artifacts directly.
+  - Keep the public MCP contract stable unless explicitly changed.
+  - Keep reviewed guidance additive and evidence-backed.

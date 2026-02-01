@@ -1,0 +1,76 @@
+{
+	"name": "@leonio/kern-ux-mcp",
+	"version": "0.0.0-semver",
+	"type": "module",
+	"description": "Model Context Protocol (MCP) language server providing Kern UX component generation and strict accessibility validation.",
+	"license": "EUPL-1.2",
+	"author": "Leon Ioannides <leonio@users.noreply.github.com>",
+	"homepage": "https://github.com/leonio/kern-mcp#readme",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/leonio/kern-mcp.git"
+	},
+	"bugs": {
+		"url": "https://github.com/leonio/kern-mcp/issues"
+	},
+	"keywords": [
+		"mcp",
+		"mcp-server",
+		"mcp-language-server",
+		"model-context-protocol",
+		"kern-ux"
+	],
+	"bin": {
+		"kern-ux-mcp": "./dist/index.js"
+	},
+	"files": [
+		"dist",
+		"!dist/**/*.test.js",
+		"README.md",
+		"LICENSE.md"
+	],
+	"publishConfig": {
+		"access": "public",
+		"provenance": true
+	},
+	"engines": {
+		"node": ">=24.16.0"
+	},
+	"scripts": {
+		"dev": "tsx src/index.ts",
+		"clean": "node -e \"require('node:fs').rmSync('dist', { recursive: true, force: true })\"",
+		"build:watch": "tsc -p tsconfig.build.json --watch",
+		"loop:start": "npm run generate-manifest && pwsh -NoLogo -ExecutionPolicy Bypass -File ./tools/dev/dev-loop.ps1",
+		"loop:full": "npm run generate-manifest && pwsh -NoLogo -ExecutionPolicy Bypass -File ./tools/dev/dev-loop.ps1 -WatchTests -WatchBuild -OpenSample -DebugMcp",
+		"loop:stop": "pwsh -NoLogo -ExecutionPolicy Bypass -File ./tools/dev/dev-loop.ps1 -Stop",
+		"validate-guidance-overlay": "tsx tools/manifest/validate-guidance-overlay.ts",
+		"generate-manifest": "tsx tools/manifest/build-manifest.ts",
+		"prebuild": "npm run generate-manifest",
+		"build": "npm run clean && tsc -p tsconfig.build.json && node tools/manifest/copy-manifest.mjs && echo 'Version injected by CI'",
+		"build:ci": "npm run clean && tsc -p tsconfig.build.json && node tools/manifest/copy-manifest.mjs",
+		"pack:inspect": "npm run build:ci && npm pack --dry-run",
+		"start": "node dist/index.js",
+		"sample:dev": "npm --prefix samples/basic-layout run dev",
+		"test": "vitest run",
+		"test:watch": "vitest",
+		"lint": "biome lint .",
+		"version:json": "gitversion /output json",
+		"check-version": "gitversion /version",
+		"pre-commit": "npm run lint && npm run check-version"
+	},
+	"dependencies": {
+		"@modelcontextprotocol/sdk": "^1.29.0",
+		"fast-glob": "^3.3.3",
+		"node-html-parser": "^7.1.0",
+		"zod": "^4.4.3"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^2.4.16",
+		"@types/node": "^24",
+		"ajv": "^8.20.0",
+		"ajv-formats": "^3.0.1",
+		"tsx": "^4.22.3",
+		"typescript": "^6.0.3",
+		"vitest": "^4.1.7"
+	}
+}

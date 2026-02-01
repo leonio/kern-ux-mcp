@@ -1,0 +1,124 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry-run:
+        description: 'Dry run — build and compute version without publishing'
+        required: false
+        default: false
+        type: boolean
+      publish_environment:
+        description: 'GitHub environment used to approve publishing'
+        required: false
+        default: 'release'
+        type: string
+
+jobs:
+  verify:
+    name: Verify Release
+    runs-on: ubuntu-latest
+    outputs:
+      semVer: ${{ steps.gitversion.outputs.semVer }}
+      packageFile: ${{ steps.pack.outputs.package_file }}
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 
+
+      - name: Install GitVersion
+        uses: gittools/actions/gitversion/setup@v3
+        with:
+          versionSpec: '6.x'
+
+      - name: Compute Version
+        id: gitversion
+        uses: gittools/actions/gitversion/execute@v3
+
+      - name: Show Computed Version
+        run: |
+          echo "SemVer:     ${{ steps.gitversion.outputs.semVer }}"
+          echo "NuGetVer:   ${{ steps.gitversion.outputs.nuGetVersion }}"
+          echo "InformationalVersion: ${{ steps.gitversion.outputs.informationalVersion }}"
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Build (CI — uses checked-in registry.json)
+        run: npm run build:ci
+
+      - name: Run Tests
+        run: npm test
+
+      - name: Inject Version into package.json
+        run: npm pkg set version="${{ steps.gitversion.outputs.semVer }}"
+
+      - name: Pack Release Tarball
+        id: pack
+        shell: bash
+        run: |
+          package_file="$(npm pack)"
+          echo "package_file=${package_file}" >> "$GITHUB_OUTPUT"
+
+      - name: Upload Release Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-package
+          path: ${{ steps.pack.outputs.package_file }}
+
+  publish:
+    name: Publish Release
+    if: ${{ !inputs.dry-run }}
+    needs: verify
+    runs-on: ubuntu-latest
+    environment:
+      name: ${{ inputs.publish_environment }}
+    permissions:
+      contents: write   # create GitHub releases and tags
+      packages: write   # publish to GitHub Packages
+      id-token: write   # npm trusted publishing via GitHub OIDC
+
+    steps:
+      - name: Download Release Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: release-package
+          path: release-package
+
+      - name: Setup Node for npm
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: Publish to npm (trusted publishing)
+        run: npm publish "release-package/${{ needs.verify.outputs.packageFile }}" --provenance --access public
+
+      - name: Setup Node for GitHub Packages
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@leonio'
+
+      - name: Publish to GitHub Packages
+        run: npm publish "release-package/${{ needs.verify.outputs.packageFile }}"
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create GitHub Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "v${{ needs.verify.outputs.semVer }}" \
+            "release-package/${{ needs.verify.outputs.packageFile }}" \
+            --title "v${{ needs.verify.outputs.semVer }}" \
+            --generate-notes
