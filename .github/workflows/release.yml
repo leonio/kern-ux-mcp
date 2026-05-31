@@ -160,6 +160,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '24'
+          registry-url: 'https://registry.npmjs.org'
 
       - name: Publish to npm (trusted publishing)
         run: npm publish "./release-package/${{ needs.verify.outputs.packageFile }}" --provenance --access public --tag ${{ needs.verify.outputs.npmDistTag }}
