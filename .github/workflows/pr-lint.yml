@@ -13,7 +13,7 @@ jobs:
         env:
           BRANCH: ${{ github.head_ref }}
         run: |
-          ALLOWED='^(main|develop|release\/|feature\/|fix\/|hotfix\/|chore\/|docs\/|refactor\/|ci\/)'
+          ALLOWED='^(main|develop|release\/|feature\/|feat\/|fix\/|hotfix\/|chore\/|docs\/|refactor\/|ci\/)'
           if [[ ! "$BRANCH" =~ $ALLOWED ]]; then
             echo "::error::Branch name '$BRANCH' does not follow the naming convention."
             echo ""
