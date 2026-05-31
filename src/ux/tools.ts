@@ -139,10 +139,10 @@ function buildValidateHtmlTool(): ToolDef {
 	const inputSchema = z
 		.object({
 			html: z
-			.string()
-			.describe(
-				"Der vollständige HTML-Markup-String, der validiert werden soll. Den 'html'-Wert aus einem get_*-Tool-Ergebnis direkt übergeben (kein Dateipfad, kein Dateiname – nur der Markup-String).",
-			),
+				.string()
+				.describe(
+					"Der vollständige HTML-Markup-String, der validiert werden soll. Den 'html'-Wert aus einem get_*-Tool-Ergebnis direkt übergeben (kein Dateipfad, kein Dateiname – nur der Markup-String).",
+				),
 			locale: z
 				.enum(["de", "en"])
 				.optional()
