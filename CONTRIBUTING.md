@@ -156,14 +156,14 @@ The workflow:
 5. Packs the release tarball with the SBOM embedded
 6. Creates a GitHub Release with auto-generated release notes and attaches both the tarball and SBOM
 7. Publishes `@leonio/kern-ux-mcp` to the [npm public registry](https://www.npmjs.com/package/%40leonio%2Fkern-ux-mcp) using npm trusted publishing
-8. Publishes to [GitHub Packages](https://github.com/leonio/kern-mcp/packages)
+8. Publishes to [GitHub Packages](https://github.com/leonio/kern-ux-mcp/packages)
 
 Use the **dry-run** input to validate the build and version computation without publishing.
 
 For npmjs, configure npm trusted publishing for package `@leonio/kern-ux-mcp` with:
 
 1. GitHub user/org: `leonio`
-2. Repository: `kern-mcp`
+2. Repository: `kern-ux-mcp`
 3. Workflow filename: `release.yml`
 4. Allowed action: `npm publish`
 

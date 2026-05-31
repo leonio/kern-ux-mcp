@@ -5,13 +5,13 @@
 	"description": "Model Context Protocol (MCP) language server providing Kern UX component generation and strict accessibility validation.",
 	"license": "EUPL-1.2",
 	"author": "Leon Ioannides <leonio@users.noreply.github.com>",
-	"homepage": "https://github.com/leonio/kern-mcp#readme",
+	"homepage": "https://github.com/leonio/kern-ux-mcp#readme",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/leonio/kern-mcp.git"
+		"url": "https://github.com/leonio/kern-ux-mcp.git"
 	},
 	"bugs": {
-		"url": "https://github.com/leonio/kern-mcp/issues"
+		"url": "https://github.com/leonio/kern-ux-mcp/issues"
 	},
 	"keywords": [
 		"mcp",

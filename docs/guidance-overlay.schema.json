@@ -1,7 +1,7 @@
 {
 	"$schema": "https://json-schema.org/draft/2020-12/schema",
-	"$id": "https://example.local/kern-mcp/guidance-overlay.schema.json",
-	"title": "KERN MCP Guidance Overlay",
+	"$id": "https://example.local/kern-ux-mcp/guidance-overlay.schema.json",
+	"title": "KERN-UX MCP Guidance Overlay",
 	"description": "Checked-in, human-reviewed guidance overlay merged with the generated implementation manifest at build time.",
 	"type": "object",
 	"additionalProperties": false,
