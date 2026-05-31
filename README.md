@@ -156,6 +156,27 @@ npm run lint
 npx tsc --noEmit
 ```
 
+Generate a CycloneDX SBOM and run a local Grype scan:
+
+```bash
+npm run sbom:generate
+npm run scan:vulns
+```
+
+Fail the local Grype scan on high-or-greater findings:
+
+```bash
+npm run scan:vulns:high
+```
+
+Build and inspect the package tarball with the generated SBOM included:
+
+```bash
+npm run pack:inspect
+```
+
+These commands expect local `syft` and `grype` binaries on `PATH`.
+
 ## Registry Build
 
 Use the shipped [src/ux/registry.json](src/ux/registry.json) if you are only running or packaging the server. Regenerate it when you change any of the contributor-facing inputs:
@@ -166,6 +187,8 @@ Use the shipped [src/ux/registry.json](src/ux/registry.json) if you are only run
 - extraction or merge logic used by the manifest build
 
 The build script already regenerates the manifest through `prebuild`, so `npm run build` is enough for a normal package build.
+
+For release packaging, use `npm run pack:release` to build, generate `sbom.cyclonedx.json`, and create the npm tarball with the SBOM embedded.
 
 Optional source override for generation:
 
@@ -205,6 +228,7 @@ npm run sample:dev
 - Registry missing at runtime: run `npm run generate-manifest` or `npm run build`.
 - Manifest generation finds too few components: point `KERN_UX_PLAIN_ROOT` at the correct `kern-ux-plain` checkout.
 - Overlay validation fails: fix [docs/guidance-overlay.json](docs/guidance-overlay.json), then rerun `npm run validate-guidance-overlay` and `npm run generate-manifest`.
+- `syft` or `grype` not found locally: refresh your shell `PATH` after installation, then rerun `npm run sbom:generate` or `npm run scan:vulns`.
 
 ## Tools
 

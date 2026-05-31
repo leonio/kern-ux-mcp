@@ -119,9 +119,20 @@ npx @biomejs/biome ci .
 
 # TypeScript type check only
 npx tsc --noEmit
+
+# Generate a CycloneDX SBOM locally
+npm run sbom:generate
+
+# Generate an SBOM and scan it with Grype
+npm run scan:vulns
+
+# Build and inspect the published package contents, including the SBOM
+npm run pack:inspect
 ```
 
 > `generate-manifest` is a **local-only** script. CI and release builds use the checked-in `src/ux/registry.json`. Run it whenever you pull changes that affect component stories or the guidance overlay.
+
+> `sbom:generate` and `scan:vulns*` expect local `syft` and `grype` binaries on `PATH`.
 
 ## CI Checks (required before merge)
 
@@ -141,9 +152,11 @@ The workflow:
 1. Computes the version from commit history (GitVersion)
 2. Builds the project using the checked-in `registry.json`
 3. Injects the computed version into `package.json`
-4. Creates a GitHub Release with auto-generated release notes
-5. Publishes `@leonio/kern-ux-mcp` to the [npm public registry](https://www.npmjs.com/package/%40leonio%2Fkern-ux-mcp) using npm trusted publishing
-6. Publishes to [GitHub Packages](https://github.com/leonio/kern-mcp/packages)
+4. Generates `sbom.cyclonedx.json` with `anchore/sbom-action`
+5. Packs the release tarball with the SBOM embedded
+6. Creates a GitHub Release with auto-generated release notes and attaches both the tarball and SBOM
+7. Publishes `@leonio/kern-ux-mcp` to the [npm public registry](https://www.npmjs.com/package/%40leonio%2Fkern-ux-mcp) using npm trusted publishing
+8. Publishes to [GitHub Packages](https://github.com/leonio/kern-mcp/packages)
 
 Use the **dry-run** input to validate the build and version computation without publishing.
 
