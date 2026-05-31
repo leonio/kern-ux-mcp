@@ -138,7 +138,11 @@ function buildValidateHtmlTool(): ToolDef {
 
 	const inputSchema = z
 		.object({
-			html: z.string().describe("Das zu validierende HTML."),
+			html: z
+			.string()
+			.describe(
+				"Der vollständige HTML-Markup-String, der validiert werden soll. Den 'html'-Wert aus einem get_*-Tool-Ergebnis direkt übergeben (kein Dateipfad, kein Dateiname – nur der Markup-String).",
+			),
 			locale: z
 				.enum(["de", "en"])
 				.optional()
@@ -162,7 +166,8 @@ function buildValidateHtmlTool(): ToolDef {
 
 	return {
 		name,
-		description: "KERN UX: HTML strikt validieren (A11Y/BITV).",
+		description:
+			"KERN UX: HTML strikt validieren (A11Y/BITV). Der Parameter 'html' erwartet den vollständigen Markup-String – keinen Dateipfad. Den 'html'-Wert aus einem get_*-Tool direkt übergeben.",
 		inputSchema,
 		outputSchema,
 		handler: async (args: { html: string; locale?: Locale }) => {
@@ -202,7 +207,9 @@ function buildDocsTool(registry: Registry): ToolDef {
 		.object({
 			componentId: z
 				.string()
-				.describe("Component id, z.B. 'button' oder 'dialog'."),
+				.describe(
+					"Komponenten-ID aus list_components_by_category, z.B. 'button', 'inputtext', 'select', 'checkbox'. IDs sind kleingeschrieben ohne Bindestriche – 'inputtext' nicht 'input-text', 'form-input' existiert nicht. Unbekannte ID: zuerst list_components_by_category aufrufen.",
+				),
 			locale: z
 				.enum(["de", "en"])
 				.optional()
@@ -245,7 +252,8 @@ function buildDocsTool(registry: Registry): ToolDef {
 
 	return {
 		name,
-		description: "KERN UX: Dokumentation zu einer Komponente lesen.",
+		description:
+			"KERN UX: Dokumentation zu einer Komponente lesen. Gültige IDs liefert list_components_by_category – bei unbekannter ID dieses Tool zuerst aufrufen.",
 		inputSchema,
 		outputSchema,
 		handler: async (args: { componentId: string; locale?: Locale }) => {
@@ -424,7 +432,7 @@ function buildListComponentsByCategoryTool(registry: Registry): ToolDef {
 	return {
 		name: "list_components_by_category",
 		description:
-			"Listet Komponenten nach Kategorie und Strategie (manifestbasiert).",
+			"KERN UX (Discovery): Alle Komponenten-IDs auflisten. Vor get_component_docs oder get_<id>-Tools aufrufen, wenn die Komponenten-ID unbekannt ist. Liefert id, title, category und strategy für jede Komponente.",
 		inputSchema,
 		outputSchema: z.object({
 			components: z.array(
