@@ -5,13 +5,13 @@
 	"description": "Model Context Protocol (MCP) language server providing Kern UX component generation and strict accessibility validation.",
 	"license": "EUPL-1.2",
 	"author": "Leon Ioannides <leonio@users.noreply.github.com>",
-	"homepage": "https://github.com/leonio/kern-mcp#readme",
+	"homepage": "https://github.com/leonio/kern-ux-mcp#readme",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/leonio/kern-mcp.git"
+		"url": "https://github.com/leonio/kern-ux-mcp.git"
 	},
 	"bugs": {
-		"url": "https://github.com/leonio/kern-mcp/issues"
+		"url": "https://github.com/leonio/kern-ux-mcp/issues"
 	},
 	"keywords": [
 		"mcp",
@@ -26,6 +26,7 @@
 	"files": [
 		"dist",
 		"!dist/**/*.test.js",
+		"sbom.cyclonedx.json",
 		"README.md",
 		"LICENSE.md"
 	],
@@ -48,14 +49,18 @@
 		"prebuild": "npm run generate-manifest",
 		"build": "npm run clean && tsc -p tsconfig.build.json && node tools/manifest/copy-manifest.mjs && echo 'Version injected by CI'",
 		"build:ci": "npm run clean && tsc -p tsconfig.build.json && node tools/manifest/copy-manifest.mjs",
-		"pack:inspect": "npm run build:ci && npm pack --dry-run",
+		"sbom:generate": "syft scan dir:. --output cyclonedx-json=sbom.cyclonedx.json",
+		"scan:vulns": "npm run sbom:generate && grype sbom:sbom.cyclonedx.json",
+		"scan:vulns:high": "npm run sbom:generate && grype sbom:sbom.cyclonedx.json --fail-on high",
+		"pack:inspect": "npm run build:ci && npm run sbom:generate && npm pack --dry-run",
+		"pack:release": "npm run build:ci && npm run sbom:generate && npm pack",
 		"start": "node dist/index.js",
 		"sample:dev": "npm --prefix samples/basic-layout run dev",
 		"test": "vitest run",
 		"test:watch": "vitest",
 		"lint": "biome lint .",
-		"version:json": "gitversion /output json",
-		"check-version": "gitversion /version",
+		"version:json": "dotnet-gitversion /output json",
+		"check-version": "dotnet-gitversion /version",
 		"pre-commit": "npm run lint && npm run check-version"
 	},
 	"dependencies": {

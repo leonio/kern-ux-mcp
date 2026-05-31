@@ -1,0 +1,27 @@
+changelog:
+  exclude:
+    labels:
+      - skip-changelog
+  categories:
+    - title: ✨ Features
+      labels:
+        - enhancement
+        - feature
+    - title: 🐛 Bug Fixes
+      labels:
+        - bug
+        - fix
+    - title: 🔒 Security Updates
+      labels:
+        - security
+    - title: 📦 Dependency Updates
+      labels:
+        - dependencies
+        - deps
+    - title: 🛠️ Maintenance
+      labels:
+        - chore
+        - maintenance
+    - title: Other Changes
+      labels:
+        - "*"
