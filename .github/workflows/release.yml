@@ -148,7 +148,7 @@ jobs:
           node-version: '24'
 
       - name: Publish to npm (trusted publishing)
-        run: npm publish "release-package/${{ needs.verify.outputs.packageFile }}" --provenance --access public
+        run: npm publish "./release-package/${{ needs.verify.outputs.packageFile }}" --provenance --access public
 
       - name: Setup Node for GitHub Packages
         uses: actions/setup-node@v4
@@ -158,7 +158,7 @@ jobs:
           scope: '@leonio'
 
       - name: Publish to GitHub Packages
-        run: npm publish "release-package/${{ needs.verify.outputs.packageFile }}"
+        run: npm publish "./release-package/${{ needs.verify.outputs.packageFile }}"
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
