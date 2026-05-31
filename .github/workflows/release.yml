@@ -21,6 +21,8 @@ jobs:
     outputs:
       semVer: ${{ steps.gitversion.outputs.semVer }}
       packageFile: ${{ steps.pack.outputs.package_file }}
+      preReleaseLabel: ${{ steps.gitversion.outputs.preReleaseLabel }}
+      npmDistTag: ${{ steps.npm-dist-tag.outputs.npmDistTag }}
     permissions:
       contents: write
 
@@ -38,6 +40,18 @@ jobs:
       - name: Compute Version
         id: gitversion
         uses: gittools/actions/gitversion/execute@v3
+
+      - name: Compute npm dist-tag
+        id: npm-dist-tag
+        shell: bash
+        env:
+          PRE_RELEASE_LABEL: ${{ steps.gitversion.outputs.preReleaseLabel }}
+        run: |
+          if [[ -z "$PRE_RELEASE_LABEL" ]]; then
+            echo "npmDistTag=latest" >> "$GITHUB_OUTPUT"
+          else
+            echo "npmDistTag=${PRE_RELEASE_LABEL}" >> "$GITHUB_OUTPUT"
+          fi
 
       - name: Show Computed Version
         run: |
@@ -148,7 +162,7 @@ jobs:
           node-version: '24'
 
       - name: Publish to npm (trusted publishing)
-        run: npm publish "./release-package/${{ needs.verify.outputs.packageFile }}" --provenance --access public --tag next
+        run: npm publish "./release-package/${{ needs.verify.outputs.packageFile }}" --provenance --access public --tag ${{ needs.verify.outputs.npmDistTag }}
 
       - name: Setup Node for GitHub Packages
         uses: actions/setup-node@v4
@@ -158,16 +172,23 @@ jobs:
           scope: '@leonio'
 
       - name: Publish to GitHub Packages
-        run: npm publish "./release-package/${{ needs.verify.outputs.packageFile }}"
+        run: npm publish "./release-package/${{ needs.verify.outputs.packageFile }}" --tag ${{ needs.verify.outputs.npmDistTag }}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create GitHub Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PRE_RELEASE_LABEL: ${{ needs.verify.outputs.preReleaseLabel }}
+        shell: bash
         run: |
+          prerelease_flag=""
+          if [[ -n "$PRE_RELEASE_LABEL" ]]; then
+            prerelease_flag="--prerelease"
+          fi
           gh release create "v${{ needs.verify.outputs.semVer }}" \
             "release-package/${{ needs.verify.outputs.packageFile }}" \
             "release-package/sbom.cyclonedx.json" \
             --title "v${{ needs.verify.outputs.semVer }}" \
-            --generate-notes
+            --generate-notes \
+            $prerelease_flag
