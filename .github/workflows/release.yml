@@ -148,7 +148,7 @@ jobs:
           node-version: '24'
 
       - name: Publish to npm (trusted publishing)
-        run: npm publish "./release-package/${{ needs.verify.outputs.packageFile }}" --provenance --access public
+        run: npm publish "./release-package/${{ needs.verify.outputs.packageFile }}" --provenance --access public --tag next
 
       - name: Setup Node for GitHub Packages
         uses: actions/setup-node@v4
