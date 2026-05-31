@@ -16,7 +16,7 @@ function Get-RepoRoot {
 }
 
 function Get-StatePath {
-  return (Join-Path $env:TEMP "kern-mcp-dev-loop-state.json")
+  return (Join-Path $env:TEMP "kern-ux-mcp-dev-loop-state.json")
 }
 
 function Get-AvailablePort {
