@@ -150,6 +150,9 @@ jobs:
       id-token: write   # npm trusted publishing via GitHub OIDC
 
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: Download Release Artifact
         uses: actions/download-artifact@v4.1.3
         with:
@@ -176,9 +179,6 @@ jobs:
         run: npm publish "./release-package/${{ needs.verify.outputs.packageFile }}" --tag ${{ needs.verify.outputs.npmDistTag }}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Checkout
-        uses: actions/checkout@v4
 
       - name: Create GitHub Release
         env:
