@@ -1,21 +1,13 @@
 mode: ContinuousDelivery
-workflow: GitFlow/v1
-next-version: 1.0.0
+next-version: 0.5.0
+
 major-version-bump-message: "^.+!:.*|^BREAKING CHANGE:"
 minor-version-bump-message: "^feat:"
 patch-version-bump-message: "^(fix|perf|patch):"
+
 branches:
   main:
     regex: ^main$
-    label: ''
     increment: Patch
     is-release-branch: true
-  develop:
-    regex: ^develop$
-    label: alpha
-    increment: Minor
-  release:
-    regex: ^release\/
-    label: beta
-    increment: None
-    is-release-branch: true
+    label: ''
