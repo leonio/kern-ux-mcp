@@ -13,15 +13,14 @@ jobs:
         env:
           BRANCH: ${{ github.head_ref }}
         run: |
-          ALLOWED='^(main|develop|release\/|feature\/|feat\/|fix\/|hotfix\/|chore\/|docs\/|refactor\/|ci\/)'
+          ALLOWED='^(feature\/|feat\/|fix\/|chore\/|docs\/|refactor\/|perf\/|patch\/|ci\/)'
           if [[ ! "$BRANCH" =~ $ALLOWED ]]; then
             echo "::error::Branch name '$BRANCH' does not follow the naming convention."
             echo ""
-            echo "Allowed prefixes: feature/, fix/, hotfix/, chore/, docs/, refactor/, ci/, release/"
-            echo "Allowed exact names: main, develop"
+            echo "Allowed prefixes: feature/, feat/, fix/, chore/, docs/, refactor/, perf/, patch/, ci/"
             echo ""
             echo "Examples:"
-            echo "  feature/add-button-component"
+            echo "  feat/add-button-component"
             echo "  fix/checkbox-validation"
             echo "  chore/update-dependencies"
             echo "  ci/add-release-workflow"
@@ -41,13 +40,14 @@ jobs:
           types: |
             feat
             fix
+            perf
+            patch
             chore
             docs
             style
             refactor
             test
             ci
-            perf
             build
             revert
           # Require a scope to be optional (not enforced)
@@ -57,3 +57,5 @@ jobs:
           subjectPatternError: >
             The subject in the PR title must start with a lowercase letter.
             Example: "feat: add button component" not "feat: Add button component"
+          # Allow breaking changes with ! notation
+          validateSingleCommit: false

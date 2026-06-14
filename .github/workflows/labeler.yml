@@ -17,6 +17,8 @@ jobs:
 
             if (title.startsWith('feat')) labelsToAdd.push('feature');
             if (title.startsWith('fix')) labelsToAdd.push('fix');
+            if (title.startsWith('perf')) labelsToAdd.push('performance');
+            if (title.startsWith('patch')) labelsToAdd.push('patch');
             if (title.startsWith('chore') || title.startsWith('docs')) labelsToAdd.push('maintenance');
             if (title.startsWith('build')) labelsToAdd.push('dependencies');
 
