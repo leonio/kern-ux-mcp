@@ -2,6 +2,33 @@
 
 This guide is for contributors changing schemas, templates, manifest generation, or reviewed guidance. Runtime consumers should start with [README.md](../README.md).
 
+## How It Fits Together
+
+```mermaid
+flowchart LR
+  subgraph Build_Time
+    A[kern-ux-plain stories + docs]
+    B[docs/guidance-overlay.json]
+    C[tools/manifest/build-manifest.ts]
+    D[src/ux/registry.json]
+    A --> C
+    B --> C
+    C --> D
+  end
+
+  subgraph Runtime
+    D --> E[src/server.ts]
+    E --> F[src/ux/tools.ts]
+    F --> G[src/ux/tool-builders]
+    G --> H[src/ux/schemas]
+    G --> I[src/ux/templates]
+    F --> J[src/ux/json-schema.ts]
+    I --> K[src/ux/validate.ts]
+  end
+```
+
+At runtime the registry decides which tools and component metadata are exposed. The tool builders bind that metadata to Zod schemas from [src/ux/schemas](src/ux/schemas), and [src/ux/json-schema.ts](src/ux/json-schema.ts) converts those Zod schemas to JSON Schema for MCP tool discovery.
+
 ## Runtime vs Build Surface
 
 Runtime flow:
