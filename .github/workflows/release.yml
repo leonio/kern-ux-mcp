@@ -60,7 +60,7 @@ jobs:
           echo "InformationalVersion: ${{ steps.gitversion.outputs.informationalVersion }}"
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: '24'
 
@@ -160,7 +160,7 @@ jobs:
           path: release-package
 
       - name: Setup Node for npm
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: '24'
           registry-url: 'https://registry.npmjs.org'
@@ -169,7 +169,7 @@ jobs:
         run: npm publish "./release-package/${{ needs.verify.outputs.packageFile }}" --provenance --access public --tag ${{ needs.verify.outputs.npmDistTag }}
 
       - name: Setup Node for GitHub Packages
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: '24'
           registry-url: 'https://npm.pkg.github.com'
