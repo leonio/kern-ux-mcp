@@ -1,13 +1,20 @@
-mode: ContinuousDelivery
-next-version: 0.5.0
+mode: ContinuousDeployment
+next-version: 1.0.0
 
-major-version-bump-message: "^.+!:.*|^BREAKING CHANGE:"
-minor-version-bump-message: "^feat:"
-patch-version-bump-message: "^(fix|perf|patch):"
+major-version-bump-message: '^.+!:.*|^BREAKING CHANGE:'
+minor-version-bump-message: '^feat(\(.+\))?:'
+patch-version-bump-message: '^(fix|perf|patch)(\(.+\))?:|ˆchore\(deps\):'
+no-bump-message: '^(docs|chore|refactor|test|style):'
+
+commit-message-incrementing: Enabled
+update-build-number: true
+tag-prefix: '[vV]?'
 
 branches:
   main:
     regex: ^main$
     increment: Patch
+    fallback-version-increment: Patch
     is-release-branch: true
     label: ''
+    prevent-increment-of-merged-branch-version: true
