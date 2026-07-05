@@ -1,0 +1,52 @@
+{
+    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+    "extends": [
+        "config:recommended",
+        "schedule:weekly"
+    ],
+    "labels": [
+        "dependencies"
+    ],
+    "dependencyDashboard": true,
+    "prConcurrentLimit": 5,
+    "prHourlyLimit": 2,
+    "automerge": false,
+    "packageRules": [
+        {
+            "description": "Group all development tooling together to save CI runs",
+            "matchDepTypes": [
+                "devDependencies"
+            ],
+            "matchPackagePatterns": [
+                "^@biomejs/",
+                "^vitest",
+                "^tsx",
+                "^typescript",
+                "^@types/"
+            ],
+            "groupName": "Dev Dependencies (Tooling)"
+        },
+        {
+            "description": "Force semantic commits so GitVersion bumps the patch number on main",
+            "matchPackagePatterns": [
+                "*"
+            ],
+            "matchUpdateTypes": [
+                "minor",
+                "patch"
+            ],
+            "semanticCommitType": "fix",
+            "semanticCommitScope": "deps"
+        },
+        {
+            "description": "Major updates should trigger a major version bump via breaking change syntax",
+            "matchUpdateTypes": [
+                "major"
+            ],
+            "semanticCommitType": "feat",
+            "semanticCommitScope": "deps",
+            "semanticCommitBreaking": true,
+            "automerge": false
+        }
+    ]
+}
