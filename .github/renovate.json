@@ -30,7 +30,7 @@
 			"matchUpdateTypes": ["major"],
 			"semanticCommitType": "feat",
 			"semanticCommitScope": "deps",
-			"semanticCommitBreaking": true,
+			"commitMessageExtra": "!",
 			"automerge": false
 		}
 	]
