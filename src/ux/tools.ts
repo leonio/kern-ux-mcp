@@ -821,9 +821,7 @@ export function createTools(registry: Registry): ToolRegistry {
 			toolDefs.map((t) => ({
 				name: t.name,
 				description: t.description,
-				inputSchema: toolInputSchemaToJsonSchema(t.inputSchema, {
-					name: t.name,
-				}),
+				inputSchema: toolInputSchemaToJsonSchema(t.inputSchema),
 			})),
 		listToolNames: () => toolDefs.map((tool) => tool.name),
 		getTool: (name) => byName.get(name),

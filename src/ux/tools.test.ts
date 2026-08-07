@@ -57,13 +57,7 @@ function getListedToolSchema(
 		throw new Error("Expected listed tool to be defined");
 	}
 
-	const definitions = listedTool.inputSchema.definitions;
-	if (definitions && typeof definitions === "object") {
-		const namedSchema = (definitions as Record<string, unknown>)[name];
-		if (namedSchema && typeof namedSchema === "object") {
-			return namedSchema as Record<string, any>;
-		}
-	}
+	expect(listedTool.inputSchema.type).toBe("object");
 
 	return listedTool.inputSchema as Record<string, any>;
 }
@@ -1544,9 +1538,11 @@ describe("createTools foundational strategy routing", () => {
 		expect(renderComposition).toBeDefined();
 
 		const schema = renderComposition?.inputSchema as any;
-		const recursiveNodes =
-			schema.definitions?.render_composition?.properties?.contentBlocks?.items
-				?.anyOf;
+
+		expect(schema.type).toBe("object");
+		expect(schema.definitions).toBeUndefined();
+
+		const recursiveNodes = schema.properties?.contentBlocks?.items?.anyOf;
 
 		expect(Array.isArray(recursiveNodes)).toBe(true);
 
@@ -1565,17 +1561,17 @@ describe("createTools foundational strategy routing", () => {
 
 		expect(
 			sectionNode?.properties?.section?.properties?.contentBlocks?.items?.$ref,
-		).toBe("#/definitions/render_composition/properties/contentBlocks/items");
+		).toBe("#/properties/contentBlocks/items");
 		expect(
 			gridNode?.properties?.grid?.properties?.columnsContent?.items?.items
 				?.$ref,
-		).toBe("#/definitions/render_composition/properties/contentBlocks/items");
+		).toBe("#/properties/contentBlocks/items");
 		expect(
 			cardNode?.properties?.card?.properties?.contentBlocks?.items?.$ref,
-		).toBe("#/definitions/render_composition/properties/contentBlocks/items");
+		).toBe("#/properties/contentBlocks/items");
 		expect(
 			formFlowNode?.properties?.formFlow?.properties?.steps?.items?.properties
 				?.contentBlocks?.items?.$ref,
-		).toBe("#/definitions/render_composition/properties/contentBlocks/items");
+		).toBe("#/properties/contentBlocks/items");
 	});
 });
