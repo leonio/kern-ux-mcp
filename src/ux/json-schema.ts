@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 /**
- * `root` (default) inlines the recursive definition into the root schema so the
+ * `root` (default) inlines `definitions` entries into the root schema so the
  * emitted document is self-contained; `none` keeps whatever `definitions` the
  * serializer produced.
  */
@@ -44,19 +44,61 @@ function normalizeAnyOf(schema: unknown): void {
 	}
 }
 
-function getJsonSchemaPath(root: JsonSchema, path: string): unknown {
-	const segments = path.replace(/^#\//, "").split("/");
-	let current: unknown = root;
+function escapeJsonPointerSegment(segment: string): string {
+	return segment.replace(/~/g, "~0").replace(/\//g, "~1");
+}
 
-	for (const segment of segments) {
-		if (!current || typeof current !== "object") {
-			return undefined;
+/**
+ * Breadth-first search for the shallowest node that `$ref`s `ref`, skipping the
+ * `definitions` bag itself. Returns the node plus its JSON pointer so the
+ * referenced schema can be inlined there and the remaining references retargeted.
+ */
+function findFirstRefSite(
+	root: JsonSchema,
+	ref: string,
+): { node: Record<string, unknown>; pointer: string } | undefined {
+	const queue: Array<{ value: unknown; pointer: string }> = [];
+
+	for (const [key, value] of Object.entries(root)) {
+		if (key === "definitions") {
+			continue;
 		}
 
-		current = (current as Record<string, unknown>)[segment];
+		queue.push({ value, pointer: `#/${escapeJsonPointerSegment(key)}` });
 	}
 
-	return current;
+	while (queue.length > 0) {
+		const entry = queue.shift();
+		if (!entry) {
+			break;
+		}
+
+		const { value, pointer } = entry;
+		if (!value || typeof value !== "object") {
+			continue;
+		}
+
+		if (Array.isArray(value)) {
+			value.forEach((item, index) => {
+				queue.push({ value: item, pointer: `${pointer}/${index}` });
+			});
+			continue;
+		}
+
+		const record = value as Record<string, unknown>;
+		if (record.$ref === ref) {
+			return { node: record, pointer };
+		}
+
+		for (const [key, child] of Object.entries(record)) {
+			queue.push({
+				value: child,
+				pointer: `${pointer}/${escapeJsonPointerSegment(key)}`,
+			});
+		}
+	}
+
+	return undefined;
 }
 
 function rewriteJsonSchemaRefs(
@@ -129,37 +171,44 @@ function ensureObjectRoot(schema: JsonSchema): void {
 }
 
 /**
- * Inlines the recursive `contentBlocks` node into the root schema so the emitted
- * document carries no `definitions` bag, and retargets the self-references at the
- * inlined copy.
+ * Inlines every reused/recursive `definitions` entry at its shallowest reference
+ * site and retargets the remaining `$ref`s at that location, so the emitted
+ * document is a self-contained root schema with no `definitions` bag. The
+ * `definitions` bag is only kept when an entry cannot be inlined, because
+ * dropping it there would leave dangling references.
  */
-function inlineRecursiveContentBlocks(schema: JsonSchema): JsonSchema {
+function inlineDefinitions(schema: JsonSchema): JsonSchema {
 	const rootSchema = cloneJsonSchema(schema);
-	const contentBlocks = rootSchema.properties as
+	const definitions = rootSchema.definitions as
 		| Record<string, unknown>
 		| undefined;
-	const contentBlocksItems = (
-		contentBlocks?.contentBlocks as Record<string, unknown> | undefined
-	)?.items as Record<string, unknown> | undefined;
 
-	if (typeof contentBlocksItems?.$ref === "string") {
-		const recursiveRef = contentBlocksItems.$ref;
-		const resolved = getJsonSchemaPath(rootSchema, recursiveRef);
-		if (resolved && typeof resolved === "object") {
-			const inlined = cloneJsonSchema(resolved);
-			for (const key of Object.keys(contentBlocksItems)) {
-				delete contentBlocksItems[key];
-			}
-			Object.assign(contentBlocksItems, inlined);
-			rewriteJsonSchemaRefs(
-				rootSchema,
-				recursiveRef,
-				"#/properties/contentBlocks/items",
-			);
-		}
+	if (!definitions) {
+		return rootSchema;
 	}
 
-	delete rootSchema.definitions;
+	let hasUninlinedDefinition = false;
+
+	for (const [name, definition] of Object.entries(definitions)) {
+		const ref = `#/definitions/${escapeJsonPointerSegment(name)}`;
+		const site = findFirstRefSite(rootSchema, ref);
+
+		if (!site || !definition || typeof definition !== "object") {
+			hasUninlinedDefinition = true;
+			continue;
+		}
+
+		const inlined = cloneJsonSchema(definition) as Record<string, unknown>;
+		for (const key of Object.keys(site.node)) {
+			delete site.node[key];
+		}
+		Object.assign(site.node, inlined);
+		rewriteJsonSchemaRefs(rootSchema, ref, site.pointer);
+	}
+
+	if (!hasUninlinedDefinition) {
+		delete rootSchema.definitions;
+	}
 
 	return rootSchema;
 }
@@ -181,5 +230,5 @@ export function toolInputSchemaToJsonSchema(
 		return jsonSchema;
 	}
 
-	return inlineRecursiveContentBlocks(jsonSchema);
+	return inlineDefinitions(jsonSchema);
 }

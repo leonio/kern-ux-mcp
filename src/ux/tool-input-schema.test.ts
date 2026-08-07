@@ -8,6 +8,52 @@ type ListedTool = {
 	inputSchema: Record<string, unknown>;
 };
 
+function collectRefs(node: unknown, refs: string[] = []): string[] {
+	if (!node || typeof node !== "object") {
+		return refs;
+	}
+
+	if (Array.isArray(node)) {
+		for (const item of node) {
+			collectRefs(item, refs);
+		}
+		return refs;
+	}
+
+	for (const [key, value] of Object.entries(node as Record<string, unknown>)) {
+		if (key === "$ref" && typeof value === "string") {
+			refs.push(value);
+			continue;
+		}
+
+		collectRefs(value, refs);
+	}
+
+	return refs;
+}
+
+function resolvePointer(root: unknown, ref: string): unknown {
+	if (ref === "#") {
+		return root;
+	}
+
+	const segments = ref
+		.replace(/^#\//, "")
+		.split("/")
+		.map((segment) => segment.replace(/~1/g, "/").replace(/~0/g, "~"));
+
+	let current: unknown = root;
+	for (const segment of segments) {
+		if (!current || typeof current !== "object") {
+			return undefined;
+		}
+
+		current = (current as Record<string, unknown>)[segment];
+	}
+
+	return current;
+}
+
 describe("tools/list inputSchema MCP contract", () => {
 	let listedTools: ListedTool[];
 
@@ -54,5 +100,22 @@ describe("tools/list inputSchema MCP contract", () => {
 			expect(tool.inputSchema.type).toBe("object");
 			expect(tool.inputSchema.properties).toEqual({});
 		}
+	});
+
+	it("leaves no dangling $ref in any emitted schema", () => {
+		const dangling: string[] = [];
+
+		for (const tool of listedTools) {
+			for (const ref of collectRefs(tool.inputSchema)) {
+				if (
+					!ref.startsWith("#") ||
+					resolvePointer(tool.inputSchema, ref) === undefined
+				) {
+					dangling.push(`${tool.name}: ${ref}`);
+				}
+			}
+		}
+
+		expect(dangling).toEqual([]);
 	});
 });
