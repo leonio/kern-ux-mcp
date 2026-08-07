@@ -5,17 +5,11 @@ import { DialogSchema } from "./dialog.js";
 
 describe("DialogSchema JSON Schema serialization", () => {
 	const jsonSchema = toolInputSchemaToJsonSchema(DialogSchema, {
-		name: "get_dialog",
 		refStrategy: "none",
 	}) as any;
 
-	// Navigate into the actual schema body (zodToJsonSchema wraps in definitions).
-	const props =
-		jsonSchema.properties ??
-		jsonSchema.definitions?.get_dialog?.properties ??
-		{};
-	const required: string[] =
-		jsonSchema.required ?? jsonSchema.definitions?.get_dialog?.required ?? [];
+	const props = jsonSchema.properties ?? {};
+	const required: string[] = jsonSchema.required ?? [];
 
 	it("marks title, body, confirmLabel, and cancelLabel as required", () => {
 		expect(required).toContain("title");
