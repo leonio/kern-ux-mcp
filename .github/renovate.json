@@ -9,21 +9,21 @@
 		{
 			"description": "Group all development tooling together to save CI runs",
 			"matchDepTypes": ["devDependencies"],
-			"matchPackagePatterns": [
-				"^@biomejs/",
-				"^vitest",
-				"^tsx",
-				"^typescript",
-				"^@types/"
-			],
-			"groupName": "Dev Dependencies (Tooling)"
+			"groupName": "Dev Dependencies (Tooling)",
+			"matchPackageNames": [
+				"/^@biomejs//",
+				"/^vitest/",
+				"/^tsx/",
+				"/^typescript/",
+				"/^@types//"
+			]
 		},
 		{
 			"description": "Force semantic commits so GitVersion bumps the patch number on main",
-			"matchPackagePatterns": ["*"],
 			"matchUpdateTypes": ["minor", "patch"],
 			"semanticCommitType": "fix",
-			"semanticCommitScope": "deps"
+			"semanticCommitScope": "deps",
+			"matchPackageNames": ["*"]
 		},
 		{
 			"description": "Major updates should trigger a major version bump via breaking change syntax",
@@ -33,5 +33,10 @@
 			"commitMessageExtra": "!",
 			"automerge": false
 		}
-	]
+	],
+	"postUpgradeTasks": {
+		"commands": ["npx @biomejs/biome format --write {{{depFileName}}}"],
+		"fileFilters": ["**/*"],
+		"executionMode": "branch"
+	}
 }
