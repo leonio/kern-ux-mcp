@@ -33,10 +33,5 @@
 			"commitMessageExtra": "!",
 			"automerge": false
 		}
-	],
-	"postUpgradeTasks": {
-		"commands": ["npx @biomejs/biome format --write {{{depFileName}}}"],
-		"fileFilters": ["**/*"],
-		"executionMode": "branch"
-	}
+	]
 }
