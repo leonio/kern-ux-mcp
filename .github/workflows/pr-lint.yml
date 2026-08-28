@@ -13,11 +13,11 @@ jobs:
         env:
           BRANCH: ${{ github.head_ref }}
         run: |
-          ALLOWED='^(feature\/|feat\/|fix\/|chore\/|docs\/|refactor\/|perf\/|patch\/|ci\/)'
+          ALLOWED='^(feature\/|feat\/|fix\/|chore\/|docs\/|refactor\/|perf\/|patch\/|ci\/|renovate\/)'
           if [[ ! "$BRANCH" =~ $ALLOWED ]]; then
             echo "::error::Branch name '$BRANCH' does not follow the naming convention."
             echo ""
-            echo "Allowed prefixes: feature/, feat/, fix/, chore/, docs/, refactor/, perf/, patch/, ci/"
+            echo "Allowed prefixes: feature/, feat/, fix/, chore/, docs/, refactor/, perf/, patch/, ci/, renovate/"
             echo ""
             echo "Examples:"
             echo "  feat/add-button-component"
