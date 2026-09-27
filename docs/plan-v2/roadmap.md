@@ -62,6 +62,8 @@ Discovery date: 2026-09-27. Line numbers refer to the code at that point and wil
 
 ### R3: Workspaces and hosts
 
+Start here: [r3-kickoff.md](r3-kickoff.md) has the state after R2b, a proposed commit plan, and facts not in this roadmap.
+
 - [ ] Do a pure move into `packages/core` (`"private": true`) and `packages/stdio`, working through the path checklist in [R3 details](#r3-workspace-split-and-hosts).
 - [ ] Load `registry.json` as a JSON import, memoise `getCatalog()`, and delete `tools/manifest/copy-manifest.mjs`.
 - [ ] Set up the esbuild bundles:
