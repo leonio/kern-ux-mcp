@@ -120,8 +120,10 @@ For the discovery tool itself, make its role explicit:
 
 ## Verification
 
-1. Run `pnpm test` — description strings are not under test; no failures expected
-2. Optionally build and inspect `listTools()` output to confirm the new description text appears in the emitted JSON Schema `"description"` field for the changed parameters
+1. Run `npm test`. Description strings are under test in two places, so a description change is expected to fail:
+   - `src/ux/tools.listing.test.ts` snapshots the full `tools/list` output (descriptions and JSON input schemas). Check that the diff contains only the intended description text, then update it with `npx vitest run -u src/ux/tools.listing.test.ts`. Commit `src/ux/__snapshots__/tools-list.json` so reviewers see exactly what clients will see.
+   - `src/ux/tools.descriptions.test.ts` and `src/ux/tools.input-schemas.test.ts` assert phrases that must stay. If one of them fails, the edit removed required guidance: restore the phrase rather than editing the assertion.
+2. Confirm the snapshot diff shows no parameter renames, removed tools or schema-shape changes. Those are contract changes and aren't allowed in this workflow.
 3. Re-run the failing agent session scenario — the agent should now call `list_components_by_category` before attempting component-specific tools
 
 ## References
