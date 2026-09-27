@@ -318,4 +318,101 @@ describe("createTools routing", () => {
 		});
 		expect(result.html).toContain("kern-fieldset__hint");
 	});
+
+	describe("foundational components with strategy=fallback", () => {
+		// No checked-in component takes this path today; these pin the current fallback
+		// behaviour (tools.ts createTools id-set checks) before plan-v2 item 7 changes it.
+		const fallbackComponent = (id: string, htmlCanonical?: string) => ({
+			id,
+			title: id,
+			status: "stable" as const,
+			category: "foundational" as const,
+			strategy: "fallback" as const,
+			htmlCanonical,
+		});
+
+		it("routes ids in the layout id set to the layout builder", async () => {
+			const tools = createTools(createRegistry([fallbackComponent("divider")]));
+			const result = await invokeTool<RenderedToolResult>(
+				tools.getTool("get_divider"),
+				{ decorative: true },
+			);
+
+			expect(result.html).toContain("kern-divider");
+		});
+
+		it("routes ids in the typography id set to the typography builder", async () => {
+			const tools = createTools(createRegistry([fallbackComponent("title")]));
+			const result = await invokeTool<RenderedToolResult>(
+				tools.getTool("get_title"),
+				{ text: "Seitentitel", size: "small" },
+			);
+
+			expect(result.html).toContain("kern-title--small");
+		});
+
+		it("serves canonical manifest HTML for any other id", async () => {
+			const canonical = '<div class="kern-mystery">Inhalt</div>';
+			const tools = createTools(
+				createRegistry([fallbackComponent("mystery", canonical)]),
+			);
+			const tool = tools.getTool("get_mystery");
+
+			expect(tool?.description).toBe(
+				"KERN UX: HTML für mystery erzeugen (mit optionaler strikter Validierung).",
+			);
+			const result = await invokeTool<RenderedToolResult>(tool, {});
+			expect(result.html).toBe(canonical);
+			expect(result.validation.ok).toBe(true);
+		});
+
+		it("renders a placeholder when there is no canonical HTML", async () => {
+			const tools = createTools(createRegistry([fallbackComponent("mystery")]));
+			const result = await invokeTool<RenderedToolResult>(
+				tools.getTool("get_mystery"),
+				{},
+			);
+
+			expect(result.html).toContain(
+				"<!-- TODO: No story template found for mystery. -->",
+			);
+			expect(result.html).toContain('<div class="kern-mystery"></div>');
+		});
+
+		it("throws in strict mode when the canonical HTML fails validation", async () => {
+			const tools = createTools(
+				createRegistry([
+					fallbackComponent("mystery", '<img src="x.png">'),
+				]),
+			);
+
+			await expect(
+				tools.getTool("get_mystery")?.handler({ strict: true }),
+			).rejects.toThrow("Strict validation failed for get_mystery");
+		});
+	});
+
+	it("prefixes experimental components with a banner and warning", async () => {
+		const tools = createTools(
+			createRegistry([
+				{
+					id: "mystery",
+					title: "Mystery",
+					status: "experimental",
+					category: "foundational",
+					strategy: "fallback",
+					htmlCanonical: '<div class="kern-mystery"></div>',
+				},
+			]),
+		);
+		const result = await invokeTool<RenderedToolResult>(
+			tools.getTool("get_mystery"),
+			{},
+		);
+
+		expect(result.html).toMatch(/^<!-- WARNING: Experimental Component/);
+		expect(result.warnings).toEqual([
+			"Component 'mystery' is experimental – API may change.",
+		]);
+	});
 });
