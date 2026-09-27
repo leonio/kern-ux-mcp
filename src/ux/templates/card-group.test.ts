@@ -104,8 +104,9 @@ describe("buildCardGroup", () => {
 			buildCardGroup(
 				{
 					cards: [{ header: { title: "A" } }, { header: { title: "B" } }],
+					// @ts-expect-error columns must be a divisor of 12; this tests the runtime guard.
 					columns: 5,
-				} as any,
+				},
 				"de",
 			),
 		).toThrow();

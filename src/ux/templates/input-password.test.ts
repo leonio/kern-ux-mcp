@@ -11,13 +11,15 @@ describe("buildInputPassword", () => {
 	it("rejects disabled and readonly password props", () => {
 		expect(() =>
 			buildInputPassword(
-				{ name: "pwd", label: "Passwort", disabled: true } as any,
+				// @ts-expect-error disabled is omitted from the password schema; this tests the runtime guard.
+				{ name: "pwd", label: "Passwort", disabled: true },
 				"de",
 			),
 		).toThrow();
 		expect(() =>
 			buildInputPassword(
-				{ name: "pwd", label: "Passwort", readonly: true } as any,
+				// @ts-expect-error readonly is omitted from the password schema; this tests the runtime guard.
+				{ name: "pwd", label: "Passwort", readonly: true },
 				"de",
 			),
 		).toThrow();
