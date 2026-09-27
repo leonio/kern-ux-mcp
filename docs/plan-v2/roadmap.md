@@ -1,0 +1,470 @@
+# Roadmap to 2.0: MCP 2026-07-28, core library, stdio/MCPB and HTTP
+
+This roadmap moves the server to MCP protocol `2026-07-28` and SDK v2. It splits the code into one private core library plus three thin hosts: stdio, MCPB and Streamable HTTP. It also adds resources and prompts that build on the Zod schemas and guidance the repo already has.
+
+We work through it progressively, one step at a time. Each step is one PR or a small group, and each can be released on its own.
+- **Tick the boxes below as PRs land.**
+- The background for each step is in [findings.md](findings.md) (items 17–21).
+- How this roadmap relates to the earlier plan-v2 items is in [README.md](README.md).
+
+Discovery date: 2026-09-27. Line numbers refer to the code at that point and will drift.
+
+## Status tracker
+
+### R0: SDK v2 spike (throwaway branch)
+
+- [ ] Install `@modelcontextprotocol/server`, `@modelcontextprotocol/node` and `@modelcontextprotocol/client`.
+- [ ] Check that the `tools/list` output through the adapter deep-equals [tools-list.json](../../src/ux/__snapshots__/tools-list.json), ignoring key order.
+- [ ] Record the exact `isError` text for invalid input and for strict-validation failures.
+- [ ] Test the client matrix on both protocol versions (2026-07-28 and 2025-11-25).
+  - Over stdio: VS Code Copilot, Codex CLI, Claude Code, Claude Desktop, MCP Inspector.
+  - Over HTTP through a tunnel: ChatGPT and the Responses API `mcp` tool.
+  - For each client, record:
+    - whether it supports prompts and resources
+    - whether it handles `$defs`/`$ref` and `anyOf` roots
+    - its tool-count limits
+- [ ] Check that TS 7 compiles against the v2 `.d.ts` files, that JSON-import emit works, and that `tsc -b` works.
+- [ ] Check that Claude Desktop runs an MCPB bundle on Node 24, built-in or through the system Node setting.
+- [ ] Write the results into [findings.md](findings.md) item 17.
+
+### R1: Prerequisites (safe to cherry-pick to `main`)
+
+- [ ] `gitversion.yml`:
+  - add a `feat/v2-alpha` branch entry with a pre-release label and `is-release-branch: false`
+  - fix the `ˆchore` typo (finding 20)
+- [ ] Item 3: extract an `invokeTool` pipeline and `logging.ts` from `server.ts`. Rename the test helper to `callHandler`.
+- [ ] Item 4: add a single `ValidationResultSchema`, and fix the `buildComponentTool` `warnings` gap.
+- [ ] Item 10: read the server version from `package.json`.
+- [ ] Item 12: remove dead code, and move `paths.ts` under `tools/`.
+- [ ] Item 13: add `tsconfig.tools.json` and a CI step for it.
+- [ ] Item 16: keep a single `formFlow` schema.
+- [ ] Finding 21:
+  - replace `registry.json` `sourceRoot` with the upstream KERN version
+  - move `fast-glob` to devDependencies
+  - add a `maxLength` to `validate_html.html`
+- [ ] Renovate: add a group rule for `/^@modelcontextprotocol\//`.
+
+### R2: SDK v2 swap (single package, stdio only)
+
+- [ ] Add the `kernInputSchema()` Standard Schema adapter and `registerKernTool()` (see [The tool model](#the-tool-model)).
+- [ ] Build `createKernServer()` on `McpServer`, and change `index.ts` to `serveStdio(() => createKernServer())`.
+- [ ] Return `isError` results for invalid input and strict failures. Update [server.mcp.test.ts](../../src/server.mcp.test.ts): an unknown tool now rejects with -32602.
+- [ ] Add a wire-level listing snapshot plus a semantic-equality test against the domain snapshot.
+- [ ] Remove `@modelcontextprotocol/sdk` v1.
+
+### R2b: Standards metadata (via the adapter)
+
+- [ ] Add a `title` (from the registry title) and `annotations` (`readOnlyHint`, `idempotentHint`, `openWorldHint: false`) to every tool.
+- [ ] Advertise `outputSchema` and return `structuredContent`, keeping the JSON text block.
+- [ ] Set `cacheHints` for `tools/list`, `prompts/list` and resources.
+
+### R3: Workspaces and hosts
+
+- [ ] Do a pure move into `packages/core` (`"private": true`) and `packages/stdio`, working through the path checklist in [R3 details](#r3-workspace-split-and-hosts).
+- [ ] Load `registry.json` as a JSON import, memoise `getCatalog()`, and delete `tools/manifest/copy-manifest.mjs`.
+- [ ] Set up the esbuild bundles:
+  - for npm: core inlined, third-party packages external
+  - for MCPB and Docker: everything inlined
+  - plus a check that every dependency is declared
+- [ ] Build `packages/http`:
+  - the handler, with host and origin validation
+  - `/healthz` and `/readyz`
+  - optional auth, rate limiting and CORS
+  - a SIGTERM drain
+- [ ] Add the `Dockerfile`, `compose.yaml` and the GHCR push.
+- [ ] Add the MCPB `manifest.json`, `mcpb pack`, and the bundle as a release asset.
+- [ ] CI: an e2e job, a packed-install smoke test, and builds of the `.mcpb` and the image without pushing.
+- [ ] `release.yml`: publish stdio and http, idempotently, with one SBOM per package.
+- [ ] Do the one-time manual steps in [release-bootstrap.md](../release-bootstrap.md).
+
+### R4: Composition gaps (prerequisite for prompts)
+
+- [ ] Item 9: `createCompositionRenderer(locale)`.
+- [ ] Add a `field` block kind (inputs, select, radio, checkbox, textarea) to the content union.
+- [ ] Add a `form` block kind: `<form>`, an error summary, fieldsets, and an actions row.
+- [ ] Fix `formFlow`: the `kern-btn` class, a `<form>` wrapper, heading separation, and a `renderAllSteps` option.
+- [ ] Make `get_fieldset` accept child fields instead of the hard-coded Vorname/Name.
+- [ ] Make the `validate.ts` `form.error_*` rules target `.kern-error`, and add a regression test.
+- [ ] Make the schema reject nestings the renderer can't produce.
+- [ ] Add a `render_page` tool: page shell, header, `<main>` and footer.
+
+### R5: English base language and the context budget
+
+- [ ] Optional baseline: run 8–10 scenario tasks against the pre-R5 server in VS Code Copilot and Claude Code.
+- [ ] Add a context-budget test that prints per-tool listing sizes and fails above the budget.
+- [ ] English: foundations and form-field schemas.
+- [ ] English: layout and typography schemas and tools.
+- [ ] English: interactive schemas and tools.
+- [ ] English: composition schemas, `COMPOSITION_CHEAT_SHEET`, and error hints.
+- [ ] Shrink the recursive schemas with option A or B, down to under 60K compact characters.
+- [ ] Optional: a `KERN_TOOLSET=compact` profile.
+
+### R6: Resources
+
+- [ ] Resource registration, cache hints and a snapshot test harness.
+- [ ] `kern://components`, the `kern://components/{id}` cards with completion, and `kern://components/{id}/schema`.
+- [ ] Guides: composition, forms, layout, accessibility.
+- [ ] `kern://tokens`, `kern://utilities`, `kern://icons` and `kern://templates/page-shell`.
+- [ ] Add `resource_link`s from `get_component_docs`.
+
+### R7: Prompts, then 2.0.0 GA
+
+- [ ] `create_page_layout`
+- [ ] `create_input_form`
+- [ ] `create_wizard_form`
+- [ ] `review_kern_html` and `explain_component`
+- [ ] Prompt snapshots, plus a scenario e2e test: every prompt's example output passes `validate_html`.
+- [ ] Merge `feat/v2-alpha` into `main` and release 2.0.0.
+
+### Ongoing from R2: progressive `defineTool()` migration
+
+- [ ] `defineTool()` with `examples`, co-located `normalize`/`errorHint`, and the golden-example test (items 2, 8).
+- [ ] Utility tools.
+- [ ] Typography and layout tools.
+- [ ] Interactive tools as a declarative table, with routing declared once and the component ID on the definition (items 6, 7, 11).
+- [ ] Composition tools through a generic HTML tool builder (item 5).
+
+---
+
+## Context
+
+The server was written in Feb 2026 against `@modelcontextprotocol/sdk` 1.x (1.30.0 installed, protocol ≤ 2025-11-25). It uses the deprecated low-level `Server` with hand-written `tools/list` and `tools/call` handlers ([src/server.ts:511-565](../../src/server.ts)). It exposes 52 tools and nothing else: no resources, no prompts, stdio only.
+
+**Known problems**
+- **Per-tool knowledge is scattered.** Normalisation and "known-good payload" hints are name-keyed if-chains in `server.ts`, and routing is declared twice (findings 2, 6, 7).
+- **LLM-facing text is German.** That covers 350 `.describe()` strings and most tool descriptions.
+- **Bad input comes back as JSON-RPC errors.** The model can't self-correct from those.
+- **`tools/list` is heavy.** It is 142K characters of compact JSON, about 35–40K tokens. Six composition-capable tools each inline the full recursive content union (finding 19).
+
+**Protocol `2026-07-28`** is stateless:
+- no `initialize`; `server/discover` instead
+- per-request `_meta`
+- `resultType`
+- `ttlMs`/`cacheScope` on list and read results
+- validation errors reported as `isError` results
+- sampling and logging deprecated
+
+**TS SDK v2 is GA:** `@modelcontextprotocol/server` 2.0.0 shipped on 2026-07-27 and 2.1.0 on 2026-09-23, and it requires zod ≥ 4.2 (we have 4.6.5). It implements 2026-07-28 and still serves 2025-era clients. It consists of:
+- `@modelcontextprotocol/server`: `McpServer`, `registerTool`/`registerResource`/`registerPrompt`, `completable`, `serveStdio`, `createMcpHandler`
+- `@modelcontextprotocol/node`: `toNodeHandler`, host and origin validation
+- `@modelcontextprotocol/client`
+
+**Outcome:** one private core library that owns every tool, resource and prompt definition, with three thin hosts built on it:
+- a stdio server (keeps the existing npm name)
+- an MCPB bundle
+- a Streamable HTTP server, published as an npm package and a container image
+
+It all lands progressively on `feat/v2-alpha` and ships as **2.0.0** (the current release is 1.1.2).
+
+References:
+- [MCP architecture (2026-07-28)](https://modelcontextprotocol.io/docs/2026-07-28/learn/architecture)
+- [Server concepts](https://modelcontextprotocol.io/docs/2026-07-28/learn/server-concepts)
+- [Spec changelog](https://modelcontextprotocol.io/specification/2026-07-28/changelog)
+- [TS SDK v2](https://ts.sdk.modelcontextprotocol.io/v2/)
+- [Upgrade to v2](https://ts.sdk.modelcontextprotocol.io/v2/migration/upgrade-to-v2.html)
+- [MCPB manifest](https://github.com/modelcontextprotocol/mcpb/blob/main/MANIFEST.md)
+
+## Decisions
+
+| Topic | Decision |
+|---|---|
+| Packaging | npm workspaces with 3 packages. **`@leonio/kern-ux-core` is private and never published**; it gets bundled into the two published packages, `@leonio/kern-ux-mcp` (stdio + `.mcpb`) and `@leonio/kern-ux-mcp-http` (npm + GHCR image). Versions are lockstep. |
+| Language | **English is the base language** for all LLM-facing text: `.describe()`, tool descriptions, resources, prompts. German stays where it already adds value: the `de` side of the reviewed guidance, UI labels (rendered HTML still defaults to `locale: "de"`), German KERN names (Kopfzeile, Pflichtfeld), and `de`/`en` validation messages. |
+| Contract | These changes are accepted: `isError` for bad input, `outputSchema` + `structuredContent`, `title` + `annotations`, and input-schema changes where they follow MCP standards and cut context size. Tool names stay stable. |
+| HTTP | It must run locally, in a container, and eventually publicly. There's no deploy target yet, so the container ships complete, with auth and rate limiting as options. |
+| Branch | `feat/v2-alpha` is the long-lived integration branch. It publishes pre-releases under an npm dist-tag: `release.yml` already turns the GitVersion pre-release label into the dist-tag. |
+| Node | `>=24` everywhere, including stdio, the MCPB bundle and the container. |
+| Clients | VS Code + GitHub Copilot, OpenAI (Codex CLI over stdio; ChatGPT and the Responses API over remote HTTP), Claude (Code, Desktop), plus the MCP Inspector. |
+
+**On keeping core private.** Not publishing core stops anyone from doing `npm install @leonio/kern-ux-core`. It doesn't hide the code:
+- The repo is public under EUPL-1.2. npm `--provenance` needs a public repo.
+- The bundled core code ships inside both published packages.
+
+Restricting reuse would be a licence decision, not a packaging one. The packaging below supports either choice.
+
+## Target architecture
+
+```
+package.json            private workspace root (workspaces: packages/*); biome.json, tsconfig.base.json, vitest.config.ts, tools/, docs/
+packages/
+  core/   @leonio/kern-ux-core   "private": true; the ONLY package importing the MCP SDK (Biome noRestrictedImports keeps src/ux SDK-free)
+    src/ux/**           existing domain, moved as-is (schemas, templates, validate, i18n, registry.json)
+    src/tools/          catalog + defineTool() definitions (replaces tools.ts routing over time)
+    src/resources/      kern:// resources and templates, generated from domain data
+    src/prompts/        prompt definitions
+    src/mcp/            kern-schema.ts (Standard Schema adapter), register-tool.ts, pipeline.ts, logging.ts, create-server.ts
+  stdio/  @leonio/kern-ux-mcp       published; bin kern-ux-mcp → serveStdio(() => createKernServer()); mcpb/ (manifest.json, icon)
+  http/   @leonio/kern-ux-mcp-http  published; bin kern-ux-mcp-http → node:http + createMcpHandler + toNodeHandler; Dockerfile, compose.yaml
+```
+
+- **Bundling, because core is private.**
+  - The npm packages use esbuild to inline `@leonio/kern-ux-core` (a workspace-only dependency, listed under `devDependencies`) and keep third-party packages external. Those are the SDK, zod and node-html-parser. They stay as real `dependencies` of stdio and http, so users get security patches and the SBOM stays accurate.
+  - A small check script fails CI if a third-party import in core isn't declared in stdio/http.
+  - The `.mcpb` and the Docker image use a **fully inlined** bundle instead: one file, no `node_modules`.
+- **`registry.json` becomes a JSON import** (`import m from "./registry.json" with { type: "json" }`), replacing `fs` + `import.meta.url` in [src/ux/registry.ts:7-51](../../src/ux/registry.ts). esbuild inlines it, so `tools/manifest/copy-manifest.mjs` is deleted.
+- **`getCatalog()` is memoised at module scope.** It holds the registry, the tool definitions and the pre-computed JSON Schemas. `createKernServer({ version })` only registers from that memo, so the per-request HTTP factory stays cheap. SDK v2 would otherwise re-run `z.toJSONSchema` for all 52 tools on every request (finding 17).
+
+## The tool model
+
+The Zod schemas plus the existing hints are enough to generate good tool definitions.
+
+**Registration seam: `kernInputSchema(def)`.** This is a custom Standard Schema object. SDK v2 uses `~standard.jsonSchema.input()` and `~standard.validate` as given (finding 17).
+- `validate()` runs normalize, then the Zod parse, then the existing hint formatter. It returns **one issue with no path**, because the SDK already wraps the message as `Input validation error: Invalid arguments for tool X: …`. Drop our own header so it isn't doubled.
+- `jsonSchema.input()` returns our memoised [json-schema.ts](../../src/ux/json-schema.ts) output, so we control the listing shape. The only side effect is that the SDK moves `type` ahead of `$schema`, which doesn't change meaning.
+- Legacy `ToolDef`s from today's builders register through this seam on day one: all 52 tools move across in one step, unchanged. Until each family migrates, the adapter calls the existing `normalizeToolArgs`, `formatInputValidationError` and `formatCompositionError` from [server.ts](../../src/server.ts).
+
+**Target definition: `defineTool()`.** Tool families migrate to it one PR at a time:
+
+```ts
+defineTool({
+  name: "get_button", title: "KERN Button", componentId: "button",
+  description: "Short English what/when + 'See kern://components/button'",
+  inputSchema: ButtonSchema, outputSchema: ComponentOutputSchema,
+  annotations: { readOnlyHint: true, idempotentHint: true, openWorldHint: false },
+  normalize?: (args) => args,              // moved from server.ts normalizeToolArgs
+  errorHint?: string | ((err) => string),  // moved from formatInputValidationError
+  examples: [{ title: "Primary with icon", input: { … } }],
+  handler: async (args /* z.output<I> */) => ({ html, warnings, validation }),
+});
+```
+
+`examples` is the single source for known-good payloads. It feeds four things:
+- the error hints
+- the resource cards
+- prompt few-shots
+- a golden test in which every example renders with `strict: true`, with no validation errors
+
+Today the same payloads are duplicated across tool descriptions, `server.ts` and the tests.
+
+## Step details
+
+### R0 spike
+
+This step is time-boxed and throwaway; only the findings are kept. The tracker lists what to confirm. Two of the answers gate later steps:
+- **`$defs`/`$ref` and `anyOf`-root support per client** decides between the R5 schema-shrink options.
+- **Tool-count limits** decide whether the R5 compact profile is needed.
+
+### R1 prerequisites
+
+These are plan-v2 items that make the swap mechanical, plus small fixes from findings 20 and 21. None of them change the MCP contract, so each can be cherry-picked to `main` as a 1.x patch.
+
+### R2 and R2b: SDK v2 swap
+
+- `createKernServer({ version })` lives in `src/mcp/` while the repo is still one package. It moves to `packages/core` in R3.
+- Validation and strict-mode failures become `isError: true` results with the same hint text.
+- An unknown tool rejects with JSON-RPC `-32602` (`Tool X not found`).
+- Success results keep the existing `JSON.stringify(payload, null, 2)` text block. The spec says SHOULD for backwards compatibility.
+- R2b then adds `structuredContent` and the advertised `outputSchema`.
+
+### R3 workspace split and hosts
+
+**Moves**
+- Use `git mv src/ux → packages/core/src/ux`, snapshots included.
+- Split [src/server.ts](../../src/server.ts) into `packages/core/src/mcp/*`; [src/index.ts](../../src/index.ts) becomes `packages/stdio/src/index.ts`.
+- `src/test-support` moves to `packages/core/src/test-support`.
+
+**TypeScript and tests**
+- Add a `"source"` export condition, with `customConditions: ["source"]` in `tsconfig.base.json` for typechecking without building. Build order: core, then stdio and http.
+- Item 14 (`verbatimModuleSyntax`, ES2024 target) fits into `tsconfig.base.json` here.
+- Vitest 5 `test.projects: ["packages/*"]`, with a coverage include of `packages/*/src/**`. Keep the thresholds.
+- In Biome, change the ignore to `!packages/core/src/ux/registry.json`.
+
+**Path checklist.** npm runs workspace scripts with cwd set to the package directory.
+- Resolve these from `import.meta.url` instead of cwd:
+  - `src/ux/paths.ts:10`
+  - `tools/manifest/build-manifest.ts:18`
+- Keep `generate-manifest` as an explicit root script, and drop the `prebuild` hook, which needs the sibling `kern-ux-plain` checkout.
+- Update the 18 `src/ux/...` evidence paths in [docs/guidance-overlay.json](../guidance-overlay.json). They surface in `get_component_docs`.
+- Update the `applyTo` globs in `.github/instructions/*.md`.
+- Update `.github/skills/*`, `tools/dev/dev-loop.ps1` and `docs/*`.
+
+**HTTP (`packages/http`)**
+- Routes: `createMcpHandler(() => createKernServer(...))` wrapped in `toNodeHandler` inside `node:http`, plus `/healthz` and `/readyz`.
+- Environment variables:
+
+  | Variable | Default | Purpose |
+  |---|---|---|
+  | `HOST` | `127.0.0.1` | Bind address |
+  | `PORT` | `3000` | Listen port |
+  | `KERN_ALLOWED_HOSTS`, `KERN_ALLOWED_ORIGINS` | localhost validation | **Explicit lists are required when binding `0.0.0.0`**. `localhostHostValidation` only fits loopback binds. |
+  | `KERN_AUTH_TOKEN` | unset | Optional static bearer check in front of the handler |
+  | `KERN_RATE_LIMIT` | unset | Optional per-IP token bucket |
+  | `KERN_CORS_ORIGINS` | unset | Optional CORS allowlist |
+  | `KERN_DEBUG` | unset | Same as today |
+
+- Optional OpenTelemetry (`_meta` `traceparent`), off by default.
+- SIGTERM drain.
+- ChatGPT and the Responses API need a public HTTPS URL. For local testing, document a tunnel (`cloudflared`/`ngrok`) in the README.
+
+**Container**
+- Multi-stage `Dockerfile`, with the fully inlined HTTP bundle copied into `gcr.io/distroless/nodejs24:nonroot`.
+- `HEALTHCHECK` goes through a tiny node script, since distroless has no curl.
+- Plus `.dockerignore` and `compose.yaml`.
+- The release pushes the image to GHCR with provenance and SBOM attestations.
+
+**MCPB (`packages/stdio/mcpb/manifest.json`)**
+- `manifest_version "0.3"`, `server.type "node"`, `entry_point "server/index.js"`, `mcp_config.args ["${__dirname}/server/index.js"]`
+- `compatibility.runtimes.node ">=24"`
+- `user_config`: `default_locale` (de/en), `debug` (boolean)
+- `license "EUPL-1.2"`, and an icon
+- Generate the static `tools[]`/`prompts[]` list at build time (they're fixed per release) and set `tools_generated`/`prompts_generated` to `false`.
+- Pack with `mcpb validate && mcpb pack` (`@anthropic-ai/mcpb` as a dev dependency).
+
+**Release ([release.yml](../../.github/workflows/release.yml))**
+- `npm version $semVer -ws --no-git-tag-version`.
+- Pack and publish **only** stdio and http, to npm with provenance and to GitHub Packages. Core is `private`, so npm refuses to publish it.
+- A per-package SBOM via `npm sbom -w <pkg> --sbom-format cyclonedx`. syft can't see hoisted `node_modules` from a package directory.
+- Make publishing idempotent: skip a package whose `npm view pkg@ver` already exists, so a re-run after a partial failure works.
+- Attach the tarballs, the `.mcpb` and the SBOMs to the GitHub release.
+- The one-time manual steps are in [release-bootstrap.md](../release-bootstrap.md).
+
+**CI ([ci.yml](../../.github/workflows/ci.yml))**
+- Existing steps: `biome ci`, typecheck (plus the tools tsconfig), `npm run build -ws`, `vitest --coverage`.
+- An e2e job for stdio and HTTP.
+- The dependency-declaration check.
+- A **packed-install smoke test**: `npm pack` stdio and http, install them into a temp dir, spawn both, run `listTools`.
+- Build the `.mcpb` and the Docker image without pushing.
+
+### R4 composition gaps
+
+These are real bugs or missing pieces, and the prompts would expose them (finding 18).
+1. Do plan-v2 item 9 first: `createCompositionRenderer(locale)`.
+2. Add a **`field` block kind**. It dispatches to the existing inputtext/email/date/number/tel/url/password/textarea/select/radio/checkbox schemas and templates, so forms compose in one call instead of "render with `get_*`, then paste into an `html` block".
+3. Add a **`form` block kind**: `<form action method novalidate>`, an optional error-summary alert, fieldset groups (legend + `field` blocks), and an actions row.
+4. `formFlow`:
+   - fix `kern-button` → `kern-btn` ([templates/form-flow.ts:134-144](../../src/ux/templates/form-flow.ts))
+   - wrap the step in `<form>`
+   - separate the form heading from the tasklist heading
+   - add a `renderAllSteps` option (inactive steps get `hidden`)
+5. `get_fieldset` accepts child fields instead of the hard-coded Vorname/Name ([templates/fieldset.ts:20](../../src/ux/templates/fieldset.ts)).
+6. [validate.ts:231](../../src/ux/validate.ts): the `form.error_id`/`form.error_describedby` rules should target `.kern-error`, the class the templates actually emit. Add a regression test.
+7. The schema should reject nestings the renderer can't produce, instead of accepting them and emitting a warning.
+8. Add a `render_page` tool: page shell + header (`get_pattern`/`kopfzeile`) + `<main>` blocks + a footer (section + 4-column grid).
+
+### R5 English base language and the context budget
+
+Do one area per PR, and check each against the [failure catalog](../../.github/skills/tool-description-quality/references/failure-catalog.md).
+1. **Baseline first, optional but recommended.** Run 8–10 scenario tasks (Wohngeld wizard, contact form, landing page) in VS Code Copilot and Claude Code against the pre-R5 server. Record invalid calls and retries, then re-run after each area.
+2. **English becomes the base** for every `.describe()`, tool description and `COMPOSITION_CHEAT_SHEET`. German stays as listed in the decisions table.
+3. **Trim descriptions** to *what + when + a pointer to the resource*. Long payloads move into `examples`.
+4. **Shrink the recursive schemas.** The goal is `tools/list` under 60K compact characters. Measure both options:
+   - **(A)** 2020-12 `$defs`/`$ref`, gated on the R0 client findings
+   - **(B)** the standalone section/grid/card/disclosure/card_group tools accept only a shallow block set, and deep nesting goes through `render_composition`
+5. **Add a context-budget test.** It fails above the budget and prints per-tool sizes.
+6. **Optional toolset profile.** `KERN_TOOLSET=full|compact` is server config, so the listing doesn't vary per connection.
+   - The compact profile keeps `render_composition`, `render_page`, `render_component({componentId, props})`, `validate_html` and the docs tools.
+   - This matters because VS Code Copilot caps how many tools can be enabled per request (128 at the time of writing), and the full set is 52+ tools.
+
+## R6 resources (`packages/core/src/resources`)
+
+Content is generated at runtime from existing data and cached: the registry, Zod schemas, `examples`, the overlay, `validate.ts` rules, and the utility, token and icon data. Everything is served with `cacheScope: "public"` and a long `ttlMs`, since content only changes per release.
+- **YAML** is used where the data is tabular. It takes the `yaml` dependency, which has no transitive dependencies.
+- **Markdown** is used where the content is prose plus HTML, with HTML in fenced blocks so nothing needs escaping.
+- English is the base. Where the overlay has German text, cards add a `de` section.
+
+| URI | MIME | Content |
+|---|---|---|
+| `kern://components` | `application/yaml` | Index: id, title, status, category, tool, one-line summary |
+| `kern://components/{id}` (template, `{id}` completion) | `text/markdown` | Card: status, tool, summary, a **`yaml` field digest from the Zod schema** (name, type, required, enum, default, description), examples, canonical HTML, reviewed guidance, applicable validation rules, related tools, anti-use cases |
+| `kern://components/{id}/schema` | `application/schema+json` | The exact input JSON Schema |
+| `kern://guides/composition` | `text/markdown` | Block kinds, nesting matrix, cheat sheet, form and field blocks |
+| `kern://guides/forms` | `text/markdown` | Label/hint/error pattern, ids and `aria-describedby`, optional marking, error summary, from `foundations.ts` + KERN Form Controls |
+| `kern://guides/layout` | `text/markdown` | Container/row/col, 12-column rule, breakpoints, spacing tokens, heading hierarchy, `kern-layer` surfaces |
+| `kern://guides/accessibility` | `text/markdown` | The 13 `validate.ts` rules with de/en messages and how to satisfy each |
+| `kern://tokens`, `kern://utilities`, `kern://icons` | `application/yaml` | Existing data from `get_tokens`, [templates/utility-reference.ts](../../src/ux/templates/utility-reference.ts), `VALID_ICON_NAMES` |
+| `kern://templates/page-shell` | `text/html` | HTML5 shell: `lang`, KERN CSS/fonts, skip link, `<main>` |
+
+The existing docs tools stay, because OpenAI clients and many others only consume tools. `get_component_docs` adds `resource_link`s to the matching cards.
+
+## R7 prompts (`packages/core/src/prompts`)
+
+Each prompt returns:
+- a user message holding the workflow (which tools, in what order, which rules)
+- the embedded relevant guide(s)
+- `resource_link`s to the component cards it relies on
+
+`locale` and `componentId` offer completion via `completable()`.
+
+| Prompt | Args (strings) | Workflow it encodes |
+|---|---|---|
+| `create_page_layout` | `purpose`, `sections?`, `locale?` | `render_page`: header pattern, sections/grid/cards, footer, then `validate_html` |
+| `create_input_form` | `purpose`, `fields` (free text, e.g. "Vorname, Nachname, E-Mail, Geburtsdatum"), `locale?` | Map fields to input types, `form` block with fieldsets, error-summary pattern, `validate_html` with `strict` |
+| `create_wizard_form` | `purpose`, `steps`, `locale?` | `formFlow` per step (or `renderAllSteps`), tasklist and progress, review step via `get_summary`, submit on the last step |
+| `review_kern_html` | `html` | `validate_html`, the accessibility guide, a fix list, re-render with the correct tools |
+| `explain_component` | `componentId` | Embed the card and suggest the matching tool call |
+
+## Verification
+
+**Every PR:** `npm run lint`, the typecheck, `npm test`.
+
+**Listing**
+- The domain snapshot ([tools-list.json](../../src/ux/__snapshots__/tools-list.json)) stays.
+- A new wire-level `mcp-tools-list.json`, taken from `client.listTools()`.
+- A per-tool check that the wire `inputSchema` deep-equals the domain schema, ignoring key order.
+- Memoised schemas are frozen in tests to catch mutation.
+- Snapshot diffs get reviewed in their own PR.
+
+**Core e2e** ([server.mcp.test.ts](../../src/server.mcp.test.ts)), run with `describe.each` over two setups:
+- the 2025 protocol through `InMemoryTransport`
+- 2026-07-28 through `createMcpHandler(f).fetch` + `StreamableHTTPClientTransport`, since `InMemoryTransport` only speaks the 2025 versions
+
+Assertions:
+- invalid arguments give `isError` with the hint text
+- strict failures and an unknown `componentId` give `isError`
+- an unknown tool rejects with -32602
+- `structuredContent` matches `outputSchema`
+- `ttlMs`/`cacheScope` are present on 2026 responses
+
+**Golden tests**
+- Every `examples[]` entry and cheat-sheet example goes through `callTool` with `strict: true`, giving `validation.ok`.
+- Every tool name mentioned in descriptions, guides and prompts exists.
+
+**Resources and prompts**
+- File snapshots of the lists and of every resource's content.
+- `{id}` completion works.
+- Every `resource_link` resolves.
+
+**stdio e2e:** spawn both the npm build and the MCPB bundle, on both protocol versions, then list tools and call `get_button`.
+
+**HTTP e2e**
+- listen on port 0 and cover both protocol versions
+- a wrong Host or Origin gets 403
+- with `KERN_AUTH_TOKEN` set, no token gets 401
+- `/healthz` returns 200
+- 20 parallel calls, to check that per-request factories are isolated
+- a factory-cost budget of a few milliseconds
+
+**Container:** `docker build`, then `docker run -p 3000:3000 -e HOST=0.0.0.0 -e KERN_ALLOWED_HOSTS=localhost:3000`, then check it with `npx @modelcontextprotocol/inspector`.
+
+**Clients**
+- VS Code Copilot (`.vscode/mcp.json`, stdio + HTTP)
+- Codex CLI (stdio)
+- Claude Code (`claude mcp add kern -- node packages/stdio/dist/index.js`)
+- Claude Desktop (install the `.mcpb`)
+- ChatGPT / Responses API (HTTP via a tunnel)
+
+Run the 3 layout/form prompts where they're supported, and paste the output into [samples/basic-layout/index.html](../../samples/basic-layout/index.html) for a visual check.
+
+## Top risks and guards
+
+1. **Listing drift** (2020-12 dialect, key order, new fields): the adapter, the semantic-equality test, and review of snapshot diffs.
+2. **Error semantics change:** it happens on the alpha branch, with a changelog entry and the tests updated in the same PR.
+3. **HTTP exposure:**
+   - `maxLength` on large strings
+   - explicit host/origin allowlists in the container
+   - documented as trusted-network-only until auth is turned on
+4. **Workspace path breakage:** the path checklist plus the packed-install smoke test.
+5. **Missing dependency in a published bundle** (because core is inlined): the dependency-declaration check plus the packed-install smoke test.
+6. **Partial publish:** idempotent publish steps.
+7. **English rewrite changes LLM behaviour:** it happens late, split by area, measured against the baseline, and checked against the failure catalog.
+
+## Other ideas (not scheduled)
+
+- **Publish to the official MCP Registry** (`server.json`): the npm package, the OCI image, and later a remote URL.
+- **MCP Apps extension:** a live HTML preview of rendered output (a `ui://` resource) in hosts that support it.
+- **Harvest more KERN docs at build time:**
+  - the `COMPONENTS.MD` Form Controls `###` sections, currently missed because only `##` headings match
+  - story `parameters.docs.description` fields
+
+  That lifts docs coverage above 15/42 components. The kern-ux.de scrape stays outside this repo.
+- **Clean-up:** delete the out-of-date [docs/registry.schema.json](../registry.schema.json) and the junk `index` component (from `_index.scss`).
