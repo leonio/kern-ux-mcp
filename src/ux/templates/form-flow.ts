@@ -1,5 +1,5 @@
 import { t } from "../i18n.js";
-import type { FormFlowInput } from "../schemas/form-flow.js";
+import type { FormFlowInput } from "../schemas/content-union.js";
 import type { BuildResult, Locale } from "../types.js";
 import type { RecursiveContentRenderOptions } from "./content-union.js";
 import { renderRecursiveContentBlocks } from "./content-union.js";

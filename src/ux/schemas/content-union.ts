@@ -138,6 +138,9 @@ type FormFlowContentNodeInput = {
 	};
 };
 
+/** Input of a formFlow block; the schema is the formFlow branch of RecursiveContentNodeSchema. */
+export type FormFlowInput = FormFlowContentNodeInput["formFlow"];
+
 export type RecursiveContentNodeInput =
 	| TextContentNodeInput
 	| HtmlContentNodeInput
