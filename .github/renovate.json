@@ -19,6 +19,11 @@
 			]
 		},
 		{
+			"description": "Update the MCP SDK packages together: @modelcontextprotocol/node peer-depends on a matching @modelcontextprotocol/server",
+			"groupName": "MCP SDK",
+			"matchPackageNames": ["/^@modelcontextprotocol//"]
+		},
+		{
 			"description": "Force semantic commits so GitVersion bumps the patch number on main",
 			"matchUpdateTypes": ["minor", "patch"],
 			"semanticCommitType": "fix",
