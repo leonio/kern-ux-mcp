@@ -1,9 +1,11 @@
 import { describe, expect, it } from "vitest";
 
 import {
+	createRegistry,
 	invokeTool,
 	type RenderedToolResult,
 } from "../../test-support/tools.js";
+import { createTools } from "../tools.js";
 import { buildFormFlow } from "./form-flow.js";
 
 const FOUR_STEPS = [
@@ -215,15 +217,7 @@ describe("buildFormFlow", () => {
 
 describe("formFlow via render_composition", () => {
 	it("renders formFlow as a content block kind", async () => {
-		// Dynamic import to avoid circular dependency at module level
-		const { createTools } = await import("../tools.js");
-		const tools = createTools({
-			manifestVersion: "test",
-			generatedAt: new Date().toISOString(),
-			tokens: { colors: [], spacing: [], rawVariables: [] },
-			components: [],
-			byId: new Map(),
-		});
+		const tools = createTools(createRegistry());
 
 		const tool = tools.getTool("render_composition");
 		expect(tool).toBeDefined();

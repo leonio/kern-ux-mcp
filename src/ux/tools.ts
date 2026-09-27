@@ -816,13 +816,19 @@ export function createTools(registry: Registry): ToolRegistry {
 
 	const byName = new Map(toolDefs.map((t) => [t.name, t] as const));
 
+	// Tool definitions are fixed once created, so convert the Zod schemas to JSON Schema
+	// once (lazily) instead of on every tools/list request. Callers must not mutate the result.
+	let listing: ReturnType<ToolRegistry["listTools"]> | undefined;
+
 	return {
-		listTools: () =>
-			toolDefs.map((t) => ({
+		listTools: () => {
+			listing ??= toolDefs.map((t) => ({
 				name: t.name,
 				description: t.description,
 				inputSchema: toolInputSchemaToJsonSchema(t.inputSchema),
-			})),
+			}));
+			return listing;
+		},
 		listToolNames: () => toolDefs.map((tool) => tool.name),
 		getTool: (name) => byName.get(name),
 	};
