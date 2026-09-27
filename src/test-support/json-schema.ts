@@ -1,5 +1,7 @@
 import { expect } from "vitest";
 
+import type { createTools } from "../ux/tools.js";
+
 /**
  * Test-only view over the JSON Schema documents emitted by toolInputSchemaToJsonSchema().
  *
@@ -21,6 +23,22 @@ export type JsonSchemaNode = {
 	$ref?: string;
 	definitions?: Record<string, JsonSchemaNode>;
 };
+
+/** Returns the JSON input schema a tool is listed with, failing if the tool is missing or not object-rooted. */
+export function getListedToolSchema(
+	tools: ReturnType<typeof createTools>,
+	name: string,
+): JsonSchemaNode {
+	const listedTool = tools.listTools().find((entry) => entry.name === name);
+	expect(listedTool).toBeDefined();
+	if (!listedTool) {
+		throw new Error("Expected listed tool to be defined");
+	}
+
+	expect(listedTool.inputSchema.type).toBe("object");
+
+	return listedTool.inputSchema as JsonSchemaNode;
+}
 
 /** Returns the `anyOf`/`oneOf` branches of a union schema, failing if there are none. */
 export function schemaVariants(schema: JsonSchemaNode): JsonSchemaNode[] {
