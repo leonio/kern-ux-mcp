@@ -1,6 +1,7 @@
 [
   {
     "name": "validate_html",
+    "title": "Validate KERN HTML",
     "description": "KERN UX: HTML strikt validieren (A11Y/BITV). Der Parameter 'html' erwartet den vollständigen Markup-String – keinen Dateipfad. Den 'html'-Wert aus einem get_*-Tool direkt übergeben.",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -24,10 +25,74 @@
         "html"
       ],
       "description": "Validiert HTML strikt gegen KERN UX A11Y-Regeln (BITV-orientiert)."
+    },
+    "outputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "ok": {
+          "type": "boolean"
+        },
+        "issues": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "ruleId": {
+                "type": "string"
+              },
+              "severity": {
+                "type": "string",
+                "enum": [
+                  "error",
+                  "warning"
+                ]
+              },
+              "message": {
+                "type": "object",
+                "properties": {
+                  "en": {
+                    "type": "string"
+                  },
+                  "de": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "en",
+                  "de"
+                ],
+                "additionalProperties": false
+              },
+              "selectorHint": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "ruleId",
+              "severity",
+              "message"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "ok",
+        "issues"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "openWorldHint": false
     }
   },
   {
     "name": "get_component_docs",
+    "title": "KERN Component Docs",
     "description": "KERN UX: Dokumentation zu einer Komponente lesen. Gültige IDs liefert list_components_by_category – bei unbekannter ID dieses Tool zuerst aufrufen.",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -50,28 +115,659 @@
         "componentId"
       ],
       "description": "Liest vereinfachte, paketierte Komponentendokumentation aus dem Runtime-Manifest."
+    },
+    "outputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "componentId": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "stable",
+            "experimental",
+            "deprecated"
+          ]
+        },
+        "files": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "excerpt": {
+          "type": "string"
+        },
+        "canonicalHtml": {
+          "type": "string"
+        },
+        "sections": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "source": {
+                "type": "string"
+              },
+              "heading": {
+                "type": "string"
+              },
+              "content": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "source",
+              "heading",
+              "content"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "reviewedGuidance": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "string",
+              "enum": [
+                "draft",
+                "reviewed",
+                "approved"
+              ]
+            },
+            "summary": {
+              "type": "object",
+              "properties": {
+                "text": {
+                  "type": "string"
+                },
+                "confidence": {
+                  "type": "string",
+                  "enum": [
+                    "high",
+                    "medium",
+                    "low"
+                  ]
+                },
+                "evidence": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "kind": {
+                        "type": "string",
+                        "enum": [
+                          "docs-snapshot",
+                          "story",
+                          "scss",
+                          "schema",
+                          "template",
+                          "test",
+                          "manual-review",
+                          "other"
+                        ]
+                      },
+                      "source": {
+                        "type": "string"
+                      },
+                      "locator": {
+                        "type": "string"
+                      },
+                      "note": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "kind",
+                      "source"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              },
+              "required": [
+                "text",
+                "confidence",
+                "evidence"
+              ],
+              "additionalProperties": false
+            },
+            "primaryUseCases": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "text": {
+                    "type": "string"
+                  },
+                  "confidence": {
+                    "type": "string",
+                    "enum": [
+                      "high",
+                      "medium",
+                      "low"
+                    ]
+                  },
+                  "evidence": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "kind": {
+                          "type": "string",
+                          "enum": [
+                            "docs-snapshot",
+                            "story",
+                            "scss",
+                            "schema",
+                            "template",
+                            "test",
+                            "manual-review",
+                            "other"
+                          ]
+                        },
+                        "source": {
+                          "type": "string"
+                        },
+                        "locator": {
+                          "type": "string"
+                        },
+                        "note": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "kind",
+                        "source"
+                      ],
+                      "additionalProperties": false
+                    }
+                  }
+                },
+                "required": [
+                  "text",
+                  "confidence",
+                  "evidence"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "antiUseCases": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "text": {
+                    "type": "string"
+                  },
+                  "confidence": {
+                    "type": "string",
+                    "enum": [
+                      "high",
+                      "medium",
+                      "low"
+                    ]
+                  },
+                  "evidence": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "kind": {
+                          "type": "string",
+                          "enum": [
+                            "docs-snapshot",
+                            "story",
+                            "scss",
+                            "schema",
+                            "template",
+                            "test",
+                            "manual-review",
+                            "other"
+                          ]
+                        },
+                        "source": {
+                          "type": "string"
+                        },
+                        "locator": {
+                          "type": "string"
+                        },
+                        "note": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "kind",
+                        "source"
+                      ],
+                      "additionalProperties": false
+                    }
+                  }
+                },
+                "required": [
+                  "text",
+                  "confidence",
+                  "evidence"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "requiredA11yPractices": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "text": {
+                    "type": "string"
+                  },
+                  "confidence": {
+                    "type": "string",
+                    "enum": [
+                      "high",
+                      "medium",
+                      "low"
+                    ]
+                  },
+                  "evidence": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "kind": {
+                          "type": "string",
+                          "enum": [
+                            "docs-snapshot",
+                            "story",
+                            "scss",
+                            "schema",
+                            "template",
+                            "test",
+                            "manual-review",
+                            "other"
+                          ]
+                        },
+                        "source": {
+                          "type": "string"
+                        },
+                        "locator": {
+                          "type": "string"
+                        },
+                        "note": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "kind",
+                        "source"
+                      ],
+                      "additionalProperties": false
+                    }
+                  }
+                },
+                "required": [
+                  "text",
+                  "confidence",
+                  "evidence"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "semanticInvariants": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "text": {
+                    "type": "string"
+                  },
+                  "confidence": {
+                    "type": "string",
+                    "enum": [
+                      "high",
+                      "medium",
+                      "low"
+                    ]
+                  },
+                  "evidence": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "kind": {
+                          "type": "string",
+                          "enum": [
+                            "docs-snapshot",
+                            "story",
+                            "scss",
+                            "schema",
+                            "template",
+                            "test",
+                            "manual-review",
+                            "other"
+                          ]
+                        },
+                        "source": {
+                          "type": "string"
+                        },
+                        "locator": {
+                          "type": "string"
+                        },
+                        "note": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "kind",
+                        "source"
+                      ],
+                      "additionalProperties": false
+                    }
+                  }
+                },
+                "required": [
+                  "text",
+                  "confidence",
+                  "evidence"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "compositionPatterns": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "text": {
+                    "type": "string"
+                  },
+                  "confidence": {
+                    "type": "string",
+                    "enum": [
+                      "high",
+                      "medium",
+                      "low"
+                    ]
+                  },
+                  "evidence": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "kind": {
+                          "type": "string",
+                          "enum": [
+                            "docs-snapshot",
+                            "story",
+                            "scss",
+                            "schema",
+                            "template",
+                            "test",
+                            "manual-review",
+                            "other"
+                          ]
+                        },
+                        "source": {
+                          "type": "string"
+                        },
+                        "locator": {
+                          "type": "string"
+                        },
+                        "note": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "kind",
+                        "source"
+                      ],
+                      "additionalProperties": false
+                    }
+                  }
+                },
+                "required": [
+                  "text",
+                  "confidence",
+                  "evidence"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "authoringNotes": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "text": {
+                    "type": "string"
+                  },
+                  "confidence": {
+                    "type": "string",
+                    "enum": [
+                      "high",
+                      "medium",
+                      "low"
+                    ]
+                  },
+                  "evidence": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "kind": {
+                          "type": "string",
+                          "enum": [
+                            "docs-snapshot",
+                            "story",
+                            "scss",
+                            "schema",
+                            "template",
+                            "test",
+                            "manual-review",
+                            "other"
+                          ]
+                        },
+                        "source": {
+                          "type": "string"
+                        },
+                        "locator": {
+                          "type": "string"
+                        },
+                        "note": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "kind",
+                        "source"
+                      ],
+                      "additionalProperties": false
+                    }
+                  }
+                },
+                "required": [
+                  "text",
+                  "confidence",
+                  "evidence"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "migrationNotes": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "text": {
+                    "type": "string"
+                  },
+                  "confidence": {
+                    "type": "string",
+                    "enum": [
+                      "high",
+                      "medium",
+                      "low"
+                    ]
+                  },
+                  "evidence": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "kind": {
+                          "type": "string",
+                          "enum": [
+                            "docs-snapshot",
+                            "story",
+                            "scss",
+                            "schema",
+                            "template",
+                            "test",
+                            "manual-review",
+                            "other"
+                          ]
+                        },
+                        "source": {
+                          "type": "string"
+                        },
+                        "locator": {
+                          "type": "string"
+                        },
+                        "note": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "kind",
+                        "source"
+                      ],
+                      "additionalProperties": false
+                    }
+                  }
+                },
+                "required": [
+                  "text",
+                  "confidence",
+                  "evidence"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "status",
+            "summary",
+            "primaryUseCases",
+            "antiUseCases",
+            "requiredA11yPractices",
+            "semanticInvariants",
+            "compositionPatterns",
+            "authoringNotes",
+            "migrationNotes"
+          ],
+          "additionalProperties": false
+        },
+        "relatedTools": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "componentId",
+        "status",
+        "files",
+        "excerpt"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "openWorldHint": false
     }
   },
   {
     "name": "get_tokens",
+    "title": "KERN Design Tokens",
     "description": "KERN UX (Utility): Liefert Token-Snapshot aus dem Build-Manifest (Farben, Spacing, Variablen).",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
       "type": "object",
       "properties": {}
+    },
+    "outputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "colors": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "spacing": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "rawVariables": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "colors",
+        "spacing",
+        "rawVariables"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "openWorldHint": false
     }
   },
   {
     "name": "list_icons",
+    "title": "KERN Icon Names",
     "description": "KERN UX (Utility): Liefert alle verfügbaren Icon-Namen.",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
       "type": "object",
       "properties": {}
+    },
+    "outputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "icons": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "icons"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "openWorldHint": false
     }
   },
   {
     "name": "list_components_by_category",
+    "title": "KERN Components by Category",
     "description": "KERN UX (Discovery): Alle Komponenten-IDs auflisten. Vor get_component_docs oder get_<id>-Tools aufrufen, wenn die Komponenten-ID unbekannt ist. Liefert id, title, category und strategy für jede Komponente.",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -86,10 +782,65 @@
           ]
         }
       }
+    },
+    "outputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "components": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              },
+              "category": {
+                "type": "string",
+                "enum": [
+                  "foundational",
+                  "interactive",
+                  "composition"
+                ]
+              },
+              "strategy": {
+                "type": "string",
+                "enum": [
+                  "interactive",
+                  "layout",
+                  "typography",
+                  "fallback",
+                  "composition"
+                ]
+              }
+            },
+            "required": [
+              "id",
+              "title",
+              "category",
+              "strategy"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "components"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "openWorldHint": false
     }
   },
   {
     "name": "get_utility_reference",
+    "title": "KERN Utility Classes",
     "description": "KERN UX (Utility): Referenz für CSS-Hilfsklassen (Flex, CSS Grid, Gap, Spacing, Surface/Background, Stack, Alignment). Verwende dieses Tool, wenn du Layouts mit Flex- oder Grid-Utilities, Abständen, Ausrichtung oder Hintergrundfarben brauchst. WICHTIG: KERN hat KEINE kern-bg-* Utility-Klassen. Hintergrundfarben nur über CSS Custom Properties (z.B. --kern-color-background-subtle). Kategorie 'surface' liefert alle verfügbaren Variablen.",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -120,10 +871,84 @@
         }
       },
       "description": "Parameter für die KERN UX Utility-Klassen-Referenz."
+    },
+    "outputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "sections": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "titleDe": {
+                "type": "string"
+              },
+              "titleEn": {
+                "type": "string"
+              },
+              "descriptionDe": {
+                "type": "string"
+              },
+              "descriptionEn": {
+                "type": "string"
+              },
+              "entries": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "className": {
+                      "type": "string"
+                    },
+                    "de": {
+                      "type": "string"
+                    },
+                    "en": {
+                      "type": "string"
+                    },
+                    "example": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "className",
+                    "de",
+                    "en"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            },
+            "required": [
+              "id",
+              "titleDe",
+              "titleEn",
+              "descriptionDe",
+              "descriptionEn",
+              "entries"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "sections"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "openWorldHint": false
     }
   },
   {
     "name": "render_composition",
+    "title": "Render KERN Composition",
     "description": "KERN UX (Komposition): Rendert rekursive Content-Blöcke als zusammenhängendes Layout. WICHTIG: Jeder Block in contentBlocks MUSS eine 'kind'-Eigenschaft haben. Gültige kind-Werte: text, html, button, badge, card, section, disclosure, grid, formFlow.\n\nEvery block must have a 'kind' discriminator. Valid kinds and their shapes:\n\n  text:       { kind: \"text\", text: \"...\" }\n  html:       { kind: \"html\", html: \"<p>...</p>\" }\n  button:     { kind: \"button\", button: { label: \"OK\", variant: \"primary\" } }\n  badge:      { kind: \"badge\", badge: { type: \"info\", text: \"Neu\" } }\n  card:       { kind: \"card\", card: { header: { title: \"...\" }, body: \"...\", contentBlocks?: [...], footer?: { primaryLabel: \"...\" } } }\n  section:    { kind: \"section\", section: { headingText: \"...\", contentBlocks: [...] } }\n                 Shorthand: paragraphs: [\"text1\", \"text2\"] is also accepted (auto-converted to text blocks).\n  disclosure: { kind: \"disclosure\", disclosure: { triggerLabel: \"...\", contentBlocks: [...] } }\n  grid:       { kind: \"grid\", grid: { columns: 3, columnsContent: [ [block, block], [block], [block] ] } }\n                 columnsContent is an array of arrays — one inner array per column. Each inner array holds content blocks.\n  formFlow:   { kind: \"formFlow\", formFlow: { currentStep: 1, steps: [{ label: \"...\", contentBlocks: [...] }, ...] } }\n\nNested blocks (section.contentBlocks, card.contentBlocks, grid.columnsContent[][], disclosure.contentBlocks) use the same kind-based shapes recursively.\n\nFormFlow orchestriert mehrstufige Formulare mit Tasklist + Progress + Schritt-Inhalt über einen einzigen currentStep-Parameter.",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -766,10 +1591,96 @@
         "contentBlocks"
       ],
       "description": "Master-Kompositionstool für rekursive KERN-Layouts. Kombiniert Grid, Card, Section und Disclosure in einer einzigen Struktur."
+    },
+    "outputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "html": {
+          "type": "string"
+        },
+        "warnings": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "validation": {
+          "type": "object",
+          "properties": {
+            "ok": {
+              "type": "boolean"
+            },
+            "issues": {
+              "default": [],
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "ruleId": {
+                    "type": "string"
+                  },
+                  "severity": {
+                    "type": "string",
+                    "enum": [
+                      "error",
+                      "warning"
+                    ]
+                  },
+                  "message": {
+                    "type": "object",
+                    "properties": {
+                      "en": {
+                        "type": "string"
+                      },
+                      "de": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "en",
+                      "de"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "selectorHint": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "ruleId",
+                  "severity",
+                  "message"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "ok",
+            "issues"
+          ],
+          "additionalProperties": false,
+          "description": "Validierungsergebnis (strict-mode relevant)."
+        }
+      },
+      "required": [
+        "html",
+        "warnings",
+        "validation"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "openWorldHint": false
     }
   },
   {
     "name": "get_section",
+    "title": "KERN Section",
     "description": "KERN UX (Komposition): Erzeugt eine <section> mit Heading, Body-Absätzen und optionalem Divider. Verwende dieses Tool anstelle von get_heading + get_body einzeln. Known-good payload: { headingText: 'Überblick', headingLevel: 2, paragraphs: ['Erster Absatz', 'Zweiter Absatz'], paragraphSize: 'default', paragraphBold: false, divider: false }.",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -1476,10 +2387,96 @@
         "headingText"
       ],
       "description": "Parameter für KERN UX Section-Komposition (Heading + rekursiver Body + optionaler Divider). Dies ist eine repo-eigene Kompositionshilfe, keine offizielle Upstream-Einzelkomponente. Empfohlen: contentBlocks verwenden. Legacy: paragraphs wird weiterhin unterstützt."
+    },
+    "outputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "html": {
+          "type": "string"
+        },
+        "warnings": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "validation": {
+          "type": "object",
+          "properties": {
+            "ok": {
+              "type": "boolean"
+            },
+            "issues": {
+              "default": [],
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "ruleId": {
+                    "type": "string"
+                  },
+                  "severity": {
+                    "type": "string",
+                    "enum": [
+                      "error",
+                      "warning"
+                    ]
+                  },
+                  "message": {
+                    "type": "object",
+                    "properties": {
+                      "en": {
+                        "type": "string"
+                      },
+                      "de": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "en",
+                      "de"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "selectorHint": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "ruleId",
+                  "severity",
+                  "message"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "ok",
+            "issues"
+          ],
+          "additionalProperties": false,
+          "description": "Validierungsergebnis (strict-mode relevant)."
+        }
+      },
+      "required": [
+        "html",
+        "warnings",
+        "validation"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "openWorldHint": false
     }
   },
   {
     "name": "get_card_group",
+    "title": "KERN Card Group",
     "description": "KERN UX (Komposition): Erzeugt mehrere Cards in einem responsive 12-Spalten-Grid (kern-container/kern-row/kern-col-md-{n} kern-col-sm-12). Spaltenbreite wird automatisch berechnet (12 / columns). Verwende dieses Tool anstelle von get_card + get_grid einzeln. Known-good payload: { columns: 3, cards: [{ header: { title: 'Service A' }, body: 'Kurzbeschreibung', footer: { primaryLabel: 'More Info' } }] }.",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -2318,10 +3315,96 @@
         "cards"
       ],
       "description": "Parameter für KERN UX Card-Group-Komposition (mehrere Karten im Grid)."
+    },
+    "outputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "html": {
+          "type": "string"
+        },
+        "warnings": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "validation": {
+          "type": "object",
+          "properties": {
+            "ok": {
+              "type": "boolean"
+            },
+            "issues": {
+              "default": [],
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "ruleId": {
+                    "type": "string"
+                  },
+                  "severity": {
+                    "type": "string",
+                    "enum": [
+                      "error",
+                      "warning"
+                    ]
+                  },
+                  "message": {
+                    "type": "object",
+                    "properties": {
+                      "en": {
+                        "type": "string"
+                      },
+                      "de": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "en",
+                      "de"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "selectorHint": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "ruleId",
+                  "severity",
+                  "message"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "ok",
+            "issues"
+          ],
+          "additionalProperties": false,
+          "description": "Validierungsergebnis (strict-mode relevant)."
+        }
+      },
+      "required": [
+        "html",
+        "warnings",
+        "validation"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "openWorldHint": false
     }
   },
   {
     "name": "get_disclosure",
+    "title": "KERN Disclosure",
     "description": "KERN UX (Komposition): Erzeugt ein Expand/Collapse-Element (<details>/<summary>) mit KERN Accordion-Styling (kern-accordion__item / kern-accordion__body). Pflichtfelder: triggerLabel UND (contentBlocks oder content). Beispiel: { triggerLabel: 'Details anzeigen', content: 'Erklärungstext' }. Für mehrteilige Akkordeons (mehrere Items) siehe get_accordion.",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -2984,10 +4067,96 @@
         "triggerLabel"
       ],
       "description": "Parameter für KERN UX Disclosure (Expand/Collapse mit <details>/<summary> und Accordion-Styling). Dies ist eine repo-eigene Kompositionshilfe für einzelne Disclosure-Blöcke, keine offizielle Upstream-Akkordeon-Komponente."
+    },
+    "outputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "html": {
+          "type": "string"
+        },
+        "warnings": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "validation": {
+          "type": "object",
+          "properties": {
+            "ok": {
+              "type": "boolean"
+            },
+            "issues": {
+              "default": [],
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "ruleId": {
+                    "type": "string"
+                  },
+                  "severity": {
+                    "type": "string",
+                    "enum": [
+                      "error",
+                      "warning"
+                    ]
+                  },
+                  "message": {
+                    "type": "object",
+                    "properties": {
+                      "en": {
+                        "type": "string"
+                      },
+                      "de": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "en",
+                      "de"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "selectorHint": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "ruleId",
+                  "severity",
+                  "message"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "ok",
+            "issues"
+          ],
+          "additionalProperties": false,
+          "description": "Validierungsergebnis (strict-mode relevant)."
+        }
+      },
+      "required": [
+        "html",
+        "warnings",
+        "validation"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "openWorldHint": false
     }
   },
   {
     "name": "get_accordion",
+    "title": "KERN Accordion",
     "description": "KERN UX: HTML für Accordion (aufklappbare Abschnitte) erzeugen.",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -3103,10 +4272,96 @@
         }
       ],
       "type": "object"
+    },
+    "outputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "html": {
+          "type": "string"
+        },
+        "warnings": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "validation": {
+          "type": "object",
+          "properties": {
+            "ok": {
+              "type": "boolean"
+            },
+            "issues": {
+              "default": [],
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "ruleId": {
+                    "type": "string"
+                  },
+                  "severity": {
+                    "type": "string",
+                    "enum": [
+                      "error",
+                      "warning"
+                    ]
+                  },
+                  "message": {
+                    "type": "object",
+                    "properties": {
+                      "en": {
+                        "type": "string"
+                      },
+                      "de": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "en",
+                      "de"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "selectorHint": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "ruleId",
+                  "severity",
+                  "message"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "ok",
+            "issues"
+          ],
+          "additionalProperties": false,
+          "description": "Validierungsergebnis (strict-mode relevant)."
+        }
+      },
+      "required": [
+        "html",
+        "warnings",
+        "validation"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "openWorldHint": false
     }
   },
   {
     "name": "get_alert",
+    "title": "KERN Alert",
     "description": "KERN UX: HTML für Alert erzeugen. Pflichtfeld: title. Varianten via type: info (Standard) | success | warning | danger (höchste Schwere, kein separater 'high-contrast'-Modus). Optionaler body mit text, links und listItems. Beispiel: { type: 'danger', title: 'Serverstörung', body: { text: 'Unsere Server sind nicht erreichbar.' } }.",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -3192,10 +4447,96 @@
         "title"
       ],
       "description": "Parameter fuer KERN UX Alert-Komponente. Der Renderer erzeugt immer role=\"alert\" und setzt das Status-Icon standardmaessig auf aria-hidden=\"true\", weil die Textinhalte die eigentliche Information tragen."
+    },
+    "outputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "html": {
+          "type": "string"
+        },
+        "warnings": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "validation": {
+          "type": "object",
+          "properties": {
+            "ok": {
+              "type": "boolean"
+            },
+            "issues": {
+              "default": [],
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "ruleId": {
+                    "type": "string"
+                  },
+                  "severity": {
+                    "type": "string",
+                    "enum": [
+                      "error",
+                      "warning"
+                    ]
+                  },
+                  "message": {
+                    "type": "object",
+                    "properties": {
+                      "en": {
+                        "type": "string"
+                      },
+                      "de": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "en",
+                      "de"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "selectorHint": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "ruleId",
+                  "severity",
+                  "message"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "ok",
+            "issues"
+          ],
+          "additionalProperties": false,
+          "description": "Validierungsergebnis (strict-mode relevant)."
+        }
+      },
+      "required": [
+        "html",
+        "warnings",
+        "validation"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "openWorldHint": false
     }
   },
   {
     "name": "get_badge",
+    "title": "KERN Badge",
     "description": "KERN UX: HTML für Badge erzeugen. Pflichtfelder: type und text. type: info | success | warning | danger. Beispiel: { type: 'success', text: 'Online' }. Optional: showIcon: true.",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -3238,10 +4579,96 @@
         "text"
       ],
       "description": "Parameter fuer KERN UX Badge-Komponente. Geeignet fuer kompakte Status- oder Kategoriehinweise; das Badge ist rein darstellend und nicht als interaktives Element gedacht."
+    },
+    "outputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "html": {
+          "type": "string"
+        },
+        "warnings": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "validation": {
+          "type": "object",
+          "properties": {
+            "ok": {
+              "type": "boolean"
+            },
+            "issues": {
+              "default": [],
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "ruleId": {
+                    "type": "string"
+                  },
+                  "severity": {
+                    "type": "string",
+                    "enum": [
+                      "error",
+                      "warning"
+                    ]
+                  },
+                  "message": {
+                    "type": "object",
+                    "properties": {
+                      "en": {
+                        "type": "string"
+                      },
+                      "de": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "en",
+                      "de"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "selectorHint": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "ruleId",
+                  "severity",
+                  "message"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "ok",
+            "issues"
+          ],
+          "additionalProperties": false,
+          "description": "Validierungsergebnis (strict-mode relevant)."
+        }
+      },
+      "required": [
+        "html",
+        "warnings",
+        "validation"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "openWorldHint": false
     }
   },
   {
     "name": "get_body",
+    "title": "KERN Body",
     "description": "KERN UX (Foundational/Typography): HTML für Body erzeugen.",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -3280,10 +4707,96 @@
           "type": "boolean"
         }
       }
+    },
+    "outputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "html": {
+          "type": "string"
+        },
+        "warnings": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "validation": {
+          "type": "object",
+          "properties": {
+            "ok": {
+              "type": "boolean"
+            },
+            "issues": {
+              "default": [],
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "ruleId": {
+                    "type": "string"
+                  },
+                  "severity": {
+                    "type": "string",
+                    "enum": [
+                      "error",
+                      "warning"
+                    ]
+                  },
+                  "message": {
+                    "type": "object",
+                    "properties": {
+                      "en": {
+                        "type": "string"
+                      },
+                      "de": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "en",
+                      "de"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "selectorHint": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "ruleId",
+                  "severity",
+                  "message"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "ok",
+            "issues"
+          ],
+          "additionalProperties": false,
+          "description": "Validierungsergebnis (strict-mode relevant)."
+        }
+      },
+      "required": [
+        "html",
+        "warnings",
+        "validation"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "openWorldHint": false
     }
   },
   {
     "name": "get_button",
+    "title": "KERN Button",
     "description": "KERN UX: HTML für Button erzeugen (primary/secondary/tertiary, mit Icon-Optionen). Pflichtfeld: label. Varianten: primary|secondary|tertiary. Beispiel: { label: 'More Info', variant: 'primary' }.",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -3373,10 +4886,96 @@
         "label"
       ],
       "description": "Parameter fuer KERN UX Button-Komponente. Unterstuetzt KERN-Varianten primary, secondary und tertiary sowie Icon-only-Muster mit verstecktem, aber zugaenglichem Label."
+    },
+    "outputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "html": {
+          "type": "string"
+        },
+        "warnings": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "validation": {
+          "type": "object",
+          "properties": {
+            "ok": {
+              "type": "boolean"
+            },
+            "issues": {
+              "default": [],
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "ruleId": {
+                    "type": "string"
+                  },
+                  "severity": {
+                    "type": "string",
+                    "enum": [
+                      "error",
+                      "warning"
+                    ]
+                  },
+                  "message": {
+                    "type": "object",
+                    "properties": {
+                      "en": {
+                        "type": "string"
+                      },
+                      "de": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "en",
+                      "de"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "selectorHint": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "ruleId",
+                  "severity",
+                  "message"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "ok",
+            "issues"
+          ],
+          "additionalProperties": false,
+          "description": "Validierungsergebnis (strict-mode relevant)."
+        }
+      },
+      "required": [
+        "html",
+        "warnings",
+        "validation"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "openWorldHint": false
     }
   },
   {
     "name": "get_card",
+    "title": "KERN Card",
     "description": "KERN UX: HTML für Card (Karten-Container) erzeugen.",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -4124,10 +5723,96 @@
           }
         }
       }
+    },
+    "outputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "html": {
+          "type": "string"
+        },
+        "warnings": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "validation": {
+          "type": "object",
+          "properties": {
+            "ok": {
+              "type": "boolean"
+            },
+            "issues": {
+              "default": [],
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "ruleId": {
+                    "type": "string"
+                  },
+                  "severity": {
+                    "type": "string",
+                    "enum": [
+                      "error",
+                      "warning"
+                    ]
+                  },
+                  "message": {
+                    "type": "object",
+                    "properties": {
+                      "en": {
+                        "type": "string"
+                      },
+                      "de": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "en",
+                      "de"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "selectorHint": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "ruleId",
+                  "severity",
+                  "message"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "ok",
+            "issues"
+          ],
+          "additionalProperties": false,
+          "description": "Validierungsergebnis (strict-mode relevant)."
+        }
+      },
+      "required": [
+        "html",
+        "warnings",
+        "validation"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "openWorldHint": false
     }
   },
   {
     "name": "get_checkbox",
+    "title": "KERN Checkbox",
     "description": "KERN UX: HTML für Checkbox erzeugen (Einzel- oder Listen-Modus).",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -4310,10 +5995,96 @@
         }
       ],
       "type": "object"
+    },
+    "outputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "html": {
+          "type": "string"
+        },
+        "warnings": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "validation": {
+          "type": "object",
+          "properties": {
+            "ok": {
+              "type": "boolean"
+            },
+            "issues": {
+              "default": [],
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "ruleId": {
+                    "type": "string"
+                  },
+                  "severity": {
+                    "type": "string",
+                    "enum": [
+                      "error",
+                      "warning"
+                    ]
+                  },
+                  "message": {
+                    "type": "object",
+                    "properties": {
+                      "en": {
+                        "type": "string"
+                      },
+                      "de": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "en",
+                      "de"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "selectorHint": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "ruleId",
+                  "severity",
+                  "message"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "ok",
+            "issues"
+          ],
+          "additionalProperties": false,
+          "description": "Validierungsergebnis (strict-mode relevant)."
+        }
+      },
+      "required": [
+        "html",
+        "warnings",
+        "validation"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "openWorldHint": false
     }
   },
   {
     "name": "get_descriptionlist",
+    "title": "KERN Description List",
     "description": "KERN UX (Foundational/Layout): HTML für DescriptionList erzeugen (Container/Grid/Section).",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -4369,10 +6140,96 @@
           "type": "boolean"
         }
       }
+    },
+    "outputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "html": {
+          "type": "string"
+        },
+        "warnings": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "validation": {
+          "type": "object",
+          "properties": {
+            "ok": {
+              "type": "boolean"
+            },
+            "issues": {
+              "default": [],
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "ruleId": {
+                    "type": "string"
+                  },
+                  "severity": {
+                    "type": "string",
+                    "enum": [
+                      "error",
+                      "warning"
+                    ]
+                  },
+                  "message": {
+                    "type": "object",
+                    "properties": {
+                      "en": {
+                        "type": "string"
+                      },
+                      "de": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "en",
+                      "de"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "selectorHint": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "ruleId",
+                  "severity",
+                  "message"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "ok",
+            "issues"
+          ],
+          "additionalProperties": false,
+          "description": "Validierungsergebnis (strict-mode relevant)."
+        }
+      },
+      "required": [
+        "html",
+        "warnings",
+        "validation"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "openWorldHint": false
     }
   },
   {
     "name": "get_details",
+    "title": "KERN Details",
     "description": "KERN UX: HTML für Details erzeugen (mit optionaler strikter Validierung).",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -4392,10 +6249,96 @@
         }
       },
       "description": "Gibt korrektes HTML für die KERN UX Komponente 'Details' zurück."
+    },
+    "outputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "html": {
+          "type": "string"
+        },
+        "warnings": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "validation": {
+          "type": "object",
+          "properties": {
+            "ok": {
+              "type": "boolean"
+            },
+            "issues": {
+              "default": [],
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "ruleId": {
+                    "type": "string"
+                  },
+                  "severity": {
+                    "type": "string",
+                    "enum": [
+                      "error",
+                      "warning"
+                    ]
+                  },
+                  "message": {
+                    "type": "object",
+                    "properties": {
+                      "en": {
+                        "type": "string"
+                      },
+                      "de": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "en",
+                      "de"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "selectorHint": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "ruleId",
+                  "severity",
+                  "message"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "ok",
+            "issues"
+          ],
+          "additionalProperties": false,
+          "description": "Validierungsergebnis (strict-mode relevant)."
+        }
+      },
+      "required": [
+        "html",
+        "warnings",
+        "validation"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "openWorldHint": false
     }
   },
   {
     "name": "get_dialog",
+    "title": "KERN Dialog",
     "description": "KERN UX: HTML für Dialog erzeugen (mit optionalem Trigger-Button). Known-good payload: { title: 'Bestätigen', body: 'Möchten Sie fortfahren?', confirmLabel: 'Ja', cancelLabel: 'Nein', triggerLabel: 'Dialog öffnen', triggerVariant: 'primary' }. Legacy payload mit actions.confirm/cancel wird ebenfalls akzeptiert.",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -4476,10 +6419,96 @@
         "cancelLabel"
       ],
       "description": "Parameter fuer KERN UX Dialog-Komponente. Der Renderer bildet die KERN-Struktur mit <dialog>, Header, Body, Footer und Formular-Buttons nach; Abbrechen und Schliessen verwenden formmethod=\"dialog\". Beispiel: { title: 'Bestaetigen', body: 'Moechten Sie fortfahren?', confirmLabel: 'Ja', cancelLabel: 'Nein', triggerLabel: 'Dialog oeffnen', triggerVariant: 'primary' }."
+    },
+    "outputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "html": {
+          "type": "string"
+        },
+        "warnings": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "validation": {
+          "type": "object",
+          "properties": {
+            "ok": {
+              "type": "boolean"
+            },
+            "issues": {
+              "default": [],
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "ruleId": {
+                    "type": "string"
+                  },
+                  "severity": {
+                    "type": "string",
+                    "enum": [
+                      "error",
+                      "warning"
+                    ]
+                  },
+                  "message": {
+                    "type": "object",
+                    "properties": {
+                      "en": {
+                        "type": "string"
+                      },
+                      "de": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "en",
+                      "de"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "selectorHint": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "ruleId",
+                  "severity",
+                  "message"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "ok",
+            "issues"
+          ],
+          "additionalProperties": false,
+          "description": "Validierungsergebnis (strict-mode relevant)."
+        }
+      },
+      "required": [
+        "html",
+        "warnings",
+        "validation"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "openWorldHint": false
     }
   },
   {
     "name": "get_divider",
+    "title": "KERN Divider",
     "description": "KERN UX (Foundational/Layout): HTML für Divider erzeugen (Container/Grid/Section).",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -4503,10 +6532,96 @@
           "type": "boolean"
         }
       }
+    },
+    "outputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "html": {
+          "type": "string"
+        },
+        "warnings": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "validation": {
+          "type": "object",
+          "properties": {
+            "ok": {
+              "type": "boolean"
+            },
+            "issues": {
+              "default": [],
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "ruleId": {
+                    "type": "string"
+                  },
+                  "severity": {
+                    "type": "string",
+                    "enum": [
+                      "error",
+                      "warning"
+                    ]
+                  },
+                  "message": {
+                    "type": "object",
+                    "properties": {
+                      "en": {
+                        "type": "string"
+                      },
+                      "de": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "en",
+                      "de"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "selectorHint": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "ruleId",
+                  "severity",
+                  "message"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "ok",
+            "issues"
+          ],
+          "additionalProperties": false,
+          "description": "Validierungsergebnis (strict-mode relevant)."
+        }
+      },
+      "required": [
+        "html",
+        "warnings",
+        "validation"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "openWorldHint": false
     }
   },
   {
     "name": "get_dropdown",
+    "title": "KERN Dropdown",
     "description": "KERN UX: HTML für Dropdown erzeugen (experimentell).",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -4586,10 +6701,96 @@
         "options"
       ],
       "description": "Parameter fuer KERN UX Dropdown-Komponente. Diese Implementierung ist experimentell und bildet ein einfaches <details>/<summary>-Muster mit eingebetteten Radio- oder Checkbox-Optionen nach, nicht eine umfangreiche Menue- oder Select-Komponente."
+    },
+    "outputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "html": {
+          "type": "string"
+        },
+        "warnings": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "validation": {
+          "type": "object",
+          "properties": {
+            "ok": {
+              "type": "boolean"
+            },
+            "issues": {
+              "default": [],
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "ruleId": {
+                    "type": "string"
+                  },
+                  "severity": {
+                    "type": "string",
+                    "enum": [
+                      "error",
+                      "warning"
+                    ]
+                  },
+                  "message": {
+                    "type": "object",
+                    "properties": {
+                      "en": {
+                        "type": "string"
+                      },
+                      "de": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "en",
+                      "de"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "selectorHint": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "ruleId",
+                  "severity",
+                  "message"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "ok",
+            "issues"
+          ],
+          "additionalProperties": false,
+          "description": "Validierungsergebnis (strict-mode relevant)."
+        }
+      },
+      "required": [
+        "html",
+        "warnings",
+        "validation"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "openWorldHint": false
     }
   },
   {
     "name": "get_fieldset",
+    "title": "KERN Fieldset",
     "description": "KERN UX (Foundational/Layout): HTML für Fieldset erzeugen (Container/Grid/Section).",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -4627,10 +6828,96 @@
           "type": "boolean"
         }
       }
+    },
+    "outputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "html": {
+          "type": "string"
+        },
+        "warnings": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "validation": {
+          "type": "object",
+          "properties": {
+            "ok": {
+              "type": "boolean"
+            },
+            "issues": {
+              "default": [],
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "ruleId": {
+                    "type": "string"
+                  },
+                  "severity": {
+                    "type": "string",
+                    "enum": [
+                      "error",
+                      "warning"
+                    ]
+                  },
+                  "message": {
+                    "type": "object",
+                    "properties": {
+                      "en": {
+                        "type": "string"
+                      },
+                      "de": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "en",
+                      "de"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "selectorHint": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "ruleId",
+                  "severity",
+                  "message"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "ok",
+            "issues"
+          ],
+          "additionalProperties": false,
+          "description": "Validierungsergebnis (strict-mode relevant)."
+        }
+      },
+      "required": [
+        "html",
+        "warnings",
+        "validation"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "openWorldHint": false
     }
   },
   {
     "name": "get_grid",
+    "title": "KERN Grid",
     "description": "KERN UX (Foundational/Layout): HTML für 12-Spalten-Grid erzeugen (kern-container/kern-row/kern-col-{breakpoint}-{span}). Verwendet responsive Breakpoints (kern-col-md-{n}, kern-col-sm-12). Spalten müssen Teiler von 12 sein: 1, 2, 3, 4, 6, 12. Für 5 oder 7 gleich breite Spalten verwende dieses Tool NICHT; nutze stattdessen CSS-Grid-Utilities über get_utility_reference (z.B. kern-grid kern-grid-cols-5).",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -5356,10 +7643,96 @@
           "type": "boolean"
         }
       }
+    },
+    "outputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "html": {
+          "type": "string"
+        },
+        "warnings": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "validation": {
+          "type": "object",
+          "properties": {
+            "ok": {
+              "type": "boolean"
+            },
+            "issues": {
+              "default": [],
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "ruleId": {
+                    "type": "string"
+                  },
+                  "severity": {
+                    "type": "string",
+                    "enum": [
+                      "error",
+                      "warning"
+                    ]
+                  },
+                  "message": {
+                    "type": "object",
+                    "properties": {
+                      "en": {
+                        "type": "string"
+                      },
+                      "de": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "en",
+                      "de"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "selectorHint": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "ruleId",
+                  "severity",
+                  "message"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "ok",
+            "issues"
+          ],
+          "additionalProperties": false,
+          "description": "Validierungsergebnis (strict-mode relevant)."
+        }
+      },
+      "required": [
+        "html",
+        "warnings",
+        "validation"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "openWorldHint": false
     }
   },
   {
     "name": "get_heading",
+    "title": "KERN Heading",
     "description": "KERN UX (Foundational/Typography): HTML für Heading erzeugen. Nutze level 1-6 für Hierarchie (h1..h6). Beispiel: { text: 'Services', level: 2 }.",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -5413,10 +7786,96 @@
           "type": "boolean"
         }
       }
+    },
+    "outputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "html": {
+          "type": "string"
+        },
+        "warnings": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "validation": {
+          "type": "object",
+          "properties": {
+            "ok": {
+              "type": "boolean"
+            },
+            "issues": {
+              "default": [],
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "ruleId": {
+                    "type": "string"
+                  },
+                  "severity": {
+                    "type": "string",
+                    "enum": [
+                      "error",
+                      "warning"
+                    ]
+                  },
+                  "message": {
+                    "type": "object",
+                    "properties": {
+                      "en": {
+                        "type": "string"
+                      },
+                      "de": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "en",
+                      "de"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "selectorHint": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "ruleId",
+                  "severity",
+                  "message"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "ok",
+            "issues"
+          ],
+          "additionalProperties": false,
+          "description": "Validierungsergebnis (strict-mode relevant)."
+        }
+      },
+      "required": [
+        "html",
+        "warnings",
+        "validation"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "openWorldHint": false
     }
   },
   {
     "name": "get_icon",
+    "title": "KERN Icon",
     "description": "KERN UX: HTML für Icon erzeugen. Pflichtfeld: name (siehe list_icons). Beispiel: { name: 'download', decorative: false, ariaLabel: 'Download PDF' }.",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -5463,10 +7922,96 @@
         "name"
       ],
       "description": "Parameter fuer KERN UX Icon-Komponente. KERN behandelt Icons standardmaessig als dekorativ; nur bedeutungstragende Icons sollten mit aria-hidden=\"false\" und aria-label exponiert werden."
+    },
+    "outputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "html": {
+          "type": "string"
+        },
+        "warnings": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "validation": {
+          "type": "object",
+          "properties": {
+            "ok": {
+              "type": "boolean"
+            },
+            "issues": {
+              "default": [],
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "ruleId": {
+                    "type": "string"
+                  },
+                  "severity": {
+                    "type": "string",
+                    "enum": [
+                      "error",
+                      "warning"
+                    ]
+                  },
+                  "message": {
+                    "type": "object",
+                    "properties": {
+                      "en": {
+                        "type": "string"
+                      },
+                      "de": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "en",
+                      "de"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "selectorHint": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "ruleId",
+                  "severity",
+                  "message"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "ok",
+            "issues"
+          ],
+          "additionalProperties": false,
+          "description": "Validierungsergebnis (strict-mode relevant)."
+        }
+      },
+      "required": [
+        "html",
+        "warnings",
+        "validation"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "openWorldHint": false
     }
   },
   {
     "name": "get_index",
+    "title": "KERN Index",
     "description": "KERN UX: HTML für index erzeugen (mit optionaler strikter Validierung).",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -5486,10 +8031,96 @@
         }
       },
       "description": "Gibt korrektes HTML für die KERN UX Komponente 'index' zurück."
+    },
+    "outputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "html": {
+          "type": "string"
+        },
+        "warnings": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "validation": {
+          "type": "object",
+          "properties": {
+            "ok": {
+              "type": "boolean"
+            },
+            "issues": {
+              "default": [],
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "ruleId": {
+                    "type": "string"
+                  },
+                  "severity": {
+                    "type": "string",
+                    "enum": [
+                      "error",
+                      "warning"
+                    ]
+                  },
+                  "message": {
+                    "type": "object",
+                    "properties": {
+                      "en": {
+                        "type": "string"
+                      },
+                      "de": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "en",
+                      "de"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "selectorHint": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "ruleId",
+                  "severity",
+                  "message"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "ok",
+            "issues"
+          ],
+          "additionalProperties": false,
+          "description": "Validierungsergebnis (strict-mode relevant)."
+        }
+      },
+      "required": [
+        "html",
+        "warnings",
+        "validation"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "openWorldHint": false
     }
   },
   {
     "name": "get_inputdate",
+    "title": "KERN Input Date",
     "description": "KERN UX: HTML für Datum-Input erzeugen (mit optionalem Error/Hint, readonly, disabled).",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -5563,10 +8194,96 @@
         "label"
       ],
       "description": "Parameter fuer KERN UX InputDate-Komponente. Dieses Repo modelliert hier bewusst ein einzelnes browsernatives Datumsfeld als vereinfachte Annaeherung; die KERN-Quelle zeigt stattdessen ein Fieldset mit getrennten Eingaben fuer Tag, Monat und Jahr."
+    },
+    "outputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "html": {
+          "type": "string"
+        },
+        "warnings": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "validation": {
+          "type": "object",
+          "properties": {
+            "ok": {
+              "type": "boolean"
+            },
+            "issues": {
+              "default": [],
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "ruleId": {
+                    "type": "string"
+                  },
+                  "severity": {
+                    "type": "string",
+                    "enum": [
+                      "error",
+                      "warning"
+                    ]
+                  },
+                  "message": {
+                    "type": "object",
+                    "properties": {
+                      "en": {
+                        "type": "string"
+                      },
+                      "de": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "en",
+                      "de"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "selectorHint": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "ruleId",
+                  "severity",
+                  "message"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "ok",
+            "issues"
+          ],
+          "additionalProperties": false,
+          "description": "Validierungsergebnis (strict-mode relevant)."
+        }
+      },
+      "required": [
+        "html",
+        "warnings",
+        "validation"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "openWorldHint": false
     }
   },
   {
     "name": "get_inputemail",
+    "title": "KERN Input Email",
     "description": "KERN UX: HTML für E-Mail-Input erzeugen (mit optionalem Error/Hint, readonly, disabled).",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -5640,10 +8357,96 @@
         "label"
       ],
       "description": "Parameter für KERN UX InputEmail-Komponente. Nur zur Eingabe von E-Mail-Adressen verwenden; Hinweistext sollte bei Bedarf das erwartete Format erläutern. Ohne abweichende Vorgabe wird autocomplete=email gesetzt."
+    },
+    "outputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "html": {
+          "type": "string"
+        },
+        "warnings": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "validation": {
+          "type": "object",
+          "properties": {
+            "ok": {
+              "type": "boolean"
+            },
+            "issues": {
+              "default": [],
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "ruleId": {
+                    "type": "string"
+                  },
+                  "severity": {
+                    "type": "string",
+                    "enum": [
+                      "error",
+                      "warning"
+                    ]
+                  },
+                  "message": {
+                    "type": "object",
+                    "properties": {
+                      "en": {
+                        "type": "string"
+                      },
+                      "de": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "en",
+                      "de"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "selectorHint": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "ruleId",
+                  "severity",
+                  "message"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "ok",
+            "issues"
+          ],
+          "additionalProperties": false,
+          "description": "Validierungsergebnis (strict-mode relevant)."
+        }
+      },
+      "required": [
+        "html",
+        "warnings",
+        "validation"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "openWorldHint": false
     }
   },
   {
     "name": "get_inputfile",
+    "title": "KERN Input File",
     "description": "KERN UX: HTML für File-Input erzeugen (mit optionalem Error/Hint). Empfohlen fuer Barrierefreiheit: hint mit Dateiformat und Groessenlimit setzen. Pflichtfelder: name, label (werden bei leeren Calls mit sinnvollen Defaults befuellt).",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -5698,10 +8501,96 @@
         "label"
       ],
       "description": "Parameter fuer KERN UX InputFile-Komponente. Hinweistext sollte erlaubte Formate und, wenn relevant, Groessenlimits nennen. Der Upload selbst bleibt fachlich auf genau eine Datei ausgerichtet."
+    },
+    "outputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "html": {
+          "type": "string"
+        },
+        "warnings": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "validation": {
+          "type": "object",
+          "properties": {
+            "ok": {
+              "type": "boolean"
+            },
+            "issues": {
+              "default": [],
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "ruleId": {
+                    "type": "string"
+                  },
+                  "severity": {
+                    "type": "string",
+                    "enum": [
+                      "error",
+                      "warning"
+                    ]
+                  },
+                  "message": {
+                    "type": "object",
+                    "properties": {
+                      "en": {
+                        "type": "string"
+                      },
+                      "de": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "en",
+                      "de"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "selectorHint": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "ruleId",
+                  "severity",
+                  "message"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "ok",
+            "issues"
+          ],
+          "additionalProperties": false,
+          "description": "Validierungsergebnis (strict-mode relevant)."
+        }
+      },
+      "required": [
+        "html",
+        "warnings",
+        "validation"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "openWorldHint": false
     }
   },
   {
     "name": "get_inputgroup",
+    "title": "KERN Input Group",
     "description": "KERN UX: HTML für InputGroup erzeugen (Prefix/Suffix mit Input).",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -5754,10 +8643,96 @@
         "name"
       ],
       "description": "Parameter fuer KERN UX InputGroup-Komponente. Diese MCP-Schnittstelle modelliert die einfache Textfeld-Variante mit visuellem Prefix/Suffix sowie disabled/readonly, nicht die erweiterten Button- oder Error-Kompositionen aus den Story-Beispielen."
+    },
+    "outputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "html": {
+          "type": "string"
+        },
+        "warnings": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "validation": {
+          "type": "object",
+          "properties": {
+            "ok": {
+              "type": "boolean"
+            },
+            "issues": {
+              "default": [],
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "ruleId": {
+                    "type": "string"
+                  },
+                  "severity": {
+                    "type": "string",
+                    "enum": [
+                      "error",
+                      "warning"
+                    ]
+                  },
+                  "message": {
+                    "type": "object",
+                    "properties": {
+                      "en": {
+                        "type": "string"
+                      },
+                      "de": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "en",
+                      "de"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "selectorHint": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "ruleId",
+                  "severity",
+                  "message"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "ok",
+            "issues"
+          ],
+          "additionalProperties": false,
+          "description": "Validierungsergebnis (strict-mode relevant)."
+        }
+      },
+      "required": [
+        "html",
+        "warnings",
+        "validation"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "openWorldHint": false
     }
   },
   {
     "name": "get_inputnumber",
+    "title": "KERN Input Number",
     "description": "KERN UX: HTML für Number-Input erzeugen (mit optionalem Error/Hint, readonly, disabled). Empfohlen fuer Barrierefreiheit: hint mit Zahlenformat setzen. Pflichtfelder: name, label (werden bei leeren Calls mit sinnvollen Defaults befuellt).",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -5825,10 +8800,96 @@
         "label"
       ],
       "description": "Parameter fuer KERN UX InputNumber-Komponente. Fuer numerische Eingaben ohne Rechen- oder Spinbox-Bedienung; Rendering folgt KERN als Textfeld mit inputmode=\"numeric\" und pattern=\"[0-9]*\" statt nativer type=\"number\"."
+    },
+    "outputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "html": {
+          "type": "string"
+        },
+        "warnings": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "validation": {
+          "type": "object",
+          "properties": {
+            "ok": {
+              "type": "boolean"
+            },
+            "issues": {
+              "default": [],
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "ruleId": {
+                    "type": "string"
+                  },
+                  "severity": {
+                    "type": "string",
+                    "enum": [
+                      "error",
+                      "warning"
+                    ]
+                  },
+                  "message": {
+                    "type": "object",
+                    "properties": {
+                      "en": {
+                        "type": "string"
+                      },
+                      "de": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "en",
+                      "de"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "selectorHint": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "ruleId",
+                  "severity",
+                  "message"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "ok",
+            "issues"
+          ],
+          "additionalProperties": false,
+          "description": "Validierungsergebnis (strict-mode relevant)."
+        }
+      },
+      "required": [
+        "html",
+        "warnings",
+        "validation"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "openWorldHint": false
     }
   },
   {
     "name": "get_inputpassword",
+    "title": "KERN Input Password",
     "description": "KERN UX: HTML für Passwort-Input erzeugen (mit optionalem Error/Hint, readonly, disabled).",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -5893,10 +8954,96 @@
       ],
       "additionalProperties": false,
       "description": "Parameter für KERN UX InputPassword-Komponente. Nur für Passwort-Eingabe oder -Erstellung verwenden. Dieses Schema modelliert das Passwortfeld selbst, aber keinen Passwort-vergessen-Link und keinen Sichtbarkeits-Toggle."
+    },
+    "outputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "html": {
+          "type": "string"
+        },
+        "warnings": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "validation": {
+          "type": "object",
+          "properties": {
+            "ok": {
+              "type": "boolean"
+            },
+            "issues": {
+              "default": [],
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "ruleId": {
+                    "type": "string"
+                  },
+                  "severity": {
+                    "type": "string",
+                    "enum": [
+                      "error",
+                      "warning"
+                    ]
+                  },
+                  "message": {
+                    "type": "object",
+                    "properties": {
+                      "en": {
+                        "type": "string"
+                      },
+                      "de": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "en",
+                      "de"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "selectorHint": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "ruleId",
+                  "severity",
+                  "message"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "ok",
+            "issues"
+          ],
+          "additionalProperties": false,
+          "description": "Validierungsergebnis (strict-mode relevant)."
+        }
+      },
+      "required": [
+        "html",
+        "warnings",
+        "validation"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "openWorldHint": false
     }
   },
   {
     "name": "get_inputtel",
+    "title": "KERN Input Tel",
     "description": "KERN UX: HTML für Telefon-Input erzeugen (mit optionalem Error/Hint, readonly, disabled).",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -5970,10 +9117,96 @@
         "label"
       ],
       "description": "Parameter fuer KERN UX InputTel-Komponente. Nur fuer Telefonnummern verwenden; Hinweistext sollte bei Bedarf Vorwahl, Laendercode oder das erwartete Nummernformat erklaeren. KERN-Beispiele setzen hier standardmaessig autocomplete=\"tel\"."
+    },
+    "outputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "html": {
+          "type": "string"
+        },
+        "warnings": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "validation": {
+          "type": "object",
+          "properties": {
+            "ok": {
+              "type": "boolean"
+            },
+            "issues": {
+              "default": [],
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "ruleId": {
+                    "type": "string"
+                  },
+                  "severity": {
+                    "type": "string",
+                    "enum": [
+                      "error",
+                      "warning"
+                    ]
+                  },
+                  "message": {
+                    "type": "object",
+                    "properties": {
+                      "en": {
+                        "type": "string"
+                      },
+                      "de": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "en",
+                      "de"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "selectorHint": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "ruleId",
+                  "severity",
+                  "message"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "ok",
+            "issues"
+          ],
+          "additionalProperties": false,
+          "description": "Validierungsergebnis (strict-mode relevant)."
+        }
+      },
+      "required": [
+        "html",
+        "warnings",
+        "validation"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "openWorldHint": false
     }
   },
   {
     "name": "get_inputtext",
+    "title": "KERN Input Text",
     "description": "KERN UX: HTML für Text-Input erzeugen (mit optionalem Error/Hint, readonly, disabled). Empfohlen fuer Barrierefreiheit: hint mit Pflichtformat setzen. Pflichtfelder: name, label (werden bei leeren Calls mit sinnvollen Defaults befuellt).",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -6055,10 +9288,96 @@
         "label"
       ],
       "description": "Parameter für KERN UX InputText-Komponente (Basis für abgeleitete Input-Typen). Für einzeilige, nicht vorhersehbare Eingaben; für mehrzeilige Texte Textarea und für bekannte Optionen Select, Radios oder Checkboxes bevorzugen. Bei personenbezogenen oder bekannten Daten wenn moeglich passende autocomplete-Tokens setzen."
+    },
+    "outputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "html": {
+          "type": "string"
+        },
+        "warnings": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "validation": {
+          "type": "object",
+          "properties": {
+            "ok": {
+              "type": "boolean"
+            },
+            "issues": {
+              "default": [],
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "ruleId": {
+                    "type": "string"
+                  },
+                  "severity": {
+                    "type": "string",
+                    "enum": [
+                      "error",
+                      "warning"
+                    ]
+                  },
+                  "message": {
+                    "type": "object",
+                    "properties": {
+                      "en": {
+                        "type": "string"
+                      },
+                      "de": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "en",
+                      "de"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "selectorHint": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "ruleId",
+                  "severity",
+                  "message"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "ok",
+            "issues"
+          ],
+          "additionalProperties": false,
+          "description": "Validierungsergebnis (strict-mode relevant)."
+        }
+      },
+      "required": [
+        "html",
+        "warnings",
+        "validation"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "openWorldHint": false
     }
   },
   {
     "name": "get_inputurl",
+    "title": "KERN Input Url",
     "description": "KERN UX: HTML für URL-Input erzeugen (mit optionalem Error/Hint, readonly, disabled).",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -6132,10 +9451,96 @@
         "label"
       ],
       "description": "Parameter fuer KERN UX InputUrl-Komponente. Nur fuer vollstaendige Web- oder Service-Adressen verwenden; Hinweistext sollte das erwartete Format inklusive Protokoll klar machen."
+    },
+    "outputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "html": {
+          "type": "string"
+        },
+        "warnings": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "validation": {
+          "type": "object",
+          "properties": {
+            "ok": {
+              "type": "boolean"
+            },
+            "issues": {
+              "default": [],
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "ruleId": {
+                    "type": "string"
+                  },
+                  "severity": {
+                    "type": "string",
+                    "enum": [
+                      "error",
+                      "warning"
+                    ]
+                  },
+                  "message": {
+                    "type": "object",
+                    "properties": {
+                      "en": {
+                        "type": "string"
+                      },
+                      "de": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "en",
+                      "de"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "selectorHint": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "ruleId",
+                  "severity",
+                  "message"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "ok",
+            "issues"
+          ],
+          "additionalProperties": false,
+          "description": "Validierungsergebnis (strict-mode relevant)."
+        }
+      },
+      "required": [
+        "html",
+        "warnings",
+        "validation"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "openWorldHint": false
     }
   },
   {
     "name": "get_kopfzeile",
+    "title": "KERN Kopfzeile",
     "description": "KERN UX (Foundational/Layout): HTML für Kopfzeile erzeugen (Container/Grid/Section).",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -6164,10 +9569,96 @@
           "type": "boolean"
         }
       }
+    },
+    "outputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "html": {
+          "type": "string"
+        },
+        "warnings": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "validation": {
+          "type": "object",
+          "properties": {
+            "ok": {
+              "type": "boolean"
+            },
+            "issues": {
+              "default": [],
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "ruleId": {
+                    "type": "string"
+                  },
+                  "severity": {
+                    "type": "string",
+                    "enum": [
+                      "error",
+                      "warning"
+                    ]
+                  },
+                  "message": {
+                    "type": "object",
+                    "properties": {
+                      "en": {
+                        "type": "string"
+                      },
+                      "de": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "en",
+                      "de"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "selectorHint": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "ruleId",
+                  "severity",
+                  "message"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "ok",
+            "issues"
+          ],
+          "additionalProperties": false,
+          "description": "Validierungsergebnis (strict-mode relevant)."
+        }
+      },
+      "required": [
+        "html",
+        "warnings",
+        "validation"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "openWorldHint": false
     }
   },
   {
     "name": "get_label",
+    "title": "KERN Label",
     "description": "KERN UX (Foundational/Typography): HTML für Label erzeugen.",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -6191,10 +9682,96 @@
           "type": "boolean"
         }
       }
+    },
+    "outputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "html": {
+          "type": "string"
+        },
+        "warnings": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "validation": {
+          "type": "object",
+          "properties": {
+            "ok": {
+              "type": "boolean"
+            },
+            "issues": {
+              "default": [],
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "ruleId": {
+                    "type": "string"
+                  },
+                  "severity": {
+                    "type": "string",
+                    "enum": [
+                      "error",
+                      "warning"
+                    ]
+                  },
+                  "message": {
+                    "type": "object",
+                    "properties": {
+                      "en": {
+                        "type": "string"
+                      },
+                      "de": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "en",
+                      "de"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "selectorHint": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "ruleId",
+                  "severity",
+                  "message"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "ok",
+            "issues"
+          ],
+          "additionalProperties": false,
+          "description": "Validierungsergebnis (strict-mode relevant)."
+        }
+      },
+      "required": [
+        "html",
+        "warnings",
+        "validation"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "openWorldHint": false
     }
   },
   {
     "name": "get_layers",
+    "title": "KERN Layers",
     "description": "KERN UX: HTML für Layers erzeugen (mit optionaler strikter Validierung).",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -6214,10 +9791,96 @@
         }
       },
       "description": "Gibt korrektes HTML für die KERN UX Komponente 'Layers' zurück."
+    },
+    "outputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "html": {
+          "type": "string"
+        },
+        "warnings": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "validation": {
+          "type": "object",
+          "properties": {
+            "ok": {
+              "type": "boolean"
+            },
+            "issues": {
+              "default": [],
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "ruleId": {
+                    "type": "string"
+                  },
+                  "severity": {
+                    "type": "string",
+                    "enum": [
+                      "error",
+                      "warning"
+                    ]
+                  },
+                  "message": {
+                    "type": "object",
+                    "properties": {
+                      "en": {
+                        "type": "string"
+                      },
+                      "de": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "en",
+                      "de"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "selectorHint": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "ruleId",
+                  "severity",
+                  "message"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "ok",
+            "issues"
+          ],
+          "additionalProperties": false,
+          "description": "Validierungsergebnis (strict-mode relevant)."
+        }
+      },
+      "required": [
+        "html",
+        "warnings",
+        "validation"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "openWorldHint": false
     }
   },
   {
     "name": "get_link",
+    "title": "KERN Link",
     "description": "KERN UX (Foundational/Typography): HTML für Link erzeugen.",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -6246,10 +9909,96 @@
           "type": "boolean"
         }
       }
+    },
+    "outputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "html": {
+          "type": "string"
+        },
+        "warnings": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "validation": {
+          "type": "object",
+          "properties": {
+            "ok": {
+              "type": "boolean"
+            },
+            "issues": {
+              "default": [],
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "ruleId": {
+                    "type": "string"
+                  },
+                  "severity": {
+                    "type": "string",
+                    "enum": [
+                      "error",
+                      "warning"
+                    ]
+                  },
+                  "message": {
+                    "type": "object",
+                    "properties": {
+                      "en": {
+                        "type": "string"
+                      },
+                      "de": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "en",
+                      "de"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "selectorHint": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "ruleId",
+                  "severity",
+                  "message"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "ok",
+            "issues"
+          ],
+          "additionalProperties": false,
+          "description": "Validierungsergebnis (strict-mode relevant)."
+        }
+      },
+      "required": [
+        "html",
+        "warnings",
+        "validation"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "openWorldHint": false
     }
   },
   {
     "name": "get_lists",
+    "title": "KERN Lists",
     "description": "KERN UX (Foundational/Typography): HTML für Lists erzeugen.",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -6278,10 +10027,96 @@
           "type": "boolean"
         }
       }
+    },
+    "outputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "html": {
+          "type": "string"
+        },
+        "warnings": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "validation": {
+          "type": "object",
+          "properties": {
+            "ok": {
+              "type": "boolean"
+            },
+            "issues": {
+              "default": [],
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "ruleId": {
+                    "type": "string"
+                  },
+                  "severity": {
+                    "type": "string",
+                    "enum": [
+                      "error",
+                      "warning"
+                    ]
+                  },
+                  "message": {
+                    "type": "object",
+                    "properties": {
+                      "en": {
+                        "type": "string"
+                      },
+                      "de": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "en",
+                      "de"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "selectorHint": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "ruleId",
+                  "severity",
+                  "message"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "ok",
+            "issues"
+          ],
+          "additionalProperties": false,
+          "description": "Validierungsergebnis (strict-mode relevant)."
+        }
+      },
+      "required": [
+        "html",
+        "warnings",
+        "validation"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "openWorldHint": false
     }
   },
   {
     "name": "get_loader",
+    "title": "KERN Loader",
     "description": "KERN UX: HTML für Loader (Lade-Indikator) erzeugen.",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -6310,10 +10145,96 @@
         }
       },
       "description": "Parameter fuer KERN UX Loader-Komponente. Der Renderer erzeugt einen visuellen Ladeindikator mit role=\"status\" und verborgenem Screenreader-Text."
+    },
+    "outputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "html": {
+          "type": "string"
+        },
+        "warnings": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "validation": {
+          "type": "object",
+          "properties": {
+            "ok": {
+              "type": "boolean"
+            },
+            "issues": {
+              "default": [],
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "ruleId": {
+                    "type": "string"
+                  },
+                  "severity": {
+                    "type": "string",
+                    "enum": [
+                      "error",
+                      "warning"
+                    ]
+                  },
+                  "message": {
+                    "type": "object",
+                    "properties": {
+                      "en": {
+                        "type": "string"
+                      },
+                      "de": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "en",
+                      "de"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "selectorHint": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "ruleId",
+                  "severity",
+                  "message"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "ok",
+            "issues"
+          ],
+          "additionalProperties": false,
+          "description": "Validierungsergebnis (strict-mode relevant)."
+        }
+      },
+      "required": [
+        "html",
+        "warnings",
+        "validation"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "openWorldHint": false
     }
   },
   {
     "name": "get_pattern",
+    "title": "KERN Pattern",
     "description": "KERN UX: Liefert kanonisches HTML für ein Layout-Pattern (aktuell nur Header-Pattern mit Flex/Grid-Variante). KEINE Footer-Patterns vorhanden. Für Footer: verwende render_composition mit Section (aria-label) + Grid (4 columns) + verschachtelte Blöcke.",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -6333,10 +10254,96 @@
         }
       },
       "description": "Gibt korrektes HTML für die KERN UX Komponente 'Pattern' zurück."
+    },
+    "outputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "html": {
+          "type": "string"
+        },
+        "warnings": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "validation": {
+          "type": "object",
+          "properties": {
+            "ok": {
+              "type": "boolean"
+            },
+            "issues": {
+              "default": [],
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "ruleId": {
+                    "type": "string"
+                  },
+                  "severity": {
+                    "type": "string",
+                    "enum": [
+                      "error",
+                      "warning"
+                    ]
+                  },
+                  "message": {
+                    "type": "object",
+                    "properties": {
+                      "en": {
+                        "type": "string"
+                      },
+                      "de": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "en",
+                      "de"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "selectorHint": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "ruleId",
+                  "severity",
+                  "message"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "ok",
+            "issues"
+          ],
+          "additionalProperties": false,
+          "description": "Validierungsergebnis (strict-mode relevant)."
+        }
+      },
+      "required": [
+        "html",
+        "warnings",
+        "validation"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "openWorldHint": false
     }
   },
   {
     "name": "get_preline",
+    "title": "KERN Preline",
     "description": "KERN UX (Foundational/Typography): HTML für Preline erzeugen.",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -6360,10 +10367,96 @@
           "type": "boolean"
         }
       }
+    },
+    "outputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "html": {
+          "type": "string"
+        },
+        "warnings": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "validation": {
+          "type": "object",
+          "properties": {
+            "ok": {
+              "type": "boolean"
+            },
+            "issues": {
+              "default": [],
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "ruleId": {
+                    "type": "string"
+                  },
+                  "severity": {
+                    "type": "string",
+                    "enum": [
+                      "error",
+                      "warning"
+                    ]
+                  },
+                  "message": {
+                    "type": "object",
+                    "properties": {
+                      "en": {
+                        "type": "string"
+                      },
+                      "de": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "en",
+                      "de"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "selectorHint": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "ruleId",
+                  "severity",
+                  "message"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "ok",
+            "issues"
+          ],
+          "additionalProperties": false,
+          "description": "Validierungsergebnis (strict-mode relevant)."
+        }
+      },
+      "required": [
+        "html",
+        "warnings",
+        "validation"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "openWorldHint": false
     }
   },
   {
     "name": "get_progress",
+    "title": "KERN Progress",
     "description": "KERN UX: HTML für Progress (Fortschrittsbalken) erzeugen.",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -6410,10 +10503,96 @@
         "value"
       ],
       "description": "Parameter fuer KERN UX Progress-Komponente. Diese Implementierung bildet das native HTML5-<progress>-Element in einem kern-progress-Wrapper nach und unterstuetzt optional einen verknuepften Label-Text."
+    },
+    "outputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "html": {
+          "type": "string"
+        },
+        "warnings": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "validation": {
+          "type": "object",
+          "properties": {
+            "ok": {
+              "type": "boolean"
+            },
+            "issues": {
+              "default": [],
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "ruleId": {
+                    "type": "string"
+                  },
+                  "severity": {
+                    "type": "string",
+                    "enum": [
+                      "error",
+                      "warning"
+                    ]
+                  },
+                  "message": {
+                    "type": "object",
+                    "properties": {
+                      "en": {
+                        "type": "string"
+                      },
+                      "de": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "en",
+                      "de"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "selectorHint": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "ruleId",
+                  "severity",
+                  "message"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "ok",
+            "issues"
+          ],
+          "additionalProperties": false,
+          "description": "Validierungsergebnis (strict-mode relevant)."
+        }
+      },
+      "required": [
+        "html",
+        "warnings",
+        "validation"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "openWorldHint": false
     }
   },
   {
     "name": "get_radio",
+    "title": "KERN Radio",
     "description": "KERN UX: HTML für Radio erzeugen (Einzel- oder Listen-Modus mit optionalem Error/Hint).",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -6563,10 +10742,96 @@
         }
       ],
       "type": "object"
+    },
+    "outputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "html": {
+          "type": "string"
+        },
+        "warnings": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "validation": {
+          "type": "object",
+          "properties": {
+            "ok": {
+              "type": "boolean"
+            },
+            "issues": {
+              "default": [],
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "ruleId": {
+                    "type": "string"
+                  },
+                  "severity": {
+                    "type": "string",
+                    "enum": [
+                      "error",
+                      "warning"
+                    ]
+                  },
+                  "message": {
+                    "type": "object",
+                    "properties": {
+                      "en": {
+                        "type": "string"
+                      },
+                      "de": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "en",
+                      "de"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "selectorHint": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "ruleId",
+                  "severity",
+                  "message"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "ok",
+            "issues"
+          ],
+          "additionalProperties": false,
+          "description": "Validierungsergebnis (strict-mode relevant)."
+        }
+      },
+      "required": [
+        "html",
+        "warnings",
+        "validation"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "openWorldHint": false
     }
   },
   {
     "name": "get_search",
+    "title": "KERN Search",
     "description": "KERN UX: HTML für Search erzeugen (mit optionaler strikter Validierung).",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -6586,10 +10851,96 @@
         }
       },
       "description": "Gibt korrektes HTML für die KERN UX Komponente 'Search' zurück."
+    },
+    "outputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "html": {
+          "type": "string"
+        },
+        "warnings": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "validation": {
+          "type": "object",
+          "properties": {
+            "ok": {
+              "type": "boolean"
+            },
+            "issues": {
+              "default": [],
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "ruleId": {
+                    "type": "string"
+                  },
+                  "severity": {
+                    "type": "string",
+                    "enum": [
+                      "error",
+                      "warning"
+                    ]
+                  },
+                  "message": {
+                    "type": "object",
+                    "properties": {
+                      "en": {
+                        "type": "string"
+                      },
+                      "de": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "en",
+                      "de"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "selectorHint": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "ruleId",
+                  "severity",
+                  "message"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "ok",
+            "issues"
+          ],
+          "additionalProperties": false,
+          "description": "Validierungsergebnis (strict-mode relevant)."
+        }
+      },
+      "required": [
+        "html",
+        "warnings",
+        "validation"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "openWorldHint": false
     }
   },
   {
     "name": "get_select",
+    "title": "KERN Select",
     "description": "KERN UX: HTML für Select erzeugen. Pflichtfelder: name, label, options (Array von { value, text }). Optional: hint, error, disabled: true, optional: true. Jede Option kann selected: true oder disabled: true haben. Der Wrapper kern-form-input__select-wrapper ist Pflicht und wird automatisch erzeugt. Beispiel: { name: 'lang', label: 'Sprache', options: [{ value: 'de', text: 'Deutsch', selected: true }, { value: 'en', text: 'English' }] }.",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -6674,10 +11025,96 @@
         "label"
       ],
       "description": "Parameter für KERN UX Select-Komponente. Für genau eine Auswahl aus vordefinierten Optionen; nicht für Aktionen oder Navigation verwenden. Wenn Radios möglich sind, diese oft bevorzugen."
+    },
+    "outputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "html": {
+          "type": "string"
+        },
+        "warnings": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "validation": {
+          "type": "object",
+          "properties": {
+            "ok": {
+              "type": "boolean"
+            },
+            "issues": {
+              "default": [],
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "ruleId": {
+                    "type": "string"
+                  },
+                  "severity": {
+                    "type": "string",
+                    "enum": [
+                      "error",
+                      "warning"
+                    ]
+                  },
+                  "message": {
+                    "type": "object",
+                    "properties": {
+                      "en": {
+                        "type": "string"
+                      },
+                      "de": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "en",
+                      "de"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "selectorHint": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "ruleId",
+                  "severity",
+                  "message"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "ok",
+            "issues"
+          ],
+          "additionalProperties": false,
+          "description": "Validierungsergebnis (strict-mode relevant)."
+        }
+      },
+      "required": [
+        "html",
+        "warnings",
+        "validation"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "openWorldHint": false
     }
   },
   {
     "name": "get_subline",
+    "title": "KERN Subline",
     "description": "KERN UX (Foundational/Typography): HTML für Subline erzeugen.",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -6701,10 +11138,96 @@
           "type": "boolean"
         }
       }
+    },
+    "outputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "html": {
+          "type": "string"
+        },
+        "warnings": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "validation": {
+          "type": "object",
+          "properties": {
+            "ok": {
+              "type": "boolean"
+            },
+            "issues": {
+              "default": [],
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "ruleId": {
+                    "type": "string"
+                  },
+                  "severity": {
+                    "type": "string",
+                    "enum": [
+                      "error",
+                      "warning"
+                    ]
+                  },
+                  "message": {
+                    "type": "object",
+                    "properties": {
+                      "en": {
+                        "type": "string"
+                      },
+                      "de": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "en",
+                      "de"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "selectorHint": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "ruleId",
+                  "severity",
+                  "message"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "ok",
+            "issues"
+          ],
+          "additionalProperties": false,
+          "description": "Validierungsergebnis (strict-mode relevant)."
+        }
+      },
+      "required": [
+        "html",
+        "warnings",
+        "validation"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "openWorldHint": false
     }
   },
   {
     "name": "get_summary",
+    "title": "KERN Summary",
     "description": "KERN UX: HTML für Summary (Zusammenfassung) erzeugen.",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -6941,10 +11464,96 @@
         }
       ],
       "type": "object"
+    },
+    "outputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "html": {
+          "type": "string"
+        },
+        "warnings": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "validation": {
+          "type": "object",
+          "properties": {
+            "ok": {
+              "type": "boolean"
+            },
+            "issues": {
+              "default": [],
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "ruleId": {
+                    "type": "string"
+                  },
+                  "severity": {
+                    "type": "string",
+                    "enum": [
+                      "error",
+                      "warning"
+                    ]
+                  },
+                  "message": {
+                    "type": "object",
+                    "properties": {
+                      "en": {
+                        "type": "string"
+                      },
+                      "de": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "en",
+                      "de"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "selectorHint": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "ruleId",
+                  "severity",
+                  "message"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "ok",
+            "issues"
+          ],
+          "additionalProperties": false,
+          "description": "Validierungsergebnis (strict-mode relevant)."
+        }
+      },
+      "required": [
+        "html",
+        "warnings",
+        "validation"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "openWorldHint": false
     }
   },
   {
     "name": "get_table",
+    "title": "KERN Table",
     "description": "KERN UX: HTML für Table (Datentabelle) erzeugen.",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -7085,10 +11694,96 @@
         "rows"
       ],
       "description": "Parameter fuer KERN UX Table-Komponente. Ausrichtungsregel: numerische und Waehrungs-Spalten als numeric markieren, damit sie rechtsbuendig erscheinen; Textspalten bleiben linksbuendig. Diese MCP-Schnittstelle modelliert derzeit klassische Daten-Tabellen; die erweiterten Action-Column-Muster aus den KERN-Beispielen werden noch nicht als eigene Struktur abgebildet."
+    },
+    "outputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "html": {
+          "type": "string"
+        },
+        "warnings": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "validation": {
+          "type": "object",
+          "properties": {
+            "ok": {
+              "type": "boolean"
+            },
+            "issues": {
+              "default": [],
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "ruleId": {
+                    "type": "string"
+                  },
+                  "severity": {
+                    "type": "string",
+                    "enum": [
+                      "error",
+                      "warning"
+                    ]
+                  },
+                  "message": {
+                    "type": "object",
+                    "properties": {
+                      "en": {
+                        "type": "string"
+                      },
+                      "de": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "en",
+                      "de"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "selectorHint": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "ruleId",
+                  "severity",
+                  "message"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "ok",
+            "issues"
+          ],
+          "additionalProperties": false,
+          "description": "Validierungsergebnis (strict-mode relevant)."
+        }
+      },
+      "required": [
+        "html",
+        "warnings",
+        "validation"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "openWorldHint": false
     }
   },
   {
     "name": "get_tasklist",
+    "title": "KERN Tasklist",
     "description": "KERN UX: HTML fuer Tasklist erzeugen (Aufgabenliste mit Status). items erwartet Objekte mit title, optional href, status und statusType. numbered (Standard: true) erzeugt eine nummerierte Liste (ol). Setze numbered: false für eine unnummerierte Checkliste (ul) — ideal für Feature-Listen oder Vergleichs-Checklisten mit Häkchen-Icons. Beispiel nummeriert: { heading: 'Schritte', items: [{ title: 'Unterlagen hochladen', status: 'Offen', statusType: 'info' }] }. Beispiel Checkliste: { heading: 'Leistungen', numbered: false, items: [{ title: 'Inklusive', status: 'Ja', statusType: 'success' }] }.",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -7158,10 +11853,96 @@
         "items"
       ],
       "description": "Parameter fuer KERN UX Tasklist-Komponente. Geeignet fuer Aufgaben oder Pruefschritte mit sichtbarem Bearbeitungsstatus; jeder Eintrag wird mit einem Status-Badge gerendert."
+    },
+    "outputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "html": {
+          "type": "string"
+        },
+        "warnings": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "validation": {
+          "type": "object",
+          "properties": {
+            "ok": {
+              "type": "boolean"
+            },
+            "issues": {
+              "default": [],
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "ruleId": {
+                    "type": "string"
+                  },
+                  "severity": {
+                    "type": "string",
+                    "enum": [
+                      "error",
+                      "warning"
+                    ]
+                  },
+                  "message": {
+                    "type": "object",
+                    "properties": {
+                      "en": {
+                        "type": "string"
+                      },
+                      "de": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "en",
+                      "de"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "selectorHint": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "ruleId",
+                  "severity",
+                  "message"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "ok",
+            "issues"
+          ],
+          "additionalProperties": false,
+          "description": "Validierungsergebnis (strict-mode relevant)."
+        }
+      },
+      "required": [
+        "html",
+        "warnings",
+        "validation"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "openWorldHint": false
     }
   },
   {
     "name": "get_textarea",
+    "title": "KERN Textarea",
     "description": "KERN UX: HTML für Textarea (mehrzeiliges Textfeld) erzeugen.",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -7235,10 +12016,96 @@
         "label"
       ],
       "description": "Parameter für KERN UX Textarea-Komponente. Nur für mehrzeilige Eingaben oder längere Freitexte verwenden; für kurze einzeilige Werte InputText bevorzugen."
+    },
+    "outputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "html": {
+          "type": "string"
+        },
+        "warnings": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "validation": {
+          "type": "object",
+          "properties": {
+            "ok": {
+              "type": "boolean"
+            },
+            "issues": {
+              "default": [],
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "ruleId": {
+                    "type": "string"
+                  },
+                  "severity": {
+                    "type": "string",
+                    "enum": [
+                      "error",
+                      "warning"
+                    ]
+                  },
+                  "message": {
+                    "type": "object",
+                    "properties": {
+                      "en": {
+                        "type": "string"
+                      },
+                      "de": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "en",
+                      "de"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "selectorHint": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "ruleId",
+                  "severity",
+                  "message"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "ok",
+            "issues"
+          ],
+          "additionalProperties": false,
+          "description": "Validierungsergebnis (strict-mode relevant)."
+        }
+      },
+      "required": [
+        "html",
+        "warnings",
+        "validation"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "openWorldHint": false
     }
   },
   {
     "name": "get_title",
+    "title": "KERN Title",
     "description": "KERN UX (Foundational/Typography): HTML für Title erzeugen.",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -7272,6 +12139,91 @@
           "type": "boolean"
         }
       }
+    },
+    "outputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "html": {
+          "type": "string"
+        },
+        "warnings": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "validation": {
+          "type": "object",
+          "properties": {
+            "ok": {
+              "type": "boolean"
+            },
+            "issues": {
+              "default": [],
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "ruleId": {
+                    "type": "string"
+                  },
+                  "severity": {
+                    "type": "string",
+                    "enum": [
+                      "error",
+                      "warning"
+                    ]
+                  },
+                  "message": {
+                    "type": "object",
+                    "properties": {
+                      "en": {
+                        "type": "string"
+                      },
+                      "de": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "en",
+                      "de"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "selectorHint": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "ruleId",
+                  "severity",
+                  "message"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "ok",
+            "issues"
+          ],
+          "additionalProperties": false,
+          "description": "Validierungsergebnis (strict-mode relevant)."
+        }
+      },
+      "required": [
+        "html",
+        "warnings",
+        "validation"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "openWorldHint": false
     }
   }
 ]

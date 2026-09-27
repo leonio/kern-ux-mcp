@@ -1,6 +1,9 @@
 import { z } from "zod";
 import { pickLocale } from "./i18n.js";
-import { toolInputSchemaToJsonSchema } from "./json-schema.js";
+import {
+	getToolInputJsonSchema,
+	getToolOutputJsonSchema,
+} from "./json-schema.js";
 import { CardGroupSchema } from "./schemas/card-group.js";
 import {
 	MAX_RECURSIVE_CONTENT_DEPTH,
@@ -25,8 +28,11 @@ import {
 	assertStrictValidationOrThrow,
 	ComponentOutputSchema,
 	getComponentToolName,
+	getComponentToolTitle,
+	KERN_TOOL_ANNOTATIONS,
 	statusBanner,
 	statusWarnings,
+	type ToolAnnotations,
 	type ToolDef,
 } from "./tool-builders/shared.js";
 import {
@@ -39,10 +45,14 @@ import { validateHtmlStrict } from "./validate.js";
 import { ValidationResultSchema } from "./validate.schema.js";
 
 type ToolRegistry = {
+	/** Everything clients see in tools/list, as the domain defines it. */
 	listTools(): Array<{
 		name: string;
+		title: string;
 		description: string;
-		inputSchema: ReturnType<typeof toolInputSchemaToJsonSchema>;
+		inputSchema: Record<string, unknown>;
+		outputSchema: Record<string, unknown>;
+		annotations: Readonly<ToolAnnotations>;
 	}>;
 	listToolNames(): string[];
 	getTool(name: string): ToolDef | undefined;
@@ -145,6 +155,7 @@ function buildValidateHtmlTool(): ToolDef {
 
 	return {
 		name,
+		title: "Validate KERN HTML",
 		description:
 			"KERN UX: HTML strikt validieren (A11Y/BITV). Der Parameter 'html' erwartet den vollständigen Markup-String – keinen Dateipfad. Den 'html'-Wert aus einem get_*-Tool direkt übergeben.",
 		inputSchema,
@@ -230,6 +241,7 @@ function buildDocsTool(registry: Registry): ToolDef {
 
 	return {
 		name,
+		title: "KERN Component Docs",
 		description:
 			"KERN UX: Dokumentation zu einer Komponente lesen. Gültige IDs liefert list_components_by_category – bei unbekannter ID dieses Tool zuerst aufrufen.",
 		inputSchema,
@@ -340,6 +352,7 @@ function buildDocsTool(registry: Registry): ToolDef {
 function buildListIconsTool(): ToolDef {
 	return {
 		name: "list_icons",
+		title: "KERN Icon Names",
 		description: "KERN UX (Utility): Liefert alle verfügbaren Icon-Namen.",
 		inputSchema: z.object({}),
 		outputSchema: z.object({ icons: z.array(z.string()) }),
@@ -350,6 +363,7 @@ function buildListIconsTool(): ToolDef {
 function buildGetTokensTool(registry: Registry): ToolDef {
 	return {
 		name: "get_tokens",
+		title: "KERN Design Tokens",
 		description:
 			"KERN UX (Utility): Liefert Token-Snapshot aus dem Build-Manifest (Farben, Spacing, Variablen).",
 		inputSchema: z.object({}),
@@ -367,6 +381,7 @@ function buildGetUtilityReferenceTool(): ToolDef {
 
 	return {
 		name: "get_utility_reference",
+		title: "KERN Utility Classes",
 		description:
 			"KERN UX (Utility): Referenz für CSS-Hilfsklassen (Flex, CSS Grid, Gap, Spacing, Surface/Background, Stack, Alignment). " +
 			"Verwende dieses Tool, wenn du Layouts mit Flex- oder Grid-Utilities, Abständen, Ausrichtung oder Hintergrundfarben brauchst. " +
@@ -409,6 +424,7 @@ function buildListComponentsByCategoryTool(registry: Registry): ToolDef {
 
 	return {
 		name: "list_components_by_category",
+		title: "KERN Components by Category",
 		description:
 			"KERN UX (Discovery): Alle Komponenten-IDs auflisten. Vor get_component_docs oder get_<id>-Tools aufrufen, wenn die Komponenten-ID unbekannt ist. Liefert id, title, category und strategy für jede Komponente.",
 		inputSchema,
@@ -459,6 +475,7 @@ function buildGetSectionTool(): ToolDef {
 
 	return {
 		name: "get_section",
+		title: "KERN Section",
 		description:
 			"KERN UX (Komposition): Erzeugt eine <section> mit Heading, Body-Absätzen und optionalem Divider. " +
 			"Verwende dieses Tool anstelle von get_heading + get_body einzeln. " +
@@ -487,6 +504,7 @@ function buildGetCardGroupTool(): ToolDef {
 
 	return {
 		name: "get_card_group",
+		title: "KERN Card Group",
 		description:
 			"KERN UX (Komposition): Erzeugt mehrere Cards in einem responsive 12-Spalten-Grid " +
 			"(kern-container/kern-row/kern-col-md-{n} kern-col-sm-12). " +
@@ -517,6 +535,7 @@ function buildGetDisclosureTool(): ToolDef {
 
 	return {
 		name: "get_disclosure",
+		title: "KERN Disclosure",
 		description:
 			"KERN UX (Komposition): Erzeugt ein Expand/Collapse-Element (<details>/<summary>) mit KERN Accordion-Styling (kern-accordion__item / kern-accordion__body). " +
 			"Pflichtfelder: triggerLabel UND (contentBlocks oder content). " +
@@ -596,6 +615,7 @@ function buildRenderCompositionTool(): ToolDef {
 
 	return {
 		name: "render_composition",
+		title: "Render KERN Composition",
 		description:
 			"KERN UX (Komposition): Rendert rekursive Content-Blöcke als zusammenhängendes Layout. " +
 			"WICHTIG: Jeder Block in contentBlocks MUSS eine 'kind'-Eigenschaft haben. " +
@@ -675,6 +695,37 @@ function buildRenderCompositionTool(): ToolDef {
 	};
 }
 
+/** Picks the tool builder for a component: the manifest strategy first, then the ID sets. */
+function routeComponentTool(component: ComponentInfo): ToolDef {
+	const strategy = component.strategy;
+
+	if (strategy === "interactive") {
+		return buildInteractiveTool(component, buildComponentTool);
+	}
+
+	if (strategy === "layout") {
+		return buildLayoutTool(component);
+	}
+
+	if (strategy === "typography") {
+		return buildTypographyTool(component);
+	}
+
+	if (component.category === "interactive") {
+		return buildInteractiveTool(component, buildComponentTool);
+	}
+
+	if (LAYOUT_MANIFEST_IDS.has(component.id)) {
+		return buildLayoutTool(component);
+	}
+
+	if (TYPOGRAPHY_MANIFEST_IDS.has(component.id)) {
+		return buildTypographyTool(component);
+	}
+
+	return buildComponentTool(component);
+}
+
 export function createTools(registry: Registry): ToolRegistry {
 	const toolDefs: ToolDef[] = [];
 
@@ -691,55 +742,36 @@ export function createTools(registry: Registry): ToolRegistry {
 	toolDefs.push(buildGetCardGroupTool());
 	toolDefs.push(buildGetDisclosureTool());
 
-	// One get_* tool per component, with schema strategy chosen from manifest metadata.
+	// One get_* tool per component, titled from the registry.
 	for (const component of registry.components) {
-		const strategy = component.strategy;
+		toolDefs.push({
+			...routeComponentTool(component),
+			title: getComponentToolTitle(component),
+		});
+	}
 
-		if (strategy === "interactive") {
-			toolDefs.push(buildInteractiveTool(component, buildComponentTool));
-			continue;
-		}
-
-		if (strategy === "layout") {
-			toolDefs.push(buildLayoutTool(component));
-			continue;
-		}
-
-		if (strategy === "typography") {
-			toolDefs.push(buildTypographyTool(component));
-			continue;
-		}
-
-		if (component.category === "interactive") {
-			toolDefs.push(buildInteractiveTool(component, buildComponentTool));
-			continue;
-		}
-
-		if (LAYOUT_MANIFEST_IDS.has(component.id)) {
-			toolDefs.push(buildLayoutTool(component));
-			continue;
-		}
-
-		if (TYPOGRAPHY_MANIFEST_IDS.has(component.id)) {
-			toolDefs.push(buildTypographyTool(component));
-			continue;
-		}
-
-		toolDefs.push(buildComponentTool(component));
+	const untitled = toolDefs.filter((tool) => !tool.title?.trim());
+	if (untitled.length > 0) {
+		throw new Error(
+			`Tools without a title: ${untitled.map((tool) => tool.name).join(", ")}.`,
+		);
 	}
 
 	const byName = new Map(toolDefs.map((t) => [t.name, t] as const));
 
-	// Tool definitions are fixed once created, so convert the Zod schemas to JSON Schema
-	// once (lazily) instead of on every tools/list request. Callers must not mutate the result.
+	// Tool definitions are fixed once created. The JSON Schemas are memoised per Zod
+	// schema (shared with the MCP adapter), so callers must not mutate the result.
 	let listing: ReturnType<ToolRegistry["listTools"]> | undefined;
 
 	return {
 		listTools: () => {
 			listing ??= toolDefs.map((t) => ({
 				name: t.name,
+				title: t.title ?? t.name,
 				description: t.description,
-				inputSchema: toolInputSchemaToJsonSchema(t.inputSchema),
+				inputSchema: getToolInputJsonSchema(t.inputSchema),
+				outputSchema: getToolOutputJsonSchema(t.outputSchema),
+				annotations: KERN_TOOL_ANNOTATIONS,
 			}));
 			return listing;
 		},

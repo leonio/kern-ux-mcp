@@ -14,11 +14,31 @@ type ToolHandler = {
 
 export type ToolDef = {
 	name: string;
+	/** Human-readable display name. createTools() guarantees every tool has one. */
+	title?: string;
 	description: string;
 	inputSchema: z.ZodType;
 	outputSchema: z.ZodType;
 	handler: ToolHandler;
 };
+
+/** MCP tool annotations (hints for clients), kept SDK-free in src/ux. */
+export type ToolAnnotations = {
+	readOnlyHint?: boolean;
+	destructiveHint?: boolean;
+	idempotentHint?: boolean;
+	openWorldHint?: boolean;
+};
+
+/**
+ * Every KERN tool only generates or checks markup from its arguments and the
+ * bundled registry: no side effects, no network, the same answer every time.
+ */
+export const KERN_TOOL_ANNOTATIONS: Readonly<ToolAnnotations> = Object.freeze({
+	readOnlyHint: true,
+	idempotentHint: true,
+	openWorldHint: false,
+});
 
 /**
  * Standard output contract for every HTML-producing tool.
@@ -55,6 +75,15 @@ export function statusWarnings(component: ComponentInfo): string[] {
 
 export function getComponentToolName(component: ComponentInfo) {
 	return `get_${component.id}`;
+}
+
+/**
+ * Display title of a component tool, from the registry title: "InputEmail" →
+ * "KERN Input Email", "dropdown" → "KERN Dropdown".
+ */
+export function getComponentToolTitle(component: ComponentInfo) {
+	const words = component.title.replace(/([a-z0-9])([A-Z])/g, "$1 $2");
+	return `KERN ${words.charAt(0).toUpperCase()}${words.slice(1)}`;
 }
 
 export function assertStrictValidationOrThrow(params: {

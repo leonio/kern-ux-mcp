@@ -62,6 +62,48 @@ describe.each(MCP_ERAS)("MCP server over $era", ({ era, connect }) => {
 		}
 	});
 
+	it("advertises a title, read-only annotations and an output schema for every tool", async () => {
+		const { tools } = await client.listTools();
+
+		for (const tool of tools) {
+			expect(tool.title, tool.name).toMatch(/\S/);
+			expect(tool.annotations, tool.name).toEqual({
+				readOnlyHint: true,
+				idempotentHint: true,
+				openWorldHint: false,
+			});
+			expect(tool.outputSchema?.type, tool.name).toBe("object");
+		}
+	});
+
+	it("marks list results cacheable for an hour on 2026-07-28 only", async () => {
+		const result = (await client.listTools()) as {
+			ttlMs?: number;
+			cacheScope?: string;
+		};
+
+		if (era === "2026-07-28") {
+			expect(result).toMatchObject({ ttlMs: 3_600_000, cacheScope: "public" });
+		} else {
+			expect(result.ttlMs).toBeUndefined();
+			expect(result.cacheScope).toBeUndefined();
+		}
+	});
+
+	it("returns the output as structuredContent and as a JSON text block", async () => {
+		const result = await client.callTool({
+			name: "get_button",
+			arguments: { label: "Weiter" },
+		});
+
+		expect(result.structuredContent).toEqual(JSON.parse(textOf(result)));
+		expect(result.structuredContent).toMatchObject({
+			html: expect.stringContaining("kern-btn"),
+			warnings: [],
+			validation: { ok: true, issues: [] },
+		});
+	});
+
 	it("calls a tool and returns its validated output as JSON text", async () => {
 		const result = await client.callTool({
 			name: "get_button",

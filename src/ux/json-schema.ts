@@ -217,10 +217,15 @@ export function toolInputSchemaToJsonSchema(
 	schema: z.ZodType,
 	options: {
 		refStrategy?: JsonSchemaRefStrategy;
+		/** `output` describes parsed results: fields with a `.default()` are required. */
+		io?: "input" | "output";
 	} = {},
 ) {
 	const jsonSchema = cloneJsonSchema(
-		z.toJSONSchema(schema, JSON_SCHEMA_OPTIONS) as JsonSchema,
+		z.toJSONSchema(schema, {
+			...JSON_SCHEMA_OPTIONS,
+			io: options.io ?? "input",
+		}) as JsonSchema,
 	);
 
 	normalizeAnyOf(jsonSchema);
@@ -231,4 +236,31 @@ export function toolInputSchemaToJsonSchema(
 	}
 
 	return inlineDefinitions(jsonSchema);
+}
+
+const inputJsonSchemas = new WeakMap<z.ZodType, JsonSchema>();
+const outputJsonSchemas = new WeakMap<z.ZodType, JsonSchema>();
+
+/**
+ * The advertised input JSON Schema of a tool, converted once per Zod schema.
+ * Shared by the domain listing and the MCP SDK adapter, so both always emit the
+ * same object. Callers must not mutate it.
+ */
+export function getToolInputJsonSchema(schema: z.ZodType): JsonSchema {
+	let json = inputJsonSchemas.get(schema);
+	if (!json) {
+		json = toolInputSchemaToJsonSchema(schema);
+		inputJsonSchemas.set(schema, json);
+	}
+	return json;
+}
+
+/** The advertised output JSON Schema of a tool; memoised like getToolInputJsonSchema. */
+export function getToolOutputJsonSchema(schema: z.ZodType): JsonSchema {
+	let json = outputJsonSchemas.get(schema);
+	if (!json) {
+		json = toolInputSchemaToJsonSchema(schema, { io: "output" });
+		outputJsonSchemas.set(schema, json);
+	}
+	return json;
 }
