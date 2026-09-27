@@ -4,7 +4,7 @@ scenarios:
     commands:
       - npm run validate-guidance-overlay
       - npm run generate-manifest
-      - npm test -- src/ux/manifest-generator.test.ts src/ux/tools.test.ts
+      - npm test -- src/ux/manifest-generator.test.ts src/ux/tools.behaviour.test.ts src/ux/tools.listing.test.ts
   runtime_only:
     commands:
       - nearest-focused-test-command
@@ -14,7 +14,7 @@ scenarios:
       - nearest-focused-test-command
       - npm run validate-guidance-overlay
       - npm run generate-manifest
-      - npm test -- src/ux/manifest-generator.test.ts src/ux/tools.test.ts
+      - npm test -- src/ux/manifest-generator.test.ts src/ux/tools.behaviour.test.ts src/ux/tools.listing.test.ts
       - npx tsc --noEmit
 principles:
   - Start with the cheapest behavior-scoped check.

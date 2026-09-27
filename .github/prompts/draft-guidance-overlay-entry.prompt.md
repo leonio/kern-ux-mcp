@@ -77,7 +77,7 @@ After editing, run:
 ```bash
 npm run validate-guidance-overlay
 npm run generate-manifest
-npm test -- src/ux/manifest-generator.test.ts src/ux/tools.test.ts
+npm test -- src/ux/manifest-generator.test.ts src/ux/tools.behaviour.test.ts src/ux/tools.listing.test.ts
 ```
 
 Then summarize:
