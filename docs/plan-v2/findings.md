@@ -293,7 +293,7 @@ Only migrate if the tool listing stays byte-compatible, or if a change to it is 
 
 ---
 
-Items 17–21 come from the MCP 2026-07-28 discovery on the same date. They feed the 2.0 roadmap in [roadmap.md](roadmap.md).
+Items 17–21 come from the MCP 2026-07-28 discovery on the same date, and item 22 from a later review. They feed the 2.0 roadmap in [roadmap.md](roadmap.md).
 
 ## 17. SDK v2 migration facts
 
@@ -494,3 +494,39 @@ This is roadmap step R1.
 This is roadmap step R1.
 
 **Risk:** Low. Regenerating the manifest needs the sibling `kern-ux-plain` checkout. Alternatively, patch the checked-in `registry.json` the same way `build-manifest.ts` would write it, and regenerate on the next manifest run.
+
+---
+
+Item 22 comes from a review, on the same date, of the separate `kern-ux-scraper` repository. It feeds roadmap step R4b.
+
+## 22. The registry moves to an external generator; this repo owns the contract
+
+**Where:**
+- [tools/manifest/](../../tools/manifest/): `build-manifest.ts`, `guidance-overlay.ts`, `validate-guidance-overlay.ts`, `paths.ts`, `stories.ts`
+- [src/ux/types.ts](../../src/ux/types.ts): `RegistryManifest` and `ComponentInfo`, which are TS types only
+- [src/ux/registry.ts](../../src/ux/registry.ts): loads `registry.json` with only a two-key sanity check
+- [docs/registry.schema.json](../registry.schema.json): a hand-written schema that has drifted from the types
+- The sibling repository `kern-ux-scraper` (Go, kept outside this repo): it scrapes kern-ux.de into a corpus (`dist/`) and maps it to components (`mapping/`)
+
+**Problem:**
+- Today `registry.json` is generated here from the `kern-ux-plain` source alone. The source says which components exist and what their markup is. It doesn't say how or when to use them: usage rules, do's and don'ts, the per-component WCAG audit results, synonyms and related components. Only 15 of 42 components have docs.
+- The scraper corpus has that knowledge. The plan is for the scraper repository to become **the registry generator**: source scan, corpus mapping, curation, and LLM-generated English component knowledge. This repo only says "I need a registry". The generator can stay private, while its output ships here.
+- **Cycle and duplication in the current prototype.** `tools/corpus-map/build-corpus-map.mjs` reads this repo's *generated* `registry.json`, which the join is meant to produce. It also copies the curated exclusion and alias tables from `build-manifest.ts` ("keep in sync").
+- **There is no contract.** The registry shape exists only as TS types, plus a JSON Schema that has drifted. A registry produced elsewhere could break the server in ways that only show up at runtime, on the first request that needs the missing field.
+- **Copyright.** kern-ux.de text isn't copied into the registry. An LLM generates English from it. Even so, a translation or close paraphrase can still be a derivative work ("Bearbeitung"). The `kern-ux-plain` source is EUPL-1.2, the same licence as this repo; the licence of the docs site hasn't been checked.
+
+**Proposal:**
+- **One owner per side.** The generator owns the source scan, the corpus mapping, the curated tables and the generation. It scans `kern-ux-plain` itself and never reads this repo's `registry.json`, which breaks the cycle. This repo owns the **contract** and the tool implementations.
+- **A consumer-driven contract.** `RegistryManifestSchema` is written in Zod here. The TS types are derived from it, and it is exported as JSON Schema, replacing `docs/registry.schema.json`, with a major `manifestVersion`. The generator validates its output against that schema before handing it over. The server validates on load (it already fails at startup) and in CI.
+- **Hand-over by import.** `registry.json` stays checked in. `npm run registry:import -- <path>` validates the file, copies it, and prints what changed: components added, removed or reclassified. The listing snapshot and the tests then show the effect in normal review. CI never needs access to the generator.
+- **Where English text lives:**
+  - This code owns the tool API: Zod schemas, parameter descriptions, and what each tool does (R5).
+  - The registry owns component knowledge: summary, when to use, do's and don'ts, accessibility notes, examples and synonyms, as new optional fields.
+  - Tool descriptions combine the two (the code's text plus the registry summary), and R6 resources render mostly from the registry.
+- **Provenance.** `upstream` gains the corpus version next to the source version. The generator should pin `kern-ux-plain` to the release tag: `bf7c823` is a merge *after* the 2.8.2 release commit.
+- **Copyright.** Generate original English from facts, rather than translating the pages. Take example markup from the EUPL source, not from the docs site. Keep attribution. Check the kern-ux.de licence page before release.
+- **Retire the in-repo generator** once the external one reaches parity: its output passes the contract and gives an identical tool listing. That removes `tools/manifest/*`, the overlay files and the `fast-glob`/`ajv` dev dependencies. Until then, curation changes (for example excluding the `tests` story folder that `kern-ux-plain` 2.8.2 adds) are needed in both places.
+
+**Risk:** Medium.
+- A breaking change to the contract needs coordinated changes in two repositories. `manifestVersion` and validation on load catch a mismatch at import time, not in production.
+- LLM-generated component text changes what models see. It goes through the same review as a code change: the listing snapshot, the R5 failure catalog, and the R5 baseline.

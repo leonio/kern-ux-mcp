@@ -89,6 +89,18 @@ Discovery date: 2026-09-27. Line numbers refer to the code at that point and wil
 - [ ] Make the schema reject nestings the renderer can't produce.
 - [ ] Add a `render_page` tool: page shell, header, `<main>` and footer.
 
+### R4b: Registry contract (consumer side of the external generator)
+
+Can start any time after R3's JSON import of `registry.json`. Background in [finding 22](findings.md#22-the-registry-moves-to-an-external-generator-this-repo-owns-the-contract).
+
+- [ ] `RegistryManifestSchema` in Zod, with `RegistryManifest`/`ComponentInfo` derived from it and a major `manifestVersion`.
+- [ ] Export it as JSON Schema, replacing `docs/registry.schema.json`, for the generator to validate against.
+- [ ] Validate `registry.json` on load (fail at startup) and in CI.
+- [ ] `npm run registry:import -- <path>`: validate, copy, and print the component diff.
+- [ ] Optional component-knowledge fields (summary, when to use, do's and don'ts, accessibility notes, examples, synonyms), plus the corpus version in `upstream`.
+- [ ] Tool descriptions combine code-owned API text with the registry summary; component knowledge stops being written in code.
+- [ ] Retire `tools/manifest/*` and the overlay files once the external generator reaches parity (contract passes, identical listing).
+
 ### R5: English base language and the context budget
 
 - [ ] Optional baseline: run 8–10 scenario tasks against the pre-R5 server in VS Code Copilot and Claude Code.
@@ -175,6 +187,7 @@ References:
 | HTTP | It must run locally, in a container, and eventually publicly. There's no deploy target yet, so the container ships complete, with auth and rate limiting as options. |
 | Branch | `feat/v2-alpha` is the long-lived integration branch. It publishes pre-releases under an npm dist-tag: `release.yml` already turns the GitVersion pre-release label into the dist-tag. |
 | Node | `>=24` everywhere, including stdio, the MCPB bundle and the container. |
+| Registry | `registry.json` will be produced by an external generator (the `kern-ux-scraper` repository: source scan, docs-corpus mapping, curation, LLM-generated English component knowledge). This repo owns the **contract** (a Zod schema exported as JSON Schema) and imports the checked-in result. The generator can stay private. No kern-ux.de text is copied; generated text must be original, and example markup comes from the EUPL-1.2 source. See finding 22 and R4b. |
 | Clients | VS Code + GitHub Copilot, OpenAI (Codex CLI over stdio; ChatGPT and the Responses API over remote HTTP), Claude (Code, Desktop), plus the MCP Inspector. |
 
 **On keeping core private.** Not publishing core stops anyone from doing `npm install @leonio/kern-ux-core`. It doesn't hide the code:
@@ -342,6 +355,30 @@ These are real bugs or missing pieces, and the prompts would expose them (findin
 7. The schema should reject nestings the renderer can't produce, instead of accepting them and emitting a warning.
 8. Add a `render_page` tool: page shell + header (`get_pattern`/`kopfzeile`) + `<main>` blocks + a footer (section + 4-column grid).
 
+### R4b registry contract
+
+The registry stops being generated here (finding 22). This repo says what it needs, and the external generator delivers it.
+
+**Ownership**
+- The generator owns the source scan (it reads `kern-ux-plain` directly, never this repo's `registry.json`), the corpus mapping, the curated exclusion and alias tables, and the generated text.
+- This repo owns the contract and the tool implementations. Neither side copies the other's tables.
+
+**Contract**
+- `src/ux/registry.schema.ts`: `RegistryManifestSchema` in Zod, the single source for the TS types. It is exported to JSON Schema with the same `json-schema.ts` path the tools use, and published as `docs/registry.schema.json`.
+- `manifestVersion` becomes a major version that the loader checks. A breaking contract change bumps it, and both repositories change together.
+- New optional fields first, so today's registry keeps validating: component summary, when to use, do's and don'ts, accessibility notes (WCAG criterion IDs), examples, synonyms, related components, and `upstream` extended with the corpus version.
+
+**Hand-over**
+- `registry.json` stays checked in. CI never needs the generator.
+- `registry:import` validates the file, copies it in, and prints the added, removed and reclassified components. The tool-listing snapshots then show the effect in review.
+
+**Text split**
+- Code owns the tool API text: what the tool does, its parameters, error hints (R5).
+- The registry owns component knowledge. `get_<component>` descriptions combine the code's text with the registry summary, and R6 cards render from the registry.
+- R5's context budget still applies to the combined descriptions.
+
+**Retirement.** When the generator's output passes the contract and produces an identical tool listing, delete `tools/manifest/*`, `docs/guidance-overlay*.json`, `validate-guidance-overlay`, `generate-manifest`, and the `fast-glob`/`ajv`/`ajv-formats` dev dependencies. Update the R3 path checklist to match.
+
 ### R5 English base language and the context budget
 
 Do one area per PR, and check each against the [failure catalog](../../.github/skills/tool-description-quality/references/failure-catalog.md).
@@ -463,9 +500,5 @@ Run the 3 layout/form prompts where they're supported, and paste the output into
 
 - **Publish to the official MCP Registry** (`server.json`): the npm package, the OCI image, and later a remote URL.
 - **MCP Apps extension:** a live HTML preview of rendered output (a `ui://` resource) in hosts that support it.
-- **Harvest more KERN docs at build time:**
-  - the `COMPONENTS.MD` Form Controls `###` sections, currently missed because only `##` headings match
-  - story `parameters.docs.description` fields
-
-  That lifts docs coverage above 15/42 components. The kern-ux.de scrape stays outside this repo.
-- **Clean-up:** delete the out-of-date [docs/registry.schema.json](../registry.schema.json) and the junk `index` component (from `_index.scss`).
+- **Harvest more KERN docs:** superseded by the external generator and the docs corpus (finding 22, R4b). The ideas still apply there: the `COMPONENTS.MD` Form Controls `###` sections, and story `parameters.docs.description` fields.
+- **Clean-up:** the junk `index` component (from `_index.scss`) and the `tests` story folder (new in `kern-ux-plain` 2.8.2) belong on the generator's exclusion list. `docs/registry.schema.json` is replaced in R4b.

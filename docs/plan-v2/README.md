@@ -83,6 +83,7 @@ Each phase is independently releasable. Items refer to [findings.md](findings.md
 - [ ] 19. Context budget of `tools/list`. → R5
 - [x] 20. Release config: GitVersion branch entry and typo. → R1
 - [x] 21. Leaks and packaging: `sourceRoot`, `fast-glob`, unbounded `validate_html` input. → R1
+- [ ] 22. The registry moves to an external generator; this repo owns the contract. → R4b
 
 ## Ground rules
 
