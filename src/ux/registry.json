@@ -1,10 +1,10 @@
 {
   "manifestVersion": "1.0.0",
-  "generatedAt": "2026-09-27T20:15:34.997Z",
+  "generatedAt": "2026-09-27T21:08:33.149Z",
   "upstream": {
     "package": "@kern-ux/native",
-    "version": "2.6.2",
-    "commit": "b6d9c73"
+    "version": "2.8.2",
+    "commit": "cf2a17b"
   },
   "tokens": {
     "colors": [
@@ -323,7 +323,8 @@
       "--kern-color-yellow-800",
       "--kern-color-yellow-850",
       "--kern-color-yellow-900",
-      "--kern-color-yellow-950"
+      "--kern-color-yellow-950",
+      "--kern-shadow-color"
     ],
     "spacing": [
       "--kern-component-badge-space-left",
@@ -382,24 +383,7 @@
       "--kern-metric-dimension-media-small",
       "--kern-metric-dimension-small",
       "--kern-metric-dimension-x-large",
-      "--kern-metric-dimension-x-small",
-      "--kern-metric-space-10x-large",
-      "--kern-metric-space-11x-large",
-      "--kern-metric-space-2x-large",
-      "--kern-metric-space-2x-small",
-      "--kern-metric-space-3x-large",
-      "--kern-metric-space-4x-large",
-      "--kern-metric-space-5x-large",
-      "--kern-metric-space-6x-large",
-      "--kern-metric-space-7x-large",
-      "--kern-metric-space-8x-large",
-      "--kern-metric-space-9x-large",
-      "--kern-metric-space-default",
-      "--kern-metric-space-large",
-      "--kern-metric-space-none",
-      "--kern-metric-space-small",
-      "--kern-metric-space-x-large",
-      "--kern-metric-space-x-small"
+      "--kern-metric-dimension-x-small"
     ],
     "rawVariables": [
       "--kern-0",
@@ -838,23 +822,10 @@
       "--kern-metric-dimension-x-large",
       "--kern-metric-dimension-x-small",
       "--kern-metric-screen-size",
-      "--kern-metric-space-10x-large",
-      "--kern-metric-space-11x-large",
-      "--kern-metric-space-2x-large",
-      "--kern-metric-space-2x-small",
-      "--kern-metric-space-3x-large",
-      "--kern-metric-space-4x-large",
-      "--kern-metric-space-5x-large",
-      "--kern-metric-space-6x-large",
-      "--kern-metric-space-7x-large",
-      "--kern-metric-space-8x-large",
-      "--kern-metric-space-9x-large",
-      "--kern-metric-space-default",
-      "--kern-metric-space-large",
-      "--kern-metric-space-none",
-      "--kern-metric-space-small",
-      "--kern-metric-space-x-large",
-      "--kern-metric-space-x-small",
+      "--kern-shadow-color",
+      "--kern-shadow-elevation-default",
+      "--kern-shadow-elevation-high",
+      "--kern-shadow-elevation-low",
       "--kern-typography-font-family-default",
       "--kern-typography-font-size-2x-large-adaptive",
       "--kern-typography-font-size-large-adaptive",
@@ -918,12 +889,12 @@
       "category": "interactive",
       "strategy": "interactive",
       "docs": {
-        "excerpt": "[COMPONENTS.MD] ## Alert\nBasisklasse: `kern-alert` mit Varianten `--info|--success|--warning|--danger`.\n\nStruktur:\n\n- Header: `kern-alert__header` mit Icon und `kern-title`\n- Optionaler Body: `kern-alert__body`\n- Rolle: `role=\"alert\"`\n\nA11y: Icon im Alert i. d. R. dekorativ (`aria-hidden=\"true\"`). Falls das Icon wesentliche Information trägt: `aria-hidden=\"false\"` + `aria-label`.\n\n```html\n<div class=\"kern-alert kern-alert--warning\" role=\"alert\">\n  <div class=\"kern-alert__header\">\n    <span class=\"kern-icon kern-icon--warning\" aria-hidden=\"true\"></span>\n    <span class=\"kern-title\">Warnung</span>\n  </div>\n</div>\n```\n\n---",
+        "excerpt": "[COMPONENTS.MD] ## Alert\nBasisklasse: `kern-alert` mit Varianten `--info|--success|--warning|--danger`.\n\nStruktur:\n\n- Header: `kern-alert__header` mit Icon und `kern-title` Überschrift (z. B. `<h2>`)\n- Optionaler Body: `kern-alert__body`\n- Rolle: `role=\"alert\"`\n\nA11y:\n- Icon im Alert i. d. R. dekorativ (`aria-hidden=\"true\"`). Falls das Icon wesentliche Information trägt: `aria-hidden=\"false\"` + `aria-label`.\n- Die Überschrift in der Alert-Komponente sollte als natives Überschriften-Element (standardmäßig `<h2>`) ausgezeichnet werden, damit Screenreader-Nutzer*innen diese direkt ansteuern können. Um die korrekte Reihenfolge und Hierarchie der Überschriften (Heading-Level-Order) auf der Seite einzuhalten, sollte die Ordnung der Überschrift (`h1` bis `h6`) entsprechend der Einbettung in das umgebende Dokument angepasst werden. Durch die Verwendung der Klasse `kern-title` bleibt das visuelle Erscheinungsbild unabhängig vom gewählten HTML-Element konsistent.\n\n```html\n<div class=\"kern-alert kern-alert--warning\" role=\"alert\">\n  <div class=\"kern-alert__header\">\n    <span class=\"kern-icon kern-icon--warning\" aria-hidden=\"true\"></span>\n    <h2 class=\"kern-title\">Warnung</h2>\n  </div>\n</div>\n```\n\n---",
         "sections": [
           {
             "source": "COMPONENTS.MD",
             "heading": "## Alert",
-            "content": "Basisklasse: `kern-alert` mit Varianten `--info|--success|--warning|--danger`.\n\nStruktur:\n\n- Header: `kern-alert__header` mit Icon und `kern-title`\n- Optionaler Body: `kern-alert__body`\n- Rolle: `role=\"alert\"`\n\nA11y: Icon im Alert i. d. R. dekorativ (`aria-hidden=\"true\"`). Falls das Icon wesentliche Information trägt: `aria-hidden=\"false\"` + `aria-label`.\n\n```html\n<div class=\"kern-alert kern-alert--warning\" role=\"alert\">\n  <div class=\"kern-alert__header\">\n    <span class=\"kern-icon kern-icon--warning\" aria-hidden=\"true\"></span>\n    <span class=\"kern-title\">Warnung</span>\n  </div>\n</div>\n```\n\n---"
+            "content": "Basisklasse: `kern-alert` mit Varianten `--info|--success|--warning|--danger`.\n\nStruktur:\n\n- Header: `kern-alert__header` mit Icon und `kern-title` Überschrift (z. B. `<h2>`)\n- Optionaler Body: `kern-alert__body`\n- Rolle: `role=\"alert\"`\n\nA11y:\n- Icon im Alert i. d. R. dekorativ (`aria-hidden=\"true\"`). Falls das Icon wesentliche Information trägt: `aria-hidden=\"false\"` + `aria-label`.\n- Die Überschrift in der Alert-Komponente sollte als natives Überschriften-Element (standardmäßig `<h2>`) ausgezeichnet werden, damit Screenreader-Nutzer*innen diese direkt ansteuern können. Um die korrekte Reihenfolge und Hierarchie der Überschriften (Heading-Level-Order) auf der Seite einzuhalten, sollte die Ordnung der Überschrift (`h1` bis `h6`) entsprechend der Einbettung in das umgebende Dokument angepasst werden. Durch die Verwendung der Klasse `kern-title` bleibt das visuelle Erscheinungsbild unabhängig vom gewählten HTML-Element konsistent.\n\n```html\n<div class=\"kern-alert kern-alert--warning\" role=\"alert\">\n  <div class=\"kern-alert__header\">\n    <span class=\"kern-icon kern-icon--warning\" aria-hidden=\"true\"></span>\n    <h2 class=\"kern-title\">Warnung</h2>\n  </div>\n</div>\n```\n\n---"
           }
         ]
       },
@@ -936,7 +907,7 @@
           "stories/Alert/AlertContent.stories.js"
         ]
       },
-      "htmlCanonical": "<div class=\"kern-alert kern-alert--info\" role=\"alert\">\n  <div class=\"kern-alert__header\">\n    <span class=\"kern-icon kern-icon--info\" aria-hidden=\"true\"></span>\n    <span class=\"kern-title\">Hinweis</span>  \n  </div>\n</div>",
+      "htmlCanonical": "<div class=\"kern-alert kern-alert--info\" role=\"alert\">\n  <div class=\"kern-alert__header\">\n    <span class=\"kern-icon kern-icon--info\" aria-hidden=\"true\"></span>\n    <h2 class=\"kern-title\">Hinweis</h2>  \n  </div>\n</div>",
       "warnings": []
     },
     {
@@ -1017,12 +988,12 @@
       "category": "interactive",
       "strategy": "interactive",
       "docs": {
-        "excerpt": "[COMPONENTS.MD] ## Card\nBasisklasse: `kern-card`. Struktur:\n\n- Media: `kern-card__media`\n- Container: `kern-card__container`\n- Header: `kern-card__header` (typisch Preline, Title, Subline)\n- Body: `kern-card__body` (wächst)\n- Footer: `kern-card__footer` (Buttons)\n\nModifikatoren: `--small`, `--large` (typografie/Spacing), `--hug` (keine Equal Height), `--active` (stretched link, interaktive Zustände).\n\n```html\n<article class=\"kern-card\" style=\"max-width:320px\">\n  <div class=\"kern-card__media\"><img src=\"…\" alt=\"ALT\" /></div>\n  <div class=\"kern-card__container\">\n    <header class=\"kern-card__header\">\n      <p class=\"kern-preline\">Preline</p>\n      <h2 class=\"kern-title\">Title</h2>\n      <h3 class=\"kern-subline\">Subline</h3>\n    </header>\n    <section class=\"kern-card__body\">\n      <p class=\"kern-body\">Text…</p>\n    </section>\n    <footer class=\"kern-card__footer\">\n      <button class=\"kern-btn kern-btn--primary\">\n        <span class=\"kern-label\">Aktion</span>\n      </button>\n      <button class=\"kern-btn kern-btn--secondary\">\n        <span class=\"kern-label\">Mehr</span>\n      </button>\n    </footer>\n  </div>\n</article>\n```\n\n---",
+        "excerpt": "[COMPONENTS.MD] ## Card\nBasisklasse: `kern-card`. Struktur:\n\n- Media: `kern-card__media`\n- Container: `kern-card__container`\n- Header: `kern-card__header` (typisch Preline, Title, Subline)\n- Body: `kern-card__body` (wächst)\n- Footer: `kern-card__footer` (Buttons)\n\nModifikatoren: `--small`, `--large` (typografie/Spacing), `--hug` (keine Equal Height), `--active` (stretched link, interaktive Zustände).\n\n```html\n<article class=\"kern-card\" style=\"max-width:320px\">\n  <div class=\"kern-card__media\"><img src=\"…\" alt=\"ALT\" /></div>\n  <div class=\"kern-card__container\">\n    <header class=\"kern-card__header\">\n      <p class=\"kern-preline\">Preline</p>\n      <h2 class=\"kern-title\" id=\"card-title-COMPONENTS-MD-1\">Title</h2>\n      <h3 class=\"kern-subline\">Subline</h3>\n    </header>\n    <section class=\"kern-card__body\">\n      <p class=\"kern-body\">Text…</p>\n    </section>\n    <footer class=\"kern-card__footer\">\n      <button class=\"kern-btn kern-btn--primary\" aria-describedby=\"card-title-COMPONENTS-MD-1\">\n        <span class=\"kern-label\">Aktion</span>\n      </button>\n      <button class=\"kern-btn kern-btn--secondary\" aria-describedby=\"card-title-COMPONENTS-MD-1\">\n        <span class=\"kern-label\">Mehr</span>\n      </button>\n    </footer>\n  </div>\n</article>\n```\n\n---",
         "sections": [
           {
             "source": "COMPONENTS.MD",
             "heading": "## Card",
-            "content": "Basisklasse: `kern-card`. Struktur:\n\n- Media: `kern-card__media`\n- Container: `kern-card__container`\n- Header: `kern-card__header` (typisch Preline, Title, Subline)\n- Body: `kern-card__body` (wächst)\n- Footer: `kern-card__footer` (Buttons)\n\nModifikatoren: `--small`, `--large` (typografie/Spacing), `--hug` (keine Equal Height), `--active` (stretched link, interaktive Zustände).\n\n```html\n<article class=\"kern-card\" style=\"max-width:320px\">\n  <div class=\"kern-card__media\"><img src=\"…\" alt=\"ALT\" /></div>\n  <div class=\"kern-card__container\">\n    <header class=\"kern-card__header\">\n      <p class=\"kern-preline\">Preline</p>\n      <h2 class=\"kern-title\">Title</h2>\n      <h3 class=\"kern-subline\">Subline</h3>\n    </header>\n    <section class=\"kern-card__body\">\n      <p class=\"kern-body\">Text…</p>\n    </section>\n    <footer class=\"kern-card__footer\">\n      <button class=\"kern-btn kern-btn--primary\">\n        <span class=\"kern-label\">Aktion</span>\n      </button>\n      <button class=\"kern-btn kern-btn--secondary\">\n        <span class=\"kern-label\">Mehr</span>\n      </button>\n    </footer>\n  </div>\n</article>\n```\n\n---"
+            "content": "Basisklasse: `kern-card`. Struktur:\n\n- Media: `kern-card__media`\n- Container: `kern-card__container`\n- Header: `kern-card__header` (typisch Preline, Title, Subline)\n- Body: `kern-card__body` (wächst)\n- Footer: `kern-card__footer` (Buttons)\n\nModifikatoren: `--small`, `--large` (typografie/Spacing), `--hug` (keine Equal Height), `--active` (stretched link, interaktive Zustände).\n\n```html\n<article class=\"kern-card\" style=\"max-width:320px\">\n  <div class=\"kern-card__media\"><img src=\"…\" alt=\"ALT\" /></div>\n  <div class=\"kern-card__container\">\n    <header class=\"kern-card__header\">\n      <p class=\"kern-preline\">Preline</p>\n      <h2 class=\"kern-title\" id=\"card-title-COMPONENTS-MD-1\">Title</h2>\n      <h3 class=\"kern-subline\">Subline</h3>\n    </header>\n    <section class=\"kern-card__body\">\n      <p class=\"kern-body\">Text…</p>\n    </section>\n    <footer class=\"kern-card__footer\">\n      <button class=\"kern-btn kern-btn--primary\" aria-describedby=\"card-title-COMPONENTS-MD-1\">\n        <span class=\"kern-label\">Aktion</span>\n      </button>\n      <button class=\"kern-btn kern-btn--secondary\" aria-describedby=\"card-title-COMPONENTS-MD-1\">\n        <span class=\"kern-label\">Mehr</span>\n      </button>\n    </footer>\n  </div>\n</article>\n```\n\n---"
           }
         ]
       },
@@ -1034,7 +1005,7 @@
           "stories/Card/Card.stories.js"
         ]
       },
-      "htmlCanonical": "<article class=\"kern-card\" style=\"max-width: 320px;\"> \n  <div class=\"kern-card__media\">\n    <img src=\"https://placehold.co/600x400?text=MEDIA\" alt=\"ALT Text\">\n  </div>\n  <div class=\"kern-card__container\">\n    <header class=\"kern-card__header\">\n      <hgroup>\n        <p class=\"kern-preline\">Vorzeile</p>\n        <h2 class=\"kern-title\">Default</h2>\n        <p class=\"kern-subline\">Unterzeile</p>\n      </hgroup>\n    </header>\n    <section class=\"kern-card__body\">\n      <p class=\"kern-body\">Hier werden soviele Informationen zur Verfügung gestellt, wie benötigt und nicht mehr. Ein Maximum von 150 characters empfohlen.</p>\n    </section>\n    <footer class=\"kern-card__footer\">\n      <button class=\"kern-btn kern-btn--primary\">\n        <span class=\"kern-label\">Primäraktion</span>\n      </button>\n      <button class=\"kern-btn kern-btn--secondary\">\n        <span class=\"kern-label\">Aktion</span>\n      </button>\n    </footer>\n  </div>\n</article>",
+      "htmlCanonical": "<article class=\"kern-card\" style=\"max-width: 320px;\"> \n  <div class=\"kern-card__media\">\n    <img src=\"https://placehold.co/600x400?text=MEDIA\" alt=\"ALT Text\">\n  </div>\n  <div class=\"kern-card__container\">\n    <header class=\"kern-card__header\">\n      <hgroup class=\"kern-hgroup\">\n        <h2 class=\"kern-title\" id=\"card-title-1\">Default</h2>\n        <p class=\"kern-preline\">Vorzeile</p>\n        <p class=\"kern-subline\">Unterzeile</p>\n      </hgroup>\n    </header>\n    <section class=\"kern-card__body\">\n      <p class=\"kern-body\">Hier werden soviele Informationen zur Verfügung gestellt, wie benötigt und nicht mehr. Ein Maximum von 150 characters empfohlen.</p>\n    </section>\n    <footer class=\"kern-card__footer\">\n      <button class=\"kern-btn kern-btn--primary\" aria-describedby=\"card-title-1\">\n        <span class=\"kern-label\">Primäraktion</span>\n      </button>\n      <button class=\"kern-btn kern-btn--secondary\" aria-describedby=\"card-title-1\">\n        <span class=\"kern-label\">Aktion</span>\n      </button>\n    </footer>\n  </div>\n</article>",
       "warnings": []
     },
     {
@@ -1079,6 +1050,23 @@
         ]
       },
       "htmlCanonical": "<dl class=\"kern-description-list\">\n  <div class=\"kern-description-list-item\">\n    <dt class=\"kern-description-list-item__key\">Name</dt>\n    <dd class=\"kern-description-list-item__value\">Max</dd>\n  </div>\n  <div class=\"kern-description-list-item\">\n    <dt class=\"kern-description-list-item__key\">Vorname</dt>\n    <dd class=\"kern-description-list-item__value\">Mustermann</dd>\n  </div>\n  <div class=\"kern-description-list-item\">\n    <dt class=\"kern-description-list-item__key\">E-Mail</dt>\n    <dd class=\"kern-description-list-item__value\">dasisteinesehrlangeemailadressevonmaxmustermann@unternehmen.xy</dd>\n  </div>\n  <div class=\"kern-description-list-item\">\n    <dt class=\"kern-description-list-item__key\">Sachkundigen vor Ort</dt>\n    <dd class=\"kern-description-list-item__value\">\n      <ul>\n        <li>Berger Ernst</li>\n        <li>Müller, Hans</li>\n        <li>Sagmeister, Petra</li>\n        <li>Pan, Peter</li>\n      </ul>\n    </dd>\n  </div>\n</dl>",
+      "warnings": []
+    },
+    {
+      "id": "details",
+      "title": "Details",
+      "status": "stable",
+      "category": "interactive",
+      "strategy": "fallback",
+      "sources": {
+        "scss": [
+          "src/scss/core/components/_details.scss"
+        ],
+        "stories": [
+          "stories/Details/Details.stories.js"
+        ]
+      },
+      "htmlCanonical": "<details class=\"kern-details\">\n  <summary class=\"kern-details__header\">\n    <span class=\"kern-title kern-title--small\">Details zu Punkt XY</span>\n  </summary>\n  <div class=\"kern-details__body\">\n    <p class=\"kern-body\">\n      Das ist ein Beispiel für die Nutzung von <code>&lt;details&gt;</code> und <code>&lt;summary&gt;</code> für die progressive Offenlegung von Inhalten im Textfluss.  \n      Es ist eine native HTML-Lösung, die ohne JavaScript auskommt und von aktuellen Browsern und Screenreadern nativ unterstützt wird.  \n      Der eingeblendete Inhalt schiebt nachfolgende Elemente auf der Seite nach unten (Layout-Shift).\n    </p>\n  </div>\n</details>",
       "warnings": []
     },
     {
@@ -1272,12 +1260,12 @@
       "category": "foundational",
       "strategy": "layout",
       "docs": {
-        "excerpt": "[COMPONENTS.MD] ## Fieldset\nGruppiert verwandte Formelemente. Basisklasse `kern-fieldset`.\n\n- Body: `kern-fieldset__body` (optional `--horizontal`)\n- Optionaler Hinweis: `kern-fieldset__hint` oder generisch `kern-hint`\n- Fehlerzustand: `kern-fieldset--error` (zeigt linken Fehlerbalken, gruppiert Fehlermeldungen)\n\n```html\n<fieldset class=\"kern-fieldset\" aria-describedby=\"hint-text\">\n  <legend class=\"kern-label\">Ansprechpartner</legend>\n  <div class=\"kern-fieldset__hint\" id=\"hint-text\">Hinweis</div>\n  <div class=\"kern-fieldset__body\">…</div>\n</fieldset>\n```\n\nFehlerzustand (aus Storybook)\n\n```html\n<fieldset class=\"kern-fieldset kern-fieldset--error\">\n  <legend class=\"kern-label\">Ansprechpartner</legend>\n  <div class=\"kern-fieldset__body\">\n    <div class=\"kern-form-input\">\n      <label class=\"kern-label\" for=\"vorname\">Vorname</label>\n      <input\n        class=\"kern-form-input__input kern-form-input__input--error\"\n        id=\"vorname\"\n        name=\"vorname\"\n        type=\"text\"\n        aria-describedby=\"kern-error\"\n      />\n    </div>\n    <div class=\"kern-form-input\">\n      <label class=\"kern-label\" for=\"name\">Name</label>\n      <input\n        class=\"kern-form-input__input kern-form-input__input--error\"\n        id=\"name\"\n        name=\"name\"\n        type=\"text\"\n        aria-describedby=\"kern-error\"\n      />\n    </div>\n  </div>\n  <p class=\"kern-error\" id=\"kern-error\" role=\"alert\">\n    <span class=\"kern-icon kern-icon--danger\" aria-hidden=\"true\"></span>\n    <span class=\"kern-body\">Der Name darf nicht leer sein</span>\n  </p>\n </fieldset>\n```\n\n---",
+        "excerpt": "[COMPONENTS.MD] ## Fieldset\nGruppiert verwandte Formelemente. Basisklasse `kern-fieldset`.\n\n- Body: `kern-fieldset__body` (optional `--horizontal`)\n- Optionaler Hinweis: `kern-fieldset__hint` oder generisch `kern-hint`\n- Fehlerzustand: `kern-fieldset--error` (zeigt linken Fehlerbalken, gruppiert Fehlermeldungen)\n\n```html\n<fieldset class=\"kern-fieldset\" aria-describedby=\"hint-text\">\n  <legend class=\"kern-label\">Ansprechpartner</legend>\n  <div class=\"kern-fieldset__hint\" id=\"hint-text\">Hinweis</div>\n  <div class=\"kern-fieldset__body\">…</div>\n</fieldset>\n```\n\nFehlerzustand (aus Storybook)\n\n```html\n<fieldset class=\"kern-fieldset kern-fieldset--error\" aria-describedby=\"kern-error\">\n  <legend class=\"kern-label\">Ansprechpartner</legend>\n  <div class=\"kern-fieldset__body\">\n    <div class=\"kern-form-input\">\n      <label class=\"kern-label\" for=\"vorname\">Vorname</label>\n      <input\n        class=\"kern-form-input__input kern-form-input__input--error\"\n        id=\"vorname\"\n        name=\"vorname\"\n        type=\"text\"\n        aria-describedby=\"kern-error\" aria-invalid=\"true\" />\n    </div>\n    <div class=\"kern-form-input\">\n      <label class=\"kern-label\" for=\"name\">Name</label>\n      <input\n        class=\"kern-form-input__input kern-form-input__input--error\"\n        id=\"name\"\n        name=\"name\"\n        type=\"text\"\n        aria-describedby=\"kern-error\" aria-invalid=\"true\" />\n    </div>\n  </div>\n  <p class=\"kern-error\" id=\"kern-error\" >\n    <span class=\"kern-icon kern-icon--danger\" aria-hidden=\"true\"></span>\n    <span class=\"kern-body\">Der Name darf nicht leer sein</span>\n  </p>\n </fieldset>\n```\n\n---",
         "sections": [
           {
             "source": "COMPONENTS.MD",
             "heading": "## Fieldset",
-            "content": "Gruppiert verwandte Formelemente. Basisklasse `kern-fieldset`.\n\n- Body: `kern-fieldset__body` (optional `--horizontal`)\n- Optionaler Hinweis: `kern-fieldset__hint` oder generisch `kern-hint`\n- Fehlerzustand: `kern-fieldset--error` (zeigt linken Fehlerbalken, gruppiert Fehlermeldungen)\n\n```html\n<fieldset class=\"kern-fieldset\" aria-describedby=\"hint-text\">\n  <legend class=\"kern-label\">Ansprechpartner</legend>\n  <div class=\"kern-fieldset__hint\" id=\"hint-text\">Hinweis</div>\n  <div class=\"kern-fieldset__body\">…</div>\n</fieldset>\n```\n\nFehlerzustand (aus Storybook)\n\n```html\n<fieldset class=\"kern-fieldset kern-fieldset--error\">\n  <legend class=\"kern-label\">Ansprechpartner</legend>\n  <div class=\"kern-fieldset__body\">\n    <div class=\"kern-form-input\">\n      <label class=\"kern-label\" for=\"vorname\">Vorname</label>\n      <input\n        class=\"kern-form-input__input kern-form-input__input--error\"\n        id=\"vorname\"\n        name=\"vorname\"\n        type=\"text\"\n        aria-describedby=\"kern-error\"\n      />\n    </div>\n    <div class=\"kern-form-input\">\n      <label class=\"kern-label\" for=\"name\">Name</label>\n      <input\n        class=\"kern-form-input__input kern-form-input__input--error\"\n        id=\"name\"\n        name=\"name\"\n        type=\"text\"\n        aria-describedby=\"kern-error\"\n      />\n    </div>\n  </div>\n  <p class=\"kern-error\" id=\"kern-error\" role=\"alert\">\n    <span class=\"kern-icon kern-icon--danger\" aria-hidden=\"true\"></span>\n    <span class=\"kern-body\">Der Name darf nicht leer sein</span>\n  </p>\n </fieldset>\n```\n\n---"
+            "content": "Gruppiert verwandte Formelemente. Basisklasse `kern-fieldset`.\n\n- Body: `kern-fieldset__body` (optional `--horizontal`)\n- Optionaler Hinweis: `kern-fieldset__hint` oder generisch `kern-hint`\n- Fehlerzustand: `kern-fieldset--error` (zeigt linken Fehlerbalken, gruppiert Fehlermeldungen)\n\n```html\n<fieldset class=\"kern-fieldset\" aria-describedby=\"hint-text\">\n  <legend class=\"kern-label\">Ansprechpartner</legend>\n  <div class=\"kern-fieldset__hint\" id=\"hint-text\">Hinweis</div>\n  <div class=\"kern-fieldset__body\">…</div>\n</fieldset>\n```\n\nFehlerzustand (aus Storybook)\n\n```html\n<fieldset class=\"kern-fieldset kern-fieldset--error\" aria-describedby=\"kern-error\">\n  <legend class=\"kern-label\">Ansprechpartner</legend>\n  <div class=\"kern-fieldset__body\">\n    <div class=\"kern-form-input\">\n      <label class=\"kern-label\" for=\"vorname\">Vorname</label>\n      <input\n        class=\"kern-form-input__input kern-form-input__input--error\"\n        id=\"vorname\"\n        name=\"vorname\"\n        type=\"text\"\n        aria-describedby=\"kern-error\" aria-invalid=\"true\" />\n    </div>\n    <div class=\"kern-form-input\">\n      <label class=\"kern-label\" for=\"name\">Name</label>\n      <input\n        class=\"kern-form-input__input kern-form-input__input--error\"\n        id=\"name\"\n        name=\"name\"\n        type=\"text\"\n        aria-describedby=\"kern-error\" aria-invalid=\"true\" />\n    </div>\n  </div>\n  <p class=\"kern-error\" id=\"kern-error\" >\n    <span class=\"kern-icon kern-icon--danger\" aria-hidden=\"true\"></span>\n    <span class=\"kern-body\">Der Name darf nicht leer sein</span>\n  </p>\n </fieldset>\n```\n\n---"
           }
         ]
       },
@@ -1289,7 +1277,7 @@
           "stories/Fieldset/Fieldset.stories.js"
         ]
       },
-      "htmlCanonical": "<fieldset class=\"kern-fieldset\">\n  <legend class=\"kern-label kern-label--large\">\n    Ansprechpartner\n  </legend>\n  <div class=\"kern-fieldset__body\">\n    <div class=\"kern-form-input\">\n      <label class=\"kern-label\" for=\"vorname\">Vorname</label>\n      <input class=\"kern-form-input__input\" id=\"vorname\" name=\"vorname\" type=\"text\">\n    </div>\n    <div class=\"kern-form-input\">\n      <label class=\"kern-label\" for=\"name\">Name</label>\n      <input class=\"kern-form-input__input\" id=\"name\" name=\"name\" type=\"text\">\n    </div>\n  <div>\n</fieldset>",
+      "htmlCanonical": "<fieldset class=\"kern-fieldset\">\n  <legend class=\"kern-label kern-label--large\">\n    Ansprechpartner\n  </legend>\n  <div class=\"kern-fieldset__body\">\n    <div class=\"kern-form-input\">\n      <label class=\"kern-label\" for=\"content-vorname\">Vorname</label>\n      <input class=\"kern-form-input__input\" id=\"content-vorname\" name=\"vorname\" type=\"text\">\n    </div>\n    <div class=\"kern-form-input\">\n      <label class=\"kern-label\" for=\"content-name\">Name</label>\n      <input class=\"kern-form-input__input\" id=\"content-name\" name=\"name\" type=\"text\">\n    </div>\n  </div>\n</fieldset>",
       "warnings": []
     },
     {
@@ -1303,7 +1291,7 @@
           "stories/Grid/Grid.stories.js"
         ]
       },
-      "htmlCanonical": "<div class=\"kern-container\">\n  <div class=\"kern-row\">\n    <div class=\"kern-col\">\n      <div class=\"kern-form-input\">\n        <label class=\"kern-label\" for=\"text\">Name</label>\n        <input class=\"kern-form-input__input\" id=\"text\" name=\"text\" type=\"text\">\n      </div>\n    </div>\n  </div>\n</div>",
+      "htmlCanonical": "<div class=\"kern-container\">\n  <div class=\"kern-row\">\n    <div class=\"kern-col\">\n      <div class=\"kern-form-input\">\n        <label class=\"kern-label\" for=\"text-1\">Name</label>\n        <input class=\"kern-form-input__input\" id=\"text-1\" name=\"text\" type=\"text\">\n      </div>\n    </div>\n  </div>\n</div>",
       "warnings": []
     },
     {
@@ -1795,7 +1783,7 @@
           "stories/Link/LinkSmall.stories.js"
         ]
       },
-      "htmlCanonical": "<a href=\"#\" class=\"kern-btn kern-btn--tertiary\">\n  <span class=\"kern-icon kern-icon--arrow-back\" aria-hidden=\"true\"></span>\n  <span class=\"kern-label\">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat</span>\n</a>",
+      "htmlCanonical": "<a href=\"#\" class=\"kern-link kern-link--no-visited-state\">Link</a>",
       "warnings": []
     },
     {
@@ -1914,6 +1902,20 @@
       "warnings": []
     },
     {
+      "id": "search",
+      "title": "Search",
+      "status": "stable",
+      "category": "interactive",
+      "strategy": "fallback",
+      "sources": {
+        "stories": [
+          "stories/Search/Search.stories.js"
+        ]
+      },
+      "htmlCanonical": "<search class=\"kern-form-input\">\n  <label class=\"kern-label\" for=\"search-input-with-label\">Suche</label>\n  <div class=\"kern-input-group\">\n    <input class=\"kern-form-input__input\" id=\"search-input-with-label\" name=\"search\" type=\"search\" />\n    <button class=\"kern-btn kern-btn--primary\">\n      <span class=\"kern-icon kern-icon--search\" aria-hidden=\"true\"></span>\n      <span class=\"kern-label\">Suchen</span>\n    </button>\n  </div>\n</search>",
+      "warnings": []
+    },
+    {
       "id": "select",
       "title": "Select",
       "status": "stable",
@@ -1969,7 +1971,7 @@
           "stories/Summary/Summary.stories.js"
         ]
       },
-      "htmlCanonical": "<div class=\"kern-summary\">\n\n  <div class=\"kern-summary__header\"> \n    <span class=\"kern-number\">1</span>\n    <h3 class=\"kern-title kern-title--small\" id=\"title\">Aufgabe</h3>\n  </div>\n\n  <div class=\"kern-summary__body\">\n    <dl class=\"kern-description-list\">\n      <div class=\"kern-description-list-item\">\n        <dt class=\"kern-description-list-item__key\">Name</dt>\n        <dd class=\"kern-description-list-item__value\">Max</dd>\n      </div>\n      <div class=\"kern-description-list-item\">\n        <dt class=\"kern-description-list-item__key\">Vorname</dt>\n        <dd class=\"kern-description-list-item__value\">Mustermann</dd>\n      </div>\n      <div class=\"kern-description-list-item\">\n        <dt class=\"kern-description-list-item__key\">E-Mail</dt>\n        <dd class=\"kern-description-list-item__value\">dasisteinesehrlangeemailadressevonmaxmustermann@unternehmen.xy</dd>\n      </div>\n      <div class=\"kern-description-list-item\">\n        <dt class=\"kern-description-list-item__key\">Sachkundigen vor Ort</dt>\n        <dd class=\"kern-description-list-item__value\">\n          <ul>\n            <li>Berger Ernst</li>\n            <li>Müller, Hans</li>\n            <li>Sagmeister, Petra</li>\n            <li>Pan, Peter</li>\n          </ul>\n        </dd>\n      </div>\n    </dl>\n    <div class=\"kern-summary__actions\">\n      <a href=\"#\" class=\"kern-link\" aria-describedby=\"title\">\n        <span class=\"kern-icon kern-icon--edit\" aria-hidden=\"true\"></span>\n        Bearbeiten\n      </a>\n    </div>\n  </div>\n</div>",
+      "htmlCanonical": "<div class=\"kern-summary\">\n\n  <div class=\"kern-summary__header\"> \n    <h3 class=\"kern-title kern-title--small kern-summary__title-wrapper\" id=\"title\">\n      <span class=\"kern-number\">1</span>\n      <span>Aufgabe</span>\n    </h3>\n  </div>\n\n  <div class=\"kern-summary__body\">\n    <dl class=\"kern-description-list\">\n      <div class=\"kern-description-list-item\">\n        <dt class=\"kern-description-list-item__key\">Name</dt>\n        <dd class=\"kern-description-list-item__value\">Max</dd>\n      </div>\n      <div class=\"kern-description-list-item\">\n        <dt class=\"kern-description-list-item__key\">Vorname</dt>\n        <dd class=\"kern-description-list-item__value\">Mustermann</dd>\n      </div>\n      <div class=\"kern-description-list-item\">\n        <dt class=\"kern-description-list-item__key\">E-Mail</dt>\n        <dd class=\"kern-description-list-item__value\">dasisteinesehrlangeemailadressevonmaxmustermann@unternehmen.xy</dd>\n      </div>\n      <div class=\"kern-description-list-item\">\n        <dt class=\"kern-description-list-item__key\">Sachkundigen vor Ort</dt>\n        <dd class=\"kern-description-list-item__value\">\n          <ul>\n            <li>Berger Ernst</li>\n            <li>Müller, Hans</li>\n            <li>Sagmeister, Petra</li>\n            <li>Pan, Peter</li>\n          </ul>\n        </dd>\n      </div>\n    </dl>\n    <div class=\"kern-summary__actions\">\n      <a href=\"#\" class=\"kern-link\" aria-describedby=\"title\">\n        <span class=\"kern-icon kern-icon--edit\" aria-hidden=\"true\"></span>\n        Bearbeiten\n      </a>\n    </div>\n  </div>\n</div>",
       "warnings": []
     },
     {
@@ -2023,7 +2025,7 @@
           "stories/Tasklist/Tasklist.stories.js"
         ]
       },
-      "htmlCanonical": "<div class=\"kern-task-list\">\n  <div class=\"kern-task-list__header\">\n    <h2 class=\"kern-heading-medium\">Aufgabengruppe 1</h2>\n  </div>\n  <ul class=\"kern-task-list__list\">\n    <li class=\"kern-task-list__item\">\n      <span class=\"kern-number\">1</span>\n      <div class=\"kern-task-list__title\" id=\"task1-title\">\n        <a href=\"#\" class=\"kern-link kern-link--stretched\" aria-describedby=\"task1-status\">Aufgabe xy erledigen</a>\n        <div class=\"kern-task-list__status\" id=\"task1-status\">\n          <span class=\"kern-badge kern-badge--success\">\n            <span class=\"kern-icon kern-icon--success\" aria-hidden=\"true\"></span>\n            <span class=\"kern-label kern-label--small\">Erledigt</span>\n          </span>\n        </div>\n      </div>\n    </li>\n    <li class=\"kern-task-list__item\">\n      <span class=\"kern-number\">2</span>\n      <div class=\"kern-task-list__title\" id=\"task2-title\">\n        <a href=\"#\" class=\"kern-link kern-link--stretched\" aria-describedby=\"task2-status\">Aufgabe xy erledigen</a>\n        <div class=\"kern-task-list__status\" id=\"task2-status\">\n          <span class=\"kern-badge kern-badge--warning\">\n            <span class=\"kern-label kern-label--small\">Unvollständig</span>\n          </span>\n        </div>\n      </div>\n    </li>\n    <li class=\"kern-task-list__item\">\n      <span class=\"kern-number\">3</span>\n      <div class=\"kern-task-list__title\" id=\"task3-title\">\n        <p class=\"kern-body\">Aufgabe xy erledigen</p>\n        <div class=\"kern-task-list__status\" id=\"task3-status\">\n          <span class=\"kern-badge kern-badge--info\">\n            <span class=\"kern-label kern-label--small\">Noch nicht zu bearbeiten</span>\n          </span>\n        </div>\n      </div>\n    </li>\n  </ul>\n</div>",
+      "htmlCanonical": "<div class=\"kern-task-list\">\n  <div class=\"kern-task-list__header\">\n    <h2 class=\"kern-heading-medium\">Aufgabengruppe 1</h2>\n  </div>\n  <ol class=\"kern-task-list__list\">\n    <li class=\"kern-task-list__item\">\n      <div class=\"kern-task-list__title\" id=\"task1-title\">\n        <a href=\"#\" class=\"kern-link kern-link--stretched kern-task-list__content-wrapper\" aria-describedby=\"task1-status\">\n          <span class=\"kern-number\">1</span>\n          <span>Aufgabe xy erledigen</span>\n        </a>\n        <div class=\"kern-task-list__status\" id=\"task1-status\">\n          <span class=\"kern-badge kern-badge--success\">\n            <span class=\"kern-icon kern-icon--success\" aria-hidden=\"true\"></span>\n            <span class=\"kern-label kern-label--small\">Erledigt</span>\n          </span>\n        </div>\n      </div>\n    </li>\n    <li class=\"kern-task-list__item\">\n      <div class=\"kern-task-list__title\" id=\"task2-title\">\n        <a href=\"#\" class=\"kern-link kern-link--stretched kern-task-list__content-wrapper\" aria-describedby=\"task2-status\">\n          <span class=\"kern-number\">2</span>\n          <span>Aufgabe xy erledigen</span>\n        </a>\n        <div class=\"kern-task-list__status\" id=\"task2-status\">\n          <span class=\"kern-badge kern-badge--warning\">\n            <span class=\"kern-label kern-label--small\">Unvollständig</span>\n          </span>\n        </div>\n      </div>\n    </li>\n    <li class=\"kern-task-list__item\">\n      <div class=\"kern-task-list__title\" id=\"task3-title\">\n        <div class=\"kern-task-list__content-wrapper\">\n          <span class=\"kern-number\">3</span>\n          <p class=\"kern-body\">Aufgabe xy erledigen</p>\n        </div>\n        <div class=\"kern-task-list__status\" id=\"task3-status\">\n          <span class=\"kern-badge kern-badge--info\">\n            <span class=\"kern-label kern-label--small\">Noch nicht zu bearbeiten</span>\n          </span>\n        </div>\n      </div>\n    </li>\n  </ol>\n</div>",
       "warnings": []
     },
     {

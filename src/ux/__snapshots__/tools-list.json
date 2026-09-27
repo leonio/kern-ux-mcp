@@ -4372,6 +4372,29 @@
     }
   },
   {
+    "name": "get_details",
+    "description": "KERN UX: HTML für Details erzeugen (mit optionaler strikter Validierung).",
+    "inputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "locale": {
+          "description": "Sprache für Tool-Strings (Standard: de).",
+          "type": "string",
+          "enum": [
+            "de",
+            "en"
+          ]
+        },
+        "strict": {
+          "description": "Wenn true: bei Validierungsfehlern wird kein HTML geliefert (BITV-strikt).",
+          "type": "boolean"
+        }
+      },
+      "description": "Gibt korrektes HTML für die KERN UX Komponente 'Details' zurück."
+    }
+  },
+  {
     "name": "get_dialog",
     "description": "KERN UX: HTML für Dialog erzeugen (mit optionalem Trigger-Button). Known-good payload: { title: 'Bestätigen', body: 'Möchten Sie fortfahren?', confirmLabel: 'Ja', cancelLabel: 'Nein', triggerLabel: 'Dialog öffnen', triggerVariant: 'primary' }. Legacy payload mit actions.confirm/cancel wird ebenfalls akzeptiert.",
     "inputSchema": {
@@ -6540,6 +6563,29 @@
         }
       ],
       "type": "object"
+    }
+  },
+  {
+    "name": "get_search",
+    "description": "KERN UX: HTML für Search erzeugen (mit optionaler strikter Validierung).",
+    "inputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "locale": {
+          "description": "Sprache für Tool-Strings (Standard: de).",
+          "type": "string",
+          "enum": [
+            "de",
+            "en"
+          ]
+        },
+        "strict": {
+          "description": "Wenn true: bei Validierungsfehlern wird kein HTML geliefert (BITV-strikt).",
+          "type": "boolean"
+        }
+      },
+      "description": "Gibt korrektes HTML für die KERN UX Komponente 'Search' zurück."
     }
   },
   {

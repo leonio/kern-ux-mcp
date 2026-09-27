@@ -36,6 +36,7 @@ const EXCLUDED_COMPONENT_IDS = new Set([
 	"input", // covered by inputtext, inputemail, inputdate, etc.
 	"spacing",
 	"stack",
+	"tests", // stories/Tests holds fixture stories (TokenInheritance), not a KERN component
 	"utilityhelper",
 ]);
 
