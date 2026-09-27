@@ -76,7 +76,7 @@ Each phase is independently releasable. Items refer to [findings.md](findings.md
 - [x] 12. Remove dead code and deduplicate `stories.ts` and `paths.ts`. → R1
 - [x] 13. Type-check `tools/**` and `vitest.config.ts`. → R1
 - [ ] 14. Optional hardening: `verbatimModuleSyntax`, ES2024 target, ~~Biome schema version~~ (done: 2.5.14). → R3 (`tsconfig.base.json`)
-- [ ] 15. Spike `McpServer.registerTool`. → superseded by R0 and R2 (SDK v2)
+- [x] 15. Spike `McpServer.registerTool`. → superseded by R0 and R2 (SDK v2)
 - [x] 16. Keep a single `formFlow` schema. The copy in `schemas/form-flow.ts` is dead at runtime and duplicated inline in `content-union.ts`. → R1
 - [ ] 17. SDK v2 migration facts. → R0, R2
 - [ ] 18. Composition gaps and bugs. → R4

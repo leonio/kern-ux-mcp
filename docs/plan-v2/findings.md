@@ -335,7 +335,7 @@ Items 17–21 come from the MCP 2026-07-28 discovery on the same date. They feed
 
 ### R0 results (2026-09-27)
 
-The spike harness lives on `feat/v2-alpha` under [spike/r0/](../../spike/r0/) until R2 replaces it. It registers the 52 existing `ToolDef`s unchanged on `McpServer` through a `kernInputSchema()` Standard Schema adapter. Versions: SDK 2.1.0, zod 4.6.5, TS 7.0.2, Node 26.7.0 plus 24.21.0, MCP Inspector 2.8.0.
+The spike harness lived under `spike/r0/` on `feat/v2-alpha` until R2 replaced it; `git checkout 31110cf -- spike/r0` restores it (reinstall `@modelcontextprotocol/node` for its HTTP entry). It registers the 52 existing `ToolDef`s unchanged on `McpServer` through a `kernInputSchema()` Standard Schema adapter. Versions: SDK 2.1.0, zod 4.6.5, TS 7.0.2, Node 26.7.0 plus 24.21.0, MCP Inspector 2.8.0.
 
 **The adapter approach works. R2 can go ahead as planned.**
 
@@ -383,7 +383,7 @@ The spike harness lives on `feat/v2-alpha` under [spike/r0/](../../spike/r0/) un
 
 **Reported by hand (2026-09-27):** the spike works in Claude and in VS Code Copilot over HTTP. The per-probe results below haven't been recorded yet.
 
-**Still open.** These need a person at each client; the runbook is `spike/r0/CLIENT-MATRIX.md`:
+**Still open.** These need a person at each client; the runbook is `spike/r0/CLIENT-MATRIX.md` in the restored harness:
 - the matrix for VS Code Copilot, Codex CLI, Claude Code, Claude Desktop, ChatGPT and the Responses API: era, prompts/resources, `$defs`/`$ref`, `anyOf` roots, tool-count limit
 - Claude Desktop running the `.mcpb` on Node 24, built-in or system
 

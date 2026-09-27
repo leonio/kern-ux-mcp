@@ -1,9 +1,0 @@
-{
-	"mcpServers": {
-		"kern-spike": {
-			"command": "node",
-			"args": ["spike/r0/mcpb/server/index.js"],
-			"env": { "KERN_SPIKE_COMPAT": "1" }
-		}
-	}
-}

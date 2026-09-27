@@ -16,7 +16,7 @@ Discovery date: 2026-09-27. Line numbers refer to the code at that point and wil
 - [x] Install `@modelcontextprotocol/server`, `@modelcontextprotocol/node` and `@modelcontextprotocol/client`.
 - [x] Check that the `tools/list` output through the adapter deep-equals [tools-list.json](../../src/ux/__snapshots__/tools-list.json), ignoring key order.
 - [x] Record the exact `isError` text for invalid input and for strict-validation failures.
-- [ ] Test the client matrix on both protocol versions (2026-07-28 and 2025-11-25). MCP Inspector is done; Claude and VS Code Copilot (HTTP) are reported working. The per-probe results follow the runbook in [spike/r0/CLIENT-MATRIX.md](../../spike/r0/CLIENT-MATRIX.md).
+- [ ] Test the client matrix on both protocol versions (2026-07-28 and 2025-11-25). MCP Inspector is done; Claude and VS Code Copilot (HTTP) are reported working. The per-probe results follow the runbook `spike/r0/CLIENT-MATRIX.md`, deleted in R2: `git checkout 31110cf -- spike/r0` restores it (reinstall `@modelcontextprotocol/node` for its HTTP entry).
   - Over stdio: VS Code Copilot, Codex CLI, Claude Code, Claude Desktop, MCP Inspector.
   - Over HTTP through a tunnel: ChatGPT and the Responses API `mcp` tool.
   - For each client, record:
@@ -46,12 +46,12 @@ Discovery date: 2026-09-27. Line numbers refer to the code at that point and wil
 
 ### R2: SDK v2 swap (single package, stdio only)
 
-- [ ] Add the `kernInputSchema()` Standard Schema adapter and `registerKernTool()` (see [The tool model](#the-tool-model)). Strip our "Invalid arguments" header and start the message with `\n` (R0).
-- [ ] Build `createKernServer()` on `McpServer` with `capabilities: { tools: { listChanged: false } }` (R0), and change `index.ts` to `serveStdio(() => createKernServer())`.
-- [ ] Return `isError` results for invalid input and strict failures. Update [server.mcp.test.ts](../../src/server.mcp.test.ts): an unknown tool now rejects with -32602.
-- [ ] Add a wire-level listing snapshot plus a semantic-equality test against the domain snapshot. JSON round-trip the in-memory result first (R0).
-- [ ] Remove `@modelcontextprotocol/sdk` v1.
-- [ ] Delete the R0 harness in `spike/r0/`.
+- [x] Add the `kernInputSchema()` Standard Schema adapter and `registerKernTool()` (see [The tool model](#the-tool-model)). Strip our "Invalid arguments" header and start the message with `\n` (R0).
+- [x] Build `createKernServer()` on `McpServer` with `capabilities: { tools: { listChanged: false } }` (R0), and change `index.ts` to `serveStdio(() => createKernServer())`.
+- [x] Return `isError` results for invalid input and strict failures. Update the e2e test, now [create-server.test.ts](../../src/mcp/create-server.test.ts): an unknown tool now rejects with -32602.
+- [x] Add a wire-level listing snapshot plus a semantic-equality test against the domain snapshot. JSON round-trip the in-memory result first (R0).
+- [x] Remove `@modelcontextprotocol/sdk` v1.
+- [x] Delete the R0 harness in `spike/r0/`. `git checkout 31110cf -- spike/r0` restores it (reinstall `@modelcontextprotocol/node` for its HTTP entry).
 
 ### R2b: Standards metadata (via the adapter)
 
@@ -241,7 +241,7 @@ Today the same payloads are duplicated across tool descriptions, `server.ts` and
 
 ### R0 spike
 
-This step is time-boxed. The harness in `spike/r0/` is throwaway: it is deleted once R2 lands, and only the findings are kept. The tracker lists what to confirm. Two of the answers gate later steps:
+This step is time-boxed. The harness in `spike/r0/` was throwaway and was deleted in R2; only the findings are kept. `git checkout 31110cf -- spike/r0` restores it (reinstall `@modelcontextprotocol/node` for its HTTP entry). The tracker lists what to confirm. Two of the answers gate later steps:
 - **`$defs`/`$ref` and `anyOf`-root support per client** decides between the R5 schema-shrink options.
 - **Tool-count limits** decide whether the R5 compact profile is needed.
 
