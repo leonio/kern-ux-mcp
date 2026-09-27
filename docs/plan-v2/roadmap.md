@@ -11,21 +11,21 @@ Discovery date: 2026-09-27. Line numbers refer to the code at that point and wil
 
 ## Status tracker
 
-### R0: SDK v2 spike (throwaway branch)
+### R0: SDK v2 spike
 
-- [ ] Install `@modelcontextprotocol/server`, `@modelcontextprotocol/node` and `@modelcontextprotocol/client`.
-- [ ] Check that the `tools/list` output through the adapter deep-equals [tools-list.json](../../src/ux/__snapshots__/tools-list.json), ignoring key order.
-- [ ] Record the exact `isError` text for invalid input and for strict-validation failures.
-- [ ] Test the client matrix on both protocol versions (2026-07-28 and 2025-11-25).
+- [x] Install `@modelcontextprotocol/server`, `@modelcontextprotocol/node` and `@modelcontextprotocol/client`.
+- [x] Check that the `tools/list` output through the adapter deep-equals [tools-list.json](../../src/ux/__snapshots__/tools-list.json), ignoring key order.
+- [x] Record the exact `isError` text for invalid input and for strict-validation failures.
+- [ ] Test the client matrix on both protocol versions (2026-07-28 and 2025-11-25). MCP Inspector is done; Claude and VS Code Copilot (HTTP) are reported working. The per-probe results follow the runbook in [spike/r0/CLIENT-MATRIX.md](../../spike/r0/CLIENT-MATRIX.md).
   - Over stdio: VS Code Copilot, Codex CLI, Claude Code, Claude Desktop, MCP Inspector.
   - Over HTTP through a tunnel: ChatGPT and the Responses API `mcp` tool.
   - For each client, record:
     - whether it supports prompts and resources
     - whether it handles `$defs`/`$ref` and `anyOf` roots
     - its tool-count limits
-- [ ] Check that TS 7 compiles against the v2 `.d.ts` files, that JSON-import emit works, and that `tsc -b` works.
-- [ ] Check that Claude Desktop runs an MCPB bundle on Node 24, built-in or through the system Node setting.
-- [ ] Write the results into [findings.md](findings.md) item 17.
+- [x] Check that TS 7 compiles against the v2 `.d.ts` files, that JSON-import emit works, and that `tsc -b` works.
+- [ ] Check that Claude Desktop runs an MCPB bundle on Node 24, built-in or through the system Node setting. The bundle runs on Node 24.21.0 under the Inspector; the Desktop run is still open.
+- [ ] Write the results into [findings.md](findings.md) item 17. The automated results are in; the client matrix is still to add.
 
 ### R1: Prerequisites (safe to cherry-pick to `main`)
 
@@ -46,11 +46,12 @@ Discovery date: 2026-09-27. Line numbers refer to the code at that point and wil
 
 ### R2: SDK v2 swap (single package, stdio only)
 
-- [ ] Add the `kernInputSchema()` Standard Schema adapter and `registerKernTool()` (see [The tool model](#the-tool-model)).
-- [ ] Build `createKernServer()` on `McpServer`, and change `index.ts` to `serveStdio(() => createKernServer())`.
+- [ ] Add the `kernInputSchema()` Standard Schema adapter and `registerKernTool()` (see [The tool model](#the-tool-model)). Strip our "Invalid arguments" header and start the message with `\n` (R0).
+- [ ] Build `createKernServer()` on `McpServer` with `capabilities: { tools: { listChanged: false } }` (R0), and change `index.ts` to `serveStdio(() => createKernServer())`.
 - [ ] Return `isError` results for invalid input and strict failures. Update [server.mcp.test.ts](../../src/server.mcp.test.ts): an unknown tool now rejects with -32602.
-- [ ] Add a wire-level listing snapshot plus a semantic-equality test against the domain snapshot.
+- [ ] Add a wire-level listing snapshot plus a semantic-equality test against the domain snapshot. JSON round-trip the in-memory result first (R0).
 - [ ] Remove `@modelcontextprotocol/sdk` v1.
+- [ ] Delete the R0 harness in `spike/r0/`.
 
 ### R2b: Standards metadata (via the adapter)
 
@@ -67,7 +68,7 @@ Discovery date: 2026-09-27. Line numbers refer to the code at that point and wil
   - for MCPB and Docker: everything inlined
   - plus a check that every dependency is declared
 - [ ] Build `packages/http`:
-  - the handler, with host and origin validation
+  - the handler, with host and origin validation (declare the `hono` peer dependency of `@modelcontextprotocol/node`)
   - `/healthz` and `/readyz`
   - optional auth, rate limiting and CORS
   - a SIGTERM drain
@@ -240,7 +241,7 @@ Today the same payloads are duplicated across tool descriptions, `server.ts` and
 
 ### R0 spike
 
-This step is time-boxed and throwaway; only the findings are kept. The tracker lists what to confirm. Two of the answers gate later steps:
+This step is time-boxed. The harness in `spike/r0/` is throwaway: it is deleted once R2 lands, and only the findings are kept. The tracker lists what to confirm. Two of the answers gate later steps:
 - **`$defs`/`$ref` and `anyOf`-root support per client** decides between the R5 schema-shrink options.
 - **Tool-count limits** decide whether the R5 compact profile is needed.
 

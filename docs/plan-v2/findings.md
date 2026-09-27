@@ -310,15 +310,15 @@ Items 17–21 come from the MCP 2026-07-28 discovery on the same date. They feed
   - v1 `McpServer` advertises the 4 tools with a `discriminatedUnion` root (`get_accordion`, `get_checkbox`, `get_radio`, `get_summary`) as **empty** object schemas, and changes the 6 recursive ones.
   - v2 generates 2020-12 schemas through `~standard.jsonSchema`, which would change all 52.
 
-**SDK v2 facts gathered during discovery (confirm them against the installed version in R0):**
+**SDK v2 facts gathered during discovery (confirmed or corrected against 2.1.0 in R0; see [R0 results](#r0-results-2026-09-27) below):**
 
 | Fact | Detail |
 |---|---|
-| Packages | `@modelcontextprotocol/server` (2.0.0 on 2026-07-27, 2.1.0 on 2026-09-23), `@modelcontextprotocol/node`, `@modelcontextprotocol/client`. Requires `zod ^4.2.0`, which dedupes with our 4.6.x. |
-| Schema contract | `registerTool` takes Standard Schema objects. It reads JSON Schema from `~standard.jsonSchema.input()` and validates with `~standard.validate` before the handler runs. It wraps the result as `{ type: "object", ...json }`, which moves `type` ahead of `$schema`. |
-| Validation errors | The text reads `Input validation error: Invalid arguments for tool <name>: <issues>`, with a path prefix on each issue. Our adapter should return one issue with no path, and drop our own "Invalid arguments" header. |
-| Unknown tool | Rejects with JSON-RPC `-32602` (`Tool <name> not found`). v1.30 returned an `isError` result instead. |
-| Schema cost | JSON Schemas are converted when a tool is registered. A per-request factory therefore pays for all 52 conversions on every HTTP request, unless the adapter returns memoised schemas. |
+| Packages | `@modelcontextprotocol/server` (2.0.0 on 2026-07-27, 2.1.0 on 2026-09-23), `@modelcontextprotocol/node`, `@modelcontextprotocol/client`. Requires `zod ^4.2.0`, which dedupes with our 4.6.x. **R0:** `@modelcontextprotocol/node` has a **peer dependency on `hono` ^4.11.4** and depends on `@hono/node-server` 1.x. The HTTP package must declare `hono`. |
+| Schema contract | `registerTool` takes Standard Schema objects. It reads JSON Schema from `~standard.jsonSchema.input({ target: "draft-2020-12" })` and validates with `~standard.validate` before the handler runs. It wraps the result as `{ type: "object", ...json }`. **R0:** returning our draft-07 document regardless of the requested target works with every client tested. Key order isn't preserved on the wire anyway: clients re-parse, so legacy clients see `type, properties, …, $schema` and 2026 clients see `$schema, type, …`. Compare listings semantically, never byte for byte. |
+| Validation errors | The text reads `Input validation error: Invalid arguments for tool <name>: <issues>`, with a path prefix on each issue. Our adapter should return one issue with no path, and drop our own "Invalid arguments" header. **R0:** confirmed. The exact texts are below. |
+| Unknown tool | Rejects with JSON-RPC `-32602` (`Tool <name> not found`) on both eras and every transport. v1.30 returned an `isError` result instead. **R0:** confirmed. |
+| Schema cost | **R0 correction:** conversion happens **both** at `registerTool` (for an `x-mcp-header` scan) **and on every `tools/list`**, not only at registration. Without memoisation, every HTTP request would pay 52 conversions at registration plus 52 per listing. With the memoised adapter, `createKernServer()` costs **0.85 ms** for 52 tools. |
 | Caching | `ServerOptions.cacheHints` (per operation) and `cacheHint` on `registerResource`. The default is `ttlMs: 0`, `cacheScope: "private"`. |
 | Hosts | `serveStdio(factory)` from `@modelcontextprotocol/server/stdio`. `createMcpHandler(factory)` for stateless HTTP, used with `toNodeHandler` in `node:http`. Older eras (2025-06-18, 2025-11-25) are served from the same factory. |
 | Host validation | `localhostHostValidation`/`localhostOriginValidation` only fit loopback binds. A container binding `0.0.0.0` needs explicit allowlists. |
@@ -332,6 +332,62 @@ Items 17–21 come from the MCP 2026-07-28 discovery on the same date. They feed
 - Run the MCP e2e tests with `describe.each` over both protocol versions.
 
 **Risk:** Medium. Guard it with the existing listing snapshot, plus a wire-level snapshot and a per-tool semantic-equality test, and time-box the spike (R0). Tests asserting `rejects.toThrow` for invalid input must change to `isError` assertions, in the same PR.
+
+### R0 results (2026-09-27)
+
+The spike harness lives on `feat/v2-alpha` under [spike/r0/](../../spike/r0/) until R2 replaces it. It registers the 52 existing `ToolDef`s unchanged on `McpServer` through a `kernInputSchema()` Standard Schema adapter. Versions: SDK 2.1.0, zod 4.6.5, TS 7.0.2, Node 26.7.0 plus 24.21.0, MCP Inspector 2.8.0.
+
+**The adapter approach works. R2 can go ahead as planned.**
+
+**Listing.** Every setup lists 52 tools whose names, descriptions and `inputSchema`s deep-equal [tools-list.json](../../src/ux/__snapshots__/tools-list.json), ignoring key order. The setups:
+- SDK client over `InMemoryTransport` (2025)
+- `createMcpHandler().fetch` on 2025 and on 2026-07-28
+- a spawned stdio process on 2025 and on 2026-07-28
+- Inspector CLI over stdio and over HTTP, on both eras
+
+**Error texts.** They're the same on every transport and era, apart from `_meta` on 2026.
+
+| Case | Result |
+|---|---|
+| Invalid input (`get_button`, `variant: "rainbow"`) | `isError: true`, text: `Input validation error: Invalid arguments for tool get_button: - variant: Invalid option: expected one of "primary"\|"secondary"\|"tertiary"`, then `\nKnown-good payload: …` |
+| The same, if our own header is kept | `… for tool get_button: Invalid arguments for get_button:\n- variant: …` (doubled, as predicted). **R2:** strip the header and start the adapter message with `\n`, so the bullet list begins on its own line. |
+| Invalid `render_composition` block | `isError: true`, with the `formatCompositionError` hints and cheat sheet, prefixed the same way. Our "(N issues)" header is dropped along with the rest of our header. |
+| Strict failure (`render_composition`, `strict: true`, `<img>` without `alt`) | `isError: true`, text: `Strict validation failed for render_composition. Fix errors and retry:\n- <img>-Elemente müssen ein alt-Attribut haben (alt="" für dekorative Bilder).` There's no SDK prefix: any handler throw becomes `isError` with the error's message. That includes output-schema failures. |
+| Unknown tool | JSON-RPC error `-32602` `Tool get_does_not_exist not found` |
+
+**Protocol behaviour**
+- On 2026, `tools/list` carries `ttlMs: 0, cacheScope: "private"` by default. On 2025 there are no cache fields. So R2b's `cacheHints` are needed for the listing to be cacheable.
+- `capabilities.tools.listChanged` defaults to **`true`**, and the Inspector then opens a `subscriptions/listen` stream on 2026. **R2:** pass `capabilities: { tools: { listChanged: false } }`, since the tool set is static.
+- `InMemoryTransport` hands over objects without serialising them, so wire tools carry `title`, `icons`, `annotations`, `execution` and `_meta` keys set to `undefined`. The R2 wire snapshot must round-trip through `JSON.stringify` first.
+- **stdio on 2026:** the SDK client runs `server/discover` on a **disposable sibling process**, then spawns the real server. SDK-based clients therefore pay server boot twice: about 1.3 s for the first `tools/list` after connect, against about 10 ms afterwards. Boot time matters. Keep module-scope work small.
+- The bundled server boots in about 0.4–1 s here; under `tsx` it takes about 1.3 s.
+- Don't call `preloadSchemas()`. The SDK recommends lazy loading for Node CLIs, and it only costs about 16 ms.
+
+**HTTP**
+- `toNodeHandler` plus `hostHeaderValidation` works as documented. A wrong `Host` gets `403` with `{"code":-32000,"message":"Invalid Host: evil.example"}`.
+- Both the Node adapter and the handler cap request bodies at **4 MiB** by default. The `validate_html` `maxLength` (finding 21) should sit well below that.
+
+**Schema portability.** Inspector 2.8.0's `--strict` check reports **0 errors and 2 warnings** across all 52 tools. Both are in `get_summary`: `number` is typed `["string","number"]`, which is less portable to single-`type` dialects such as Gemini's OpenAPI subset. Split it into `anyOf` branches in R5.
+- The check doesn't flag the four `anyOf`-root tools, the inlined recursive schemas, or the `$defs`/`$ref` probe.
+
+**TypeScript 7**
+- TS 7.0.2 compiles against the v2 `.d.ts` files with `skipLibCheck: false` and `lib: ES2022` (no DOM).
+- The only lib error comes from the **v1** SDK (`HeadersInit` without DOM). That error is why `skipLibCheck` is on today, so R2 can consider turning it off.
+- JSON import (`import m from "./registry.json" with { type: "json" }`, `resolveJsonModule`, NodeNext) keeps the import attribute in the emitted JS and copies the JSON to `outDir`.
+- `tsc -b` with `composite`, plus an incremental rebuild, works.
+
+**Bundle and MCPB**
+- esbuild 0.28 (ESM, `--platform=node --target=node24`, fully inlined) produces a 2.0 MB single file. Only `node:` built-ins stay external. `registry.json` is still copied alongside until R3 switches to the JSON import.
+- `mcpb` 2.1.2 validates a `manifest_version "0.3"` manifest and packs a **425 kB** `.mcpb`.
+- The bundle runs on **Node 24.21.0** and on 26.7.0, on both eras.
+
+**Reported by hand (2026-09-27):** the spike works in Claude and in VS Code Copilot over HTTP. The per-probe results below haven't been recorded yet.
+
+**Still open.** These need a person at each client; the runbook is `spike/r0/CLIENT-MATRIX.md`:
+- the matrix for VS Code Copilot, Codex CLI, Claude Code, Claude Desktop, ChatGPT and the Responses API: era, prompts/resources, `$defs`/`$ref`, `anyOf` roots, tool-count limit
+- Claude Desktop running the `.mcpb` on Node 24, built-in or system
+
+The R5 schema-shrink choice (A or B) and the compact-profile decision stay gated on those results.
 
 ## 18. Composition gaps and bugs
 
