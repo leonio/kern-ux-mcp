@@ -1,10 +1,15 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 
-import Ajv2020 from "ajv/dist/2020";
-import addFormats from "ajv-formats";
+import ajv2020Module from "ajv/dist/2020.js";
+import ajvFormatsModule from "ajv-formats";
 
 import type { GuidanceOverlayManifest } from "../../src/ux/types.js";
+
+// Both packages are CommonJS: under NodeNext the default import is module.exports,
+// which carries the class/plugin as `.default` (at runtime too).
+const Ajv2020 = ajv2020Module.default;
+const addFormats = ajvFormatsModule.default;
 
 const ID_ALIASES: Record<string, string> = {
 	description_list: "descriptionlist",

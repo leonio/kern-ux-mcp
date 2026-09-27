@@ -37,6 +37,10 @@ jobs:
       - name: TypeScript Compile
         run: npx tsc --noEmit
 
+      # tools/ and vitest.config.ts run through tsx/Vitest, which don't type-check.
+      - name: TypeScript Check (tooling)
+        run: npx tsc -p tsconfig.tools.json
+
       # Same build the release workflow runs, so tsconfig.build.json / manifest-copy breakage fails the PR, not the release.
       - name: Build
         run: npm run build:ci

@@ -120,6 +120,9 @@ npx @biomejs/biome ci .
 # TypeScript type check only
 npx tsc --noEmit
 
+# Type check the tooling (tools/, vitest.config.ts), which tsx and Vitest run unchecked
+npx tsc -p tsconfig.tools.json
+
 # Generate a CycloneDX SBOM locally
 npm run sbom:generate
 
