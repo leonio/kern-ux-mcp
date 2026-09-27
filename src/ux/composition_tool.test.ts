@@ -1,39 +1,11 @@
 import { describe, expect, it } from "vitest";
 
+import {
+	createRegistry,
+	invokeTool,
+	type RenderedToolResult,
+} from "../test-support/tools.js";
 import { createTools } from "./tools.js";
-import type { ComponentInfo, Registry } from "./types.js";
-
-type RenderedToolResult = {
-	html: string;
-	warnings: string[];
-	validation: {
-		ok: boolean;
-	};
-};
-
-async function invokeTool<TResult>(
-	tool: { handler(args: unknown): Promise<unknown> } | undefined,
-	args: unknown,
-): Promise<TResult> {
-	expect(tool).toBeDefined();
-	if (!tool) {
-		throw new Error("Expected tool to be defined");
-	}
-
-	return (await tool.handler(args)) as TResult;
-}
-
-function createRegistry(components: ComponentInfo[] = []): Registry {
-	return {
-		manifestVersion: "test",
-		generatedAt: new Date().toISOString(),
-		tokens: { colors: [], spacing: [], rawVariables: [] },
-		components,
-		byId: new Map(
-			components.map((component) => [component.id, component] as const),
-		),
-	};
-}
 
 describe("render_composition tool", () => {
 	it("renders side-by-side cards using 12-column math", async () => {

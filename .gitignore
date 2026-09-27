@@ -33,6 +33,9 @@ npm-debug.log*
 # Test coverage
 coverage/
 
+# Vitest artifacts (Vitest 5+)
+.vitest/
+
 # Temporary files
 *.tmp
 *.temp

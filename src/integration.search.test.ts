@@ -1,21 +1,9 @@
 import { describe, expect, it } from "vitest";
 
 import { formatInputValidationError } from "./server.js";
+import { createRegistry } from "./test-support/tools.js";
 import { RecursiveContentBlocksSchema } from "./ux/schemas/content-union.js";
 import { createTools } from "./ux/tools.js";
-import type { ComponentInfo, Registry } from "./ux/types.js";
-
-function createRegistry(components: ComponentInfo[] = []): Registry {
-	return {
-		manifestVersion: "test",
-		generatedAt: new Date().toISOString(),
-		tokens: { colors: [], spacing: [], rawVariables: [] },
-		components,
-		byId: new Map(
-			components.map((component) => [component.id, component] as const),
-		),
-	};
-}
 
 /**
  * Integration tests based on the "Elterngeld search results" scenario:
