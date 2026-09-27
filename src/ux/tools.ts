@@ -61,10 +61,6 @@ const CommonParams = {
 		),
 };
 
-function getCanonicalHtmlFromManifest(component: ComponentInfo) {
-	return component.htmlCanonical;
-}
-
 function buildComponentTool(component: ComponentInfo): ToolDef {
 	const name = getComponentToolName(component);
 
@@ -97,7 +93,7 @@ function buildComponentTool(component: ComponentInfo): ToolDef {
 			const locale = pickLocale(args.locale);
 			const strict = args.strict === true;
 
-			const htmlFromStory = getCanonicalHtmlFromManifest(component);
+			const htmlFromStory = component.htmlCanonical;
 
 			// Fallback placeholder: still validates and will fail strict mode for components with required a11y.
 			const html =
@@ -145,9 +141,8 @@ function buildValidateHtmlTool(): ToolDef {
 			"KERN UX: HTML strikt validieren (A11Y/BITV). Der Parameter 'html' erwartet den vollständigen Markup-String – keinen Dateipfad. Den 'html'-Wert aus einem get_*-Tool direkt übergeben.",
 		inputSchema,
 		outputSchema,
-		handler: async (args: { html: string; locale?: Locale }) => {
-			const _locale = pickLocale(args.locale);
-			// We always return both languages in the payload; caller can choose.
+		// Messages are returned in both languages, so the locale input doesn't change the result.
+		handler: async (args: { html: string }) => {
 			return validateHtmlStrict(args.html);
 		},
 	};

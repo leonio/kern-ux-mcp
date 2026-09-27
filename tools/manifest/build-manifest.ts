@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 
 import fg from "fast-glob";
-import { getKernUxPlainRoot } from "../../src/ux/paths.js";
+
 import type {
 	ComponentCategory,
 	ComponentInfo,
@@ -12,6 +12,8 @@ import type {
 	TokenSnapshot,
 } from "../../src/ux/types.js";
 import { loadValidatedGuidanceOverlay } from "./guidance-overlay.js";
+import { getKernUxPlainRoot } from "./paths.js";
+import { extractStoryHtmlTemplates, type StoryExtract } from "./stories.js";
 
 const COMPONENTS_MD = "COMPONENTS.MD";
 const CHEETSHEET_MD = "CHEETSHEET.MD";
@@ -103,11 +105,6 @@ const PARAMETERIZED_INTERACTIVE_IDS = new Set([
 	"summary",
 	"dropdown",
 ]);
-
-type StoryExtract = {
-	exportName: string;
-	html: string;
-};
 
 type ComponentScratch = {
 	id: string;
@@ -213,34 +210,6 @@ async function fileExists(filePath: string) {
 	} catch {
 		return false;
 	}
-}
-
-function normalizeHtml(html: string) {
-	return html.trim().replace(/\r\n/g, "\n");
-}
-
-async function extractStoryHtmlTemplates(
-	storyFilePath: string,
-): Promise<StoryExtract[]> {
-	const text = await fs.readFile(storyFilePath, "utf8");
-	const results: StoryExtract[] = [];
-
-	const re =
-		/export\s+const\s+(?<name>[A-Za-z0-9_]+)\s*=\s*\([^)]*\)\s*=>\s*`(?<html>[\s\S]*?)`\s*;?/g;
-
-	for (const match of text.matchAll(re)) {
-		const exportName = match.groups?.name;
-		const html = match.groups?.html;
-		if (!exportName || !html) continue;
-		if (!/<[a-z][\s\S]*>/i.test(html)) continue;
-
-		results.push({
-			exportName,
-			html: normalizeHtml(html),
-		});
-	}
-
-	return results;
 }
 
 function extractSection(

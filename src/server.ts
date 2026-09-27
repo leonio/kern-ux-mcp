@@ -4,7 +4,6 @@ import {
 	ListToolsRequestSchema,
 } from "@modelcontextprotocol/sdk/types.js";
 
-import type { z } from "zod";
 import pkg from "../package.json" with { type: "json" };
 import { invokeTool } from "./invoke.js";
 import {
@@ -76,9 +75,3 @@ export async function createServer() {
 
 	return server;
 }
-
-export type ToolSchemas = {
-	inputSchema: z.ZodType;
-	outputSchema: z.ZodType;
-	description?: string;
-};

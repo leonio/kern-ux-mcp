@@ -31,10 +31,6 @@ export const ComponentOutputSchema = z.object({
 	),
 });
 
-export function experimentalBanner(component: ComponentInfo) {
-	return statusBanner(component);
-}
-
 export function statusBanner(component: ComponentInfo) {
 	if (component.status === "experimental") {
 		return "<!-- WARNING: Experimental Component – API may change. -->\n";

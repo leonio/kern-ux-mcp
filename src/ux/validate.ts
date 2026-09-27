@@ -1,13 +1,7 @@
 import { parse } from "node-html-parser";
-import type { Locale } from "./types.js";
 import type { ValidationIssue, ValidationResult } from "./validate.schema.js";
 
 export type { ValidationResult } from "./validate.schema.js";
-
-type HtmlNodeLike = {
-	getAttribute?(name: string): string | undefined;
-	text?: string | null;
-};
 
 function issue(
 	ruleId: string,
@@ -16,11 +10,6 @@ function issue(
 	selectorHint?: string,
 ): ValidationIssue {
 	return { ruleId, severity, message, selectorHint };
-}
-
-function _hasClass(node: HtmlNodeLike, className: string) {
-	const cls = node.getAttribute?.("class") ?? "";
-	return cls.split(/\s+/).includes(className);
 }
 
 export function validateHtmlStrict(html: string): ValidationResult {
@@ -37,7 +26,7 @@ export function validateHtmlStrict(html: string): ValidationResult {
 	const issues: ValidationIssue[] = [];
 
 	// Alert must have role=alert
-	for (const el of root.querySelectorAll?.(".kern-alert") ?? []) {
+	for (const el of root.querySelectorAll(".kern-alert")) {
 		const role = el.getAttribute("role");
 		if (role !== "alert") {
 			issues.push(
@@ -55,9 +44,7 @@ export function validateHtmlStrict(html: string): ValidationResult {
 	}
 
 	// Loader visible must have role=status and sr-only text
-	for (const el of root.querySelectorAll?.(
-		".kern-loader.kern-loader--visible",
-	) ?? []) {
+	for (const el of root.querySelectorAll(".kern-loader.kern-loader--visible")) {
 		const role = el.getAttribute("role");
 		if (role !== "status") {
 			issues.push(
@@ -72,8 +59,8 @@ export function validateHtmlStrict(html: string): ValidationResult {
 				),
 			);
 		}
-		const sr = el.querySelector?.(".kern-sr-only");
-		const text = sr?.text?.trim() ?? "";
+		const sr = el.querySelector(".kern-sr-only");
+		const text = sr?.text.trim() ?? "";
 		if (!sr || !text) {
 			issues.push(
 				issue(
@@ -90,7 +77,7 @@ export function validateHtmlStrict(html: string): ValidationResult {
 	}
 
 	// Dialog aria-labelledby must point to existing element
-	for (const dlg of root.querySelectorAll?.("dialog.kern-dialog") ?? []) {
+	for (const dlg of root.querySelectorAll("dialog.kern-dialog")) {
 		const labelledBy = dlg.getAttribute("aria-labelledby");
 		if (!labelledBy) {
 			issues.push(
@@ -107,7 +94,7 @@ export function validateHtmlStrict(html: string): ValidationResult {
 			continue;
 		}
 		// Avoid CSS.escape (not always available in Node). Attribute selector is sufficient here.
-		const target = root.querySelector?.(
+		const target = root.querySelector(
 			`[id="${labelledBy.replace(/"/g, '\\"')}"]`,
 		);
 		if (!target) {
@@ -126,7 +113,7 @@ export function validateHtmlStrict(html: string): ValidationResult {
 	}
 
 	// Icons must be decorative or labelled
-	for (const icon of root.querySelectorAll?.(".kern-icon") ?? []) {
+	for (const icon of root.querySelectorAll(".kern-icon")) {
 		const ariaHidden = icon.getAttribute("aria-hidden");
 		const ariaLabel = icon.getAttribute("aria-label");
 
@@ -151,39 +138,38 @@ export function validateHtmlStrict(html: string): ValidationResult {
 	}
 
 	// Icon-only buttons must have screenreader text
-	for (const btn of root.querySelectorAll?.("button.kern-btn, a.kern-btn") ??
-		[]) {
-		const hasIcon = (btn.querySelectorAll?.(".kern-icon") ?? []).length > 0;
-		const labels = btn.querySelectorAll?.(".kern-label") ?? [];
+	for (const btn of root.querySelectorAll("button.kern-btn, a.kern-btn")) {
+		const hasIcon = btn.querySelectorAll(".kern-icon").length > 0;
+		const labels = btn.querySelectorAll(".kern-label");
 
 		if (!hasIcon) continue;
 
-		const hasVisibleLabel = labels.some((l: HtmlNodeLike) => {
-			const classes = (l.getAttribute?.("class") ?? "").split(/\s+/);
+		const hasVisibleLabel = labels.some((l) => {
+			const classes = (l.getAttribute("class") ?? "").split(/\s+/);
 			const isSrOnly =
 				classes.includes("kern-sr-only") ||
 				classes.includes("kern-sr-only-mobile");
-			const text = l.text?.trim() ?? "";
+			const text = l.text.trim();
 			return !!text && !isSrOnly;
 		});
 
 		if (hasVisibleLabel) continue;
 
-		const ariaLabel = btn.getAttribute?.("aria-label") ?? "";
+		const ariaLabel = btn.getAttribute("aria-label") ?? "";
 		if (ariaLabel.trim()) continue;
 
-		const hasSrLabel = labels.some((l: HtmlNodeLike) => {
-			const classes = (l.getAttribute?.("class") ?? "").split(/\s+/);
+		const hasSrLabel = labels.some((l) => {
+			const classes = (l.getAttribute("class") ?? "").split(/\s+/);
 			const isSrOnly =
 				classes.includes("kern-sr-only") ||
 				classes.includes("kern-sr-only-mobile");
-			const text = l.text?.trim() ?? "";
+			const text = l.text.trim();
 			return isSrOnly && !!text;
 		});
 
 		const hasSrOnlyText = (() => {
-			const sr = btn.querySelector?.(".kern-sr-only, .kern-sr-only-mobile");
-			const text = sr?.text?.trim() ?? "";
+			const sr = btn.querySelector(".kern-sr-only, .kern-sr-only-mobile");
+			const text = sr?.text.trim() ?? "";
 			return !!text;
 		})();
 
@@ -203,12 +189,10 @@ export function validateHtmlStrict(html: string): ValidationResult {
 	}
 
 	// Form: <label for="X"> must match an <input id="X"> (or select/textarea)
-	for (const label of root.querySelectorAll?.("label") ?? []) {
+	for (const label of root.querySelectorAll("label")) {
 		const forAttr = label.getAttribute("for");
 		if (!forAttr) continue;
-		const target = root.querySelector?.(
-			`[id="${forAttr.replace(/"/g, '\\"')}"]`,
-		);
+		const target = root.querySelector(`[id="${forAttr.replace(/"/g, '\\"')}"]`);
 		if (!target) {
 			issues.push(
 				issue(
@@ -225,9 +209,9 @@ export function validateHtmlStrict(html: string): ValidationResult {
 	}
 
 	// Form: input with error element should have aria-describedby
-	for (const errorEl of root.querySelectorAll?.(
+	for (const errorEl of root.querySelectorAll(
 		".kern-input__error, .kern-select__error, .kern-textarea__error, .kern-fieldset__error",
-	) ?? []) {
+	)) {
 		const errorId = errorEl.getAttribute("id");
 		if (!errorId) {
 			issues.push(
@@ -244,7 +228,7 @@ export function validateHtmlStrict(html: string): ValidationResult {
 			continue;
 		}
 		// Check if any input references this error via aria-describedby
-		const describedByRef = root.querySelector?.(
+		const describedByRef = root.querySelector(
 			`[aria-describedby~="${errorId.replace(/"/g, '\\"')}"]`,
 		);
 		if (!describedByRef) {
@@ -263,9 +247,9 @@ export function validateHtmlStrict(html: string): ValidationResult {
 	}
 
 	// Table: should have <caption>
-	for (const table of root.querySelectorAll?.("table") ?? []) {
-		const caption = table.querySelector?.("caption");
-		if (!caption?.text?.trim()) {
+	for (const table of root.querySelectorAll("table")) {
+		const caption = table.querySelector("caption");
+		if (!caption?.text.trim()) {
 			issues.push(
 				issue(
 					"table.caption",
@@ -281,7 +265,7 @@ export function validateHtmlStrict(html: string): ValidationResult {
 	}
 
 	// Table: <th> should have scope attribute
-	for (const th of root.querySelectorAll?.("th") ?? []) {
+	for (const th of root.querySelectorAll("th")) {
 		const scope = th.getAttribute("scope");
 		if (!scope) {
 			issues.push(
@@ -300,9 +284,9 @@ export function validateHtmlStrict(html: string): ValidationResult {
 	}
 
 	// Images must have alt attribute
-	for (const img of root.querySelectorAll?.("img") ?? []) {
+	for (const img of root.querySelectorAll("img")) {
 		const alt = img.getAttribute("alt");
-		if (alt === null || alt === undefined) {
+		if (alt === undefined) {
 			issues.push(
 				issue(
 					"img.alt",
@@ -319,15 +303,4 @@ export function validateHtmlStrict(html: string): ValidationResult {
 
 	const ok = !issues.some((i) => i.severity === "error");
 	return { ok, issues };
-}
-
-export function localizeIssues(issues: ValidationIssue[], _locale: Locale) {
-	return issues.map((i) => ({
-		...i,
-		message: {
-			en: i.message.en,
-			de: i.message.de,
-		},
-		// locale selection is done by caller; keep both strings in the payload.
-	}));
 }

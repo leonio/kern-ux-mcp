@@ -17,8 +17,8 @@ import { validateHtmlStrict } from "../validate.js";
 import {
 	assertStrictValidationOrThrow,
 	ComponentOutputSchema,
-	experimentalBanner,
 	getComponentToolName,
+	statusBanner,
 	type ToolDef,
 } from "./shared.js";
 
@@ -100,7 +100,7 @@ export function buildLayoutTool(component: ComponentInfo): ToolDef {
 				templateWarnings = built.warnings;
 			}
 
-			const html = experimentalBanner(component) + renderedHtml;
+			const html = statusBanner(component) + renderedHtml;
 			const validation = validateHtmlStrict(html);
 
 			assertStrictValidationOrThrow({ name, locale, strict, validation });

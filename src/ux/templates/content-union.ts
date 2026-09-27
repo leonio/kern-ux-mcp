@@ -20,10 +20,6 @@ export type DisclosureNodeRenderer = (
 	disclosureInput: unknown,
 	nextDepth: number,
 ) => BuildResult;
-export type FormFlowNodeRenderer = (
-	formFlowInput: unknown,
-	nextDepth: number,
-) => BuildResult;
 
 export type RecursiveContentRenderOptions = {
 	locale: Locale;
@@ -33,7 +29,6 @@ export type RecursiveContentRenderOptions = {
 	renderGridNode?: GridNodeRenderer;
 	renderSectionNode?: SectionNodeRenderer;
 	renderDisclosureNode?: DisclosureNodeRenderer;
-	renderFormFlowNode?: FormFlowNodeRenderer;
 };
 
 export function renderRecursiveContentBlocks(

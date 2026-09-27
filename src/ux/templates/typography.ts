@@ -42,7 +42,9 @@ export function buildTypography(input: TypographyRenderInput): BuildResult {
 			return { html: `<p class="kern-subline">${text}</p>`, warnings };
 		case "title":
 			return { html: `<h2 class="kern-title">${text}</h2>`, warnings };
-		default:
-			return { html: `<p class="kern-body">${text}</p>`, warnings };
+		default: {
+			const unhandled: never = params.kind;
+			throw new Error(`Unhandled typography kind: ${String(unhandled)}`);
+		}
 	}
 }

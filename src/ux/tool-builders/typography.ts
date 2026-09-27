@@ -23,8 +23,8 @@ import { validateHtmlStrict } from "../validate.js";
 import {
 	assertStrictValidationOrThrow,
 	ComponentOutputSchema,
-	experimentalBanner,
 	getComponentToolName,
+	statusBanner,
 	type ToolDef,
 } from "./shared.js";
 
@@ -111,7 +111,7 @@ export function buildTypographyTool(component: ComponentInfo): ToolDef {
 											: "body");
 
 			const html =
-				experimentalBanner(component) +
+				statusBanner(component) +
 				(component.id === "body"
 					? buildBody(args as Parameters<typeof buildBody>[0]).html
 					: component.id === "heading"
