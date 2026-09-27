@@ -3,7 +3,7 @@ next-version: 1.0.0
 
 major-version-bump-message: '^.+!:.*|^BREAKING CHANGE:'
 minor-version-bump-message: '^feat(\(.+\))?:'
-patch-version-bump-message: '^(fix|perf|patch)(\(.+\))?:|ˆchore\(deps\):'
+patch-version-bump-message: '^(fix|perf|patch)(\(.+\))?:|^chore\(deps\):'
 no-bump-message: '^(docs|chore|refactor|test|style):'
 
 commit-message-incrementing: Enabled
@@ -18,3 +18,14 @@ branches:
     is-release-branch: true
     label: ''
     prevent-increment-of-merged-branch-version: true
+
+  # 2.0 integration branch (docs/plan-v2/roadmap.md). Pre-releases publish under the
+  # npm dist-tag "alpha" (release.yml maps the label to the dist-tag).
+  v2-alpha:
+    regex: ^feat[/-]v2-alpha$
+    # ContinuousDeployment (the global mode) drops pre-release labels; this keeps "-alpha.N".
+    mode: ContinuousDelivery
+    label: alpha
+    increment: Inherit
+    is-release-branch: false
+    source-branches: ['main']
