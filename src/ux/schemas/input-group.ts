@@ -31,7 +31,7 @@ export const inputGroupSchema = z
 			.optional()
 			.describe("Optionaler Platzhaltertext im eigentlichen Textfeld."),
 	})
-	.merge(InputGroupFieldSchema)
+	.extend(InputGroupFieldSchema.shape)
 	.describe(
 		"Parameter fuer KERN UX InputGroup-Komponente. Diese MCP-Schnittstelle modelliert die einfache Textfeld-Variante mit visuellem Prefix/Suffix sowie disabled/readonly, nicht die erweiterten Button- oder Error-Kompositionen aus den Story-Beispielen.",
 	);

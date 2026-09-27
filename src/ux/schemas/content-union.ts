@@ -291,7 +291,7 @@ function validateRecursiveContentLimits(
 		if (nodeCount > MAX_RECURSIVE_CONTENT_NODES && !nodeLimitReported) {
 			nodeLimitReported = true;
 			ctx.addIssue({
-				code: z.ZodIssueCode.custom,
+				code: "custom",
 				path,
 				message: `Maximal ${MAX_RECURSIVE_CONTENT_NODES} Content-Knoten erlaubt.`,
 			});
@@ -299,7 +299,7 @@ function validateRecursiveContentLimits(
 
 		if (depth > MAX_RECURSIVE_CONTENT_DEPTH) {
 			ctx.addIssue({
-				code: z.ZodIssueCode.custom,
+				code: "custom",
 				path,
 				message: `Maximale Verschachtelungstiefe von ${MAX_RECURSIVE_CONTENT_DEPTH} überschritten.`,
 			});

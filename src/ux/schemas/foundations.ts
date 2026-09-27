@@ -117,7 +117,7 @@ export const IconRefSchema = z
 		name: z
 			.string()
 			.refine((val) => isValidIconName(val), {
-				message: "Invalid icon name. Use list_icons for allowed names.",
+				error: "Invalid icon name. Use list_icons for allowed names.",
 			})
 			.describe(
 				"Icon-Name aus dem KERN-Iconset. Bei Unsicherheit zuerst list_icons aufrufen.",

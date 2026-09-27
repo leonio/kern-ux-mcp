@@ -33,7 +33,7 @@ export const TypographyRenderSchema = z
 
 export const TypographyToolSchema = TypographyRenderSchema.extend({
 	kind: TypographyKindSchema.optional(),
-}).merge(McpCommonSchema);
+}).extend(McpCommonSchema.shape);
 
 /** Type for typography starter input (before Zod parsing, allows missing defaulted fields) */
 export type TypographyRenderInput = z.input<typeof TypographyRenderSchema>;

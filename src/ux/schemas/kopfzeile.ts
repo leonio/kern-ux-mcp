@@ -22,6 +22,8 @@ export const kopfzeileRenderSchema = z
 		"Parameter fuer eine stark vereinfachte KERN-UX-Kopfzeile. Die upstream Stories beschreiben primär eine Infoleiste beziehungsweise Web Component mit Flagge, Label, fluid-Option und konfigurierbaren Breakpoints; dieses MCP-Schema bildet davon derzeit nur einen placeholderartigen Header mit optionaler Navigation ab.",
 	);
 
-export const kopfzeileToolSchema = kopfzeileRenderSchema.merge(McpCommonSchema);
+export const kopfzeileToolSchema = kopfzeileRenderSchema.extend(
+	McpCommonSchema.shape,
+);
 
 export type KopfzeileRenderInput = z.input<typeof kopfzeileRenderSchema>;

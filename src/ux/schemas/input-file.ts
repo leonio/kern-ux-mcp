@@ -32,7 +32,7 @@ export const inputFileSchema = z
 				"Optionaler accept-Filter, z.B. 'image/*,.pdf'. Nur als UI-Filter fuer die Dateiauswahl verstehen; serverseitige Validierung bleibt trotzdem erforderlich.",
 			),
 	})
-	.merge(FileFieldSchema)
+	.extend(FileFieldSchema.shape)
 	.describe(
 		"Parameter fuer KERN UX InputFile-Komponente. Hinweistext sollte erlaubte Formate und, wenn relevant, Groessenlimits nennen. Der Upload selbst bleibt fachlich auf genau eine Datei ausgerichtet.",
 	);

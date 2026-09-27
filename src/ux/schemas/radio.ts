@@ -79,7 +79,7 @@ export const radioSingleSchema = z
 			.default(false)
 			.describe("Radio ist vorausgewaehlt."),
 	})
-	.merge(SingleRadioFieldSchema)
+	.extend(SingleRadioFieldSchema.shape)
 	.describe(
 		"Parameter fuer einen einzelnen Radio-Button (mode='single'). Geeignet fuer einen einzelnen exklusiven Auswahlpunkt ausserhalb einer groesseren Gruppe.",
 	);
@@ -117,7 +117,7 @@ export const radioListSchema = z
 				"Horizontale Darstellung der Optionen in einer Zeile. Nur fuer wenige kurze Optionen verwenden.",
 			),
 	})
-	.merge(RadioListFieldSchema)
+	.extend(RadioListFieldSchema.shape)
 	.describe(
 		"Parameter fuer eine Radio-Gruppe im Fieldset (mode='list'). Verwenden, wenn genau eine Option aus mehreren moeglichen Antworten gewaehlt werden soll.",
 	);

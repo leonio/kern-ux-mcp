@@ -32,7 +32,9 @@ export const LayoutRenderSchema = z
 /**
  * Schema for component-specific layout tools including common params.
  */
-export const LayoutToolSchema = LayoutRenderSchema.merge(McpCommonSchema);
+export const LayoutToolSchema = LayoutRenderSchema.extend(
+	McpCommonSchema.shape,
+);
 
 /** Type for layout starter input (before Zod parsing, allows missing defaulted fields) */
 export type LayoutRenderInput = z.input<typeof LayoutRenderSchema>;

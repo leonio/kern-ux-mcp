@@ -13,6 +13,8 @@ export const prelineRenderSchema = z
 		"Parameter fuer KERN UX Preline-Typografie. Die KERN-Stories zeigen auch small- und large-Modifier; diese MCP-Variante rendert derzeit nur die Standardklasse kern-preline.",
 	);
 
-export const prelineToolSchema = prelineRenderSchema.merge(McpCommonSchema);
+export const prelineToolSchema = prelineRenderSchema.extend(
+	McpCommonSchema.shape,
+);
 
 export type PrelineRenderInput = z.input<typeof prelineRenderSchema>;

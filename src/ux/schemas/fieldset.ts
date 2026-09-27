@@ -35,6 +35,8 @@ export const FieldsetRenderSchema = z
 		"Parameter fuer KERN UX Fieldset-Starterstruktur. Diese MCP-Variante rendert ein festes Beispiel-Fieldset mit zwei Textfeldern und dokumentiert nur einen kleinen, bewusst vereinfachten Ausschnitt der umfangreicheren KERN-Patterns fuer Hint, Error und unterschiedliche Legend-Auspraegungen.",
 	);
 
-export const FieldsetToolSchema = FieldsetRenderSchema.merge(McpCommonSchema);
+export const FieldsetToolSchema = FieldsetRenderSchema.extend(
+	McpCommonSchema.shape,
+);
 
 export type FieldsetRenderInput = z.input<typeof FieldsetRenderSchema>;

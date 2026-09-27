@@ -50,7 +50,7 @@ export const DisclosureSchema = z
 
 		if (!hasBlocks && !hasLegacyContent) {
 			ctx.addIssue({
-				code: z.ZodIssueCode.custom,
+				code: "custom",
 				path: ["contentBlocks"],
 				message: "Mindestens contentBlocks oder content muss gesetzt sein.",
 			});

@@ -13,6 +13,6 @@ export const labelRenderSchema = z
 		"Parameter fuer KERN UX Label-Typografie. Obwohl die KERN-Dokumentation Labels in verschiedenen HTML-Tags zeigt, rendert diese MCP-Variante immer ein echtes <label>-Element mit kern-label.",
 	);
 
-export const labelToolSchema = labelRenderSchema.merge(McpCommonSchema);
+export const labelToolSchema = labelRenderSchema.extend(McpCommonSchema.shape);
 
 export type LabelRenderInput = z.input<typeof labelRenderSchema>;

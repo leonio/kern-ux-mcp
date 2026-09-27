@@ -34,8 +34,9 @@ export const descriptionListRenderSchema = z
 		"Parameter fuer KERN UX DescriptionList. Das Schema deckt die ueblichen zweispaltigen und gestapelten Varianten ab, beschraenkt Werte jedoch auf einfachen Text statt beliebiger HTML-Inhalte.",
 	);
 
-export const descriptionListToolSchema =
-	descriptionListRenderSchema.merge(McpCommonSchema);
+export const descriptionListToolSchema = descriptionListRenderSchema.extend(
+	McpCommonSchema.shape,
+);
 
 export type DescriptionListRenderInput = z.input<
 	typeof descriptionListRenderSchema

@@ -27,6 +27,8 @@ export const headingRenderSchema = z
 		"Parameter fuer KERN UX Heading-Typografie. Diese MCP-Variante ist bewusst vereinfacht und rendert immer kern-heading-medium bei frei waehlbarem h-Level.",
 	);
 
-export const headingToolSchema = headingRenderSchema.merge(McpCommonSchema);
+export const headingToolSchema = headingRenderSchema.extend(
+	McpCommonSchema.shape,
+);
 
 export type HeadingRenderInput = z.input<typeof headingRenderSchema>;

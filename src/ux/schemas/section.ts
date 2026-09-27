@@ -60,7 +60,7 @@ export const SectionSchema = z
 
 		if (!hasBlocks && !hasParagraphs) {
 			ctx.addIssue({
-				code: z.ZodIssueCode.custom,
+				code: "custom",
 				path: ["contentBlocks"],
 				message: "Mindestens contentBlocks oder paragraphs muss gesetzt sein.",
 			});

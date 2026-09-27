@@ -22,6 +22,6 @@ export const listsRenderSchema = z
 		"Parameter fuer KERN UX Listen-Typografie. Diese MCP-Variante ist bewusst einfach und modelliert nur grundlegende ul/ol-Listen, nicht die vollstaendigen KERN-Varianten fuer bullet, number, small, large oder horizontal.",
 	);
 
-export const listsToolSchema = listsRenderSchema.merge(McpCommonSchema);
+export const listsToolSchema = listsRenderSchema.extend(McpCommonSchema.shape);
 
 export type ListsRenderInput = z.input<typeof listsRenderSchema>;

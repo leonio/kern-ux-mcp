@@ -15,6 +15,8 @@ export const dividerRenderSchema = z
 		'Parameter fuer KERN UX Divider. Der KERN-Divider ist ein schlichtes <hr class="kern-divider">; zentral ist hier vor allem die Entscheidung, ob er nur visuell oder auch semantisch wahrnehmbar sein soll.',
 	);
 
-export const dividerToolSchema = dividerRenderSchema.merge(McpCommonSchema);
+export const dividerToolSchema = dividerRenderSchema.extend(
+	McpCommonSchema.shape,
+);
 
 export type DividerRenderInput = z.input<typeof dividerRenderSchema>;

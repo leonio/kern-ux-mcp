@@ -41,7 +41,7 @@ export const iconSchema = z
 			),
 	})
 	.refine((data) => data.decorative !== false || data.ariaLabel, {
-		message: "ariaLabel is required when icon is not decorative",
+		error: "ariaLabel is required when icon is not decorative",
 		path: ["ariaLabel"],
 	})
 	.describe(

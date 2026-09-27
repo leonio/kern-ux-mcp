@@ -72,7 +72,7 @@ export const selectSchema = z
 				"Optionenliste; mindestens eine Option erforderlich. Geeignet vor allem für einzelne Auswahl aus vordefinierten Optionen, typischerweise bei ungefähr 5 bis 15 Einträgen.",
 			),
 	})
-	.merge(SelectFieldSchema)
+	.extend(SelectFieldSchema.shape)
 	.describe(
 		"Parameter für KERN UX Select-Komponente. Für genau eine Auswahl aus vordefinierten Optionen; nicht für Aktionen oder Navigation verwenden. Wenn Radios möglich sind, diese oft bevorzugen.",
 	);

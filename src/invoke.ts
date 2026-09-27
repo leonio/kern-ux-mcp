@@ -16,7 +16,7 @@ type DisplayPathSegment = string | number;
 type InvalidUnionLikeIssue = {
 	code: "invalid_union";
 	path: PropertyKey[];
-	errors?: ReadonlyArray<ReadonlyArray<z.ZodIssue>>;
+	errors?: ReadonlyArray<ReadonlyArray<z.core.$ZodIssue>>;
 	discriminator?: string;
 	options?: readonly unknown[];
 };
@@ -29,8 +29,8 @@ function toDisplayPath(path: ReadonlyArray<PropertyKey>): DisplayPathSegment[] {
 }
 
 function isInvalidUnionIssue(
-	issue: z.ZodIssue,
-): issue is z.ZodIssue & InvalidUnionLikeIssue {
+	issue: z.core.$ZodIssue,
+): issue is z.core.$ZodIssue & InvalidUnionLikeIssue {
 	return issue.code === "invalid_union";
 }
 

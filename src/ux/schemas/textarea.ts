@@ -50,7 +50,7 @@ export const textareaSchema = z
 				"Anzahl sichtbarer Spalten (cols-Attribut). Nur nutzen, wenn eine feste Breitensteuerung fachlich sinnvoll ist.",
 			),
 	})
-	.merge(LabeledFormFieldBaseSchema)
+	.extend(LabeledFormFieldBaseSchema.shape)
 	.describe(
 		"Parameter für KERN UX Textarea-Komponente. Nur für mehrzeilige Eingaben oder längere Freitexte verwenden; für kurze einzeilige Werte InputText bevorzugen.",
 	);

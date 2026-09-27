@@ -25,6 +25,6 @@ export const bodyRenderSchema = z
 		"Parameter fuer KERN UX Body-Typografie. Diese MCP-Variante deckt die haeufigen Groessen- und Bold-Kombinationen ab; die in den Stories sichtbare muted-Variante ist derzeit nicht Teil des oeffentlichen Schemas.",
 	);
 
-export const bodyToolSchema = bodyRenderSchema.merge(McpCommonSchema);
+export const bodyToolSchema = bodyRenderSchema.extend(McpCommonSchema.shape);
 
 export type BodyRenderInput = z.input<typeof bodyRenderSchema>;

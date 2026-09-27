@@ -13,6 +13,8 @@ export const sublineRenderSchema = z
 		"Parameter fuer KERN UX Subline-Typografie. Die KERN-Stories zeigen auch small- und large-Modifier; diese MCP-Variante rendert derzeit nur die Standardklasse kern-subline.",
 	);
 
-export const sublineToolSchema = sublineRenderSchema.merge(McpCommonSchema);
+export const sublineToolSchema = sublineRenderSchema.extend(
+	McpCommonSchema.shape,
+);
 
 export type SublineRenderInput = z.input<typeof sublineRenderSchema>;

@@ -60,6 +60,6 @@ export const GridRenderSchema = z
 			"Dieses Tool bildet das mobile-first Container/Row/Column-Modell ab; für speziellere Offsets oder horizontale Verteilungen ist direkte Grid-Klassensteuerung außerhalb dieses Schemas sinnvoller.",
 	);
 
-export const GridToolSchema = GridRenderSchema.merge(McpCommonSchema);
+export const GridToolSchema = GridRenderSchema.extend(McpCommonSchema.shape);
 
 export type GridRenderInput = z.input<typeof GridRenderSchema>;

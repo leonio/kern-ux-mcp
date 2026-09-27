@@ -20,6 +20,6 @@ export const titleRenderSchema = z
 		"Parameter fuer KERN UX Title-Typografie. Der aktuelle Renderer verwendet immer ein <h2> mit kern-title und optionalem Groessen-Modifier, nicht frei waehlbare HTML-Tags.",
 	);
 
-export const titleToolSchema = titleRenderSchema.merge(McpCommonSchema);
+export const titleToolSchema = titleRenderSchema.extend(McpCommonSchema.shape);
 
 export type TitleRenderInput = z.input<typeof titleRenderSchema>;

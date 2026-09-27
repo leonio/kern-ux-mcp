@@ -651,7 +651,7 @@ function buildRenderCompositionTool(): ToolDef {
 			contentBlocks: RecursiveContentBlocksSchema.refine(
 				(blocks) => blocks.length > 0,
 				{
-					message: "Mindestens ein Content-Block ist erforderlich.",
+					error: "Mindestens ein Content-Block ist erforderlich.",
 				},
 			).describe(
 				"Wurzel-Content-Blöcke für rekursive Komposition (mindestens ein Block).",

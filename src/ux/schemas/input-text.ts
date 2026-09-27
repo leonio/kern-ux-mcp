@@ -47,7 +47,7 @@ export const inputTextSchema = z
 				"HTML input type. Spezifische Tools setzen feste Typen (z.B. get_inputemail => email). Für freie Einzelauswahl mit bekannten Optionen besser Select, Radios oder Checkboxes verwenden.",
 			),
 	})
-	.merge(LabeledFormFieldBaseSchema)
+	.extend(LabeledFormFieldBaseSchema.shape)
 	.describe(
 		"Parameter für KERN UX InputText-Komponente (Basis für abgeleitete Input-Typen). Für einzeilige, nicht vorhersehbare Eingaben; für mehrzeilige Texte Textarea und für bekannte Optionen Select, Radios oder Checkboxes bevorzugen. Bei personenbezogenen oder bekannten Daten wenn moeglich passende autocomplete-Tokens setzen.",
 	);
