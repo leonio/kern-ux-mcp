@@ -66,11 +66,11 @@ function formatZodIssues(error: z.ZodError): string {
 }
 
 /**
- * Specialized error formatter for render_composition.
+ * Specialized hint for render_composition.
  * Detects discriminated union failures (missing/invalid kind) and replaces
  * the "wall of noise" with a clean, pedagogical hint.
  */
-function formatCompositionError(error: z.ZodError): string {
+function formatCompositionHint(error: z.ZodError): string {
 	const kindsList = COMPOSITION_VALID_KINDS.join(", ");
 	const hints: string[] = [];
 
@@ -117,9 +117,7 @@ function formatCompositionError(error: z.ZodError): string {
 		hints.push(`${path}: ${issue.message}`);
 	}
 
-	const header = `Invalid arguments for render_composition (${hints.length} issue${hints.length !== 1 ? "s" : ""}):`;
 	return [
-		header,
 		...hints.map((h) => `- ${h}`),
 		"",
 		"Cheat sheet for contentBlocks:",
@@ -150,11 +148,16 @@ function findAttemptedKind(issue: InvalidUnionLikeIssue): string | undefined {
 	return undefined;
 }
 
-export function formatInputValidationError(
+/**
+ * The model-facing hint for invalid input: one "- path: message" line per issue,
+ * plus a known-good payload or cheat sheet for tools that have one. It has no
+ * header, because SDK v2 prefixes it with "Invalid arguments for tool <name>:".
+ */
+export function formatInputValidationHint(
 	name: string,
 	error: z.ZodError,
 ): string {
-	const base = `Invalid arguments for ${name}:\n${formatZodIssues(error)}`;
+	const base = formatZodIssues(error);
 
 	if (name === "get_dialog") {
 		return (
@@ -258,10 +261,23 @@ export function formatInputValidationError(
 	}
 
 	if (name === "render_composition") {
-		return formatCompositionError(error);
+		return formatCompositionHint(error);
 	}
 
 	return base;
+}
+
+/** The hint with its own header, for callers outside the MCP SDK (invokeTool). */
+export function formatInputValidationError(
+	name: string,
+	error: z.ZodError,
+): string {
+	const count = error.issues.length;
+	const header =
+		name === "render_composition"
+			? `Invalid arguments for render_composition (${count} issue${count !== 1 ? "s" : ""}):`
+			: `Invalid arguments for ${name}:`;
+	return `${header}\n${formatInputValidationHint(name, error)}`;
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {
@@ -443,14 +459,13 @@ export function normalizeToolArgs(name: string, args: unknown): unknown {
 }
 
 /**
- * Runs one tool call through the pipeline and returns the validated output.
- * Throws an Error whose message is the model-facing hint when the input is
- * invalid, and a plain error when the handler's output breaks its schema.
+ * Normalizes raw arguments by tool name, then parses them with the tool's
+ * input schema. Used by the SDK adapter (kernInputSchema) and by invokeTool.
  */
-export async function invokeTool(
+export function parseToolInput(
 	tool: ToolDef,
 	rawArgs: unknown,
-): Promise<unknown> {
+): ReturnType<z.ZodType["safeParse"]> {
 	const { name } = tool;
 	debugLog(`call:start ${name}`, rawArgs ?? {});
 	const normalizedArgs = normalizeToolArgs(name, rawArgs ?? {});
@@ -458,10 +473,35 @@ export async function invokeTool(
 	const parsed = tool.inputSchema.safeParse(normalizedArgs);
 	if (!parsed.success) {
 		debugLog(`call:input-invalid ${name}`, parsed.error.issues);
-		throw new Error(formatInputValidationError(name, parsed.error));
 	}
+	return parsed;
+}
 
-	const result = await tool.handler(parsed.data);
+/**
+ * Runs one tool call through the whole pipeline and returns the validated
+ * output. Throws the headed hint when the input is invalid.
+ */
+export async function invokeTool(
+	tool: ToolDef,
+	rawArgs: unknown,
+): Promise<unknown> {
+	const parsed = parseToolInput(tool, rawArgs);
+	if (!parsed.success) {
+		throw new Error(formatInputValidationError(tool.name, parsed.error));
+	}
+	return runTool(tool, parsed.data);
+}
+
+/**
+ * Runs the handler on already-parsed input and validates its output. Throws when
+ * the handler throws (e.g. strict-mode failures) or its output breaks the schema.
+ */
+export async function runTool(
+	tool: ToolDef,
+	parsedArgs: unknown,
+): Promise<unknown> {
+	const { name } = tool;
+	const result = await tool.handler(parsedArgs);
 	const outputParsed = tool.outputSchema.safeParse(result);
 	if (!outputParsed.success) {
 		debugLog(`call:output-invalid ${name}`, outputParsed.error.issues);
