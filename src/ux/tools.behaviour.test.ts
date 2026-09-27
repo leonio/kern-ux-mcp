@@ -6,9 +6,12 @@ import {
 	type RenderedToolResult,
 } from "../test-support/tools.js";
 import { createTools } from "./tools.js";
+import { type ComponentInfo, VALID_ICON_NAMES } from "./types.js";
 
 type DocsToolResult = {
 	excerpt: string;
+	files?: string[];
+	relatedTools?: string[];
 	sections?: Array<{ content: string }>;
 	reviewedGuidance?: {
 		status: string;
@@ -155,5 +158,182 @@ describe("tool behaviour", () => {
 				(e) => e.className === "--kern-color-surface-success",
 			),
 		).toBe(true);
+	});
+
+	describe("utility and discovery tools", () => {
+		const component = (
+			id: string,
+			category: ComponentInfo["category"],
+			strategy: ComponentInfo["strategy"],
+		): ComponentInfo => ({ id, title: id, status: "stable", category, strategy });
+
+		it("validate_html returns the validator result for the given markup", async () => {
+			const tools = createTools(createRegistry());
+			const result = await invokeTool<{
+				ok: boolean;
+				issues: Array<{ ruleId: string }>;
+			}>(tools.getTool("validate_html"), { html: '<img src="x.png">' });
+
+			expect(result.ok).toBe(false);
+			expect(result.issues.map((i) => i.ruleId)).toEqual(["img.alt"]);
+		});
+
+		it("get_tokens returns the registry token snapshot", async () => {
+			const tokens = {
+				colors: ["--kern-color-action-default"],
+				spacing: ["--kern-space-small"],
+				rawVariables: ["--kern-font-size"],
+			};
+			const tools = createTools({ ...createRegistry(), tokens });
+
+			expect(await invokeTool(tools.getTool("get_tokens"), {})).toEqual(tokens);
+		});
+
+		it("list_icons returns a copy of every valid icon name", async () => {
+			const tools = createTools(createRegistry());
+			const result = await invokeTool<{ icons: string[] }>(
+				tools.getTool("list_icons"),
+				{},
+			);
+
+			expect(result.icons).toEqual([...VALID_ICON_NAMES]);
+			expect(result.icons).not.toBe(VALID_ICON_NAMES);
+		});
+
+		describe("list_components_by_category", () => {
+			const tools = createTools(
+				createRegistry([
+					component("button", "interactive", "interactive"),
+					component("heading", "foundational", "typography"),
+				]),
+			);
+			type Listed = {
+				components: Array<{ id: string; category: string; strategy: string }>;
+			};
+			const list = (args: object) =>
+				invokeTool<Listed>(tools.getTool("list_components_by_category"), args);
+
+			it("lists manifest components plus the composition tools", async () => {
+				const { components } = await list({});
+
+				expect(components.map((c) => c.id)).toEqual([
+					"button",
+					"heading",
+					"section",
+					"card_group",
+					"disclosure",
+				]);
+				expect(
+					components
+						.filter((c) => c.category === "composition")
+						.every((c) => c.strategy === "composition"),
+				).toBe(true);
+			});
+
+			it.each([
+				["composition", ["section", "card_group", "disclosure"]],
+				["foundational", ["heading"]],
+				["interactive", ["button"]],
+			])("filters by category=%s", async (category, expectedIds) => {
+				const { components } = await list({ category });
+
+				expect(components.map((c) => c.id)).toEqual(expectedIds);
+			});
+		});
+
+		describe("get_component_docs", () => {
+			it("throws for an unknown componentId", async () => {
+				const tools = createTools(createRegistry());
+
+				await expect(
+					tools.getTool("get_component_docs")?.handler({ componentId: "nope" }),
+				).rejects.toThrow("Unknown componentId: nope");
+			});
+
+			it("lists the registry file plus scss and story sources", async () => {
+				const tools = createTools(
+					createRegistry([
+						{
+							...component("heading", "foundational", "typography"),
+							sources: {
+								scss: ["heading.scss"],
+								stories: ["Heading.stories.js"],
+							},
+						},
+					]),
+				);
+				const result = await invokeTool<DocsToolResult>(
+					tools.getTool("get_component_docs"),
+					{ componentId: "heading" },
+				);
+
+				expect(result.files).toEqual([
+					"registry.json",
+					"heading.scss",
+					"Heading.stories.js",
+				]);
+			});
+
+			it.each([
+				{
+					entry: component("button", "interactive", "interactive"),
+					expected: ["get_grid", "validate_html", "get_icon", "list_icons"],
+				},
+				{
+					entry: component("dialog", "interactive", "interactive"),
+					expected: ["get_grid", "validate_html", "get_button"],
+				},
+				{
+					entry: component("card", "interactive", "interactive"),
+					expected: ["get_grid", "validate_html", "get_button", "get_card_group"],
+				},
+				{
+					entry: component("heading", "foundational", "typography"),
+					expected: undefined,
+				},
+			])("suggests related tools for $entry.id", async ({ entry, expected }) => {
+				const tools = createTools(createRegistry([entry]));
+				const result = await invokeTool<DocsToolResult>(
+					tools.getTool("get_component_docs"),
+					{ componentId: entry.id },
+				);
+
+				expect(result.relatedTools).toEqual(expected);
+			});
+		});
+	});
+
+	describe("composition tools render valid markup in strict mode", () => {
+		it.each<{ name: string; args: object; expectedFragments: string[] }>([
+			{
+				name: "get_section",
+				args: { headingText: "Überblick", paragraphs: ["Erster Absatz"] },
+				expectedFragments: ["<section", "Überblick", "Erster Absatz"],
+			},
+			{
+				name: "get_card_group",
+				args: {
+					columns: 2,
+					cards: [{ header: { title: "A" } }, { header: { title: "B" } }],
+				},
+				expectedFragments: ["kern-col-md-6", ">A<", ">B<"],
+			},
+			{
+				name: "get_disclosure",
+				args: { triggerLabel: "Details anzeigen", content: "Erklärungstext" },
+				expectedFragments: ["<details", "Details anzeigen", "Erklärungstext"],
+			},
+		])("$name", async ({ name, args, expectedFragments }) => {
+			const tools = createTools(createRegistry());
+			const result = await invokeTool<RenderedToolResult>(tools.getTool(name), {
+				...args,
+				strict: true,
+			});
+
+			for (const fragment of expectedFragments) {
+				expect(result.html).toContain(fragment);
+			}
+			expect(result.validation.ok).toBe(true);
+		});
 	});
 });
