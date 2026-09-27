@@ -1,60 +1,15 @@
-import {
-	Client,
-	InMemoryTransport,
-	ProtocolError,
-	StreamableHTTPClientTransport,
-} from "@modelcontextprotocol/client";
-import { createMcpHandler } from "@modelcontextprotocol/server";
+import { type Client, ProtocolError } from "@modelcontextprotocol/client";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 
 import pkg from "../../package.json" with { type: "json" };
-import { createKernServer } from "./create-server.js";
+import { MCP_ERAS } from "../test-support/mcp.js";
 
 /**
- * End-to-end tests over a real MCP client/server pair, on both protocol eras:
- * - 2025-11-25 through the in-memory transport (it only speaks the 2025 eras)
- * - 2026-07-28 through createMcpHandler().fetch, as the HTTP host will serve it
+ * End-to-end tests over a real MCP client/server pair, on both protocol eras
+ * (2025-11-25 in memory, 2026-07-28 through the HTTP handler).
  * Covers registration, the kernInputSchema adapter (normalization, hints) and
  * the error semantics: isError results for bad input, -32602 for unknown tools.
  */
-
-type Setup = {
-	era: string;
-	connect: () => Promise<Client>;
-};
-
-const setups: Setup[] = [
-	{
-		era: "2025-11-25",
-		connect: async () => {
-			const [clientTransport, serverTransport] =
-				InMemoryTransport.createLinkedPair();
-			const client = new Client({ name: "kern-ux-test", version: "0.0.0" });
-			const server = await createKernServer();
-			await Promise.all([
-				server.connect(serverTransport),
-				client.connect(clientTransport),
-			]);
-			return client;
-		},
-	},
-	{
-		era: "2026-07-28",
-		connect: async () => {
-			const handler = createMcpHandler(() => createKernServer());
-			const client = new Client(
-				{ name: "kern-ux-test", version: "0.0.0" },
-				{ versionNegotiation: { mode: { pin: "2026-07-28" } } },
-			);
-			await client.connect(
-				new StreamableHTTPClientTransport(new URL("http://localhost/mcp"), {
-					fetch: (input, init) => handler.fetch(new Request(input, init)),
-				}),
-			);
-			return client;
-		},
-	},
-];
 
 function textOf(result: Awaited<ReturnType<Client["callTool"]>>): string {
 	const content = result.content as Array<{ type: string; text?: string }>;
@@ -63,7 +18,7 @@ function textOf(result: Awaited<ReturnType<Client["callTool"]>>): string {
 	return content[0]?.text ?? "";
 }
 
-describe.each(setups)("MCP server over $era", ({ era, connect }) => {
+describe.each(MCP_ERAS)("MCP server over $era", ({ era, connect }) => {
 	let client: Client;
 
 	beforeAll(async () => {
