@@ -6,7 +6,12 @@
 		"useIgnoreFile": true
 	},
 	"files": {
-		"includes": ["**", "!src/ux/registry.json", "!samples/basic-layout/assets"]
+		"includes": [
+			"**",
+			"!src/ux/registry.json",
+			"!samples/basic-layout/assets",
+			"!**/__snapshots__"
+		]
 	},
 	"linter": {
 		"enabled": true
