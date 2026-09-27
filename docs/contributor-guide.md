@@ -130,12 +130,70 @@ Current high-value schema facts:
 - `dropdown` remains explicitly experimental.
 - `kopfzeile` is still a simplified MCP placeholder rather than full upstream parity.
 
+## Testing
+
+Tests are colocated with the code as `src/**/*.test.ts` and run with Vitest:
+
+```bash
+npm test               # full suite
+npm run test:watch     # watch mode
+npm run test:coverage  # suite + coverage; fails below the thresholds in vitest.config.ts
+npm test -- src/ux/validate.test.ts   # a single file
+```
+
+Where tests live:
+
+```text
+src/server.mcp.test.ts             - end-to-end: real MCP client over InMemoryTransport (list, call, errors)
+src/ux/tools.listing.test.ts       - contract snapshot of the full tools/list output
+src/ux/tools.routing.test.ts       - which builder each component/strategy gets
+src/ux/tools.input-schemas.test.ts - guidance text that must stay in the listed JSON schemas
+src/ux/tools.descriptions.test.ts  - guidance text that must stay in tool descriptions
+src/ux/tools.behaviour.test.ts     - utility/discovery/docs tool output
+src/ux/validate.test.ts            - one failing and one passing case per validation rule
+src/ux/templates/*.test.ts         - per-template rendering
+src/test-support/                  - shared helpers (test-only, excluded from the build)
+```
+
+Tool-listing snapshot:
+
+- `src/ux/__snapshots__/tools-list.json` holds everything clients see from `tools/list`: tool names, descriptions and JSON input schemas, built from the checked-in `registry.json`.
+- A failing snapshot means clients would see a change. If the change is intended, update the snapshot and review the JSON diff in the PR:
+
+  ```bash
+  npx vitest run -u src/ux/tools.listing.test.ts
+  ```
+
+- CI never writes snapshots. A missing or stale snapshot fails the build, so generate it locally and commit it.
+- Biome ignores `**/__snapshots__`, because snapshots use two-space indentation.
+
+Conventions:
+
+- No `any` in tests. Biome's `noExplicitAny` applies to test files too. Use the helpers in `src/test-support/`:
+  - `createRegistry` and `invokeTool` for tool calls
+  - `getListedToolSchema`, `schemaVariants`, `findVariant` and the `JsonSchemaNode` type for JSON Schema assertions
+- For deliberately invalid input that checks a runtime guard, put `// @ts-expect-error <reason>` on the offending line instead of casting.
+- Assert on specific `ruleId`s, or on the full list of rule IDs, rather than only `ok`. That way a test can't pass because a different rule happened to fire.
+- Keep the default 5s timeout. If a test is slow, fix the setup rather than raising the limit. For example, import modules statically instead of calling `await import()` inside a test, and don't recompute expensive data per assertion.
+
+Coverage:
+
+- Thresholds live in `vitest.config.ts` and sit just below the measured baseline. Raise them as coverage improves, and never lower them to make a PR pass.
+- `src/index.ts` is excluded because it only wires stdio. `server.mcp.test.ts` covers `createServer()` end to end.
+- CI adds a coverage table to the job summary and uploads the HTML report as the `coverage-report` artifact. Locally, open `coverage/index.html`.
+
+Module cache:
+
+- `fsModuleCache: true` keeps transformed modules between runs, in `node_modules/.vitest-cache`. It's keyed on file content, so edits invalidate it, and a reinstall clears it.
+- If results ever look stale, run with `--fsModuleCache=false`, or inspect the cache with `DEBUG=vitest:cache:fs npm test`.
+
 ## Architecture Rules
 
 - Public MCP tool names stay `get_<component-id>` plus utility tools.
 - `checkboxlist` remains merged into `get_checkbox`.
 - `strict: true` must keep throwing on validation failures.
 - Keep extracted docs and reviewed guidance separate.
+- The `tools/list` output is a public contract. Refactors must leave the tool-listing snapshot unchanged, and a deliberate change must show up as a reviewed snapshot diff.
 
 ## Repo Customizations
 
