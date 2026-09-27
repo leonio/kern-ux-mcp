@@ -89,7 +89,7 @@ The workflow already publishes to GitHub Packages with `GITHUB_TOKEN`. The first
 
 ## 5. Versioning check before the first alpha
 
-- [ ] `gitversion.yml` has a `feat/v2-alpha` branch entry with a pre-release label (roadmap R1).
+- [x] `gitversion.yml` has a `feat/v2-alpha` branch entry with a pre-release label (roadmap R1). It needs its own `mode: ContinuousDelivery`: the global `ContinuousDeployment` mode drops the label, and the branch would publish as `latest`.
 - [ ] The first R2 commit is marked breaking, with `feat!:` or a `BREAKING CHANGE:` footer. GitVersion then computes `2.0.0-<label>.N` rather than `1.1.x`.
 - [ ] `dotnet-gitversion /showvariable SemVer` on the branch prints the expected pre-release version.
 - [ ] The existing "Compute npm dist-tag" step turns the label into the npm dist-tag. No workflow change is needed for that.

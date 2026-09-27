@@ -29,20 +29,20 @@ Discovery date: 2026-09-27. Line numbers refer to the code at that point and wil
 
 ### R1: Prerequisites (safe to cherry-pick to `main`)
 
-- [ ] `gitversion.yml`:
+- [x] `gitversion.yml`:
   - add a `feat/v2-alpha` branch entry with a pre-release label and `is-release-branch: false`
   - fix the `ˆchore` typo (finding 20)
-- [ ] Item 3: extract an `invokeTool` pipeline and `logging.ts` from `server.ts`. Rename the test helper to `callHandler`.
-- [ ] Item 4: add a single `ValidationResultSchema`, and fix the `buildComponentTool` `warnings` gap.
-- [ ] Item 10: read the server version from `package.json`.
-- [ ] Item 12: remove dead code, and move `paths.ts` under `tools/`.
-- [ ] Item 13: add `tsconfig.tools.json` and a CI step for it.
-- [ ] Item 16: keep a single `formFlow` schema.
-- [ ] Finding 21:
+- [x] Item 3: extract an `invokeTool` pipeline and `logging.ts` from `server.ts`. Rename the test helper to `callHandler`.
+- [x] Item 4: add a single `ValidationResultSchema`, and fix the `buildComponentTool` `warnings` gap.
+- [x] Item 10: read the server version from `package.json`.
+- [x] Item 12: remove dead code, and move `paths.ts` under `tools/`.
+- [x] Item 13: add `tsconfig.tools.json` and a CI step for it.
+- [x] Item 16: keep a single `formFlow` schema.
+- [x] Finding 21:
   - replace `registry.json` `sourceRoot` with the upstream KERN version
   - move `fast-glob` to devDependencies
   - add a `maxLength` to `validate_html.html`
-- [ ] Renovate: add a group rule for `/^@modelcontextprotocol\//`.
+- [x] Renovate: add a group rule for `/^@modelcontextprotocol\//`.
 
 ### R2: SDK v2 swap (single package, stdio only)
 

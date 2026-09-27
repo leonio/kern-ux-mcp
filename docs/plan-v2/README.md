@@ -64,25 +64,25 @@ Each phase is independently releasable. Items refer to [findings.md](findings.md
 
 - [ ] 1. The entry-point and wiring overview is documented. It's context only, with nothing to change.
 - [ ] 2. Move per-tool `normalize` and `errorHint` onto `ToolDef`. → ongoing `defineTool()` migration
-- [ ] 3. Extract `invokeTool()` and a `logging.ts` module from `server.ts`. → R1
-- [ ] 4. Create a single `ValidationResultSchema` and output schema. → R1
+- [x] 3. Extract `invokeTool()` and a `logging.ts` module from `server.ts`. → R1
+- [x] 4. Create a single `ValidationResultSchema` and output schema. → R1
 - [ ] 5. Create a generic `buildHtmlTool()` for section, card_group, disclosure and composition. → ongoing migration
 - [ ] 6. Build a declarative interactive tool map to replace the set, the switch and the 26 small builders. → ongoing migration
 - [ ] 7. Remove the double routing in `createTools`. → ongoing migration
 - [ ] 8. Add a `defineTool<I, O>()` helper that infers handler types from the schemas. → ongoing migration (the first PR)
 - [ ] 9. Extract `createCompositionRenderer(locale)`. → R4
-- [ ] 10. Read the server version from package.json. → R1
+- [x] 10. Read the server version from package.json. → R1
 - [ ] 11. Have builders report the component ID, instead of parsing tool names. → ongoing migration
-- [ ] 12. Remove dead code and deduplicate `stories.ts` and `paths.ts`. → R1
-- [ ] 13. Type-check `tools/**` and `vitest.config.ts`. → R1
+- [x] 12. Remove dead code and deduplicate `stories.ts` and `paths.ts`. → R1
+- [x] 13. Type-check `tools/**` and `vitest.config.ts`. → R1
 - [ ] 14. Optional hardening: `verbatimModuleSyntax`, ES2024 target, ~~Biome schema version~~ (done: 2.5.14). → R3 (`tsconfig.base.json`)
 - [ ] 15. Spike `McpServer.registerTool`. → superseded by R0 and R2 (SDK v2)
-- [ ] 16. Keep a single `formFlow` schema. The copy in `schemas/form-flow.ts` is dead at runtime and duplicated inline in `content-union.ts`. → R1
+- [x] 16. Keep a single `formFlow` schema. The copy in `schemas/form-flow.ts` is dead at runtime and duplicated inline in `content-union.ts`. → R1
 - [ ] 17. SDK v2 migration facts. → R0, R2
 - [ ] 18. Composition gaps and bugs. → R4
 - [ ] 19. Context budget of `tools/list`. → R5
-- [ ] 20. Release config: GitVersion branch entry and typo. → R1
-- [ ] 21. Leaks and packaging: `sourceRoot`, `fast-glob`, unbounded `validate_html` input. → R1
+- [x] 20. Release config: GitVersion branch entry and typo. → R1
+- [x] 21. Leaks and packaging: `sourceRoot`, `fast-glob`, unbounded `validate_html` input. → R1
 
 ## Ground rules
 
