@@ -1,25 +1,10 @@
 import { describe, expect, it } from "vitest";
+
+import {
+	invokeTool,
+	type RenderedToolResult,
+} from "../../test-support/tools.js";
 import { buildFormFlow } from "./form-flow.js";
-
-type RenderedToolResult = {
-	html: string;
-	warnings: string[];
-	validation: {
-		ok: boolean;
-	};
-};
-
-async function invokeTool<TResult>(
-	tool: { handler(args: unknown): Promise<unknown> } | undefined,
-	args: unknown,
-): Promise<TResult> {
-	expect(tool).toBeDefined();
-	if (!tool) {
-		throw new Error("Expected tool to be defined");
-	}
-
-	return (await tool.handler(args)) as TResult;
-}
 
 const FOUR_STEPS = [
 	{
