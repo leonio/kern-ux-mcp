@@ -446,6 +446,7 @@ Do item 9 (`createCompositionRenderer`) first, so the new kinds plug into one re
   | `render_composition` | 8.4K |
 
 - Descriptions add another 9.5K characters, mostly German.
+- **Since R2b** the listing also carries a `title`, `annotations` and an `outputSchema` per tool: **198K compact characters** for 54 tools. `outputSchema` accounts for 49K of that, because the 48 HTML tools each repeat the same 845-character `ComponentOutputSchema`. Many clients probably pass only name, description and `inputSchema` to the model, which would make this wire size rather than context; the R0 matrix checks it per client.
 - VS Code Copilot also limits how many tools can be enabled per request, and 52 tools use a large share of it.
 
 **Proposal:**

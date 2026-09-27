@@ -23,6 +23,7 @@ Discovery date: 2026-09-27. Line numbers refer to the code at that point and wil
     - whether it supports prompts and resources
     - whether it handles `$defs`/`$ref` and `anyOf` roots
     - its tool-count limits
+    - whether it passes `outputSchema` to the model (it decides whether R5's budget counts it)
 - [x] Check that TS 7 compiles against the v2 `.d.ts` files, that JSON-import emit works, and that `tsc -b` works.
 - [ ] Check that Claude Desktop runs an MCPB bundle on Node 24, built-in or through the system Node setting. The bundle runs on Node 24.21.0 under the Inspector; the Desktop run is still open.
 - [ ] Write the results into [findings.md](findings.md) item 17. The automated results are in; the client matrix is still to add.
@@ -55,9 +56,9 @@ Discovery date: 2026-09-27. Line numbers refer to the code at that point and wil
 
 ### R2b: Standards metadata (via the adapter)
 
-- [ ] Add a `title` (from the registry title) and `annotations` (`readOnlyHint`, `idempotentHint`, `openWorldHint: false`) to every tool.
-- [ ] Advertise `outputSchema` and return `structuredContent`, keeping the JSON text block.
-- [ ] Set `cacheHints` for `tools/list`, `prompts/list` and resources.
+- [x] Add a `title` (from the registry title) and `annotations` (`readOnlyHint`, `idempotentHint`, `openWorldHint: false`) to every tool.
+- [x] Advertise `outputSchema` and return `structuredContent`, keeping the JSON text block. This adds 49K compact characters to the listing (143K → 198K); see finding 19.
+- [x] Set `cacheHints` for `tools/list`, `prompts/list` and resources: one hour, `public`, plus `server/discover`. Per-resource hints for `resources/read` come in R6.
 
 ### R3: Workspaces and hosts
 
@@ -104,7 +105,7 @@ Can start any time after R3's JSON import of `registry.json`. Background in [fin
 ### R5: English base language and the context budget
 
 - [ ] Optional baseline: run 8–10 scenario tasks against the pre-R5 server in VS Code Copilot and Claude Code.
-- [ ] Add a context-budget test that prints per-tool listing sizes and fails above the budget.
+- [ ] Add a context-budget test that prints per-tool listing sizes and fails above the budget. Measure what reaches the model (name, description, `inputSchema`) separately from `outputSchema`.
 - [ ] English: foundations and form-field schemas.
 - [ ] English: layout and typography schemas and tools.
 - [ ] English: interactive schemas and tools.
