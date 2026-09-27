@@ -76,7 +76,7 @@ Regenerate the manifest when KERN UX stories, markdown component docs, reviewed 
 ```bash
 npm run validate-guidance-overlay
 npm run generate-manifest
-npm test -- src/ux/manifest-generator.test.ts src/ux/tools.behaviour.test.ts
+npm test -- src/ux/manifest-generator.test.ts src/ux/tools.behaviour.test.ts src/ux/tools.listing.test.ts
 ```
 
 Build packaging also copies the generated manifest into `dist/ux/registry.json`:
