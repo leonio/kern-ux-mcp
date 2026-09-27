@@ -11,7 +11,8 @@ flowchart TD
   A[kern-ux-plain stories + markdown docs] --> B[tools/manifest/build-manifest.ts]
   C[docs/guidance-overlay.json] --> B
   B --> D[src/ux/registry.json]
-  D --> E[src/server.ts]
+  D --> E[src/mcp/create-server.ts]
+  E --> P[src/invoke.ts]
   E --> F[src/ux/tools.ts]
   F --> G[src/ux/tool-builders]
   G --> H[src/ux/schemas]
@@ -28,7 +29,9 @@ Important distinction:
 
 ## Directory Map
 
-- [src/server.ts](../src/server.ts): MCP server setup, request handling, argument normalization, error formatting.
+- [src/index.ts](../src/index.ts): stdio entry point (`serveStdio`), serving 2026-07-28 and 2025-era clients.
+- [src/mcp](../src/mcp): MCP SDK v2 wiring. `create-server.ts` registers every tool on `McpServer`, `kern-schema.ts` adapts each tool's Zod schema for the SDK (our JSON Schema, our validation hints), and `catalog.ts` builds the tool definitions once per process.
+- [src/invoke.ts](../src/invoke.ts): the call pipeline independent of the SDK: argument normalization, input parsing, validation hints, handler and output validation.
 - [src/ux/tools.ts](../src/ux/tools.ts): creates the tool registry, selects tool builders, lists tools for MCP.
 - [src/ux/tool-builders](../src/ux/tool-builders): strategy-specific tool construction shared across many components.
 - [src/ux/schemas](../src/ux/schemas): Zod schemas for tool inputs.
@@ -71,7 +74,7 @@ Typical path:
 
 1. Update [src/ux/tools.ts](../src/ux/tools.ts) or a file in [src/ux/tool-builders](../src/ux/tool-builders).
 2. If tool input listing changes, check [src/ux/json-schema.ts](../src/ux/json-schema.ts).
-3. If request handling or validation messaging changes, check [src/server.ts](../src/server.ts).
+3. If request handling or validation messaging changes, check [src/invoke.ts](../src/invoke.ts) and [src/mcp](../src/mcp).
 
 This is the normal path when you add a tool, change how tools are listed, or adjust validation behavior at the MCP boundary.
 
@@ -113,7 +116,7 @@ npm test -- src/ux/manifest-generator.test.ts src/ux/tools.behaviour.test.ts src
 
 ## Where To Start Reading
 
-- Runtime behavior: start at [src/server.ts](../src/server.ts), then [src/ux/tools.ts](../src/ux/tools.ts).
+- Runtime behavior: start at [src/mcp/create-server.ts](../src/mcp/create-server.ts), then [src/invoke.ts](../src/invoke.ts) and [src/ux/tools.ts](../src/ux/tools.ts).
 - Tool input/output shape: start at [src/ux/schemas](../src/ux/schemas) and [src/ux/templates](../src/ux/templates).
 - Manifest and docs packaging: start at [tools/manifest/build-manifest.ts](../tools/manifest/build-manifest.ts).
 - Guidance authoring: start at [guidance-overlay-workflow.md](guidance-overlay-workflow.md), then load [../.github/skills/component-update-workflow/SKILL.md](../.github/skills/component-update-workflow/SKILL.md) for the self-contained workflow path.

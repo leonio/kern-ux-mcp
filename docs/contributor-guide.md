@@ -17,7 +17,7 @@ flowchart LR
   end
 
   subgraph Runtime
-    D --> E[src/server.ts]
+    D --> E[src/mcp/create-server.ts]
     E --> F[src/ux/tools.ts]
     F --> G[src/ux/tool-builders]
     G --> H[src/ux/schemas]
@@ -33,7 +33,8 @@ At runtime the registry decides which tools and component metadata are exposed. 
 
 Runtime flow:
 
-- `src/index.ts` -> `src/server.ts` -> `src/ux/tools.ts`
+- `src/index.ts` -> `src/mcp/create-server.ts` (SDK v2 `McpServer`) -> `src/ux/tools.ts`
+- the call pipeline in `src/invoke.ts`, used through the `kernInputSchema` adapter in `src/mcp/kern-schema.ts`
 - strategy builders in `src/ux/tool-builders/`
 - component schemas in `src/ux/schemas/`
 - HTML templates in `src/ux/templates/`
@@ -179,7 +180,7 @@ Conventions:
 Coverage:
 
 - Thresholds live in `vitest.config.ts` and sit just below the measured baseline. Raise them as coverage improves, and never lower them to make a PR pass.
-- `src/index.ts` is excluded because it only wires stdio. `server.mcp.test.ts` covers `createServer()` end to end.
+- `src/index.ts` is excluded because it only wires stdio. `src/mcp/create-server.test.ts` covers `createKernServer()` end to end on both protocol eras (2025-11-25 and 2026-07-28).
 - CI adds a coverage table to the job summary and uploads the HTML report as the `coverage-report` artifact. Locally, open `coverage/index.html`.
 
 Module cache:
