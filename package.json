@@ -69,7 +69,6 @@
 		"@modelcontextprotocol/node": "^2.1.0",
 		"@modelcontextprotocol/sdk": "^1.29.0",
 		"@modelcontextprotocol/server": "^2.1.0",
-		"fast-glob": "^3.3.3",
 		"node-html-parser": "^9.0.0",
 		"zod": "^4.4.3"
 	},
@@ -80,6 +79,7 @@
 		"@vitest/coverage-v8": "^5.0.2",
 		"ajv": "^8.20.0",
 		"ajv-formats": "^3.0.1",
+		"fast-glob": "^3.3.3",
 		"tsx": "^4.23.12",
 		"typescript": "^7.0.0",
 		"vitest": "^5.0.0"
