@@ -5,6 +5,7 @@ import {
 } from "@modelcontextprotocol/sdk/types.js";
 
 import type { z } from "zod";
+import pkg from "../package.json" with { type: "json" };
 import { invokeTool } from "./invoke.js";
 import {
 	loadRegistryFromManifest,
@@ -44,7 +45,7 @@ export async function createServer() {
 	const server = new Server(
 		{
 			name: "kern-ux",
-			version: "0.1.0",
+			version: pkg.version,
 		},
 		{
 			capabilities: {

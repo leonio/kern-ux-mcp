@@ -2,6 +2,7 @@ import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { InMemoryTransport } from "@modelcontextprotocol/sdk/inMemory.js";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 
+import pkg from "../package.json" with { type: "json" };
 import { createServer } from "./server.js";
 
 /**
@@ -35,6 +36,13 @@ function parseTextResult(result: Awaited<ReturnType<Client["callTool"]>>) {
 }
 
 describe("MCP server round-trip", () => {
+	it("reports the package.json version as the server version", () => {
+		expect(client.getServerVersion()).toEqual({
+			name: "kern-ux",
+			version: pkg.version,
+		});
+	});
+
 	it("lists tools with object-rooted JSON input schemas", async () => {
 		const { tools } = await client.listTools();
 		const names = tools.map((tool) => tool.name);
