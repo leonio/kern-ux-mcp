@@ -58,6 +58,7 @@
 		"sample:dev": "npm --prefix samples/basic-layout run dev",
 		"test": "vitest run",
 		"test:watch": "vitest",
+		"test:coverage": "vitest run --coverage",
 		"lint": "biome lint .",
 		"format": "biome format --write .",
 		"version:json": "dotnet-gitversion /output json",
@@ -73,6 +74,7 @@
 	"devDependencies": {
 		"@biomejs/biome": "^2.5.11",
 		"@types/node": "^24.13.3",
+		"@vitest/coverage-v8": "^5.0.2",
 		"ajv": "^8.20.0",
 		"ajv-formats": "^3.0.1",
 		"tsx": "^4.23.12",
