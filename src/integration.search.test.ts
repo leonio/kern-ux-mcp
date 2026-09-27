@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { formatInputValidationError } from "./server.js";
+import { formatInputValidationError } from "./invoke.js";
 import { createRegistry } from "./test-support/tools.js";
 import { RecursiveContentBlocksSchema } from "./ux/schemas/content-union.js";
 import { createTools } from "./ux/tools.js";

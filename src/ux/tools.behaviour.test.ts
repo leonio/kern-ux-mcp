@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
 
 import {
+	callHandler,
 	createRegistry,
-	invokeTool,
 	type RenderedToolResult,
 } from "../test-support/tools.js";
 import { createTools } from "./tools.js";
@@ -40,7 +40,7 @@ describe("tool behaviour", () => {
 		const tool = tools.getTool("get_legacycomponent");
 
 		expect(tool).toBeDefined();
-		const result = await invokeTool<RenderedToolResult>(tool, {});
+		const result = await callHandler<RenderedToolResult>(tool, {});
 		expect(result.warnings.join("\n")).toContain(
 			"get_component_docs with { componentId: 'legacycomponent' }",
 		);
@@ -106,7 +106,7 @@ describe("tool behaviour", () => {
 
 		expect(docsTool).toBeDefined();
 
-		const result = await invokeTool<DocsToolResult>(docsTool, {
+		const result = await callHandler<DocsToolResult>(docsTool, {
 			componentId: "kopfzeile",
 			locale: "de",
 		});
@@ -120,7 +120,7 @@ describe("tool behaviour", () => {
 			"Story-Hinweis DE",
 		);
 
-		const resultEn = await invokeTool<DocsToolResult>(docsTool, {
+		const resultEn = await callHandler<DocsToolResult>(docsTool, {
 			componentId: "kopfzeile",
 			locale: "en",
 		});
@@ -129,7 +129,7 @@ describe("tool behaviour", () => {
 			"Story note EN",
 		);
 
-		const resultWithoutDocs = await invokeTool<DocsToolResult>(docsTool, {
+		const resultWithoutDocs = await callHandler<DocsToolResult>(docsTool, {
 			componentId: "body",
 		});
 		expect(resultWithoutDocs.excerpt).toContain(
@@ -175,7 +175,7 @@ describe("tool behaviour", () => {
 
 		it("validate_html returns the validator result for the given markup", async () => {
 			const tools = createTools(createRegistry());
-			const result = await invokeTool<{
+			const result = await callHandler<{
 				ok: boolean;
 				issues: Array<{ ruleId: string }>;
 			}>(tools.getTool("validate_html"), { html: '<img src="x.png">' });
@@ -192,12 +192,14 @@ describe("tool behaviour", () => {
 			};
 			const tools = createTools({ ...createRegistry(), tokens });
 
-			expect(await invokeTool(tools.getTool("get_tokens"), {})).toEqual(tokens);
+			expect(await callHandler(tools.getTool("get_tokens"), {})).toEqual(
+				tokens,
+			);
 		});
 
 		it("list_icons returns a copy of every valid icon name", async () => {
 			const tools = createTools(createRegistry());
-			const result = await invokeTool<{ icons: string[] }>(
+			const result = await callHandler<{ icons: string[] }>(
 				tools.getTool("list_icons"),
 				{},
 			);
@@ -217,7 +219,7 @@ describe("tool behaviour", () => {
 				components: Array<{ id: string; category: string; strategy: string }>;
 			};
 			const list = (args: object) =>
-				invokeTool<Listed>(tools.getTool("list_components_by_category"), args);
+				callHandler<Listed>(tools.getTool("list_components_by_category"), args);
 
 			it("lists manifest components plus the composition tools", async () => {
 				const { components } = await list({});
@@ -268,7 +270,7 @@ describe("tool behaviour", () => {
 						},
 					]),
 				);
-				const result = await invokeTool<DocsToolResult>(
+				const result = await callHandler<DocsToolResult>(
 					tools.getTool("get_component_docs"),
 					{ componentId: "heading" },
 				);
@@ -306,7 +308,7 @@ describe("tool behaviour", () => {
 				"suggests related tools for $entry.id",
 				async ({ entry, expected }) => {
 					const tools = createTools(createRegistry([entry]));
-					const result = await invokeTool<DocsToolResult>(
+					const result = await callHandler<DocsToolResult>(
 						tools.getTool("get_component_docs"),
 						{ componentId: entry.id },
 					);
@@ -339,10 +341,13 @@ describe("tool behaviour", () => {
 			},
 		])("$name", async ({ name, args, expectedFragments }) => {
 			const tools = createTools(createRegistry());
-			const result = await invokeTool<RenderedToolResult>(tools.getTool(name), {
-				...args,
-				strict: true,
-			});
+			const result = await callHandler<RenderedToolResult>(
+				tools.getTool(name),
+				{
+					...args,
+					strict: true,
+				},
+			);
 
 			for (const fragment of expectedFragments) {
 				expect(result.html).toContain(fragment);

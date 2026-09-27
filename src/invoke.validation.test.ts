@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { formatInputValidationError } from "./server.js";
+import { formatInputValidationError } from "./invoke.js";
 import { AlertSchema } from "./ux/schemas/alert.js";
 import { badgeSchema } from "./ux/schemas/badge.js";
 import { ButtonSchema } from "./ux/schemas/button.js";

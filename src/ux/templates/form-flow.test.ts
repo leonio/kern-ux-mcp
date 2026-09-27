@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
 
 import {
+	callHandler,
 	createRegistry,
-	invokeTool,
 	type RenderedToolResult,
 } from "../../test-support/tools.js";
 import { createTools } from "../tools.js";
@@ -222,7 +222,7 @@ describe("formFlow via render_composition", () => {
 		const tool = tools.getTool("render_composition");
 		expect(tool).toBeDefined();
 
-		const result = await invokeTool<RenderedToolResult>(tool, {
+		const result = await callHandler<RenderedToolResult>(tool, {
 			locale: "de",
 			contentBlocks: [
 				{

@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
 
 import {
+	callHandler,
 	createRegistry,
-	invokeTool,
 	type RenderedToolResult,
 } from "../test-support/tools.js";
 import { createTools } from "./tools.js";
@@ -25,7 +25,7 @@ describe("createTools routing", () => {
 
 		expect(tool).toBeDefined();
 
-		const result = await invokeTool<RenderedToolResult>(tool, {
+		const result = await callHandler<RenderedToolResult>(tool, {
 			items: [{ key: "Name", value: "Max" }],
 			stacked: true,
 		});
@@ -50,7 +50,7 @@ describe("createTools routing", () => {
 		expect(tool).toBeDefined();
 		expect(tool?.description).toContain("level 1-6");
 
-		const result = await invokeTool<RenderedToolResult>(tool, {
+		const result = await callHandler<RenderedToolResult>(tool, {
 			text: "Titel",
 			level: 3,
 		});
@@ -97,7 +97,7 @@ describe("createTools routing", () => {
 		const tool = tools.getTool("get_divider");
 
 		expect(tool).toBeDefined();
-		const result = await invokeTool<RenderedToolResult>(tool, {
+		const result = await callHandler<RenderedToolResult>(tool, {
 			decorative: true,
 		});
 		expect(result.html).toContain("kern-divider");
@@ -119,7 +119,7 @@ describe("createTools routing", () => {
 		const tool = tools.getTool("get_body");
 
 		expect(tool).toBeDefined();
-		const result = await invokeTool<RenderedToolResult>(tool, {
+		const result = await callHandler<RenderedToolResult>(tool, {
 			text: "Text",
 			bold: true,
 		});
@@ -142,7 +142,7 @@ describe("createTools routing", () => {
 		const tool = tools.getTool("get_label");
 
 		expect(tool).toBeDefined();
-		const result = await invokeTool<RenderedToolResult>(tool, {
+		const result = await callHandler<RenderedToolResult>(tool, {
 			text: "Feld",
 		});
 		expect(result.html).toContain("kern-label");
@@ -164,7 +164,7 @@ describe("createTools routing", () => {
 		const tool = tools.getTool("get_lists");
 
 		expect(tool).toBeDefined();
-		const result = await invokeTool<RenderedToolResult>(tool, {
+		const result = await callHandler<RenderedToolResult>(tool, {
 			ordered: true,
 			text: "Punkt",
 		});
@@ -187,7 +187,7 @@ describe("createTools routing", () => {
 		const tool = tools.getTool("get_title");
 
 		expect(tool).toBeDefined();
-		const result = await invokeTool<RenderedToolResult>(tool, {
+		const result = await callHandler<RenderedToolResult>(tool, {
 			text: "Seitentitel",
 			size: "small",
 		});
@@ -211,7 +211,7 @@ describe("createTools routing", () => {
 
 		expect(tool).toBeDefined();
 
-		const result = await invokeTool<RenderedToolResult>(tool, {
+		const result = await callHandler<RenderedToolResult>(tool, {
 			name: "mail",
 			label: "E-Mail",
 		});
@@ -235,7 +235,7 @@ describe("createTools routing", () => {
 
 		expect(tool).toBeDefined();
 
-		const result = await invokeTool<RenderedToolResult>(tool, {
+		const result = await callHandler<RenderedToolResult>(tool, {
 			name: "upload",
 			label: "Datei",
 		});
@@ -259,7 +259,7 @@ describe("createTools routing", () => {
 
 		expect(tool).toBeDefined();
 
-		const result = await invokeTool<RenderedToolResult>(tool, {
+		const result = await callHandler<RenderedToolResult>(tool, {
 			heading: "Aufgaben",
 			items: [
 				{
@@ -290,7 +290,7 @@ describe("createTools routing", () => {
 
 		expect(tool).toBeDefined();
 		expect(tool?.description).toContain("kern-grid kern-grid-cols-5");
-		const result = await invokeTool<RenderedToolResult>(tool, {
+		const result = await callHandler<RenderedToolResult>(tool, {
 			columns: 3,
 		});
 		expect(result.html).toContain("Spalte 3");
@@ -313,7 +313,7 @@ describe("createTools routing", () => {
 		const tool = tools.getTool("get_fieldset");
 
 		expect(tool).toBeDefined();
-		const result = await invokeTool<RenderedToolResult>(tool, {
+		const result = await callHandler<RenderedToolResult>(tool, {
 			includeHint: true,
 		});
 		expect(result.html).toContain("kern-fieldset__hint");
@@ -333,7 +333,7 @@ describe("createTools routing", () => {
 
 		it("routes ids in the layout id set to the layout builder", async () => {
 			const tools = createTools(createRegistry([fallbackComponent("divider")]));
-			const result = await invokeTool<RenderedToolResult>(
+			const result = await callHandler<RenderedToolResult>(
 				tools.getTool("get_divider"),
 				{ decorative: true },
 			);
@@ -343,7 +343,7 @@ describe("createTools routing", () => {
 
 		it("routes ids in the typography id set to the typography builder", async () => {
 			const tools = createTools(createRegistry([fallbackComponent("title")]));
-			const result = await invokeTool<RenderedToolResult>(
+			const result = await callHandler<RenderedToolResult>(
 				tools.getTool("get_title"),
 				{ text: "Seitentitel", size: "small" },
 			);
@@ -361,14 +361,14 @@ describe("createTools routing", () => {
 			expect(tool?.description).toBe(
 				"KERN UX: HTML für mystery erzeugen (mit optionaler strikter Validierung).",
 			);
-			const result = await invokeTool<RenderedToolResult>(tool, {});
+			const result = await callHandler<RenderedToolResult>(tool, {});
 			expect(result.html).toBe(canonical);
 			expect(result.validation.ok).toBe(true);
 		});
 
 		it("renders a placeholder when there is no canonical HTML", async () => {
 			const tools = createTools(createRegistry([fallbackComponent("mystery")]));
-			const result = await invokeTool<RenderedToolResult>(
+			const result = await callHandler<RenderedToolResult>(
 				tools.getTool("get_mystery"),
 				{},
 			);
@@ -403,7 +403,7 @@ describe("createTools routing", () => {
 				},
 			]),
 		);
-		const result = await invokeTool<RenderedToolResult>(
+		const result = await callHandler<RenderedToolResult>(
 			tools.getTool("get_mystery"),
 			{},
 		);

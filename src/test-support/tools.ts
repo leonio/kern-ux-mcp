@@ -28,7 +28,7 @@ export function createRegistry<T extends ComponentInfo>(
 	};
 }
 
-export async function invokeTool<TResult>(
+export async function callHandler<TResult>(
 	tool: { handler(args: unknown): Promise<unknown> } | undefined,
 	args: unknown,
 ): Promise<TResult> {

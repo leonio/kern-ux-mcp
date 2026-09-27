@@ -4,7 +4,7 @@ import type { StandardSchemaWithJSON } from "@modelcontextprotocol/server";
 import {
 	formatInputValidationError,
 	normalizeToolArgs,
-} from "../../src/server.js";
+} from "../../src/invoke.js";
 import { toolInputSchemaToJsonSchema } from "../../src/ux/json-schema.js";
 import type { ToolDef } from "../../src/ux/tool-builders/shared.js";
 

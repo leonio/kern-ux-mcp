@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { normalizeToolArgs } from "./server.js";
+import { normalizeToolArgs } from "./invoke.js";
 
 function normalize(name: string, args: unknown): Record<string, unknown> {
 	return normalizeToolArgs(name, args) as Record<string, unknown>;
