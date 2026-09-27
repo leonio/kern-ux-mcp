@@ -165,7 +165,13 @@ describe("tool behaviour", () => {
 			id: string,
 			category: ComponentInfo["category"],
 			strategy: ComponentInfo["strategy"],
-		): ComponentInfo => ({ id, title: id, status: "stable", category, strategy });
+		): ComponentInfo => ({
+			id,
+			title: id,
+			status: "stable",
+			category,
+			strategy,
+		});
 
 		it("validate_html returns the validator result for the given markup", async () => {
 			const tools = createTools(createRegistry());
@@ -285,21 +291,29 @@ describe("tool behaviour", () => {
 				},
 				{
 					entry: component("card", "interactive", "interactive"),
-					expected: ["get_grid", "validate_html", "get_button", "get_card_group"],
+					expected: [
+						"get_grid",
+						"validate_html",
+						"get_button",
+						"get_card_group",
+					],
 				},
 				{
 					entry: component("heading", "foundational", "typography"),
 					expected: undefined,
 				},
-			])("suggests related tools for $entry.id", async ({ entry, expected }) => {
-				const tools = createTools(createRegistry([entry]));
-				const result = await invokeTool<DocsToolResult>(
-					tools.getTool("get_component_docs"),
-					{ componentId: entry.id },
-				);
+			])(
+				"suggests related tools for $entry.id",
+				async ({ entry, expected }) => {
+					const tools = createTools(createRegistry([entry]));
+					const result = await invokeTool<DocsToolResult>(
+						tools.getTool("get_component_docs"),
+						{ componentId: entry.id },
+					);
 
-				expect(result.relatedTools).toEqual(expected);
-			});
+					expect(result.relatedTools).toEqual(expected);
+				},
+			);
 		});
 	});
 

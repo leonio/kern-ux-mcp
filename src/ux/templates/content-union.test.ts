@@ -115,54 +115,52 @@ describe("renderRecursiveContentBlocks", () => {
 		expect(result.html).toBe("<i>1</i>\n      <i>2</i>");
 	});
 
-	describe.each(NESTED_KINDS)("$label nodes", ({
-		label,
-		rendererKey,
-		block,
-		payload,
-	}) => {
-		it("delegates to the renderer with depth + 1 and collects its warnings", () => {
-			const renderer = stubRenderer(label.toLowerCase());
-			const options: RecursiveContentRenderOptions = {
-				...baseOptions,
-				currentDepth: 1,
-			};
-			options[rendererKey] = renderer;
-			const result = renderRecursiveContentBlocks([block], options);
+	describe.each(NESTED_KINDS)(
+		"$label nodes",
+		({ label, rendererKey, block, payload }) => {
+			it("delegates to the renderer with depth + 1 and collects its warnings", () => {
+				const renderer = stubRenderer(label.toLowerCase());
+				const options: RecursiveContentRenderOptions = {
+					...baseOptions,
+					currentDepth: 1,
+				};
+				options[rendererKey] = renderer;
+				const result = renderRecursiveContentBlocks([block], options);
 
-			expect(renderer).toHaveBeenCalledOnce();
-			expect(renderer).toHaveBeenCalledWith(payload, 2);
-			expect(result.html).toBe(
-				`<${label.toLowerCase()} depth="2"></${label.toLowerCase()}>`,
-			);
-			expect(result.warnings).toEqual([`${label.toLowerCase()} warning`]);
-		});
+				expect(renderer).toHaveBeenCalledOnce();
+				expect(renderer).toHaveBeenCalledWith(payload, 2);
+				expect(result.html).toBe(
+					`<${label.toLowerCase()} depth="2"></${label.toLowerCase()}>`,
+				);
+				expect(result.warnings).toEqual([`${label.toLowerCase()} warning`]);
+			});
 
-		it("skips the node with a warning when no renderer is provided", () => {
-			const result = renderRecursiveContentBlocks([block], baseOptions);
+			it("skips the node with a warning when no renderer is provided", () => {
+				const result = renderRecursiveContentBlocks([block], baseOptions);
 
-			expect(result.html).toBe("");
-			expect(result.warnings).toEqual([
-				`${label} content node was skipped because no ${label.toLowerCase()} renderer was provided.`,
-			]);
-		});
+				expect(result.html).toBe("");
+				expect(result.warnings).toEqual([
+					`${label} content node was skipped because no ${label.toLowerCase()} renderer was provided.`,
+				]);
+			});
 
-		it("skips the node with a warning at max depth, without calling the renderer", () => {
-			const renderer = stubRenderer(label.toLowerCase());
-			const options: RecursiveContentRenderOptions = {
-				...baseOptions,
-				currentDepth: 4,
-			};
-			options[rendererKey] = renderer;
-			const result = renderRecursiveContentBlocks([block], options);
+			it("skips the node with a warning at max depth, without calling the renderer", () => {
+				const renderer = stubRenderer(label.toLowerCase());
+				const options: RecursiveContentRenderOptions = {
+					...baseOptions,
+					currentDepth: 4,
+				};
+				options[rendererKey] = renderer;
+				const result = renderRecursiveContentBlocks([block], options);
 
-			expect(renderer).not.toHaveBeenCalled();
-			expect(result.html).toBe("");
-			expect(result.warnings).toEqual([
-				`${label} content node was skipped because the max rendering depth (4) was reached.`,
-			]);
-		});
-	});
+				expect(renderer).not.toHaveBeenCalled();
+				expect(result.html).toBe("");
+				expect(result.warnings).toEqual([
+					`${label} content node was skipped because the max rendering depth (4) was reached.`,
+				]);
+			});
+		},
+	);
 
 	describe("section paragraphs shorthand", () => {
 		it("converts paragraphs into text content blocks", () => {

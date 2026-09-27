@@ -43,7 +43,11 @@ describe("buildTypography", () => {
 	});
 
 	it("renders heading at the requested level", () => {
-		const result = buildTypography({ kind: "heading", level: 4, text: "Titel" });
+		const result = buildTypography({
+			kind: "heading",
+			level: 4,
+			text: "Titel",
+		});
 
 		expect(result.html).toBe('<h4 class="kern-heading-medium">Titel</h4>');
 	});

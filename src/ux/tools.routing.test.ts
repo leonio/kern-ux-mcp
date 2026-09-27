@@ -381,9 +381,7 @@ describe("createTools routing", () => {
 
 		it("throws in strict mode when the canonical HTML fails validation", async () => {
 			const tools = createTools(
-				createRegistry([
-					fallbackComponent("mystery", '<img src="x.png">'),
-				]),
+				createRegistry([fallbackComponent("mystery", '<img src="x.png">')]),
 			);
 
 			await expect(
