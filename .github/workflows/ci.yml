@@ -6,6 +6,13 @@ on:
   pull_request:
     branches: [main]
 
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
   quality:
     name: Check Quality
@@ -30,5 +37,28 @@ jobs:
       - name: TypeScript Compile
         run: npx tsc --noEmit
 
-      - name: Run Tests
-        run: npm test
+      # Same build the release workflow runs, so tsconfig.build.json / manifest-copy breakage fails the PR, not the release.
+      - name: Build
+        run: npm run build:ci
+
+      - name: Run Tests (with coverage)
+        run: npm run test:coverage
+
+      - name: Coverage Summary
+        if: ${{ !cancelled() && hashFiles('coverage/coverage-summary.json') != '' }}
+        run: |
+          node -e '
+            const total = require("./coverage/coverage-summary.json").total;
+            const rows = ["lines", "statements", "functions", "branches"].map(
+              (key) => `| ${key} | ${total[key].pct}% | ${total[key].covered}/${total[key].total} |`,
+            );
+            console.log(["### Coverage", "", "| Metric | % | Covered |", "| --- | --- | --- |", ...rows].join("\n"));
+          ' >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload Coverage Report
+        if: ${{ !cancelled() && hashFiles('coverage/index.html') != '' }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: coverage-report
+          path: coverage/
+          retention-days: 14
