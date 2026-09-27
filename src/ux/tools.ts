@@ -114,6 +114,13 @@ function buildComponentTool(component: ComponentInfo): ToolDef {
 	};
 }
 
+/**
+ * Upper bound for validate_html input. Far above any generated page, and well
+ * below the 4 MiB request-body cap of the SDK's HTTP transport (worst case
+ * ~2 MB of UTF-8), so oversized input fails with a clear hint.
+ */
+export const VALIDATE_HTML_MAX_LENGTH = 500_000;
+
 function buildValidateHtmlTool(): ToolDef {
 	const name = "validate_html";
 
@@ -121,6 +128,7 @@ function buildValidateHtmlTool(): ToolDef {
 		.object({
 			html: z
 				.string()
+				.max(VALIDATE_HTML_MAX_LENGTH)
 				.describe(
 					"Der vollständige HTML-Markup-String, der validiert werden soll. Den 'html'-Wert aus einem get_*-Tool-Ergebnis direkt übergeben (kein Dateipfad, kein Dateiname – nur der Markup-String).",
 				),

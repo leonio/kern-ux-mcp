@@ -5,7 +5,7 @@ import {
 	createRegistry,
 	type RenderedToolResult,
 } from "../test-support/tools.js";
-import { createTools } from "./tools.js";
+import { createTools, VALIDATE_HTML_MAX_LENGTH } from "./tools.js";
 import { type ComponentInfo, VALID_ICON_NAMES } from "./types.js";
 
 type DocsToolResult = {
@@ -68,6 +68,20 @@ describe("tool behaviour", () => {
 		expect(result.warnings.join("\n")).toContain(
 			"get_component_docs with { componentId: 'legacycomponent' }",
 		);
+	});
+
+	it("validate_html rejects input longer than VALIDATE_HTML_MAX_LENGTH", async () => {
+		const tool = createTools(createRegistry()).getTool("validate_html");
+		expect(tool).toBeDefined();
+		if (!tool) return;
+
+		await expect(
+			invokeTool(tool, { html: "x".repeat(VALIDATE_HTML_MAX_LENGTH + 1) }),
+		).rejects.toThrow(/Invalid arguments for validate_html:\n- html: Too big/);
+		await expect(invokeTool(tool, { html: "<p>ok</p>" })).resolves.toEqual({
+			ok: true,
+			issues: [],
+		});
 	});
 
 	it("get_component_docs returns extracted docs plus locale-selected reviewed guidance", async () => {

@@ -8,6 +8,7 @@
       "properties": {
         "html": {
           "type": "string",
+          "maxLength": 500000,
           "description": "Der vollständige HTML-Markup-String, der validiert werden soll. Den 'html'-Wert aus einem get_*-Tool-Ergebnis direkt übergeben (kein Dateipfad, kein Dateiname – nur der Markup-String)."
         },
         "locale": {
