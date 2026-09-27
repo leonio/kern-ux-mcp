@@ -11,7 +11,7 @@ flowchart LR
    A[Local evidence\ndocs snapshots, stories, SCSS, schemas, templates, tests] --> B[Edit guidance overlay\ndocs/guidance-overlay.json]
    B --> C[Validate overlay\nnpm run validate-guidance-overlay]
    C --> D[Generate merged registry\nnpm run generate-manifest]
-   D --> E[Focused tests\nnpm test -- src/ux/manifest-generator.test.ts src/ux/tools.test.ts]
+   D --> E[Focused tests\nnpm test -- src/ux/manifest-generator.test.ts src/ux/tools.behaviour.test.ts]
    D --> F[Runtime docs output\nget_component_docs returns excerpt, sections, reviewedGuidance]
 ```
 
@@ -59,7 +59,7 @@ Use the reviewed overlay for:
 ```bash
 npm run validate-guidance-overlay
 npm run generate-manifest
-npm test -- src/ux/manifest-generator.test.ts src/ux/tools.test.ts
+npm test -- src/ux/manifest-generator.test.ts src/ux/tools.behaviour.test.ts
 ```
 
 7. Review the diff in `docs/guidance-overlay.json` and `src/ux/registry.json`.
