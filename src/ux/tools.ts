@@ -23,6 +23,7 @@ import {
 } from "./tool-builders/layout.js";
 import {
 	assertStrictValidationOrThrow,
+	ComponentOutputSchema,
 	getComponentToolName,
 	statusBanner,
 	statusWarnings,
@@ -35,6 +36,7 @@ import {
 import type { ComponentInfo, Locale, Registry } from "./types.js";
 import { VALID_ICON_NAMES } from "./types.js";
 import { validateHtmlStrict } from "./validate.js";
+import { ValidationResultSchema } from "./validate.schema.js";
 
 type ToolRegistry = {
 	listTools(): Array<{
@@ -76,24 +78,7 @@ function buildComponentTool(component: ComponentInfo): ToolDef {
 			`Gibt korrektes HTML für die KERN UX Komponente '${component.title}' zurück.`,
 		);
 
-	const outputSchema = z.object({
-		html: z.string(),
-		validation: z
-			.object({
-				ok: z.boolean(),
-				issues: z
-					.array(
-						z.object({
-							ruleId: z.string(),
-							severity: z.enum(["error", "warning"]),
-							message: z.object({ en: z.string(), de: z.string() }),
-							selectorHint: z.string().optional(),
-						}),
-					)
-					.default([]),
-			})
-			.describe("Validierungsergebnis (strict-mode relevant)."),
-	});
+	const outputSchema = ComponentOutputSchema;
 
 	const descriptionOverrides: Record<string, string> = {
 		pattern:
@@ -152,17 +137,7 @@ function buildValidateHtmlTool(): ToolDef {
 			"Validiert HTML strikt gegen KERN UX A11Y-Regeln (BITV-orientiert).",
 		);
 
-	const outputSchema = z.object({
-		ok: z.boolean(),
-		issues: z.array(
-			z.object({
-				ruleId: z.string(),
-				severity: z.enum(["error", "warning"]),
-				message: z.object({ en: z.string(), de: z.string() }),
-				selectorHint: z.string().optional(),
-			}),
-		),
-	});
+	const outputSchema = ValidationResultSchema;
 
 	return {
 		name,
@@ -477,23 +452,7 @@ function buildListComponentsByCategoryTool(registry: Registry): ToolDef {
 
 function buildGetSectionTool(): ToolDef {
 	const inputSchema = SectionSchema;
-	const outputSchema = z.object({
-		html: z.string(),
-		warnings: z.array(z.string()).default([]),
-		validation: z.object({
-			ok: z.boolean(),
-			issues: z
-				.array(
-					z.object({
-						ruleId: z.string(),
-						severity: z.enum(["error", "warning"]),
-						message: z.object({ en: z.string(), de: z.string() }),
-						selectorHint: z.string().optional(),
-					}),
-				)
-				.default([]),
-		}),
-	});
+	const outputSchema = ComponentOutputSchema;
 
 	return {
 		name: "get_section",
@@ -521,23 +480,7 @@ function buildGetSectionTool(): ToolDef {
 
 function buildGetCardGroupTool(): ToolDef {
 	const inputSchema = CardGroupSchema;
-	const outputSchema = z.object({
-		html: z.string(),
-		warnings: z.array(z.string()).default([]),
-		validation: z.object({
-			ok: z.boolean(),
-			issues: z
-				.array(
-					z.object({
-						ruleId: z.string(),
-						severity: z.enum(["error", "warning"]),
-						message: z.object({ en: z.string(), de: z.string() }),
-						selectorHint: z.string().optional(),
-					}),
-				)
-				.default([]),
-		}),
-	});
+	const outputSchema = ComponentOutputSchema;
 
 	return {
 		name: "get_card_group",
@@ -567,23 +510,7 @@ function buildGetCardGroupTool(): ToolDef {
 
 function buildGetDisclosureTool(): ToolDef {
 	const inputSchema = DisclosureSchema;
-	const outputSchema = z.object({
-		html: z.string(),
-		warnings: z.array(z.string()).default([]),
-		validation: z.object({
-			ok: z.boolean(),
-			issues: z
-				.array(
-					z.object({
-						ruleId: z.string(),
-						severity: z.enum(["error", "warning"]),
-						message: z.object({ en: z.string(), de: z.string() }),
-						selectorHint: z.string().optional(),
-					}),
-				)
-				.default([]),
-		}),
-	});
+	const outputSchema = ComponentOutputSchema;
 
 	return {
 		name: "get_disclosure",
@@ -662,23 +589,7 @@ function buildRenderCompositionTool(): ToolDef {
 				"Kombiniert Grid, Card, Section und Disclosure in einer einzigen Struktur.",
 		);
 
-	const outputSchema = z.object({
-		html: z.string(),
-		warnings: z.array(z.string()).default([]),
-		validation: z.object({
-			ok: z.boolean(),
-			issues: z
-				.array(
-					z.object({
-						ruleId: z.string(),
-						severity: z.enum(["error", "warning"]),
-						message: z.object({ en: z.string(), de: z.string() }),
-						selectorHint: z.string().optional(),
-					}),
-				)
-				.default([]),
-		}),
-	});
+	const outputSchema = ComponentOutputSchema;
 
 	return {
 		name: "render_composition",

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-
+import { invokeTool } from "../invoke.js";
 import {
 	callHandler,
 	createRegistry,
@@ -41,6 +41,30 @@ describe("tool behaviour", () => {
 
 		expect(tool).toBeDefined();
 		const result = await callHandler<RenderedToolResult>(tool, {});
+		expect(result.warnings.join("\n")).toContain(
+			"get_component_docs with { componentId: 'legacycomponent' }",
+		);
+	});
+
+	it("keeps status warnings of fallback component tools through output validation", async () => {
+		const registry = createRegistry([
+			{
+				id: "legacycomponent",
+				title: "LegacyComponent",
+				status: "deprecated",
+				category: "interactive",
+				strategy: "fallback",
+				guidance: { de: "", en: "" },
+				htmlCanonical: '<div class="kern-body">Legacy</div>',
+			},
+		]);
+
+		const tool = createTools(registry).getTool("get_legacycomponent");
+		expect(tool).toBeDefined();
+		if (!tool) return;
+
+		// invokeTool parses the handler result with outputSchema, which strips unknown keys.
+		const result = (await invokeTool(tool, {})) as RenderedToolResult;
 		expect(result.warnings.join("\n")).toContain(
 			"get_component_docs with { componentId: 'legacycomponent' }",
 		);

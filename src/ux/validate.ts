@@ -1,10 +1,8 @@
 import { parse } from "node-html-parser";
-import type { Locale, ValidationIssue } from "./types.js";
+import type { Locale } from "./types.js";
+import type { ValidationIssue, ValidationResult } from "./validate.schema.js";
 
-export type ValidationResult = {
-	ok: boolean;
-	issues: ValidationIssue[];
-};
+export type { ValidationResult } from "./validate.schema.js";
 
 type HtmlNodeLike = {
 	getAttribute?(name: string): string | undefined;

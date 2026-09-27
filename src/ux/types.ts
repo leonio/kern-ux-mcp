@@ -102,15 +102,7 @@ export type RegistryManifest = {
 	components: ComponentInfo[];
 };
 
-export type ValidationIssue = {
-	ruleId: string;
-	severity: "error" | "warning";
-	message: {
-		en: string;
-		de: string;
-	};
-	selectorHint?: string;
-};
+export type { ValidationIssue } from "./validate.schema.js";
 
 /** Bilingual string for localized messages */
 export type LocalizedString = {

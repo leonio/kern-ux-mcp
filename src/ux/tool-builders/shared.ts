@@ -2,6 +2,7 @@ import { z } from "zod";
 import { pickLocale, t } from "../i18n.js";
 import type { ComponentInfo, Locale } from "../types.js";
 import { validateHtmlStrict } from "../validate.js";
+import { ValidationResultSchema } from "../validate.schema.js";
 
 /**
  * Shared tool-builder primitives used by all strategy modules.
@@ -20,26 +21,14 @@ export type ToolDef = {
 };
 
 /**
- * Standard output contract for component generation tools.
+ * Standard output contract for every HTML-producing tool.
  */
 export const ComponentOutputSchema = z.object({
 	html: z.string(),
 	warnings: z.array(z.string()).default([]),
-	validation: z
-		.object({
-			ok: z.boolean(),
-			issues: z
-				.array(
-					z.object({
-						ruleId: z.string(),
-						severity: z.enum(["error", "warning"]),
-						message: z.object({ en: z.string(), de: z.string() }),
-						selectorHint: z.string().optional(),
-					}),
-				)
-				.default([]),
-		})
-		.describe("Validierungsergebnis (strict-mode relevant)."),
+	validation: ValidationResultSchema.describe(
+		"Validierungsergebnis (strict-mode relevant).",
+	),
 });
 
 export function experimentalBanner(component: ComponentInfo) {
