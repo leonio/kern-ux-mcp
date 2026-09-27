@@ -1,3 +1,4 @@
+import { execFileSync } from "node:child_process";
 import fs from "node:fs/promises";
 import path from "node:path";
 
@@ -10,6 +11,7 @@ import type {
 	ComponentStrategy,
 	RegistryManifest,
 	TokenSnapshot,
+	UpstreamSource,
 } from "../../src/ux/types.js";
 import { loadValidatedGuidanceOverlay } from "./guidance-overlay.js";
 import { getKernUxPlainRoot } from "./paths.js";
@@ -523,10 +525,33 @@ async function buildManifest(): Promise<RegistryManifest> {
 	return {
 		manifestVersion: "1.0.0",
 		generatedAt: new Date().toISOString(),
-		sourceRoot: kernRoot,
+		upstream: await readUpstreamSource(kernRoot),
 		tokens,
 		components,
 	};
+}
+
+/**
+ * Records which KERN UX release the manifest describes, instead of the local
+ * checkout path. The commit is omitted when the checkout isn't a git repository.
+ */
+async function readUpstreamSource(kernRoot: string): Promise<UpstreamSource> {
+	const pkg = JSON.parse(
+		await fs.readFile(path.join(kernRoot, "package.json"), "utf8"),
+	) as { name: string; version: string };
+
+	let commit: string | undefined;
+	try {
+		commit =
+			execFileSync("git", ["rev-parse", "--short", "HEAD"], {
+				cwd: kernRoot,
+				encoding: "utf8",
+			}).trim() || undefined;
+	} catch {
+		commit = undefined;
+	}
+
+	return { package: pkg.name, version: pkg.version, commit };
 }
 
 async function main() {

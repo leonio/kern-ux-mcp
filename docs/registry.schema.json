@@ -118,14 +118,24 @@
 	"required": [
 		"manifestVersion",
 		"generatedAt",
-		"sourceRoot",
+		"upstream",
 		"tokens",
 		"components"
 	],
 	"properties": {
 		"manifestVersion": { "type": "string" },
 		"generatedAt": { "type": "string", "format": "date-time" },
-		"sourceRoot": { "type": "string" },
+		"upstream": {
+			"type": "object",
+			"description": "The upstream KERN UX release the manifest was generated from.",
+			"required": ["package", "version"],
+			"properties": {
+				"package": { "type": "string" },
+				"version": { "type": "string" },
+				"commit": { "type": "string" }
+			},
+			"additionalProperties": false
+		},
 		"tokens": {
 			"type": "object",
 			"required": ["colors", "spacing", "rawVariables"],

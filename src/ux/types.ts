@@ -94,10 +94,17 @@ export type Registry = {
 	byId: Map<string, ComponentInfo>;
 };
 
+/** The upstream KERN UX release a manifest was generated from. */
+export type UpstreamSource = {
+	package: string;
+	version: string;
+	commit?: string;
+};
+
 export type RegistryManifest = {
 	manifestVersion: string;
 	generatedAt: string;
-	sourceRoot: string;
+	upstream: UpstreamSource;
 	tokens: TokenSnapshot;
 	components: ComponentInfo[];
 };
