@@ -1,0 +1,15 @@
+{
+	"compilerOptions": {
+		"target": "ES2024",
+		"module": "NodeNext",
+		"moduleResolution": "NodeNext",
+		"types": ["node"],
+		"strict": true,
+		"resolveJsonModule": true,
+		"composite": true,
+		"verbatimModuleSyntax": true,
+		"rootDir": "src",
+		"outDir": "dist"
+	},
+	"include": ["src/**/*.ts", "src/**/*.json"]
+}

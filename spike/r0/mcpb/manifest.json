@@ -1,0 +1,48 @@
+{
+	"manifest_version": "0.3",
+	"name": "kern-ux-mcp-spike",
+	"display_name": "KERN UX (R0 spike)",
+	"version": "0.0.0-spike.1",
+	"description": "R0 spike build of the KERN UX MCP server on SDK v2. Throwaway, for client testing only.",
+	"author": { "name": "Leon Ioannides", "url": "https://github.com/leonio" },
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/leonio/kern-ux-mcp.git"
+	},
+	"license": "EUPL-1.2",
+	"server": {
+		"type": "node",
+		"entry_point": "server/index.js",
+		"mcp_config": {
+			"command": "node",
+			"args": ["${__dirname}/server/index.js"],
+			"env": {
+				"KERN_SPIKE_COMPAT": "1",
+				"KERN_SPIKE_PAD": "${user_config.pad_tools}",
+				"KERN_DEBUG": "${user_config.debug}"
+			}
+		}
+	},
+	"user_config": {
+		"pad_tools": {
+			"type": "number",
+			"title": "Padding tools",
+			"description": "Extra no-op tools to register (R0 tool-count probe).",
+			"default": 0,
+			"min": 0,
+			"max": 200,
+			"required": false
+		},
+		"debug": {
+			"type": "boolean",
+			"title": "Debug logging",
+			"description": "Write debug logs to stderr.",
+			"default": false,
+			"required": false
+		}
+	},
+	"compatibility": {
+		"platforms": ["win32", "darwin", "linux"],
+		"runtimes": { "node": ">=24" }
+	}
+}
