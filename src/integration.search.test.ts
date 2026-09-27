@@ -113,7 +113,7 @@ describe("Elterngeld search-result composition", () => {
 
 		const result = (await tool?.handler({
 			locale: "de",
-			contentBlocks: searchResultComposition as any,
+			contentBlocks: searchResultComposition,
 		})) as { html: string; warnings: string[] };
 
 		// Verify key structural elements are present

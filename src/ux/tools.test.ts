@@ -1,6 +1,11 @@
 import { describe, expect, it } from "vitest";
 
 import {
+	findVariant,
+	type JsonSchemaNode,
+	schemaVariants,
+} from "../test-support/json-schema.js";
+import {
 	createRegistry,
 	invokeTool,
 	type RenderedToolResult,
@@ -22,7 +27,7 @@ type DocsToolResult = {
 function getListedToolSchema(
 	tools: ReturnType<typeof createTools>,
 	name: string,
-): Record<string, any> {
+): JsonSchemaNode {
 	const listedTool = tools.listTools().find((entry) => entry.name === name);
 	expect(listedTool).toBeDefined();
 	if (!listedTool) {
@@ -31,7 +36,7 @@ function getListedToolSchema(
 
 	expect(listedTool.inputSchema.type).toBe("object");
 
-	return listedTool.inputSchema as Record<string, any>;
+	return listedTool.inputSchema as JsonSchemaNode;
 }
 
 describe("createTools foundational strategy routing", () => {
@@ -561,25 +566,27 @@ describe("createTools foundational strategy routing", () => {
 		const checkboxSchema = getListedToolSchema(tools, "get_checkbox");
 		const radioSchema = getListedToolSchema(tools, "get_radio");
 
-		const checkboxVariants = checkboxSchema.anyOf ?? checkboxSchema.oneOf;
-		const radioVariants = radioSchema.anyOf ?? radioSchema.oneOf;
+		const checkboxVariants = schemaVariants(checkboxSchema);
+		const radioVariants = schemaVariants(radioSchema);
 
 		expect(checkboxSchema.description).toContain("Einzel- oder Listen-Modus");
 		expect(radioSchema.description).toContain("Einzel- oder Listen-Modus");
-		expect(Array.isArray(checkboxVariants)).toBe(true);
-		expect(Array.isArray(radioVariants)).toBe(true);
 
-		const checkboxSingle = checkboxVariants.find(
-			(variant: any) => variant.properties?.mode?.default === "single",
+		const checkboxSingle = findVariant(
+			checkboxVariants,
+			(variant) => variant.properties?.mode?.default === "single",
 		);
-		const checkboxList = checkboxVariants.find(
-			(variant: any) => variant.properties?.mode?.const === "list",
+		const checkboxList = findVariant(
+			checkboxVariants,
+			(variant) => variant.properties?.mode?.const === "list",
 		);
-		const radioSingle = radioVariants.find(
-			(variant: any) => variant.properties?.mode?.const === "single",
+		const radioSingle = findVariant(
+			radioVariants,
+			(variant) => variant.properties?.mode?.const === "single",
 		);
-		const radioList = radioVariants.find(
-			(variant: any) => variant.properties?.mode?.const === "list",
+		const radioList = findVariant(
+			radioVariants,
+			(variant) => variant.properties?.mode?.const === "list",
 		);
 
 		expect(checkboxSingle.properties.label.description).toContain(
@@ -798,7 +805,7 @@ describe("createTools foundational strategy routing", () => {
 		const tools = createTools(registry);
 		const buttonSchema = getListedToolSchema(tools, "get_button");
 		const accordionSchema = getListedToolSchema(tools, "get_accordion");
-		const accordionVariants = accordionSchema.anyOf ?? accordionSchema.oneOf;
+		const accordionVariants = schemaVariants(accordionSchema);
 
 		expect(buttonSchema.description).toContain("Icon-only-Muster");
 		expect(buttonSchema.properties.label.description).toContain("sr-only");
@@ -812,13 +819,14 @@ describe("createTools foundational strategy routing", () => {
 		);
 
 		expect(accordionSchema.description).toContain("single oder group");
-		expect(Array.isArray(accordionVariants)).toBe(true);
 
-		const accordionSingle = accordionVariants.find(
-			(variant: any) => variant.properties?.mode?.default === "single",
+		const accordionSingle = findVariant(
+			accordionVariants,
+			(variant) => variant.properties?.mode?.default === "single",
 		);
-		const accordionGroup = accordionVariants.find(
-			(variant: any) => variant.properties?.mode?.const === "group",
+		const accordionGroup = findVariant(
+			accordionVariants,
+			(variant) => variant.properties?.mode?.const === "group",
 		);
 
 		expect(accordionSingle.description).toContain("<details>/<summary>");
@@ -893,7 +901,7 @@ describe("createTools foundational strategy routing", () => {
 		const tools = createTools(registry);
 		const iconSchema = getListedToolSchema(tools, "get_icon");
 		const summarySchema = getListedToolSchema(tools, "get_summary");
-		const summaryVariants = summarySchema.anyOf ?? summarySchema.oneOf;
+		const summaryVariants = schemaVariants(summarySchema);
 
 		expect(iconSchema.description).toContain('aria-hidden="false"');
 		expect(iconSchema.properties.name.description).toContain(
@@ -909,13 +917,14 @@ describe("createTools foundational strategy routing", () => {
 
 		expect(summarySchema.description).toContain("Bearbeitungslinks");
 		expect(summarySchema.description).toContain("Tasklist");
-		expect(Array.isArray(summaryVariants)).toBe(true);
 
-		const summarySingle = summaryVariants.find(
-			(variant: any) => variant.properties?.mode?.const === "single",
+		const summarySingle = findVariant(
+			summaryVariants,
+			(variant) => variant.properties?.mode?.const === "single",
 		);
-		const summaryGroup = summaryVariants.find(
-			(variant: any) => variant.properties?.mode?.const === "group",
+		const summaryGroup = findVariant(
+			summaryVariants,
+			(variant) => variant.properties?.mode?.const === "group",
 		);
 
 		expect(summarySingle.properties.items.description).toContain(
@@ -1503,32 +1512,25 @@ describe("createTools foundational strategy routing", () => {
 
 	it("listTools emits recursive $ref pointers for render_composition", () => {
 		const tools = createTools(createRegistry([]));
-		const renderComposition = tools
-			.listTools()
-			.find((tool) => tool.name === "render_composition");
+		const schema = getListedToolSchema(tools, "render_composition");
 
-		expect(renderComposition).toBeDefined();
-
-		const schema = renderComposition?.inputSchema as any;
-
-		expect(schema.type).toBe("object");
 		expect(schema.definitions).toBeUndefined();
 
-		const recursiveNodes = schema.properties?.contentBlocks?.items?.anyOf;
-
-		expect(Array.isArray(recursiveNodes)).toBe(true);
+		const recursiveNodes = schemaVariants(
+			schema.properties.contentBlocks.items,
+		);
 
 		const sectionNode = recursiveNodes.find(
-			(node: any) => node?.properties?.kind?.const === "section",
+			(node) => node?.properties?.kind?.const === "section",
 		);
 		const gridNode = recursiveNodes.find(
-			(node: any) => node?.properties?.kind?.const === "grid",
+			(node) => node?.properties?.kind?.const === "grid",
 		);
 		const cardNode = recursiveNodes.find(
-			(node: any) => node?.properties?.kind?.const === "card",
+			(node) => node?.properties?.kind?.const === "card",
 		);
 		const formFlowNode = recursiveNodes.find(
-			(node: any) => node?.properties?.kind?.const === "formFlow",
+			(node) => node?.properties?.kind?.const === "formFlow",
 		);
 
 		expect(

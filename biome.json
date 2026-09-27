@@ -8,18 +8,6 @@
 	"files": {
 		"includes": ["**", "!src/ux/registry.json", "!samples/basic-layout/assets"]
 	},
-	"overrides": [
-		{
-			"includes": ["**/*.test.ts"],
-			"linter": {
-				"rules": {
-					"suspicious": {
-						"noExplicitAny": "off"
-					}
-				}
-			}
-		}
-	],
 	"linter": {
 		"enabled": true
 	}

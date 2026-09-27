@@ -1,12 +1,13 @@
 import { describe, expect, it } from "vitest";
 
+import type { JsonSchemaNode } from "../../test-support/json-schema.js";
 import { toolInputSchemaToJsonSchema } from "../json-schema.js";
 import { DialogSchema } from "./dialog.js";
 
 describe("DialogSchema JSON Schema serialization", () => {
 	const jsonSchema = toolInputSchemaToJsonSchema(DialogSchema, {
 		refStrategy: "none",
-	}) as any;
+	}) as JsonSchemaNode;
 
 	const props = jsonSchema.properties ?? {};
 	const required: string[] = jsonSchema.required ?? [];
@@ -57,7 +58,7 @@ describe("DialogSchema JSON Schema serialization", () => {
 		// zodToJsonSchema may use anyOf for optional+default or direct enum
 		const enumValues =
 			triggerVariant?.enum ??
-			triggerVariant?.anyOf?.find((s: any) => s.enum)?.enum ??
+			triggerVariant?.anyOf?.find((s) => s.enum)?.enum ??
 			triggerVariant?.default;
 		expect(enumValues).toBeDefined();
 	});
