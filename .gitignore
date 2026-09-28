@@ -42,3 +42,9 @@ coverage/
 
 # BOM with syft
 sbom.cyclonedx.json
+
+# Fully inlined host bundles (tools/build/bundle.ts)
+standalone/
+# README.md and LICENSE.md are copied from the repo root when a package is packed
+packages/*/README.md
+packages/*/LICENSE.md

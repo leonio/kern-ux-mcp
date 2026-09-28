@@ -39,6 +39,7 @@
 	},
 	"scripts": {
 		"build": "tsx ../../tools/build/bundle.ts",
+		"prepack": "node -e \"for (const file of ['README.md', 'LICENSE.md']) require('node:fs').copyFileSync('../../' + file, file)\"",
 		"build:watch": "tsx ../../tools/build/bundle.ts --watch",
 		"dev": "tsx --conditions=@leonio/source src/index.ts",
 		"start": "node dist/index.js"
