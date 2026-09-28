@@ -1,0 +1,25 @@
+# The HTTP server in a container, reachable at http://localhost:3000/mcp.
+#   docker compose -f packages/http/compose.yaml up --build
+# To run the published image instead of building, delete the build section and
+# set image: ghcr.io/leonio/kern-ux-mcp-http:<version>.
+services:
+  kern-ux-mcp-http:
+    image: kern-ux-mcp-http:local
+    build:
+      context: ../..
+      dockerfile: packages/http/Dockerfile
+    ports:
+      # Only this machine can connect. Publish on all interfaces only with KERN_AUTH_TOKEN set.
+      - "127.0.0.1:3000:3000"
+    environment:
+      # Hostnames clients use to reach the server; add yours (or a tunnel's) here.
+      KERN_ALLOWED_HOSTS: localhost,127.0.0.1
+      # KERN_ALLOWED_ORIGINS: app.example.com
+      # KERN_AUTH_TOKEN: a-long-random-token
+      # KERN_RATE_LIMIT: "120"
+      # KERN_CORS_ORIGINS: https://app.example.com
+      # KERN_DEBUG: "1"
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    restart: unless-stopped

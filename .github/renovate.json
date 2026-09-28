@@ -24,6 +24,12 @@
 			"matchPackageNames": ["/^@modelcontextprotocol//"]
 		},
 		{
+			"description": "Container base images stay on Node 24 (the engines floor): digest, minor and patch updates only. A major would also be committed as breaking (feat!).",
+			"matchDatasources": ["docker"],
+			"matchUpdateTypes": ["major"],
+			"enabled": false
+		},
+		{
 			"description": "Force semantic commits so GitVersion bumps the patch number on main",
 			"matchUpdateTypes": ["minor", "patch"],
 			"semanticCommitType": "fix",

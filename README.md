@@ -101,6 +101,16 @@ The server refuses to start with a setting it can't apply, such as a public `HOS
 
 The probes skip the `Host` check and the token, so orchestrators can call them by IP. On `SIGTERM` or `SIGINT` the server stops accepting connections, gives in-flight requests up to 8 seconds to finish, and exits.
 
+### Container
+
+The image `ghcr.io/leonio/kern-ux-mcp-http` runs the server on distroless Node 24 as a non-root user, with no shell and no `node_modules`. It sets `HOST=0.0.0.0`, so it needs `KERN_ALLOWED_HOSTS`:
+
+```bash
+docker run --rm -p 127.0.0.1:3000:3000 -e KERN_ALLOWED_HOSTS=localhost ghcr.io/leonio/kern-ux-mcp-http:<version>
+```
+
+Tags follow npm: the version, plus `alpha` for pre-releases or `latest` for releases. The image has a `HEALTHCHECK` on `/healthz` and works with a read-only root filesystem (`--read-only`). To build it from a checkout, run `npm run docker:build`, or `docker compose -f packages/http/compose.yaml up --build`: [compose.yaml](https://github.com/leonio/kern-ux-mcp/blob/main/packages/http/compose.yaml) has the settings commented in.
+
 ### Security
 
 - Without `KERN_AUTH_TOKEN`, anyone who can reach the port can use the server. Keep it on a trusted network, or set a long random token.

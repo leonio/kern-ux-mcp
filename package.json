@@ -23,6 +23,7 @@
 		"build:watch": "npm run build:watch -w packages/stdio",
 		"start": "node packages/stdio/dist/index.js",
 		"start:http": "node packages/http/dist/index.js",
+		"docker:build": "docker build -f packages/http/Dockerfile -t kern-ux-mcp-http:dev .",
 		"typecheck": "tsc --noEmit && tsc -p tsconfig.tools.json",
 		"loop:start": "npm run generate-manifest && pwsh -NoLogo -ExecutionPolicy Bypass -File ./tools/dev/dev-loop.ps1",
 		"loop:full": "npm run generate-manifest && pwsh -NoLogo -ExecutionPolicy Bypass -File ./tools/dev/dev-loop.ps1 -WatchTests -WatchBuild -OpenSample -DebugMcp",
