@@ -1,9 +1,8 @@
 #!/usr/bin/env node
 
+import { createKernServer, getCatalog } from "@leonio/kern-ux-core";
 import { serveStdio } from "@modelcontextprotocol/server/stdio";
 import pkg from "../package.json" with { type: "json" };
-import { getCatalog } from "./mcp/catalog.js";
-import { createKernServer } from "./mcp/create-server.js";
 
 try {
 	// Build the tool catalog up front, so a broken registry fails at startup

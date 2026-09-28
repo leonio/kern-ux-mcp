@@ -1,8 +1,8 @@
 {
-	"name": "@leonio/kern-ux-mcp",
-	"version": "0.0.0-semver",
+	"name": "kern-ux-mcp-workspace",
+	"private": true,
 	"type": "module",
-	"description": "Model Context Protocol (MCP) language server providing Kern UX component generation and strict accessibility validation.",
+	"description": "Workspace root for the Kern UX MCP server: the private core library and the published hosts.",
 	"license": "EUPL-1.2",
 	"author": "Leon Ioannides <leonio@users.noreply.github.com>",
 	"homepage": "https://github.com/leonio/kern-ux-mcp#readme",
@@ -10,51 +10,28 @@
 		"type": "git",
 		"url": "https://github.com/leonio/kern-ux-mcp.git"
 	},
-	"bugs": {
-		"url": "https://github.com/leonio/kern-ux-mcp/issues"
-	},
-	"keywords": [
-		"mcp",
-		"mcp-server",
-		"mcp-language-server",
-		"model-context-protocol",
-		"kern-ux"
+	"workspaces": [
+		"packages/*"
 	],
-	"bin": {
-		"kern-ux-mcp": "./dist/index.js"
-	},
-	"files": [
-		"dist",
-		"!dist/**/*.test.js",
-		"sbom.cyclonedx.json",
-		"README.md",
-		"LICENSE.md"
-	],
-	"publishConfig": {
-		"access": "public",
-		"provenance": true
-	},
 	"engines": {
 		"node": ">=24.16.0"
 	},
 	"scripts": {
-		"dev": "tsx src/index.ts",
-		"clean": "node -e \"require('node:fs').rmSync('dist', { recursive: true, force: true })\"",
-		"build:watch": "tsc -p tsconfig.build.json --watch",
+		"dev": "tsx --conditions=@leonio/source packages/stdio/src/index.ts",
+		"build": "npm run build -ws --if-present",
+		"build:watch": "npm run build:watch -w packages/stdio",
+		"start": "node packages/stdio/dist/index.js",
+		"typecheck": "tsc --noEmit && tsc -p tsconfig.tools.json",
 		"loop:start": "npm run generate-manifest && pwsh -NoLogo -ExecutionPolicy Bypass -File ./tools/dev/dev-loop.ps1",
 		"loop:full": "npm run generate-manifest && pwsh -NoLogo -ExecutionPolicy Bypass -File ./tools/dev/dev-loop.ps1 -WatchTests -WatchBuild -OpenSample -DebugMcp",
 		"loop:stop": "pwsh -NoLogo -ExecutionPolicy Bypass -File ./tools/dev/dev-loop.ps1 -Stop",
 		"validate-guidance-overlay": "tsx tools/manifest/validate-guidance-overlay.ts",
 		"generate-manifest": "tsx tools/manifest/build-manifest.ts",
-		"prebuild": "npm run generate-manifest",
-		"build": "npm run clean && tsc -p tsconfig.build.json && echo 'Version injected by CI'",
-		"build:ci": "npm run clean && tsc -p tsconfig.build.json",
 		"sbom:generate": "syft scan dir:. --output cyclonedx-json=sbom.cyclonedx.json",
 		"scan:vulns": "npm run sbom:generate && grype sbom:sbom.cyclonedx.json",
 		"scan:vulns:high": "npm run sbom:generate && grype sbom:sbom.cyclonedx.json --fail-on high",
-		"pack:inspect": "npm run build:ci && npm run sbom:generate && npm pack --dry-run",
-		"pack:release": "npm run build:ci && npm run sbom:generate && npm pack",
-		"start": "node dist/index.js",
+		"pack:inspect": "npm run build && npm pack --dry-run -w packages/stdio",
+		"pack:release": "npm run build && npm pack -w packages/stdio",
 		"sample:dev": "npm --prefix samples/basic-layout run dev",
 		"test": "vitest run",
 		"test:watch": "vitest",
@@ -65,11 +42,6 @@
 		"check-version": "dotnet-gitversion /version",
 		"pre-commit": "npm run lint && npm run check-version"
 	},
-	"dependencies": {
-		"@modelcontextprotocol/server": "^2.1.0",
-		"node-html-parser": "^9.0.0",
-		"zod": "^4.4.3"
-	},
 	"devDependencies": {
 		"@biomejs/biome": "^2.5.11",
 		"@modelcontextprotocol/client": "^2.1.0",
@@ -77,6 +49,7 @@
 		"@vitest/coverage-v8": "^5.0.2",
 		"ajv": "^8.20.0",
 		"ajv-formats": "^3.0.1",
+		"esbuild": "^0.28.2",
 		"fast-glob": "^3.3.3",
 		"tsx": "^4.23.12",
 		"typescript": "^7.0.0",

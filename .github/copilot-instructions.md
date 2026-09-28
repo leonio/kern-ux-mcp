@@ -1,8 +1,8 @@
 # Copilot Instructions
 
-- This repo is a TypeScript MCP server for KERN UX. Runtime flow is: `src/index.ts` -> `src/mcp/create-server.ts` (MCP SDK v2 `McpServer`) -> `src/ux/tools.ts` -> tool builders in `src/ux/tool-builders/` -> component schemas in `src/ux/schemas/` -> HTML templates in `src/ux/templates/`.
-- `src/ux/registry.json` is generated runtime data, not source. It is built by `tools/manifest/build-manifest.ts` from `kern-ux-plain` stories, markdown component docs, and the reviewed overlay in `docs/guidance-overlay.json`.
-- Never edit generated artifacts directly: do not hand-edit `src/ux/registry.json` or `dist/ux/registry.json`. Change source inputs, then regenerate.
+- This repo is a TypeScript MCP server for KERN UX. Runtime flow is: `packages/stdio/src/index.ts` -> `packages/core/src/mcp/create-server.ts` (MCP SDK v2 `McpServer`) -> `packages/core/src/ux/tools.ts` -> tool builders in `packages/core/src/ux/tool-builders/` -> component schemas in `packages/core/src/ux/schemas/` -> HTML templates in `packages/core/src/ux/templates/`.
+- `packages/core/src/ux/registry.json` is generated runtime data, not source. It is built by `tools/manifest/build-manifest.ts` from `kern-ux-plain` stories, markdown component docs, and the reviewed overlay in `docs/guidance-overlay.json`.
+- Never edit generated artifacts directly: do not hand-edit `packages/core/src/ux/registry.json`. Change source inputs, then regenerate.
 - Keep the public MCP contract stable unless the task explicitly changes it. Important rules: tool names stay `get_<component-id>`, `checkboxlist` remains merged into `get_checkbox`, and `strict: true` must keep failing the call on validation failures (the handler throws, and clients get an `isError` result with the issues).
 - When changing component behavior, update the owning schema, the owning template, and the nearest focused tests together. Prefer small local changes over broad refactors.
 - When changing guidance, keep extracted guidance and reviewed guidance separate. `guidance` and `guidanceSections` come from source extraction; `reviewedGuidance` is additive, build-time merged, and must be evidence-backed.

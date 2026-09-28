@@ -1,6 +1,6 @@
 ---
 description: "Use when changing a KERN UX component tool, schema, template, or focused runtime tests. Covers schema updates, template rendering changes, tool-builder wiring, and the nearest validation path."
-applyTo: "src/ux/schemas/**, src/ux/templates/**, src/ux/tool-builders/**, src/ux/tools.ts, src/ux/**/*.test.ts"
+applyTo: "packages/core/src/ux/schemas/**, packages/core/src/ux/templates/**, packages/core/src/ux/tool-builders/**, packages/core/src/ux/tools.ts, packages/core/src/ux/**/*.test.ts"
 ---
 
 # Component Change Rules

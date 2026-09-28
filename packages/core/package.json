@@ -1,0 +1,21 @@
+{
+	"name": "@leonio/kern-ux-core",
+	"version": "0.0.0-semver",
+	"private": true,
+	"description": "KERN UX tool definitions, schemas, templates, validation and the MCP server factory. Never published: the hosts inline it at build time.",
+	"license": "EUPL-1.2",
+	"type": "module",
+	"exports": {
+		".": {
+			"@leonio/source": "./src/index.ts"
+		}
+	},
+	"engines": {
+		"node": ">=24.16.0"
+	},
+	"dependencies": {
+		"@modelcontextprotocol/server": "^2.1.0",
+		"node-html-parser": "^9.0.0",
+		"zod": "^4.4.3"
+	}
+}

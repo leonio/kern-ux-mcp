@@ -41,9 +41,9 @@ jobs:
       - name: TypeScript Check (tooling)
         run: npx tsc -p tsconfig.tools.json
 
-      # Same build the release workflow runs, so tsconfig.build.json / manifest-copy breakage fails the PR, not the release.
+      # Same build the release workflow runs, so bundling breakage fails the PR, not the release.
       - name: Build
-        run: npm run build:ci
+        run: npm run build
 
       - name: Run Tests (with coverage)
         run: npm run test:coverage

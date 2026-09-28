@@ -29,7 +29,7 @@ The current repo already includes the core offline workflow:
 - reviewed payload in [guidance-overlay.json](guidance-overlay.json)
 - standalone validation via `npm run validate-guidance-overlay`
 - build-time merge in [tools/manifest/build-manifest.ts](tools/manifest/build-manifest.ts)
-- merged runtime artifact in [src/ux/registry.json](src/ux/registry.json)
+- merged runtime artifact in [packages/core/src/ux/registry.json](../packages/core/src/ux/registry.json)
 - runtime docs exposure through `get_component_docs`
 - repo-local authoring support in [.github/prompts/draft-guidance-overlay-entry.prompt.md](.github/prompts/draft-guidance-overlay-entry.prompt.md) and [.github/copilot-instructions.md](.github/copilot-instructions.md)
 
@@ -197,7 +197,7 @@ If the live doc site is unavailable, the workflow must still function using chec
 
 The following artifact split is the intended direction:
 
-- generated implementation manifest: existing `src/ux/registry.json` pipeline
+- generated implementation manifest: existing `packages/core/src/ux/registry.json` pipeline
 - curated guidance overlay: checked-in `docs/guidance-overlay.json`
 - merged runtime registry: output consumed by the MCP server
 
@@ -229,7 +229,7 @@ Phase 1 output now exists as [guidance-overlay.schema.json](guidance-overlay.sch
 - keep runtime loading local and unchanged in spirit
 - add validation for missing or malformed overlay content
 
-Phase 2 output now exists in [tools/manifest/build-manifest.ts](../tools/manifest/build-manifest.ts), which validates [guidance-overlay.json](guidance-overlay.json) against [guidance-overlay.schema.json](guidance-overlay.schema.json) and merges the reviewed guidance into [src/ux/registry.json](../src/ux/registry.json) under a dedicated `reviewedGuidance` field.
+Phase 2 output now exists in [tools/manifest/build-manifest.ts](../tools/manifest/build-manifest.ts), which validates [guidance-overlay.json](guidance-overlay.json) against [guidance-overlay.schema.json](guidance-overlay.schema.json) and merges the reviewed guidance into [packages/core/src/ux/registry.json](../packages/core/src/ux/registry.json) under a dedicated `reviewedGuidance` field.
 
 ### Phase 3 — Add Lightweight Authoring Support
 

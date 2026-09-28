@@ -1,0 +1,21 @@
+{
+	"compilerOptions": {
+		"target": "ES2024",
+		"lib": ["ES2024"],
+		"types": ["node"],
+		"module": "NodeNext",
+		"moduleResolution": "NodeNext",
+		// Workspace packages resolve to their TypeScript source (see packages/core/package.json).
+		// Scoped, because "source" alone is taken: eventsource-parser exports raw .ts under it.
+		// Type-checking needs no build; esbuild and tsx use the same condition.
+		"customConditions": ["@leonio/source"],
+		"strict": true,
+		"verbatimModuleSyntax": true,
+		"isolatedModules": true,
+		"resolveJsonModule": true,
+		"skipLibCheck": true,
+		"forceConsistentCasingInFileNames": true,
+		// esbuild emits the bundles; tsc only type-checks.
+		"noEmit": true
+	}
+}

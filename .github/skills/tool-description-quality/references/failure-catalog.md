@@ -11,7 +11,7 @@ Failure class: Wrong param name | Missing required arg | Bad component ID
 Observed call: <tool>(<args>)
 Error: <exact error text>
 Root cause: <what in the description text led here>
-Fix applied: <what was changed in src/ux/tools.ts>
+Fix applied: <what was changed in packages/core/src/ux/tools.ts>
 ```
 
 ---

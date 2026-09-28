@@ -13,7 +13,7 @@ Each finding has the same four parts:
 
 ## 1. Wiring lives in `server.ts`, not `index.ts`
 
-**Where:** [src/index.ts](../../src/index.ts), [src/server.ts:511-565](../../src/server.ts)
+**Where:** [src/index.ts](../../packages/stdio/src/index.ts), [src/server.ts:511-565](../../src/server.ts)
 
 **Problem:** None in `index.ts` itself. At 15 lines, it's a good entry point. Tool wiring actually happens in `createServer()`, which works like this:
 
@@ -36,11 +36,11 @@ Each finding has the same four parts:
 **Problem:**
 
 - Adding or renaming a tool means editing `server.ts` far from the tool's definition. Nothing checks that the names still match.
-- Several hints repeat the known-good payload that is already in the tool's `description`. `get_section` is one example, at [tools.ts:503](../../src/ux/tools.ts).
+- Several hints repeat the known-good payload that is already in the tool's `description`. `get_section` is one example, at [tools.ts:503](../../packages/core/src/ux/tools.ts).
 
 **Proposal:**
 
-1. Extend `ToolDef` in [src/ux/tool-builders/shared.ts:14](../../src/ux/tool-builders/shared.ts):
+1. Extend `ToolDef` in [src/ux/tool-builders/shared.ts:14](../../packages/core/src/ux/tool-builders/shared.ts):
 
    ```ts
    normalize?: (args: Record<string, unknown>) => unknown;
@@ -70,15 +70,15 @@ Each finding has the same four parts:
 
 **Risk:** Low. This is a pure extraction. [src/server.mcp.test.ts](../../src/server.mcp.test.ts) covers the handler end to end.
 
-**Note:** [src/test-support/tools.ts](../../src/test-support/tools.ts) already exports a test helper named `invokeTool`, which only calls `tool.handler`. When the production function lands, rename the test helper (for example to `callHandler`), or make the tests use the real pipeline.
+**Note:** [src/test-support/tools.ts](../../packages/core/src/test-support/tools.ts) already exports a test helper named `invokeTool`, which only calls `tool.handler`. When the production function lands, rename the test helper (for example to `callHandler`), or make the tests use the real pipeline.
 
 ## 4. Duplicated output and validation schemas
 
 **Where:**
 
-- The same Zod shape for validation issues appears in [src/ux/tools.ts](../../src/ux/tools.ts) at `buildComponentTool` (~79), `buildValidateHtmlTool` (~155), `buildGetSectionTool` (~480), `buildGetCardGroupTool` (~524), `buildGetDisclosureTool` (~570) and `buildRenderCompositionTool` (~665).
-- `ComponentOutputSchema` already exists at [src/ux/tool-builders/shared.ts:25](../../src/ux/tool-builders/shared.ts).
-- The TS type `ValidationResult` in [src/ux/validate.ts:4](../../src/ux/validate.ts) is declared separately.
+- The same Zod shape for validation issues appears in [src/ux/tools.ts](../../packages/core/src/ux/tools.ts) at `buildComponentTool` (~79), `buildValidateHtmlTool` (~155), `buildGetSectionTool` (~480), `buildGetCardGroupTool` (~524), `buildGetDisclosureTool` (~570) and `buildRenderCompositionTool` (~665).
+- `ComponentOutputSchema` already exists at [src/ux/tool-builders/shared.ts:25](../../packages/core/src/ux/tool-builders/shared.ts).
+- The TS type `ValidationResult` in [src/ux/validate.ts:4](../../packages/core/src/ux/validate.ts) is declared separately.
 
 **Problem:** There are 7 copies of the same contract, so a change to the validation output has to be made in every one.
 
@@ -95,9 +95,9 @@ Each finding has the same four parts:
 
 ## 5. Duplicated HTML-tool handlers
 
-**Where:** The `get_section`, `get_card_group` and `get_disclosure` handlers ([src/ux/tools.ts:478-611](../../src/ux/tools.ts)), and `render_composition` ([~693](../../src/ux/tools.ts)).
+**Where:** The `get_section`, `get_card_group` and `get_disclosure` handlers ([src/ux/tools.ts:478-611](../../packages/core/src/ux/tools.ts)), and `render_composition` ([~693](../../packages/core/src/ux/tools.ts)).
 
-**Problem:** All four handlers follow the same steps as `buildParameterizedComponentTool` ([shared.ts:96](../../src/ux/tool-builders/shared.ts)):
+**Problem:** All four handlers follow the same steps as `buildParameterizedComponentTool` ([shared.ts:96](../../packages/core/src/ux/tool-builders/shared.ts)):
 
 1. `pickLocale`
 2. `strict`
@@ -114,7 +114,7 @@ The only difference is that they aren't tied to a manifest component.
 
 ## 6. Interactive tool routing is declared three times
 
-**Where:** [src/ux/tool-builders/interactive.ts](../../src/ux/tool-builders/interactive.ts)
+**Where:** [src/ux/tool-builders/interactive.ts](../../packages/core/src/ux/tool-builders/interactive.ts)
 
 - `INTERACTIVE_PARAMETERIZED_IDS` (line 72)
 - 26 small `buildXTool` functions (lines 103-357)
@@ -133,11 +133,11 @@ const INTERACTIVE_TOOLS = {
 
 The ID set becomes `Object.keys(...)`, and dispatch becomes a lookup. With items 2 and 8, each entry can also carry `normalize` and `errorHint`.
 
-**Risk:** Medium. The descriptions are long strings, so copy them exactly. The tool-listing snapshot ([src/ux/tools.listing.test.ts](../../src/ux/tools.listing.test.ts)) catches any change to names, descriptions or schemas.
+**Risk:** Medium. The descriptions are long strings, so copy them exactly. The tool-listing snapshot ([src/ux/tools.listing.test.ts](../../packages/core/src/ux/tools.listing.test.ts)) catches any change to names, descriptions or schemas.
 
 ## 7. Double routing in `createTools`
 
-**Where:** [src/ux/tools.ts:781-815](../../src/ux/tools.ts)
+**Where:** [src/ux/tools.ts:781-815](../../packages/core/src/ux/tools.ts)
 
 **Problem:** The loop checks the manifest `strategy` first. It then falls back to `component.category === "interactive"`, `LAYOUT_MANIFEST_IDS` and `TYPOGRAPHY_MANIFEST_IDS`. That's two sources of truth for the same decision.
 
@@ -153,7 +153,7 @@ The ID set becomes `Object.keys(...)`, and dispatch becomes a lookup. With items
 
 ## 8. Types are erased at the `ToolDef` boundary
 
-**Where:** `ToolDef` and `ToolHandler` at [src/ux/tool-builders/shared.ts:10-21](../../src/ux/tool-builders/shared.ts)
+**Where:** `ToolDef` and `ToolHandler` at [src/ux/tool-builders/shared.ts:10-21](../../packages/core/src/ux/tool-builders/shared.ts)
 
 **Problem:**
 
@@ -178,7 +178,7 @@ The registry keeps storing the erased `ToolDef`, but each tool's definition is c
 
 ## 9. The `render_composition` closure web
 
-**Where:** [src/ux/tools.ts:697-739](../../src/ux/tools.ts)
+**Where:** [src/ux/tools.ts:697-739](../../packages/core/src/ux/tools.ts)
 
 **Problem:** Four mutually recursive arrow functions are rebuilt on every call, each using an `as Parameters<typeof buildX>[0]` cast. The recursion wiring is rendering logic, but it sits inside a tool definition.
 
@@ -198,7 +198,7 @@ The registry keeps storing the erased `ToolDef`, but each tool's definition is c
 
 ## 11. The registry check parses tool names
 
-**Where:** `validateRegistryAgainstToolNames`, [src/ux/registry.ts:55](../../src/ux/registry.ts)
+**Where:** `validateRegistryAgainstToolNames`, [src/ux/registry.ts:55](../../packages/core/src/ux/registry.ts)
 
 **Problem:** It strips `get_` from each tool name and special-cases `component_docs` to recover component IDs. Any tool that isn't named `get_<id>` breaks the check without any error.
 
@@ -213,11 +213,11 @@ The registry keeps storing the erased `ToolDef`, but each tool's definition is c
 ## 12. Dead or duplicated code
 
 - `export type ToolSchemas` at [src/server.ts:567](../../src/server.ts) isn't used anywhere.
-- `localizeIssues` at [src/ux/validate.ts:326](../../src/ux/validate.ts) isn't used, and its `_locale` parameter is ignored.
-- `_hasClass` at [src/ux/validate.ts:23](../../src/ux/validate.ts) isn't used.
-- `experimentalBanner` at [shared.ts:45](../../src/ux/tool-builders/shared.ts) is an alias of `statusBanner`. It's still used in `layout.ts` and `typography.ts`, and the name is misleading because the function handles deprecated components too.
-- `validate_html` computes `const _locale = pickLocale(...)` and never uses it ([tools.ts:174](../../src/ux/tools.ts)). Its `locale` input is effectively ignored.
-- `getCanonicalHtmlFromManifest` at [tools.ts:62](../../src/ux/tools.ts) is a one-line indirection.
+- `localizeIssues` at [src/ux/validate.ts:326](../../packages/core/src/ux/validate.ts) isn't used, and its `_locale` parameter is ignored.
+- `_hasClass` at [src/ux/validate.ts:23](../../packages/core/src/ux/validate.ts) isn't used.
+- `experimentalBanner` at [shared.ts:45](../../packages/core/src/ux/tool-builders/shared.ts) is an alias of `statusBanner`. It's still used in `layout.ts` and `typography.ts`, and the name is misleading because the function handles deprecated components too.
+- `validate_html` computes `const _locale = pickLocale(...)` and never uses it ([tools.ts:174](../../packages/core/src/ux/tools.ts)). Its `locale` input is effectively ignored.
+- `getCanonicalHtmlFromManifest` at [tools.ts:62](../../packages/core/src/ux/tools.ts) is a one-line indirection.
 - `src/ux/stories.ts` is used only by `stories.test.ts`. [tools/manifest/build-manifest.ts:222](../../tools/manifest/build-manifest.ts) has its own copy of `extractStoryHtmlTemplates`. Keep one copy: the tools version, or make it import the `src` one.
 - `src/ux/paths.ts` (`getKernUxPlainRoot`) is used only by the build-time tools, but it ships in `dist`. Move it under `tools/`.
 
@@ -273,7 +273,7 @@ Only migrate if the tool listing stays byte-compatible, or if a change to it is 
 
 ## 16. The `formFlow` schema is defined twice, and one copy is dead
 
-**Where:** [src/ux/schemas/form-flow.ts](../../src/ux/schemas/form-flow.ts) and the inline `formFlow` branch of [src/ux/schemas/content-union.ts](../../src/ux/schemas/content-union.ts) (~line 234).
+**Where:** [src/ux/schemas/form-flow.ts](../../packages/core/src/ux/schemas/form-flow.ts) and the inline `formFlow` branch of [src/ux/schemas/content-union.ts](../../packages/core/src/ux/schemas/content-union.ts) (~line 234).
 
 **Problem:**
 
@@ -299,8 +299,8 @@ Items 17–21 come from the MCP 2026-07-28 discovery on the same date, and item 
 
 **Where:**
 - [src/server.ts:511-565](../../src/server.ts): the low-level `Server` and hand-written handlers
-- [src/index.ts](../../src/index.ts)
-- [src/ux/json-schema.ts](../../src/ux/json-schema.ts)
+- [src/index.ts](../../packages/stdio/src/index.ts)
+- [src/ux/json-schema.ts](../../packages/core/src/ux/json-schema.ts)
 - [src/server.mcp.test.ts](../../src/server.mcp.test.ts)
 
 **Problem:**
@@ -339,7 +339,7 @@ The spike harness lived under `spike/r0/` on `feat/v2-alpha` until R2 replaced i
 
 **The adapter approach works. R2 can go ahead as planned.**
 
-**Listing.** Every setup lists 52 tools whose names, descriptions and `inputSchema`s deep-equal [tools-list.json](../../src/ux/__snapshots__/tools-list.json), ignoring key order. The setups:
+**Listing.** Every setup lists 52 tools whose names, descriptions and `inputSchema`s deep-equal [tools-list.json](../../packages/core/src/ux/__snapshots__/tools-list.json), ignoring key order. The setups:
 - SDK client over `InMemoryTransport` (2025)
 - `createMcpHandler().fetch` on 2025 and on 2026-07-28
 - a spawned stdio process on 2025 and on 2026-07-28
@@ -392,11 +392,11 @@ The R5 schema-shrink choice (A or B) and the compact-profile decision stay gated
 ## 18. Composition gaps and bugs
 
 **Where:**
-- [src/ux/schemas/content-union.ts](../../src/ux/schemas/content-union.ts) and [src/ux/templates/content-union.ts](../../src/ux/templates/content-union.ts): the block kinds
-- [src/ux/templates/form-flow.ts:134-144](../../src/ux/templates/form-flow.ts)
-- [src/ux/templates/fieldset.ts:20](../../src/ux/templates/fieldset.ts)
-- [src/ux/validate.ts:231](../../src/ux/validate.ts)
-- `templates/card.ts:105-109`, `templates/grid.ts:84-88`, [src/ux/tool-builders/layout.ts:70](../../src/ux/tool-builders/layout.ts)
+- [src/ux/schemas/content-union.ts](../../packages/core/src/ux/schemas/content-union.ts) and [src/ux/templates/content-union.ts](../../packages/core/src/ux/templates/content-union.ts): the block kinds
+- [src/ux/templates/form-flow.ts:134-144](../../packages/core/src/ux/templates/form-flow.ts)
+- [src/ux/templates/fieldset.ts:20](../../packages/core/src/ux/templates/fieldset.ts)
+- [src/ux/validate.ts:231](../../packages/core/src/ux/validate.ts)
+- `templates/card.ts:105-109`, `templates/grid.ts:84-88`, [src/ux/tool-builders/layout.ts:70](../../packages/core/src/ux/tool-builders/layout.ts)
 
 **Problem:** The planned prompts (page layout, input form, wizard) would show up these gaps straight away:
 
@@ -430,7 +430,7 @@ Do item 9 (`createCompositionRenderer`) first, so the new kinds plug into one re
 
 ## 19. Context budget of `tools/list`
 
-**Where:** [src/ux/__snapshots__/tools-list.json](../../src/ux/__snapshots__/tools-list.json), [src/ux/json-schema.ts](../../src/ux/json-schema.ts), and the tool descriptions in `tools.ts` and `tool-builders/*`.
+**Where:** [src/ux/__snapshots__/tools-list.json](../../packages/core/src/ux/__snapshots__/tools-list.json), [src/ux/json-schema.ts](../../packages/core/src/ux/json-schema.ts), and the tool descriptions in `tools.ts` and `tool-builders/*`.
 
 **Problem:**
 - The listing is 282 KB pretty-printed, and **142K characters compact**: about 35–40K tokens, sent to the model on every request.
@@ -480,7 +480,7 @@ This is roadmap step R1.
 
 ## 21. Leaks and packaging
 
-**Where:** [tools/manifest/build-manifest.ts:557](../../tools/manifest/build-manifest.ts), [src/ux/registry.json](../../src/ux/registry.json), [package.json](../../package.json), `validate_html` in [src/ux/tools.ts](../../src/ux/tools.ts).
+**Where:** [tools/manifest/build-manifest.ts:557](../../tools/manifest/build-manifest.ts), [src/ux/registry.json](../../packages/core/src/ux/registry.json), [package.json](../../package.json), `validate_html` in [src/ux/tools.ts](../../packages/core/src/ux/tools.ts).
 
 **Problem:**
 - **Local path in the package.** `registry.json` stores `sourceRoot: "C:\\src\\github\\leonio\\kern-ux-plain"`, an absolute path from the maintainer's machine, and it ships in the npm package.
@@ -504,8 +504,8 @@ Item 22 comes from a review, on the same date, of the separate `kern-ux-scraper`
 
 **Where:**
 - [tools/manifest/](../../tools/manifest/): `build-manifest.ts`, `guidance-overlay.ts`, `validate-guidance-overlay.ts`, `paths.ts`, `stories.ts`
-- [src/ux/types.ts](../../src/ux/types.ts): `RegistryManifest` and `ComponentInfo`, which are TS types only
-- [src/ux/registry.ts](../../src/ux/registry.ts): loads `registry.json` with only a two-key sanity check
+- [src/ux/types.ts](../../packages/core/src/ux/types.ts): `RegistryManifest` and `ComponentInfo`, which are TS types only
+- [src/ux/registry.ts](../../packages/core/src/ux/registry.ts): loads `registry.json` with only a two-key sanity check
 - [docs/registry.schema.json](../registry.schema.json): a hand-written schema that has drifted from the types
 - The sibling repository `kern-ux-scraper` (Go, kept outside this repo): it scrapes kern-ux.de into a corpus (`dist/`) and maps it to components (`mapping/`)
 

@@ -129,7 +129,7 @@ if ($WatchTests) {
 
 $buildProc = $null
 if ($WatchBuild) {
-  $buildProc = Start-LoopProcess -Title "TypeScript build watcher" -Command "Set-Location '$repoRoot'; npm run build:watch"
+  $buildProc = Start-LoopProcess -Title "stdio bundle watcher" -Command "Set-Location '$repoRoot'; npm run build:watch"
 }
 
 if ($OpenSample) {

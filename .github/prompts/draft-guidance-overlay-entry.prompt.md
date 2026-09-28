@@ -19,15 +19,15 @@ Before drafting, inspect the checked-in local sources for the target component i
 
 1. docs snapshots or curated docs exports if present
 2. `kern-ux-plain` story files and related source files
-3. local schema in `src/ux/schemas/`
-4. local template in `src/ux/templates/`
+3. local schema in `packages/core/src/ux/schemas/`
+4. local template in `packages/core/src/ux/templates/`
 5. local tests and validation rules
 6. current audit notes in `docs/contributor-guide.md`
 
 ## Non-Negotiable Rules
 
 - Update only `docs/guidance-overlay.json` unless explicitly asked to do more.
-- Do not edit `src/ux/registry.json` directly.
+- Do not edit `packages/core/src/ux/registry.json` directly.
 - Do not replace extracted `guidance` or `guidanceSections`; the overlay is additive.
 - Keep the reviewed overlay focused on stable, evidence-backed guidance rather than generic summaries.
 - Every statement must include evidence.
@@ -77,7 +77,7 @@ After editing, run:
 ```bash
 npm run validate-guidance-overlay
 npm run generate-manifest
-npm test -- src/ux/manifest-generator.test.ts src/ux/tools.behaviour.test.ts src/ux/tools.listing.test.ts
+npm test -- packages/core/src/ux/manifest-generator.test.ts packages/core/src/ux/tools.behaviour.test.ts packages/core/src/ux/tools.listing.test.ts
 ```
 
 Then summarize:

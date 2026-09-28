@@ -133,7 +133,7 @@ npm run scan:vulns
 npm run pack:inspect
 ```
 
-> `generate-manifest` is a **local-only** script. CI and release builds use the checked-in `src/ux/registry.json`. Run it whenever you pull changes that affect component stories or the guidance overlay.
+> `generate-manifest` is a **local-only** script. CI and release builds use the checked-in `packages/core/src/ux/registry.json`. Run it whenever you pull changes that affect component stories or the guidance overlay.
 
 > `sbom:generate` and `scan:vulns*` expect local `syft` and `grype` binaries on `PATH`.
 

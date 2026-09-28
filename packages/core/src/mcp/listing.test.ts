@@ -8,12 +8,12 @@ import { getCatalog } from "./catalog.js";
 import { kernInputSchema } from "./kern-schema.js";
 
 /**
- * The listing as clients receive it. src/ux/__snapshots__/tools-list.json is
+ * The listing as clients receive it. packages/core/src/ux/__snapshots__/tools-list.json is
  * the domain contract (names, descriptions, JSON input schemas); these tests
  * check that SDK v2 delivers exactly that on both eras, and snapshot the raw
  * 2026-07-28 wire listing so SDK-added fields show up in review.
  *
- * Update the wire snapshot with `npx vitest run -u src/mcp/listing.test.ts`.
+ * Update the wire snapshot with `npx vitest run -u packages/core/src/mcp/listing.test.ts`.
  */
 
 function deepFreeze<T>(value: T): T {

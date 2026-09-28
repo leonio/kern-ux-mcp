@@ -11,13 +11,13 @@ flowchart LR
    A[Local evidence\ndocs snapshots, stories, SCSS, schemas, templates, tests] --> B[Edit guidance overlay\ndocs/guidance-overlay.json]
    B --> C[Validate overlay\nnpm run validate-guidance-overlay]
    C --> D[Generate merged registry\nnpm run generate-manifest]
-   D --> E[Focused tests\nnpm test -- src/ux/manifest-generator.test.ts src/ux/tools.behaviour.test.ts src/ux/tools.listing.test.ts]
+   D --> E[Focused tests\nnpm test -- packages/core/src/ux/manifest-generator.test.ts packages/core/src/ux/tools.behaviour.test.ts packages/core/src/ux/tools.listing.test.ts]
    D --> F[Runtime docs output\nget_component_docs returns excerpt, sections, reviewedGuidance]
 ```
 
 ## Artifacts
 
-- Generated implementation facts: `src/ux/registry.json`
+- Generated implementation facts: `packages/core/src/ux/registry.json`
 - Overlay contract: `docs/guidance-overlay.schema.json`
 - Reviewed overlay payload: `docs/guidance-overlay.json`
 - Operator guide: `docs/guidance-overlay-workflow.md`
@@ -50,7 +50,7 @@ Use the reviewed overlay for:
 3. Gather evidence from checked-in local sources in this order:
    - docs snapshots or curated docs exports
    - `kern-ux-plain` stories and source files
-   - local schemas and templates in `src/ux/`
+   - local schemas and templates in `packages/core/src/ux/`
    - local tests and validation rules
 4. Add or update the component entry in `docs/guidance-overlay.json`.
 5. Keep every statement evidence-backed.
@@ -59,10 +59,10 @@ Use the reviewed overlay for:
 ```bash
 npm run validate-guidance-overlay
 npm run generate-manifest
-npm test -- src/ux/manifest-generator.test.ts src/ux/tools.behaviour.test.ts src/ux/tools.listing.test.ts
+npm test -- packages/core/src/ux/manifest-generator.test.ts packages/core/src/ux/tools.behaviour.test.ts packages/core/src/ux/tools.listing.test.ts
 ```
 
-7. Review the diff in `docs/guidance-overlay.json` and `src/ux/registry.json`.
+7. Review the diff in `docs/guidance-overlay.json` and `packages/core/src/ux/registry.json`.
 8. Review the output shape of `get_component_docs` if the change affects curated guidance.
 9. Merge only after human review.
 

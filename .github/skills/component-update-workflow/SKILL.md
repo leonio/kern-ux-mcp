@@ -27,7 +27,7 @@ Use this skill for the end-to-end contributor workflow when a change might touch
 
 ## Rules
 
-- Do not edit `src/ux/registry.json` or `dist/ux/registry.json` directly.
+- Do not edit `packages/core/src/ux/registry.json` directly.
 - Keep extracted guidance separate from `reviewedGuidance`.
 - Keep the public MCP contract stable unless the task explicitly requires change.
 - If the change is overlay-only, prefer the narrow drafting prompt in `../../prompts/draft-guidance-overlay-entry.prompt.md` for one-entry authoring.

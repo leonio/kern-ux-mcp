@@ -4,7 +4,8 @@ import path from "node:path";
 import ajv2020Module from "ajv/dist/2020.js";
 import ajvFormatsModule from "ajv-formats";
 
-import type { GuidanceOverlayManifest } from "../../src/ux/types.js";
+import type { GuidanceOverlayManifest } from "../../packages/core/src/ux/types.js";
+import { REPO_ROOT } from "./paths.js";
 
 // Both packages are CommonJS: under NodeNext the default import is module.exports,
 // which carries the class/plugin as `.default` (at runtime too).
@@ -17,13 +18,13 @@ const ID_ALIASES: Record<string, string> = {
 	task_list: "tasklist",
 };
 
-export const DEFAULT_OVERLAY_PATH = path.resolve(
-	process.cwd(),
+export const DEFAULT_OVERLAY_PATH = path.join(
+	REPO_ROOT,
 	"docs",
 	"guidance-overlay.json",
 );
-export const DEFAULT_OVERLAY_SCHEMA_PATH = path.resolve(
-	process.cwd(),
+export const DEFAULT_OVERLAY_SCHEMA_PATH = path.join(
+	REPO_ROOT,
 	"docs",
 	"guidance-overlay.schema.json",
 );

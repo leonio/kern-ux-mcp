@@ -67,8 +67,8 @@ jobs:
       - name: Install Dependencies
         run: npm ci
 
-      - name: Build (CI — uses checked-in registry.json)
-        run: npm run build:ci
+      - name: Build (uses the checked-in registry.json)
+        run: npm run build
 
       - name: Run Tests
         run: npm test

@@ -14,7 +14,7 @@ Discovery date: 2026-09-27. Line numbers refer to the code at that point and wil
 ### R0: SDK v2 spike
 
 - [x] Install `@modelcontextprotocol/server`, `@modelcontextprotocol/node` and `@modelcontextprotocol/client`.
-- [x] Check that the `tools/list` output through the adapter deep-equals [tools-list.json](../../src/ux/__snapshots__/tools-list.json), ignoring key order.
+- [x] Check that the `tools/list` output through the adapter deep-equals [tools-list.json](../../packages/core/src/ux/__snapshots__/tools-list.json), ignoring key order.
 - [x] Record the exact `isError` text for invalid input and for strict-validation failures.
 - [ ] Test the client matrix on both protocol versions (2026-07-28 and 2025-11-25). MCP Inspector is done; Claude and VS Code Copilot (HTTP) are reported working. The per-probe results follow the runbook `spike/r0/CLIENT-MATRIX.md`, deleted in R2: `git checkout 31110cf -- spike/r0` restores it (reinstall `@modelcontextprotocol/node` for its HTTP entry).
   - Over stdio: VS Code Copilot, Codex CLI, Claude Code, Claude Desktop, MCP Inspector.
@@ -49,7 +49,7 @@ Discovery date: 2026-09-27. Line numbers refer to the code at that point and wil
 
 - [x] Add the `kernInputSchema()` Standard Schema adapter and `registerKernTool()` (see [The tool model](#the-tool-model)). Strip our "Invalid arguments" header and start the message with `\n` (R0).
 - [x] Build `createKernServer()` on `McpServer` with `capabilities: { tools: { listChanged: false } }` (R0), and change `index.ts` to `serveStdio(() => createKernServer())`.
-- [x] Return `isError` results for invalid input and strict failures. Update the e2e test, now [create-server.test.ts](../../src/mcp/create-server.test.ts): an unknown tool now rejects with -32602.
+- [x] Return `isError` results for invalid input and strict failures. Update the e2e test, now [create-server.test.ts](../../packages/core/src/mcp/create-server.test.ts): an unknown tool now rejects with -32602.
 - [x] Add a wire-level listing snapshot plus a semantic-equality test against the domain snapshot. JSON round-trip the in-memory result first (R0).
 - [x] Remove `@modelcontextprotocol/sdk` v1.
 - [x] Delete the R0 harness in `spike/r0/`. `git checkout 31110cf -- spike/r0` restores it (reinstall `@modelcontextprotocol/node` for its HTTP entry).
@@ -218,7 +218,7 @@ packages/
   - The npm packages use esbuild to inline `@leonio/kern-ux-core` (a workspace-only dependency, listed under `devDependencies`) and keep third-party packages external. Those are the SDK, zod and node-html-parser. They stay as real `dependencies` of stdio and http, so users get security patches and the SBOM stays accurate.
   - A small check script fails CI if a third-party import in core isn't declared in stdio/http.
   - The `.mcpb` and the Docker image use a **fully inlined** bundle instead: one file, no `node_modules`.
-- **`registry.json` becomes a JSON import** (`import m from "./registry.json" with { type: "json" }`), replacing `fs` + `import.meta.url` in [src/ux/registry.ts:7-51](../../src/ux/registry.ts). esbuild inlines it, so `tools/manifest/copy-manifest.mjs` is deleted.
+- **`registry.json` becomes a JSON import** (`import m from "./registry.json" with { type: "json" }`), replacing `fs` + `import.meta.url` in [src/ux/registry.ts:7-51](../../packages/core/src/ux/registry.ts). esbuild inlines it, so `tools/manifest/copy-manifest.mjs` is deleted.
 - **`getCatalog()` is memoised at module scope.** It holds the registry, the tool definitions and the pre-computed JSON Schemas. `createKernServer({ version })` only registers from that memo, so the per-request HTTP factory stays cheap. SDK v2 would otherwise re-run `z.toJSONSchema` for all 52 tools on every request (finding 17).
 
 ## The tool model
@@ -227,7 +227,7 @@ The Zod schemas plus the existing hints are enough to generate good tool definit
 
 **Registration seam: `kernInputSchema(def)`.** This is a custom Standard Schema object. SDK v2 uses `~standard.jsonSchema.input()` and `~standard.validate` as given (finding 17).
 - `validate()` runs normalize, then the Zod parse, then the existing hint formatter. It returns **one issue with no path**, because the SDK already wraps the message as `Input validation error: Invalid arguments for tool X: …`. Drop our own header so it isn't doubled.
-- `jsonSchema.input()` returns our memoised [json-schema.ts](../../src/ux/json-schema.ts) output, so we control the listing shape. The only side effect is that the SDK moves `type` ahead of `$schema`, which doesn't change meaning.
+- `jsonSchema.input()` returns our memoised [json-schema.ts](../../packages/core/src/ux/json-schema.ts) output, so we control the listing shape. The only side effect is that the SDK moves `type` ahead of `$schema`, which doesn't change meaning.
 - Legacy `ToolDef`s from today's builders register through this seam on day one: all 52 tools move across in one step, unchanged. Until each family migrates, the adapter calls the existing `normalizeToolArgs`, `formatInputValidationError` and `formatCompositionError` from [server.ts](../../src/server.ts).
 
 **Target definition: `defineTool()`.** Tool families migrate to it one PR at a time:
@@ -277,7 +277,7 @@ These are plan-v2 items that make the swap mechanical, plus small fixes from fin
 
 **Moves**
 - Use `git mv src/ux → packages/core/src/ux`, snapshots included.
-- Split [src/server.ts](../../src/server.ts) into `packages/core/src/mcp/*`; [src/index.ts](../../src/index.ts) becomes `packages/stdio/src/index.ts`.
+- Split [src/server.ts](../../src/server.ts) into `packages/core/src/mcp/*`; [src/index.ts](../../packages/stdio/src/index.ts) becomes `packages/stdio/src/index.ts`.
 - `src/test-support` moves to `packages/core/src/test-support`.
 
 **TypeScript and tests**
@@ -349,12 +349,12 @@ These are real bugs or missing pieces, and the prompts would expose them (findin
 2. Add a **`field` block kind**. It dispatches to the existing inputtext/email/date/number/tel/url/password/textarea/select/radio/checkbox schemas and templates, so forms compose in one call instead of "render with `get_*`, then paste into an `html` block".
 3. Add a **`form` block kind**: `<form action method novalidate>`, an optional error-summary alert, fieldset groups (legend + `field` blocks), and an actions row.
 4. `formFlow`:
-   - fix `kern-button` → `kern-btn` ([templates/form-flow.ts:134-144](../../src/ux/templates/form-flow.ts))
+   - fix `kern-button` → `kern-btn` ([templates/form-flow.ts:134-144](../../packages/core/src/ux/templates/form-flow.ts))
    - wrap the step in `<form>`
    - separate the form heading from the tasklist heading
    - add a `renderAllSteps` option (inactive steps get `hidden`)
-5. `get_fieldset` accepts child fields instead of the hard-coded Vorname/Name ([templates/fieldset.ts:20](../../src/ux/templates/fieldset.ts)).
-6. [validate.ts:231](../../src/ux/validate.ts): the `form.error_id`/`form.error_describedby` rules should target `.kern-error`, the class the templates actually emit. Add a regression test.
+5. `get_fieldset` accepts child fields instead of the hard-coded Vorname/Name ([templates/fieldset.ts:20](../../packages/core/src/ux/templates/fieldset.ts)).
+6. [validate.ts:231](../../packages/core/src/ux/validate.ts): the `form.error_id`/`form.error_describedby` rules should target `.kern-error`, the class the templates actually emit. Add a regression test.
 7. The schema should reject nestings the renderer can't produce, instead of accepting them and emitting a warning.
 8. Add a `render_page` tool: page shell + header (`get_pattern`/`kopfzeile`) + `<main>` blocks + a footer (section + 4-column grid).
 
@@ -412,7 +412,7 @@ Content is generated at runtime from existing data and cached: the registry, Zod
 | `kern://guides/forms` | `text/markdown` | Label/hint/error pattern, ids and `aria-describedby`, optional marking, error summary, from `foundations.ts` + KERN Form Controls |
 | `kern://guides/layout` | `text/markdown` | Container/row/col, 12-column rule, breakpoints, spacing tokens, heading hierarchy, `kern-layer` surfaces |
 | `kern://guides/accessibility` | `text/markdown` | The 13 `validate.ts` rules with de/en messages and how to satisfy each |
-| `kern://tokens`, `kern://utilities`, `kern://icons` | `application/yaml` | Existing data from `get_tokens`, [templates/utility-reference.ts](../../src/ux/templates/utility-reference.ts), `VALID_ICON_NAMES` |
+| `kern://tokens`, `kern://utilities`, `kern://icons` | `application/yaml` | Existing data from `get_tokens`, [templates/utility-reference.ts](../../packages/core/src/ux/templates/utility-reference.ts), `VALID_ICON_NAMES` |
 | `kern://templates/page-shell` | `text/html` | HTML5 shell: `lang`, KERN CSS/fonts, skip link, `<main>` |
 
 The existing docs tools stay, because OpenAI clients and many others only consume tools. `get_component_docs` adds `resource_link`s to the matching cards.
@@ -439,7 +439,7 @@ Each prompt returns:
 **Every PR:** `npm run lint`, the typecheck, `npm test`.
 
 **Listing**
-- The domain snapshot ([tools-list.json](../../src/ux/__snapshots__/tools-list.json)) stays.
+- The domain snapshot ([tools-list.json](../../packages/core/src/ux/__snapshots__/tools-list.json)) stays.
 - A new wire-level `mcp-tools-list.json`, taken from `client.listTools()`.
 - A per-tool check that the wire `inputSchema` deep-equals the domain schema, ignoring key order.
 - Memoised schemas are frozen in tests to catch mutation.

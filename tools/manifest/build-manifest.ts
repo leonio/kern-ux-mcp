@@ -12,14 +12,21 @@ import type {
 	RegistryManifest,
 	TokenSnapshot,
 	UpstreamSource,
-} from "../../src/ux/types.js";
+} from "../../packages/core/src/ux/types.js";
 import { loadValidatedGuidanceOverlay } from "./guidance-overlay.js";
-import { getKernUxPlainRoot } from "./paths.js";
+import { getKernUxPlainRoot, REPO_ROOT } from "./paths.js";
 import { extractStoryHtmlTemplates, type StoryExtract } from "./stories.js";
 
 const COMPONENTS_MD = "COMPONENTS.MD";
 const CHEETSHEET_MD = "CHEETSHEET.MD";
-const OUTPUT_PATH = path.resolve(process.cwd(), "src", "ux", "registry.json");
+const OUTPUT_PATH = path.join(
+	REPO_ROOT,
+	"packages",
+	"core",
+	"src",
+	"ux",
+	"registry.json",
+);
 
 const ID_ALIASES: Record<string, string> = {
 	description_list: "descriptionlist",

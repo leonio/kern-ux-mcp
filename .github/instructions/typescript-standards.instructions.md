@@ -1,6 +1,6 @@
 ---
 description: "Use when writing or editing TypeScript in this repo. Covers Node 24.16+ runtime assumptions, TypeScript 6 strict-mode patterns, Biome-friendly code, and avoiding explicit any in production code."
-applyTo: "src/**/*.ts, tools/**/*.ts, *.config.ts"
+applyTo: "packages/*/src/**/*.ts, tools/**/*.ts, *.config.ts"
 ---
 
 # TypeScript Standards
@@ -13,6 +13,6 @@ applyTo: "src/**/*.ts, tools/**/*.ts, *.config.ts"
 - Do not introduce `any` in production code. Acceptable exceptions are: (1) wrapping an untyped third-party module with no `@types` package, or (2) an explicit type-narrowing boundary function whose return type is immediately narrowed to a specific type. In both cases, add a comment explaining why `any` is necessary.
 - Let inference work when it is already precise, but add explicit types for public helpers, exported functions, boundary objects, and complex return shapes when it improves readability.
 - Prefer small typed helpers over broad assertions. If casting is unavoidable, cast once at the boundary rather than leaking assertions through the file.
-- Do not use `any` in test files either. Biome enforces `noExplicitAny` everywhere. Use the helpers in `src/test-support/`: `JsonSchemaNode`, `getListedToolSchema`, `schemaVariants` and `findVariant` for JSON Schema assertions, and `invokeTool` and `createRegistry` for tool calls. When a test deliberately passes invalid input to check a runtime guard, use `// @ts-expect-error <reason>` on that line instead of a cast. Keep any other type assertion local to the test setup.
+- Do not use `any` in test files either. Biome enforces `noExplicitAny` everywhere. Use the helpers in `packages/core/src/test-support/`: `JsonSchemaNode`, `getListedToolSchema`, `schemaVariants` and `findVariant` for JSON Schema assertions, and `invokeTool` and `createRegistry` for tool calls. When a test deliberately passes invalid input to check a runtime guard, use `// @ts-expect-error <reason>` on that line instead of a cast. Keep any other type assertion local to the test setup.
 - Keep imports and syntax Biome-friendly. Follow the existing file style instead of reformatting unrelated code.
 - Validate TypeScript edits by running the most targeted available command: prefer a single-file type check or focused unit test if one exists. If no file-scoped check is available, run `npx tsc --noEmit` or `npm run lint` before finishing.

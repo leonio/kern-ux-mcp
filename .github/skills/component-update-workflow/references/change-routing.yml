@@ -13,10 +13,10 @@ routes:
       - focused-manifest-tests
   runtime_only:
     triggers:
-      - src/ux/schemas
-      - src/ux/templates
-      - src/ux/tool-builders
-      - src/ux/tools.ts
+      - packages/core/src/ux/schemas
+      - packages/core/src/ux/templates
+      - packages/core/src/ux/tool-builders
+      - packages/core/src/ux/tools.ts
     primary_owner: runtime schema/template/tool surfaces
     follow_up:
       - nearest-focused-tests

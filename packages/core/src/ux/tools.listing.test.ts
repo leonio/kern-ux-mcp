@@ -8,7 +8,7 @@ import { createTools } from "./tools.js";
  * descriptions and JSON input schemas, built from the checked-in registry.json.
  *
  * A diff here means clients will see a change. If it is intended, update with
- * `npx vitest run -u src/ux/tools.listing.test.ts` and review the JSON diff in the PR.
+ * `npx vitest run -u packages/core/src/ux/tools.listing.test.ts` and review the JSON diff in the PR.
  * CI never writes snapshots, so a missing or stale snapshot fails the build.
  */
 describe("tool listing contract", () => {

@@ -1140,11 +1140,11 @@
           "evidence": [
             {
               "kind": "schema",
-              "source": "src/ux/schemas/dropdown.ts"
+              "source": "packages/core/src/ux/schemas/dropdown.ts"
             },
             {
               "kind": "template",
-              "source": "src/ux/templates/dropdown.ts"
+              "source": "packages/core/src/ux/templates/dropdown.ts"
             },
             {
               "kind": "manual-review",
@@ -1162,7 +1162,7 @@
             "evidence": [
               {
                 "kind": "template",
-                "source": "src/ux/templates/dropdown.ts"
+                "source": "packages/core/src/ux/templates/dropdown.ts"
               }
             ]
           }
@@ -1177,7 +1177,7 @@
             "evidence": [
               {
                 "kind": "schema",
-                "source": "src/ux/schemas/dropdown.ts"
+                "source": "packages/core/src/ux/schemas/dropdown.ts"
               }
             ]
           }
@@ -1192,7 +1192,7 @@
             "evidence": [
               {
                 "kind": "template",
-                "source": "src/ux/templates/dropdown.ts"
+                "source": "packages/core/src/ux/templates/dropdown.ts"
               }
             ]
           }
@@ -1207,7 +1207,7 @@
             "evidence": [
               {
                 "kind": "schema",
-                "source": "src/ux/schemas/dropdown.ts"
+                "source": "packages/core/src/ux/schemas/dropdown.ts"
               }
             ]
           }
@@ -1238,7 +1238,7 @@
             "evidence": [
               {
                 "kind": "schema",
-                "source": "src/ux/schemas/dropdown.ts"
+                "source": "packages/core/src/ux/schemas/dropdown.ts"
               }
             ]
           }
@@ -1362,11 +1362,11 @@
             },
             {
               "kind": "schema",
-              "source": "src/ux/schemas/input-date.ts"
+              "source": "packages/core/src/ux/schemas/input-date.ts"
             },
             {
               "kind": "template",
-              "source": "src/ux/templates/input-date.ts"
+              "source": "packages/core/src/ux/templates/input-date.ts"
             }
           ]
         },
@@ -1380,7 +1380,7 @@
             "evidence": [
               {
                 "kind": "template",
-                "source": "src/ux/templates/input-date.ts"
+                "source": "packages/core/src/ux/templates/input-date.ts"
               }
             ]
           }
@@ -1410,11 +1410,11 @@
             "evidence": [
               {
                 "kind": "schema",
-                "source": "src/ux/schemas/input-date.ts"
+                "source": "packages/core/src/ux/schemas/input-date.ts"
               },
               {
                 "kind": "schema",
-                "source": "src/ux/schemas/foundations.ts"
+                "source": "packages/core/src/ux/schemas/foundations.ts"
               }
             ]
           }
@@ -1449,7 +1449,7 @@
               },
               {
                 "kind": "template",
-                "source": "src/ux/templates/input-date.ts"
+                "source": "packages/core/src/ux/templates/input-date.ts"
               }
             ]
           }
@@ -1625,11 +1625,11 @@
             },
             {
               "kind": "schema",
-              "source": "src/ux/schemas/kopfzeile.ts"
+              "source": "packages/core/src/ux/schemas/kopfzeile.ts"
             },
             {
               "kind": "template",
-              "source": "src/ux/templates/kopfzeile.ts"
+              "source": "packages/core/src/ux/templates/kopfzeile.ts"
             }
           ]
         },
@@ -1643,7 +1643,7 @@
             "evidence": [
               {
                 "kind": "template",
-                "source": "src/ux/templates/kopfzeile.ts"
+                "source": "packages/core/src/ux/templates/kopfzeile.ts"
               }
             ]
           }
@@ -1662,7 +1662,7 @@
               },
               {
                 "kind": "schema",
-                "source": "src/ux/schemas/kopfzeile.ts"
+                "source": "packages/core/src/ux/schemas/kopfzeile.ts"
               }
             ]
           }
@@ -1677,7 +1677,7 @@
             "evidence": [
               {
                 "kind": "template",
-                "source": "src/ux/templates/kopfzeile.ts"
+                "source": "packages/core/src/ux/templates/kopfzeile.ts"
               }
             ]
           }

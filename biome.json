@@ -8,12 +8,34 @@
 	"files": {
 		"includes": [
 			"**",
-			"!src/ux/registry.json",
+			"!packages/core/src/ux/registry.json",
 			"!samples/basic-layout/assets",
 			"!**/__snapshots__"
 		]
 	},
 	"linter": {
 		"enabled": true
-	}
+	},
+	"overrides": [
+		{
+			"includes": ["packages/core/src/ux/**"],
+			"linter": {
+				"rules": {
+					"style": {
+						"noRestrictedImports": {
+							"level": "error",
+							"options": {
+								"patterns": [
+									{
+										"group": ["@modelcontextprotocol/*"],
+										"message": "The domain (packages/core/src/ux) stays SDK-free; MCP wiring belongs in packages/core/src/mcp."
+									}
+								]
+							}
+						}
+					}
+				}
+			}
+		}
+	]
 }

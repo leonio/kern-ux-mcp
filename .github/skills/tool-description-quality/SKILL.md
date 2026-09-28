@@ -1,6 +1,6 @@
 ---
 name: tool-description-quality
-description: "KERN UX MCP: Triage and fix agent-facing tool description issues. Use when an agent called a tool with the wrong parameter name, passed an empty argument object, or used an unknown component ID. Covers the shift-left investigation loop: classify failure class, read current z.describe() text in src/ux/tools.ts, check emitted JSON Schema, find canonical IDs in registry.json, write tighter descriptions. WHEN: agent used wrong param name (e.g. 'component' instead of 'componentId'), agent called tool with empty args {}, agent guessed hyphenated component ID (e.g. 'form-input', 'input-text'), MPC -32603 Invalid arguments error, Unknown componentId error, improve tool ergonomics, add discovery hints to tool descriptions, shift-left feedback loop, real agent failure to tool fix."
+description: "KERN UX MCP: Triage and fix agent-facing tool description issues. Use when an agent called a tool with the wrong parameter name, passed an empty argument object, or used an unknown component ID. Covers the shift-left investigation loop: classify failure class, read current z.describe() text in packages/core/src/ux/tools.ts, check emitted JSON Schema, find canonical IDs in registry.json, write tighter descriptions. WHEN: agent used wrong param name (e.g. 'component' instead of 'componentId'), agent called tool with empty args {}, agent guessed hyphenated component ID (e.g. 'form-input', 'input-text'), MPC -32603 Invalid arguments error, Unknown componentId error, improve tool ergonomics, add discovery hints to tool descriptions, shift-left feedback loop, real agent failure to tool fix."
 argument-hint: "Paste the failing MCP tool call and error message from the agent session"
 ---
 
@@ -21,7 +21,7 @@ This skill packages the shift-left feedback loop: observe a real agent failure �
 
 | Class | Symptom | Root Cause Location |
 |---|---|---|
-| **Wrong param name** | Agent sends `{ component: "button" }` | `z.describe()` on the param in `src/ux/tools.ts` doesn't reinforce the key name |
+| **Wrong param name** | Agent sends `{ component: "button" }` | `z.describe()` on the param in `packages/core/src/ux/tools.ts` doesn't reinforce the key name |
 | **Missing required arg** | Agent calls tool with `{}` | Tool `description` field doesn't say what to pass; param describe() is too vague |
 | **Bad component ID** | `Unknown componentId: form-input` | `componentId` describe() shows only simple examples; no format rule; no discovery pointer |
 
@@ -35,7 +35,7 @@ Read the error message:
 
 ### Step 2 — Read the current description text
 
-In [src/ux/tools.ts](../../../../src/ux/tools.ts), find the offending tool builder function (e.g. `buildValidateHtmlTool`, `buildDocsTool`, `buildListComponentsByCategoryTool`).
+In [packages/core/src/ux/tools.ts](../../../../packages/core/src/ux/tools.ts), find the offending tool builder function (e.g. `buildValidateHtmlTool`, `buildDocsTool`, `buildListComponentsByCategoryTool`).
 
 Check:
 - The `z.describe()` string on the problematic parameter
@@ -43,11 +43,11 @@ Check:
 
 ### Step 3 — Verify what the agent actually receives
 
-The `toolInputSchemaToJsonSchema` function in [src/ux/json-schema.ts](../../../../src/ux/json-schema.ts) serializes Zod schemas to draft-07 JSON Schema. Zod's `.describe()` becomes the `"description"` property on each field in the emitted schema. Agents read the `description` on the `inputSchema` properties node — so whatever text is in `.describe()` is agent-visible.
+The `toolInputSchemaToJsonSchema` function in [packages/core/src/ux/json-schema.ts](../../../../packages/core/src/ux/json-schema.ts) serializes Zod schemas to draft-07 JSON Schema. Zod's `.describe()` becomes the `"description"` property on each field in the emitted schema. Agents read the `description` on the `inputSchema` properties node — so whatever text is in `.describe()` is agent-visible.
 
 ### Step 4 — For ID failures: look up canonical IDs
 
-Component IDs in [src/ux/registry.json](../../../../src/ux/registry.json) follow a strict convention:
+Component IDs in [packages/core/src/ux/registry.json](../../../../packages/core/src/ux/registry.json) follow a strict convention:
 - Squashed lowercase, no hyphens, no underscores
 - `inputtext` not `input-text`; `inputemail` not `input-email`
 - Tool name is always `get_<id>` (e.g. `get_inputtext`)
@@ -108,27 +108,27 @@ For the discovery tool itself, make its role explicit:
 ## Change Boundaries
 
 **Allowed:**
-- Edit `.describe()` call text on parameters in `src/ux/tools.ts`
-- Edit `description:` strings on `ToolDef` objects in `src/ux/tools.ts`
+- Edit `.describe()` call text on parameters in `packages/core/src/ux/tools.ts`
+- Edit `description:` strings on `ToolDef` objects in `packages/core/src/ux/tools.ts`
 - Append entries to `references/failure-catalog.md`
 
 **Not allowed:**
 - Rename parameters — this breaks the public MCP contract
 - Add new tools or remove existing ones — breaking contract change
-- Edit `src/ux/registry.json` or `dist/ux/registry.json` directly — generated artifact
+- Edit `packages/core/src/ux/registry.json` directly — generated artifact
 - Edit schemas, templates, or tool-builders for description-only fixes
 
 ## Verification
 
 1. Run `npm test`. Description strings are under test in two places, so a description change is expected to fail:
-   - `src/ux/tools.listing.test.ts` snapshots the full `tools/list` output (descriptions and JSON input schemas). Check that the diff contains only the intended description text, then update it with `npx vitest run -u src/ux/tools.listing.test.ts`. Commit `src/ux/__snapshots__/tools-list.json` so reviewers see exactly what clients will see.
-   - `src/ux/tools.descriptions.test.ts` and `src/ux/tools.input-schemas.test.ts` assert phrases that must stay. If one of them fails, the edit removed required guidance: restore the phrase rather than editing the assertion.
+   - `packages/core/src/ux/tools.listing.test.ts` snapshots the full `tools/list` output (descriptions and JSON input schemas). Check that the diff contains only the intended description text, then update it with `npx vitest run -u packages/core/src/ux/tools.listing.test.ts`. Commit `packages/core/src/ux/__snapshots__/tools-list.json` so reviewers see exactly what clients will see.
+   - `packages/core/src/ux/tools.descriptions.test.ts` and `packages/core/src/ux/tools.input-schemas.test.ts` assert phrases that must stay. If one of them fails, the edit removed required guidance: restore the phrase rather than editing the assertion.
 2. Confirm the snapshot diff shows no parameter renames, removed tools or schema-shape changes. Those are contract changes and aren't allowed in this workflow.
 3. Re-run the failing agent session scenario — the agent should now call `list_components_by_category` before attempting component-specific tools
 
 ## References
 
 - [Failure catalog](./references/failure-catalog.md) — running log of observed real-world agent failures
-- [src/ux/tools.ts](../../../../src/ux/tools.ts) — all tool builder functions and description strings
-- [src/ux/json-schema.ts](../../../../src/ux/json-schema.ts) — Zod-to-JSON-Schema serialization (confirms `.describe()` propagates)
-- [src/ux/registry.json](../../../../src/ux/registry.json) — canonical component IDs
+- [packages/core/src/ux/tools.ts](../../../../packages/core/src/ux/tools.ts) — all tool builder functions and description strings
+- [packages/core/src/ux/json-schema.ts](../../../../packages/core/src/ux/json-schema.ts) — Zod-to-JSON-Schema serialization (confirms `.describe()` propagates)
+- [packages/core/src/ux/registry.json](../../../../packages/core/src/ux/registry.json) — canonical component IDs

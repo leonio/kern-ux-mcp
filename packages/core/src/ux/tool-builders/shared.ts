@@ -22,7 +22,7 @@ export type ToolDef = {
 	handler: ToolHandler;
 };
 
-/** MCP tool annotations (hints for clients), kept SDK-free in src/ux. */
+/** MCP tool annotations (hints for clients), kept SDK-free in packages/core/src/ux. */
 export type ToolAnnotations = {
 	readOnlyHint?: boolean;
 	destructiveHint?: boolean;
