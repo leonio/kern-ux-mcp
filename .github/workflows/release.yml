@@ -187,10 +187,11 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
 
       # Only the stdio and http tarballs are in release-assets; core is never packed.
+      # The ./ matters: npm reads "release-assets/x.tgz" as a GitHub repo shorthand.
       - name: Publish to npm (trusted publishing)
         shell: bash
         run: |
-          for tarball in release-assets/*.tgz; do
+          for tarball in ./release-assets/*.tgz; do
             name="$(tar -xOzf "$tarball" package/package.json | jq -r .name)"
             if [[ -n "$(npm view "$name@$SEMVER" version 2>/dev/null)" ]]; then
               echo "$name@$SEMVER is already on npm; skipping."
@@ -211,7 +212,7 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          for tarball in release-assets/*.tgz; do
+          for tarball in ./release-assets/*.tgz; do
             name="$(tar -xOzf "$tarball" package/package.json | jq -r .name)"
             if [[ -n "$(npm view "$name@$SEMVER" version 2>/dev/null)" ]]; then
               echo "$name@$SEMVER is already on GitHub Packages; skipping."
