@@ -75,10 +75,10 @@ Start here: [r3-kickoff.md](r3-kickoff.md) has the state after R2b, the agreed c
   - `/healthz` and `/readyz`
   - optional auth, rate limiting and CORS
   - a SIGTERM drain
-- [ ] Add the `Dockerfile`, `compose.yaml` and the GHCR push.
-- [ ] Add the MCPB `manifest.json`, `mcpb pack`, and the bundle as a release asset.
-- [ ] CI: an e2e job, a packed-install smoke test, and builds of the `.mcpb` and the image without pushing.
-- [ ] `release.yml`: publish stdio and http, idempotently, with one SBOM per package.
+- [x] Add the `Dockerfile`, `compose.yaml` and the GHCR push.
+- [x] Add the MCPB `manifest.json`, `mcpb pack`, and the bundle as a release asset.
+- [x] CI: an e2e job, a packed-install smoke test, and builds of the `.mcpb` and the image without pushing.
+- [x] `release.yml`: publish stdio and http, idempotently, with one SBOM per package.
 - [ ] Do the one-time manual steps in [release-bootstrap.md](../release-bootstrap.md).
 
 ### R4: Composition gaps (prerequisite for prompts)
@@ -315,7 +315,7 @@ These are plan-v2 items that make the swap mechanical, plus small fixes from fin
 - ChatGPT and the Responses API need a public HTTPS URL. For local testing, document a tunnel (`cloudflared`/`ngrok`) in the README.
 
 **Container**
-- Multi-stage `Dockerfile`, with the fully inlined HTTP bundle copied into `gcr.io/distroless/nodejs24:nonroot`.
+- Multi-stage `Dockerfile`, with the fully inlined HTTP bundle copied into `gcr.io/distroless/nodejs24:nonroot`. (Done as `gcr.io/distroless/nodejs24-debian13:nonroot`, pinned by digest; the untagged name floats to the newest Debian.)
 - `HEALTHCHECK` goes through a tiny node script, since distroless has no curl.
 - Plus `.dockerignore` and `compose.yaml`.
 - The release pushes the image to GHCR with provenance and SBOM attestations.
@@ -326,12 +326,12 @@ These are plan-v2 items that make the swap mechanical, plus small fixes from fin
 - `user_config`: `debug` (boolean). A `default_locale` (de/en) option is deferred (decided 2026-09-28): the server has no server-wide locale, and adding one would change schema defaults per config. Revisit with R5.
 - `license "EUPL-1.2"`, and an icon
 - Generate the static `tools[]`/`prompts[]` list at build time (they're fixed per release) and set `tools_generated`/`prompts_generated` to `false`.
-- Pack with `mcpb validate && mcpb pack` (`@anthropic-ai/mcpb` as a dev dependency).
+- Pack with `mcpb validate && mcpb pack` (`@anthropic-ai/mcpb` as a dev dependency). **Done differently:** the CLI runs pinned through `npm exec` (`tools/build/mcpb.ts`), not as a dev dependency. Its interactive `init` pulls in packages with audit advisories.
 
 **Release ([release.yml](../../.github/workflows/release.yml))**
-- `npm version $semVer -ws --no-git-tag-version`.
+- `npm version $semVer -ws --no-git-tag-version`. **Done as** `npm pkg set version=<semVer> --workspaces`, before the build, since the bundles inline the version.
 - Pack and publish **only** stdio and http, to npm with provenance and to GitHub Packages. Core is `private`, so npm refuses to publish it.
-- A per-package SBOM via `npm sbom -w <pkg> --sbom-format cyclonedx`. syft can't see hoisted `node_modules` from a package directory.
+- A per-package SBOM via `npm sbom -w <pkg> --sbom-format cyclonedx`. syft can't see hoisted `node_modules` from a package directory. **Done differently:** `npm sbom -w` dropped `zod` with `--omit dev` and describes the workspace root, so `tools/build/sbom.ts` runs `@cyclonedx/cyclonedx-npm` and makes the package the subject.
 - Make publishing idempotent: skip a package whose `npm view pkg@ver` already exists, so a re-run after a partial failure works.
 - Attach the tarballs, the `.mcpb` and the SBOMs to the GitHub release.
 - The one-time manual steps are in [release-bootstrap.md](../release-bootstrap.md).

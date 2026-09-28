@@ -67,7 +67,16 @@ Progress:
 - [x] A2 `adbc829`: workspace split (core, stdio), esbuild npm bundle for stdio (`tools/build/bundle.ts`), path checklist
 - [x] B1 `690d812`: `standalone/` bundle (everything inlined, plus `THIRD_PARTY_LICENSES.txt`), the dependency checks inside the build, README/LICENSE copied into packages on `prepack`
 - [x] B2 `3552bae`: `packages/http` (`@leonio/kern-ux-mcp-http`) with in-process e2e tests; README section for the HTTP server
-- [ ] C: Docker, MCPB, CI, `release.yml`
+- [x] C1 `1214b63`: container image (`packages/http/Dockerfile`, `compose.yaml`, root `.dockerignore`); Renovate skips base-image majors
+- [x] C2 `533fbfe`: MCP Bundle (`packages/stdio/mcpb/manifest.json`, `tools/build/mcpb.ts`, `npm run pack:mcpb`)
+- [x] C3 `b9934ea`: CI on `feat/v2-alpha` too: e2e (Linux and Windows), packed install, `.mcpb`, and container (built for both platforms, run, tested, stopped)
+- [x] C4 `4549afc`: `release.yml` (npm, GitHub Packages, GHCR with attestations, `.mcpb`, SBOMs, idempotent) and the updated `release-bootstrap.md`
+- [ ] The user: push, watch CI, then the steps in [release-bootstrap.md](../release-bootstrap.md)
+
+Open after R3 (not blocking it):
+- No MCPB icon yet: `tools/build/mcpb.ts` includes `packages/stdio/mcpb/icon.png` when one is added.
+- Claude Desktop running the `.mcpb` on Node 24 is still the open R0 item.
+- CI and `release.yml` haven't run on GitHub yet. Everything they do was run locally, except the multi-platform image build, the GHA cache, attestations and publishing.
 
 Learned in A:
 - A cold-cache `vitest run --coverage` can hit the 5 s test timeout locally; a warm rerun passes. CI always runs cold, so watch for it.
@@ -84,7 +93,18 @@ Learned in B:
 - SDK clients pin only modern revisions: a 2025 HTTP client needs `versionNegotiation: { mode: "legacy" }`.
 - Vitest (Vite 8) needs `ssr.resolve.conditions` for the `@leonio/source` condition; top-level `resolve.conditions` doesn't reach node tests.
 - The SDK's SSE responses set `Connection: keep-alive` through `writeHead`, overriding `setHeader`. The drain therefore closes each connection as soon as it goes idle. The drain test uses a keep-alive agent; with `agent: false`, Node sends `Connection: close` and the test proves nothing.
-- The HTTP e2e tests run in-process. Nothing has sent a real SIGTERM to the built bin yet (on Windows `kill` terminates outright). The CI e2e job (C) should spawn `packages/http/dist/index.js` on Linux, send SIGTERM and expect exit 0.
+- The HTTP e2e tests run in-process. Nothing has sent a real SIGTERM to the built bin yet (on Windows `kill` terminates outright). The CI e2e job (C) should spawn `packages/http/dist/index.js` on Linux, send SIGTERM and expect exit 0. (Done in C: `http.e2e.ts` on Linux, and `docker stop` locally, which exited 0 in 1.2 s.)
+
+Learned in C:
+- `gcr.io/distroless/nodejs24:nonroot` exists and currently equals `nodejs24-debian13` (Node 24.21.0, uid 65532, entrypoint `/nodejs/bin/node`). The final stage has no `RUN`, and the build stage uses `--platform=$BUILDPLATFORM`, so the arm64 image needs no emulation.
+- Git Bash rewrites `/nodejs/bin/node` in `docker run` arguments: use `MSYS_NO_PATHCONV=1`, and then `$(pwd -W)` for Windows paths.
+- The `mcpb` CLI's interactive `init` pulls in `tmp` (a high-severity advisory) through inquirer. It runs through `npm exec`, pinned, so the lockfile stays clean. The same goes for `@cyclonedx/cyclonedx-npm`.
+- `npm sbom -w <pkg> --omit dev` drops `zod` and `@modelcontextprotocol/core`, and describes the workspace root. It also needs a `version` on the root package.json (`EINVALIDPURLTYPE`).
+- `npm pkg set -ws` warns that `-ws` is deprecated: use `--workspaces`.
+- On Windows, npm bins are `.cmd` shims that need a shell. The e2e suites run the installed package's entry with node there, and the bin itself on Linux (CI).
+- A freshly installed package's first start on Windows can take more than 30 s (on-access scanning). Reruns take about 4 s.
+- `gh release create` without `--target` tags the default branch. That would have mis-tagged alphas from `feat/v2-alpha`.
+- The `@action-validator/cli` schema doesn't know the `attestations` permission. actionlint (via Docker) accepts both workflows.
 
 ## Proposed plan (as written before the user's review)
 
