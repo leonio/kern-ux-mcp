@@ -49,7 +49,33 @@ Configs:
 - Vitest includes `src/**` and `tools/**` tests
 - Biome ignores `src/ux/registry.json` and `**/__snapshots__`
 
-## Proposed plan (confirm with the user first)
+## Agreed plan and progress (2026-09-28)
+
+The user approved the proposed plan below, with these changes:
+- **Pacing:** one commit per roadmap checkbox, and a **pause for review after each group** (A, B, C).
+- **Move shape:** `src/` moved to `packages/core/src/` as-is. `invoke.ts`, `logging.ts` and `test-support/` stay at the core root, so no relative imports changed. Renaming to `mcp/pipeline.ts` can come later.
+- **Decisions 1–3 below:** as recommended. Hosts call `createKernServer({ version })` with their own version, `getCatalog()` is synchronous, unit tests stay in core, and process-spawning e2e tests belong to the hosts.
+- **Order:** the JSON import landed before the move, so the move needed no registry copy step.
+- **Export condition:** `@leonio/source`, not `source` (`eventsource-parser` exports raw `.ts` under `source`). Core has no build; everything reads its source.
+- **MCPB `user_config`:** only `debug`. `default_locale` is deferred, because the server has no server-wide locale.
+- **OpenTelemetry:** deferred. It's not in the tracker and adds dependencies.
+- **Docker:** the user starts Docker Desktop for the local image check in C. Ask when you get there.
+- **CI:** also run on pushes to `feat/v2-alpha` (commit 7).
+
+Progress:
+- [x] A1 `b536610`: JSON import, synchronous catalog, `createKernServer({ version })`
+- [x] A2 `adbc829`: workspace split (core, stdio), esbuild npm bundle for stdio (`tools/build/bundle.ts`), path checklist
+- [ ] B: the fully inlined bundle and the dependency check, then `packages/http` with its e2e tests
+- [ ] C: Docker, MCPB, CI, `release.yml`
+
+Learned in A:
+- A cold-cache `vitest run --coverage` can hit the 5 s test timeout locally; a warm rerun passes. CI always runs cold, so watch for it.
+- Windows: `git mv src …` failed with "Permission denied" (the editor holds the directory). Moving its children one by one worked.
+- `"*"` as the workspace dev-dependency spec links the prerelease-versioned core; npm doesn't try the registry.
+- The stdio npm bundle is 345 kB, with the SDK, zod, node-html-parser and `node:crypto` external. It boots faster than the old tsc output.
+- `release.yml` still packs the private root until commit 8 rewrites it (a publish would fail safely, since the root is private).
+
+## Proposed plan (as written before the user's review)
 
 Three commit groups. Each one leaves the repo green.
 

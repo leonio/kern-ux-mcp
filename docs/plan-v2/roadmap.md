@@ -62,10 +62,10 @@ Discovery date: 2026-09-27. Line numbers refer to the code at that point and wil
 
 ### R3: Workspaces and hosts
 
-Start here: [r3-kickoff.md](r3-kickoff.md) has the state after R2b, a proposed commit plan, and facts not in this roadmap.
+Start here: [r3-kickoff.md](r3-kickoff.md) has the state after R2b, the agreed commit plan and its progress, and facts not in this roadmap.
 
-- [ ] Do a pure move into `packages/core` (`"private": true`) and `packages/stdio`, working through the path checklist in [R3 details](#r3-workspace-split-and-hosts).
-- [ ] Load `registry.json` as a JSON import, memoise `getCatalog()`, and delete `tools/manifest/copy-manifest.mjs`.
+- [x] Do a pure move into `packages/core` (`"private": true`) and `packages/stdio`, working through the path checklist in [R3 details](#r3-workspace-split-and-hosts).
+- [x] Load `registry.json` as a JSON import, memoise `getCatalog()`, and delete `tools/manifest/copy-manifest.mjs`.
 - [ ] Set up the esbuild bundles:
   - for npm: core inlined, third-party packages external
   - for MCPB and Docker: everything inlined
@@ -282,8 +282,9 @@ These are plan-v2 items that make the swap mechanical, plus small fixes from fin
 
 **TypeScript and tests**
 - Add a `"source"` export condition, with `customConditions: ["source"]` in `tsconfig.base.json` for typechecking without building. Build order: core, then stdio and http.
+  - **Done differently (2026-09-28):** the condition is **`@leonio/source`**, because `eventsource-parser` (an SDK client dependency) exports raw `.ts` under `source`. Core exports *only* that condition and has no build of its own: tsc, Vitest, esbuild and `tsx --conditions=@leonio/source` all read its source.
 - Item 14 (`verbatimModuleSyntax`, ES2024 target) fits into `tsconfig.base.json` here.
-- Vitest 5 `test.projects: ["packages/*"]`, with a coverage include of `packages/*/src/**`. Keep the thresholds.
+- Vitest 5 `test.projects: ["packages/*"]`, with a coverage include of `packages/*/src/**`. Keep the thresholds. (Done as inline projects with `extends: true`: `core`, `tools`, one more per host.)
 - In Biome, change the ignore to `!packages/core/src/ux/registry.json`.
 
 **Path checklist.** npm runs workspace scripts with cwd set to the package directory.
@@ -322,7 +323,7 @@ These are plan-v2 items that make the swap mechanical, plus small fixes from fin
 **MCPB (`packages/stdio/mcpb/manifest.json`)**
 - `manifest_version "0.3"`, `server.type "node"`, `entry_point "server/index.js"`, `mcp_config.args ["${__dirname}/server/index.js"]`
 - `compatibility.runtimes.node ">=24"`
-- `user_config`: `default_locale` (de/en), `debug` (boolean)
+- `user_config`: `debug` (boolean). A `default_locale` (de/en) option is deferred (decided 2026-09-28): the server has no server-wide locale, and adding one would change schema defaults per config. Revisit with R5.
 - `license "EUPL-1.2"`, and an icon
 - Generate the static `tools[]`/`prompts[]` list at build time (they're fixed per release) and set `tools_generated`/`prompts_generated` to `false`.
 - Pack with `mcpb validate && mcpb pack` (`@anthropic-ai/mcpb` as a dev dependency).
