@@ -1,6 +1,11 @@
+import { defaultServerConditions } from "vite";
 import { defineConfig } from "vitest/config";
 
 export default defineConfig({
+	// Workspace packages resolve to their TypeScript source, as in tsconfig.base.json.
+	ssr: {
+		resolve: { conditions: ["@leonio/source", ...defaultServerConditions] },
+	},
 	test: {
 		// Persist transformed modules between runs (cache lives in node_modules and is keyed on file content).
 		fsModuleCache: true,
@@ -13,6 +18,10 @@ export default defineConfig({
 			},
 			{
 				extends: true,
+				test: { name: "http", include: ["packages/http/src/**/*.test.ts"] },
+			},
+			{
+				extends: true,
 				test: { name: "tools", include: ["tools/**/*.test.ts"] },
 			},
 		],
@@ -20,8 +29,8 @@ export default defineConfig({
 			provider: "v8",
 			// Listing every source file keeps untested modules visible at 0% instead of silently omitted.
 			include: ["packages/*/src/**/*.ts"],
-			// Entry points only wire things up: core's re-exports, and the hosts, whose
-			// createKernServer() is covered end-to-end by packages/core/src/mcp/create-server.test.ts.
+			// Entry points only wire things up: core's re-exports, and the hosts' startup
+			// (config, listen, signals). What they call is covered by the core and HTTP tests.
 			exclude: [
 				"packages/*/src/**/*.test.ts",
 				"packages/*/src/test-support/**",

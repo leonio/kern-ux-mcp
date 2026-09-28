@@ -1,0 +1,56 @@
+{
+	"name": "@leonio/kern-ux-mcp-http",
+	"version": "0.0.0-semver",
+	"type": "module",
+	"description": "Streamable HTTP host for the Kern UX MCP server: component generation and strict accessibility validation over MCP.",
+	"license": "EUPL-1.2",
+	"author": "Leon Ioannides <leonio@users.noreply.github.com>",
+	"homepage": "https://github.com/leonio/kern-ux-mcp#readme",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/leonio/kern-ux-mcp.git",
+		"directory": "packages/http"
+	},
+	"bugs": {
+		"url": "https://github.com/leonio/kern-ux-mcp/issues"
+	},
+	"keywords": [
+		"mcp",
+		"mcp-server",
+		"streamable-http",
+		"model-context-protocol",
+		"kern-ux"
+	],
+	"bin": {
+		"kern-ux-mcp-http": "./dist/index.js"
+	},
+	"files": [
+		"dist",
+		"sbom.cyclonedx.json",
+		"README.md",
+		"LICENSE.md"
+	],
+	"publishConfig": {
+		"access": "public",
+		"provenance": true
+	},
+	"engines": {
+		"node": ">=24.16.0"
+	},
+	"scripts": {
+		"build": "tsx ../../tools/build/bundle.ts",
+		"prepack": "node -e \"for (const file of ['README.md', 'LICENSE.md']) require('node:fs').copyFileSync('../../' + file, file)\"",
+		"dev": "tsx --conditions=@leonio/source src/index.ts",
+		"start": "node dist/index.js"
+	},
+	"dependencies": {
+		"@modelcontextprotocol/node": "^2.1.0",
+		"@modelcontextprotocol/server": "^2.1.0",
+		"hono": "^4.11.4",
+		"node-html-parser": "^9.0.0",
+		"zod": "^4.4.3"
+	},
+	"devDependencies": {
+		"@leonio/kern-ux-core": "*"
+	}
+}

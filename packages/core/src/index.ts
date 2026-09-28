@@ -2,6 +2,7 @@
  * What the hosts (stdio, HTTP) use from core. Core is private: esbuild inlines
  * it into each published package, so this is a build-time API only.
  */
+export { debugLog } from "./logging.js";
 export { type Catalog, getCatalog } from "./mcp/catalog.js";
 export {
 	createKernServer,

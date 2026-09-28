@@ -33,6 +33,7 @@ The repo is an npm workspace:
 
 - [packages/core](../packages/core): `@leonio/kern-ux-core`, everything below except the entry point. It's private and never published: the hosts import it from source (the `@leonio/source` export condition) and esbuild inlines it into their bundles.
 - [packages/stdio](../packages/stdio): `@leonio/kern-ux-mcp`, the published stdio server.
+- [packages/http](../packages/http): `@leonio/kern-ux-mcp-http`, the published Streamable HTTP server. `src/server.ts` is the `node:http` host (Host/Origin guards, CORS, rate limit, bearer token, probes, drain), `src/config.ts` reads its environment variables.
 
 - [packages/stdio/src/index.ts](../packages/stdio/src/index.ts): stdio entry point (`serveStdio`), serving 2026-07-28 and 2025-era clients.
 - [packages/core/src/mcp](../packages/core/src/mcp): MCP SDK v2 wiring. `create-server.ts` registers every tool on `McpServer`, `kern-schema.ts` adapts each tool's Zod schema for the SDK (our JSON Schema, our validation hints), and `catalog.ts` builds the tool definitions once per process.

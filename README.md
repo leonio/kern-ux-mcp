@@ -9,7 +9,10 @@ MCP Language Server exposing component tools, recursive composition rendering an
 
 ## Configuration & Usage
 
-This is a `stdio` MCP server designed for integration with standard MCP clients using `mcp.json`.
+The server comes in two packages with the same tools:
+
+- `@leonio/kern-ux-mcp`: a `stdio` server that MCP clients start themselves, configured in `mcp.json`.
+- `@leonio/kern-ux-mcp-http`: a Streamable HTTP server for remote and shared use. See [Streamable HTTP server](#streamable-http-server).
 
 ### Option A: npx
 ```json
@@ -44,10 +47,77 @@ npm install -g @leonio/kern-ux-mcp
 Add the following to your user or project `.npmrc`.
 
 ```
-@leonio:registry=[https://npm.pkg.github.com](https://npm.pkg.github.com)
-//[npm.pkg.github.com/:_authToken=YOUR_GITHUB_PAT](https://npm.pkg.github.com/:_authToken=YOUR_GITHUB_PAT)
+@leonio:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=YOUR_GITHUB_PAT
 ```
 
+---
+
+## Streamable HTTP server
+
+`@leonio/kern-ux-mcp-http` serves the same tools at `/mcp`. It's stateless: every request gets its own server instance, so it needs no sticky sessions.
+
+```bash
+npx -y @leonio/kern-ux-mcp-http
+# Kern UX MCP server 2.0.0 listening on http://127.0.0.1:3000/mcp
+```
+
+Connect a client to `http://localhost:3000/mcp`, for example:
+
+```jsonc
+// .vscode/mcp.json (VS Code)
+{
+  "servers": {
+    "kern-ux": { "type": "http", "url": "http://localhost:3000/mcp" }
+  }
+}
+```
+
+```bash
+# Claude Code
+claude mcp add --transport http kern-ux http://localhost:3000/mcp
+```
+
+### Settings
+
+| Variable | Default | Purpose |
+|---|---|---|
+| `HOST` | `127.0.0.1` | Bind address. |
+| `PORT` | `3000` | Listen port. |
+| `KERN_ALLOWED_HOSTS` | `localhost,127.0.0.1,[::1]` | Hostnames accepted in the `Host` header, which protects against DNS rebinding. Ports are ignored. **Required** when `HOST` isn't a loopback address, for example `0.0.0.0` in a container. |
+| `KERN_ALLOWED_ORIGINS` | The loopback names on a loopback bind, otherwise none | Hostnames accepted in the `Origin` header. Requests without an `Origin` (clients that aren't browsers) always pass. |
+| `KERN_AUTH_TOKEN` | unset | When set, `/mcp` requires `Authorization: Bearer <token>`. |
+| `KERN_RATE_LIMIT` | unset | When set, the maximum `/mcp` requests per minute from one client address. Further requests get `429` with `Retry-After`. |
+| `KERN_CORS_ORIGINS` | unset | Origins such as `https://app.example.com` that get CORS headers, for browser-based clients. They're added to the allowed origins. |
+| `KERN_DEBUG` | unset | `1` logs every request and tool call to stderr. |
+
+The server refuses to start with a setting it can't apply, such as a public `HOST` without `KERN_ALLOWED_HOSTS`.
+
+### Endpoints and shutdown
+
+- `/mcp`: the MCP endpoint. Request bodies are limited to 4 MiB.
+- `/healthz`: liveness, `200` while the process runs.
+- `/readyz`: readiness, `503` once shutdown has started.
+
+The probes skip the `Host` check and the token, so orchestrators can call them by IP. On `SIGTERM` or `SIGINT` the server stops accepting connections, gives in-flight requests up to 8 seconds to finish, and exits.
+
+### Security
+
+- Without `KERN_AUTH_TOKEN`, anyone who can reach the port can use the server. Keep it on a trusted network, or set a long random token.
+- The rate limit counts per client address. Behind a reverse proxy every request comes from the proxy's address, so limit at the proxy instead.
+
+### Clients that need a public HTTPS URL
+
+ChatGPT and the OpenAI Responses API `mcp` tool only connect to public HTTPS URLs. For local testing, put a tunnel in front of the server and allow the tunnel's hostname:
+
+```bash
+cloudflared tunnel --url http://localhost:3000
+# prints https://<name>.trycloudflare.com
+
+KERN_ALLOWED_HOSTS=localhost,<name>.trycloudflare.com npx -y @leonio/kern-ux-mcp-http
+```
+
+Then use `https://<name>.trycloudflare.com/mcp` as the server URL. `ngrok http 3000` works the same way. The tunnel makes the server public, so set `KERN_AUTH_TOKEN` if your client can send an `Authorization` header.
 
 ---
 
