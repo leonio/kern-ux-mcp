@@ -66,11 +66,11 @@ Start here: [r3-kickoff.md](r3-kickoff.md) has the state after R2b, the agreed c
 
 - [x] Do a pure move into `packages/core` (`"private": true`) and `packages/stdio`, working through the path checklist in [R3 details](#r3-workspace-split-and-hosts).
 - [x] Load `registry.json` as a JSON import, memoise `getCatalog()`, and delete `tools/manifest/copy-manifest.mjs`.
-- [ ] Set up the esbuild bundles:
+- [x] Set up the esbuild bundles:
   - for npm: core inlined, third-party packages external
   - for MCPB and Docker: everything inlined
   - plus a check that every dependency is declared
-- [ ] Build `packages/http`:
+- [x] Build `packages/http`:
   - the handler, with host and origin validation (declare the `hono` peer dependency of `@modelcontextprotocol/node`)
   - `/healthz` and `/readyz`
   - optional auth, rate limiting and CORS
@@ -304,13 +304,13 @@ These are plan-v2 items that make the swap mechanical, plus small fixes from fin
   |---|---|---|
   | `HOST` | `127.0.0.1` | Bind address |
   | `PORT` | `3000` | Listen port |
-  | `KERN_ALLOWED_HOSTS`, `KERN_ALLOWED_ORIGINS` | localhost validation | **Explicit lists are required when binding `0.0.0.0`**. `localhostHostValidation` only fits loopback binds. |
+  | `KERN_ALLOWED_HOSTS`, `KERN_ALLOWED_ORIGINS` | localhost validation | **Explicit lists are required when binding `0.0.0.0`**. `localhostHostValidation` only fits loopback binds. Entries are hostnames: the SDK guards ignore ports, so the host strips any. |
   | `KERN_AUTH_TOKEN` | unset | Optional static bearer check in front of the handler |
   | `KERN_RATE_LIMIT` | unset | Optional per-IP token bucket |
   | `KERN_CORS_ORIGINS` | unset | Optional CORS allowlist |
   | `KERN_DEBUG` | unset | Same as today |
 
-- Optional OpenTelemetry (`_meta` `traceparent`), off by default.
+- Optional OpenTelemetry (`_meta` `traceparent`), off by default. **Deferred** (2026-09-28): not in the tracker, and it adds dependencies.
 - SIGTERM drain.
 - ChatGPT and the Responses API need a public HTTPS URL. For local testing, document a tunnel (`cloudflared`/`ngrok`) in the README.
 

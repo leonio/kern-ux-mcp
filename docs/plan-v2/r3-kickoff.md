@@ -65,7 +65,8 @@ The user approved the proposed plan below, with these changes:
 Progress:
 - [x] A1 `b536610`: JSON import, synchronous catalog, `createKernServer({ version })`
 - [x] A2 `adbc829`: workspace split (core, stdio), esbuild npm bundle for stdio (`tools/build/bundle.ts`), path checklist
-- [ ] B: the fully inlined bundle and the dependency check, then `packages/http` with its e2e tests
+- [x] B1 `690d812`: `standalone/` bundle (everything inlined, plus `THIRD_PARTY_LICENSES.txt`), the dependency checks inside the build, README/LICENSE copied into packages on `prepack`
+- [x] B2 `3552bae`: `packages/http` (`@leonio/kern-ux-mcp-http`) with in-process e2e tests; README section for the HTTP server
 - [ ] C: Docker, MCPB, CI, `release.yml`
 
 Learned in A:
@@ -74,6 +75,16 @@ Learned in A:
 - `"*"` as the workspace dev-dependency spec links the prerelease-versioned core; npm doesn't try the registry.
 - The stdio npm bundle is 345 kB, with the SDK, zod, node-html-parser and `node:crypto` external. It boots faster than the old tsc output.
 - `release.yml` still packs the private root until commit 8 rewrites it (a publish would fail safely, since the root is private).
+
+Learned in B:
+- Build outputs per host: `dist/index.js` (npm, ~350 kB) and `standalone/index.js` (~1.9–2.0 MB). Neither needs the spike's `createRequire` banner: no `__require()` calls. Both run on Node 24.21.
+- node-html-parser 9 ships css-select, entities and friends pre-bundled in its dist, so esbuild's inputs miss them. The licence file therefore also follows each inlined package's `dependencies`.
+- `hono` is only a required peer of `@modelcontextprotocol/node`; nothing imports it at runtime, so it's declared but never bundled.
+- The Node adapter's Host and Origin guards compare **hostnames only** (ports ignored). The config strips ports from entries, so `KERN_ALLOWED_HOSTS=localhost:3000` still works.
+- SDK clients pin only modern revisions: a 2025 HTTP client needs `versionNegotiation: { mode: "legacy" }`.
+- Vitest (Vite 8) needs `ssr.resolve.conditions` for the `@leonio/source` condition; top-level `resolve.conditions` doesn't reach node tests.
+- The SDK's SSE responses set `Connection: keep-alive` through `writeHead`, overriding `setHeader`. The drain therefore closes each connection as soon as it goes idle. The drain test uses a keep-alive agent; with `agent: false`, Node sends `Connection: close` and the test proves nothing.
+- The HTTP e2e tests run in-process. Nothing has sent a real SIGTERM to the built bin yet (on Windows `kill` terminates outright). The CI e2e job (C) should spawn `packages/http/dist/index.js` on Linux, send SIGTERM and expect exit 0.
 
 ## Proposed plan (as written before the user's review)
 
