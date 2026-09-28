@@ -43,7 +43,11 @@ npm install -g @leonio/kern-ux-mcp
 }
 ```
 
-### Option C: GitHub Packages
+### Option C: Claude Desktop (MCP Bundle)
+
+Each [GitHub release](https://github.com/leonio/kern-ux-mcp/releases) has a `kern-ux-mcp-<version>.mcpb` asset. Open it with Claude Desktop to install the server as an extension. The bundle contains the whole server in one file, so nothing is downloaded from npm. It needs Node.js 24.16 or later.
+
+### Option D: GitHub Packages
 Add the following to your user or project `.npmrc`.
 
 ```

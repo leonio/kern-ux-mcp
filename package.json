@@ -35,6 +35,7 @@
 		"scan:vulns:high": "npm run sbom:generate && grype sbom:sbom.cyclonedx.json --fail-on high",
 		"pack:inspect": "npm run build && npm pack --dry-run -w packages/stdio",
 		"pack:release": "npm run build && npm pack -w packages/stdio",
+		"pack:mcpb": "npm run build -w packages/stdio && npm run pack:mcpb -w packages/stdio",
 		"sample:dev": "npm --prefix samples/basic-layout run dev",
 		"test": "vitest run",
 		"test:watch": "vitest",

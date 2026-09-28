@@ -1,0 +1,49 @@
+{
+	"manifest_version": "0.3",
+	"name": "kern-ux-mcp",
+	"display_name": "KERN UX",
+	"version": "0.0.0",
+	"description": "KERN UX components as MCP tools: generate accessible HTML for the German federal design system and validate it strictly (BITV/WCAG).",
+	"author": {
+		"name": "Leon Ioannides",
+		"url": "https://github.com/leonio"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/leonio/kern-ux-mcp.git"
+	},
+	"homepage": "https://github.com/leonio/kern-ux-mcp#readme",
+	"documentation": "https://github.com/leonio/kern-ux-mcp#readme",
+	"support": "https://github.com/leonio/kern-ux-mcp/issues",
+	"license": "EUPL-1.2",
+	"keywords": ["kern-ux", "design-system", "accessibility", "html", "bitv"],
+	"server": {
+		"type": "node",
+		"entry_point": "server/index.js",
+		"mcp_config": {
+			"command": "node",
+			"args": ["${__dirname}/server/index.js"],
+			"env": {
+				"KERN_DEBUG": "${user_config.debug}"
+			}
+		}
+	},
+	"user_config": {
+		"debug": {
+			"type": "boolean",
+			"title": "Debug logging",
+			"description": "Write every tool call to the server log.",
+			"default": false,
+			"required": false
+		}
+	},
+	"tools": [],
+	"tools_generated": false,
+	"prompts_generated": false,
+	"compatibility": {
+		"platforms": ["darwin", "win32", "linux"],
+		"runtimes": {
+			"node": ">=24.16.0"
+		}
+	}
+}

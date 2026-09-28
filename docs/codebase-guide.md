@@ -47,6 +47,7 @@ The repo is an npm workspace:
 - [packages/core/src/ux/registry.ts](../packages/core/src/ux/registry.ts): loads the generated manifest.
 - [packages/core/src/ux/validate.ts](../packages/core/src/ux/validate.ts): strict HTML validation rules used by tools.
 - [tools/manifest](../tools/manifest): registry build and overlay validation scripts.
+- [tools/build/mcpb.ts](../tools/build/mcpb.ts): packs `packages/stdio` as an MCP Bundle (`.mcpb`) from its standalone bundle and the `packages/stdio/mcpb/manifest.json` template, adding the version and the static `tools[]` list.
 - [tools/build/bundle.ts](../tools/build/bundle.ts): bundles a host package with esbuild: `dist/` for npm (core inlined, third-party packages external, undeclared imports fail the build) and `standalone/` for MCPB and the container (everything inlined, plus `THIRD_PARTY_LICENSES.txt`).
 - [docs](../docs): contributor docs, manifest inputs, overlay schema, and historical notes.
 - [.github/instructions](../.github/instructions): targeted file-scoped workflow rules.
