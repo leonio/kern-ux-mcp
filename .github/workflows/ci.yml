@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [main]
+    branches: [main, feat/v2-alpha]
   pull_request:
-    branches: [main]
+    branches: [main, feat/v2-alpha]
 
 permissions:
   contents: read
@@ -66,3 +66,169 @@ jobs:
           name: coverage-report
           path: coverage/
           retention-days: 14
+
+  # The built hosts as separate processes: stdio (npm and standalone/MCPB bundles)
+  # and HTTP (npm and standalone/container bundles), on both protocol eras.
+  e2e:
+    name: E2E (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Run E2E Tests
+        run: npm run test:e2e
+
+  # What users get from npm: the stdio and http tarballs installed into an empty
+  # directory, where the private core isn't available.
+  packed-install:
+    name: Packed Install
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Pack and Install the Tarballs
+        shell: bash
+        run: |
+          tarballs="$RUNNER_TEMP/tarballs"
+          install_dir="$RUNNER_TEMP/install"
+          mkdir -p "$tarballs" "$install_dir"
+          npm pack -w packages/stdio -w packages/http --pack-destination "$tarballs"
+          cd "$install_dir"
+          echo '{ "name": "packed-install-check", "private": true }' > package.json
+          npm install --no-audit --no-fund "$tarballs"/*.tgz
+          if [ -e node_modules/@leonio/kern-ux-core ]; then
+            echo "::error::@leonio/kern-ux-core was installed; it must stay private and inlined"
+            exit 1
+          fi
+          echo "KERN_E2E_INSTALL_DIR=$install_dir" >> "$GITHUB_ENV"
+
+      - name: Run E2E Tests Against the Installed Bins
+        run: npm run test:e2e
+
+  mcpb:
+    name: MCP Bundle
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      # Builds stdio, then validates and packs the .mcpb.
+      - name: Pack the MCP Bundle
+        run: npm run pack:mcpb
+
+      - name: Upload the MCP Bundle
+        uses: actions/upload-artifact@v7
+        with:
+          name: mcpb
+          path: packages/stdio/mcpb-dist/*.mcpb
+          if-no-files-found: error
+          retention-days: 14
+
+  # Builds the image for both platforms without pushing, then runs the amd64
+  # image and tests it like any other HTTP server.
+  container:
+    name: Container Image
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v4
+
+      - name: Build for amd64 and arm64
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          file: packages/http/Dockerfile
+          platforms: linux/amd64,linux/arm64
+          push: false
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Load the amd64 Image
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          file: packages/http/Dockerfile
+          platforms: linux/amd64
+          load: true
+          tags: kern-ux-mcp-http:ci
+          cache-from: type=gha
+
+      - name: Start the Container
+        run: |
+          docker run -d --name kern-ci -p 127.0.0.1:3000:3000 --read-only --cap-drop ALL \
+            -e KERN_ALLOWED_HOSTS=localhost kern-ux-mcp-http:ci
+          for _ in $(seq 1 60); do
+            [ "$(docker inspect -f '{{.State.Health.Status}}' kern-ci)" = healthy ] && exit 0
+            sleep 1
+          done
+          echo "::error::the container didn't become healthy"
+          exit 1
+
+      - name: Setup Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Run E2E Tests Against the Container
+        env:
+          KERN_E2E_HTTP_URL: http://localhost:3000/mcp
+        run: npx vitest run -c vitest.e2e.config.ts packages/http
+
+      - name: Stop the Container (SIGTERM Drain)
+        run: |
+          docker stop kern-ci
+          test "$(docker inspect -f '{{.State.ExitCode}}' kern-ci)" = 0
+
+      - name: Container Logs
+        if: ${{ !cancelled() }}
+        run: docker logs kern-ci

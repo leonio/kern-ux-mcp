@@ -141,6 +141,14 @@ npm run test:coverage  # suite + coverage; fails below the thresholds in vitest.
 npm test -- packages/core/src/ux/validate.test.ts   # a single file
 ```
 
+End-to-end tests (`packages/*/src/*.e2e.ts`) spawn the built hosts as separate processes, so build first:
+
+```bash
+npm run build && npm run test:e2e
+```
+
+CI also runs them against the npm tarballs installed into an empty directory (`KERN_E2E_INSTALL_DIR`) and against the container image (`KERN_E2E_HTTP_URL`).
+
 Where tests live:
 
 ```text

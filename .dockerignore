@@ -14,3 +14,4 @@
 **/*.test.ts
 **/__snapshots__/
 packages/core/src/test-support/
+**/*.e2e.ts

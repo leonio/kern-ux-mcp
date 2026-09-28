@@ -9,6 +9,9 @@ export default defineConfig({
 	test: {
 		// Persist transformed modules between runs (cache lives in node_modules and is keyed on file content).
 		fsModuleCache: true,
+		// A cold run with coverage (always the case in CI) builds every tool's JSON Schema
+		// under instrumentation, which can pass the 5 s default.
+		testTimeout: 15_000,
 		// One project per workspace package plus the build tooling; all inherit this config.
 		// Run one with `npx vitest run --project core`.
 		projects: [
@@ -33,6 +36,7 @@ export default defineConfig({
 			// (config, listen, signals). What they call is covered by the core and HTTP tests.
 			exclude: [
 				"packages/*/src/**/*.test.ts",
+				"packages/*/src/**/*.e2e.ts",
 				"packages/*/src/test-support/**",
 				"packages/*/src/index.ts",
 			],
