@@ -47,6 +47,7 @@ The repo is an npm workspace:
 - [packages/core/src/ux/registry.ts](../packages/core/src/ux/registry.ts): loads the generated manifest.
 - [packages/core/src/ux/validate.ts](../packages/core/src/ux/validate.ts): strict HTML validation rules used by tools.
 - [tools/manifest](../tools/manifest): registry build and overlay validation scripts.
+- [tools/build/sbom.ts](../tools/build/sbom.ts): writes a host package's CycloneDX SBOM (`npm run sbom`), which the release ships in the tarball and attests for the image and the `.mcpb`.
 - [tools/build/mcpb.ts](../tools/build/mcpb.ts): packs `packages/stdio` as an MCP Bundle (`.mcpb`) from its standalone bundle and the `packages/stdio/mcpb/manifest.json` template, adding the version and the static `tools[]` list.
 - [tools/build/bundle.ts](../tools/build/bundle.ts): bundles a host package with esbuild: `dist/` for npm (core inlined, third-party packages external, undeclared imports fail the build) and `standalone/` for MCPB and the container (everything inlined, plus `THIRD_PARTY_LICENSES.txt`).
 - [docs](../docs): contributor docs, manifest inputs, overlay schema, and historical notes.

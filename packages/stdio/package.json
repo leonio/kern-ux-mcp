@@ -39,6 +39,7 @@
 	},
 	"scripts": {
 		"build": "tsx ../../tools/build/bundle.ts",
+		"sbom": "tsx ../../tools/build/sbom.ts",
 		"prepack": "node -e \"for (const file of ['README.md', 'LICENSE.md']) require('node:fs').copyFileSync('../../' + file, file)\"",
 		"build:watch": "tsx ../../tools/build/bundle.ts --watch",
 		"pack:mcpb": "tsx --conditions=@leonio/source ../../tools/build/mcpb.ts",

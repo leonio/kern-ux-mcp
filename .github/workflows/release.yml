@@ -1,10 +1,16 @@
 name: Release
 
+# Publishes @leonio/kern-ux-mcp (npm, GitHub Packages, .mcpb on the GitHub
+# release) and @leonio/kern-ux-mcp-http (npm, GitHub Packages, GHCR image).
+# @leonio/kern-ux-core is private: it's inlined into both and never published.
+# Every publish step skips what already exists, so a re-run after a partial
+# failure finishes the release. One-time setup: docs/release-bootstrap.md.
+
 on:
   workflow_dispatch:
     inputs:
       dry-run:
-        description: 'Dry run — build and compute version without publishing'
+        description: 'Dry run — build, test and pack without publishing'
         required: false
         default: false
         type: boolean
@@ -14,23 +20,25 @@ on:
         default: 'release'
         type: string
 
+permissions:
+  contents: read
+
 jobs:
   verify:
     name: Verify Release
     runs-on: ubuntu-latest
     outputs:
       semVer: ${{ steps.gitversion.outputs.semVer }}
-      packageFile: ${{ steps.pack.outputs.package_file }}
       preReleaseLabel: ${{ steps.gitversion.outputs.preReleaseLabel }}
       npmDistTag: ${{ steps.npm-dist-tag.outputs.npmDistTag }}
     permissions:
-      contents: write
+      contents: write   # the release notes preview API
 
     steps:
       - name: Checkout
         uses: actions/checkout@v7
         with:
-          fetch-depth: 0 
+          fetch-depth: 0
 
       - name: Install GitVersion
         uses: gittools/actions/gitversion/setup@v4.7.0
@@ -58,14 +66,21 @@ jobs:
           echo "SemVer:     ${{ steps.gitversion.outputs.semVer }}"
           echo "NuGetVer:   ${{ steps.gitversion.outputs.nuGetVersion }}"
           echo "InformationalVersion: ${{ steps.gitversion.outputs.informationalVersion }}"
+          echo "npm dist-tag: ${{ steps.npm-dist-tag.outputs.npmDistTag }}"
 
       - name: Setup Node
         uses: actions/setup-node@v7
         with:
           node-version: '24'
+          cache: 'npm'
 
       - name: Install Dependencies
         run: npm ci
+
+      # Before the build: the bundles inline the version the servers report.
+      # All workspaces move in lockstep, the private core included.
+      - name: Set the Version
+        run: npm pkg set version="${{ steps.gitversion.outputs.semVer }}" --workspaces
 
       - name: Build (uses the checked-in registry.json)
         run: npm run build
@@ -73,24 +88,25 @@ jobs:
       - name: Run Tests
         run: npm test
 
-      - name: Inject Version into package.json
-        run: npm pkg set version="${{ steps.gitversion.outputs.semVer }}"
+      - name: Run E2E Tests
+        run: npm run test:e2e
 
-      - name: Generate CycloneDX SBOM
-        uses: anchore/sbom-action@v0
-        with:
-          path: .
-          format: cyclonedx-json
-          output-file: sbom.cyclonedx.json
-          upload-artifact: false
-          upload-release-assets: false
+      # One CycloneDX SBOM per published package; each ships in its tarball.
+      - name: Generate SBOMs
+        run: npm run sbom
 
-      - name: Pack Release Tarball
-        id: pack
+      - name: Pack the Release Assets
         shell: bash
+        env:
+          SEMVER: ${{ steps.gitversion.outputs.semVer }}
         run: |
-          package_file="$(npm pack)"
-          echo "package_file=${package_file}" >> "$GITHUB_OUTPUT"
+          mkdir -p release-assets
+          npm pack -w packages/stdio -w packages/http --pack-destination release-assets
+          npm run pack:mcpb -w packages/stdio
+          cp packages/stdio/mcpb-dist/*.mcpb release-assets/
+          cp packages/stdio/sbom.cyclonedx.json "release-assets/kern-ux-mcp-${SEMVER}.cdx.json"
+          cp packages/http/sbom.cyclonedx.json "release-assets/kern-ux-mcp-http-${SEMVER}.cdx.json"
+          ls -l release-assets
 
       - name: Generate Release Notes Preview
         continue-on-error: true
@@ -120,13 +136,12 @@ jobs:
             cat release-notes-preview.md
           } >> "$GITHUB_STEP_SUMMARY"
 
-      - name: Upload Release Artifact
+      - name: Upload Release Assets
         uses: actions/upload-artifact@v7
         with:
           name: release-assets
-          path: |
-            ${{ steps.pack.outputs.package_file }}
-            sbom.cyclonedx.json
+          path: release-assets/
+          if-no-files-found: error
 
       - name: Upload Release Notes Preview
         uses: actions/upload-artifact@v7
@@ -145,19 +160,25 @@ jobs:
     environment:
       name: ${{ inputs.publish_environment }}
     permissions:
-      contents: write   # create GitHub releases and tags
-      packages: write   # publish to GitHub Packages
-      id-token: write   # npm trusted publishing via GitHub OIDC
+      contents: write      # create the GitHub release and tag
+      packages: write      # GitHub Packages and GHCR
+      id-token: write      # npm trusted publishing and attestations (GitHub OIDC)
+      attestations: write  # provenance and SBOM attestations
+    env:
+      SEMVER: ${{ needs.verify.outputs.semVer }}
+      DIST_TAG: ${{ needs.verify.outputs.npmDistTag }}
+      IMAGE: ghcr.io/leonio/kern-ux-mcp-http
 
     steps:
+      # The image is built from source, like CI; everything else comes from verify.
       - name: Checkout
         uses: actions/checkout@v7
 
-      - name: Download Release Artifact
+      - name: Download Release Assets
         uses: actions/download-artifact@v8.0.1
         with:
           name: release-assets
-          path: release-package
+          path: release-assets
 
       - name: Setup Node for npm
         uses: actions/setup-node@v7
@@ -165,8 +186,18 @@ jobs:
           node-version: '24'
           registry-url: 'https://registry.npmjs.org'
 
+      # Only the stdio and http tarballs are in release-assets; core is never packed.
       - name: Publish to npm (trusted publishing)
-        run: npm publish "./release-package/${{ needs.verify.outputs.packageFile }}" --provenance --access public --tag ${{ needs.verify.outputs.npmDistTag }}
+        shell: bash
+        run: |
+          for tarball in release-assets/*.tgz; do
+            name="$(tar -xOzf "$tarball" package/package.json | jq -r .name)"
+            if [[ -n "$(npm view "$name@$SEMVER" version 2>/dev/null)" ]]; then
+              echo "$name@$SEMVER is already on npm; skipping."
+            else
+              npm publish "$tarball" --provenance --access public --tag "$DIST_TAG"
+            fi
+          done
 
       - name: Setup Node for GitHub Packages
         uses: actions/setup-node@v7
@@ -176,23 +207,105 @@ jobs:
           scope: '@leonio'
 
       - name: Publish to GitHub Packages
-        run: npm publish "./release-package/${{ needs.verify.outputs.packageFile }}" --tag ${{ needs.verify.outputs.npmDistTag }}
+        shell: bash
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          for tarball in release-assets/*.tgz; do
+            name="$(tar -xOzf "$tarball" package/package.json | jq -r .name)"
+            if [[ -n "$(npm view "$name@$SEMVER" version 2>/dev/null)" ]]; then
+              echo "$name@$SEMVER is already on GitHub Packages; skipping."
+            else
+              npm publish "$tarball" --tag "$DIST_TAG"
+            fi
+          done
 
-      - name: Create GitHub Release
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v4
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Check for an Existing Image
+        id: image
+        run: |
+          if docker buildx imagetools inspect "$IMAGE:$SEMVER" > /dev/null 2>&1; then
+            echo "$IMAGE:$SEMVER already exists; skipping the push."
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      # BuildKit's own attestations are off: its SBOM scanner can't see packages
+      # inlined into the bundle. The GitHub attestations below (verifiable with
+      # `gh attestation verify`) carry the npm SBOM of the http package instead.
+      - name: Build and Push the Image
+        id: push
+        if: ${{ steps.image.outputs.exists == 'false' }}
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          file: packages/http/Dockerfile
+          platforms: linux/amd64,linux/arm64
+          push: true
+          build-args: VERSION=${{ env.SEMVER }}
+          tags: |
+            ${{ env.IMAGE }}:${{ env.SEMVER }}
+            ${{ env.IMAGE }}:${{ env.DIST_TAG }}
+          provenance: false
+          sbom: false
+
+      - name: Attest Image Provenance
+        if: ${{ steps.image.outputs.exists == 'false' }}
+        uses: actions/attest-build-provenance@v4
+        with:
+          subject-name: ${{ env.IMAGE }}
+          subject-digest: ${{ steps.push.outputs.digest }}
+          push-to-registry: true
+
+      - name: Attest Image SBOM
+        if: ${{ steps.image.outputs.exists == 'false' }}
+        uses: actions/attest-sbom@v4
+        with:
+          subject-name: ${{ env.IMAGE }}
+          subject-digest: ${{ steps.push.outputs.digest }}
+          sbom-path: release-assets/kern-ux-mcp-http-${{ env.SEMVER }}.cdx.json
+          push-to-registry: true
+
+      - name: Attest MCP Bundle Provenance
+        uses: actions/attest-build-provenance@v4
+        with:
+          subject-path: release-assets/*.mcpb
+
+      - name: Attest MCP Bundle SBOM
+        uses: actions/attest-sbom@v4
+        with:
+          subject-path: release-assets/*.mcpb
+          sbom-path: release-assets/kern-ux-mcp-${{ env.SEMVER }}.cdx.json
+
+      # --target pins the tag to the released commit; without it gh tags the
+      # default branch, which is wrong for pre-releases from feat/v2-alpha.
+      - name: Create or Update the GitHub Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PRE_RELEASE_LABEL: ${{ needs.verify.outputs.preReleaseLabel }}
         shell: bash
         run: |
-          prerelease_flag=""
-          if [[ -n "$PRE_RELEASE_LABEL" ]]; then
-            prerelease_flag="--prerelease"
+          tag="v$SEMVER"
+          if gh release view "$tag" > /dev/null 2>&1; then
+            gh release upload "$tag" release-assets/* --clobber
+          else
+            prerelease_flag=""
+            if [[ -n "$PRE_RELEASE_LABEL" ]]; then
+              prerelease_flag="--prerelease"
+            fi
+            gh release create "$tag" release-assets/* \
+              --target "$GITHUB_SHA" \
+              --title "$tag" \
+              --generate-notes \
+              $prerelease_flag
           fi
-          gh release create "v${{ needs.verify.outputs.semVer }}" \
-            "release-package/${{ needs.verify.outputs.packageFile }}" \
-            "release-package/sbom.cyclonedx.json" \
-            --title "v${{ needs.verify.outputs.semVer }}" \
-            --generate-notes \
-            $prerelease_flag

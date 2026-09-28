@@ -1,5 +1,6 @@
 {
 	"name": "kern-ux-mcp-workspace",
+	"version": "0.0.0",
 	"private": true,
 	"type": "module",
 	"description": "Workspace root for the Kern UX MCP server: the private core library and the published hosts.",
@@ -30,6 +31,7 @@
 		"loop:stop": "pwsh -NoLogo -ExecutionPolicy Bypass -File ./tools/dev/dev-loop.ps1 -Stop",
 		"validate-guidance-overlay": "tsx tools/manifest/validate-guidance-overlay.ts",
 		"generate-manifest": "tsx tools/manifest/build-manifest.ts",
+		"sbom": "npm run sbom -w packages/stdio -w packages/http",
 		"sbom:generate": "syft scan dir:. --output cyclonedx-json=sbom.cyclonedx.json",
 		"scan:vulns": "npm run sbom:generate && grype sbom:sbom.cyclonedx.json",
 		"scan:vulns:high": "npm run sbom:generate && grype sbom:sbom.cyclonedx.json --fail-on high",
