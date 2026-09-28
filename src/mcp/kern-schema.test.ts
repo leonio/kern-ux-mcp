@@ -5,8 +5,8 @@ import type { ToolDef } from "../ux/tool-builders/shared.js";
 import { getCatalog } from "./catalog.js";
 import { kernInputSchema } from "./kern-schema.js";
 
-async function getTool(name: string): Promise<ToolDef> {
-	const tool = (await getCatalog()).tools.find((t) => t.name === name);
+function getTool(name: string): ToolDef {
+	const tool = getCatalog().tools.find((t) => t.name === name);
 	if (!tool) throw new Error(`missing tool ${name}`);
 	return tool;
 }
@@ -14,8 +14,8 @@ async function getTool(name: string): Promise<ToolDef> {
 const OPTIONS = { target: "draft-2020-12" } as const;
 
 describe("kernInputSchema", () => {
-	it("lists our own JSON Schema, converted once per tool", async () => {
-		const tool = await getTool("get_button");
+	it("lists our own JSON Schema, converted once per tool", () => {
+		const tool = getTool("get_button");
 		const schema = kernInputSchema(tool);
 		const first = schema["~standard"].jsonSchema.input(OPTIONS);
 
@@ -25,7 +25,7 @@ describe("kernInputSchema", () => {
 	});
 
 	it("normalizes and parses valid input, applying schema defaults", async () => {
-		const tool = await getTool("get_inputtext");
+		const tool = getTool("get_inputtext");
 		const result = await kernInputSchema(tool)["~standard"].validate({});
 
 		expect(result.issues).toBeUndefined();
@@ -35,7 +35,7 @@ describe("kernInputSchema", () => {
 	});
 
 	it("reports invalid input as one path-less issue carrying the hint without our header", async () => {
-		const tool = await getTool("get_button");
+		const tool = getTool("get_button");
 		const result = await kernInputSchema(tool)["~standard"].validate({
 			label: "OK",
 			variant: "rainbow",

@@ -1,6 +1,5 @@
 import { type CacheHint, McpServer } from "@modelcontextprotocol/server";
 
-import pkg from "../../package.json" with { type: "json" };
 import { runTool } from "../invoke.js";
 import {
 	KERN_TOOL_ANNOTATIONS,
@@ -47,14 +46,19 @@ export function registerKernTool(server: McpServer, tool: ToolDef): void {
 	);
 }
 
+export type KernServerOptions = {
+	/** Reported as the server version: the version of the host package. */
+	version: string;
+};
+
 /**
  * Creates a server with every KERN tool registered. It's cheap enough to call
  * per connection or per request: definitions and JSON Schemas are built once.
  */
-export async function createKernServer(): Promise<McpServer> {
-	const { tools } = await getCatalog();
+export function createKernServer({ version }: KernServerOptions): McpServer {
+	const { tools } = getCatalog();
 	const server = new McpServer(
-		{ name: "kern-ux", version: pkg.version },
+		{ name: "kern-ux", version },
 		{
 			// The tool set is fixed per release, so no list-changed notifications.
 			capabilities: { tools: { listChanged: false } },

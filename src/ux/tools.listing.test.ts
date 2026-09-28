@@ -13,7 +13,7 @@ import { createTools } from "./tools.js";
  */
 describe("tool listing contract", () => {
 	it("matches the published tools/list snapshot", async () => {
-		const registry = await loadRegistryFromManifest();
+		const registry = loadRegistryFromManifest();
 		const listing = createTools(registry).listTools();
 
 		await expect(`${JSON.stringify(listing, null, 2)}\n`).toMatchFileSnapshot(

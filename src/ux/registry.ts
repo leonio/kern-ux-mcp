@@ -1,14 +1,5 @@
-import fs from "node:fs/promises";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
-
+import manifest from "./registry.json" with { type: "json" };
 import type { Registry, RegistryManifest } from "./types.js";
-
-function manifestPathFromModule() {
-	const __filename = fileURLToPath(import.meta.url);
-	const __dirname = path.dirname(__filename);
-	return path.join(__dirname, "registry.json");
-}
 
 function toRegistry(manifest: RegistryManifest): Registry {
 	const components = [...manifest.components].sort((a, b) =>
@@ -27,27 +18,20 @@ function toRegistry(manifest: RegistryManifest): Registry {
 	};
 }
 
-export async function loadRegistryFromManifest(): Promise<Registry> {
-	const manifestPath = manifestPathFromModule();
-
-	let parsed: RegistryManifest;
-	try {
-		const text = await fs.readFile(manifestPath, "utf8");
-		parsed = JSON.parse(text) as RegistryManifest;
-	} catch (error) {
-		throw new Error(
-			`Failed to load registry manifest at ${manifestPath}. Run "npm run generate-manifest" before starting the server.`,
-			{ cause: error as Error },
-		);
-	}
+/**
+ * The checked-in registry.json, loaded as a JSON import: it's part of the module
+ * graph, so bundles inline it and there's no file path to resolve at runtime.
+ */
+export function loadRegistryFromManifest(): Registry {
+	const parsed = manifest as unknown as Partial<RegistryManifest> | null;
 
 	if (!parsed?.manifestVersion || !Array.isArray(parsed.components)) {
 		throw new Error(
-			`Invalid registry manifest at ${manifestPath}: expected keys "manifestVersion" and "components".`,
+			`Invalid registry manifest (registry.json): expected keys "manifestVersion" and "components".`,
 		);
 	}
 
-	return toRegistry(parsed);
+	return toRegistry(parsed as RegistryManifest);
 }
 
 export function validateRegistryAgainstToolNames(

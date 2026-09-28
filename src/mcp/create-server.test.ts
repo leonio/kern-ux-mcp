@@ -1,8 +1,7 @@
 import { type Client, ProtocolError } from "@modelcontextprotocol/client";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 
-import pkg from "../../package.json" with { type: "json" };
-import { MCP_ERAS } from "../test-support/mcp.js";
+import { MCP_ERAS, TEST_SERVER_VERSION } from "../test-support/mcp.js";
 
 /**
  * End-to-end tests over a real MCP client/server pair, on both protocol eras
@@ -33,10 +32,10 @@ describe.each(MCP_ERAS)("MCP server over $era", ({ era, connect }) => {
 		expect(client.getNegotiatedProtocolVersion()).toBe(era);
 	});
 
-	it("reports the package.json version and a static tool list", () => {
+	it("reports the host version and a static tool list", () => {
 		expect(client.getServerVersion()).toMatchObject({
 			name: "kern-ux",
-			version: pkg.version,
+			version: TEST_SERVER_VERSION,
 		});
 		expect(client.getServerCapabilities()?.tools).toEqual({
 			listChanged: false,

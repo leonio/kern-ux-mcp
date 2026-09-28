@@ -57,8 +57,8 @@ function resolvePointer(root: unknown, ref: string): unknown {
 describe("tools/list inputSchema MCP contract", () => {
 	let listedTools: ListedTool[];
 
-	beforeAll(async () => {
-		const registry = await loadRegistryFromManifest();
+	beforeAll(() => {
+		const registry = loadRegistryFromManifest();
 		listedTools = createTools(registry).listTools() as ListedTool[];
 	});
 

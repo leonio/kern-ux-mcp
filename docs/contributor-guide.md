@@ -38,14 +38,13 @@ Runtime flow:
 - strategy builders in `src/ux/tool-builders/`
 - component schemas in `src/ux/schemas/`
 - HTML templates in `src/ux/templates/`
-- generated runtime registry in `src/ux/registry.json` loaded by `src/ux/registry.ts`
+- generated runtime registry in `src/ux/registry.json`, a JSON import in `src/ux/registry.ts`
 
 Build-only tooling:
 
 - manifest generator: `tools/manifest/build-manifest.ts`
 - overlay loader/validator: `tools/manifest/guidance-overlay.ts`
 - overlay validation entrypoint: `tools/manifest/validate-guidance-overlay.ts`
-- manifest copy step: `tools/manifest/copy-manifest.mjs`
 - local dev loop script: `tools/dev/dev-loop.ps1`
 
 ## Runtime Manifest Shape

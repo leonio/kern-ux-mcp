@@ -26,10 +26,10 @@ function deepFreeze<T>(value: T): T {
 	return value;
 }
 
-beforeAll(async () => {
+beforeAll(() => {
 	// The adapter hands the SDK the same memoised objects on every tools/list.
 	// Frozen, any mutation by the SDK throws (ES modules run in strict mode).
-	for (const tool of (await getCatalog()).tools) {
+	for (const tool of getCatalog().tools) {
 		deepFreeze(
 			kernInputSchema(tool)["~standard"].jsonSchema.input({
 				target: "draft-2020-12",
@@ -68,9 +68,6 @@ describe.each(MCP_ERAS)("tools/list over $era", ({ era, connect }) => {
 	if (era === "2026-07-28") {
 		it("matches the wire snapshot", async () => {
 			const listing = JSON.parse(JSON.stringify(await client.listTools()));
-			// CI injects the release version; create-server.test.ts checks it instead.
-			const serverInfo = listing._meta?.["io.modelcontextprotocol/serverInfo"];
-			if (serverInfo) serverInfo.version = "<package.json version>";
 
 			await expect(`${JSON.stringify(listing, null, 2)}\n`).toMatchFileSnapshot(
 				"__snapshots__/mcp-tools-list.json",

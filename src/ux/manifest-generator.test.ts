@@ -3,16 +3,16 @@ import { describe, expect, it } from "vitest";
 import { loadRegistryFromManifest } from "./registry.js";
 
 describe("manifest generator regression", () => {
-	it("filters scanner artifacts and excluded ids", async () => {
-		const registry = await loadRegistryFromManifest();
+	it("filters scanner artifacts and excluded ids", () => {
+		const registry = loadRegistryFromManifest();
 		const ids = new Set(registry.components.map((component) => component.id));
 
 		expect(ids.has("check")).toBe(false);
 		expect(ids.has("compose_stories_js")).toBe(false);
 	});
 
-	it("normalizes known alias ids to canonical ids", async () => {
-		const registry = await loadRegistryFromManifest();
+	it("normalizes known alias ids to canonical ids", () => {
+		const registry = loadRegistryFromManifest();
 		const ids = new Set(registry.components.map((component) => component.id));
 
 		expect(ids.has("description_list")).toBe(false);
@@ -24,16 +24,16 @@ describe("manifest generator regression", () => {
 		expect(ids.has("tasklist")).toBe(true);
 	});
 
-	it("does not mark card as deprecated for modifier-level SCSS deprecations", async () => {
-		const registry = await loadRegistryFromManifest();
+	it("does not mark card as deprecated for modifier-level SCSS deprecations", () => {
+		const registry = loadRegistryFromManifest();
 		const card = registry.byId.get("card");
 
 		expect(card).toBeDefined();
 		expect(card?.status).not.toBe("deprecated");
 	});
 
-	it("keeps extracted docs lean while preserving reviewed overlay guidance", async () => {
-		const registry = await loadRegistryFromManifest();
+	it("keeps extracted docs lean while preserving reviewed overlay guidance", () => {
+		const registry = loadRegistryFromManifest();
 
 		const kopfzeile = registry.byId.get("kopfzeile");
 		const inputDate = registry.byId.get("inputdate");

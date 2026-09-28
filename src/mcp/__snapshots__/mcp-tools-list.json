@@ -2,7 +2,7 @@
   "_meta": {
     "io.modelcontextprotocol/serverInfo": {
       "name": "kern-ux",
-      "version": "<package.json version>"
+      "version": "0.0.0-test"
     }
   },
   "ttlMs": 3600000,
