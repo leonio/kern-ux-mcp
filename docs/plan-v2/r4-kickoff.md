@@ -103,6 +103,7 @@ with `type` one of `text`, `email`, `tel`, `url`, `number`, `date`, `password`, 
 - no `card` directly inside a `card`
 - ~~the schema's depth check and the renderer's become one constant with one meaning~~ (done in A1)
 - a `section` or `disclosure` block must have content: the union accepts one without, and the builder then throws a raw Zod error (found in A)
+- no `form` inside a `formFlow` step either (the steps already sit in a form since B4)
 - These go into the existing `superRefine` walk, which reports the exact path. Per-context unions would multiply the listing size. The rules are listed in the cheat sheet and the union's description.
 
 **C2. `render_page` tool.**
@@ -129,10 +130,10 @@ with `type` one of `text`, `email`, `tel`, `url`, `number`, `date`, `password`, 
 
 - [x] A1 `42b49be`: `createCompositionRenderer(locale)` in `templates/composition-renderer.ts`, with the nesting matrix test
 - [x] A2 `d538e05`: `validate.ts` targets `.kern-error`, tested on every form template
-- [ ] B1 `field` block kind
-- [ ] B2 `get_fieldset` with children, `fieldset` block kind
-- [ ] B3 `form` block kind
-- [ ] B4 `formFlow` fixes
+- [x] B1 `aa209a9`: `field` block kind (`schemas/field.ts`, `templates/field.ts`), escaping in the input, select and radio templates
+- [x] B2 `a3dd41c`: `get_fieldset` with children, `fieldset` block kind
+- [x] B3 `71c4542`: `form` block kind with the collected error summary
+- [x] B4 `132dffc`: `formFlow` in a form, KERN buttons, `tasklistHeading`, `renderAllSteps`
 - [ ] C1 schema rules for nesting
 - [ ] C2 `render_page`
 
@@ -144,3 +145,20 @@ Learned in A:
 - The nesting matrix adds 450 cases (5 × 5 containers × 9 kinds, composed and standalone). The whole suite still runs in about 6 s.
 - A2 needed no snapshot changes: no tool output had a `.kern-error` without its reference.
 - Tests: 536 → 1002. Coverage 96.0 / 89.2 / 97.7 / 96.0.
+
+Learned in B:
+- **The listing grew by 41K**, from 198.0K to 238.9K compact characters: `field` +10.8K, fieldset +16.5K (10.7K of it because `get_fieldset` now carries the block union), `form` +7.9K, the `formFlow` options +5.6K. Every block tool repeats the union, and reused sub-schemas (like `errorSummary` in `form` and `formFlow`) are inlined each time. R5's shrink has to win this back; its option B (a shallow block set for the standalone tools) would take most of it.
+- **Where the shapes live.** `schemas/field.ts` holds `FieldSchema` plus `FieldsetBaseSchema` and `FormBaseSchema` without their `contentBlocks`: the union and the `get_fieldset` schema each extend them. Importing `fieldset.ts` from `content-union.ts` instead would be a module cycle evaluated at load time.
+- **Form helpers.** `templates/form.ts` exports `withErrorIds`, `renderErrorSummary`, `formOpenTag`, `formButton` and `buttonRow`; `formFlow` uses them.
+- **Choices made along the way:**
+  - Fields get no default format hint (`defaultHint: false`). `get_inputtext` keeps its default, which says "enter your full name" for any text field.
+  - A single checkbox has no hint; the field warns when one is given, and when a property doesn't apply to the type.
+  - Error summary entries read "Label: message", so a generic "Pflichtfeld" still says which field. Fields whose error is empty are left out.
+  - In `formFlow` without `renderAllSteps`, "next" is `type="submit"` (each step is its own page); with it, back and next are `type="button"` for a script.
+- **Commit messages:** `!:` or a `BREAKING CHANGE:` footer is GitVersion's major bump and would likely turn the alpha into 3.0.0. Contract changes on this branch (like `get_fieldset`'s) are described in the body instead.
+- **Git Bash heredocs:** a `\n` inside a Python heredoc ended up as a real line break in the TypeScript twice. Escape sequences go in with the Edit tool.
+- Tests: 1002 → 1797 (the nesting matrix is now 7 × 7 containers × 12 kinds). Coverage 96.1 / 89.9 / 97.9 / 96.1.
+
+Open after B (not in the tracker):
+- A `button` block has no `type`, so inside a form it submits (the HTML default). A `type` option on the button, or `type="button"` by default in compositions, would fix it.
+- A fieldset's group error isn't in the error summary, only field errors are. GOV.UK links such an entry to the group's first input.

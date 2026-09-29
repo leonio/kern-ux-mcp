@@ -83,12 +83,14 @@ Start here: [r3-handover.md](r3-handover.md) has where R3 ended (released as `2.
 
 ### R4: Composition gaps (prerequisite for prompts)
 
-- [ ] Item 9: `createCompositionRenderer(locale)`.
-- [ ] Add a `field` block kind (inputs, select, radio, checkbox, textarea) to the content union.
-- [ ] Add a `form` block kind: `<form>`, an error summary, fieldsets, and an actions row.
-- [ ] Fix `formFlow`: the `kern-btn` class, a `<form>` wrapper, heading separation, and a `renderAllSteps` option.
-- [ ] Make `get_fieldset` accept child fields instead of the hard-coded Vorname/Name.
-- [ ] Make the `validate.ts` `form.error_*` rules target `.kern-error`, and add a regression test.
+Plan, progress and lessons: [r4-kickoff.md](r4-kickoff.md).
+
+- [x] Item 9: `createCompositionRenderer(locale)`.
+- [x] Add a `field` block kind (inputs, select, radio, checkbox, textarea) to the content union.
+- [x] Add a `form` block kind: `<form>`, an error summary, fieldsets, and an actions row.
+- [x] Fix `formFlow`: the `kern-btn` class, a `<form>` wrapper, heading separation, and a `renderAllSteps` option.
+- [x] Make `get_fieldset` accept child fields instead of the hard-coded Vorname/Name.
+- [x] Make the `validate.ts` `form.error_*` rules target `.kern-error`, and add a regression test.
 - [ ] Make the schema reject nestings the renderer can't produce.
 - [ ] Add a `render_page` tool: page shell, header, `<main>` and footer.
 
