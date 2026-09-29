@@ -71,7 +71,7 @@ Progress:
 - [x] C2 `533fbfe`: MCP Bundle (`packages/stdio/mcpb/manifest.json`, `tools/build/mcpb.ts`, `npm run pack:mcpb`)
 - [x] C3 `b9934ea`: CI on `feat/v2-alpha` too: e2e (Linux and Windows), packed install, `.mcpb`, and container (built for both platforms, run, tested, stopped)
 - [x] C4 `4549afc`: `release.yml` (npm, GitHub Packages, GHCR with attestations, `.mcpb`, SBOMs, idempotent) and the updated `release-bootstrap.md`
-- [ ] The user: push, watch CI, then the steps in [release-bootstrap.md](../release-bootstrap.md)
+- [x] Pushed, CI green, released: `2.0.0-alpha.69` is the first complete 2.0 alpha (2026-09-29). State and next steps: [r3-handover.md](r3-handover.md)
 
 Open after R3 (not blocking it):
 - No MCPB icon yet: `tools/build/mcpb.ts` includes `packages/stdio/mcpb/icon.png` when one is added.

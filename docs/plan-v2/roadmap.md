@@ -62,7 +62,7 @@ Discovery date: 2026-09-27. Line numbers refer to the code at that point and wil
 
 ### R3: Workspaces and hosts
 
-Start here: [r3-kickoff.md](r3-kickoff.md) has the state after R2b, the agreed commit plan and its progress, and facts not in this roadmap.
+Start here: [r3-handover.md](r3-handover.md) has where R3 ended (released as `2.0.0-alpha.69`) and the next steps. [r3-kickoff.md](r3-kickoff.md) has the plan, its progress and what was learned.
 
 - [x] Do a pure move into `packages/core` (`"private": true`) and `packages/stdio`, working through the path checklist in [R3 details](#r3-workspace-split-and-hosts).
 - [x] Load `registry.json` as a JSON import, memoise `getCatalog()`, and delete `tools/manifest/copy-manifest.mjs`.
