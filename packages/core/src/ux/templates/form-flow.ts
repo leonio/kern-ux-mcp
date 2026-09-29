@@ -12,6 +12,7 @@ import {
 	formButton,
 	formOpenTag,
 	renderErrorSummary,
+	STACK_CLASSES,
 	withErrorIds,
 } from "./form.js";
 import { buildProgress } from "./progress.js";
@@ -138,8 +139,11 @@ export function buildFormFlow(
 			}
 
 			const hidden = isActive ? "" : " hidden";
+			// The stack is an inner element: a flex class would override the hidden attribute.
 			return `<div class="kern-form-flow__step" data-step="${index + 1}"${hidden}>
-      ${parts.join("\n      ")}
+      <div class="${STACK_CLASSES}">
+        ${parts.join("\n        ")}
+      </div>
     </div>`;
 		})
 		.filter(Boolean);

@@ -66,6 +66,10 @@ describe("buildForm", () => {
 
 		expect(form?.getAttribute("method")).toBe("post");
 		expect(form?.hasAttribute("novalidate")).toBe(true);
+		// Fields outside a fieldset have no spacing of their own.
+		expect(form?.getAttribute("class")).toBe(
+			"kern-flex kern-flex-col kern-gap-lg",
+		);
 		expect(form?.hasAttribute("action")).toBe(false);
 		expect(buildForm(FORM_WITH_ERRORS, "de").html).toContain(
 			'action="/antrag?schritt=2&amp;x=1"',

@@ -351,7 +351,7 @@ describe("render_composition with a form block", () => {
 		const result = await callHandler<RenderedToolResult>(tool, args);
 
 		expect(result.html).toContain(
-			'<form action="/kontakt" method="post" novalidate>',
+			'<form class="kern-flex kern-flex-col kern-gap-lg" action="/kontakt" method="post" novalidate>',
 		);
 		expect(result.html).toContain("kern-alert--danger");
 		expect(result.html).toContain(

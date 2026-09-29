@@ -326,6 +326,13 @@ describe("buildFormFlow: form, buttons, headings, all steps", () => {
 			steps[3]?.querySelectorAll("button").map((b) => b.getAttribute("type")),
 		).toEqual(["button", "submit"]);
 		expect(parse(html).querySelectorAll("form")).toHaveLength(1);
+		// A flex class on the step itself would override hidden; the stack is inside.
+		expect(steps.map((step) => step.getAttribute("class"))).toEqual(
+			Array(4).fill("kern-form-flow__step"),
+		);
+		expect(steps[0]?.firstElementChild?.getAttribute("class")).toBe(
+			"kern-flex kern-flex-col kern-gap-lg",
+		);
 	});
 
 	it("summarises only the active step's field errors", () => {

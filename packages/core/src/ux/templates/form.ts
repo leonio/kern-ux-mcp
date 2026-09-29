@@ -13,6 +13,9 @@ import { escapeHtml } from "./escape.js";
 
 export type FieldError = { id: string; text: string };
 
+/** A vertical stack with KERN's large spacing between its children. */
+export const STACK_CLASSES = "kern-flex kern-flex-col kern-gap-lg";
+
 const SUMMARY_TITLE = {
 	de: "Bitte korrigieren Sie die folgenden Angaben",
 	en: "Please correct the following",
@@ -52,13 +55,16 @@ export function buildForm(
 	};
 }
 
-/** `<form … novalidate>`: posts unless the method says otherwise. */
+/**
+ * `<form … novalidate>`, stacking its content with KERN spacing: fields outside a
+ * fieldset have no spacing of their own. Posts unless the method says otherwise.
+ */
 export function formOpenTag(
 	input: Pick<FormBlockInput, "action" | "method">,
 ): string {
 	const action =
 		input.action === undefined ? "" : ` action="${escapeHtml(input.action)}"`;
-	return `<form${action} method="${input.method ?? "post"}" novalidate>`;
+	return `<form class="${STACK_CLASSES}"${action} method="${input.method ?? "post"}" novalidate>`;
 }
 
 /**
