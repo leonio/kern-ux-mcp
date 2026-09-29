@@ -60,7 +60,8 @@ execFileSync(
 		"--omit",
 		"dev",
 		"--flatten-components",
-		"--output-reproducible",
+		// No --output-reproducible: it drops serialNumber, without which
+		// actions/attest refuses the SBOM ("Unsupported SBOM format").
 		"--output-format",
 		"JSON",
 		"--output-file",

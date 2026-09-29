@@ -304,20 +304,30 @@ jobs:
           provenance: false
           sbom: false
 
+      # The attestations run on every attempt, against the pushed digest or, when
+      # an earlier attempt pushed the image, the existing one, so a re-run fills
+      # in any that failed. Attesting a digest twice is harmless.
+      - name: Resolve the Image Digest
+        id: digest
+        env:
+          PUSHED_DIGEST: ${{ steps.push.outputs.digest }}
+        run: |
+          digest="${PUSHED_DIGEST:-$(docker buildx imagetools inspect "$IMAGE:$SEMVER" --format '{{.Manifest.Digest}}')}"
+          echo "$IMAGE@$digest"
+          echo "digest=$digest" >> "$GITHUB_OUTPUT"
+
       - name: Attest Image Provenance
-        if: ${{ steps.image.outputs.exists == 'false' }}
         uses: actions/attest-build-provenance@v4
         with:
           subject-name: ${{ env.IMAGE }}
-          subject-digest: ${{ steps.push.outputs.digest }}
+          subject-digest: ${{ steps.digest.outputs.digest }}
           push-to-registry: true
 
       - name: Attest Image SBOM
-        if: ${{ steps.image.outputs.exists == 'false' }}
-        uses: actions/attest-sbom@v4
+        uses: actions/attest@v4
         with:
           subject-name: ${{ env.IMAGE }}
-          subject-digest: ${{ steps.push.outputs.digest }}
+          subject-digest: ${{ steps.digest.outputs.digest }}
           sbom-path: release-assets/kern-ux-mcp-http-${{ env.SEMVER }}.cdx.json
           push-to-registry: true
 
@@ -327,7 +337,7 @@ jobs:
           subject-path: release-assets/*.mcpb
 
       - name: Attest MCP Bundle SBOM
-        uses: actions/attest-sbom@v4
+        uses: actions/attest@v4
         with:
           subject-path: release-assets/*.mcpb
           sbom-path: release-assets/kern-ux-mcp-${{ env.SEMVER }}.cdx.json
