@@ -11,7 +11,7 @@ import {
 } from "./composition-renderer.js";
 import { escapeHtml } from "./escape.js";
 
-type ErrorEntry = { id: string; text: string };
+export type FieldError = { id: string; text: string };
 
 const SUMMARY_TITLE = {
 	de: "Bitte korrigieren Sie die folgenden Angaben",
@@ -27,27 +27,71 @@ export function buildForm(
 	locale: Locale,
 	context: BlockContext = standaloneContext(locale),
 ): BuildResult {
-	const errors: ErrorEntry[] = [];
+	const errors: FieldError[] = [];
 	const blocks = withErrorIds(input.contentBlocks, errors);
 	const body = context.renderer.renderBlocks(blocks, context.depth + 1);
-	const warnings = [...body.warnings];
+	const summary = renderErrorSummary(errors, input.errorSummary, locale);
 
-	const attrs = [
-		input.action === undefined ? "" : ` action="${escapeHtml(input.action)}"`,
-		` method="${input.method ?? "post"}"`,
-		" novalidate",
-	].join("");
+	let actionsHtml = "";
+	if (input.actions) {
+		const buttons = [
+			input.actions.secondaryLabel === undefined
+				? undefined
+				: formButton("button", "secondary", input.actions.secondaryLabel),
+			formButton("submit", "primary", input.actions.submitLabel),
+		];
+		actionsHtml = `
+  ${buttonRow(buttons)}`;
+	}
 
-	let summaryHtml = "";
-	if (input.errorSummary && errors.length > 0) {
-		const title = input.errorSummary.title ?? t(locale, SUMMARY_TITLE);
-		const items = errors
-			.map(
-				(entry) =>
-					`<li><a class="kern-link" href="#${escapeHtml(entry.id)}">${escapeHtml(entry.text)}</a></li>`,
-			)
-			.join("\n        ");
-		summaryHtml = `<div class="kern-alert kern-alert--danger" role="alert">
+	return {
+		html: `${formOpenTag(input)}
+  ${summary.html}${body.html}${actionsHtml}
+</form>`,
+		warnings: [...body.warnings, ...summary.warnings],
+	};
+}
+
+/** `<form … novalidate>`: posts unless the method says otherwise. */
+export function formOpenTag(
+	input: Pick<FormBlockInput, "action" | "method">,
+): string {
+	const action =
+		input.action === undefined ? "" : ` action="${escapeHtml(input.action)}"`;
+	return `<form${action} method="${input.method ?? "post"}" novalidate>`;
+}
+
+/**
+ * The error summary alert with a link per field error, or a warning when fields
+ * have errors but no summary was asked for. Its HTML ends with a line break.
+ */
+export function renderErrorSummary(
+	errors: readonly FieldError[],
+	errorSummary: FormBlockInput["errorSummary"],
+	locale: Locale,
+): BuildResult {
+	if (errors.length === 0) {
+		return { html: "", warnings: [] };
+	}
+	if (!errorSummary) {
+		return {
+			html: "",
+			warnings: [
+				`${errors.length} field(s) in the form have an error, but the form has no errorSummary. Set errorSummary: {} to list them above the form.`,
+			],
+		};
+	}
+
+	const title = errorSummary.title ?? t(locale, SUMMARY_TITLE);
+	const items = errors
+		.map(
+			(entry) =>
+				`<li><a class="kern-link" href="#${escapeHtml(entry.id)}">${escapeHtml(entry.text)}</a></li>`,
+		)
+		.join("\n        ");
+
+	return {
+		html: `<div class="kern-alert kern-alert--danger" role="alert">
     <div class="kern-alert__header">
       <span class="kern-icon kern-icon--danger" aria-hidden="true"></span>
       <span class="kern-title">${escapeHtml(title)}</span>
@@ -58,47 +102,42 @@ export function buildForm(
       </ul>
     </div>
   </div>
-  `;
-	} else if (errors.length > 0) {
-		warnings.push(
-			`${errors.length} field(s) in the form have an error, but the form has no errorSummary. Set errorSummary: {} to list them above the form.`,
-		);
-	}
-
-	let actionsHtml = "";
-	if (input.actions) {
-		const buttons = [
-			input.actions.secondaryLabel === undefined
-				? ""
-				: `<button type="button" class="kern-btn kern-btn--secondary">
-      <span class="kern-label">${escapeHtml(input.actions.secondaryLabel)}</span>
-    </button>
-    `,
-			`<button type="submit" class="kern-btn kern-btn--primary">
-      <span class="kern-label">${escapeHtml(input.actions.submitLabel)}</span>
-    </button>`,
-		].join("");
-		actionsHtml = `
-  <div class="kern-flex kern-flex-wrap kern-gap-md">
-    ${buttons}
-  </div>`;
-	}
-
-	return {
-		html: `<form${attrs}>
-  ${summaryHtml}${body.html}${actionsHtml}
-</form>`,
-		warnings,
+  `,
+		warnings: [],
 	};
+}
+
+/** A KERN button for a form's button row. */
+export function formButton(
+	type: "button" | "submit",
+	variant: "primary" | "secondary",
+	label: string,
+): string {
+	return `<button type="${type}" class="kern-btn kern-btn--${variant}">
+      <span class="kern-label">${escapeHtml(label)}</span>
+    </button>`;
+}
+
+/** Lays out buttons in a wrapping row; skips missing ones. */
+export function buttonRow(
+	buttons: ReadonlyArray<string | undefined>,
+	className = "",
+): string {
+	const classes = ["kern-flex", "kern-flex-wrap", "kern-gap-md", className]
+		.filter(Boolean)
+		.join(" ");
+	return `<div class="${classes}">
+    ${buttons.filter(Boolean).join("\n    ")}
+  </div>`;
 }
 
 /**
  * Gives every field with an error message an id (keeping the model's own) and
  * collects it, in document order, for the error summary.
  */
-function withErrorIds(
+export function withErrorIds(
 	blocks: readonly RecursiveContentNodeInput[],
-	errors: ErrorEntry[],
+	errors: FieldError[],
 ): RecursiveContentNodeInput[] {
 	const visit = (children: readonly RecursiveContentNodeInput[]) =>
 		withErrorIds(children, errors);

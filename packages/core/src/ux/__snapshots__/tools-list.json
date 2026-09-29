@@ -949,7 +949,7 @@
   {
     "name": "render_composition",
     "title": "Render KERN Composition",
-    "description": "KERN UX (Komposition): Rendert rekursive Content-Blöcke als zusammenhängendes Layout. WICHTIG: Jeder Block in contentBlocks MUSS eine 'kind'-Eigenschaft haben. Gültige kind-Werte: text, html, button, badge, field, fieldset, form, card, section, disclosure, grid, formFlow.\n\nEvery block must have a 'kind' discriminator. Valid kinds and their shapes:\n\n  text:       { kind: \"text\", text: \"...\" }\n  html:       { kind: \"html\", html: \"<p>...</p>\" }\n  button:     { kind: \"button\", button: { label: \"OK\", variant: \"primary\" } }\n  badge:      { kind: \"badge\", badge: { type: \"info\", text: \"Neu\" } }\n  field:      { kind: \"field\", field: { type: \"email\", name: \"email\", label: \"E-Mail\", hint?: \"...\", error?: \"...\" } }\n                 type: text|email|tel|url|number|date|password|textarea|select|radio|checkbox; select/radio need options: [{ value, label }].\n  fieldset:   { kind: \"fieldset\", fieldset: { legend: \"...\", legendSize?: \"large\", hint?: \"...\", contentBlocks: [field, ...] } }\n  form:       { kind: \"form\", form: { action?: \"/senden\", errorSummary?: {}, contentBlocks: [fieldset, field, ...], actions?: { submitLabel: \"Absenden\" } } }\n                 errorSummary lists every field inside the form that has an error, linked to the field.\n  card:     { kind: \"card\", card: { header: { title: \"...\" }, body: \"...\", contentBlocks?: [...], footer?: { primaryLabel: \"...\" } } }\n  section:    { kind: \"section\", section: { headingText: \"...\", contentBlocks: [...] } }\n                 Shorthand: paragraphs: [\"text1\", \"text2\"] is also accepted (auto-converted to text blocks).\n  disclosure: { kind: \"disclosure\", disclosure: { triggerLabel: \"...\", contentBlocks: [...] } }\n  grid:       { kind: \"grid\", grid: { columns: 3, columnsContent: [ [block, block], [block], [block] ] } }\n                 columnsContent is an array of arrays — one inner array per column. Each inner array holds content blocks.\n  formFlow:   { kind: \"formFlow\", formFlow: { currentStep: 1, steps: [{ label: \"...\", contentBlocks: [...] }, ...] } }\n\nNested blocks (section.contentBlocks, card.contentBlocks, grid.columnsContent[][], disclosure.contentBlocks, fieldset.contentBlocks, form.contentBlocks) use the same kind-based shapes recursively.\n\nFormFlow orchestriert mehrstufige Formulare mit Tasklist + Progress + Schritt-Inhalt über einen einzigen currentStep-Parameter.",
+    "description": "KERN UX (Komposition): Rendert rekursive Content-Blöcke als zusammenhängendes Layout. WICHTIG: Jeder Block in contentBlocks MUSS eine 'kind'-Eigenschaft haben. Gültige kind-Werte: text, html, button, badge, field, fieldset, form, card, section, disclosure, grid, formFlow.\n\nEvery block must have a 'kind' discriminator. Valid kinds and their shapes:\n\n  text:       { kind: \"text\", text: \"...\" }\n  html:       { kind: \"html\", html: \"<p>...</p>\" }\n  button:     { kind: \"button\", button: { label: \"OK\", variant: \"primary\" } }\n  badge:      { kind: \"badge\", badge: { type: \"info\", text: \"Neu\" } }\n  field:      { kind: \"field\", field: { type: \"email\", name: \"email\", label: \"E-Mail\", hint?: \"...\", error?: \"...\" } }\n                 type: text|email|tel|url|number|date|password|textarea|select|radio|checkbox; select/radio need options: [{ value, label }].\n  fieldset:   { kind: \"fieldset\", fieldset: { legend: \"...\", legendSize?: \"large\", hint?: \"...\", contentBlocks: [field, ...] } }\n  form:       { kind: \"form\", form: { action?: \"/senden\", errorSummary?: {}, contentBlocks: [fieldset, field, ...], actions?: { submitLabel: \"Absenden\" } } }\n                 errorSummary lists every field inside the form that has an error, linked to the field.\n  card:     { kind: \"card\", card: { header: { title: \"...\" }, body: \"...\", contentBlocks?: [...], footer?: { primaryLabel: \"...\" } } }\n  section:    { kind: \"section\", section: { headingText: \"...\", contentBlocks: [...] } }\n                 Shorthand: paragraphs: [\"text1\", \"text2\"] is also accepted (auto-converted to text blocks).\n  disclosure: { kind: \"disclosure\", disclosure: { triggerLabel: \"...\", contentBlocks: [...] } }\n  grid:       { kind: \"grid\", grid: { columns: 3, columnsContent: [ [block, block], [block], [block] ] } }\n                 columnsContent is an array of arrays — one inner array per column. Each inner array holds content blocks.\n  formFlow:   { kind: \"formFlow\", formFlow: { currentStep: 1, heading?: \"...\", steps: [{ label: \"...\", contentBlocks: [...] }, ...], navigation?: { backLabel, nextLabel, submitLabel } } }\n                 The steps render inside a form; renderAllSteps: true renders every step, the inactive ones hidden.\n\nNested blocks (section.contentBlocks, card.contentBlocks, grid.columnsContent[][], disclosure.contentBlocks, fieldset.contentBlocks, form.contentBlocks) use the same kind-based shapes recursively.\n\nFormFlow orchestriert mehrstufige Formulare mit Tasklist + Progress + Schritt-Inhalt über einen einzigen currentStep-Parameter.",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
       "type": "object",
@@ -1760,6 +1760,7 @@
                         }
                       },
                       "heading": {
+                        "description": "Form heading above the step list.",
                         "type": "string"
                       },
                       "headingLevel": {
@@ -1792,8 +1793,17 @@
                         ],
                         "description": "HTML-Überschriftenebene von h1 bis h6. Hierarchisch ohne Sprünge verwenden."
                       },
+                      "tasklistHeading": {
+                        "description": "Heading of the step list; 'Fortschritt' or 'Progress' when omitted.",
+                        "type": "string",
+                        "minLength": 1
+                      },
                       "showProgress": {
                         "default": true,
+                        "type": "boolean"
+                      },
+                      "renderAllSteps": {
+                        "description": "Render every step, the inactive ones hidden, so a script can switch steps in the browser.",
                         "type": "boolean"
                       },
                       "navigation": {
@@ -1807,6 +1817,29 @@
                           },
                           "submitLabel": {
                             "type": "string"
+                          }
+                        }
+                      },
+                      "action": {
+                        "description": "URL the form submits to.",
+                        "type": "string"
+                      },
+                      "method": {
+                        "description": "Submit method; post when omitted.",
+                        "type": "string",
+                        "enum": [
+                          "get",
+                          "post"
+                        ]
+                      },
+                      "errorSummary": {
+                        "description": "Shows a summary above the form that links to every field with an error. Set it whenever fields have errors.",
+                        "type": "object",
+                        "properties": {
+                          "title": {
+                            "description": "Summary heading; a localized default when omitted.",
+                            "type": "string",
+                            "minLength": 1
                           }
                         }
                       }
@@ -2769,6 +2802,7 @@
                         }
                       },
                       "heading": {
+                        "description": "Form heading above the step list.",
                         "type": "string"
                       },
                       "headingLevel": {
@@ -2801,8 +2835,17 @@
                         ],
                         "description": "HTML-Überschriftenebene von h1 bis h6. Hierarchisch ohne Sprünge verwenden."
                       },
+                      "tasklistHeading": {
+                        "description": "Heading of the step list; 'Fortschritt' or 'Progress' when omitted.",
+                        "type": "string",
+                        "minLength": 1
+                      },
                       "showProgress": {
                         "default": true,
+                        "type": "boolean"
+                      },
+                      "renderAllSteps": {
+                        "description": "Render every step, the inactive ones hidden, so a script can switch steps in the browser.",
                         "type": "boolean"
                       },
                       "navigation": {
@@ -2816,6 +2859,29 @@
                           },
                           "submitLabel": {
                             "type": "string"
+                          }
+                        }
+                      },
+                      "action": {
+                        "description": "URL the form submits to.",
+                        "type": "string"
+                      },
+                      "method": {
+                        "description": "Submit method; post when omitted.",
+                        "type": "string",
+                        "enum": [
+                          "get",
+                          "post"
+                        ]
+                      },
+                      "errorSummary": {
+                        "description": "Shows a summary above the form that links to every field with an error. Set it whenever fields have errors.",
+                        "type": "object",
+                        "properties": {
+                          "title": {
+                            "description": "Summary heading; a localized default when omitted.",
+                            "type": "string",
+                            "minLength": 1
                           }
                         }
                       }
@@ -3876,6 +3942,7 @@
                               }
                             },
                             "heading": {
+                              "description": "Form heading above the step list.",
                               "type": "string"
                             },
                             "headingLevel": {
@@ -3908,8 +3975,17 @@
                               ],
                               "description": "HTML-Überschriftenebene von h1 bis h6. Hierarchisch ohne Sprünge verwenden."
                             },
+                            "tasklistHeading": {
+                              "description": "Heading of the step list; 'Fortschritt' or 'Progress' when omitted.",
+                              "type": "string",
+                              "minLength": 1
+                            },
                             "showProgress": {
                               "default": true,
+                              "type": "boolean"
+                            },
+                            "renderAllSteps": {
+                              "description": "Render every step, the inactive ones hidden, so a script can switch steps in the browser.",
                               "type": "boolean"
                             },
                             "navigation": {
@@ -3923,6 +3999,29 @@
                                 },
                                 "submitLabel": {
                                   "type": "string"
+                                }
+                              }
+                            },
+                            "action": {
+                              "description": "URL the form submits to.",
+                              "type": "string"
+                            },
+                            "method": {
+                              "description": "Submit method; post when omitted.",
+                              "type": "string",
+                              "enum": [
+                                "get",
+                                "post"
+                              ]
+                            },
+                            "errorSummary": {
+                              "description": "Shows a summary above the form that links to every field with an error. Set it whenever fields have errors.",
+                              "type": "object",
+                              "properties": {
+                                "title": {
+                                  "description": "Summary heading; a localized default when omitted.",
+                                  "type": "string",
+                                  "minLength": 1
                                 }
                               }
                             }
@@ -4945,6 +5044,7 @@
                         }
                       },
                       "heading": {
+                        "description": "Form heading above the step list.",
                         "type": "string"
                       },
                       "headingLevel": {
@@ -4977,8 +5077,17 @@
                         ],
                         "description": "HTML-Überschriftenebene von h1 bis h6. Hierarchisch ohne Sprünge verwenden."
                       },
+                      "tasklistHeading": {
+                        "description": "Heading of the step list; 'Fortschritt' or 'Progress' when omitted.",
+                        "type": "string",
+                        "minLength": 1
+                      },
                       "showProgress": {
                         "default": true,
+                        "type": "boolean"
+                      },
+                      "renderAllSteps": {
+                        "description": "Render every step, the inactive ones hidden, so a script can switch steps in the browser.",
                         "type": "boolean"
                       },
                       "navigation": {
@@ -4992,6 +5101,29 @@
                           },
                           "submitLabel": {
                             "type": "string"
+                          }
+                        }
+                      },
+                      "action": {
+                        "description": "URL the form submits to.",
+                        "type": "string"
+                      },
+                      "method": {
+                        "description": "Submit method; post when omitted.",
+                        "type": "string",
+                        "enum": [
+                          "get",
+                          "post"
+                        ]
+                      },
+                      "errorSummary": {
+                        "description": "Shows a summary above the form that links to every field with an error. Set it whenever fields have errors.",
+                        "type": "object",
+                        "properties": {
+                          "title": {
+                            "description": "Summary heading; a localized default when omitted.",
+                            "type": "string",
+                            "minLength": 1
                           }
                         }
                       }
@@ -6848,6 +6980,7 @@
                         }
                       },
                       "heading": {
+                        "description": "Form heading above the step list.",
                         "type": "string"
                       },
                       "headingLevel": {
@@ -6880,8 +7013,17 @@
                         ],
                         "description": "HTML-Überschriftenebene von h1 bis h6. Hierarchisch ohne Sprünge verwenden."
                       },
+                      "tasklistHeading": {
+                        "description": "Heading of the step list; 'Fortschritt' or 'Progress' when omitted.",
+                        "type": "string",
+                        "minLength": 1
+                      },
                       "showProgress": {
                         "default": true,
+                        "type": "boolean"
+                      },
+                      "renderAllSteps": {
+                        "description": "Render every step, the inactive ones hidden, so a script can switch steps in the browser.",
                         "type": "boolean"
                       },
                       "navigation": {
@@ -6895,6 +7037,29 @@
                           },
                           "submitLabel": {
                             "type": "string"
+                          }
+                        }
+                      },
+                      "action": {
+                        "description": "URL the form submits to.",
+                        "type": "string"
+                      },
+                      "method": {
+                        "description": "Submit method; post when omitted.",
+                        "type": "string",
+                        "enum": [
+                          "get",
+                          "post"
+                        ]
+                      },
+                      "errorSummary": {
+                        "description": "Shows a summary above the form that links to every field with an error. Set it whenever fields have errors.",
+                        "type": "object",
+                        "properties": {
+                          "title": {
+                            "description": "Summary heading; a localized default when omitted.",
+                            "type": "string",
+                            "minLength": 1
                           }
                         }
                       }
@@ -8829,6 +8994,7 @@
                         }
                       },
                       "heading": {
+                        "description": "Form heading above the step list.",
                         "type": "string"
                       },
                       "headingLevel": {
@@ -8861,8 +9027,17 @@
                         ],
                         "description": "HTML-Überschriftenebene von h1 bis h6. Hierarchisch ohne Sprünge verwenden."
                       },
+                      "tasklistHeading": {
+                        "description": "Heading of the step list; 'Fortschritt' or 'Progress' when omitted.",
+                        "type": "string",
+                        "minLength": 1
+                      },
                       "showProgress": {
                         "default": true,
+                        "type": "boolean"
+                      },
+                      "renderAllSteps": {
+                        "description": "Render every step, the inactive ones hidden, so a script can switch steps in the browser.",
                         "type": "boolean"
                       },
                       "navigation": {
@@ -8876,6 +9051,29 @@
                           },
                           "submitLabel": {
                             "type": "string"
+                          }
+                        }
+                      },
+                      "action": {
+                        "description": "URL the form submits to.",
+                        "type": "string"
+                      },
+                      "method": {
+                        "description": "Submit method; post when omitted.",
+                        "type": "string",
+                        "enum": [
+                          "get",
+                          "post"
+                        ]
+                      },
+                      "errorSummary": {
+                        "description": "Shows a summary above the form that links to every field with an error. Set it whenever fields have errors.",
+                        "type": "object",
+                        "properties": {
+                          "title": {
+                            "description": "Summary heading; a localized default when omitted.",
+                            "type": "string",
+                            "minLength": 1
                           }
                         }
                       }
@@ -9888,6 +10086,7 @@
                           }
                         },
                         "heading": {
+                          "description": "Form heading above the step list.",
                           "type": "string"
                         },
                         "headingLevel": {
@@ -9920,8 +10119,17 @@
                           ],
                           "description": "HTML-Überschriftenebene von h1 bis h6. Hierarchisch ohne Sprünge verwenden."
                         },
+                        "tasklistHeading": {
+                          "description": "Heading of the step list; 'Fortschritt' or 'Progress' when omitted.",
+                          "type": "string",
+                          "minLength": 1
+                        },
                         "showProgress": {
                           "default": true,
+                          "type": "boolean"
+                        },
+                        "renderAllSteps": {
+                          "description": "Render every step, the inactive ones hidden, so a script can switch steps in the browser.",
                           "type": "boolean"
                         },
                         "navigation": {
@@ -9935,6 +10143,29 @@
                             },
                             "submitLabel": {
                               "type": "string"
+                            }
+                          }
+                        },
+                        "action": {
+                          "description": "URL the form submits to.",
+                          "type": "string"
+                        },
+                        "method": {
+                          "description": "Submit method; post when omitted.",
+                          "type": "string",
+                          "enum": [
+                            "get",
+                            "post"
+                          ]
+                        },
+                        "errorSummary": {
+                          "description": "Shows a summary above the form that links to every field with an error. Set it whenever fields have errors.",
+                          "type": "object",
+                          "properties": {
+                            "title": {
+                              "description": "Summary heading; a localized default when omitted.",
+                              "type": "string",
+                              "minLength": 1
                             }
                           }
                         }

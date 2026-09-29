@@ -591,7 +591,8 @@ export const COMPOSITION_CHEAT_SHEET = [
 	'  disclosure: { kind: "disclosure", disclosure: { triggerLabel: "...", contentBlocks: [...] } }',
 	'  grid:       { kind: "grid", grid: { columns: 3, columnsContent: [ [block, block], [block], [block] ] } }',
 	"                 columnsContent is an array of arrays — one inner array per column. Each inner array holds content blocks.",
-	'  formFlow:   { kind: "formFlow", formFlow: { currentStep: 1, steps: [{ label: "...", contentBlocks: [...] }, ...] } }',
+	'  formFlow:   { kind: "formFlow", formFlow: { currentStep: 1, heading?: "...", steps: [{ label: "...", contentBlocks: [...] }, ...], navigation?: { backLabel, nextLabel, submitLabel } } }',
+	"                 The steps render inside a form; renderAllSteps: true renders every step, the inactive ones hidden.",
 	"",
 	"Nested blocks (section.contentBlocks, card.contentBlocks, grid.columnsContent[][], disclosure.contentBlocks, fieldset.contentBlocks, form.contentBlocks) use the same kind-based shapes recursively.",
 ].join("\n");

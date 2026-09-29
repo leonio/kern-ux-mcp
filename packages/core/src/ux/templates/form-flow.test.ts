@@ -1,3 +1,4 @@
+import { parse } from "node-html-parser";
 import { describe, expect, it } from "vitest";
 
 import {
@@ -6,6 +7,7 @@ import {
 	type RenderedToolResult,
 } from "../../test-support/tools.js";
 import { createTools } from "../tools.js";
+import { validateHtmlStrict } from "../validate.js";
 import { buildFormFlow } from "./form-flow.js";
 
 const FOUR_STEPS = [
@@ -212,6 +214,163 @@ describe("buildFormFlow", () => {
 		// Default labels should NOT appear
 		expect(result.html).not.toContain("Erledigt");
 		expect(result.html).not.toContain("Aktuell");
+	});
+});
+
+describe("buildFormFlow: form, buttons, headings, all steps", () => {
+	const NAVIGATION = {
+		backLabel: "Zurück",
+		nextLabel: "Weiter",
+		submitLabel: "Absenden",
+	};
+
+	it("puts the steps and navigation in a form, and the step list and progress outside it", () => {
+		const html = buildFormFlow(
+			{
+				currentStep: 2,
+				steps: FOUR_STEPS,
+				navigation: NAVIGATION,
+				action: "/antrag",
+			},
+			"de",
+		).html;
+		const flow = parse(html).querySelector(".kern-form-flow");
+		const form = flow?.querySelector("form");
+
+		expect(form?.getAttribute("action")).toBe("/antrag");
+		expect(form?.getAttribute("method")).toBe("post");
+		expect(form?.hasAttribute("novalidate")).toBe(true);
+		expect(form?.querySelector(".kern-form-flow__step")).not.toBeNull();
+		expect(form?.querySelector(".kern-form-flow__navigation")).not.toBeNull();
+		expect(form?.querySelector(".kern-task-list")).toBeNull();
+		expect(form?.querySelector("progress")).toBeNull();
+		expect(flow?.querySelector(".kern-task-list")).not.toBeNull();
+	});
+
+	it("renders KERN buttons, and next submits the step", () => {
+		const html = buildFormFlow(
+			{ currentStep: 2, steps: FOUR_STEPS, navigation: NAVIGATION },
+			"de",
+		).html;
+		const buttons = parse(html).querySelectorAll("button");
+
+		expect(html).not.toContain("kern-button");
+		expect(
+			buttons.map((button) => [
+				button.getAttribute("type"),
+				button.getAttribute("class"),
+				button.querySelector(".kern-label")?.text,
+			]),
+		).toEqual([
+			["button", "kern-btn kern-btn--secondary", "Zurück"],
+			["submit", "kern-btn kern-btn--primary", "Weiter"],
+		]);
+	});
+
+	it("keeps the form heading apart from the step list heading", () => {
+		const root = parse(
+			buildFormFlow(
+				{ currentStep: 1, steps: FOUR_STEPS, heading: "Wohngeldantrag" },
+				"de",
+			).html,
+		);
+
+		expect(root.querySelector("h2")?.text).toBe("Wohngeldantrag");
+		expect(root.querySelector(".kern-task-list h3")?.text).toBe("Fortschritt");
+	});
+
+	it("uses the given step list heading", () => {
+		const root = parse(
+			buildFormFlow(
+				{ currentStep: 1, steps: FOUR_STEPS, tasklistHeading: "Ihre Schritte" },
+				"de",
+			).html,
+		);
+
+		expect(root.querySelector(".kern-task-list h2")?.text).toBe(
+			"Ihre Schritte",
+		);
+	});
+
+	it("renders every step with renderAllSteps, the inactive ones hidden", () => {
+		const html = buildFormFlow(
+			{
+				currentStep: 2,
+				steps: FOUR_STEPS,
+				navigation: NAVIGATION,
+				renderAllSteps: true,
+			},
+			"de",
+		).html;
+		const steps = parse(html).querySelectorAll(".kern-form-flow__step");
+
+		expect(steps.map((step) => step.getAttribute("data-step"))).toEqual([
+			"1",
+			"2",
+			"3",
+			"4",
+		]);
+		expect(steps.map((step) => step.hasAttribute("hidden"))).toEqual([
+			true,
+			false,
+			true,
+			true,
+		]);
+		expect(
+			steps[0]?.querySelectorAll("button").map((b) => b.text.trim()),
+		).toEqual(["Weiter"]);
+		expect(
+			steps[1]?.querySelectorAll("button").map((b) => b.getAttribute("type")),
+		).toEqual(["button", "button"]);
+		expect(
+			steps[3]?.querySelectorAll("button").map((b) => b.getAttribute("type")),
+		).toEqual(["button", "submit"]);
+		expect(parse(html).querySelectorAll("form")).toHaveLength(1);
+	});
+
+	it("summarises only the active step's field errors", () => {
+		const errorStep = (name: string) => ({
+			label: name,
+			contentBlocks: [
+				{
+					kind: "field" as const,
+					field: {
+						type: "text" as const,
+						name,
+						label: name,
+						error: "Pflichtfeld",
+					},
+				},
+			],
+		});
+		const html = buildFormFlow(
+			{
+				currentStep: 2,
+				steps: [errorStep("eins"), errorStep("zwei")],
+				renderAllSteps: true,
+				errorSummary: {},
+			},
+			"de",
+		).html;
+		const links = parse(html).querySelectorAll(".kern-alert a");
+
+		expect(links.map((link) => link.text)).toEqual(["zwei: Pflichtfeld"]);
+		expect(validateHtmlStrict(html).issues).toEqual([]);
+	});
+
+	it("escapes step labels, status texts and headings", () => {
+		const text = `<b>"A" & 'B'</b>`;
+		const html = buildFormFlow(
+			{
+				currentStep: 1,
+				heading: text,
+				tasklistHeading: text,
+				steps: [{ label: text, statusText: text }, { label: "Zwei" }],
+			},
+			"de",
+		).html;
+
+		expect(html).not.toContain("<b>");
 	});
 });
 

@@ -162,13 +162,15 @@ type FormFlowContentNodeInput = {
 		}>;
 		heading?: string;
 		headingLevel?: z.input<typeof HeadingLevelSchema>;
+		tasklistHeading?: string;
 		showProgress?: boolean;
+		renderAllSteps?: boolean;
 		navigation?: {
 			backLabel?: string;
 			nextLabel?: string;
 			submitLabel?: string;
 		};
-	};
+	} & Pick<FormBaseInput, "action" | "method" | "errorSummary">;
 };
 
 /** Input of a formFlow block; the schema is the formFlow branch of RecursiveContentNodeSchema. */
@@ -305,9 +307,25 @@ export const RecursiveContentNodeSchema: z.ZodType<
 								}),
 							)
 							.min(2),
-						heading: z.string().optional(),
+						heading: z
+							.string()
+							.optional()
+							.describe("Form heading above the step list."),
 						headingLevel: HeadingLevelSchema.optional().default(2),
+						tasklistHeading: z
+							.string()
+							.min(1)
+							.optional()
+							.describe(
+								"Heading of the step list; 'Fortschritt' or 'Progress' when omitted.",
+							),
 						showProgress: z.boolean().optional().default(true),
+						renderAllSteps: z
+							.boolean()
+							.optional()
+							.describe(
+								"Render every step, the inactive ones hidden, so a script can switch steps in the browser.",
+							),
 						navigation: z
 							.object({
 								backLabel: z.string().optional(),
@@ -315,6 +333,11 @@ export const RecursiveContentNodeSchema: z.ZodType<
 								submitLabel: z.string().optional(),
 							})
 							.optional(),
+						...FormBaseSchema.pick({
+							action: true,
+							method: true,
+							errorSummary: true,
+						}).shape,
 					})
 					.describe(
 						"Mehrstufiges Formular: Tasklist + Progress + aktiver Schritt.",

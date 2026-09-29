@@ -1,6 +1,7 @@
 import { generateId } from "../id.js";
 import { type TasklistInput, tasklistSchema } from "../schemas/tasklist.js";
 import type { BuildResult, Locale } from "../types.js";
+import { escapeHtml } from "./escape.js";
 
 export function buildTasklist(
 	input: TasklistInput,
@@ -17,14 +18,14 @@ export function buildTasklist(
 				? `<span class="kern-number">${index + 1}</span>`
 				: "";
 			const titleHtml = item.href
-				? `<a href="${item.href}" class="kern-link kern-link--stretched" aria-describedby="${statusId}">${item.title}</a>`
-				: `<p class="kern-body">${item.title}</p>`;
+				? `<a href="${escapeHtml(item.href)}" class="kern-link kern-link--stretched" aria-describedby="${statusId}">${escapeHtml(item.title)}</a>`
+				: `<p class="kern-body">${escapeHtml(item.title)}</p>`;
 
-			return `    <li class="kern-task-list__item">\n      ${number}\n      <div class="kern-task-list__title" id="${titleId}">\n        ${titleHtml}\n        <div class="kern-task-list__status" id="${statusId}">\n          <span class="kern-badge kern-badge--${item.statusType}">\n            <span class="kern-label kern-label--small">${item.status}</span>\n          </span>\n        </div>\n      </div>\n    </li>`;
+			return `    <li class="kern-task-list__item">\n      ${number}\n      <div class="kern-task-list__title" id="${titleId}">\n        ${titleHtml}\n        <div class="kern-task-list__status" id="${statusId}">\n          <span class="kern-badge kern-badge--${item.statusType}">\n            <span class="kern-label kern-label--small">${escapeHtml(item.status)}</span>\n          </span>\n        </div>\n      </div>\n    </li>`;
 		})
 		.join("\n");
 
-	const html = `<div class="kern-task-list">\n  <div class="kern-task-list__header">\n    <h2 class="kern-heading-medium">${params.heading}</h2>\n  </div>\n  <ul class="kern-task-list__list">\n${items}\n  </ul>\n</div>`;
+	const html = `<div class="kern-task-list">\n  <div class="kern-task-list__header">\n    <h2 class="kern-heading-medium">${escapeHtml(params.heading)}</h2>\n  </div>\n  <ul class="kern-task-list__list">\n${items}\n  </ul>\n</div>`;
 
 	return { html, warnings };
 }

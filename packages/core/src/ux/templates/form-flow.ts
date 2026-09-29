@@ -5,6 +5,15 @@ import {
 	type BlockContext,
 	standaloneContext,
 } from "./composition-renderer.js";
+import { escapeHtml } from "./escape.js";
+import {
+	buttonRow,
+	type FieldError,
+	formButton,
+	formOpenTag,
+	renderErrorSummary,
+	withErrorIds,
+} from "./form.js";
 import { buildProgress } from "./progress.js";
 import { buildTasklist } from "./tasklist.js";
 
@@ -14,6 +23,12 @@ const STATUS_LABELS = {
 	pending: { de: "Offen", en: "Pending" },
 } as const;
 
+const TASKLIST_HEADING = { de: "Fortschritt", en: "Progress" };
+
+/**
+ * Build a multi-step form: an optional heading, the step list, progress, and a
+ * <form> holding the active step (or every step, the inactive ones hidden).
+ */
 export function buildFormFlow(
 	input: FormFlowInput,
 	locale: Locale,
@@ -21,7 +36,8 @@ export function buildFormFlow(
 ): BuildResult {
 	const warnings: string[] = [];
 
-	const { steps, heading, headingLevel, showProgress, navigation } = input;
+	const { steps, heading, showProgress, navigation, renderAllSteps } = input;
+	const headingLevel = input.headingLevel ?? 2;
 
 	// Clamp currentStep (1-based) to valid range, then convert to 0-based index
 	const clampedStep = Math.min(Math.max(1, input.currentStep), steps.length);
@@ -32,6 +48,11 @@ export function buildFormFlow(
 			`currentStep ${input.currentStep} exceeds steps.length ${steps.length} — clamped to ${steps.length}.`,
 		);
 	}
+
+	// --- Heading ---
+	const headingHtml = heading
+		? `<h${headingLevel} class="kern-heading-medium">${escapeHtml(heading)}</h${headingLevel}>`
+		: "";
 
 	// --- Tasklist ---
 	const tasklistItems = steps.map((step, i) => {
@@ -58,7 +79,7 @@ export function buildFormFlow(
 
 	const tasklistResult = buildTasklist(
 		{
-			heading: heading ?? (locale === "en" ? "Progress" : "Fortschritt"),
+			heading: input.tasklistHeading ?? t(locale, TASKLIST_HEADING),
 			numbered: true,
 			items: tasklistItems,
 		},
@@ -66,8 +87,9 @@ export function buildFormFlow(
 	);
 	warnings.push(...tasklistResult.warnings);
 
-	// Patch heading level in tasklist HTML (buildTasklist hardcodes h2)
-	const hTag = `h${headingLevel ?? 2}`;
+	// The step list sits one level below the form heading. buildTasklist hardcodes h2.
+	const tasklistLevel = heading ? Math.min(headingLevel + 1, 6) : headingLevel;
+	const hTag = `h${tasklistLevel}`;
 	let tasklistHtml = tasklistResult.html;
 	if (hTag !== "h2") {
 		tasklistHtml = tasklistHtml
@@ -92,68 +114,78 @@ export function buildFormFlow(
 		warnings.push(...progressResult.warnings);
 	}
 
-	// --- Active step content ---
-	const activeStep = steps[activeIndex];
-	let stepContentHtml = "";
+	// --- Steps, inside the form ---
+	// Only the active step's field errors go into the summary: the others are hidden.
+	const errors: FieldError[] = [];
+	const stepsHtml = steps
+		.map((step, index) => {
+			const isActive = index === activeIndex;
+			if (!isActive && !renderAllSteps) {
+				return "";
+			}
 
-	if (activeStep?.contentBlocks && activeStep.contentBlocks.length > 0) {
-		const contentResult = context.renderer.renderBlocks(
-			activeStep.contentBlocks,
-			context.depth + 1,
-		);
-		stepContentHtml = contentResult.html;
-		warnings.push(...contentResult.warnings);
-	}
+			const blocks =
+				isActive && step.contentBlocks
+					? withErrorIds(step.contentBlocks, errors)
+					: step.contentBlocks;
+			const content = context.renderer.renderBlocks(blocks, context.depth + 1);
+			warnings.push(...content.warnings);
 
-	// --- Navigation buttons ---
-	let navHtml = "";
-	if (navigation) {
-		const buttons: string[] = [];
-		const isFirst = activeIndex === 0;
-		const isLast = activeIndex === steps.length - 1;
+			const nav = stepNavigation(index, steps.length, input);
+			const parts = [content.html, nav].filter(Boolean);
+			if (parts.length === 0) {
+				return "";
+			}
 
-		if (!isFirst && navigation.backLabel) {
-			buttons.push(
-				`<button type="button" class="kern-button kern-button--secondary">${escapeHtml(navigation.backLabel)}</button>`,
-			);
-		}
+			const hidden = isActive ? "" : " hidden";
+			return `<div class="kern-form-flow__step" data-step="${index + 1}"${hidden}>
+      ${parts.join("\n      ")}
+    </div>`;
+		})
+		.filter(Boolean);
 
-		if (isLast && navigation.submitLabel) {
-			buttons.push(
-				`<button type="submit" class="kern-button kern-button--primary">${escapeHtml(navigation.submitLabel)}</button>`,
-			);
-		} else if (!isLast && navigation.nextLabel) {
-			buttons.push(
-				`<button type="button" class="kern-button kern-button--primary">${escapeHtml(navigation.nextLabel)}</button>`,
-			);
-		}
+	const summary = renderErrorSummary(errors, input.errorSummary, locale);
+	warnings.push(...summary.warnings);
 
-		if (buttons.length > 0) {
-			navHtml = `<div class="kern-form-flow__navigation">\n    ${buttons.join("\n    ")}\n  </div>`;
-		}
-	}
+	const formHtml = `${formOpenTag(input)}
+    ${summary.html}${stepsHtml.join("\n    ")}
+  </form>`;
 
 	// --- Assemble ---
-	const parts: string[] = [];
-	parts.push(tasklistHtml);
-	if (progressHtml) parts.push(progressHtml);
-	if (stepContentHtml) {
-		parts.push(
-			`<div class="kern-form-flow__step" data-step="${clampedStep}">\n    ${stepContentHtml}\n  </div>`,
-		);
-	}
-	if (navHtml) parts.push(navHtml);
-
+	const parts = [headingHtml, tasklistHtml, progressHtml, formHtml].filter(
+		Boolean,
+	);
 	const html = `<div class="kern-form-flow">\n  ${parts.join("\n  ")}\n</div>`;
 
 	return { html, warnings };
-}
 
-function escapeHtml(text: string): string {
-	return text
-		.replace(/&/g, "&amp;")
-		.replace(/</g, "&lt;")
-		.replace(/>/g, "&gt;")
-		.replace(/"/g, "&quot;")
-		.replace(/'/g, "&#039;");
+	function stepNavigation(
+		index: number,
+		stepCount: number,
+		flow: FormFlowInput,
+	): string {
+		if (!navigation) {
+			return "";
+		}
+		const isFirst = index === 0;
+		const isLast = index === stepCount - 1;
+		// Without renderAllSteps each step is its own page, so "next" submits it.
+		const nextType = flow.renderAllSteps ? "button" : "submit";
+
+		const buttons = [
+			!isFirst && navigation.backLabel
+				? formButton("button", "secondary", navigation.backLabel)
+				: undefined,
+			isLast && navigation.submitLabel
+				? formButton("submit", "primary", navigation.submitLabel)
+				: undefined,
+			!isLast && navigation.nextLabel
+				? formButton(nextType, "primary", navigation.nextLabel)
+				: undefined,
+		];
+		if (!buttons.some(Boolean)) {
+			return "";
+		}
+		return buttonRow(buttons, "kern-form-flow__navigation");
+	}
 }
