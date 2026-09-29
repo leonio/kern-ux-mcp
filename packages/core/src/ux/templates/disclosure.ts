@@ -1,28 +1,12 @@
-import { MAX_RECURSIVE_CONTENT_DEPTH } from "../schemas/content-union.js";
 import {
 	type DisclosureInput,
 	DisclosureSchema,
 } from "../schemas/disclosure.js";
 import type { BuildResult, Locale } from "../types.js";
-import { buildCard } from "./card.js";
-import type {
-	DisclosureNodeRenderer,
-	SectionNodeRenderer,
-} from "./content-union.js";
-import { renderRecursiveContentBlocks } from "./content-union.js";
-import { buildGrid } from "./grid.js";
-
-type DisclosureRenderContext = {
-	depth: number;
-	maxDepth: number;
-	renderSectionNode?: SectionNodeRenderer;
-	renderDisclosureNode?: DisclosureNodeRenderer;
-};
-
-const DEFAULT_DISCLOSURE_RENDER_CONTEXT: DisclosureRenderContext = {
-	depth: 1,
-	maxDepth: MAX_RECURSIVE_CONTENT_DEPTH,
-};
+import {
+	type BlockContext,
+	standaloneContext,
+} from "./composition-renderer.js";
 
 /**
  * Build HTML for a KERN UX Disclosure (expand/collapse) component.
@@ -31,7 +15,7 @@ const DEFAULT_DISCLOSURE_RENDER_CONTEXT: DisclosureRenderContext = {
 export function buildDisclosure(
 	input: DisclosureInput,
 	locale: Locale,
-	context: DisclosureRenderContext = DEFAULT_DISCLOSURE_RENDER_CONTEXT,
+	context: BlockContext = standaloneContext(locale),
 ): BuildResult {
 	const warnings: string[] = [];
 	const params = DisclosureSchema.parse(input);
@@ -42,27 +26,10 @@ export function buildDisclosure(
 	let bodyContent = "";
 
 	if (contentBlocks && contentBlocks.length > 0) {
-		const recursiveResult = renderRecursiveContentBlocks(contentBlocks, {
-			locale,
-			currentDepth: context.depth,
-			maxDepth: context.maxDepth,
-			renderCardNode: (cardInput, nextDepth) =>
-				buildCard(cardInput as Parameters<typeof buildCard>[0], locale, {
-					depth: nextDepth,
-					maxDepth: context.maxDepth,
-					renderSectionNode: context.renderSectionNode,
-					renderDisclosureNode: context.renderDisclosureNode,
-				}),
-			renderGridNode: (gridInput, nextDepth) =>
-				buildGrid(gridInput as Parameters<typeof buildGrid>[0], locale, {
-					depth: nextDepth,
-					maxDepth: context.maxDepth,
-					renderSectionNode: context.renderSectionNode,
-					renderDisclosureNode: context.renderDisclosureNode,
-				}),
-			renderSectionNode: context.renderSectionNode,
-			renderDisclosureNode: context.renderDisclosureNode,
-		});
+		const recursiveResult = context.renderer.renderBlocks(
+			contentBlocks,
+			context.depth + 1,
+		);
 		bodyContent = recursiveResult.html;
 		warnings.push(...recursiveResult.warnings);
 	} else if (typeof content === "string") {

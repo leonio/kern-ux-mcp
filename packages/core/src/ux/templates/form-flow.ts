@@ -1,18 +1,12 @@
 import { t } from "../i18n.js";
 import type { FormFlowInput } from "../schemas/content-union.js";
 import type { BuildResult, Locale } from "../types.js";
-import type { RecursiveContentRenderOptions } from "./content-union.js";
-import { renderRecursiveContentBlocks } from "./content-union.js";
+import {
+	type BlockContext,
+	standaloneContext,
+} from "./composition-renderer.js";
 import { buildProgress } from "./progress.js";
 import { buildTasklist } from "./tasklist.js";
-
-type FormFlowRenderOptions = Omit<
-	RecursiveContentRenderOptions,
-	"locale" | "currentDepth" | "maxDepth"
-> & {
-	depth: number;
-	maxDepth: number;
-};
 
 const STATUS_LABELS = {
 	completed: { de: "Erledigt", en: "Completed" },
@@ -23,7 +17,7 @@ const STATUS_LABELS = {
 export function buildFormFlow(
 	input: FormFlowInput,
 	locale: Locale,
-	options?: FormFlowRenderOptions,
+	context: BlockContext = standaloneContext(locale),
 ): BuildResult {
 	const warnings: string[] = [];
 
@@ -103,20 +97,9 @@ export function buildFormFlow(
 	let stepContentHtml = "";
 
 	if (activeStep?.contentBlocks && activeStep.contentBlocks.length > 0) {
-		const depth = options?.depth ?? 1;
-		const maxDepth = options?.maxDepth ?? 4;
-
-		const contentResult = renderRecursiveContentBlocks(
+		const contentResult = context.renderer.renderBlocks(
 			activeStep.contentBlocks,
-			{
-				locale,
-				currentDepth: depth,
-				maxDepth,
-				renderCardNode: options?.renderCardNode,
-				renderGridNode: options?.renderGridNode,
-				renderSectionNode: options?.renderSectionNode,
-				renderDisclosureNode: options?.renderDisclosureNode,
-			},
+			context.depth + 1,
 		);
 		stepContentHtml = contentResult.html;
 		warnings.push(...contentResult.warnings);

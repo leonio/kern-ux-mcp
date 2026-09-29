@@ -175,13 +175,13 @@ describe("render_composition tool", () => {
 		expect(result.validation.ok).toBe(true);
 	});
 
-	it("renders mixed recursive chain section -> grid -> card -> disclosure", async () => {
+	it("renders mixed recursive chains section -> grid -> card and disclosure, four levels deep", async () => {
 		const tools = createTools(createRegistry());
 		const tool = tools.getTool("render_composition");
 
 		expect(tool).toBeDefined();
 
-		const result = await callHandler<RenderedToolResult>(tool, {
+		const args = {
 			locale: "de",
 			contentBlocks: [
 				{
@@ -192,24 +192,27 @@ describe("render_composition tool", () => {
 							{
 								kind: "grid",
 								grid: {
-									columns: 1,
+									columns: 2,
 									columnsContent: [
 										[
 											{
 												kind: "card",
 												card: {
-													header: { title: "Karte mit Disclosure" },
+													header: { title: "Karte" },
 													contentBlocks: [
-														{
-															kind: "disclosure",
-															disclosure: {
-																triggerLabel: "Details anzeigen",
-																open: true,
-																contentBlocks: [
-																	{ kind: "text", text: "Tiefer Inhalt" },
-																],
-															},
-														},
+														{ kind: "text", text: "Karteninhalt" },
+													],
+												},
+											},
+										],
+										[
+											{
+												kind: "disclosure",
+												disclosure: {
+													triggerLabel: "Details anzeigen",
+													open: true,
+													contentBlocks: [
+														{ kind: "text", text: "Tiefer Inhalt" },
 													],
 												},
 											},
@@ -221,15 +224,80 @@ describe("render_composition tool", () => {
 					},
 				},
 			],
-		});
+		};
+
+		expect(tool?.inputSchema.safeParse(args).success).toBe(true);
+
+		const result = await callHandler<RenderedToolResult>(tool, args);
 
 		expect(result.html).toContain("Kompositionsbereich");
 		expect(result.html).toContain("kern-container");
-		expect(result.html).toContain("Karte mit Disclosure");
+		expect(result.html).toContain("Karteninhalt");
 		expect(result.html).toContain("<details");
 		expect(result.html).toContain("Details anzeigen");
 		expect(result.html).toContain("Tiefer Inhalt");
-		expect(result.warnings.join(" ")).not.toContain("skipped because no");
+		expect(result.warnings.join(" ")).not.toContain("skipped");
 		expect(result.validation.ok).toBe(true);
+	});
+});
+
+describe("standalone composition tools", () => {
+	it("get_grid renders sections and disclosures in its columns, in the requested locale", async () => {
+		const tools = createTools(
+			createRegistry([
+				{
+					id: "grid",
+					title: "Grid",
+					status: "stable",
+					category: "foundational",
+					strategy: "layout",
+					guidance: { de: "", en: "" },
+				},
+			]),
+		);
+
+		const result = await callHandler<RenderedToolResult>(
+			tools.getTool("get_grid"),
+			{
+				locale: "en",
+				columns: 2,
+				columnsContent: [
+					[
+						{
+							kind: "section",
+							section: { headingText: "Left section", paragraphs: ["Text"] },
+						},
+					],
+					[
+						{
+							kind: "formFlow",
+							formFlow: {
+								currentStep: 1,
+								steps: [
+									{
+										label: "Start",
+										contentBlocks: [
+											{
+												kind: "disclosure",
+												disclosure: {
+													triggerLabel: "More",
+													contentBlocks: [{ kind: "text", text: "Hidden" }],
+												},
+											},
+										],
+									},
+									{ label: "End" },
+								],
+							},
+						},
+					],
+				],
+			},
+		);
+
+		expect(result.html).toContain("Left section");
+		expect(result.html).toContain("Hidden");
+		expect(result.html).toContain("Step 1 of 2");
+		expect(result.warnings.join(" ")).not.toContain("skipped");
 	});
 });

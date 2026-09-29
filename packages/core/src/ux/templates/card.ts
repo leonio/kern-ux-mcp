@@ -1,25 +1,9 @@
 import { type CardInput, cardSchema } from "../schemas/card.js";
-import { MAX_RECURSIVE_CONTENT_DEPTH } from "../schemas/content-union.js";
 import type { BuildResult, Locale } from "../types.js";
-import type {
-	DisclosureNodeRenderer,
-	GridNodeRenderer,
-	SectionNodeRenderer,
-} from "./content-union.js";
-import { renderRecursiveContentBlocks } from "./content-union.js";
-
-export type CardRenderContext = {
-	depth: number;
-	maxDepth: number;
-	renderGridNode?: GridNodeRenderer;
-	renderSectionNode?: SectionNodeRenderer;
-	renderDisclosureNode?: DisclosureNodeRenderer;
-};
-
-const DEFAULT_CARD_RENDER_CONTEXT: CardRenderContext = {
-	depth: 1,
-	maxDepth: MAX_RECURSIVE_CONTENT_DEPTH,
-};
+import {
+	type BlockContext,
+	standaloneContext,
+} from "./composition-renderer.js";
 
 /**
  * Build HTML for a KERN UX Card component
@@ -27,7 +11,7 @@ const DEFAULT_CARD_RENDER_CONTEXT: CardRenderContext = {
 export function buildCard(
 	input: CardInput,
 	locale: Locale,
-	context: CardRenderContext = DEFAULT_CARD_RENDER_CONTEXT,
+	context: BlockContext = standaloneContext(locale),
 ): BuildResult {
 	const warnings: string[] = [];
 
@@ -98,19 +82,10 @@ export function buildCard(
 	}
 
 	if (contentBlocks && contentBlocks.length > 0) {
-		const recursiveResult = renderRecursiveContentBlocks(contentBlocks, {
-			locale,
-			currentDepth: context.depth,
-			maxDepth: context.maxDepth,
-			renderCardNode: (cardInput, nextDepth) =>
-				buildCard(cardInput as CardInput, locale, {
-					depth: nextDepth,
-					maxDepth: context.maxDepth,
-				}),
-			renderGridNode: context.renderGridNode,
-			renderSectionNode: context.renderSectionNode,
-			renderDisclosureNode: context.renderDisclosureNode,
-		});
+		const recursiveResult = context.renderer.renderBlocks(
+			contentBlocks,
+			context.depth + 1,
+		);
 
 		if (recursiveResult.html) {
 			bodyParts.push(recursiveResult.html);

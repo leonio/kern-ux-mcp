@@ -1,29 +1,14 @@
-import { MAX_RECURSIVE_CONTENT_DEPTH } from "../schemas/content-union.js";
 import { type GridRenderInput, GridRenderSchema } from "../schemas/grid.js";
 import type { BuildResult, Locale } from "../types.js";
-import { buildCard } from "./card.js";
-import type {
-	DisclosureNodeRenderer,
-	SectionNodeRenderer,
-} from "./content-union.js";
-import { renderRecursiveContentBlocks } from "./content-union.js";
-
-type GridRenderContext = {
-	depth: number;
-	maxDepth: number;
-	renderSectionNode?: SectionNodeRenderer;
-	renderDisclosureNode?: DisclosureNodeRenderer;
-};
-
-const DEFAULT_GRID_RENDER_CONTEXT: GridRenderContext = {
-	depth: 1,
-	maxDepth: MAX_RECURSIVE_CONTENT_DEPTH,
-};
+import {
+	type BlockContext,
+	standaloneContext,
+} from "./composition-renderer.js";
 
 export function buildGrid(
 	input: GridRenderInput,
 	locale: Locale = "de",
-	context: GridRenderContext = DEFAULT_GRID_RENDER_CONTEXT,
+	context: BlockContext = standaloneContext(locale),
 ): BuildResult {
 	const params = GridRenderSchema.parse(input);
 	const warnings: string[] = [];
@@ -70,25 +55,10 @@ export function buildGrid(
 		let contentHtml = `<p class="kern-body">Spalte ${index + 1}</p>`;
 
 		if (columnBlocks && columnBlocks.length > 0) {
-			const nested = renderRecursiveContentBlocks(columnBlocks, {
-				locale,
-				currentDepth: context.depth,
-				maxDepth: context.maxDepth,
-				renderCardNode: (cardInput, nextDepth) =>
-					buildCard(cardInput as Parameters<typeof buildCard>[0], locale, {
-						depth: nextDepth,
-						maxDepth: context.maxDepth,
-						renderSectionNode: context.renderSectionNode,
-						renderDisclosureNode: context.renderDisclosureNode,
-					}),
-				renderGridNode: (gridInput, nextDepth) =>
-					buildGrid(gridInput as GridRenderInput, locale, {
-						depth: nextDepth,
-						maxDepth: context.maxDepth,
-					}),
-				renderSectionNode: context.renderSectionNode,
-				renderDisclosureNode: context.renderDisclosureNode,
-			});
+			const nested = context.renderer.renderBlocks(
+				columnBlocks,
+				context.depth + 1,
+			);
 
 			if (nested.html) {
 				contentHtml = nested.html;

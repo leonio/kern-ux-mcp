@@ -67,7 +67,10 @@ export function buildLayoutTool(component: ComponentInfo): ToolDef {
 			let templateWarnings: string[] = [];
 
 			if (component.id === "grid") {
-				const built = buildGrid(args as Parameters<typeof buildGrid>[0]);
+				const built = buildGrid(
+					args as Parameters<typeof buildGrid>[0],
+					locale,
+				);
 				renderedHtml = built.html;
 				templateWarnings = built.warnings;
 			} else if (component.id === "fieldset") {

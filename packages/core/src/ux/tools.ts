@@ -5,18 +5,13 @@ import {
 	getToolOutputJsonSchema,
 } from "./json-schema.js";
 import { CardGroupSchema } from "./schemas/card-group.js";
-import {
-	MAX_RECURSIVE_CONTENT_DEPTH,
-	RecursiveContentBlocksSchema,
-} from "./schemas/content-union.js";
+import { RecursiveContentBlocksSchema } from "./schemas/content-union.js";
 import { DisclosureSchema } from "./schemas/disclosure.js";
 import { SectionSchema } from "./schemas/section.js";
 import { UtilityReferenceSchema } from "./schemas/utility-reference.js";
-import { buildCard } from "./templates/card.js";
 import { buildCardGroup } from "./templates/card-group.js";
-import { renderRecursiveContentBlocks } from "./templates/content-union.js";
+import { createCompositionRenderer } from "./templates/composition-renderer.js";
 import { buildDisclosure } from "./templates/disclosure.js";
-import { buildGrid } from "./templates/grid.js";
 import { buildSection } from "./templates/section.js";
 import { buildUtilityReference } from "./templates/utility-reference.js";
 import { buildInteractiveTool } from "./tool-builders/interactive.js";
@@ -628,59 +623,10 @@ function buildRenderCompositionTool(): ToolDef {
 			const locale = pickLocale(args.locale);
 			const strict = args.strict === true;
 
-			const renderCardNode = (cardInput: unknown, nextDepth: number) =>
-				buildCard(cardInput as Parameters<typeof buildCard>[0], locale, {
-					depth: nextDepth,
-					maxDepth: MAX_RECURSIVE_CONTENT_DEPTH,
-					renderGridNode,
-					renderSectionNode,
-					renderDisclosureNode,
-				});
-
-			const renderGridNode = (gridInput: unknown, nextDepth: number) =>
-				buildGrid(gridInput as Parameters<typeof buildGrid>[0], locale, {
-					depth: nextDepth,
-					maxDepth: MAX_RECURSIVE_CONTENT_DEPTH,
-					renderSectionNode,
-					renderDisclosureNode,
-				});
-
-			const renderSectionNode = (sectionInput: unknown, nextDepth: number) =>
-				buildSection(
-					sectionInput as Parameters<typeof buildSection>[0],
-					locale,
-					{
-						depth: nextDepth,
-						maxDepth: MAX_RECURSIVE_CONTENT_DEPTH,
-						renderSectionNode,
-						renderDisclosureNode,
-					},
-				);
-
-			const renderDisclosureNode = (
-				disclosureInput: unknown,
-				nextDepth: number,
-			) =>
-				buildDisclosure(
-					disclosureInput as Parameters<typeof buildDisclosure>[0],
-					locale,
-					{
-						depth: nextDepth,
-						maxDepth: MAX_RECURSIVE_CONTENT_DEPTH,
-						renderSectionNode,
-						renderDisclosureNode,
-					},
-				);
-
-			const rendered = renderRecursiveContentBlocks(args.contentBlocks, {
-				locale,
-				currentDepth: 0,
-				maxDepth: MAX_RECURSIVE_CONTENT_DEPTH,
-				renderCardNode,
-				renderGridNode,
-				renderSectionNode,
-				renderDisclosureNode,
-			});
+			const rendered = createCompositionRenderer(locale).renderBlocks(
+				args.contentBlocks,
+				1,
+			);
 
 			const validation = validateHtmlStrict(rendered.html);
 			assertStrictValidationOrThrow({
