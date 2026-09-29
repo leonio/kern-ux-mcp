@@ -59,7 +59,10 @@ export function buildLayoutTool(component: ComponentInfo): ToolDef {
 				: component.id === "fieldset"
 					? "KERN UX (Foundational/Layout): Groups related form fields under a legend, with an optional hint and group error. " +
 						"Put the fields in contentBlocks as field blocks, e.g. { legend: 'Ihre Anschrift', legendSize: 'large', contentBlocks: [{ kind: 'field', field: { type: 'text', name: 'strasse', label: 'Straße und Hausnummer' } }] }."
-					: `KERN UX (Foundational/Layout): HTML für ${component.title} erzeugen (Container/Grid/Section).`,
+					: component.id === "kopfzeile"
+						? "KERN UX (Foundational/Layout): The Kopfzeile, the thin bar with the German flag that marks an official website of the Federal Republic of Germany. " +
+							"Only for official federal websites. render_page can add it to a whole page."
+						: `KERN UX (Foundational/Layout): HTML für ${component.title} erzeugen (Container/Grid/Section).`,
 		inputSchema,
 		outputSchema: ComponentOutputSchema,
 		handler: async (args: z.infer<typeof inputSchema>) => {
@@ -96,6 +99,7 @@ export function buildLayoutTool(component: ComponentInfo): ToolDef {
 			} else if (component.id === "kopfzeile") {
 				const built = buildKopfzeile(
 					args as Parameters<typeof buildKopfzeile>[0],
+					locale,
 				);
 				renderedHtml = built.html;
 				templateWarnings = built.warnings;

@@ -128,7 +128,7 @@ Current high-value schema facts:
 - `checkbox` list mode uses `groupName` as the shared `name` source for all list items.
 - `input-date` is still a repo-level simplification over the upstream grouped day/month/year pattern.
 - `dropdown` remains explicitly experimental.
-- `kopfzeile` is still a simplified MCP placeholder rather than full upstream parity.
+- `kopfzeile` renders the CSS variant of the upstream Kopfzeile, not the `<kern-kopfzeile>` web component.
 
 ## Testing
 

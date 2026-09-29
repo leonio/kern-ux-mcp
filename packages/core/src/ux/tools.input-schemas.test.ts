@@ -761,7 +761,7 @@ describe("tool input schemas", () => {
 		expect(prelineSchema.properties.text.description).toContain("Preline");
 	});
 
-	it("fieldset, divider, and kopfzeile schemas document their current simplified contracts", () => {
+	it("fieldset, divider, and kopfzeile schemas document their contracts", () => {
 		const registry = createRegistry([
 			{
 				id: "fieldset",
@@ -806,14 +806,14 @@ describe("tool input schemas", () => {
 			'aria-hidden="true"',
 		);
 
-		expect(kopfzeileSchema.properties.title.description).toContain(
+		expect(Object.keys(kopfzeileSchema.properties).sort()).toEqual([
+			"fluid",
+			"label",
+			"locale",
+			"strict",
+		]);
+		expect(kopfzeileSchema.properties.label.description).toContain(
 			"Offizielle Website",
-		);
-		expect(kopfzeileSchema.properties.includeNav.description).toContain(
-			"Flagge",
-		);
-		expect(kopfzeileSchema.properties.includeNav.description).toContain(
-			"Web-Component",
 		);
 	});
 

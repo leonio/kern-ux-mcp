@@ -65,8 +65,14 @@ function formatZodIssues(error: z.ZodError): string {
 	return lines.join("\n");
 }
 
+/** Tools that take a whole block tree, and get the cheat sheet on bad input. */
+const COMPOSITION_TOOLS: ReadonlySet<string> = new Set([
+	"render_composition",
+	"render_page",
+]);
+
 /**
- * Specialized hint for render_composition.
+ * Specialized hint for render_composition and render_page.
  * Detects discriminated union failures (missing/invalid kind) and replaces
  * the "wall of noise" with a clean, pedagogical hint.
  */
@@ -260,7 +266,7 @@ export function formatInputValidationHint(
 		);
 	}
 
-	if (name === "render_composition") {
+	if (COMPOSITION_TOOLS.has(name)) {
 		return formatCompositionHint(error);
 	}
 
@@ -273,10 +279,9 @@ export function formatInputValidationError(
 	error: z.ZodError,
 ): string {
 	const count = error.issues.length;
-	const header =
-		name === "render_composition"
-			? `Invalid arguments for render_composition (${count} issue${count !== 1 ? "s" : ""}):`
-			: `Invalid arguments for ${name}:`;
+	const header = COMPOSITION_TOOLS.has(name)
+		? `Invalid arguments for ${name} (${count} issue${count !== 1 ? "s" : ""}):`
+		: `Invalid arguments for ${name}:`;
 	return `${header}\n${formatInputValidationHint(name, error)}`;
 }
 

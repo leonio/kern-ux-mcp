@@ -12,6 +12,7 @@ function toRegistry(manifest: RegistryManifest): Registry {
 	return {
 		manifestVersion: manifest.manifestVersion,
 		generatedAt: manifest.generatedAt,
+		upstream: manifest.upstream,
 		tokens: manifest.tokens ?? { colors: [], spacing: [], rawVariables: [] },
 		components,
 		byId,

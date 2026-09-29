@@ -5,8 +5,8 @@
 			"status": "reviewed",
 			"summary": {
 				"text": {
-					"de": "Die MCP-Variante von Kopfzeile ist derzeit nur ein vereinfachter Platzhalter-Header und keine vollstaendige Abbildung der upstream KERN-Infoleiste oder Web Component.",
-					"en": "The MCP Kopfzeile variant is currently only a simplified placeholder header, not a full implementation of the upstream KERN info bar or web component."
+					"de": "Die Kopfzeile ist die schmale Leiste mit Bundesflagge und dem Hinweis 'Offizielle Website – Bundesrepublik Deutschland'. Das Tool rendert die CSS-Variante der upstream Komponente, auf Wunsch mit eigenem Label oder fluidem Container.",
+					"en": "The Kopfzeile is the thin bar with the German flag and the label 'Offizielle Website – Bundesrepublik Deutschland'. The tool renders the CSS variant of the upstream component, optionally with a custom label or a fluid container."
 				},
 				"confidence": "high",
 				"evidence": [
@@ -27,14 +27,14 @@
 			"primaryUseCases": [
 				{
 					"text": {
-						"de": "Als dokumentierter Hinweis fuer Repo-Nutzer:innen, dass der aktuelle Tool-Output nur eine einfache Header-Struktur fuer Demos und Platzhalter liefert.",
-						"en": "As documented guidance for repo users that the current tool output only provides a simple header structure for demos and placeholders."
+						"de": "Ganz oben auf offiziellen Websites der Bundesverwaltung, vor dem Seitenkopf. render_page setzt sie mit kopfzeile: true ein.",
+						"en": "At the very top of official websites of the federal administration, above the page header. render_page adds it with kopfzeile: true."
 					},
 					"confidence": "high",
 					"evidence": [
 						{
-							"kind": "template",
-							"source": "packages/core/src/ux/templates/kopfzeile.ts"
+							"kind": "story",
+							"source": "kern-ux-plain/stories/Kopfzeile/Kopfzeile.stories.js"
 						}
 					]
 				}
@@ -42,8 +42,23 @@
 			"antiUseCases": [
 				{
 					"text": {
-						"de": "Nicht als Beleg dafuer verwenden, dass bereits die offizielle KERN-Infoleiste mit Flagge, fluidem Layout oder Breakpoint-Konfiguration unterstuetzt wird.",
-						"en": "Do not use it as evidence that the official KERN info bar with flag, fluid layout, or breakpoint configuration is already supported."
+						"de": "Nicht auf Websites verwenden, die keine offiziellen Angebote des Bundes sind: das Label behauptet einen amtlichen Absender.",
+						"en": "Don't use it on sites that aren't official federal services: the label claims an official sender."
+					},
+					"confidence": "high",
+					"evidence": [
+						{
+							"kind": "story",
+							"source": "kern-ux-plain/stories/Kopfzeile/Kopfzeile.stories.js"
+						}
+					]
+				}
+			],
+			"requiredA11yPractices": [
+				{
+					"text": {
+						"de": "Die Flagge ist dekorativ (aria-hidden=\"true\"); die Aussage traegt allein das sichtbare Label.",
+						"en": "The flag is decorative (aria-hidden=\"true\"); the visible label carries the meaning on its own."
 					},
 					"confidence": "high",
 					"evidence": [
@@ -52,20 +67,26 @@
 							"source": "kern-ux-plain/stories/Kopfzeile/Kopfzeile.stories.js"
 						},
 						{
-							"kind": "schema",
-							"source": "packages/core/src/ux/schemas/kopfzeile.ts"
+							"kind": "template",
+							"source": "packages/core/src/ux/templates/kopfzeile.ts"
 						}
 					]
 				}
 			],
-			"requiredA11yPractices": [
+			"semanticInvariants": [],
+			"compositionPatterns": [],
+			"authoringNotes": [
 				{
 					"text": {
-						"de": "Wenn die Kopfzeile Navigation enthaelt, sollte diese weiterhin einen aussagekraeftigen Navigationsnamen haben; die aktuelle MCP-Vorlage nutzt dafuer aria-label=\"Hauptnavigation\".",
-						"en": "If the header contains navigation, it should keep a meaningful navigation name; the current MCP template uses aria-label=\"Hauptnavigation\" for that purpose."
+						"de": "Die Web Component <kern-kopfzeile> (Properties fluid, breakpoints, theme) bildet das Tool nicht ab; es rendert statisches HTML.",
+						"en": "The tool doesn't cover the <kern-kopfzeile> web component (properties fluid, breakpoints, theme); it renders static HTML."
 					},
-					"confidence": "medium",
+					"confidence": "high",
 					"evidence": [
+						{
+							"kind": "story",
+							"source": "kern-ux-plain/stories/Kopfzeile/Kopfzeile.stories.js"
+						},
 						{
 							"kind": "template",
 							"source": "packages/core/src/ux/templates/kopfzeile.ts"
@@ -73,48 +94,17 @@
 					]
 				}
 			],
-			"semanticInvariants": [
+			"migrationNotes": [
 				{
 					"text": {
-						"de": "Die Diskrepanz zwischen upstream Kopfzeile und MCP-Platzhalter muss fuer Autor:innen sichtbar bleiben, bis ein echter Komponentenausbau erfolgt.",
-						"en": "The gap between the upstream Kopfzeile and the MCP placeholder should remain visible to authors until a real component implementation exists."
+						"de": "Bis R4 renderte das Tool einen Platzhalter-Header mit Titel und Navigation (Parameter title, includeNav). Seit 2.0 rendert es die upstream Kopfzeile (Parameter label, fluid).",
+						"en": "Until R4 the tool rendered a placeholder header with a title and navigation (parameters title, includeNav). Since 2.0 it renders the upstream Kopfzeile (parameters label, fluid)."
 					},
 					"confidence": "high",
 					"evidence": [
 						{
-							"kind": "manual-review",
-							"source": "docs/contributor-guide.md"
-						}
-					]
-				}
-			],
-			"compositionPatterns": [],
-			"authoringNotes": [
-				{
-					"text": {
-						"de": "Beschreibe Kopfzeile derzeit als bekannte Vereinfachung und verweise bei Bedarf auf get_component_docs oder die Stories fuer den upstream Umfang.",
-						"en": "Describe Kopfzeile as a known simplification for now and refer to get_component_docs or the stories for the upstream scope when needed."
-					},
-					"confidence": "medium",
-					"evidence": [
-						{
-							"kind": "manual-review",
-							"source": "docs/contributor-guide.md"
-						}
-					]
-				}
-			],
-			"migrationNotes": [
-				{
-					"text": {
-						"de": "Wenn eine spaetere Implementierung die Web-Component-Properties oder das Flaggen-/Label-Layout uebernimmt, sollte diese Overlay-Notiz auf eine historische Kompatibilitaetsnotiz reduziert werden.",
-						"en": "If a later implementation adopts the web-component properties or the flag-and-label layout, this overlay note should be reduced to a historical compatibility note."
-					},
-					"confidence": "medium",
-					"evidence": [
-						{
-							"kind": "story",
-							"source": "kern-ux-plain/stories/Kopfzeile/Kopfzeile.stories.js"
+							"kind": "schema",
+							"source": "packages/core/src/ux/schemas/kopfzeile.ts"
 						}
 					]
 				}

@@ -89,6 +89,8 @@ export type TokenSnapshot = {
 export type Registry = {
 	manifestVersion: string;
 	generatedAt: string;
+	/** The KERN release the registry describes; the page shell loads its CSS. */
+	upstream?: UpstreamSource;
 	tokens: TokenSnapshot;
 	components: ComponentInfo[];
 	byId: Map<string, ComponentInfo>;

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-
+import { formatInputValidationHint } from "../invoke.js";
 import {
 	callHandler,
 	createRegistry,
@@ -444,6 +444,59 @@ describe("render_composition nesting rules", () => {
 		});
 
 		expect(parsed?.success).toBe(true);
+	});
+});
+
+describe("render_page tool", () => {
+	it("renders a strict-valid document pinned to the registry's KERN version", async () => {
+		const registry = {
+			...createRegistry(),
+			upstream: { package: "@kern-ux/native", version: "2.8.2" },
+		};
+		const tool = createTools(registry).getTool("render_page");
+		const args = {
+			locale: "de",
+			strict: true,
+			document: true,
+			heading: "Kontakt",
+			header: { title: "Stadt Musterstadt" },
+			contentBlocks: [
+				{
+					kind: "form",
+					form: {
+						contentBlocks: [
+							{
+								kind: "field",
+								field: { type: "email", name: "email", label: "E-Mail" },
+							},
+						],
+						actions: { submitLabel: "Senden" },
+					},
+				},
+			],
+		};
+
+		expect(tool?.inputSchema.safeParse(args).success).toBe(true);
+
+		const result = await callHandler<RenderedToolResult>(tool, args);
+
+		expect(result.html).toContain("@kern-ux/native@2.8.2/dist/kern.min.css");
+		expect(result.html).toContain('<main id="main" class="kern-container">');
+		expect(result.validation.ok).toBe(true);
+	});
+
+	it("gets the composition cheat sheet for bad blocks", () => {
+		const tool = createTools(createRegistry()).getTool("render_page");
+		const parsed = tool?.inputSchema.safeParse({
+			contentBlocks: [{ kind: "absatz", text: "x" }],
+		});
+		if (!parsed || parsed.success) {
+			throw new Error("Expected render_page input to be rejected");
+		}
+
+		const hint = formatInputValidationHint("render_page", parsed.error);
+		expect(hint).toContain("Invalid or missing 'kind'");
+		expect(hint).toContain("Cheat sheet for contentBlocks:");
 	});
 });
 

@@ -1973,6 +1973,1174 @@
       }
     },
     {
+      "name": "render_page",
+      "title": "Render KERN Page",
+      "description": "KERN UX (Komposition): Renders a whole page: an optional Kopfzeile, a header with brand and navigation, <main> with an h1 and content blocks (the same kinds as render_composition), and a footer with up to four link columns. document: true returns a complete HTML document that loads the KERN stylesheets. Example: { heading: 'Wohngeld beantragen', header: { title: 'Stadt Musterstadt', navigation: [{ label: 'Start', href: '/' }] }, contentBlocks: [{ kind: 'section', section: { headingText: 'Voraussetzungen', paragraphs: ['...'] } }], footer: { columns: [{ heading: 'Service', links: [{ label: 'Kontakt', href: '/kontakt' }] }] } }.",
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "locale": {
+            "description": "Sprache für Beschriftungen und Fehlermeldungen (Standard: de).",
+            "type": "string",
+            "enum": [
+              "de",
+              "en"
+            ]
+          },
+          "strict": {
+            "description": "Wenn true: Validierungsfehler blockieren die HTML-Ausgabe (BITV-strikt).",
+            "type": "boolean"
+          },
+          "title": {
+            "description": "The document <title> for document: true; the heading when omitted.",
+            "type": "string",
+            "minLength": 1
+          },
+          "kopfzeile": {
+            "description": "Show the Kopfzeile bar ('Offizielle Website – Bundesrepublik Deutschland'). Only for official federal websites.",
+            "type": "boolean"
+          },
+          "header": {
+            "type": "object",
+            "properties": {
+              "title": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Site or service name, shown as the brand."
+              },
+              "homeHref": {
+                "description": "Link target of the brand; / when omitted.",
+                "type": "string",
+                "minLength": 1
+              },
+              "logo": {
+                "type": "object",
+                "properties": {
+                  "src": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "alt": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "src",
+                  "alt"
+                ]
+              },
+              "navigation": {
+                "description": "Main navigation.",
+                "maxItems": 8,
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "label": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "href": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "current": {
+                      "description": "Marks the current page (aria-current).",
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "label",
+                    "href"
+                  ]
+                }
+              },
+              "serviceLinks": {
+                "description": "Small links beside the brand, e.g. Leichte Sprache, Gebärdensprache, Kontakt.",
+                "maxItems": 6,
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "label": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "href": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "required": [
+                    "label",
+                    "href"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "title"
+            ]
+          },
+          "heading": {
+            "description": "The page's <h1>, at the top of <main>.",
+            "type": "string",
+            "minLength": 1
+          },
+          "contentBlocks": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "description": "Rekursiver Content-Knoten: text/html/button/badge/field/fieldset/form/section/disclosure/grid/card/formFlow.",
+              "anyOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "kind": {
+                      "type": "string",
+                      "const": "text"
+                    },
+                    "text": {
+                      "type": "string",
+                      "minLength": 1,
+                      "description": "KERN Body-Textblock."
+                    }
+                  },
+                  "required": [
+                    "kind",
+                    "text"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "kind": {
+                      "type": "string",
+                      "const": "html"
+                    },
+                    "html": {
+                      "type": "string",
+                      "minLength": 1,
+                      "description": "Rohes HTML (wird nicht escaped)."
+                    }
+                  },
+                  "required": [
+                    "kind",
+                    "html"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "kind": {
+                      "type": "string",
+                      "const": "button"
+                    },
+                    "button": {
+                      "type": "object",
+                      "properties": {
+                        "variant": {
+                          "default": "primary",
+                          "description": "Button-Variante: primary, secondary oder tertiary.",
+                          "type": "string",
+                          "enum": [
+                            "primary",
+                            "secondary",
+                            "tertiary"
+                          ]
+                        },
+                        "label": {
+                          "type": "string",
+                          "minLength": 1,
+                          "description": "Sichtbarer Button-Text. Auch bei Icon-only-Varianten erforderlich, damit ein sr-only oder sr-only-mobile Label gerendert werden kann."
+                        },
+                        "size": {
+                          "default": "default",
+                          "description": "Button-Groesse: default oder x-small. Der Wert small bleibt als Legacy-Alias erhalten und wird wie x-small gerendert.",
+                          "type": "string",
+                          "enum": [
+                            "default",
+                            "x-small",
+                            "small"
+                          ]
+                        },
+                        "block": {
+                          "default": false,
+                          "description": "Volle Breite als kern-btn--block.",
+                          "type": "boolean"
+                        },
+                        "type": {
+                          "default": "button",
+                          "description": "HTML button type. submit sends the enclosing form; button (the default) does nothing on its own.",
+                          "type": "string",
+                          "enum": [
+                            "button",
+                            "submit"
+                          ]
+                        },
+                        "disabled": {
+                          "default": false,
+                          "description": "Button deaktiviert.",
+                          "type": "boolean"
+                        },
+                        "icon": {
+                          "description": "Optionales Icon im Button. In den KERN-Beispielen dekorativ mit aria-hidden=\"true\"; Position wird ueber icon.position gesteuert.",
+                          "type": "object",
+                          "properties": {
+                            "name": {
+                              "type": "string",
+                              "description": "Icon-Name aus dem KERN-Iconset. Bei Unsicherheit zuerst list_icons aufrufen."
+                            },
+                            "position": {
+                              "default": "left",
+                              "description": "Icon-Position relativ zum Label.",
+                              "type": "string",
+                              "enum": [
+                                "left",
+                                "right"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "name"
+                          ]
+                        },
+                        "labelVisibility": {
+                          "default": "visible",
+                          "description": "Label-Sichtbarkeit: visible, sr-only oder sr-only-mobile. Die Icon-only-Varianten der KERN-Beispiele nutzen sr-only bzw. sr-only-mobile fuer zugaengliche Beschriftung.",
+                          "type": "string",
+                          "enum": [
+                            "visible",
+                            "sr-only",
+                            "sr-only-mobile"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "label"
+                      ],
+                      "description": "Eingebetteter KERN Button im rekursiven Content-Baum."
+                    }
+                  },
+                  "required": [
+                    "kind",
+                    "button"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "kind": {
+                      "type": "string",
+                      "const": "badge"
+                    },
+                    "badge": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "enum": [
+                            "info",
+                            "success",
+                            "warning",
+                            "danger"
+                          ],
+                          "description": "Badge-Variante: info, success, warning oder danger. Steuert Farbe und optional das passende Status-Icon."
+                        },
+                        "text": {
+                          "type": "string",
+                          "description": "Sichtbarer Badge-Text. Sollte den Status oder die Kategorie knapp benennen."
+                        },
+                        "showIcon": {
+                          "default": false,
+                          "description": "Wenn true, wird ein passendes Status-Icon vor dem Text gerendert. In den KERN-Beispielen bleibt dieses Icon standardmaessig aria-hidden=\"true\".",
+                          "type": "boolean"
+                        }
+                      },
+                      "required": [
+                        "type",
+                        "text"
+                      ],
+                      "description": "Eingebettetes KERN Badge im rekursiven Content-Baum."
+                    }
+                  },
+                  "required": [
+                    "kind",
+                    "badge"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "kind": {
+                      "type": "string",
+                      "const": "field"
+                    },
+                    "field": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "enum": [
+                            "text",
+                            "email",
+                            "tel",
+                            "url",
+                            "number",
+                            "date",
+                            "password",
+                            "textarea",
+                            "select",
+                            "radio",
+                            "checkbox"
+                          ],
+                          "description": "Field type. select and radio need options; checkbox with options renders a checkbox group."
+                        },
+                        "name": {
+                          "type": "string",
+                          "minLength": 1,
+                          "description": "Name submitted with the form."
+                        },
+                        "label": {
+                          "type": "string",
+                          "minLength": 1,
+                          "description": "Visible label; the legend for radio and checkbox groups."
+                        },
+                        "id": {
+                          "description": "Element id (the first option's for radio and checkbox groups). Generated when omitted.",
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "hint": {
+                          "description": "Short help text below the label, linked via aria-describedby.",
+                          "type": "string"
+                        },
+                        "error": {
+                          "description": "Error message; puts the field in its error state. A form's errorSummary lists it.",
+                          "type": "string"
+                        },
+                        "optional": {
+                          "description": "Marks the field as optional.",
+                          "type": "boolean"
+                        },
+                        "value": {
+                          "description": "Initial value (text-like types and textarea).",
+                          "type": "string"
+                        },
+                        "placeholder": {
+                          "type": "string"
+                        },
+                        "autocomplete": {
+                          "description": "HTML autocomplete token, e.g. given-name, email.",
+                          "type": "string"
+                        },
+                        "rows": {
+                          "description": "Textarea rows.",
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 9007199254740991
+                        },
+                        "options": {
+                          "minItems": 1,
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "value": {
+                                "type": "string",
+                                "description": "Submitted value."
+                              },
+                              "label": {
+                                "type": "string",
+                                "minLength": 1,
+                                "description": "Visible option text."
+                              },
+                              "selected": {
+                                "description": "Pre-selected (select) or checked (radio, checkbox).",
+                                "type": "boolean"
+                              },
+                              "disabled": {
+                                "type": "boolean"
+                              }
+                            },
+                            "required": [
+                              "value",
+                              "label"
+                            ]
+                          }
+                        }
+                      },
+                      "required": [
+                        "type",
+                        "name",
+                        "label"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "kind",
+                    "field"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "kind": {
+                      "type": "string",
+                      "const": "fieldset"
+                    },
+                    "fieldset": {
+                      "type": "object",
+                      "properties": {
+                        "legend": {
+                          "type": "string",
+                          "minLength": 1,
+                          "description": "Group heading that screen readers announce, e.g. 'Your address'."
+                        },
+                        "legendSize": {
+                          "description": "large for a main section of a form (address, payment details); default for a choice group.",
+                          "type": "string",
+                          "enum": [
+                            "default",
+                            "large"
+                          ]
+                        },
+                        "optional": {
+                          "description": "Marks the whole group as optional.",
+                          "type": "boolean"
+                        },
+                        "hint": {
+                          "description": "Help text for the group, linked via aria-describedby.",
+                          "type": "string"
+                        },
+                        "error": {
+                          "description": "Error message for the group as a whole.",
+                          "type": "string"
+                        },
+                        "horizontal": {
+                          "description": "Lays the group's fields out side by side.",
+                          "type": "boolean"
+                        },
+                        "contentBlocks": {
+                          "minItems": 1,
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/properties/contentBlocks/items"
+                          }
+                        }
+                      },
+                      "required": [
+                        "legend",
+                        "contentBlocks"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "kind",
+                    "fieldset"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "kind": {
+                      "type": "string",
+                      "const": "form"
+                    },
+                    "form": {
+                      "type": "object",
+                      "properties": {
+                        "action": {
+                          "description": "URL the form submits to.",
+                          "type": "string"
+                        },
+                        "method": {
+                          "description": "Submit method; post when omitted.",
+                          "type": "string",
+                          "enum": [
+                            "get",
+                            "post"
+                          ]
+                        },
+                        "errorSummary": {
+                          "description": "Shows a summary above the form that links to every field with an error. Set it whenever fields have errors.",
+                          "type": "object",
+                          "properties": {
+                            "title": {
+                              "description": "Summary heading; a localized default when omitted.",
+                              "type": "string",
+                              "minLength": 1
+                            }
+                          }
+                        },
+                        "actions": {
+                          "description": "Button row at the end of the form.",
+                          "type": "object",
+                          "properties": {
+                            "submitLabel": {
+                              "type": "string",
+                              "minLength": 1,
+                              "description": "Label of the submit button."
+                            },
+                            "secondaryLabel": {
+                              "description": "Label of a secondary button (type=button), e.g. to go back.",
+                              "type": "string",
+                              "minLength": 1
+                            }
+                          },
+                          "required": [
+                            "submitLabel"
+                          ]
+                        },
+                        "contentBlocks": {
+                          "minItems": 1,
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/properties/contentBlocks/items"
+                          }
+                        }
+                      },
+                      "required": [
+                        "contentBlocks"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "kind",
+                    "form"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "kind": {
+                      "type": "string",
+                      "const": "section"
+                    },
+                    "section": {
+                      "type": "object",
+                      "properties": {
+                        "headingText": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "headingLevel": {
+                          "default": 2,
+                          "anyOf": [
+                            {
+                              "type": "number",
+                              "const": 1
+                            },
+                            {
+                              "type": "number",
+                              "const": 2
+                            },
+                            {
+                              "type": "number",
+                              "const": 3
+                            },
+                            {
+                              "type": "number",
+                              "const": 4
+                            },
+                            {
+                              "type": "number",
+                              "const": 5
+                            },
+                            {
+                              "type": "number",
+                              "const": 6
+                            }
+                          ],
+                          "description": "HTML-Überschriftenebene von h1 bis h6. Hierarchisch ohne Sprünge verwenden."
+                        },
+                        "divider": {
+                          "default": false,
+                          "type": "boolean"
+                        },
+                        "contentBlocks": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/properties/contentBlocks/items"
+                          }
+                        },
+                        "paragraphs": {
+                          "description": "Shorthand: string[] wird automatisch zu text-contentBlocks konvertiert.",
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "minLength": 1
+                          }
+                        }
+                      },
+                      "required": [
+                        "headingText"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "kind",
+                    "section"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "kind": {
+                      "type": "string",
+                      "const": "disclosure"
+                    },
+                    "disclosure": {
+                      "type": "object",
+                      "properties": {
+                        "triggerLabel": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "open": {
+                          "default": false,
+                          "type": "boolean"
+                        },
+                        "contentBlocks": {
+                          "minItems": 1,
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/properties/contentBlocks/items"
+                          }
+                        }
+                      },
+                      "required": [
+                        "triggerLabel",
+                        "contentBlocks"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "kind",
+                    "disclosure"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "kind": {
+                      "type": "string",
+                      "const": "grid"
+                    },
+                    "grid": {
+                      "type": "object",
+                      "properties": {
+                        "columns": {
+                          "default": 2,
+                          "anyOf": [
+                            {
+                              "type": "number",
+                              "const": 1
+                            },
+                            {
+                              "type": "number",
+                              "const": 2
+                            },
+                            {
+                              "type": "number",
+                              "const": 3
+                            },
+                            {
+                              "type": "number",
+                              "const": 4
+                            },
+                            {
+                              "type": "number",
+                              "const": 6
+                            },
+                            {
+                              "type": "number",
+                              "const": 12
+                            }
+                          ],
+                          "description": "Spaltenanzahl im 12-Spalten-Grid. Gültig sind 1, 2, 3, 4, 6, 12, damit 12 / columns eine ganze Zahl ergibt. Für mobile Darstellung wird typischerweise kern-col-sm-12 zum Stapeln verwendet."
+                        },
+                        "containerFluid": {
+                          "default": false,
+                          "type": "boolean"
+                        },
+                        "rowAlignment": {
+                          "type": "string",
+                          "enum": [
+                            "start",
+                            "center",
+                            "end"
+                          ]
+                        },
+                        "includeHeading": {
+                          "default": false,
+                          "type": "boolean"
+                        },
+                        "headingText": {
+                          "type": "string"
+                        },
+                        "headingLevel": {
+                          "default": 2,
+                          "anyOf": [
+                            {
+                              "type": "number",
+                              "const": 1
+                            },
+                            {
+                              "type": "number",
+                              "const": 2
+                            },
+                            {
+                              "type": "number",
+                              "const": 3
+                            },
+                            {
+                              "type": "number",
+                              "const": 4
+                            },
+                            {
+                              "type": "number",
+                              "const": 5
+                            },
+                            {
+                              "type": "number",
+                              "const": 6
+                            }
+                          ],
+                          "description": "HTML-Überschriftenebene von h1 bis h6. Hierarchisch ohne Sprünge verwenden."
+                        },
+                        "columnsContent": {
+                          "type": "array",
+                          "items": {
+                            "type": "array",
+                            "items": {
+                              "$ref": "#/properties/contentBlocks/items"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "kind",
+                    "grid"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "kind": {
+                      "type": "string",
+                      "const": "card"
+                    },
+                    "card": {
+                      "type": "object",
+                      "properties": {
+                        "size": {
+                          "default": "default",
+                          "type": "string",
+                          "enum": [
+                            "default",
+                            "small",
+                            "large"
+                          ],
+                          "description": "Komponentengröße: default, small oder large (entsprechend KERN Space-Token)."
+                        },
+                        "hug": {
+                          "default": false,
+                          "type": "boolean"
+                        },
+                        "media": {
+                          "type": "object",
+                          "properties": {
+                            "src": {
+                              "type": "string",
+                              "description": "Bild-URL."
+                            },
+                            "alt": {
+                              "type": "string",
+                              "description": "Alt-Text für das Bild."
+                            }
+                          },
+                          "required": [
+                            "src",
+                            "alt"
+                          ]
+                        },
+                        "header": {
+                          "type": "object",
+                          "properties": {
+                            "preline": {
+                              "type": "string"
+                            },
+                            "title": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "titleLevel": {
+                              "default": 2,
+                              "anyOf": [
+                                {
+                                  "type": "number",
+                                  "const": 1
+                                },
+                                {
+                                  "type": "number",
+                                  "const": 2
+                                },
+                                {
+                                  "type": "number",
+                                  "const": 3
+                                },
+                                {
+                                  "type": "number",
+                                  "const": 4
+                                },
+                                {
+                                  "type": "number",
+                                  "const": 5
+                                },
+                                {
+                                  "type": "number",
+                                  "const": 6
+                                }
+                              ],
+                              "description": "HTML-Überschriftenebene von h1 bis h6. Hierarchisch ohne Sprünge verwenden."
+                            },
+                            "subline": {
+                              "type": "string"
+                            },
+                            "href": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "title"
+                          ]
+                        },
+                        "body": {
+                          "description": "Optionaler einfacher Body-Text.",
+                          "type": "string"
+                        },
+                        "bodyIsHtml": {
+                          "default": false,
+                          "type": "boolean"
+                        },
+                        "contentBlocks": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/properties/contentBlocks/items"
+                          }
+                        },
+                        "footer": {
+                          "type": "object",
+                          "properties": {
+                            "primaryLabel": {
+                              "type": "string"
+                            },
+                            "secondaryLabel": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "kind",
+                    "card"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "kind": {
+                      "type": "string",
+                      "const": "formFlow"
+                    },
+                    "formFlow": {
+                      "type": "object",
+                      "properties": {
+                        "currentStep": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 9007199254740991,
+                          "description": "Aktiver Schritt (1-basiert). Werte über steps.length werden begrenzt."
+                        },
+                        "steps": {
+                          "minItems": 2,
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "label": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "statusText": {
+                                "type": "string"
+                              },
+                              "contentBlocks": {
+                                "type": "array",
+                                "items": {
+                                  "$ref": "#/properties/contentBlocks/items"
+                                }
+                              }
+                            },
+                            "required": [
+                              "label"
+                            ]
+                          }
+                        },
+                        "heading": {
+                          "description": "Form heading above the step list.",
+                          "type": "string"
+                        },
+                        "headingLevel": {
+                          "default": 2,
+                          "anyOf": [
+                            {
+                              "type": "number",
+                              "const": 1
+                            },
+                            {
+                              "type": "number",
+                              "const": 2
+                            },
+                            {
+                              "type": "number",
+                              "const": 3
+                            },
+                            {
+                              "type": "number",
+                              "const": 4
+                            },
+                            {
+                              "type": "number",
+                              "const": 5
+                            },
+                            {
+                              "type": "number",
+                              "const": 6
+                            }
+                          ],
+                          "description": "HTML-Überschriftenebene von h1 bis h6. Hierarchisch ohne Sprünge verwenden."
+                        },
+                        "tasklistHeading": {
+                          "description": "Heading of the step list; 'Fortschritt' or 'Progress' when omitted.",
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "showProgress": {
+                          "default": true,
+                          "type": "boolean"
+                        },
+                        "renderAllSteps": {
+                          "description": "Render every step, the inactive ones hidden, so a script can switch steps in the browser.",
+                          "type": "boolean"
+                        },
+                        "navigation": {
+                          "type": "object",
+                          "properties": {
+                            "backLabel": {
+                              "type": "string"
+                            },
+                            "nextLabel": {
+                              "type": "string"
+                            },
+                            "submitLabel": {
+                              "type": "string"
+                            }
+                          }
+                        },
+                        "action": {
+                          "description": "URL the form submits to.",
+                          "type": "string"
+                        },
+                        "method": {
+                          "description": "Submit method; post when omitted.",
+                          "type": "string",
+                          "enum": [
+                            "get",
+                            "post"
+                          ]
+                        },
+                        "errorSummary": {
+                          "description": "Shows a summary above the form that links to every field with an error. Set it whenever fields have errors.",
+                          "type": "object",
+                          "properties": {
+                            "title": {
+                              "description": "Summary heading; a localized default when omitted.",
+                              "type": "string",
+                              "minLength": 1
+                            }
+                          }
+                        }
+                      },
+                      "required": [
+                        "currentStep",
+                        "steps"
+                      ],
+                      "description": "Mehrstufiges Formular: Tasklist + Progress + aktiver Schritt."
+                    }
+                  },
+                  "required": [
+                    "kind",
+                    "formFlow"
+                  ]
+                }
+              ]
+            },
+            "description": "The content of <main>: the same blocks as render_composition. Start sections at headingLevel 2 below the h1."
+          },
+          "footer": {
+            "type": "object",
+            "properties": {
+              "columns": {
+                "description": "Link columns, side by side from md up.",
+                "minItems": 1,
+                "maxItems": 4,
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "heading": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "links": {
+                      "minItems": 1,
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "label": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "href": {
+                            "type": "string",
+                            "minLength": 1
+                          }
+                        },
+                        "required": [
+                          "label",
+                          "href"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "heading",
+                    "links"
+                  ]
+                }
+              },
+              "note": {
+                "description": "A closing line, e.g. © 2026 Stadt Musterstadt.",
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "document": {
+            "description": "Wrap the page in a complete HTML document that loads the KERN stylesheets; a fragment for an existing <body> when omitted.",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "contentBlocks"
+        ],
+        "description": "A whole KERN page: optional Kopfzeile, header with navigation, <main> with content blocks, and footer."
+      },
+      "outputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "properties": {
+          "html": {
+            "type": "string"
+          },
+          "warnings": {
+            "default": [],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "validation": {
+            "type": "object",
+            "properties": {
+              "ok": {
+                "type": "boolean"
+              },
+              "issues": {
+                "default": [],
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "ruleId": {
+                      "type": "string"
+                    },
+                    "severity": {
+                      "type": "string",
+                      "enum": [
+                        "error",
+                        "warning"
+                      ]
+                    },
+                    "message": {
+                      "type": "object",
+                      "properties": {
+                        "en": {
+                          "type": "string"
+                        },
+                        "de": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "en",
+                        "de"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "selectorHint": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "ruleId",
+                    "severity",
+                    "message"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            },
+            "required": [
+              "ok",
+              "issues"
+            ],
+            "additionalProperties": false,
+            "description": "Validierungsergebnis (strict-mode relevant)."
+          }
+        },
+        "required": [
+          "html",
+          "warnings",
+          "validation"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
       "name": "get_section",
       "title": "KERN Section",
       "description": "KERN UX (Komposition): Erzeugt eine <section> mit Heading, Body-Absätzen und optionalem Divider. Verwende dieses Tool anstelle von get_heading + get_body einzeln. Known-good payload: { headingText: 'Überblick', headingLevel: 2, paragraphs: ['Erster Absatz', 'Zweiter Absatz'], paragraphSize: 'default', paragraphBold: false, divider: false }.",
@@ -12193,19 +13361,18 @@
     {
       "name": "get_kopfzeile",
       "title": "KERN Kopfzeile",
-      "description": "KERN UX (Foundational/Layout): HTML für Kopfzeile erzeugen (Container/Grid/Section).",
+      "description": "KERN UX (Foundational/Layout): The Kopfzeile, the thin bar with the German flag that marks an official website of the Federal Republic of Germany. Only for official federal websites. render_page can add it to a whole page.",
       "inputSchema": {
         "$schema": "http://json-schema.org/draft-07/schema#",
         "type": "object",
         "properties": {
-          "title": {
-            "default": "Kopfzeile",
-            "description": "Textinhalt der vereinfachten MCP-Kopfzeile. Upstream zeigt statt eines Seitentitels vor allem den Hinweis 'Offizielle Website - Bundesrepublik Deutschland'.",
-            "type": "string"
+          "label": {
+            "description": "Text next to the flag; 'Offizielle Website – Bundesrepublik Deutschland' (or its English version) when omitted.",
+            "type": "string",
+            "minLength": 1
           },
-          "includeNav": {
-            "default": true,
-            "description": "Wenn true, wird ein einfacher Navigationsbereich gerendert. Diese Repo-Variante modelliert damit eine vereinfachte Header-Struktur und nicht die eigentliche KERN-Kopfzeile mit Flagge, Label, fluidem Container oder Web-Component-Properties.",
+          "fluid": {
+            "description": "Stretch the bar's content across the full width (kern-container-fluid).",
             "type": "boolean"
           },
           "locale": {

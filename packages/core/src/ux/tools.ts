@@ -7,11 +7,13 @@ import {
 import { CardGroupSchema } from "./schemas/card-group.js";
 import { RecursiveContentBlocksSchema } from "./schemas/content-union.js";
 import { DisclosureSchema } from "./schemas/disclosure.js";
+import { PageSchema } from "./schemas/page.js";
 import { SectionSchema } from "./schemas/section.js";
 import { UtilityReferenceSchema } from "./schemas/utility-reference.js";
 import { buildCardGroup } from "./templates/card-group.js";
 import { createCompositionRenderer } from "./templates/composition-renderer.js";
 import { buildDisclosure } from "./templates/disclosure.js";
+import { buildPage } from "./templates/page.js";
 import { buildSection } from "./templates/section.js";
 import { buildUtilityReference } from "./templates/utility-reference.js";
 import { buildInteractiveTool } from "./tool-builders/interactive.js";
@@ -651,6 +653,40 @@ function buildRenderCompositionTool(): ToolDef {
 	};
 }
 
+function buildRenderPageTool(registry: Registry): ToolDef {
+	const inputSchema = PageSchema;
+	const outputSchema = ComponentOutputSchema;
+
+	return {
+		name: "render_page",
+		title: "Render KERN Page",
+		description:
+			"KERN UX (Komposition): Renders a whole page: an optional Kopfzeile, a header with brand and navigation, " +
+			"<main> with an h1 and content blocks (the same kinds as render_composition), and a footer with up to four link columns. " +
+			"document: true returns a complete HTML document that loads the KERN stylesheets. " +
+			"Example: { heading: 'Wohngeld beantragen', header: { title: 'Stadt Musterstadt', navigation: [{ label: 'Start', href: '/' }] }, " +
+			"contentBlocks: [{ kind: 'section', section: { headingText: 'Voraussetzungen', paragraphs: ['...'] } }], " +
+			"footer: { columns: [{ heading: 'Service', links: [{ label: 'Kontakt', href: '/kontakt' }] }] } }.",
+		inputSchema,
+		outputSchema,
+		handler: async (args: z.input<typeof inputSchema>) => {
+			const locale = pickLocale(args.locale);
+			const strict = args.strict === true;
+			const result = buildPage(args, locale, {
+				kernVersion: registry.upstream?.version,
+			});
+			const validation = validateHtmlStrict(result.html);
+			assertStrictValidationOrThrow({
+				name: "render_page",
+				locale,
+				strict,
+				validation,
+			});
+			return { html: result.html, warnings: result.warnings, validation };
+		},
+	};
+}
+
 /** Picks the tool builder for a component: the manifest strategy first, then the ID sets. */
 function routeComponentTool(component: ComponentInfo): ToolDef {
 	const strategy = component.strategy;
@@ -694,6 +730,7 @@ export function createTools(registry: Registry): ToolRegistry {
 
 	// Composition tools
 	toolDefs.push(buildRenderCompositionTool());
+	toolDefs.push(buildRenderPageTool(registry));
 	toolDefs.push(buildGetSectionTool());
 	toolDefs.push(buildGetCardGroupTool());
 	toolDefs.push(buildGetDisclosureTool());

@@ -3,23 +3,22 @@ import { McpCommonSchema } from "./foundations.js";
 
 export const kopfzeileRenderSchema = z
 	.object({
-		title: z
+		label: z
 			.string()
+			.min(1)
 			.optional()
-			.default("Kopfzeile")
 			.describe(
-				"Textinhalt der vereinfachten MCP-Kopfzeile. Upstream zeigt statt eines Seitentitels vor allem den Hinweis 'Offizielle Website - Bundesrepublik Deutschland'.",
+				"Text next to the flag; 'Offizielle Website – Bundesrepublik Deutschland' (or its English version) when omitted.",
 			),
-		includeNav: z
+		fluid: z
 			.boolean()
 			.optional()
-			.default(true)
 			.describe(
-				"Wenn true, wird ein einfacher Navigationsbereich gerendert. Diese Repo-Variante modelliert damit eine vereinfachte Header-Struktur und nicht die eigentliche KERN-Kopfzeile mit Flagge, Label, fluidem Container oder Web-Component-Properties.",
+				"Stretch the bar's content across the full width (kern-container-fluid).",
 			),
 	})
 	.describe(
-		"Parameter fuer eine stark vereinfachte KERN-UX-Kopfzeile. Die upstream Stories beschreiben primär eine Infoleiste beziehungsweise Web Component mit Flagge, Label, fluid-Option und konfigurierbaren Breakpoints; dieses MCP-Schema bildet davon derzeit nur einen placeholderartigen Header mit optionaler Navigation ab.",
+		"KERN Kopfzeile: the thin bar with the German flag that marks an official website of the Federal Republic of Germany. Only for official federal websites.",
 	);
 
 export const kopfzeileToolSchema = kopfzeileRenderSchema.extend(
