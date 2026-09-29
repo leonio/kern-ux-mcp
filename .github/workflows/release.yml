@@ -3,7 +3,11 @@ name: Release
 # Publishes @leonio/kern-ux-mcp (npm, GitHub Packages, .mcpb on the GitHub
 # release) and @leonio/kern-ux-mcp-http (npm, GitHub Packages, GHCR image).
 # @leonio/kern-ux-core is private: it's inlined into both and never published.
-# Every publish step skips what already exists, so a re-run after a partial
+#
+# Two approvals: the `release` environment starts the publish job, and each npm
+# version is only staged (npm stage publish) until a maintainer approves it on
+# npmjs.com with 2FA. The job waits for that approval before anything else goes
+# out. Every publish step skips what already exists, so a re-run after a partial
 # failure finishes the release. One-time setup: docs/release-bootstrap.md.
 
 on:
@@ -186,18 +190,58 @@ jobs:
           node-version: '24'
           registry-url: 'https://registry.npmjs.org'
 
+      - name: Check npm Supports Staged Publishing
+        run: |
+          node -e '
+            const version = process.argv[1];
+            const [major, minor] = version.split(".").map(Number);
+            if (major < 11 || (major === 11 && minor < 15)) {
+              console.error(`npm ${version} is too old: npm stage publish needs 11.15.0 or later.`);
+              process.exit(1);
+            }
+            console.log(`npm ${version}`);
+          ' "$(npm --version)"
+
+      # Trusted publishing (OIDC), staged: nothing is live until approved with 2FA.
       # Only the stdio and http tarballs are in release-assets; core is never packed.
       # The ./ matters: npm reads "release-assets/x.tgz" as a GitHub repo shorthand.
-      - name: Publish to npm (trusted publishing)
+      - name: Stage on npm
+        shell: bash
+        run: |
+          {
+            echo "## Approve the npm release"
+            echo
+            echo "Approve each staged version with 2FA: npmjs.com → **Staged Packages** → **Approve**,"
+            echo "or \`npm stage list <package>\` and \`npm stage approve <stage-id>\`. This job waits for it."
+            echo
+          } >> "$GITHUB_STEP_SUMMARY"
+          for tarball in ./release-assets/*.tgz; do
+            name="$(tar -xOzf "$tarball" package/package.json | jq -r .name)"
+            if [[ -n "$(npm view "$name@$SEMVER" version 2>/dev/null)" ]]; then
+              echo "$name@$SEMVER is already live on npm; skipping."
+              continue
+            fi
+            if ! npm stage publish "$tarball" --provenance --access public --tag "$DIST_TAG"; then
+              echo "::error::Staging $name@$SEMVER failed. If an earlier attempt already staged it, approve (or reject) it on npmjs.com, then re-run the failed job."
+              exit 1
+            fi
+            echo "- \`$name@$SEMVER\` (tag \`$DIST_TAG\`)" >> "$GITHUB_STEP_SUMMARY"
+          done
+
+      # GitHub Packages, the image and the GitHub release only go out once npm
+      # has the approved versions. If approval takes longer, this step times out;
+      # approve, then re-run the failed job: live versions are skipped.
+      - name: Wait for Approval on npmjs.com
+        timeout-minutes: 60
         shell: bash
         run: |
           for tarball in ./release-assets/*.tgz; do
             name="$(tar -xOzf "$tarball" package/package.json | jq -r .name)"
-            if [[ -n "$(npm view "$name@$SEMVER" version 2>/dev/null)" ]]; then
-              echo "$name@$SEMVER is already on npm; skipping."
-            else
-              npm publish "$tarball" --provenance --access public --tag "$DIST_TAG"
-            fi
+            until [[ -n "$(npm view "$name@$SEMVER" version --prefer-online 2>/dev/null)" ]]; do
+              echo "Waiting for $name@$SEMVER to be approved and live on npm…"
+              sleep 30
+            done
+            echo "$name@$SEMVER is live."
           done
 
       - name: Setup Node for GitHub Packages

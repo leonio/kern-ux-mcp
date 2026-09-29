@@ -143,34 +143,26 @@ All PRs targeting `main` or `develop` must pass:
 
 | Check | Workflow | What it validates |
 |---|---|---|
-| `quality` | `ci.yml` | Biome, TypeScript, Vitest |
+| `quality` | `ci.yml` | Biome, TypeScript, build, Vitest with coverage |
+| `e2e` | `ci.yml` | The built stdio and HTTP servers as processes, on Linux and Windows |
+| `packed-install` | `ci.yml` | The npm tarballs installed into an empty directory, without the private core |
+| `mcpb` | `ci.yml` | The MCP Bundle validates and packs |
+| `container` | `ci.yml` | The image builds for amd64 and arm64, becomes healthy and passes the HTTP e2e tests |
 | `branch-name` | `pr-lint.yml` | Branch prefix convention |
 | `conventional-commit-title` | `pr-lint.yml` | PR title format |
 
 ## Releasing
 
-Releases are triggered manually via **Actions → Release → Run workflow** on GitHub.
+Releases are triggered manually: **Actions → Release → Run workflow**, or `gh workflow run release.yml --ref <branch> -f dry-run=false`. A release needs two approvals from a maintainer.
 
-The workflow:
-1. Computes the version from commit history (GitVersion)
-2. Builds the project using the checked-in `registry.json`
-3. Injects the computed version into `package.json`
-4. Generates `sbom.cyclonedx.json` with `anchore/sbom-action`
-5. Packs the release tarball with the SBOM embedded
-6. Creates a GitHub Release with auto-generated release notes and attaches both the tarball and SBOM
-7. Publishes `@leonio/kern-ux-mcp` to the [npm public registry](https://www.npmjs.com/package/%40leonio%2Fkern-ux-mcp) using npm trusted publishing
-8. Publishes to [GitHub Packages](https://github.com/leonio/kern-ux-mcp/packages)
+1. **Verify** (no approval). GitVersion computes the version; a pre-release label such as `alpha` becomes the npm dist-tag. The job sets the version on all workspaces, builds, runs the unit and e2e tests, writes one CycloneDX SBOM per package, and packs the stdio and http tarballs and the `.mcpb`. With **dry-run** it stops here.
+2. **Approve the `release` environment** (**Review deployments** on the run). The publish job starts.
+3. **Approve on npm.** The job stages both packages with `npm stage publish` (trusted publishing, with provenance). Nothing is live yet: approve each staged version on npmjs.com with 2FA (**Staged Packages → Approve**, or `npm stage list <package>` and `npm stage approve <stage-id>`). The job summary lists them, and the job waits up to 60 minutes.
+4. Once both versions are live, the job publishes to [GitHub Packages](https://github.com/leonio/kern-ux-mcp/packages), pushes `ghcr.io/leonio/kern-ux-mcp-http:<version>` and `:<dist-tag>` (amd64 and arm64) with provenance and SBOM attestations, attests the `.mcpb`, and creates the GitHub release with the tarballs, the `.mcpb` and the SBOMs.
 
-Use the **dry-run** input to validate the build and version computation without publishing.
+Every step skips what already exists, so after a failure, or an npm approval later than 60 minutes, use **Re-run failed jobs**. npm won't stage the same version twice, so approve or reject a version an earlier attempt staged before re-running.
 
-For npmjs, configure npm trusted publishing for package `@leonio/kern-ux-mcp` with:
-
-1. GitHub user/org: `leonio`
-2. Repository: `kern-ux-mcp`
-3. Workflow filename: `release.yml`
-4. Allowed action: `npm publish`
-
-No npm secret is required once trusted publishing is configured. GitHub Packages publishing uses the workflow `GITHUB_TOKEN`.
+npm trusted publishing is configured for both `@leonio/kern-ux-mcp` and `@leonio/kern-ux-mcp-http`: user/org `leonio`, repository `kern-ux-mcp`, workflow filename `release.yml`, environment `release`. Under **Allowed actions**, direct `npm publish` stays unticked, since staging is always allowed. No npm secret is needed; GitHub Packages and GHCR use the workflow's `GITHUB_TOKEN`. One-time setup for a new package: [docs/release-bootstrap.md](docs/release-bootstrap.md).
 
 For consumer installs from GitHub Packages, users still need to configure `.npmrc` with:
 

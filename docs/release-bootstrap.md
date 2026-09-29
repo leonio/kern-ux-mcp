@@ -13,8 +13,8 @@ What gets published:
 
 ## 0. Before any of this
 
-- [ ] `feat/v2-alpha` is pushed and CI is green, including the **Packed Install**, **MCP Bundle** and **Container Image** jobs.
-- [ ] A Release run with `dry-run: true` on `feat/v2-alpha` passes. Its `release-assets` artifact should hold two tarballs, the `.mcpb` and two `.cdx.json` SBOMs.
+- [x] `feat/v2-alpha` is pushed and CI is green, including the **Packed Install**, **MCP Bundle** and **Container Image** jobs.
+- [x] A Release run with `dry-run: true` on `feat/v2-alpha` passes. Its `release-assets` artifact should hold two tarballs, the `.mcpb` and two `.cdx.json` SBOMs.
 
 ## 1. Keep core private
 
@@ -23,51 +23,42 @@ Check all of these before the first release from the workspace layout:
 - [x] `packages/core/package.json` has `"private": true`.
 - [x] `packages/stdio` and `packages/http` list `@leonio/kern-ux-core` under `devDependencies`, not `dependencies`. The core is inlined by esbuild at build time.
 - [x] `release.yml` packs only stdio and http (`npm pack -w packages/stdio -w packages/http`) and publishes only those tarballs. It never uses `-ws`, which would also try the private core.
-- [ ] The CI packed-install smoke test passes. It installs the stdio and http tarballs into an empty directory where core isn't available, and fails if core got installed.
+- [x] The CI packed-install smoke test passes. It installs the stdio and http tarballs into an empty directory where core isn't available, and fails if core got installed.
 - [x] `npm view @leonio/kern-ux-core` returns `404`, so nothing was published by accident (checked 2026-09-28).
 
 ## 2. First publish of `@leonio/kern-ux-mcp-http` to npm
 
-npm trusted publishing (OIDC) can only be configured for a package that already exists, so the first version is published by hand. Publish the real pre-release version of the commit you're about to release. The Release workflow then skips that version on npm (it skips every version that already exists) and publishes the rest.
+**Done 2026-09-28** (`2.0.0-alpha.66`, published by hand). Kept for reference, and for any new package.
 
-1. On `feat/v2-alpha`, set the version GitVersion computes, then build and pack (PowerShell, from the repo root, where `dotnet-gitversion` finds `.git`):
+npm trusted publishing (OIDC) can only be configured for a package that already exists, so the first version is published by hand. Publish the tarball of a Release dry run: it's exactly what the workflow would publish.
+
+1. Run the Release workflow with `dry-run: true`, then download its tarballs (PowerShell):
 
    ```powershell
-   npm ci
-   $version = dotnet-gitversion /showvariable SemVer   # e.g. 2.0.0-alpha.64
-   npm pkg set version=$version --workspaces
-   npm run build -w packages/http
-   npm pack -w packages/http
-   git checkout -- packages   # drop the version change again
+   gh run download <run-id> -n release-assets -D $env:TEMP\kern-release
+   cd $env:TEMP\kern-release
    ```
 
-2. Log in with the account that owns the `@leonio` scope (2FA on):
+2. Log in with the account that owns the `@leonio` scope (2FA on), and publish under the pre-release dist-tag:
 
-   ```bash
+   ```powershell
    npm login
+   npm publish .\leonio-kern-ux-mcp-http-<version>.tgz --access public --tag alpha --provenance=false
+   npm view @leonio/kern-ux-mcp-http dist-tags   # forward slash: a backslash makes npm look for a folder
    ```
 
-3. Publish under the pre-release dist-tag:
-
-   ```powershell
-   npm publish "./leonio-kern-ux-mcp-http-$version.tgz" --access public --tag alpha
-   ```
-
-   Provenance can only be generated in CI, so leave out `--provenance` for this one publish. On a package's first publish, npm may also point `latest` at that version whatever `--tag` says. Check with `npm view @leonio/kern-ux-mcp-http dist-tags`. If it did, `latest` stays on this alpha until the first stable release moves it.
-4. On npmjs.com, open the package, then **Settings**, then **Trusted publishing**. Add a GitHub Actions publisher:
+   `--provenance=false` is required: the package's `publishConfig` asks for provenance, which npm can only create in CI. On a package's first publish npm also points `latest` at that version, whatever `--tag` says. It moves with the first stable release.
+3. On npmjs.com, open the package, then **Settings**, then **Trusted publishing**. Add a GitHub Actions publisher:
    - Organization or user: `leonio`
    - Repository: `kern-ux-mcp`
    - Workflow filename: `release.yml`
    - Environment: `release`, the default of the workflow's `publish_environment` input. It must match exactly.
-5. In the same settings, set publishing access to require 2FA and disallow tokens, once you've confirmed the OIDC publish works (step 7).
-6. If you created a granular access token for the bootstrap, revoke it.
-7. Verify with the Release workflow on `feat/v2-alpha` (`dry-run: false`):
-   - On the commit you bootstrapped, the npm step skips `@leonio/kern-ux-mcp-http@<version>` (already there) and publishes `@leonio/kern-ux-mcp` through OIDC. GitHub Packages, the image and the GitHub release follow.
-   - On the next release, from a later commit, the http package goes through OIDC too. Check that the step succeeds with no `NPM_TOKEN` secret and that the new version shows a provenance badge on npmjs.com.
+   - **Allowed actions:** leave direct `npm publish` **unticked**. `npm stage publish` is always allowed, and the Release workflow only stages: each version goes live when a maintainer approves it with 2FA. (Publishers created since 2026-09-03 start this way. Older ones, such as `@leonio/kern-ux-mcp`'s, allow direct publishing: untick it there too.)
+4. In the same settings, set publishing access to require 2FA and disallow tokens.
+5. If you created a granular access token for the bootstrap, revoke it.
+6. Verify with the Release workflow (`dry-run: false`): after the `release` environment approval, the job stages the packages and waits. Approve them on npmjs.com (**Staged Packages**), and check that the new versions show a provenance badge.
 
-For reference, `@leonio/kern-ux-mcp` should keep the same trusted-publisher settings: same workflow filename, same environment. Moving the publish steps inside `release.yml` doesn't change them, but renaming the file would.
-
-Trusted publishing needs npm CLI 11.5.1 or newer. The release job runs Node 24, which ships npm 11.
+Trusted publishing needs npm CLI 11.5.1 or newer, and staged publishing 11.15.0 or newer. The release job runs Node 24 (npm 11.19 with Node 24.21) and checks the version before staging.
 
 ## 3. GitHub Packages (`npm.pkg.github.com`)
 
