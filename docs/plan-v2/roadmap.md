@@ -79,7 +79,7 @@ Start here: [r3-handover.md](r3-handover.md) has where R3 ended (released as `2.
 - [x] Add the MCPB `manifest.json`, `mcpb pack`, and the bundle as a release asset.
 - [x] CI: an e2e job, a packed-install smoke test, and builds of the `.mcpb` and the image without pushing.
 - [x] `release.yml`: publish stdio and http, idempotently, with one SBOM per package.
-- [ ] Do the one-time manual steps in [release-bootstrap.md](../release-bootstrap.md).
+- [X] Do the one-time manual steps in [release-bootstrap.md](../release-bootstrap.md).
 
 ### R4: Composition gaps (prerequisite for prompts)
 

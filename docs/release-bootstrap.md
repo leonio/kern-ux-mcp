@@ -91,6 +91,6 @@ After the first push:
 - [x] The first R2 commit is marked breaking, with `feat!:` or a `BREAKING CHANGE:` footer. GitVersion then computes `2.0.0-<label>.N` rather than `1.1.x`. (`73e3233 feat!: serve over MCP SDK v2 with protocol 2026-07-28`.)
 - [x] `dotnet-gitversion /showvariable SemVer` on the branch prints the expected pre-release version: `2.0.0-alpha.64` on 2026-09-28, label `alpha`.
 - [x] The "Compute npm dist-tag" step turns the label into the npm dist-tag, and the image tag reuses it.
-- [ ] The `release` environment still requires approval before publishing.
+- [x] The `release` environment still requires approval before publishing.
 
 Note: `@leonio/kern-ux-mcp`'s `alpha` dist-tag still points at `1.1.0-alpha.4` from before 2.0. The first 2.0 alpha release moves it.
