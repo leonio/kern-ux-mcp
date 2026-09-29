@@ -13,6 +13,12 @@ const CheckboxListItemSchema = z.object({
 		.describe(
 			"Optionale feste ID pro Checkbox. Ohne Angabe wird sie automatisch generiert.",
 		),
+	value: z
+		.string()
+		.optional()
+		.describe(
+			"Value submitted when this box is checked. Without one the browser sends 'on'.",
+		),
 	label: z
 		.string()
 		.min(1)

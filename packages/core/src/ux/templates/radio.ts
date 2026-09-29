@@ -6,6 +6,7 @@ import type {
 	RadioListInput,
 } from "../schemas/radio.js";
 import type { BuildResult, Locale } from "../types.js";
+import { escapeHtml } from "./escape.js";
 
 /**
  * Build a single radio input wrapped in kern-form-check
@@ -22,8 +23,8 @@ function buildSingleRadio(
 	const disabledAttr = disabled ? " disabled" : "";
 
 	return `<div class="kern-form-check">
-  <input class="kern-form-check__radio" id="${id}" name="${name}" type="radio" value="${value}"${checkedAttr}${disabledAttr}>
-  <label class="kern-label" for="${id}">${label}</label>
+  <input class="kern-form-check__radio" id="${escapeHtml(id)}" name="${escapeHtml(name)}" type="radio" value="${escapeHtml(value)}"${checkedAttr}${disabledAttr}>
+  <label class="kern-label" for="${escapeHtml(id)}">${escapeHtml(label)}</label>
 </div>`;
 }
 
@@ -76,7 +77,7 @@ function buildRadioList(
 
 	// Build hint
 	const hintHtml = hintId
-		? `\n  <div class="kern-hint" id="${hintId}">${params.hint}</div>`
+		? `\n  <div class="kern-hint" id="${hintId}">${escapeHtml(params.hint ?? "")}</div>`
 		: "";
 
 	// Build error
@@ -88,12 +89,12 @@ function buildRadioList(
 		errorHtml = `
   <p class="kern-error" id="${errorId}" role="alert">
     <span class="kern-icon kern-icon--danger" aria-hidden="true"></span>
-    <span class="kern-body">${params.error}</span>
+    <span class="kern-body">${escapeHtml(params.error)}</span>
   </p>`;
 	}
 
 	return `<fieldset class="${fieldsetClasses.join(" ")}"${ariaDescribedBy}>
-  <legend class="kern-label">${params.legend}${optionalMarker}
+  <legend class="kern-label">${escapeHtml(params.legend)}${optionalMarker}
   </legend>${hintHtml}
   <div class="${bodyClasses.join(" ")}">
     ${items.join("\n    ")}

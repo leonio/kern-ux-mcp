@@ -2,6 +2,7 @@ import { LABELS } from "../i18n.js";
 import { generateId } from "../id.js";
 import type { InputTextInput } from "../schemas/input-text.js";
 import type { BuildResult, Locale } from "../types.js";
+import { escapeHtml } from "./escape.js";
 
 function getDefaultFormatHint(type: string, locale: Locale): string {
 	if (locale === "en") {
@@ -60,11 +61,13 @@ function getEffectiveAutocomplete(
 }
 
 /**
- * Build an InputText component (or other input type variant)
+ * Build an InputText component (or other input type variant).
+ * `defaultHint: false` leaves a field without a hint instead of adding a format hint.
  */
 export function buildInputText(
 	params: InputTextInput,
 	locale: Locale,
+	options: { id?: string; defaultHint?: boolean } = {},
 ): BuildResult {
 	const warnings: string[] = [];
 	const inputType = params.type ?? "text";
@@ -72,9 +75,11 @@ export function buildInputText(
 	const effectiveHint =
 		typeof params.hint === "string" && params.hint.trim().length > 0
 			? params.hint
-			: getDefaultFormatHint(inputType, locale);
+			: options.defaultHint === false
+				? undefined
+				: getDefaultFormatHint(inputType, locale);
 
-	const id = generateId("input");
+	const id = escapeHtml(options.id ?? generateId("input"));
 	const hintId = effectiveHint ? generateId("hint") : undefined;
 	const errorId = params.error !== undefined ? generateId("error") : undefined;
 
@@ -102,7 +107,7 @@ export function buildInputText(
 	const attrs: string[] = [
 		`class="${inputClasses.join(" ")}"`,
 		`id="${id}"`,
-		`name="${params.name}"`,
+		`name="${escapeHtml(params.name)}"`,
 		`type="${renderedType}"`,
 	];
 
@@ -112,13 +117,13 @@ export function buildInputText(
 	}
 
 	if (params.value !== undefined) {
-		attrs.push(`value="${params.value}"`);
+		attrs.push(`value="${escapeHtml(params.value)}"`);
 	}
 	if (params.placeholder) {
-		attrs.push(`placeholder="${params.placeholder}"`);
+		attrs.push(`placeholder="${escapeHtml(params.placeholder)}"`);
 	}
 	if (autocomplete) {
-		attrs.push(`autocomplete="${autocomplete}"`);
+		attrs.push(`autocomplete="${escapeHtml(autocomplete)}"`);
 	}
 	if (params.readonly) {
 		attrs.push("readonly");
@@ -137,7 +142,7 @@ export function buildInputText(
 
 	// Build hint
 	const hintHtml = hintId
-		? `\n  <div class="kern-hint" id="${hintId}">${effectiveHint}</div>`
+		? `\n  <div class="kern-hint" id="${hintId}">${escapeHtml(effectiveHint ?? "")}</div>`
 		: "";
 
 	// Build error
@@ -149,12 +154,12 @@ export function buildInputText(
 		errorHtml = `
   <p class="kern-error" id="${errorId}" role="alert">
     <span class="kern-icon kern-icon--danger" aria-hidden="true"></span>
-    <span class="kern-body">${params.error}</span>
+    <span class="kern-body">${escapeHtml(params.error)}</span>
   </p>`;
 	}
 
 	const html = `<div class="${wrapperClasses.join(" ")}">
-  <label class="kern-label" for="${id}">${params.label}${optionalMarker}</label>${hintHtml}
+  <label class="kern-label" for="${id}">${escapeHtml(params.label)}${optionalMarker}</label>${hintHtml}
   <input ${attrs.join(" ")}>
 ${errorHtml}</div>`;
 

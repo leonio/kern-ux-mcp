@@ -27,4 +27,23 @@ describe("buildInputGroup", () => {
 		expect(result.html).toContain("readonly");
 		expect(result.html).toContain("kern-input-group-text--readonly");
 	});
+
+	it("escapes the model's text", () => {
+		const text = `<b>"A" & 'B'</b>`;
+		const result = buildInputGroup(
+			{
+				name: "betrag",
+				prefix: text,
+				suffix: text,
+				value: text,
+				placeholder: text,
+			},
+			"de",
+		);
+
+		expect(result.html).not.toContain("<b>");
+		expect(result.html).toContain(
+			"&lt;b&gt;&quot;A&quot; &amp; &#039;B&#039;&lt;/b&gt;",
+		);
+	});
 });

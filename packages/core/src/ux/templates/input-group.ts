@@ -4,6 +4,7 @@ import {
 	inputGroupSchema,
 } from "../schemas/input-group.js";
 import type { BuildResult, Locale } from "../types.js";
+import { escapeHtml } from "./escape.js";
 
 export function buildInputGroup(
 	input: InputGroupInput,
@@ -16,9 +17,9 @@ export function buildInputGroup(
 	const disabledAttr = params.disabled ? " disabled" : "";
 	const readonlyAttr = params.readonly ? " readonly" : "";
 	const valueAttr =
-		params.value !== undefined ? ` value="${params.value}"` : "";
+		params.value !== undefined ? ` value="${escapeHtml(params.value)}"` : "";
 	const placeholderAttr = params.placeholder
-		? ` placeholder="${params.placeholder}"`
+		? ` placeholder="${escapeHtml(params.placeholder)}"`
 		: "";
 	const affixModifier = params.disabled
 		? " kern-input-group-text--disabled"
@@ -27,14 +28,14 @@ export function buildInputGroup(
 			: "";
 
 	const prefix = params.prefix
-		? `<span class="kern-input-group-text${affixModifier}">${params.prefix}</span>\n  `
+		? `<span class="kern-input-group-text${affixModifier}">${escapeHtml(params.prefix)}</span>\n  `
 		: "";
 	const suffix = params.suffix
-		? `\n  <span class="kern-input-group-text${affixModifier}">${params.suffix}</span>`
+		? `\n  <span class="kern-input-group-text${affixModifier}">${escapeHtml(params.suffix)}</span>`
 		: "";
 
 	const html = `<div class="kern-input-group">
-  ${prefix}<input class="kern-form-input__input" id="${id}" name="${params.name}" type="text"${valueAttr}${placeholderAttr}${readonlyAttr}${disabledAttr} />${suffix}
+  ${prefix}<input class="kern-form-input__input" id="${id}" name="${escapeHtml(params.name)}" type="text"${valueAttr}${placeholderAttr}${readonlyAttr}${disabledAttr} />${suffix}
 </div>`;
 
 	return { html, warnings };

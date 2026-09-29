@@ -9,13 +9,14 @@ import type { BuildResult, Locale } from "../types.js";
 export function buildTextarea(
 	input: TextareaInput,
 	locale: Locale,
+	options: { id?: string } = {},
 ): BuildResult {
 	const warnings: string[] = [];
 
 	// Parse input to apply defaults
 	const params = textareaSchema.parse(input);
 
-	const id = generateId("textarea");
+	const id = escapeHtml(options.id ?? generateId("textarea"));
 	const hintId = params.hint ? generateId("hint") : undefined;
 	const errorId = params.error !== undefined ? generateId("error") : undefined;
 
@@ -42,7 +43,7 @@ export function buildTextarea(
 	const attrs: string[] = [
 		`class="${textareaClasses.join(" ")}"`,
 		`id="${id}"`,
-		`name="${params.name}"`,
+		`name="${escapeHtml(params.name)}"`,
 	];
 
 	if (params.placeholder) {

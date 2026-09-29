@@ -38,6 +38,8 @@ function leaf(
 			return { kind, button: { label: marker } };
 		case "badge":
 			return { kind, badge: { type: "info", text: marker } };
+		case "field":
+			return { kind, field: { type: "text", name: "feld", label: marker } };
 		default:
 			return wrap(kind, { kind: "text", text: marker });
 	}
@@ -114,6 +116,7 @@ const ALL_KINDS: RecursiveContentNodeInput["kind"][] = [
 	"html",
 	"button",
 	"badge",
+	"field",
 	...CONTAINER_KINDS,
 ];
 

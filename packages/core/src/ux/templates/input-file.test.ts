@@ -122,4 +122,17 @@ describe("buildInputFile", () => {
 			expect(validateHtmlStrict(result.html).ok).toBe(true);
 		}
 	});
+
+	it("escapes the model's text", () => {
+		const text = `<b>"A" & 'B'</b>`;
+		const result = buildInputFile(
+			{ name: "upload", label: text, hint: text, error: text, accept: text },
+			"de",
+		);
+
+		expect(result.html).not.toContain("<b>");
+		expect(result.html).toContain(
+			"&lt;b&gt;&quot;A&quot; &amp; &#039;B&#039;&lt;/b&gt;",
+		);
+	});
 });

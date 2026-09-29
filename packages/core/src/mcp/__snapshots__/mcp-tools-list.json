@@ -958,7 +958,7 @@
     {
       "name": "render_composition",
       "title": "Render KERN Composition",
-      "description": "KERN UX (Komposition): Rendert rekursive Content-Blöcke als zusammenhängendes Layout. WICHTIG: Jeder Block in contentBlocks MUSS eine 'kind'-Eigenschaft haben. Gültige kind-Werte: text, html, button, badge, card, section, disclosure, grid, formFlow.\n\nEvery block must have a 'kind' discriminator. Valid kinds and their shapes:\n\n  text:       { kind: \"text\", text: \"...\" }\n  html:       { kind: \"html\", html: \"<p>...</p>\" }\n  button:     { kind: \"button\", button: { label: \"OK\", variant: \"primary\" } }\n  badge:      { kind: \"badge\", badge: { type: \"info\", text: \"Neu\" } }\n  card:       { kind: \"card\", card: { header: { title: \"...\" }, body: \"...\", contentBlocks?: [...], footer?: { primaryLabel: \"...\" } } }\n  section:    { kind: \"section\", section: { headingText: \"...\", contentBlocks: [...] } }\n                 Shorthand: paragraphs: [\"text1\", \"text2\"] is also accepted (auto-converted to text blocks).\n  disclosure: { kind: \"disclosure\", disclosure: { triggerLabel: \"...\", contentBlocks: [...] } }\n  grid:       { kind: \"grid\", grid: { columns: 3, columnsContent: [ [block, block], [block], [block] ] } }\n                 columnsContent is an array of arrays — one inner array per column. Each inner array holds content blocks.\n  formFlow:   { kind: \"formFlow\", formFlow: { currentStep: 1, steps: [{ label: \"...\", contentBlocks: [...] }, ...] } }\n\nNested blocks (section.contentBlocks, card.contentBlocks, grid.columnsContent[][], disclosure.contentBlocks) use the same kind-based shapes recursively.\n\nFormFlow orchestriert mehrstufige Formulare mit Tasklist + Progress + Schritt-Inhalt über einen einzigen currentStep-Parameter.",
+      "description": "KERN UX (Komposition): Rendert rekursive Content-Blöcke als zusammenhängendes Layout. WICHTIG: Jeder Block in contentBlocks MUSS eine 'kind'-Eigenschaft haben. Gültige kind-Werte: text, html, button, badge, field, card, section, disclosure, grid, formFlow.\n\nEvery block must have a 'kind' discriminator. Valid kinds and their shapes:\n\n  text:       { kind: \"text\", text: \"...\" }\n  html:       { kind: \"html\", html: \"<p>...</p>\" }\n  button:     { kind: \"button\", button: { label: \"OK\", variant: \"primary\" } }\n  badge:      { kind: \"badge\", badge: { type: \"info\", text: \"Neu\" } }\n  field:      { kind: \"field\", field: { type: \"email\", name: \"email\", label: \"E-Mail\", hint?: \"...\", error?: \"...\" } }\n                 type: text|email|tel|url|number|date|password|textarea|select|radio|checkbox; select/radio need options: [{ value, label }].\n  card:     { kind: \"card\", card: { header: { title: \"...\" }, body: \"...\", contentBlocks?: [...], footer?: { primaryLabel: \"...\" } } }\n  section:    { kind: \"section\", section: { headingText: \"...\", contentBlocks: [...] } }\n                 Shorthand: paragraphs: [\"text1\", \"text2\"] is also accepted (auto-converted to text blocks).\n  disclosure: { kind: \"disclosure\", disclosure: { triggerLabel: \"...\", contentBlocks: [...] } }\n  grid:       { kind: \"grid\", grid: { columns: 3, columnsContent: [ [block, block], [block], [block] ] } }\n                 columnsContent is an array of arrays — one inner array per column. Each inner array holds content blocks.\n  formFlow:   { kind: \"formFlow\", formFlow: { currentStep: 1, steps: [{ label: \"...\", contentBlocks: [...] }, ...] } }\n\nNested blocks (section.contentBlocks, card.contentBlocks, grid.columnsContent[][], disclosure.contentBlocks) use the same kind-based shapes recursively.\n\nFormFlow orchestriert mehrstufige Formulare mit Tasklist + Progress + Schritt-Inhalt über einen einzigen currentStep-Parameter.",
       "inputSchema": {
         "$schema": "http://json-schema.org/draft-07/schema#",
         "type": "object",
@@ -978,7 +978,7 @@
           "contentBlocks": {
             "type": "array",
             "items": {
-              "description": "Rekursiver Content-Knoten: text/html/button/badge/card/formFlow.",
+              "description": "Rekursiver Content-Knoten: text/html/button/badge/field/section/disclosure/grid/card/formFlow.",
               "anyOf": [
                 {
                   "type": "object",
@@ -1145,6 +1145,119 @@
                   "required": [
                     "kind",
                     "badge"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "kind": {
+                      "type": "string",
+                      "const": "field"
+                    },
+                    "field": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "enum": [
+                            "text",
+                            "email",
+                            "tel",
+                            "url",
+                            "number",
+                            "date",
+                            "password",
+                            "textarea",
+                            "select",
+                            "radio",
+                            "checkbox"
+                          ],
+                          "description": "Field type. select and radio need options; checkbox with options renders a checkbox group."
+                        },
+                        "name": {
+                          "type": "string",
+                          "minLength": 1,
+                          "description": "Name submitted with the form."
+                        },
+                        "label": {
+                          "type": "string",
+                          "minLength": 1,
+                          "description": "Visible label; the legend for radio and checkbox groups."
+                        },
+                        "id": {
+                          "description": "Element id (the first option's for radio and checkbox groups). Generated when omitted.",
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "hint": {
+                          "description": "Short help text below the label, linked via aria-describedby.",
+                          "type": "string"
+                        },
+                        "error": {
+                          "description": "Error message; puts the field in its error state.",
+                          "type": "string"
+                        },
+                        "optional": {
+                          "description": "Marks the field as optional.",
+                          "type": "boolean"
+                        },
+                        "value": {
+                          "description": "Initial value (text-like types and textarea).",
+                          "type": "string"
+                        },
+                        "placeholder": {
+                          "type": "string"
+                        },
+                        "autocomplete": {
+                          "description": "HTML autocomplete token, e.g. given-name, email.",
+                          "type": "string"
+                        },
+                        "rows": {
+                          "description": "Textarea rows.",
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 9007199254740991
+                        },
+                        "options": {
+                          "minItems": 1,
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "value": {
+                                "type": "string",
+                                "description": "Submitted value."
+                              },
+                              "label": {
+                                "type": "string",
+                                "minLength": 1,
+                                "description": "Visible option text."
+                              },
+                              "selected": {
+                                "description": "Pre-selected (select) or checked (radio, checkbox).",
+                                "type": "boolean"
+                              },
+                              "disabled": {
+                                "type": "boolean"
+                              }
+                            },
+                            "required": [
+                              "value",
+                              "label"
+                            ]
+                          }
+                        }
+                      },
+                      "required": [
+                        "type",
+                        "name",
+                        "label"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "kind",
+                    "field"
                   ]
                 },
                 {
@@ -1746,7 +1859,7 @@
             "description": "Primärer Inhaltsbereich als rekursive Content-Blöcke (empfohlen). Geeignet für strukturierte Section-Inhalte mit Grid, Card, Disclosure oder Text.",
             "type": "array",
             "items": {
-              "description": "Rekursiver Content-Knoten: text/html/button/badge/card/formFlow.",
+              "description": "Rekursiver Content-Knoten: text/html/button/badge/field/section/disclosure/grid/card/formFlow.",
               "anyOf": [
                 {
                   "type": "object",
@@ -1913,6 +2026,119 @@
                   "required": [
                     "kind",
                     "badge"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "kind": {
+                      "type": "string",
+                      "const": "field"
+                    },
+                    "field": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "enum": [
+                            "text",
+                            "email",
+                            "tel",
+                            "url",
+                            "number",
+                            "date",
+                            "password",
+                            "textarea",
+                            "select",
+                            "radio",
+                            "checkbox"
+                          ],
+                          "description": "Field type. select and radio need options; checkbox with options renders a checkbox group."
+                        },
+                        "name": {
+                          "type": "string",
+                          "minLength": 1,
+                          "description": "Name submitted with the form."
+                        },
+                        "label": {
+                          "type": "string",
+                          "minLength": 1,
+                          "description": "Visible label; the legend for radio and checkbox groups."
+                        },
+                        "id": {
+                          "description": "Element id (the first option's for radio and checkbox groups). Generated when omitted.",
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "hint": {
+                          "description": "Short help text below the label, linked via aria-describedby.",
+                          "type": "string"
+                        },
+                        "error": {
+                          "description": "Error message; puts the field in its error state.",
+                          "type": "string"
+                        },
+                        "optional": {
+                          "description": "Marks the field as optional.",
+                          "type": "boolean"
+                        },
+                        "value": {
+                          "description": "Initial value (text-like types and textarea).",
+                          "type": "string"
+                        },
+                        "placeholder": {
+                          "type": "string"
+                        },
+                        "autocomplete": {
+                          "description": "HTML autocomplete token, e.g. given-name, email.",
+                          "type": "string"
+                        },
+                        "rows": {
+                          "description": "Textarea rows.",
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 9007199254740991
+                        },
+                        "options": {
+                          "minItems": 1,
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "value": {
+                                "type": "string",
+                                "description": "Submitted value."
+                              },
+                              "label": {
+                                "type": "string",
+                                "minLength": 1,
+                                "description": "Visible option text."
+                              },
+                              "selected": {
+                                "description": "Pre-selected (select) or checked (radio, checkbox).",
+                                "type": "boolean"
+                              },
+                              "disabled": {
+                                "type": "boolean"
+                              }
+                            },
+                            "required": [
+                              "value",
+                              "label"
+                            ]
+                          }
+                        }
+                      },
+                      "required": [
+                        "type",
+                        "name",
+                        "label"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "kind",
+                    "field"
                   ]
                 },
                 {
@@ -2612,7 +2838,7 @@
                   "description": "Optionale strukturierte Body-Blöcke (text/html/button/badge/card).",
                   "type": "array",
                   "items": {
-                    "description": "Rekursiver Content-Knoten: text/html/button/badge/card/formFlow.",
+                    "description": "Rekursiver Content-Knoten: text/html/button/badge/field/section/disclosure/grid/card/formFlow.",
                     "anyOf": [
                       {
                         "type": "object",
@@ -2779,6 +3005,119 @@
                         "required": [
                           "kind",
                           "badge"
+                        ]
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "type": "string",
+                            "const": "field"
+                          },
+                          "field": {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "enum": [
+                                  "text",
+                                  "email",
+                                  "tel",
+                                  "url",
+                                  "number",
+                                  "date",
+                                  "password",
+                                  "textarea",
+                                  "select",
+                                  "radio",
+                                  "checkbox"
+                                ],
+                                "description": "Field type. select and radio need options; checkbox with options renders a checkbox group."
+                              },
+                              "name": {
+                                "type": "string",
+                                "minLength": 1,
+                                "description": "Name submitted with the form."
+                              },
+                              "label": {
+                                "type": "string",
+                                "minLength": 1,
+                                "description": "Visible label; the legend for radio and checkbox groups."
+                              },
+                              "id": {
+                                "description": "Element id (the first option's for radio and checkbox groups). Generated when omitted.",
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "hint": {
+                                "description": "Short help text below the label, linked via aria-describedby.",
+                                "type": "string"
+                              },
+                              "error": {
+                                "description": "Error message; puts the field in its error state.",
+                                "type": "string"
+                              },
+                              "optional": {
+                                "description": "Marks the field as optional.",
+                                "type": "boolean"
+                              },
+                              "value": {
+                                "description": "Initial value (text-like types and textarea).",
+                                "type": "string"
+                              },
+                              "placeholder": {
+                                "type": "string"
+                              },
+                              "autocomplete": {
+                                "description": "HTML autocomplete token, e.g. given-name, email.",
+                                "type": "string"
+                              },
+                              "rows": {
+                                "description": "Textarea rows.",
+                                "type": "integer",
+                                "minimum": 1,
+                                "maximum": 9007199254740991
+                              },
+                              "options": {
+                                "minItems": 1,
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "value": {
+                                      "type": "string",
+                                      "description": "Submitted value."
+                                    },
+                                    "label": {
+                                      "type": "string",
+                                      "minLength": 1,
+                                      "description": "Visible option text."
+                                    },
+                                    "selected": {
+                                      "description": "Pre-selected (select) or checked (radio, checkbox).",
+                                      "type": "boolean"
+                                    },
+                                    "disabled": {
+                                      "type": "boolean"
+                                    }
+                                  },
+                                  "required": [
+                                    "value",
+                                    "label"
+                                  ]
+                                }
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "name",
+                              "label"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "kind",
+                          "field"
                         ]
                       },
                       {
@@ -3440,7 +3779,7 @@
             "description": "Primärer Disclosure-Inhalt als rekursive Content-Blöcke (empfohlen). Eignet sich für strukturierte, aber kompakte Zusatzinformationen.",
             "type": "array",
             "items": {
-              "description": "Rekursiver Content-Knoten: text/html/button/badge/card/formFlow.",
+              "description": "Rekursiver Content-Knoten: text/html/button/badge/field/section/disclosure/grid/card/formFlow.",
               "anyOf": [
                 {
                   "type": "object",
@@ -3607,6 +3946,119 @@
                   "required": [
                     "kind",
                     "badge"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "kind": {
+                      "type": "string",
+                      "const": "field"
+                    },
+                    "field": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "enum": [
+                            "text",
+                            "email",
+                            "tel",
+                            "url",
+                            "number",
+                            "date",
+                            "password",
+                            "textarea",
+                            "select",
+                            "radio",
+                            "checkbox"
+                          ],
+                          "description": "Field type. select and radio need options; checkbox with options renders a checkbox group."
+                        },
+                        "name": {
+                          "type": "string",
+                          "minLength": 1,
+                          "description": "Name submitted with the form."
+                        },
+                        "label": {
+                          "type": "string",
+                          "minLength": 1,
+                          "description": "Visible label; the legend for radio and checkbox groups."
+                        },
+                        "id": {
+                          "description": "Element id (the first option's for radio and checkbox groups). Generated when omitted.",
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "hint": {
+                          "description": "Short help text below the label, linked via aria-describedby.",
+                          "type": "string"
+                        },
+                        "error": {
+                          "description": "Error message; puts the field in its error state.",
+                          "type": "string"
+                        },
+                        "optional": {
+                          "description": "Marks the field as optional.",
+                          "type": "boolean"
+                        },
+                        "value": {
+                          "description": "Initial value (text-like types and textarea).",
+                          "type": "string"
+                        },
+                        "placeholder": {
+                          "type": "string"
+                        },
+                        "autocomplete": {
+                          "description": "HTML autocomplete token, e.g. given-name, email.",
+                          "type": "string"
+                        },
+                        "rows": {
+                          "description": "Textarea rows.",
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 9007199254740991
+                        },
+                        "options": {
+                          "minItems": 1,
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "value": {
+                                "type": "string",
+                                "description": "Submitted value."
+                              },
+                              "label": {
+                                "type": "string",
+                                "minLength": 1,
+                                "description": "Visible option text."
+                              },
+                              "selected": {
+                                "description": "Pre-selected (select) or checked (radio, checkbox).",
+                                "type": "boolean"
+                              },
+                              "disabled": {
+                                "type": "boolean"
+                              }
+                            },
+                            "required": [
+                              "value",
+                              "label"
+                            ]
+                          }
+                        }
+                      },
+                      "required": [
+                        "type",
+                        "name",
+                        "label"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "kind",
+                    "field"
                   ]
                 },
                 {
@@ -5102,7 +5554,7 @@
             "description": "Optionale strukturierte Body-Blöcke für kompakte, zusammengehörige Inhalte. Erlaubt rekursive Komposition, sollte aber denselben fokussierten Charakter wie eine klassische Card behalten.",
             "type": "array",
             "items": {
-              "description": "Rekursiver Content-Knoten: text/html/button/badge/card/formFlow.",
+              "description": "Rekursiver Content-Knoten: text/html/button/badge/field/section/disclosure/grid/card/formFlow.",
               "anyOf": [
                 {
                   "type": "object",
@@ -5269,6 +5721,119 @@
                   "required": [
                     "kind",
                     "badge"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "kind": {
+                      "type": "string",
+                      "const": "field"
+                    },
+                    "field": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "enum": [
+                            "text",
+                            "email",
+                            "tel",
+                            "url",
+                            "number",
+                            "date",
+                            "password",
+                            "textarea",
+                            "select",
+                            "radio",
+                            "checkbox"
+                          ],
+                          "description": "Field type. select and radio need options; checkbox with options renders a checkbox group."
+                        },
+                        "name": {
+                          "type": "string",
+                          "minLength": 1,
+                          "description": "Name submitted with the form."
+                        },
+                        "label": {
+                          "type": "string",
+                          "minLength": 1,
+                          "description": "Visible label; the legend for radio and checkbox groups."
+                        },
+                        "id": {
+                          "description": "Element id (the first option's for radio and checkbox groups). Generated when omitted.",
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "hint": {
+                          "description": "Short help text below the label, linked via aria-describedby.",
+                          "type": "string"
+                        },
+                        "error": {
+                          "description": "Error message; puts the field in its error state.",
+                          "type": "string"
+                        },
+                        "optional": {
+                          "description": "Marks the field as optional.",
+                          "type": "boolean"
+                        },
+                        "value": {
+                          "description": "Initial value (text-like types and textarea).",
+                          "type": "string"
+                        },
+                        "placeholder": {
+                          "type": "string"
+                        },
+                        "autocomplete": {
+                          "description": "HTML autocomplete token, e.g. given-name, email.",
+                          "type": "string"
+                        },
+                        "rows": {
+                          "description": "Textarea rows.",
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 9007199254740991
+                        },
+                        "options": {
+                          "minItems": 1,
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "value": {
+                                "type": "string",
+                                "description": "Submitted value."
+                              },
+                              "label": {
+                                "type": "string",
+                                "minLength": 1,
+                                "description": "Visible option text."
+                              },
+                              "selected": {
+                                "description": "Pre-selected (select) or checked (radio, checkbox).",
+                                "type": "boolean"
+                              },
+                              "disabled": {
+                                "type": "boolean"
+                              }
+                            },
+                            "required": [
+                              "value",
+                              "label"
+                            ]
+                          }
+                        }
+                      },
+                      "required": [
+                        "type",
+                        "name",
+                        "label"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "kind",
+                    "field"
                   ]
                 },
                 {
@@ -5954,6 +6519,10 @@
                   "properties": {
                     "id": {
                       "description": "Optionale feste ID pro Checkbox. Ohne Angabe wird sie automatisch generiert.",
+                      "type": "string"
+                    },
+                    "value": {
+                      "description": "Value submitted when this box is checked. Without one the browser sends 'on'.",
                       "type": "string"
                     },
                     "label": {
@@ -7021,7 +7590,7 @@
             "items": {
               "type": "array",
               "items": {
-                "description": "Rekursiver Content-Knoten: text/html/button/badge/card/formFlow.",
+                "description": "Rekursiver Content-Knoten: text/html/button/badge/field/section/disclosure/grid/card/formFlow.",
                 "anyOf": [
                   {
                     "type": "object",
@@ -7188,6 +7757,119 @@
                     "required": [
                       "kind",
                       "badge"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "kind": {
+                        "type": "string",
+                        "const": "field"
+                      },
+                      "field": {
+                        "type": "object",
+                        "properties": {
+                          "type": {
+                            "type": "string",
+                            "enum": [
+                              "text",
+                              "email",
+                              "tel",
+                              "url",
+                              "number",
+                              "date",
+                              "password",
+                              "textarea",
+                              "select",
+                              "radio",
+                              "checkbox"
+                            ],
+                            "description": "Field type. select and radio need options; checkbox with options renders a checkbox group."
+                          },
+                          "name": {
+                            "type": "string",
+                            "minLength": 1,
+                            "description": "Name submitted with the form."
+                          },
+                          "label": {
+                            "type": "string",
+                            "minLength": 1,
+                            "description": "Visible label; the legend for radio and checkbox groups."
+                          },
+                          "id": {
+                            "description": "Element id (the first option's for radio and checkbox groups). Generated when omitted.",
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "hint": {
+                            "description": "Short help text below the label, linked via aria-describedby.",
+                            "type": "string"
+                          },
+                          "error": {
+                            "description": "Error message; puts the field in its error state.",
+                            "type": "string"
+                          },
+                          "optional": {
+                            "description": "Marks the field as optional.",
+                            "type": "boolean"
+                          },
+                          "value": {
+                            "description": "Initial value (text-like types and textarea).",
+                            "type": "string"
+                          },
+                          "placeholder": {
+                            "type": "string"
+                          },
+                          "autocomplete": {
+                            "description": "HTML autocomplete token, e.g. given-name, email.",
+                            "type": "string"
+                          },
+                          "rows": {
+                            "description": "Textarea rows.",
+                            "type": "integer",
+                            "minimum": 1,
+                            "maximum": 9007199254740991
+                          },
+                          "options": {
+                            "minItems": 1,
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "value": {
+                                  "type": "string",
+                                  "description": "Submitted value."
+                                },
+                                "label": {
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "description": "Visible option text."
+                                },
+                                "selected": {
+                                  "description": "Pre-selected (select) or checked (radio, checkbox).",
+                                  "type": "boolean"
+                                },
+                                "disabled": {
+                                  "type": "boolean"
+                                }
+                              },
+                              "required": [
+                                "value",
+                                "label"
+                              ]
+                            }
+                          }
+                        },
+                        "required": [
+                          "type",
+                          "name",
+                          "label"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "kind",
+                      "field"
                     ]
                   },
                   {
@@ -7636,7 +8318,7 @@
                   }
                 ]
               },
-              "description": "Rekursive Content-Blöcke mit erlaubten Knotenarten text/html/button/badge/section/disclosure/grid/card inklusive Tiefen- und Größenlimit."
+              "description": "Rekursive Content-Blöcke mit erlaubten Knotenarten text/html/button/badge/field/section/disclosure/grid/card/formFlow inklusive Tiefen- und Größenlimit."
             }
           },
           "locale": {

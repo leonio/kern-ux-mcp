@@ -241,6 +241,61 @@ describe("render_composition tool", () => {
 	});
 });
 
+describe("render_composition with field blocks", () => {
+	it("renders fields of several types that pass strict validation", async () => {
+		const tool = createTools(createRegistry()).getTool("render_composition");
+		const args = {
+			locale: "de",
+			strict: true,
+			contentBlocks: [
+				{
+					kind: "section",
+					section: {
+						headingText: "Kontakt",
+						contentBlocks: [
+							{
+								kind: "field",
+								field: { type: "text", name: "vorname", label: "Vorname" },
+							},
+							{
+								kind: "field",
+								field: {
+									type: "email",
+									name: "email",
+									label: "E-Mail",
+									error: "Bitte eine E-Mail-Adresse angeben.",
+								},
+							},
+							{
+								kind: "field",
+								field: {
+									type: "radio",
+									name: "anrede",
+									label: "Anrede",
+									options: [
+										{ value: "frau", label: "Frau" },
+										{ value: "herr", label: "Herr" },
+									],
+								},
+							},
+						],
+					},
+				},
+			],
+		};
+
+		expect(tool?.inputSchema.safeParse(args).success).toBe(true);
+
+		const result = await callHandler<RenderedToolResult>(tool, args);
+
+		expect(result.html).toContain('name="vorname"');
+		expect(result.html).toContain('type="email"');
+		expect(result.html).toContain('type="radio"');
+		expect(result.warnings.join(" ")).not.toContain("skipped");
+		expect(result.validation.ok).toBe(true);
+	});
+});
+
 describe("standalone composition tools", () => {
 	it("get_grid renders sections and disclosures in its columns, in the requested locale", async () => {
 		const tools = createTools(

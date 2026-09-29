@@ -2,14 +2,19 @@ import { LABELS } from "../i18n.js";
 import { generateId } from "../id.js";
 import type { SelectInput, SelectOptionInput } from "../schemas/select.js";
 import type { BuildResult, Locale } from "../types.js";
+import { escapeHtml } from "./escape.js";
 
 /**
  * Build a Select component
  */
-export function buildSelect(params: SelectInput, locale: Locale): BuildResult {
+export function buildSelect(
+	params: SelectInput,
+	locale: Locale,
+	options: { id?: string } = {},
+): BuildResult {
 	const warnings: string[] = [];
 
-	const id = generateId("select");
+	const id = escapeHtml(options.id ?? generateId("select"));
 	const hintId = params.hint ? generateId("hint") : undefined;
 	const errorId = params.error !== undefined ? generateId("error") : undefined;
 
@@ -41,17 +46,17 @@ export function buildSelect(params: SelectInput, locale: Locale): BuildResult {
 		: "";
 
 	// Build options
-	const options = params.options
+	const optionsHtml = params.options
 		.map((opt: SelectOptionInput) => {
 			const selectedAttr = opt.selected ? " selected" : "";
 			const disabledOptAttr = opt.disabled ? " disabled" : "";
-			return `<option value="${opt.value}"${selectedAttr}${disabledOptAttr}>${opt.text}</option>`;
+			return `<option value="${escapeHtml(opt.value)}"${selectedAttr}${disabledOptAttr}>${escapeHtml(opt.text)}</option>`;
 		})
 		.join("\n        ");
 
 	// Build hint
 	const hintHtml = hintId
-		? `\n  <div class="kern-hint" id="${hintId}">${params.hint}</div>`
+		? `\n  <div class="kern-hint" id="${hintId}">${escapeHtml(params.hint ?? "")}</div>`
 		: "";
 
 	// Build error
@@ -63,15 +68,15 @@ export function buildSelect(params: SelectInput, locale: Locale): BuildResult {
 		errorHtml = `
   <p class="kern-error" id="${errorId}" role="alert">
     <span class="kern-icon kern-icon--danger" aria-hidden="true"></span>
-    <span class="kern-body">${params.error}</span>
+    <span class="kern-body">${escapeHtml(params.error)}</span>
   </p>`;
 	}
 
 	const html = `<div class="${wrapperClasses.join(" ")}">
-  <label class="kern-label" for="${id}">${params.label}${optionalMarker}</label>${hintHtml}
+  <label class="kern-label" for="${id}">${escapeHtml(params.label)}${optionalMarker}</label>${hintHtml}
   <div class="kern-form-input__select-wrapper">
-    <select class="${selectClasses.join(" ")}" name="${params.name}" id="${id}"${disabledAttr}${ariaDescribedBy}>
-        ${options}
+    <select class="${selectClasses.join(" ")}" name="${escapeHtml(params.name)}" id="${id}"${disabledAttr}${ariaDescribedBy}>
+        ${optionsHtml}
     </select>
   </div>${errorHtml}
 </div>`;

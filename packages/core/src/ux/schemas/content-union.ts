@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { badgeSchema } from "./badge.js";
 import { ButtonSchema } from "./button.js";
+import { type FieldInput, FieldSchema } from "./field.js";
 import {
 	ComponentSizeSchema,
 	GridColumnsSchema,
@@ -47,6 +48,11 @@ type TextContentNodeInput = {
 type HtmlContentNodeInput = {
 	kind: "html";
 	html: string;
+};
+
+type FieldContentNodeInput = {
+	kind: "field";
+	field: FieldInput;
 };
 
 type ButtonContentNodeInput = {
@@ -146,6 +152,7 @@ export type RecursiveContentNodeInput =
 	| HtmlContentNodeInput
 	| ButtonContentNodeInput
 	| BadgeContentNodeInput
+	| FieldContentNodeInput
 	| SectionContentNodeInput
 	| DisclosureContentNodeInput
 	| GridContentNodeInput
@@ -162,6 +169,10 @@ export const RecursiveContentNodeSchema: z.ZodType<
 			htmlContentNodeSchema,
 			buttonContentNodeSchema,
 			badgeContentNodeSchema,
+			z.object({
+				kind: z.literal("field"),
+				field: FieldSchema,
+			}),
 			z.object({
 				kind: z.literal("section"),
 				section: z.object({
@@ -270,7 +281,7 @@ export const RecursiveContentNodeSchema: z.ZodType<
 			}),
 		])
 		.describe(
-			"Rekursiver Content-Knoten: text/html/button/badge/card/formFlow.",
+			"Rekursiver Content-Knoten: text/html/button/badge/field/section/disclosure/grid/card/formFlow.",
 		),
 );
 
@@ -401,5 +412,5 @@ export const RecursiveContentBlocksSchema = z
 		validateRecursiveContentLimits(nodes, ctx);
 	})
 	.describe(
-		"Rekursive Content-Blöcke mit erlaubten Knotenarten text/html/button/badge/section/disclosure/grid/card inklusive Tiefen- und Größenlimit.",
+		"Rekursive Content-Blöcke mit erlaubten Knotenarten text/html/button/badge/field/section/disclosure/grid/card/formFlow inklusive Tiefen- und Größenlimit.",
 	);

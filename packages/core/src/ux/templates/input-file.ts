@@ -2,6 +2,7 @@ import { LABELS } from "../i18n.js";
 import { generateId } from "../id.js";
 import { type InputFileInput, inputFileSchema } from "../schemas/input-file.js";
 import type { BuildResult, Locale } from "../types.js";
+import { escapeHtml } from "./escape.js";
 
 function formatAcceptForHint(accept?: string): string | undefined {
 	if (!accept) {
@@ -72,12 +73,12 @@ export function buildInputFile(
 	const attrs: string[] = [
 		`class="${inputClasses.join(" ")}"`,
 		`id="${id}"`,
-		`name="${params.name}"`,
+		`name="${escapeHtml(params.name)}"`,
 		'type="file"',
 	];
 
 	if (params.accept) {
-		attrs.push(`accept="${params.accept}"`);
+		attrs.push(`accept="${escapeHtml(params.accept)}"`);
 	}
 	if (params.disabled) {
 		attrs.push("disabled");
@@ -91,7 +92,7 @@ export function buildInputFile(
 		: "";
 
 	const hintHtml = hintId
-		? `\n  <div class="kern-hint" id="${hintId}">${effectiveHint}</div>`
+		? `\n  <div class="kern-hint" id="${hintId}">${escapeHtml(effectiveHint)}</div>`
 		: "";
 
 	let errorHtml = "";
@@ -102,12 +103,12 @@ export function buildInputFile(
 		errorHtml = `
   <p class="kern-error" id="${errorId}" role="alert">
     <span class="kern-icon kern-icon--danger" aria-hidden="true"></span>
-    <span class="kern-body">${params.error}</span>
+    <span class="kern-body">${escapeHtml(params.error)}</span>
   </p>`;
 	}
 
 	const html = `<div class="${wrapperClasses.join(" ")}">
-  <label class="kern-label" for="${id}">${params.label}${optionalMarker}</label>${hintHtml}
+  <label class="kern-label" for="${id}">${escapeHtml(params.label)}${optionalMarker}</label>${hintHtml}
   <input ${attrs.join(" ")}>
 ${errorHtml}</div>`;
 

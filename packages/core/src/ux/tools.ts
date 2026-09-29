@@ -563,6 +563,7 @@ export const COMPOSITION_VALID_KINDS = [
 	"html",
 	"button",
 	"badge",
+	"field",
 	"card",
 	"section",
 	"disclosure",
@@ -577,7 +578,9 @@ export const COMPOSITION_CHEAT_SHEET = [
 	'  html:       { kind: "html", html: "<p>...</p>" }',
 	'  button:     { kind: "button", button: { label: "OK", variant: "primary" } }',
 	'  badge:      { kind: "badge", badge: { type: "info", text: "Neu" } }',
-	'  card:       { kind: "card", card: { header: { title: "..." }, body: "...", contentBlocks?: [...], footer?: { primaryLabel: "..." } } }',
+	'  field:      { kind: "field", field: { type: "email", name: "email", label: "E-Mail", hint?: "...", error?: "..." } }',
+	"                 type: text|email|tel|url|number|date|password|textarea|select|radio|checkbox; select/radio need options: [{ value, label }].",
+	'  card:     { kind: "card", card: { header: { title: "..." }, body: "...", contentBlocks?: [...], footer?: { primaryLabel: "..." } } }',
 	'  section:    { kind: "section", section: { headingText: "...", contentBlocks: [...] } }',
 	'                 Shorthand: paragraphs: ["text1", "text2"] is also accepted (auto-converted to text blocks).',
 	'  disclosure: { kind: "disclosure", disclosure: { triggerLabel: "...", contentBlocks: [...] } }',
@@ -614,7 +617,7 @@ function buildRenderCompositionTool(): ToolDef {
 		description:
 			"KERN UX (Komposition): Rendert rekursive Content-Blöcke als zusammenhängendes Layout. " +
 			"WICHTIG: Jeder Block in contentBlocks MUSS eine 'kind'-Eigenschaft haben. " +
-			"Gültige kind-Werte: text, html, button, badge, card, section, disclosure, grid, formFlow.\n\n" +
+			`Gültige kind-Werte: ${COMPOSITION_VALID_KINDS.join(", ")}.\n\n` +
 			COMPOSITION_CHEAT_SHEET +
 			"\n\nFormFlow orchestriert mehrstufige Formulare mit Tasklist + Progress + Schritt-Inhalt über einen einzigen currentStep-Parameter.",
 		inputSchema,

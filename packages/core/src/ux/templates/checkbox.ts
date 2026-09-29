@@ -33,7 +33,7 @@ function buildSingleCheckbox(
 ): BuildResult {
 	const warnings: string[] = [];
 
-	const id = params.id ?? generateId("checkbox");
+	const id = escapeHtml(params.id ?? generateId("checkbox"));
 	const { name, label, checked, disabled, error } = params;
 
 	const hasError = !!error;
@@ -139,7 +139,7 @@ function buildCheckboxList(
 	// Build checkbox items
 	const itemsHtml = items
 		.map((item) => {
-			const itemId = item.id ?? generateId("checkbox");
+			const itemId = escapeHtml(item.id ?? generateId("checkbox"));
 			const itemClass = hasError
 				? "kern-form-check__checkbox kern-form-check__checkbox--error"
 				: "kern-form-check__checkbox";
@@ -150,6 +150,9 @@ function buildCheckboxList(
 				`name="${escapeHtml(groupName)}"`,
 				`type="checkbox"`,
 			];
+			if (item.value !== undefined) {
+				itemAttrs.push(`value="${escapeHtml(item.value)}"`);
+			}
 			if (item.checked) itemAttrs.push("checked");
 			if (item.disabled) itemAttrs.push("disabled");
 
