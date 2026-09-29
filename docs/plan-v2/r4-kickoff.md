@@ -134,8 +134,9 @@ with `type` one of `text`, `email`, `tel`, `url`, `number`, `date`, `password`, 
 - [x] B2 `a3dd41c`: `get_fieldset` with children, `fieldset` block kind
 - [x] B3 `71c4542`: `form` block kind with the collected error summary
 - [x] B4 `132dffc`: `formFlow` in a form, KERN buttons, `tasklistHeading`, `renderAllSteps`
-- [ ] C1 schema rules for nesting
-- [ ] C2 `render_page`
+- [x] C1 `6f277a6`: nesting rules in the schema walk, content required in sections and disclosures, `type` on buttons
+- [x] C2 `436a998`: `render_page`, the real Kopfzeile in `get_kopfzeile`
+- [x] After a visual check of a `render_page` sample: `1f3099d` spaces form content, `1fd248a` stops nested `kern-container`s
 
 Learned in A:
 - **Builder API.** `buildCard`, `buildGrid`, `buildSection`, `buildDisclosure` and `buildFormFlow` take an optional `BlockContext` (`{ renderer, depth }`) as their third argument. Without one they render standalone at depth 0 through `standaloneContext(locale)`, so existing callers and tests needed no change.
@@ -160,5 +161,26 @@ Learned in B:
 - Tests: 1002 → 1797 (the nesting matrix is now 7 × 7 containers × 12 kinds). Coverage 96.1 / 89.9 / 97.9 / 96.1.
 
 Open after B (not in the tracker):
-- A `button` block has no `type`, so inside a form it submits (the HTML default). A `type` option on the button, or `type="button"` by default in compositions, would fix it.
+- ~~A `button` block has no `type`, so inside a form it submits (the HTML default).~~ Fixed in C1: `type="button"` by default, `type: "submit"` on request.
 - A fieldset's group error isn't in the error summary, only field errors are. GOV.UK links such an entry to the group's first input.
+
+Learned in C:
+- **C1 changed one rule from the plan.** "No `formFlow` below the top level" would also reject a wizard in a `section` under a page heading. The actual problem was nested forms, so the rule is: no `form` or `formFlow` inside a `form` or `formFlow`.
+- **Nesting rules need the tool's own container.** `contentBlocksSchema(parent)` starts the schema walk inside it, so `get_card` rejects a card among its blocks just like a card in a card inside `render_composition`. The walk tracks the enclosing kinds and reports the exact path.
+- **`render_page`'s input** is `heading` (the h1) plus `contentBlocks`, rather than the plan's `main`, to match the other block tools. The Kopfzeile is opt-in (`kopfzeile: true`), because its label claims an official federal website.
+- **KERN has no skip-link or focusable `sr-only` class**, and a hidden focus fails WCAG 2.4.7, so the skip link is a small visible link, and only on pages with a header.
+- **The stylesheet version** comes from `registry.json`'s `upstream.version`, now kept on the runtime `Registry`. `buildDocumentShell` is exported for R6's `kern://templates/page-shell`.
+- **The guidance overlay** entry for `kopfzeile` describes the new tool. `registry.json` bakes the overlay in, so `get_component_docs` shows the old "placeholder" text until the next `generate-manifest` run, which is the maintainer's.
+- **Visual check.** Headless Edge takes screenshots without extra installs: `msedge --headless=new --window-size=1280,2200 --screenshot=<png> file:///<html>`. Below about 500px it clips instead of reflowing, so check mobile at 520px. It found three layout problems the tests couldn't:
+  - Fields outside a fieldset have no spacing of their own (`kern-form-input` sets none), so forms and `formFlow` steps now stack with `kern-flex kern-flex-col kern-gap-lg`. KERN has no `[hidden]` rule, so a flex class on a hidden step would show it; the stack is an inner element.
+  - The grid always added a `kern-container`, which nested inside `<main>` and other grids. The block context now carries `inContainer`, and a grid inside a container renders just its row.
+  - The header kept upstream's `kern-p-md`, meant for a full-width header.
+- **Commit messages:** the `get_kopfzeile` contract change is described in the body, not with `!` (see B).
+- **Listing:** 238.9K → 257.6K compact characters, 55 tools (C1 +1.9K, `render_page` +16.9K). R4 as a whole took it from 198.0K to 257.6K; R5 has to win that back.
+- Tests: 1797 → 1713 (rejected nestings are tested once, not twice). Coverage 96.3 / 89.7 / 97.9 / 96.2.
+
+Open after C (not in the tracker):
+- Blocks in `<main>` and in `render_composition` have no spacing between them (a form's buttons sit right above the next grid). A stack on `<main>`, like the form's, would fix it.
+- Every grid warns "KERN UX has two layout systems…", even when the columns divide 12. That is noise in every page's warnings.
+- A fieldset's group error isn't in the error summary (see B).
+- `registry.json` needs a `generate-manifest` run for the new `kopfzeile` guidance.

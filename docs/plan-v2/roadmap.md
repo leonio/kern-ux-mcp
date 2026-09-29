@@ -91,8 +91,8 @@ Plan, progress and lessons: [r4-kickoff.md](r4-kickoff.md).
 - [x] Fix `formFlow`: the `kern-btn` class, a `<form>` wrapper, heading separation, and a `renderAllSteps` option.
 - [x] Make `get_fieldset` accept child fields instead of the hard-coded Vorname/Name.
 - [x] Make the `validate.ts` `form.error_*` rules target `.kern-error`, and add a regression test.
-- [ ] Make the schema reject nestings the renderer can't produce.
-- [ ] Add a `render_page` tool: page shell, header, `<main>` and footer.
+- [x] Make the schema reject nestings the renderer can't produce.
+- [x] Add a `render_page` tool: page shell, header, `<main>` and footer.
 
 ### R4b: Registry contract (consumer side of the external generator)
 
