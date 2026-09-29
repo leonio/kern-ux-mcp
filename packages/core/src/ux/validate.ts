@@ -208,10 +208,8 @@ export function validateHtmlStrict(html: string): ValidationResult {
 		}
 	}
 
-	// Form: input with error element should have aria-describedby
-	for (const errorEl of root.querySelectorAll(
-		".kern-input__error, .kern-select__error, .kern-textarea__error, .kern-fieldset__error",
-	)) {
+	// Form: error messages (KERN's p.kern-error) should be referenced via aria-describedby
+	for (const errorEl of root.querySelectorAll(".kern-error")) {
 		const errorId = errorEl.getAttribute("id");
 		if (!errorId) {
 			issues.push(
@@ -222,7 +220,7 @@ export function validateHtmlStrict(html: string): ValidationResult {
 						en: "Error messages should have an id so inputs can reference them via aria-describedby.",
 						de: "Fehlermeldungen sollten eine ID haben, damit Eingabefelder über aria-describedby darauf verweisen können.",
 					},
-					".kern-input__error",
+					".kern-error",
 				),
 			);
 			continue;

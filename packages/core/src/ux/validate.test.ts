@@ -1,5 +1,17 @@
 import { describe, expect, it } from "vitest";
 
+import { buildCheckbox } from "./templates/checkbox.js";
+import { buildInputDate } from "./templates/input-date.js";
+import { buildInputEmail } from "./templates/input-email.js";
+import { buildInputFile } from "./templates/input-file.js";
+import { buildInputNumber } from "./templates/input-number.js";
+import { buildInputPassword } from "./templates/input-password.js";
+import { buildInputTel } from "./templates/input-tel.js";
+import { buildInputText } from "./templates/input-text.js";
+import { buildInputUrl } from "./templates/input-url.js";
+import { buildRadio } from "./templates/radio.js";
+import { buildSelect } from "./templates/select.js";
+import { buildTextarea } from "./templates/textarea.js";
 import { validateHtmlStrict } from "./validate.js";
 
 function ruleIdsOf(html: string): string[] {
@@ -236,18 +248,15 @@ describe("validateHtmlStrict: icon-only buttons", () => {
 });
 
 describe("validateHtmlStrict: form error wiring", () => {
-	it.each([
-		"kern-input__error",
-		"kern-select__error",
-		"kern-textarea__error",
-		"kern-fieldset__error",
-	])("warns when a .%s element has no id", (errorClass) => {
-		const html = `<p class="${errorClass}">Pflichtfeld</p>`;
-		expect(ruleIdsOf(html)).toEqual(["form.error_id"]);
+	it("warns when a .kern-error element has no id", () => {
+		const res = validateHtmlStrict(`<p class="kern-error">Pflichtfeld</p>`);
+
+		expect(res.issues.map((i) => i.ruleId)).toEqual(["form.error_id"]);
+		expect(res.issues[0]?.selectorHint).toBe(".kern-error");
 	});
 
 	it("warns when no field references the error id via aria-describedby", () => {
-		const html = `<input id="name" class="kern-form-input__input"><p id="name-error" class="kern-input__error">Pflichtfeld</p>`;
+		const html = `<input id="name" class="kern-form-input__input"><p id="name-error" class="kern-error">Pflichtfeld</p>`;
 		const res = validateHtmlStrict(html);
 
 		expect(res.issues.map((i) => i.ruleId)).toEqual(["form.error_describedby"]);
@@ -255,15 +264,97 @@ describe("validateHtmlStrict: form error wiring", () => {
 	});
 
 	it("accepts an error referenced as one of several aria-describedby ids", () => {
-		const html = `<input id="name" aria-describedby="name-hint name-error"><p id="name-hint">Hinweis</p><p id="name-error" class="kern-input__error">Pflichtfeld</p>`;
+		const html = `<input id="name" aria-describedby="name-hint name-error"><p id="name-hint">Hinweis</p><p id="name-error" class="kern-error">Pflichtfeld</p>`;
+		expect(ruleIdsOf(html)).toEqual([]);
+	});
+
+	it("accepts an error referenced by its fieldset", () => {
+		const html = `<fieldset class="kern-fieldset kern-fieldset--error" aria-describedby="group-error"><legend class="kern-label">Anrede</legend><p class="kern-error" id="group-error">Bitte auswählen</p></fieldset>`;
 		expect(ruleIdsOf(html)).toEqual([]);
 	});
 
 	it("keeps ok=true because error wiring issues are warnings", () => {
-		const res = validateHtmlStrict(
-			`<p class="kern-input__error">Pflichtfeld</p>`,
-		);
+		const res = validateHtmlStrict(`<p class="kern-error">Pflichtfeld</p>`);
 		expect(res.issues.every((i) => i.severity === "warning")).toBe(true);
 		expect(res.ok).toBe(true);
+	});
+
+	// The rules used to look for .kern-input__error and similar, which no template
+	// emits, so they never fired on generated output.
+	describe("on the form templates", () => {
+		const field = { name: "feld", label: "Feld", error: "Pflichtfeld" };
+		const cases: Array<{ name: string; build: () => { html: string } }> = [
+			{ name: "input text", build: () => buildInputText(field, "de") },
+			{ name: "input email", build: () => buildInputEmail(field, "de") },
+			{ name: "input tel", build: () => buildInputTel(field, "de") },
+			{ name: "input url", build: () => buildInputUrl(field, "de") },
+			{ name: "input number", build: () => buildInputNumber(field, "de") },
+			{ name: "input date", build: () => buildInputDate(field, "de") },
+			{
+				name: "input password",
+				build: () => buildInputPassword(field, "de"),
+			},
+			{ name: "input file", build: () => buildInputFile(field, "de") },
+			{ name: "textarea", build: () => buildTextarea(field, "de") },
+			{
+				name: "select",
+				build: () =>
+					buildSelect({ ...field, options: [{ value: "a", text: "A" }] }, "de"),
+			},
+			{
+				name: "radio list",
+				build: () =>
+					buildRadio(
+						{
+							mode: "list",
+							name: "feld",
+							legend: "Feld",
+							items: [{ value: "a", label: "A" }],
+							error: "Pflichtfeld",
+						},
+						"de",
+					),
+			},
+			{
+				name: "single checkbox",
+				build: () =>
+					buildCheckbox(
+						{ name: "feld", label: "Feld", error: { message: "Pflichtfeld" } },
+						"de",
+					),
+			},
+			{
+				name: "checkbox list",
+				build: () =>
+					buildCheckbox(
+						{
+							mode: "list",
+							legend: "Feld",
+							groupName: "feld",
+							items: [{ label: "A" }],
+							error: { message: "Pflichtfeld" },
+						},
+						"de",
+					),
+			},
+		];
+
+		it.each(cases)("$name wires its error message", ({ build }) => {
+			const { html } = build();
+
+			expect(html).toContain('class="kern-error"');
+			expect(ruleIdsOf(html).filter((id) => id.startsWith("form."))).toEqual(
+				[],
+			);
+		});
+
+		it.each(cases)(
+			"$name is reported once the aria-describedby reference is missing",
+			({ build }) => {
+				const html = build().html.replace(/ aria-describedby="[^"]*"/g, "");
+
+				expect(ruleIdsOf(html)).toContain("form.error_describedby");
+			},
+		);
 	});
 });
