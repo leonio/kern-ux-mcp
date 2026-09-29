@@ -83,7 +83,7 @@ Start here: [r3-handover.md](r3-handover.md) has where R3 ended (released as `2.
 
 ### R4: Composition gaps (prerequisite for prompts)
 
-Plan, progress and lessons: [r4-kickoff.md](r4-kickoff.md).
+Done, not yet released. Where R4 ended and the groundwork for R5 and R4b: [r4-handover.md](r4-handover.md). Plan, progress and lessons: [r4-kickoff.md](r4-kickoff.md).
 
 - [x] Item 9: `createCompositionRenderer(locale)`.
 - [x] Add a `field` block kind (inputs, select, radio, checkbox, textarea) to the content union.
@@ -96,7 +96,7 @@ Plan, progress and lessons: [r4-kickoff.md](r4-kickoff.md).
 
 ### R4b: Registry contract (consumer side of the external generator)
 
-Can start any time after R3's JSON import of `registry.json`. Background in [finding 22](findings.md#22-the-registry-moves-to-an-external-generator-this-repo-owns-the-contract).
+Can start any time after R3's JSON import of `registry.json`. Background in [finding 22](findings.md#22-the-registry-moves-to-an-external-generator-this-repo-owns-the-contract). Current state, field usage and kickoff questions: [r4-handover.md](r4-handover.md#r4b-registry-contract).
 
 - [ ] `RegistryManifestSchema` in Zod, with `RegistryManifest`/`ComponentInfo` derived from it and a major `manifestVersion`.
 - [ ] Export it as JSON Schema, replacing `docs/registry.schema.json`, for the generator to validate against.
@@ -107,6 +107,8 @@ Can start any time after R3's JSON import of `registry.json`. Background in [fin
 - [ ] Retire `tools/manifest/*` and the overlay files once the external generator reaches parity (contract passes, identical listing).
 
 ### R5: English base language and the context budget
+
+Measurements (2026-09-29), what they say about the shrink options, and kickoff questions: [r4-handover.md](r4-handover.md#r5-english-base-language-and-the-context-budget).
 
 - [ ] Optional baseline: run 8–10 scenario tasks against the pre-R5 server in VS Code Copilot and Claude Code.
 - [ ] Add a context-budget test that prints per-tool listing sizes and fails above the budget. Measure what reaches the model (name, description, `inputSchema`) separately from `outputSchema`.
