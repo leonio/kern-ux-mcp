@@ -5,6 +5,7 @@ import {
 import type { BuildResult, Locale } from "../types.js";
 import {
 	type BlockContext,
+	renderChildBlocks,
 	standaloneContext,
 } from "./composition-renderer.js";
 
@@ -26,10 +27,7 @@ export function buildDisclosure(
 	let bodyContent = "";
 
 	if (contentBlocks && contentBlocks.length > 0) {
-		const recursiveResult = context.renderer.renderBlocks(
-			contentBlocks,
-			context.depth + 1,
-		);
+		const recursiveResult = renderChildBlocks(context, contentBlocks);
 		bodyContent = recursiveResult.html;
 		warnings.push(...recursiveResult.warnings);
 	} else if (typeof content === "string") {

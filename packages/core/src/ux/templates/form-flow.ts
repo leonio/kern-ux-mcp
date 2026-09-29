@@ -3,6 +3,7 @@ import type { FormFlowInput } from "../schemas/content-union.js";
 import type { BuildResult, Locale } from "../types.js";
 import {
 	type BlockContext,
+	renderChildBlocks,
 	standaloneContext,
 } from "./composition-renderer.js";
 import { escapeHtml } from "./escape.js";
@@ -129,7 +130,7 @@ export function buildFormFlow(
 				isActive && step.contentBlocks
 					? withErrorIds(step.contentBlocks, errors)
 					: step.contentBlocks;
-			const content = context.renderer.renderBlocks(blocks, context.depth + 1);
+			const content = renderChildBlocks(context, blocks);
 			warnings.push(...content.warnings);
 
 			const nav = stepNavigation(index, steps.length, input);

@@ -106,6 +106,33 @@ describe("buildPage", () => {
 		);
 	});
 
+	it("keeps grids in main and the header inside the page's containers", () => {
+		const root = parse(
+			buildPage(
+				{
+					header: { title: "Portal" },
+					contentBlocks: [
+						{
+							kind: "grid",
+							grid: {
+								columns: 2,
+								columnsContent: [
+									[{ kind: "text", text: "Links" }],
+									[{ kind: "text", text: "Rechts" }],
+								],
+							},
+						},
+					],
+				},
+				"de",
+			).html,
+		);
+
+		expect(root.querySelectorAll("main .kern-container")).toHaveLength(0);
+		expect(root.querySelector("main .kern-row")).not.toBeNull();
+		expect(root.querySelector("header .kern-p-md")).toBeNull();
+	});
+
 	it("passes validation", () => {
 		const html = buildPage(FULL_PAGE, "de").html;
 

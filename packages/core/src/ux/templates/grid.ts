@@ -2,6 +2,7 @@ import { type GridRenderInput, GridRenderSchema } from "../schemas/grid.js";
 import type { BuildResult, Locale } from "../types.js";
 import {
 	type BlockContext,
+	renderChildBlocks,
 	standaloneContext,
 } from "./composition-renderer.js";
 
@@ -17,9 +18,18 @@ export function buildGrid(
 			? params.columnsContent.length
 			: undefined;
 	const columns = params.columns ?? inferredColumnsFromContent ?? 2;
-	const containerClass = params.containerFluid
-		? "kern-container-fluid"
-		: "kern-container";
+	// Inside a container (render_page's main, another grid) a row needs no container
+	// of its own; a nested one would add its padding twice.
+	const containerClass = context.inContainer
+		? undefined
+		: params.containerFluid
+			? "kern-container-fluid"
+			: "kern-container";
+	if (context.inContainer && params.containerFluid) {
+		warnings.push(
+			"containerFluid is ignored: this grid already sits inside a container.",
+		);
+	}
 	const rowAlignmentClass = params.rowAlignment
 		? ` kern-align-items-${params.rowAlignment}`
 		: "";
@@ -55,10 +65,9 @@ export function buildGrid(
 		let contentHtml = `<p class="kern-body">Spalte ${index + 1}</p>`;
 
 		if (columnBlocks && columnBlocks.length > 0) {
-			const nested = context.renderer.renderBlocks(
-				columnBlocks,
-				context.depth + 1,
-			);
+			const nested = renderChildBlocks(context, columnBlocks, {
+				inContainer: true,
+			});
 
 			if (nested.html) {
 				contentHtml = nested.html;
@@ -74,7 +83,7 @@ export function buildGrid(
 	);
 
 	return {
-		html: `<div class="${containerClass}">\n  ${heading}<div class="kern-row${rowAlignmentClass}">\n${cols}\n  </div>\n</div>`,
+		html: `<div${containerClass ? ` class="${containerClass}"` : ""}>\n  ${heading}<div class="kern-row${rowAlignmentClass}">\n${cols}\n  </div>\n</div>`,
 		warnings,
 	};
 }

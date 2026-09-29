@@ -280,12 +280,56 @@ describe("createCompositionRenderer", () => {
 			const result = buildCard(
 				{ contentBlocks: [leaf("text", "Zu tief")] },
 				"de",
-				{ renderer, depth: 4 },
+				{ renderer, depth: 4, inContainer: false },
 			);
 
 			expect(result.html).not.toContain("Zu tief");
 			expect(result.warnings).toContain(
 				"1 content block(s) at depth 5 were skipped: the maximum nesting depth is 4.",
+			);
+		});
+	});
+
+	describe("containers", () => {
+		const containers = (html: string) =>
+			html.match(/class="kern-container(-fluid)?"/g) ?? [];
+
+		it("gives a grid its own container when nothing surrounds it", () => {
+			const result = renderer.renderBlocks([leaf("grid", "Zelle")], 1);
+
+			expect(containers(result.html)).toEqual(['class="kern-container"']);
+		});
+
+		it("gives a grid inside another grid no container of its own", () => {
+			const result = renderer.renderBlocks(
+				[wrap("grid", wrap("section", leaf("grid", "Innen")))],
+				1,
+			);
+
+			expect(containers(result.html)).toHaveLength(1);
+			expect(result.html).toContain("Innen");
+		});
+
+		it("renders only rows inside a surrounding container, and says containerFluid is ignored", () => {
+			const result = renderer.renderBlocks(
+				[
+					{
+						kind: "grid",
+						grid: {
+							columns: 1,
+							containerFluid: true,
+							columnsContent: [[{ kind: "text", text: "x" }]],
+						},
+					},
+				],
+				1,
+				{ inContainer: true },
+			);
+
+			expect(containers(result.html)).toEqual([]);
+			expect(result.html).toContain('<div class="kern-row">');
+			expect(result.warnings).toContain(
+				"containerFluid is ignored: this grid already sits inside a container.",
 			);
 		});
 	});

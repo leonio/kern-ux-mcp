@@ -19,21 +19,25 @@ export type CompositionRenderer = {
 	readonly locale: Locale;
 	/**
 	 * Renders blocks that sit `depth` levels deep: 1 for a tool's own blocks,
-	 * 2 for the blocks inside one of those, and so on.
+	 * 2 for the blocks inside one of those, and so on. `inContainer` says a
+	 * kern-container already surrounds them.
 	 */
 	renderBlocks(
 		blocks: readonly RecursiveContentNodeInput[] | undefined,
 		depth: number,
+		options?: { inContainer?: boolean },
 	): BuildResult;
 };
 
 /**
- * Where a container sits: the renderer for its blocks, and its own depth
- * (0 for a container rendered on its own, its block depth inside a composition).
+ * Where a container sits: the renderer for its blocks, its own depth (0 for a
+ * container rendered on its own, its block depth inside a composition), and
+ * whether a kern-container already surrounds it (render_page's main, a grid).
  */
 export type BlockContext = {
 	renderer: CompositionRenderer;
 	depth: number;
+	inContainer: boolean;
 };
 
 type SectionBlock = Extract<
@@ -44,20 +48,37 @@ type SectionBlock = Extract<
 export function createCompositionRenderer(locale: Locale): CompositionRenderer {
 	const renderer: CompositionRenderer = {
 		locale,
-		renderBlocks: (blocks, depth) => renderBlocks(renderer, blocks, depth),
+		renderBlocks: (blocks, depth, options) =>
+			renderBlocks(renderer, blocks, depth, options?.inContainer ?? false),
 	};
 	return renderer;
 }
 
 /** The context of a container rendered on its own, outside any composition. */
 export function standaloneContext(locale: Locale): BlockContext {
-	return { renderer: createCompositionRenderer(locale), depth: 0 };
+	return {
+		renderer: createCompositionRenderer(locale),
+		depth: 0,
+		inContainer: false,
+	};
+}
+
+/** Renders a container's own blocks, one level below it and in its layout. */
+export function renderChildBlocks(
+	context: BlockContext,
+	blocks: readonly RecursiveContentNodeInput[] | undefined,
+	options: { inContainer?: boolean } = {},
+): BuildResult {
+	return context.renderer.renderBlocks(blocks, context.depth + 1, {
+		inContainer: options.inContainer ?? context.inContainer,
+	});
 }
 
 function renderBlocks(
 	renderer: CompositionRenderer,
 	blocks: readonly RecursiveContentNodeInput[] | undefined,
 	depth: number,
+	inContainer: boolean,
 ): BuildResult {
 	if (!blocks || blocks.length === 0) {
 		return { html: "", warnings: [] };
@@ -73,7 +94,7 @@ function renderBlocks(
 		};
 	}
 
-	const context: BlockContext = { renderer, depth };
+	const context: BlockContext = { renderer, depth, inContainer };
 	const results = blocks.map((block) => renderBlock(block, context));
 
 	return {

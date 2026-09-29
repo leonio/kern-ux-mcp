@@ -7,6 +7,7 @@ import type {
 import type { BuildResult, Locale } from "../types.js";
 import {
 	type BlockContext,
+	renderChildBlocks,
 	standaloneContext,
 } from "./composition-renderer.js";
 import { escapeHtml } from "./escape.js";
@@ -32,7 +33,7 @@ export function buildForm(
 ): BuildResult {
 	const errors: FieldError[] = [];
 	const blocks = withErrorIds(input.contentBlocks, errors);
-	const body = context.renderer.renderBlocks(blocks, context.depth + 1);
+	const body = renderChildBlocks(context, blocks);
 	const summary = renderErrorSummary(errors, input.errorSummary, locale);
 
 	let actionsHtml = "";

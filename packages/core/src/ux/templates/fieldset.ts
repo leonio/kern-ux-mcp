@@ -7,6 +7,7 @@ import {
 import type { BuildResult, Locale } from "../types.js";
 import {
 	type BlockContext,
+	renderChildBlocks,
 	standaloneContext,
 } from "./composition-renderer.js";
 import { escapeHtml } from "./escape.js";
@@ -60,10 +61,7 @@ export function buildFieldset(
   </p>`;
 	}
 
-	const body = context.renderer.renderBlocks(
-		params.contentBlocks,
-		context.depth + 1,
-	);
+	const body = renderChildBlocks(context, params.contentBlocks);
 	warnings.push(...body.warnings);
 
 	const describedByAttr = describedBy

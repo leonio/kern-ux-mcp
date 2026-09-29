@@ -2,6 +2,7 @@ import { type CardInput, cardSchema } from "../schemas/card.js";
 import type { BuildResult, Locale } from "../types.js";
 import {
 	type BlockContext,
+	renderChildBlocks,
 	standaloneContext,
 } from "./composition-renderer.js";
 
@@ -82,10 +83,7 @@ export function buildCard(
 	}
 
 	if (contentBlocks && contentBlocks.length > 0) {
-		const recursiveResult = context.renderer.renderBlocks(
-			contentBlocks,
-			context.depth + 1,
-		);
+		const recursiveResult = renderChildBlocks(context, contentBlocks);
 
 		if (recursiveResult.html) {
 			bodyParts.push(recursiveResult.html);

@@ -2,6 +2,7 @@ import { type SectionInput, SectionSchema } from "../schemas/section.js";
 import type { BuildResult, Locale } from "../types.js";
 import {
 	type BlockContext,
+	renderChildBlocks,
 	standaloneContext,
 } from "./composition-renderer.js";
 
@@ -30,10 +31,7 @@ export function buildSection(
 
 	let bodyHtml = "";
 	if (contentBlocks && contentBlocks.length > 0) {
-		const recursiveResult = context.renderer.renderBlocks(
-			contentBlocks,
-			context.depth + 1,
-		);
+		const recursiveResult = renderChildBlocks(context, contentBlocks);
 
 		bodyHtml = recursiveResult.html;
 		warnings.push(...recursiveResult.warnings);

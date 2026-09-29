@@ -24,9 +24,11 @@ export function buildPage(
 	options: { kernVersion?: string } = {},
 ): BuildResult {
 	const params = PageSchema.parse(input);
+	// <main> is the page's container, so grids in it don't add their own.
 	const main = createCompositionRenderer(locale).renderBlocks(
 		params.contentBlocks,
 		1,
+		{ inContainer: true },
 	);
 	const warnings = [...main.warnings];
 	if (!params.heading) {
@@ -92,7 +94,10 @@ ${body}
 </html>`;
 }
 
-/** The upstream flex header pattern, without its script-driven mobile toggles. */
+/**
+ * The upstream flex header pattern, without its script-driven mobile toggles.
+ * It sits in a container, so it keeps only the vertical part of upstream's padding.
+ */
 function renderHeader(
 	header: NonNullable<PageParams["header"]>,
 	locale: Locale,
@@ -118,7 +123,7 @@ function renderHeader(
 	const mainNav = header.navigation?.length
 		? `
     <nav aria-label="${t(locale, LABELS.mainNavigation)}">
-      <ul class="kern-list kern-flex-row-lg kern-gap-x-xl kern-gap-y-lg kern-p-md kern-pt-none-lg">
+      <ul class="kern-list kern-flex-row-lg kern-gap-x-xl kern-gap-y-lg kern-pb-md">
         ${header.navigation.map((link) => `<li>${renderLink(link, "kern-link", link.current)}</li>`).join("\n        ")}
       </ul>
     </nav>`
@@ -126,7 +131,7 @@ function renderHeader(
 
 	return `<header>
   <div class="kern-container kern-flex kern-flex-col">
-    <div class="kern-flex kern-justify-content-between kern-gap-x-xl kern-p-md">
+    <div class="kern-flex kern-justify-content-between kern-gap-x-xl kern-py-md">
       ${brand}${serviceNav}
     </div>${mainNav}
   </div>
