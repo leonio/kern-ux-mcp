@@ -108,7 +108,7 @@ type DisclosureContentNodeInput = {
 	disclosure: {
 		triggerLabel: string;
 		open?: boolean;
-		contentBlocks?: RecursiveContentNodeInput[];
+		contentBlocks: RecursiveContentNodeInput[];
 	};
 };
 
@@ -218,25 +218,35 @@ export const RecursiveContentNodeSchema: z.ZodType<
 			}),
 			z.object({
 				kind: z.literal("section"),
-				section: z.object({
-					headingText: z.string().min(1),
-					headingLevel: HeadingLevelSchema.optional().default(2),
-					divider: z.boolean().optional().default(false),
-					contentBlocks: z.array(RecursiveContentNodeSchema).optional(),
-					paragraphs: z
-						.array(z.string().min(1))
-						.optional()
-						.describe(
-							"Shorthand: string[] wird automatisch zu text-contentBlocks konvertiert.",
-						),
-				}),
+				section: z
+					.object({
+						headingText: z.string().min(1),
+						headingLevel: HeadingLevelSchema.optional().default(2),
+						divider: z.boolean().optional().default(false),
+						contentBlocks: z.array(RecursiveContentNodeSchema).optional(),
+						paragraphs: z
+							.array(z.string().min(1))
+							.optional()
+							.describe(
+								"Shorthand: string[] wird automatisch zu text-contentBlocks konvertiert.",
+							),
+					})
+					.superRefine((section, ctx) => {
+						if (!section.contentBlocks?.length && !section.paragraphs?.length) {
+							ctx.addIssue({
+								code: "custom",
+								path: ["contentBlocks"],
+								message: "A section needs contentBlocks or paragraphs.",
+							});
+						}
+					}),
 			}),
 			z.object({
 				kind: z.literal("disclosure"),
 				disclosure: z.object({
 					triggerLabel: z.string().min(1),
 					open: z.boolean().optional().default(false),
-					contentBlocks: z.array(RecursiveContentNodeSchema).optional(),
+					contentBlocks: z.array(RecursiveContentNodeSchema).min(1),
 				}),
 			}),
 			z.object({
@@ -349,9 +359,70 @@ export const RecursiveContentNodeSchema: z.ZodType<
 		),
 );
 
-function validateRecursiveContentLimits(
+/** Blocks that contain other blocks. */
+export type ContainerKind =
+	| "card"
+	| "section"
+	| "disclosure"
+	| "grid"
+	| "fieldset"
+	| "form"
+	| "formFlow";
+
+/** Blocks that render a <form>; forms can't nest. */
+const FORM_KINDS: ReadonlySet<string> = new Set(["form", "formFlow"]);
+
+type BlockList = { blocks: unknown[]; path: Array<string | number> };
+
+/** A container node's child block lists, each with its path below the node. */
+function childBlockLists(node: Record<string, unknown>): BlockList[] {
+	const kind = node.kind;
+	const body = typeof kind === "string" ? node[kind] : undefined;
+	if (typeof kind !== "string" || typeof body !== "object" || body === null) {
+		return [];
+	}
+	const container = body as {
+		contentBlocks?: unknown;
+		columnsContent?: unknown;
+		steps?: unknown;
+	};
+
+	if (kind === "grid") {
+		return Array.isArray(container.columnsContent)
+			? container.columnsContent.flatMap((column, index) =>
+					Array.isArray(column)
+						? [{ blocks: column, path: [kind, "columnsContent", index] }]
+						: [],
+				)
+			: [];
+	}
+
+	if (kind === "formFlow") {
+		return Array.isArray(container.steps)
+			? container.steps.flatMap((step, index) => {
+					const blocks = (step as { contentBlocks?: unknown } | null)
+						?.contentBlocks;
+					return Array.isArray(blocks)
+						? [{ blocks, path: [kind, "steps", index, "contentBlocks"] }]
+						: [];
+				})
+			: [];
+	}
+
+	return Array.isArray(container.contentBlocks)
+		? [{ blocks: container.contentBlocks, path: [kind, "contentBlocks"] }]
+		: [];
+}
+
+/**
+ * Checks what the JSON Schema can't say: the size and depth limits, and the
+ * nesting rules (forms don't nest, no card directly inside a card).
+ * `parent` is the container the blocks sit in, when a tool renders one.
+ */
+function validateRecursiveContent(
 	nodes: unknown[],
 	ctx: z.RefinementCtx,
+	parent?: ContainerKind,
 ): void {
 	let nodeCount = 0;
 	let nodeLimitReported = false;
@@ -360,6 +431,7 @@ function validateRecursiveContentLimits(
 		node: unknown,
 		depth: number,
 		path: Array<string | number>,
+		ancestors: readonly string[],
 	) => {
 		if (typeof node !== "object" || node === null) {
 			return;
@@ -384,116 +456,58 @@ function validateRecursiveContentLimits(
 			return;
 		}
 
-		const current = node as {
-			kind?: string;
-			card?: { contentBlocks?: unknown[] };
-			section?: { contentBlocks?: unknown[] };
-			disclosure?: { contentBlocks?: unknown[] };
-			grid?: { columnsContent?: unknown[][] };
-			formFlow?: { steps?: Array<{ contentBlocks?: unknown[] }> };
-			fieldset?: { contentBlocks?: unknown[] };
-			form?: { contentBlocks?: unknown[] };
-		};
+		const record = node as Record<string, unknown>;
+		const kind = typeof record.kind === "string" ? record.kind : undefined;
 
-		if (current.kind === "form" && Array.isArray(current.form?.contentBlocks)) {
-			current.form.contentBlocks.forEach((child, index) => {
-				visit(child, depth + 1, [...path, "form", "contentBlocks", index]);
-			});
-			return;
-		}
-
-		if (
-			current.kind === "fieldset" &&
-			Array.isArray(current.fieldset?.contentBlocks)
-		) {
-			current.fieldset.contentBlocks.forEach((child, index) => {
-				visit(child, depth + 1, [...path, "fieldset", "contentBlocks", index]);
-			});
-			return;
-		}
-
-		if (current.kind === "card" && Array.isArray(current.card?.contentBlocks)) {
-			current.card.contentBlocks.forEach((child, index) => {
-				visit(child, depth + 1, [...path, "card", "contentBlocks", index]);
-			});
-			return;
-		}
-
-		if (
-			current.kind === "section" &&
-			Array.isArray(current.section?.contentBlocks)
-		) {
-			current.section.contentBlocks.forEach((child, index) => {
-				visit(child, depth + 1, [...path, "section", "contentBlocks", index]);
-			});
-			return;
-		}
-
-		if (
-			current.kind === "disclosure" &&
-			Array.isArray(current.disclosure?.contentBlocks)
-		) {
-			current.disclosure.contentBlocks.forEach((child, index) => {
-				visit(child, depth + 1, [
-					...path,
-					"disclosure",
-					"contentBlocks",
-					index,
-				]);
-			});
-			return;
-		}
-
-		if (
-			current.kind === "grid" &&
-			Array.isArray(current.grid?.columnsContent)
-		) {
-			current.grid.columnsContent.forEach((column, columnIndex) => {
-				if (!Array.isArray(column)) {
-					return;
-				}
-
-				column.forEach((child, childIndex) => {
-					visit(child, depth + 1, [
-						...path,
-						"grid",
-						"columnsContent",
-						columnIndex,
-						childIndex,
-					]);
+		if (kind && FORM_KINDS.has(kind)) {
+			const enclosing = ancestors.findLast((ancestor) =>
+				FORM_KINDS.has(ancestor),
+			);
+			if (enclosing) {
+				ctx.addIssue({
+					code: "custom",
+					path,
+					message: `A ${kind} can't sit inside a ${enclosing}: forms don't nest.`,
 				});
-			});
-			return;
+			}
 		}
 
-		if (current.kind === "formFlow" && Array.isArray(current.formFlow?.steps)) {
-			current.formFlow.steps.forEach((step, stepIndex) => {
-				if (Array.isArray(step.contentBlocks)) {
-					step.contentBlocks.forEach((child, childIndex) => {
-						visit(child, depth + 1, [
-							...path,
-							"formFlow",
-							"steps",
-							stepIndex,
-							"contentBlocks",
-							childIndex,
-						]);
-					});
-				}
+		if (kind === "card" && ancestors.at(-1) === "card") {
+			ctx.addIssue({
+				code: "custom",
+				path,
+				message:
+					"A card can't sit directly inside another card. Put the content in the outer card, or place the cards side by side in a grid.",
+			});
+		}
+
+		const childAncestors = kind ? [...ancestors, kind] : ancestors;
+		for (const list of childBlockLists(record)) {
+			list.blocks.forEach((child, index) => {
+				visit(child, depth + 1, [...path, ...list.path, index], childAncestors);
 			});
 		}
 	};
 
 	nodes.forEach((node, index) => {
-		visit(node, 1, [index]);
+		visit(node, 1, [index], parent ? [parent] : []);
 	});
 }
 
-export const RecursiveContentBlocksSchema = z
-	.array(RecursiveContentNodeSchema)
-	.superRefine((nodes, ctx) => {
-		validateRecursiveContentLimits(nodes, ctx);
-	})
-	.describe(
-		"Rekursive Content-Blöcke mit erlaubten Knotenarten text/html/button/badge/field/fieldset/form/section/disclosure/grid/card/formFlow inklusive Tiefen- und Größenlimit.",
-	);
+/**
+ * Content blocks with the limits and nesting rules checked. `parent` is the
+ * container they sit in when a tool renders one (get_card, get_section, ...).
+ */
+export function contentBlocksSchema(parent?: ContainerKind) {
+	return z
+		.array(RecursiveContentNodeSchema)
+		.superRefine((nodes, ctx) => {
+			validateRecursiveContent(nodes, ctx, parent);
+		})
+		.describe(
+			"Rekursive Content-Blöcke mit erlaubten Knotenarten text/html/button/badge/field/fieldset/form/section/disclosure/grid/card/formFlow inklusive Tiefen- und Größenlimit.",
+		);
+}
+
+/** A tool's own content blocks, outside any container. */
+export const RecursiveContentBlocksSchema = contentBlocksSchema();

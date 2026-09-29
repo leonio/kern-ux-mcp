@@ -362,6 +362,91 @@ describe("render_composition with a form block", () => {
 	});
 });
 
+describe("render_composition nesting rules", () => {
+	const tool = createTools(createRegistry()).getTool("render_composition");
+
+	function issuesOf(contentBlocks: unknown[]) {
+		const parsed = tool?.inputSchema.safeParse({ contentBlocks });
+		expect(parsed?.success).toBe(false);
+		return (parsed?.error?.issues ?? []).map((issue) => ({
+			path: issue.path.join("."),
+			message: issue.message,
+		}));
+	}
+
+	it("rejects a section and a disclosure without content, instead of failing to render", () => {
+		expect(
+			issuesOf([
+				{ kind: "section", section: { headingText: "Leer" } },
+				{ kind: "disclosure", disclosure: { triggerLabel: "Leer" } },
+			]),
+		).toEqual([
+			{
+				path: "contentBlocks.0.section.contentBlocks",
+				message: "A section needs contentBlocks or paragraphs.",
+			},
+			{
+				path: "contentBlocks.1.disclosure.contentBlocks",
+				message: "Invalid input: expected array, received undefined",
+			},
+		]);
+	});
+
+	it("rejects a form inside a formFlow step, with its path", () => {
+		expect(
+			issuesOf([
+				{
+					kind: "formFlow",
+					formFlow: {
+						currentStep: 1,
+						steps: [
+							{
+								label: "Eins",
+								contentBlocks: [
+									{
+										kind: "form",
+										form: { contentBlocks: [{ kind: "text", text: "x" }] },
+									},
+								],
+							},
+							{ label: "Zwei" },
+						],
+					},
+				},
+			]),
+		).toEqual([
+			{
+				path: "contentBlocks.0.formFlow.steps.0.contentBlocks.0",
+				message: "A form can't sit inside a formFlow: forms don't nest.",
+			},
+		]);
+	});
+
+	it("allows a formFlow inside a section", () => {
+		const parsed = tool?.inputSchema.safeParse({
+			contentBlocks: [
+				{
+					kind: "section",
+					section: {
+						headingText: "Antrag",
+						contentBlocks: [
+							{
+								kind: "formFlow",
+								formFlow: {
+									currentStep: 1,
+									steps: [{ label: "Eins" }, { label: "Zwei" }],
+								},
+							},
+						],
+					},
+				},
+			],
+		});
+
+		expect(parsed?.success).toBe(true);
+	});
+});
+
 describe("standalone composition tools", () => {
 	it("get_grid renders sections and disclosures in its columns, in the requested locale", async () => {
 		const tools = createTools(

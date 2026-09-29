@@ -160,29 +160,28 @@ describe("buildCardGroup", () => {
 		expect(result.html).toContain("kern-btn--secondary");
 	});
 
-	it("supports nested card nodes in grouped cards", () => {
-		const result = buildCardGroup(
-			{
-				cards: [
-					{
-						header: { title: "Outer Card" },
-						contentBlocks: [
-							{
-								kind: "card",
-								card: {
-									header: { title: "Inner Card" },
-									contentBlocks: [{ kind: "text", text: "Inner body" }],
+	it("rejects a card directly inside a grouped card", () => {
+		const build = () =>
+			buildCardGroup(
+				{
+					cards: [
+						{
+							header: { title: "Outer Card" },
+							contentBlocks: [
+								{
+									kind: "card",
+									card: {
+										header: { title: "Inner Card" },
+										contentBlocks: [{ kind: "text", text: "Inner body" }],
+									},
 								},
-							},
-						],
-					},
-				],
-			},
-			"de",
-		);
+							],
+						},
+					],
+				},
+				"de",
+			);
 
-		expect(result.html).toContain("Outer Card");
-		expect(result.html).toContain("Inner Card");
-		expect(result.html).toContain("Inner body");
+		expect(build).toThrow("A card can't sit directly inside another card");
 	});
 });

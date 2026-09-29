@@ -150,16 +150,39 @@ describe("buildCard", () => {
 		expect(result.html).toContain("Open");
 	});
 
-	it("should render nested card nodes inside content blocks", () => {
+	it("rejects a card directly inside a card", () => {
+		expect(() =>
+			buildCard(
+				{
+					header: { title: "Outer" },
+					contentBlocks: [
+						{
+							kind: "card",
+							card: {
+								header: { title: "Inner" },
+								contentBlocks: [{ kind: "text", text: "Nested text" }],
+							},
+						},
+					],
+				},
+				"de",
+			),
+		).toThrow("A card can't sit directly inside another card");
+	});
+
+	it("renders cards in a grid inside a card", () => {
 		const result = buildCard(
 			{
 				header: { title: "Outer" },
 				contentBlocks: [
 					{
-						kind: "card",
-						card: {
-							header: { title: "Inner" },
-							contentBlocks: [{ kind: "text", text: "Nested text" }],
+						kind: "grid",
+						grid: {
+							columns: 2,
+							columnsContent: [
+								[{ kind: "card", card: { header: { title: "Links" } } }],
+								[{ kind: "card", card: { header: { title: "Rechts" } } }],
+							],
 						},
 					},
 				],
@@ -167,12 +190,8 @@ describe("buildCard", () => {
 			"de",
 		);
 
-		expect(result.html).toContain("Outer");
-		expect(result.html).toContain("Inner");
-		expect(result.html).toContain("Nested text");
-		expect(
-			result.html.match(/class="kern-card/g)?.length ?? 0,
-		).toBeGreaterThanOrEqual(2);
+		expect(result.html.match(/<article class="kern-card/g)).toHaveLength(3);
+		expect(result.html).toContain("Rechts");
 	});
 
 	it("should reject content blocks beyond max recursive depth", () => {

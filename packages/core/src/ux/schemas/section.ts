@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { RecursiveContentBlocksSchema } from "./content-union.js";
+import { contentBlocksSchema } from "./content-union.js";
 import {
 	ComponentSizeSchema,
 	HeadingLevelSchema,
@@ -26,9 +26,11 @@ export const SectionSchema = z
 			.describe(
 				"Heading-Ebene (h1–h6). Im Seitenkontext hierarchisch ohne Sprünge verwenden. Standard: h2.",
 			),
-		contentBlocks: RecursiveContentBlocksSchema.optional().describe(
-			"Primärer Inhaltsbereich als rekursive Content-Blöcke (empfohlen). Geeignet für strukturierte Section-Inhalte mit Grid, Card, Disclosure oder Text.",
-		),
+		contentBlocks: contentBlocksSchema("section")
+			.optional()
+			.describe(
+				"Primärer Inhaltsbereich als rekursive Content-Blöcke (empfohlen). Geeignet für strukturierte Section-Inhalte mit Grid, Card, Disclosure oder Text.",
+			),
 		paragraphs: z
 			.array(z.string().min(1))
 			.min(1)

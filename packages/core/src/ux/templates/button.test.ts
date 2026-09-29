@@ -125,4 +125,16 @@ describe("buildButton", () => {
 		expect(result.html).not.toContain("<script>");
 		expect(result.html).toContain("&lt;script&gt;");
 	});
+
+	it("renders type=button by default, so it doesn't submit a form", () => {
+		const result = buildButton({ label: "Hilfe" }, "de");
+
+		expect(result.html).toMatch(/^<button type="button" class="kern-btn/);
+	});
+
+	it("renders a submit button on request", () => {
+		const result = buildButton({ label: "Senden", type: "submit" }, "de");
+
+		expect(result.html).toMatch(/^<button type="submit" class="kern-btn/);
+	});
 });

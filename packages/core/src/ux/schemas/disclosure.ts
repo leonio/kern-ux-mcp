@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { RecursiveContentBlocksSchema } from "./content-union.js";
+import { contentBlocksSchema } from "./content-union.js";
 import { McpCommonSchema } from "./foundations.js";
 
 const CommonParams = McpCommonSchema.shape;
@@ -17,9 +17,11 @@ export const DisclosureSchema = z
 			.describe(
 				"Text für den Expand/Collapse-Trigger im <summary>. Kurz, eindeutig und als aufklappbare Information verständlich formulieren.",
 			),
-		contentBlocks: RecursiveContentBlocksSchema.optional().describe(
-			"Primärer Disclosure-Inhalt als rekursive Content-Blöcke (empfohlen). Eignet sich für strukturierte, aber kompakte Zusatzinformationen.",
-		),
+		contentBlocks: contentBlocksSchema("disclosure")
+			.optional()
+			.describe(
+				"Primärer Disclosure-Inhalt als rekursive Content-Blöcke (empfohlen). Eignet sich für strukturierte, aber kompakte Zusatzinformationen.",
+			),
 		content: z
 			.string()
 			.min(1)

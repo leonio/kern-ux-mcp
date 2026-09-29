@@ -10,7 +10,7 @@ export function buildButton(input: ButtonInput, _locale: Locale): BuildResult {
 	// Parse input to apply defaults
 	const params = ButtonSchema.parse(input);
 
-	const { variant, label, size, block, disabled, icon, labelVisibility } =
+	const { variant, label, size, block, disabled, icon, labelVisibility, type } =
 		params;
 
 	// Build class list
@@ -49,7 +49,8 @@ export function buildButton(input: ButtonInput, _locale: Locale): BuildResult {
 	}
 
 	// Build attributes
-	const attrs: string[] = [`class="${classes.join(" ")}"`];
+	// An explicit type: a <button> without one submits its form.
+	const attrs: string[] = [`type="${type}"`, `class="${classes.join(" ")}"`];
 	if (disabled) {
 		attrs.push("disabled");
 	}

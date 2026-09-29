@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { RecursiveContentBlocksSchema } from "./content-union.js";
+import { contentBlocksSchema } from "./content-union.js";
 import {
 	ComponentSizeSchema,
 	GridColumnsSchema,
@@ -56,9 +56,11 @@ const CardItemSchema = z.object({
 		.optional()
 		.default(false)
 		.describe("Wenn true: body wird als HTML interpretiert."),
-	contentBlocks: RecursiveContentBlocksSchema.optional().describe(
-		"Optionale strukturierte Body-Blöcke (text/html/button/badge/card).",
-	),
+	contentBlocks: contentBlocksSchema("card")
+		.optional()
+		.describe(
+			"Optionale strukturierte Body-Blöcke (text/html/button/badge/card).",
+		),
 	footer: z
 		.object({
 			primaryLabel: z.string().optional().describe("Primärer Button Text."),

@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { RecursiveContentBlocksSchema } from "./content-union.js";
+import { contentBlocksSchema } from "./content-union.js";
 import {
 	GridColumnsSchema,
 	HeadingLevelSchema,
@@ -45,7 +45,7 @@ export const GridRenderSchema = z
 				"Heading-Ebene der optionalen Grid-Überschrift (h1-h6). Hierarchisch ohne Sprünge verwenden.",
 			),
 		columnsContent: z
-			.array(RecursiveContentBlocksSchema)
+			.array(contentBlocksSchema("grid"))
 			.optional()
 			.describe(
 				"Optionale Inhalte pro Spalte. Jede Spalte ist ein rekursiver Content-Block-Array und erlaubt z.B. Cards in Grid-Spalten. " +

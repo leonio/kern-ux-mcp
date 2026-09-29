@@ -142,11 +142,39 @@ const ALL_KINDS: RecursiveContentNodeInput["kind"][] = [
 	...CONTAINER_KINDS,
 ];
 
-const NESTINGS = CONTAINER_KINDS.flatMap((outer) =>
+const FORM_KINDS = new Set<string>(["form", "formFlow"]);
+
+/** Why the schema rejects outer > inner > child, if it does. */
+function nestingRule(
+	outer: ContainerKind,
+	inner: ContainerKind,
+	child: RecursiveContentNodeInput["kind"],
+): string | undefined {
+	const chain = [outer, inner, child];
+	if (chain.filter((kind) => FORM_KINDS.has(kind)).length > 1) {
+		return "forms don't nest";
+	}
+	if (
+		(outer === "card" && inner === "card") ||
+		(inner === "card" && child === "card")
+	) {
+		return "A card can't sit directly inside another card";
+	}
+	return undefined;
+}
+
+const ALL_NESTINGS = CONTAINER_KINDS.flatMap((outer) =>
 	CONTAINER_KINDS.flatMap((inner) =>
-		ALL_KINDS.map((child) => ({ outer, inner, child })),
+		ALL_KINDS.map((child) => ({
+			outer,
+			inner,
+			child,
+			rule: nestingRule(outer, inner, child),
+		})),
 	),
 );
+const NESTINGS = ALL_NESTINGS.filter(({ rule }) => rule === undefined);
+const REJECTED_NESTINGS = ALL_NESTINGS.filter(({ rule }) => rule !== undefined);
 
 function expectRendered(result: BuildResult, marker: string): void {
 	expect(result.html).toContain(marker);
@@ -320,6 +348,19 @@ describe("createCompositionRenderer", () => {
 					renderStandalone(outer, wrap(inner, leaf(child, "MARKER"))),
 					"MARKER",
 				);
+			},
+		);
+
+		it.each(REJECTED_NESTINGS)(
+			"rejects $child in $inner in $outer ($rule)",
+			({ outer, inner, child, rule }) => {
+				const blocks = [wrap(outer, wrap(inner, leaf(child, "MARKER")))];
+				const parsed = RecursiveContentBlocksSchema.safeParse(blocks);
+
+				expect(parsed.success).toBe(false);
+				expect(
+					parsed.error?.issues.map((issue) => issue.message),
+				).toContainEqual(expect.stringContaining(rule ?? ""));
 			},
 		);
 	});

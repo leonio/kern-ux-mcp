@@ -1,6 +1,6 @@
 import { z } from "zod";
 import {
-	RecursiveContentBlocksSchema,
+	contentBlocksSchema,
 	RecursiveContentNodeSchema,
 } from "./content-union.js";
 import {
@@ -136,9 +136,11 @@ export const cardSchema = z.object({
 			"Wenn true wird body als Roh-HTML gerendert. Nur für vertrauenswürdige, semantisch passende Inhalte verwenden.",
 		),
 	/** Optional typed content blocks (text/html/button/badge) for rich card composition */
-	contentBlocks: RecursiveContentBlocksSchema.optional().describe(
-		"Optionale strukturierte Body-Blöcke für kompakte, zusammengehörige Inhalte. Erlaubt rekursive Komposition, sollte aber denselben fokussierten Charakter wie eine klassische Card behalten.",
-	),
+	contentBlocks: contentBlocksSchema("card")
+		.optional()
+		.describe(
+			"Optionale strukturierte Body-Blöcke für kompakte, zusammengehörige Inhalte. Erlaubt rekursive Komposition, sollte aber denselben fokussierten Charakter wie eine klassische Card behalten.",
+		),
 	/** Optional footer with buttons */
 	footer: cardFooterSchema.optional(),
 });

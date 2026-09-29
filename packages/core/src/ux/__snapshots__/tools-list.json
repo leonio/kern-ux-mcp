@@ -949,7 +949,7 @@
   {
     "name": "render_composition",
     "title": "Render KERN Composition",
-    "description": "KERN UX (Komposition): Rendert rekursive Content-Blöcke als zusammenhängendes Layout. WICHTIG: Jeder Block in contentBlocks MUSS eine 'kind'-Eigenschaft haben. Gültige kind-Werte: text, html, button, badge, field, fieldset, form, card, section, disclosure, grid, formFlow.\n\nEvery block must have a 'kind' discriminator. Valid kinds and their shapes:\n\n  text:       { kind: \"text\", text: \"...\" }\n  html:       { kind: \"html\", html: \"<p>...</p>\" }\n  button:     { kind: \"button\", button: { label: \"OK\", variant: \"primary\" } }\n  badge:      { kind: \"badge\", badge: { type: \"info\", text: \"Neu\" } }\n  field:      { kind: \"field\", field: { type: \"email\", name: \"email\", label: \"E-Mail\", hint?: \"...\", error?: \"...\" } }\n                 type: text|email|tel|url|number|date|password|textarea|select|radio|checkbox; select/radio need options: [{ value, label }].\n  fieldset:   { kind: \"fieldset\", fieldset: { legend: \"...\", legendSize?: \"large\", hint?: \"...\", contentBlocks: [field, ...] } }\n  form:       { kind: \"form\", form: { action?: \"/senden\", errorSummary?: {}, contentBlocks: [fieldset, field, ...], actions?: { submitLabel: \"Absenden\" } } }\n                 errorSummary lists every field inside the form that has an error, linked to the field.\n  card:     { kind: \"card\", card: { header: { title: \"...\" }, body: \"...\", contentBlocks?: [...], footer?: { primaryLabel: \"...\" } } }\n  section:    { kind: \"section\", section: { headingText: \"...\", contentBlocks: [...] } }\n                 Shorthand: paragraphs: [\"text1\", \"text2\"] is also accepted (auto-converted to text blocks).\n  disclosure: { kind: \"disclosure\", disclosure: { triggerLabel: \"...\", contentBlocks: [...] } }\n  grid:       { kind: \"grid\", grid: { columns: 3, columnsContent: [ [block, block], [block], [block] ] } }\n                 columnsContent is an array of arrays — one inner array per column. Each inner array holds content blocks.\n  formFlow:   { kind: \"formFlow\", formFlow: { currentStep: 1, heading?: \"...\", steps: [{ label: \"...\", contentBlocks: [...] }, ...], navigation?: { backLabel, nextLabel, submitLabel } } }\n                 The steps render inside a form; renderAllSteps: true renders every step, the inactive ones hidden.\n\nNested blocks (section.contentBlocks, card.contentBlocks, grid.columnsContent[][], disclosure.contentBlocks, fieldset.contentBlocks, form.contentBlocks) use the same kind-based shapes recursively.\n\nFormFlow orchestriert mehrstufige Formulare mit Tasklist + Progress + Schritt-Inhalt über einen einzigen currentStep-Parameter.",
+    "description": "KERN UX (Komposition): Rendert rekursive Content-Blöcke als zusammenhängendes Layout. WICHTIG: Jeder Block in contentBlocks MUSS eine 'kind'-Eigenschaft haben. Gültige kind-Werte: text, html, button, badge, field, fieldset, form, card, section, disclosure, grid, formFlow.\n\nEvery block must have a 'kind' discriminator. Valid kinds and their shapes:\n\n  text:       { kind: \"text\", text: \"...\" }\n  html:       { kind: \"html\", html: \"<p>...</p>\" }\n  button:     { kind: \"button\", button: { label: \"OK\", variant: \"primary\" } }\n  badge:      { kind: \"badge\", badge: { type: \"info\", text: \"Neu\" } }\n  field:      { kind: \"field\", field: { type: \"email\", name: \"email\", label: \"E-Mail\", hint?: \"...\", error?: \"...\" } }\n                 type: text|email|tel|url|number|date|password|textarea|select|radio|checkbox; select/radio need options: [{ value, label }].\n  fieldset:   { kind: \"fieldset\", fieldset: { legend: \"...\", legendSize?: \"large\", hint?: \"...\", contentBlocks: [field, ...] } }\n  form:       { kind: \"form\", form: { action?: \"/senden\", errorSummary?: {}, contentBlocks: [fieldset, field, ...], actions?: { submitLabel: \"Absenden\" } } }\n                 errorSummary lists every field inside the form that has an error, linked to the field.\n  card:     { kind: \"card\", card: { header: { title: \"...\" }, body: \"...\", contentBlocks?: [...], footer?: { primaryLabel: \"...\" } } }\n  section:    { kind: \"section\", section: { headingText: \"...\", contentBlocks: [...] } }\n                 Shorthand: paragraphs: [\"text1\", \"text2\"] is also accepted (auto-converted to text blocks).\n  disclosure: { kind: \"disclosure\", disclosure: { triggerLabel: \"...\", contentBlocks: [...] } }\n  grid:       { kind: \"grid\", grid: { columns: 3, columnsContent: [ [block, block], [block], [block] ] } }\n                 columnsContent is an array of arrays — one inner array per column. Each inner array holds content blocks.\n  formFlow:   { kind: \"formFlow\", formFlow: { currentStep: 1, heading?: \"...\", steps: [{ label: \"...\", contentBlocks: [...] }, ...], navigation?: { backLabel, nextLabel, submitLabel } } }\n                 The steps render inside a form; renderAllSteps: true renders every step, the inactive ones hidden.\n\nNested blocks (section.contentBlocks, card.contentBlocks, grid.columnsContent[][], disclosure.contentBlocks, fieldset.contentBlocks, form.contentBlocks) use the same kind-based shapes recursively.\nRules: forms don't nest (no form or formFlow inside a form or formFlow); no card directly inside a card; a section needs contentBlocks or paragraphs, a disclosure needs contentBlocks.\n\nFormFlow orchestriert mehrstufige Formulare mit Tasklist + Progress + Schritt-Inhalt über einen einzigen currentStep-Parameter.",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
       "type": "object",
@@ -1046,6 +1046,15 @@
                         "default": false,
                         "description": "Volle Breite als kern-btn--block.",
                         "type": "boolean"
+                      },
+                      "type": {
+                        "default": "button",
+                        "description": "HTML button type. submit sends the enclosing form; button (the default) does nothing on its own.",
+                        "type": "string",
+                        "enum": [
+                          "button",
+                          "submit"
+                        ]
                       },
                       "disabled": {
                         "default": false,
@@ -1471,6 +1480,7 @@
                         "type": "boolean"
                       },
                       "contentBlocks": {
+                        "minItems": 1,
                         "type": "array",
                         "items": {
                           "$ref": "#/properties/contentBlocks/items"
@@ -1478,7 +1488,8 @@
                       }
                     },
                     "required": [
-                      "triggerLabel"
+                      "triggerLabel",
+                      "contentBlocks"
                     ]
                   }
                 },
@@ -2089,6 +2100,15 @@
                         "description": "Volle Breite als kern-btn--block.",
                         "type": "boolean"
                       },
+                      "type": {
+                        "default": "button",
+                        "description": "HTML button type. submit sends the enclosing form; button (the default) does nothing on its own.",
+                        "type": "string",
+                        "enum": [
+                          "button",
+                          "submit"
+                        ]
+                      },
                       "disabled": {
                         "default": false,
                         "description": "Button deaktiviert.",
@@ -2513,6 +2533,7 @@
                         "type": "boolean"
                       },
                       "contentBlocks": {
+                        "minItems": 1,
                         "type": "array",
                         "items": {
                           "$ref": "#/properties/contentBlocks/items"
@@ -2520,7 +2541,8 @@
                       }
                     },
                     "required": [
-                      "triggerLabel"
+                      "triggerLabel",
+                      "contentBlocks"
                     ]
                   }
                 },
@@ -3229,6 +3251,15 @@
                               "description": "Volle Breite als kern-btn--block.",
                               "type": "boolean"
                             },
+                            "type": {
+                              "default": "button",
+                              "description": "HTML button type. submit sends the enclosing form; button (the default) does nothing on its own.",
+                              "type": "string",
+                              "enum": [
+                                "button",
+                                "submit"
+                              ]
+                            },
                             "disabled": {
                               "default": false,
                               "description": "Button deaktiviert.",
@@ -3653,6 +3684,7 @@
                               "type": "boolean"
                             },
                             "contentBlocks": {
+                              "minItems": 1,
                               "type": "array",
                               "items": {
                                 "$ref": "#/properties/cards/items/properties/contentBlocks/items"
@@ -3660,7 +3692,8 @@
                             }
                           },
                           "required": [
-                            "triggerLabel"
+                            "triggerLabel",
+                            "contentBlocks"
                           ]
                         }
                       },
@@ -4331,6 +4364,15 @@
                         "description": "Volle Breite als kern-btn--block.",
                         "type": "boolean"
                       },
+                      "type": {
+                        "default": "button",
+                        "description": "HTML button type. submit sends the enclosing form; button (the default) does nothing on its own.",
+                        "type": "string",
+                        "enum": [
+                          "button",
+                          "submit"
+                        ]
+                      },
                       "disabled": {
                         "default": false,
                         "description": "Button deaktiviert.",
@@ -4755,6 +4797,7 @@
                         "type": "boolean"
                       },
                       "contentBlocks": {
+                        "minItems": 1,
                         "type": "array",
                         "items": {
                           "$ref": "#/properties/contentBlocks/items"
@@ -4762,7 +4805,8 @@
                       }
                     },
                     "required": [
-                      "triggerLabel"
+                      "triggerLabel",
+                      "contentBlocks"
                     ]
                   }
                 },
@@ -5940,6 +5984,15 @@
           "description": "Volle Breite als kern-btn--block.",
           "type": "boolean"
         },
+        "type": {
+          "default": "button",
+          "description": "HTML button type. submit sends the enclosing form; button (the default) does nothing on its own.",
+          "type": "string",
+          "enum": [
+            "button",
+            "submit"
+          ]
+        },
         "disabled": {
           "default": false,
           "description": "Button deaktiviert.",
@@ -6266,6 +6319,15 @@
                         "default": false,
                         "description": "Volle Breite als kern-btn--block.",
                         "type": "boolean"
+                      },
+                      "type": {
+                        "default": "button",
+                        "description": "HTML button type. submit sends the enclosing form; button (the default) does nothing on its own.",
+                        "type": "string",
+                        "enum": [
+                          "button",
+                          "submit"
+                        ]
                       },
                       "disabled": {
                         "default": false,
@@ -6691,6 +6753,7 @@
                         "type": "boolean"
                       },
                       "contentBlocks": {
+                        "minItems": 1,
                         "type": "array",
                         "items": {
                           "$ref": "#/properties/contentBlocks/items"
@@ -6698,7 +6761,8 @@
                       }
                     },
                     "required": [
-                      "triggerLabel"
+                      "triggerLabel",
+                      "contentBlocks"
                     ]
                   }
                 },
@@ -8281,6 +8345,15 @@
                         "description": "Volle Breite als kern-btn--block.",
                         "type": "boolean"
                       },
+                      "type": {
+                        "default": "button",
+                        "description": "HTML button type. submit sends the enclosing form; button (the default) does nothing on its own.",
+                        "type": "string",
+                        "enum": [
+                          "button",
+                          "submit"
+                        ]
+                      },
                       "disabled": {
                         "default": false,
                         "description": "Button deaktiviert.",
@@ -8705,6 +8778,7 @@
                         "type": "boolean"
                       },
                       "contentBlocks": {
+                        "minItems": 1,
                         "type": "array",
                         "items": {
                           "$ref": "#/properties/contentBlocks/items"
@@ -8712,7 +8786,8 @@
                       }
                     },
                     "required": [
-                      "triggerLabel"
+                      "triggerLabel",
+                      "contentBlocks"
                     ]
                   }
                 },
@@ -9373,6 +9448,15 @@
                           "description": "Volle Breite als kern-btn--block.",
                           "type": "boolean"
                         },
+                        "type": {
+                          "default": "button",
+                          "description": "HTML button type. submit sends the enclosing form; button (the default) does nothing on its own.",
+                          "type": "string",
+                          "enum": [
+                            "button",
+                            "submit"
+                          ]
+                        },
                         "disabled": {
                           "default": false,
                           "description": "Button deaktiviert.",
@@ -9797,6 +9881,7 @@
                           "type": "boolean"
                         },
                         "contentBlocks": {
+                          "minItems": 1,
                           "type": "array",
                           "items": {
                             "$ref": "#/properties/columnsContent/items/items"
@@ -9804,7 +9889,8 @@
                         }
                       },
                       "required": [
-                        "triggerLabel"
+                        "triggerLabel",
+                        "contentBlocks"
                       ]
                     }
                   },

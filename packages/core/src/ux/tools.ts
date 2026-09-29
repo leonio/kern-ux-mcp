@@ -595,6 +595,7 @@ export const COMPOSITION_CHEAT_SHEET = [
 	"                 The steps render inside a form; renderAllSteps: true renders every step, the inactive ones hidden.",
 	"",
 	"Nested blocks (section.contentBlocks, card.contentBlocks, grid.columnsContent[][], disclosure.contentBlocks, fieldset.contentBlocks, form.contentBlocks) use the same kind-based shapes recursively.",
+	"Rules: forms don't nest (no form or formFlow inside a form or formFlow); no card directly inside a card; a section needs contentBlocks or paragraphs, a disclosure needs contentBlocks.",
 ].join("\n");
 
 function buildRenderCompositionTool(): ToolDef {

@@ -29,6 +29,13 @@ export const ButtonSchema = z
 			.optional()
 			.default(false)
 			.describe("Volle Breite als kern-btn--block."),
+		type: z
+			.enum(["button", "submit"])
+			.optional()
+			.default("button")
+			.describe(
+				"HTML button type. submit sends the enclosing form; button (the default) does nothing on its own.",
+			),
 		disabled: z
 			.boolean()
 			.optional()
