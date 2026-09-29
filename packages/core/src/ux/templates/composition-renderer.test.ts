@@ -9,6 +9,7 @@ import { buildCard } from "./card.js";
 import { createCompositionRenderer } from "./composition-renderer.js";
 import { buildDisclosure } from "./disclosure.js";
 import { buildFieldset } from "./fieldset.js";
+import { buildForm } from "./form.js";
 import { buildFormFlow } from "./form-flow.js";
 import { buildGrid } from "./grid.js";
 import { buildSection } from "./section.js";
@@ -21,6 +22,7 @@ type ContainerKind =
 	| "section"
 	| "disclosure"
 	| "fieldset"
+	| "form"
 	| "formFlow";
 
 const CONTAINER_KINDS: ContainerKind[] = [
@@ -29,6 +31,7 @@ const CONTAINER_KINDS: ContainerKind[] = [
 	"section",
 	"disclosure",
 	"fieldset",
+	"form",
 	"formFlow",
 ];
 
@@ -81,6 +84,8 @@ function wrap(
 				kind,
 				fieldset: { legend: "Gruppe", contentBlocks: [child] },
 			};
+		case "form":
+			return { kind, form: { contentBlocks: [child] } };
 		case "formFlow":
 			return {
 				kind,
@@ -112,6 +117,8 @@ function renderStandalone(
 			return buildDisclosure({ triggerLabel: "Mehr", contentBlocks }, "de");
 		case "fieldset":
 			return buildFieldset({ legend: "Gruppe", contentBlocks }, "de");
+		case "form":
+			return buildForm({ contentBlocks }, "de");
 		case "formFlow":
 			return buildFormFlow(
 				{

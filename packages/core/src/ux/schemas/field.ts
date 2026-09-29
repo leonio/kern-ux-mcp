@@ -65,7 +65,9 @@ export const FieldSchema = z
 		error: z
 			.string()
 			.optional()
-			.describe("Error message; puts the field in its error state."),
+			.describe(
+				"Error message; puts the field in its error state. A form's errorSummary lists it.",
+			),
 		optional: z.boolean().optional().describe("Marks the field as optional."),
 		value: z
 			.string()
@@ -127,3 +129,42 @@ export const FieldsetBaseSchema = z.object({
 });
 
 export type FieldsetBaseInput = z.input<typeof FieldsetBaseSchema>;
+
+/**
+ * A form, without its contentBlocks: the block union adds them. Fields with an
+ * error are collected into the optional error summary.
+ */
+export const FormBaseSchema = z.object({
+	action: z.string().optional().describe("URL the form submits to."),
+	method: z
+		.enum(["get", "post"])
+		.optional()
+		.describe("Submit method; post when omitted."),
+	errorSummary: z
+		.object({
+			title: z
+				.string()
+				.min(1)
+				.optional()
+				.describe("Summary heading; a localized default when omitted."),
+		})
+		.optional()
+		.describe(
+			"Shows a summary above the form that links to every field with an error. Set it whenever fields have errors.",
+		),
+	actions: z
+		.object({
+			submitLabel: z.string().min(1).describe("Label of the submit button."),
+			secondaryLabel: z
+				.string()
+				.min(1)
+				.optional()
+				.describe(
+					"Label of a secondary button (type=button), e.g. to go back.",
+				),
+		})
+		.optional()
+		.describe("Button row at the end of the form."),
+});
+
+export type FormBaseInput = z.input<typeof FormBaseSchema>;

@@ -949,7 +949,7 @@
   {
     "name": "render_composition",
     "title": "Render KERN Composition",
-    "description": "KERN UX (Komposition): Rendert rekursive Content-Blöcke als zusammenhängendes Layout. WICHTIG: Jeder Block in contentBlocks MUSS eine 'kind'-Eigenschaft haben. Gültige kind-Werte: text, html, button, badge, field, fieldset, card, section, disclosure, grid, formFlow.\n\nEvery block must have a 'kind' discriminator. Valid kinds and their shapes:\n\n  text:       { kind: \"text\", text: \"...\" }\n  html:       { kind: \"html\", html: \"<p>...</p>\" }\n  button:     { kind: \"button\", button: { label: \"OK\", variant: \"primary\" } }\n  badge:      { kind: \"badge\", badge: { type: \"info\", text: \"Neu\" } }\n  field:      { kind: \"field\", field: { type: \"email\", name: \"email\", label: \"E-Mail\", hint?: \"...\", error?: \"...\" } }\n                 type: text|email|tel|url|number|date|password|textarea|select|radio|checkbox; select/radio need options: [{ value, label }].\n  fieldset:   { kind: \"fieldset\", fieldset: { legend: \"...\", legendSize?: \"large\", hint?: \"...\", contentBlocks: [field, ...] } }\n  card:     { kind: \"card\", card: { header: { title: \"...\" }, body: \"...\", contentBlocks?: [...], footer?: { primaryLabel: \"...\" } } }\n  section:    { kind: \"section\", section: { headingText: \"...\", contentBlocks: [...] } }\n                 Shorthand: paragraphs: [\"text1\", \"text2\"] is also accepted (auto-converted to text blocks).\n  disclosure: { kind: \"disclosure\", disclosure: { triggerLabel: \"...\", contentBlocks: [...] } }\n  grid:       { kind: \"grid\", grid: { columns: 3, columnsContent: [ [block, block], [block], [block] ] } }\n                 columnsContent is an array of arrays — one inner array per column. Each inner array holds content blocks.\n  formFlow:   { kind: \"formFlow\", formFlow: { currentStep: 1, steps: [{ label: \"...\", contentBlocks: [...] }, ...] } }\n\nNested blocks (section.contentBlocks, card.contentBlocks, grid.columnsContent[][], disclosure.contentBlocks, fieldset.contentBlocks) use the same kind-based shapes recursively.\n\nFormFlow orchestriert mehrstufige Formulare mit Tasklist + Progress + Schritt-Inhalt über einen einzigen currentStep-Parameter.",
+    "description": "KERN UX (Komposition): Rendert rekursive Content-Blöcke als zusammenhängendes Layout. WICHTIG: Jeder Block in contentBlocks MUSS eine 'kind'-Eigenschaft haben. Gültige kind-Werte: text, html, button, badge, field, fieldset, form, card, section, disclosure, grid, formFlow.\n\nEvery block must have a 'kind' discriminator. Valid kinds and their shapes:\n\n  text:       { kind: \"text\", text: \"...\" }\n  html:       { kind: \"html\", html: \"<p>...</p>\" }\n  button:     { kind: \"button\", button: { label: \"OK\", variant: \"primary\" } }\n  badge:      { kind: \"badge\", badge: { type: \"info\", text: \"Neu\" } }\n  field:      { kind: \"field\", field: { type: \"email\", name: \"email\", label: \"E-Mail\", hint?: \"...\", error?: \"...\" } }\n                 type: text|email|tel|url|number|date|password|textarea|select|radio|checkbox; select/radio need options: [{ value, label }].\n  fieldset:   { kind: \"fieldset\", fieldset: { legend: \"...\", legendSize?: \"large\", hint?: \"...\", contentBlocks: [field, ...] } }\n  form:       { kind: \"form\", form: { action?: \"/senden\", errorSummary?: {}, contentBlocks: [fieldset, field, ...], actions?: { submitLabel: \"Absenden\" } } }\n                 errorSummary lists every field inside the form that has an error, linked to the field.\n  card:     { kind: \"card\", card: { header: { title: \"...\" }, body: \"...\", contentBlocks?: [...], footer?: { primaryLabel: \"...\" } } }\n  section:    { kind: \"section\", section: { headingText: \"...\", contentBlocks: [...] } }\n                 Shorthand: paragraphs: [\"text1\", \"text2\"] is also accepted (auto-converted to text blocks).\n  disclosure: { kind: \"disclosure\", disclosure: { triggerLabel: \"...\", contentBlocks: [...] } }\n  grid:       { kind: \"grid\", grid: { columns: 3, columnsContent: [ [block, block], [block], [block] ] } }\n                 columnsContent is an array of arrays — one inner array per column. Each inner array holds content blocks.\n  formFlow:   { kind: \"formFlow\", formFlow: { currentStep: 1, steps: [{ label: \"...\", contentBlocks: [...] }, ...] } }\n\nNested blocks (section.contentBlocks, card.contentBlocks, grid.columnsContent[][], disclosure.contentBlocks, fieldset.contentBlocks, form.contentBlocks) use the same kind-based shapes recursively.\n\nFormFlow orchestriert mehrstufige Formulare mit Tasklist + Progress + Schritt-Inhalt über einen einzigen currentStep-Parameter.",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
       "type": "object",
@@ -969,7 +969,7 @@
         "contentBlocks": {
           "type": "array",
           "items": {
-            "description": "Rekursiver Content-Knoten: text/html/button/badge/field/fieldset/section/disclosure/grid/card/formFlow.",
+            "description": "Rekursiver Content-Knoten: text/html/button/badge/field/fieldset/form/section/disclosure/grid/card/formFlow.",
             "anyOf": [
               {
                 "type": "object",
@@ -1185,7 +1185,7 @@
                         "type": "string"
                       },
                       "error": {
-                        "description": "Error message; puts the field in its error state.",
+                        "description": "Error message; puts the field in its error state. A form's errorSummary lists it.",
                         "type": "string"
                       },
                       "optional": {
@@ -1307,6 +1307,76 @@
                 "required": [
                   "kind",
                   "fieldset"
+                ]
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "type": "string",
+                    "const": "form"
+                  },
+                  "form": {
+                    "type": "object",
+                    "properties": {
+                      "action": {
+                        "description": "URL the form submits to.",
+                        "type": "string"
+                      },
+                      "method": {
+                        "description": "Submit method; post when omitted.",
+                        "type": "string",
+                        "enum": [
+                          "get",
+                          "post"
+                        ]
+                      },
+                      "errorSummary": {
+                        "description": "Shows a summary above the form that links to every field with an error. Set it whenever fields have errors.",
+                        "type": "object",
+                        "properties": {
+                          "title": {
+                            "description": "Summary heading; a localized default when omitted.",
+                            "type": "string",
+                            "minLength": 1
+                          }
+                        }
+                      },
+                      "actions": {
+                        "description": "Button row at the end of the form.",
+                        "type": "object",
+                        "properties": {
+                          "submitLabel": {
+                            "type": "string",
+                            "minLength": 1,
+                            "description": "Label of the submit button."
+                          },
+                          "secondaryLabel": {
+                            "description": "Label of a secondary button (type=button), e.g. to go back.",
+                            "type": "string",
+                            "minLength": 1
+                          }
+                        },
+                        "required": [
+                          "submitLabel"
+                        ]
+                      },
+                      "contentBlocks": {
+                        "minItems": 1,
+                        "type": "array",
+                        "items": {
+                          "$ref": "#/properties/contentBlocks/items"
+                        }
+                      }
+                    },
+                    "required": [
+                      "contentBlocks"
+                    ]
+                  }
+                },
+                "required": [
+                  "kind",
+                  "form"
                 ]
               },
               {
@@ -1908,7 +1978,7 @@
           "description": "Primärer Inhaltsbereich als rekursive Content-Blöcke (empfohlen). Geeignet für strukturierte Section-Inhalte mit Grid, Card, Disclosure oder Text.",
           "type": "array",
           "items": {
-            "description": "Rekursiver Content-Knoten: text/html/button/badge/field/fieldset/section/disclosure/grid/card/formFlow.",
+            "description": "Rekursiver Content-Knoten: text/html/button/badge/field/fieldset/form/section/disclosure/grid/card/formFlow.",
             "anyOf": [
               {
                 "type": "object",
@@ -2124,7 +2194,7 @@
                         "type": "string"
                       },
                       "error": {
-                        "description": "Error message; puts the field in its error state.",
+                        "description": "Error message; puts the field in its error state. A form's errorSummary lists it.",
                         "type": "string"
                       },
                       "optional": {
@@ -2246,6 +2316,76 @@
                 "required": [
                   "kind",
                   "fieldset"
+                ]
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "type": "string",
+                    "const": "form"
+                  },
+                  "form": {
+                    "type": "object",
+                    "properties": {
+                      "action": {
+                        "description": "URL the form submits to.",
+                        "type": "string"
+                      },
+                      "method": {
+                        "description": "Submit method; post when omitted.",
+                        "type": "string",
+                        "enum": [
+                          "get",
+                          "post"
+                        ]
+                      },
+                      "errorSummary": {
+                        "description": "Shows a summary above the form that links to every field with an error. Set it whenever fields have errors.",
+                        "type": "object",
+                        "properties": {
+                          "title": {
+                            "description": "Summary heading; a localized default when omitted.",
+                            "type": "string",
+                            "minLength": 1
+                          }
+                        }
+                      },
+                      "actions": {
+                        "description": "Button row at the end of the form.",
+                        "type": "object",
+                        "properties": {
+                          "submitLabel": {
+                            "type": "string",
+                            "minLength": 1,
+                            "description": "Label of the submit button."
+                          },
+                          "secondaryLabel": {
+                            "description": "Label of a secondary button (type=button), e.g. to go back.",
+                            "type": "string",
+                            "minLength": 1
+                          }
+                        },
+                        "required": [
+                          "submitLabel"
+                        ]
+                      },
+                      "contentBlocks": {
+                        "minItems": 1,
+                        "type": "array",
+                        "items": {
+                          "$ref": "#/properties/contentBlocks/items"
+                        }
+                      }
+                    },
+                    "required": [
+                      "contentBlocks"
+                    ]
+                  }
+                },
+                "required": [
+                  "kind",
+                  "form"
                 ]
               },
               {
@@ -2945,7 +3085,7 @@
                 "description": "Optionale strukturierte Body-Blöcke (text/html/button/badge/card).",
                 "type": "array",
                 "items": {
-                  "description": "Rekursiver Content-Knoten: text/html/button/badge/field/fieldset/section/disclosure/grid/card/formFlow.",
+                  "description": "Rekursiver Content-Knoten: text/html/button/badge/field/fieldset/form/section/disclosure/grid/card/formFlow.",
                   "anyOf": [
                     {
                       "type": "object",
@@ -3161,7 +3301,7 @@
                               "type": "string"
                             },
                             "error": {
-                              "description": "Error message; puts the field in its error state.",
+                              "description": "Error message; puts the field in its error state. A form's errorSummary lists it.",
                               "type": "string"
                             },
                             "optional": {
@@ -3283,6 +3423,76 @@
                       "required": [
                         "kind",
                         "fieldset"
+                      ]
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "kind": {
+                          "type": "string",
+                          "const": "form"
+                        },
+                        "form": {
+                          "type": "object",
+                          "properties": {
+                            "action": {
+                              "description": "URL the form submits to.",
+                              "type": "string"
+                            },
+                            "method": {
+                              "description": "Submit method; post when omitted.",
+                              "type": "string",
+                              "enum": [
+                                "get",
+                                "post"
+                              ]
+                            },
+                            "errorSummary": {
+                              "description": "Shows a summary above the form that links to every field with an error. Set it whenever fields have errors.",
+                              "type": "object",
+                              "properties": {
+                                "title": {
+                                  "description": "Summary heading; a localized default when omitted.",
+                                  "type": "string",
+                                  "minLength": 1
+                                }
+                              }
+                            },
+                            "actions": {
+                              "description": "Button row at the end of the form.",
+                              "type": "object",
+                              "properties": {
+                                "submitLabel": {
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "description": "Label of the submit button."
+                                },
+                                "secondaryLabel": {
+                                  "description": "Label of a secondary button (type=button), e.g. to go back.",
+                                  "type": "string",
+                                  "minLength": 1
+                                }
+                              },
+                              "required": [
+                                "submitLabel"
+                              ]
+                            },
+                            "contentBlocks": {
+                              "minItems": 1,
+                              "type": "array",
+                              "items": {
+                                "$ref": "#/properties/cards/items/properties/contentBlocks/items"
+                              }
+                            }
+                          },
+                          "required": [
+                            "contentBlocks"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "kind",
+                        "form"
                       ]
                     },
                     {
@@ -3944,7 +4154,7 @@
           "description": "Primärer Disclosure-Inhalt als rekursive Content-Blöcke (empfohlen). Eignet sich für strukturierte, aber kompakte Zusatzinformationen.",
           "type": "array",
           "items": {
-            "description": "Rekursiver Content-Knoten: text/html/button/badge/field/fieldset/section/disclosure/grid/card/formFlow.",
+            "description": "Rekursiver Content-Knoten: text/html/button/badge/field/fieldset/form/section/disclosure/grid/card/formFlow.",
             "anyOf": [
               {
                 "type": "object",
@@ -4160,7 +4370,7 @@
                         "type": "string"
                       },
                       "error": {
-                        "description": "Error message; puts the field in its error state.",
+                        "description": "Error message; puts the field in its error state. A form's errorSummary lists it.",
                         "type": "string"
                       },
                       "optional": {
@@ -4282,6 +4492,76 @@
                 "required": [
                   "kind",
                   "fieldset"
+                ]
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "type": "string",
+                    "const": "form"
+                  },
+                  "form": {
+                    "type": "object",
+                    "properties": {
+                      "action": {
+                        "description": "URL the form submits to.",
+                        "type": "string"
+                      },
+                      "method": {
+                        "description": "Submit method; post when omitted.",
+                        "type": "string",
+                        "enum": [
+                          "get",
+                          "post"
+                        ]
+                      },
+                      "errorSummary": {
+                        "description": "Shows a summary above the form that links to every field with an error. Set it whenever fields have errors.",
+                        "type": "object",
+                        "properties": {
+                          "title": {
+                            "description": "Summary heading; a localized default when omitted.",
+                            "type": "string",
+                            "minLength": 1
+                          }
+                        }
+                      },
+                      "actions": {
+                        "description": "Button row at the end of the form.",
+                        "type": "object",
+                        "properties": {
+                          "submitLabel": {
+                            "type": "string",
+                            "minLength": 1,
+                            "description": "Label of the submit button."
+                          },
+                          "secondaryLabel": {
+                            "description": "Label of a secondary button (type=button), e.g. to go back.",
+                            "type": "string",
+                            "minLength": 1
+                          }
+                        },
+                        "required": [
+                          "submitLabel"
+                        ]
+                      },
+                      "contentBlocks": {
+                        "minItems": 1,
+                        "type": "array",
+                        "items": {
+                          "$ref": "#/properties/contentBlocks/items"
+                        }
+                      }
+                    },
+                    "required": [
+                      "contentBlocks"
+                    ]
+                  }
+                },
+                "required": [
+                  "kind",
+                  "form"
                 ]
               },
               {
@@ -5777,7 +6057,7 @@
           "description": "Optionale strukturierte Body-Blöcke für kompakte, zusammengehörige Inhalte. Erlaubt rekursive Komposition, sollte aber denselben fokussierten Charakter wie eine klassische Card behalten.",
           "type": "array",
           "items": {
-            "description": "Rekursiver Content-Knoten: text/html/button/badge/field/fieldset/section/disclosure/grid/card/formFlow.",
+            "description": "Rekursiver Content-Knoten: text/html/button/badge/field/fieldset/form/section/disclosure/grid/card/formFlow.",
             "anyOf": [
               {
                 "type": "object",
@@ -5993,7 +6273,7 @@
                         "type": "string"
                       },
                       "error": {
-                        "description": "Error message; puts the field in its error state.",
+                        "description": "Error message; puts the field in its error state. A form's errorSummary lists it.",
                         "type": "string"
                       },
                       "optional": {
@@ -6115,6 +6395,76 @@
                 "required": [
                   "kind",
                   "fieldset"
+                ]
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "type": "string",
+                    "const": "form"
+                  },
+                  "form": {
+                    "type": "object",
+                    "properties": {
+                      "action": {
+                        "description": "URL the form submits to.",
+                        "type": "string"
+                      },
+                      "method": {
+                        "description": "Submit method; post when omitted.",
+                        "type": "string",
+                        "enum": [
+                          "get",
+                          "post"
+                        ]
+                      },
+                      "errorSummary": {
+                        "description": "Shows a summary above the form that links to every field with an error. Set it whenever fields have errors.",
+                        "type": "object",
+                        "properties": {
+                          "title": {
+                            "description": "Summary heading; a localized default when omitted.",
+                            "type": "string",
+                            "minLength": 1
+                          }
+                        }
+                      },
+                      "actions": {
+                        "description": "Button row at the end of the form.",
+                        "type": "object",
+                        "properties": {
+                          "submitLabel": {
+                            "type": "string",
+                            "minLength": 1,
+                            "description": "Label of the submit button."
+                          },
+                          "secondaryLabel": {
+                            "description": "Label of a secondary button (type=button), e.g. to go back.",
+                            "type": "string",
+                            "minLength": 1
+                          }
+                        },
+                        "required": [
+                          "submitLabel"
+                        ]
+                      },
+                      "contentBlocks": {
+                        "minItems": 1,
+                        "type": "array",
+                        "items": {
+                          "$ref": "#/properties/contentBlocks/items"
+                        }
+                      }
+                    },
+                    "required": [
+                      "contentBlocks"
+                    ]
+                  }
+                },
+                "required": [
+                  "kind",
+                  "form"
                 ]
               },
               {
@@ -7688,7 +8038,7 @@
           "minItems": 1,
           "type": "array",
           "items": {
-            "description": "Rekursiver Content-Knoten: text/html/button/badge/field/fieldset/section/disclosure/grid/card/formFlow.",
+            "description": "Rekursiver Content-Knoten: text/html/button/badge/field/fieldset/form/section/disclosure/grid/card/formFlow.",
             "anyOf": [
               {
                 "type": "object",
@@ -7904,7 +8254,7 @@
                         "type": "string"
                       },
                       "error": {
-                        "description": "Error message; puts the field in its error state.",
+                        "description": "Error message; puts the field in its error state. A form's errorSummary lists it.",
                         "type": "string"
                       },
                       "optional": {
@@ -8026,6 +8376,76 @@
                 "required": [
                   "kind",
                   "fieldset"
+                ]
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "type": "string",
+                    "const": "form"
+                  },
+                  "form": {
+                    "type": "object",
+                    "properties": {
+                      "action": {
+                        "description": "URL the form submits to.",
+                        "type": "string"
+                      },
+                      "method": {
+                        "description": "Submit method; post when omitted.",
+                        "type": "string",
+                        "enum": [
+                          "get",
+                          "post"
+                        ]
+                      },
+                      "errorSummary": {
+                        "description": "Shows a summary above the form that links to every field with an error. Set it whenever fields have errors.",
+                        "type": "object",
+                        "properties": {
+                          "title": {
+                            "description": "Summary heading; a localized default when omitted.",
+                            "type": "string",
+                            "minLength": 1
+                          }
+                        }
+                      },
+                      "actions": {
+                        "description": "Button row at the end of the form.",
+                        "type": "object",
+                        "properties": {
+                          "submitLabel": {
+                            "type": "string",
+                            "minLength": 1,
+                            "description": "Label of the submit button."
+                          },
+                          "secondaryLabel": {
+                            "description": "Label of a secondary button (type=button), e.g. to go back.",
+                            "type": "string",
+                            "minLength": 1
+                          }
+                        },
+                        "required": [
+                          "submitLabel"
+                        ]
+                      },
+                      "contentBlocks": {
+                        "minItems": 1,
+                        "type": "array",
+                        "items": {
+                          "$ref": "#/properties/contentBlocks/items"
+                        }
+                      }
+                    },
+                    "required": [
+                      "contentBlocks"
+                    ]
+                  }
+                },
+                "required": [
+                  "kind",
+                  "form"
                 ]
               },
               {
@@ -8677,7 +9097,7 @@
           "items": {
             "type": "array",
             "items": {
-              "description": "Rekursiver Content-Knoten: text/html/button/badge/field/fieldset/section/disclosure/grid/card/formFlow.",
+              "description": "Rekursiver Content-Knoten: text/html/button/badge/field/fieldset/form/section/disclosure/grid/card/formFlow.",
               "anyOf": [
                 {
                   "type": "object",
@@ -8893,7 +9313,7 @@
                           "type": "string"
                         },
                         "error": {
-                          "description": "Error message; puts the field in its error state.",
+                          "description": "Error message; puts the field in its error state. A form's errorSummary lists it.",
                           "type": "string"
                         },
                         "optional": {
@@ -9015,6 +9435,76 @@
                   "required": [
                     "kind",
                     "fieldset"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "kind": {
+                      "type": "string",
+                      "const": "form"
+                    },
+                    "form": {
+                      "type": "object",
+                      "properties": {
+                        "action": {
+                          "description": "URL the form submits to.",
+                          "type": "string"
+                        },
+                        "method": {
+                          "description": "Submit method; post when omitted.",
+                          "type": "string",
+                          "enum": [
+                            "get",
+                            "post"
+                          ]
+                        },
+                        "errorSummary": {
+                          "description": "Shows a summary above the form that links to every field with an error. Set it whenever fields have errors.",
+                          "type": "object",
+                          "properties": {
+                            "title": {
+                              "description": "Summary heading; a localized default when omitted.",
+                              "type": "string",
+                              "minLength": 1
+                            }
+                          }
+                        },
+                        "actions": {
+                          "description": "Button row at the end of the form.",
+                          "type": "object",
+                          "properties": {
+                            "submitLabel": {
+                              "type": "string",
+                              "minLength": 1,
+                              "description": "Label of the submit button."
+                            },
+                            "secondaryLabel": {
+                              "description": "Label of a secondary button (type=button), e.g. to go back.",
+                              "type": "string",
+                              "minLength": 1
+                            }
+                          },
+                          "required": [
+                            "submitLabel"
+                          ]
+                        },
+                        "contentBlocks": {
+                          "minItems": 1,
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/properties/columnsContent/items/items"
+                          }
+                        }
+                      },
+                      "required": [
+                        "contentBlocks"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "kind",
+                    "form"
                   ]
                 },
                 {
@@ -9463,7 +9953,7 @@
                 }
               ]
             },
-            "description": "Rekursive Content-Blöcke mit erlaubten Knotenarten text/html/button/badge/field/fieldset/section/disclosure/grid/card/formFlow inklusive Tiefen- und Größenlimit."
+            "description": "Rekursive Content-Blöcke mit erlaubten Knotenarten text/html/button/badge/field/fieldset/form/section/disclosure/grid/card/formFlow inklusive Tiefen- und Größenlimit."
           }
         },
         "locale": {

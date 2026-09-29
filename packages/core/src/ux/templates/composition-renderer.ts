@@ -9,6 +9,7 @@ import { buildCard } from "./card.js";
 import { buildDisclosure } from "./disclosure.js";
 import { buildField } from "./field.js";
 import { buildFieldset } from "./fieldset.js";
+import { buildForm } from "./form.js";
 import { buildFormFlow } from "./form-flow.js";
 import { buildGrid } from "./grid.js";
 import { buildSection } from "./section.js";
@@ -103,6 +104,8 @@ function renderBlock(
 			return buildField(block.field, locale);
 		case "fieldset":
 			return buildFieldset(block.fieldset, locale, context);
+		case "form":
+			return buildForm(block.form, locale, context);
 		case "card":
 			return buildCard(block.card, locale, context);
 		case "grid":

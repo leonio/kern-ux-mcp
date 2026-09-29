@@ -296,6 +296,72 @@ describe("render_composition with field blocks", () => {
 	});
 });
 
+describe("render_composition with a form block", () => {
+	it("renders a form with a fieldset, an error summary and actions that passes strict validation", async () => {
+		const tool = createTools(createRegistry()).getTool("render_composition");
+		const args = {
+			locale: "de",
+			strict: true,
+			contentBlocks: [
+				{
+					kind: "form",
+					form: {
+						action: "/kontakt",
+						errorSummary: {},
+						contentBlocks: [
+							{
+								kind: "fieldset",
+								fieldset: {
+									legend: "Ihre Angaben",
+									legendSize: "large",
+									contentBlocks: [
+										{
+											kind: "field",
+											field: { type: "text", name: "name", label: "Name" },
+										},
+										{
+											kind: "field",
+											field: {
+												type: "email",
+												name: "email",
+												label: "E-Mail",
+												error: "Bitte eine gültige E-Mail-Adresse angeben.",
+											},
+										},
+									],
+								},
+							},
+							{
+								kind: "field",
+								field: {
+									type: "textarea",
+									name: "nachricht",
+									label: "Nachricht",
+								},
+							},
+						],
+						actions: { submitLabel: "Absenden" },
+					},
+				},
+			],
+		};
+
+		expect(tool?.inputSchema.safeParse(args).success).toBe(true);
+
+		const result = await callHandler<RenderedToolResult>(tool, args);
+
+		expect(result.html).toContain(
+			'<form action="/kontakt" method="post" novalidate>',
+		);
+		expect(result.html).toContain("kern-alert--danger");
+		expect(result.html).toContain(
+			"E-Mail: Bitte eine gültige E-Mail-Adresse angeben.",
+		);
+		expect(result.html).toContain('type="submit"');
+		expect(result.validation.ok).toBe(true);
+	});
+});
+
 describe("standalone composition tools", () => {
 	it("get_grid renders sections and disclosures in its columns, in the requested locale", async () => {
 		const tools = createTools(
