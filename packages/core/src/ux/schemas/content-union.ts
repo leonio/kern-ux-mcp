@@ -1,7 +1,12 @@
 import { z } from "zod";
 import { badgeSchema } from "./badge.js";
 import { ButtonSchema } from "./button.js";
-import { type FieldInput, FieldSchema } from "./field.js";
+import {
+	type FieldInput,
+	FieldSchema,
+	type FieldsetBaseInput,
+	FieldsetBaseSchema,
+} from "./field.js";
 import {
 	ComponentSizeSchema,
 	GridColumnsSchema,
@@ -54,6 +59,16 @@ type FieldContentNodeInput = {
 	kind: "field";
 	field: FieldInput;
 };
+
+type FieldsetContentNodeInput = {
+	kind: "fieldset";
+	fieldset: FieldsetBaseInput & {
+		contentBlocks: RecursiveContentNodeInput[];
+	};
+};
+
+/** Input of a fieldset block; the tool schema is FieldsetRenderSchema. */
+export type FieldsetBlockInput = FieldsetContentNodeInput["fieldset"];
 
 type ButtonContentNodeInput = {
 	kind: "button";
@@ -153,6 +168,7 @@ export type RecursiveContentNodeInput =
 	| ButtonContentNodeInput
 	| BadgeContentNodeInput
 	| FieldContentNodeInput
+	| FieldsetContentNodeInput
 	| SectionContentNodeInput
 	| DisclosureContentNodeInput
 	| GridContentNodeInput
@@ -172,6 +188,12 @@ export const RecursiveContentNodeSchema: z.ZodType<
 			z.object({
 				kind: z.literal("field"),
 				field: FieldSchema,
+			}),
+			z.object({
+				kind: z.literal("fieldset"),
+				fieldset: FieldsetBaseSchema.extend({
+					contentBlocks: z.array(RecursiveContentNodeSchema).min(1),
+				}),
 			}),
 			z.object({
 				kind: z.literal("section"),
@@ -281,7 +303,7 @@ export const RecursiveContentNodeSchema: z.ZodType<
 			}),
 		])
 		.describe(
-			"Rekursiver Content-Knoten: text/html/button/badge/field/section/disclosure/grid/card/formFlow.",
+			"Rekursiver Content-Knoten: text/html/button/badge/field/fieldset/section/disclosure/grid/card/formFlow.",
 		),
 );
 
@@ -327,7 +349,18 @@ function validateRecursiveContentLimits(
 			disclosure?: { contentBlocks?: unknown[] };
 			grid?: { columnsContent?: unknown[][] };
 			formFlow?: { steps?: Array<{ contentBlocks?: unknown[] }> };
+			fieldset?: { contentBlocks?: unknown[] };
 		};
+
+		if (
+			current.kind === "fieldset" &&
+			Array.isArray(current.fieldset?.contentBlocks)
+		) {
+			current.fieldset.contentBlocks.forEach((child, index) => {
+				visit(child, depth + 1, [...path, "fieldset", "contentBlocks", index]);
+			});
+			return;
+		}
 
 		if (current.kind === "card" && Array.isArray(current.card?.contentBlocks)) {
 			current.card.contentBlocks.forEach((child, index) => {
@@ -412,5 +445,5 @@ export const RecursiveContentBlocksSchema = z
 		validateRecursiveContentLimits(nodes, ctx);
 	})
 	.describe(
-		"Rekursive Content-Blöcke mit erlaubten Knotenarten text/html/button/badge/field/section/disclosure/grid/card/formFlow inklusive Tiefen- und Größenlimit.",
+		"Rekursive Content-Blöcke mit erlaubten Knotenarten text/html/button/badge/field/fieldset/section/disclosure/grid/card/formFlow inklusive Tiefen- und Größenlimit.",
 	);

@@ -314,9 +314,19 @@ describe("createTools routing", () => {
 
 		expect(tool).toBeDefined();
 		const result = await callHandler<RenderedToolResult>(tool, {
-			includeHint: true,
+			legend: "Kontakt",
+			hint: "Wir melden uns per E-Mail.",
+			contentBlocks: [
+				{
+					kind: "field",
+					field: { type: "email", name: "email", label: "E-Mail" },
+				},
+			],
 		});
-		expect(result.html).toContain("kern-fieldset__hint");
+		expect(result.html).toContain('class="kern-fieldset"');
+		expect(result.html).toContain('class="kern-hint"');
+		expect(result.html).toContain('name="email"');
+		expect(result.validation.ok).toBe(true);
 	});
 
 	describe("foundational components with strategy=fallback", () => {

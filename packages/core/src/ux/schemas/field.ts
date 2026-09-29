@@ -90,3 +90,40 @@ export const FieldSchema = z
 	});
 
 export type FieldInput = z.input<typeof FieldSchema>;
+
+/**
+ * A group of related fields under a legend, without its contentBlocks: the block
+ * union and the get_fieldset schema each add their own.
+ */
+export const FieldsetBaseSchema = z.object({
+	legend: z
+		.string()
+		.min(1)
+		.describe(
+			"Group heading that screen readers announce, e.g. 'Your address'.",
+		),
+	legendSize: z
+		.enum(["default", "large"])
+		.optional()
+		.describe(
+			"large for a main section of a form (address, payment details); default for a choice group.",
+		),
+	optional: z
+		.boolean()
+		.optional()
+		.describe("Marks the whole group as optional."),
+	hint: z
+		.string()
+		.optional()
+		.describe("Help text for the group, linked via aria-describedby."),
+	error: z
+		.string()
+		.optional()
+		.describe("Error message for the group as a whole."),
+	horizontal: z
+		.boolean()
+		.optional()
+		.describe("Lays the group's fields out side by side."),
+});
+
+export type FieldsetBaseInput = z.input<typeof FieldsetBaseSchema>;

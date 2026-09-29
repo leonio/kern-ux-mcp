@@ -56,7 +56,10 @@ export function buildLayoutTool(component: ComponentInfo): ToolDef {
 				? "KERN UX (Foundational/Layout): HTML für 12-Spalten-Grid erzeugen (kern-container/kern-row/kern-col-{breakpoint}-{span}). " +
 					"Verwendet responsive Breakpoints (kern-col-md-{n}, kern-col-sm-12). " +
 					"Spalten müssen Teiler von 12 sein: 1, 2, 3, 4, 6, 12. Für 5 oder 7 gleich breite Spalten verwende dieses Tool NICHT; nutze stattdessen CSS-Grid-Utilities über get_utility_reference (z.B. kern-grid kern-grid-cols-5)."
-				: `KERN UX (Foundational/Layout): HTML für ${component.title} erzeugen (Container/Grid/Section).`,
+				: component.id === "fieldset"
+					? "KERN UX (Foundational/Layout): Groups related form fields under a legend, with an optional hint and group error. " +
+						"Put the fields in contentBlocks as field blocks, e.g. { legend: 'Ihre Anschrift', legendSize: 'large', contentBlocks: [{ kind: 'field', field: { type: 'text', name: 'strasse', label: 'Straße und Hausnummer' } }] }."
+					: `KERN UX (Foundational/Layout): HTML für ${component.title} erzeugen (Container/Grid/Section).`,
 		inputSchema,
 		outputSchema: ComponentOutputSchema,
 		handler: async (args: z.infer<typeof inputSchema>) => {
@@ -76,6 +79,7 @@ export function buildLayoutTool(component: ComponentInfo): ToolDef {
 			} else if (component.id === "fieldset") {
 				const built = buildFieldset(
 					args as Parameters<typeof buildFieldset>[0],
+					locale,
 				);
 				renderedHtml = built.html;
 				templateWarnings = built.warnings;

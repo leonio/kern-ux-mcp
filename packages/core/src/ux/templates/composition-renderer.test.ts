@@ -8,19 +8,27 @@ import type { BuildResult } from "../types.js";
 import { buildCard } from "./card.js";
 import { createCompositionRenderer } from "./composition-renderer.js";
 import { buildDisclosure } from "./disclosure.js";
+import { buildFieldset } from "./fieldset.js";
 import { buildFormFlow } from "./form-flow.js";
 import { buildGrid } from "./grid.js";
 import { buildSection } from "./section.js";
 
 const renderer = createCompositionRenderer("de");
 
-type ContainerKind = "card" | "grid" | "section" | "disclosure" | "formFlow";
+type ContainerKind =
+	| "card"
+	| "grid"
+	| "section"
+	| "disclosure"
+	| "fieldset"
+	| "formFlow";
 
 const CONTAINER_KINDS: ContainerKind[] = [
 	"card",
 	"grid",
 	"section",
 	"disclosure",
+	"fieldset",
 	"formFlow",
 ];
 
@@ -68,6 +76,11 @@ function wrap(
 				kind,
 				disclosure: { triggerLabel: "Mehr", contentBlocks: [child] },
 			};
+		case "fieldset":
+			return {
+				kind,
+				fieldset: { legend: "Gruppe", contentBlocks: [child] },
+			};
 		case "formFlow":
 			return {
 				kind,
@@ -97,6 +110,8 @@ function renderStandalone(
 			return buildSection({ headingText: "Abschnitt", contentBlocks }, "de");
 		case "disclosure":
 			return buildDisclosure({ triggerLabel: "Mehr", contentBlocks }, "de");
+		case "fieldset":
+			return buildFieldset({ legend: "Gruppe", contentBlocks }, "de");
 		case "formFlow":
 			return buildFormFlow(
 				{

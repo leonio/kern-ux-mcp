@@ -8,6 +8,7 @@ import { buildButton } from "./button.js";
 import { buildCard } from "./card.js";
 import { buildDisclosure } from "./disclosure.js";
 import { buildField } from "./field.js";
+import { buildFieldset } from "./fieldset.js";
 import { buildFormFlow } from "./form-flow.js";
 import { buildGrid } from "./grid.js";
 import { buildSection } from "./section.js";
@@ -100,6 +101,8 @@ function renderBlock(
 			return buildBadge(block.badge, locale);
 		case "field":
 			return buildField(block.field, locale);
+		case "fieldset":
+			return buildFieldset(block.fieldset, locale, context);
 		case "card":
 			return buildCard(block.card, locale, context);
 		case "grid":

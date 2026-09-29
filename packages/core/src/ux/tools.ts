@@ -564,6 +564,7 @@ export const COMPOSITION_VALID_KINDS = [
 	"button",
 	"badge",
 	"field",
+	"fieldset",
 	"card",
 	"section",
 	"disclosure",
@@ -580,6 +581,7 @@ export const COMPOSITION_CHEAT_SHEET = [
 	'  badge:      { kind: "badge", badge: { type: "info", text: "Neu" } }',
 	'  field:      { kind: "field", field: { type: "email", name: "email", label: "E-Mail", hint?: "...", error?: "..." } }',
 	"                 type: text|email|tel|url|number|date|password|textarea|select|radio|checkbox; select/radio need options: [{ value, label }].",
+	'  fieldset:   { kind: "fieldset", fieldset: { legend: "...", legendSize?: "large", hint?: "...", contentBlocks: [field, ...] } }',
 	'  card:     { kind: "card", card: { header: { title: "..." }, body: "...", contentBlocks?: [...], footer?: { primaryLabel: "..." } } }',
 	'  section:    { kind: "section", section: { headingText: "...", contentBlocks: [...] } }',
 	'                 Shorthand: paragraphs: ["text1", "text2"] is also accepted (auto-converted to text blocks).',
@@ -588,7 +590,7 @@ export const COMPOSITION_CHEAT_SHEET = [
 	"                 columnsContent is an array of arrays — one inner array per column. Each inner array holds content blocks.",
 	'  formFlow:   { kind: "formFlow", formFlow: { currentStep: 1, steps: [{ label: "...", contentBlocks: [...] }, ...] } }',
 	"",
-	"Nested blocks (section.contentBlocks, card.contentBlocks, grid.columnsContent[][], disclosure.contentBlocks) use the same kind-based shapes recursively.",
+	"Nested blocks (section.contentBlocks, card.contentBlocks, grid.columnsContent[][], disclosure.contentBlocks, fieldset.contentBlocks) use the same kind-based shapes recursively.",
 ].join("\n");
 
 function buildRenderCompositionTool(): ToolDef {

@@ -794,14 +794,12 @@ describe("tool input schemas", () => {
 		const dividerSchema = getListedToolSchema(tools, "get_divider");
 		const kopfzeileSchema = getListedToolSchema(tools, "get_kopfzeile");
 
-		expect(fieldsetSchema.properties.legend.description).toContain(
-			"kern-label",
-		);
-		expect(fieldsetSchema.properties.includeHint.description).toContain(
+		expect(fieldsetSchema.required).toEqual(["legend", "contentBlocks"]);
+		expect(fieldsetSchema.properties.hint.description).toContain(
 			"aria-describedby",
 		);
 		expect(fieldsetSchema.properties.horizontal.description).toContain(
-			"kern-fieldset__body--horizontal",
+			"side by side",
 		);
 
 		expect(dividerSchema.properties.decorative.description).toContain(
