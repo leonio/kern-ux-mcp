@@ -21,11 +21,11 @@ Working agreements (standing, from the user):
 - **Server:** 54 tools. The listing is 198K compact characters (finding 19).
 - **Checks:** 536 tests in 68 files, all passing (2026-09-29).
 
-### How composition works today
+### How composition worked before R4
 
 - The block union has 9 kinds: `text`, `html`, `button`, `badge`, `section`, `disclosure`, `grid`, `card`, `formFlow` ([schemas/content-union.ts](../../packages/core/src/ux/schemas/content-union.ts)). Its JSON Schema appears once per tool, with recursion as `$ref`s into itself, so each composition tool carries 8–11K characters of it.
 - Six tools accept blocks: `render_composition`, `get_section`, `get_disclosure`, `get_card`, `get_grid`, `get_card_group`.
-- Rendering is [templates/content-union.ts](../../packages/core/src/ux/templates/content-union.ts) plus four optional callbacks (`renderCardNode`, `renderGridNode`, `renderSectionNode`, `renderDisclosureNode`). Each container passes on only some of them, so what renders depends on where a block sits:
+- Rendering was `templates/content-union.ts` (replaced in A1) plus four optional callbacks (`renderCardNode`, `renderGridNode`, `renderSectionNode`, `renderDisclosureNode`). Each container passes on only some of them, so what renders depends on where a block sits:
 
   | Container | Drops |
   |---|---|
@@ -101,7 +101,8 @@ with `type` one of `text`, `email`, `tel`, `url`, `number`, `date`, `password`, 
 - no `form` inside a `form` or a `formFlow` (nested forms are invalid HTML)
 - no `formFlow` below the top level
 - no `card` directly inside a `card`
-- the schema's depth check and the renderer's become one constant with one meaning
+- ~~the schema's depth check and the renderer's become one constant with one meaning~~ (done in A1)
+- a `section` or `disclosure` block must have content: the union accepts one without, and the builder then throws a raw Zod error (found in A)
 - These go into the existing `superRefine` walk, which reports the exact path. Per-context unions would multiply the listing size. The rules are listed in the cheat sheet and the union's description.
 
 **C2. `render_page` tool.**
@@ -126,11 +127,20 @@ with `type` one of `text`, `email`, `tel`, `url`, `number`, `date`, `password`, 
 
 ## Progress
 
-- [ ] A1 `createCompositionRenderer(locale)`
-- [ ] A2 `validate.ts` targets `.kern-error`
+- [x] A1 `42b49be`: `createCompositionRenderer(locale)` in `templates/composition-renderer.ts`, with the nesting matrix test
+- [x] A2 `d538e05`: `validate.ts` targets `.kern-error`, tested on every form template
 - [ ] B1 `field` block kind
 - [ ] B2 `get_fieldset` with children, `fieldset` block kind
 - [ ] B3 `form` block kind
 - [ ] B4 `formFlow` fixes
 - [ ] C1 schema rules for nesting
 - [ ] C2 `render_page`
+
+Learned in A:
+- **Builder API.** `buildCard`, `buildGrid`, `buildSection`, `buildDisclosure` and `buildFormFlow` take an optional `BlockContext` (`{ renderer, depth }`) as their third argument. Without one they render standalone at depth 0 through `standaloneContext(locale)`, so existing callers and tests needed no change.
+- **Depth now has one meaning** (moved forward from C1): a tool's own blocks are depth 1, a standalone container is depth 0, and the renderer skips blocks deeper than `MAX_RECURSIVE_CONTENT_DEPTH` (4), exactly where the schema's walk stops. Before, leaves past the limit still rendered, and a standalone container counted as depth 1, one level short of what its schema allowed.
+- **`callHandler` skips schema validation.** A test can pass input the server would reject: the old "section → grid → card → disclosure" test had a depth-5 leaf and only passed because leaves escaped the depth check. Tests that care now `safeParse` their payload first.
+- **Import cycles are fine.** `composition-renderer.ts` and the container builders import each other, but only call each other at render time. esbuild bundles them, and e2e passes.
+- The nesting matrix adds 450 cases (5 × 5 containers × 9 kinds, composed and standalone). The whole suite still runs in about 6 s.
+- A2 needed no snapshot changes: no tool output had a `.kern-error` without its reference.
+- Tests: 536 → 1002. Coverage 96.0 / 89.2 / 97.7 / 96.0.
