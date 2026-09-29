@@ -42,15 +42,15 @@ Day-to-day commands: `npm run build`, `npm test`, `npm run test:coverage`, `npm 
 
 ## Next steps
 
-### 1. Finish R3 (the maintainer, on npmjs.com and GitHub)
+### 1. Finish R3 (the maintainer, on npmjs.com and GitHub): done 2026-09-29
 
 These are the leftovers of [release-bootstrap.md](../release-bootstrap.md). They can't be checked from the repo.
 
-- [ ] `@leonio/kern-ux-mcp` trusted publisher: under **Allowed actions**, untick direct `npm publish`. It predates npm's staged-only default and still allows it; `2.0.0-alpha.67` went out that way.
-- [ ] Both npm packages, **Settings → Publishing access**: require 2FA and disallow tokens.
-- [ ] Revoke any npm access token created for the bootstrap (none is needed any more).
-- [ ] GitHub Packages, npm package `kern-ux-mcp-http`: **Manage Actions access** gives `kern-ux-mcp` the **Write** role, and its visibility matches `kern-ux-mcp` (release-bootstrap section 3).
-- [ ] Then tick R3's last box in [roadmap.md](roadmap.md) and section 3 of release-bootstrap.md.
+- [x] `@leonio/kern-ux-mcp` trusted publisher: under **Allowed actions**, untick direct `npm publish`. It predates npm's staged-only default and still allows it; `2.0.0-alpha.67` went out that way.
+- [x] Both npm packages, **Settings → Publishing access**: require 2FA and disallow tokens.
+- [x] Revoke any npm access token created for the bootstrap (none is needed any more).
+- [x] GitHub Packages, npm package `kern-ux-mcp-http`: **Manage Actions access** gives `kern-ux-mcp` the **Write** role, and its visibility matches `kern-ux-mcp` (release-bootstrap section 3).
+- [x] Then tick R3's last box in [roadmap.md](roadmap.md) and section 3 of release-bootstrap.md.
 
 ### 2. Open items from earlier steps
 

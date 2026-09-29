@@ -64,8 +64,8 @@ Trusted publishing needs npm CLI 11.5.1 or newer, and staged publishing 11.15.0 
 
 The workflow already publishes to GitHub Packages with `GITHUB_TOKEN`. The first workflow run creates `@leonio/kern-ux-mcp-http` there and links it to the repo. After that first run:
 
-- [ ] Under **Package settings**, then **Manage Actions access**, confirm `kern-ux-mcp` has the **Write** role.
-- [ ] Set the visibility to match `@leonio/kern-ux-mcp`.
+- [x] Under **Package settings**, then **Manage Actions access**, confirm `kern-ux-mcp` has the **Write** role.
+- [x] Set the visibility to match `@leonio/kern-ux-mcp`.
 
 ## 4. GHCR image `ghcr.io/leonio/kern-ux-mcp-http`
 
