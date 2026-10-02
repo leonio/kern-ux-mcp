@@ -132,10 +132,10 @@ In the English areas, component tool descriptions are API text only: what the to
 
 These change what tools return, so they wait until R5's before/after measurements are done. That way the noise is the same in the baseline and every re-run. Plan and progress: [r51-kickoff.md](r51-kickoff.md).
 
-- [ ] The grid warns "KERN UX has two layout systems…" only when it matters (columns that don't divide 12), not on every grid.
-- [ ] `get_inputtext` and the other text-like tools drop the default "enter your full name" format hint (the `field` block already has none).
-- [ ] Blocks in `<main>` and in `render_composition` get spacing between them, like a form's stack.
-- [ ] A fieldset's group error appears in the form's error summary, linked to the group's first input.
+- [x] The grid warns "KERN UX has two layout systems…" only when it matters (columns that don't divide 12), not on every grid.
+- [x] `get_inputtext` and the other text-like tools drop the default "enter your full name" format hint (the `field` block already has none).
+- [x] Blocks in `<main>` and in `render_composition` get spacing between them, like a form's stack.
+- [x] A fieldset's group error appears in the form's error summary, linked to the group's first input.
 - [ ] The typography templates and `get_link`'s `href` escape the model's text (found in R5).
 - [ ] `get_button` with `sr-only` keeps `kern-label`, as KERN's markup does (found in R5).
 

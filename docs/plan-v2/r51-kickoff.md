@@ -14,14 +14,14 @@ Do **R5.1** from [roadmap.md](roadmap.md#r51-output-polish-after-r5): the four R
 
 ### A. The roadmap's four boxes
 
-1. **The grid warning.** `grid.ts` warns "KERN UX has two layout systems…" on every grid. A warning for columns that don't divide 12 already exists, so the unconditional one goes.
+1. **The grid warning.** `grid.ts` warns "KERN UX has two layout systems…" on every grid. The unconditional one goes. (The plan said a warning for columns that don't divide 12 already existed. It did, but it was unreachable; see A1 below.)
 2. **No default format hint.** `get_inputtext` and the other text-like tools add a hint when none is given: "Pflichtformat: vollstaendigen Namen angeben (zum Beispiel Max Mustermann)" for text, and similar ones for number, email, tel, url, date and password. The `field` block already passes `defaultHint: false`. All of the defaults go, so the tools and the blocks render the same field (open question 1).
 3. **Spacing between blocks.** A form already stacks its content with `kern-flex kern-flex-col kern-gap-lg`. `<main>` and `render_composition` with more than one top-level block get the same stack. Check against KERN's own page examples before choosing between classes on `<main>` and a wrapper `<div>`.
 4. **A fieldset's group error in the error summary.** `withErrorIds` collects field errors only. A fieldset's `error` joins the summary in document order, linked to the group's first input. For a radio or checkbox field, that's its first option's input.
 
 ### B. Findings from R5
 
-5. **Escaping.** `get_body`, `get_heading`, `get_label`, `get_link`, `get_lists`, `get_preline`, `get_subline`, `get_title` and `get_descriptionlist` put the model's text into the HTML unescaped, and `get_link` does the same with `href`. Their schemas describe the input as plain text, so the templates escape it, as the text block and the form templates already do.
+5. **Escaping.** `get_body`, `get_heading`, `get_label`, `get_link`, `get_lists`, `get_preline`, `get_subline`, `get_title` and `get_descriptionlist` put the model's text into the HTML unescaped, and `get_link` does the same with `href`. So does the grid's `headingText` (found in A1); B5 sweeps every template, not only these. Their schemas describe the input as plain text, so the templates escape it, as the text block and the form templates already do.
 6. **`get_button` with `sr-only`.** The label's class becomes `kern-sr-only` instead of `kern-label`; KERN's markup keeps both (`<span class="kern-label kern-sr-only">`). Same for `sr-only-mobile`.
 
 Each item adds a migration-notes entry under "Rendered markup".
@@ -32,16 +32,35 @@ After A and after B: `npm run eval` and `--suite nested`, compared with `english
 
 ## Open (for the maintainer)
 
-1. **Which default hints go?** The roadmap names the text field's "full name" hint. The plan drops all of them: they're generic ("sicheres Passwort gemaess Richtlinie"), and the `field` block already renders without them. The alternative is to drop only the text field's.
-2. **Long results described instead of pasted.** In the evals Haiku describes the page instead of pasting it in 5 of 30 base answers and 5 of 12 nested ones ([post-alpha-work.md](post-alpha-work.md) section 4, point 4). The HTML is in the tool result either way. Options: leave it to the client, or add a line to the result text ("Give the user this HTML unchanged") and measure it with the evals. Not in the plan until decided.
+1. ~~**Which default hints go?**~~ **Decided 2026-10-02:** all of them, so the tools and the `field` block render the same field.
+2. ~~**Long results described instead of pasted.**~~ **Decided 2026-10-02:** left as it is for now. The HTML is in the tool result either way; revisit with the prompts (R7). In the evals Haiku describes the page instead of pasting it in 4–5 of 30 base answers and 5–6 of 12 nested ones.
 
 ## Progress
 
-- [ ] A1 The grid warning
-- [ ] A2 No default format hint
-- [ ] A3 Spacing between blocks
-- [ ] A4 Fieldset group error in the error summary
-- [ ] Evals after A
+- [x] A1 `6548a39`: the grid warning goes. Columns that don't divide 12 fail validation, and that hint names `kern-grid kern-grid-cols-5`. The "can't be represented evenly" warning and the column count inferred from `columnsContent` were unreachable, because `columns` defaults to 2; both went too.
+- [x] A2 `befa244`: no default format hints on the eight input tools, `get_inputfile` included: its default named a 10 MB limit nobody had set. `get_inputtext`'s description stops promising the generic hint.
+- [x] A3 `948276a`: `<main>` gets `kern-flex kern-flex-col kern-gap-lg`, and `render_composition` wraps several top-level blocks in a `<div>` with those classes. In a stack, `button` and `badge` blocks sit in a plain `<div>`.
+- [x] A4 `46076fd`: a fieldset's group error is in the error summary, before its fields' errors, linked to the first field at any depth (a radio group's first option). `withErrorIds`'s walk became `mapBlocks`.
+- [x] Evals after A: [r5-eval/r51-a.json](r5-eval/r51-a.json), [r5-eval/nested-r51-a.json](r5-eval/nested-r51-a.json)
+
+| | english-4 (`f380392`) | r51-a (`46076fd`) | nested-english-4 (`f380392`) | nested-r51-a (`46076fd`) |
+|---|---|---|---|---|
+| Completed | 30/30 | 30/30 | 12/12 | 12/12 |
+| Checks | 95/96 | 96/96 | 105/105 | 105/105 |
+| Error results | 0 | 2 | 1 | 1 |
+| Strict-valid answers | 30/30 | 30/30 | 12/12 | 12/12 |
+| Answers: verbatim / edited / described | 21 / 4 / 5 | 18 / 8 / 4 | 5 / 2 / 5 | 4 / 2 / 6 |
+
+None of the errors comes from group A:
+- `outage-status`: input that wasn't JSON. Haiku put about 2.6K of hand-escaped alert HTML into a `render_composition` call, then switched to `get_section`.
+- `icon-toolbar`: the icon name `arrow-download`; the hint pointed at `list_icons`, and the retry used `download`.
+- Nested `service-page`: again a section as a bare heading, with its content as siblings (also in nested-english-4). The retry put the content inside.
+
+Learned in A:
+- **Check that a warning can fire.** The plan relied on a grid warning that the schema's default made unreachable. A test that renders the case would have shown it.
+- **A flex column stretches inline elements.** `kern-btn` and `kern-badge` are `inline-flex` without a width, so in any stack they became full-width. The forms had this since R4; no test looked at a button block in a form.
+- **KERN has no page-level spacing to copy.** Its showcase page spaces sections with `<br>`. The repo's form stack is the convention now.
+- **A recurring error to fix:** "A section needs contentBlocks or paragraphs." In two nested evals in a row Haiku used a section as a heading and put its content after it. The message could say to put the blocks that follow into the section's `contentBlocks`.
 - [ ] B5 Escaping in the typography templates and `get_link`
 - [ ] B6 `get_button` keeps `kern-label` with `sr-only`
 - [ ] Evals after B

@@ -1,0 +1,201 @@
+{
+	"label": "nested-r51-a",
+	"suite": "nested",
+	"date": "2026-10-02T20:12:07.399Z",
+	"model": "claude-haiku-4-5",
+	"serverCommit": "46076fd",
+	"runsPerScenario": 3,
+	"systemPrompt": "You build web page markup with the KERN UX design system. Use the kern tools to render components instead of writing KERN markup by hand. When you're done, reply with the final HTML.",
+	"total": {
+		"runs": 12,
+		"completed": 12,
+		"toolCalls": 20,
+		"errorResults": 1,
+		"invalidInputErrors": 1,
+		"retries": 1,
+		"turns": 32,
+		"checksPassed": 105,
+		"checksTotal": 105,
+		"compositionCalls": 13,
+		"compositionErrors": 1,
+		"compositionRetries": 1,
+		"blockDepth": 4,
+		"blockNodes": 19,
+		"deliveredVerbatim": 4,
+		"deliveredEdited": 2,
+		"deliveredDescribed": 6,
+		"fallbacks": 0,
+		"strictValid": 12,
+		"firstRequestTokens": 36948,
+		"inputTokens": 1270500,
+		"outputTokens": 60486,
+		"costUsd": 0.6061894,
+		"durationMs": 473205
+	},
+	"scenarios": [
+		{
+			"id": "dashboard",
+			"runs": 3,
+			"completed": 3,
+			"toolCalls": 5,
+			"errorResults": 0,
+			"invalidInputErrors": 0,
+			"retries": 0,
+			"turns": 8,
+			"checksPassed": 21,
+			"checksTotal": 21,
+			"compositionCalls": 3,
+			"compositionErrors": 0,
+			"compositionRetries": 0,
+			"blockDepth": 4,
+			"blockNodes": 9,
+			"deliveredVerbatim": 3,
+			"deliveredEdited": 0,
+			"deliveredDescribed": 0,
+			"fallbacks": 0,
+			"strictValid": 3,
+			"firstRequestTokens": 36662,
+			"inputTokens": 316866,
+			"outputTokens": 16045,
+			"costUsd": 0.15199179999999998,
+			"durationMs": 117183,
+			"failedChecks": [],
+			"calls": [
+				[
+					"render_composition"
+				],
+				[
+					"get_table",
+					"render_composition"
+				],
+				[
+					"get_table",
+					"render_composition"
+				]
+			]
+		},
+		{
+			"id": "application-flow",
+			"runs": 3,
+			"completed": 3,
+			"toolCalls": 3,
+			"errorResults": 0,
+			"invalidInputErrors": 0,
+			"retries": 0,
+			"turns": 6,
+			"checksPassed": 27,
+			"checksTotal": 27,
+			"compositionCalls": 3,
+			"compositionErrors": 0,
+			"compositionRetries": 0,
+			"blockDepth": 3,
+			"blockNodes": 11,
+			"deliveredVerbatim": 1,
+			"deliveredEdited": 0,
+			"deliveredDescribed": 2,
+			"fallbacks": 0,
+			"strictValid": 3,
+			"firstRequestTokens": 36713,
+			"inputTokens": 238592,
+			"outputTokens": 16085,
+			"costUsd": 0.1491864,
+			"durationMs": 117039,
+			"failedChecks": [],
+			"calls": [
+				[
+					"render_page"
+				],
+				[
+					"render_composition"
+				],
+				[
+					"render_page"
+				]
+			]
+		},
+		{
+			"id": "service-page",
+			"runs": 3,
+			"completed": 3,
+			"toolCalls": 6,
+			"errorResults": 1,
+			"invalidInputErrors": 1,
+			"retries": 1,
+			"turns": 9,
+			"checksPassed": 24,
+			"checksTotal": 24,
+			"compositionCalls": 4,
+			"compositionErrors": 1,
+			"compositionRetries": 1,
+			"blockDepth": 3,
+			"blockNodes": 19,
+			"deliveredVerbatim": 0,
+			"deliveredEdited": 0,
+			"deliveredDescribed": 3,
+			"fallbacks": 0,
+			"strictValid": 3,
+			"firstRequestTokens": 36674,
+			"inputTokens": 366843,
+			"outputTokens": 17226,
+			"costUsd": 0.1809016,
+			"durationMs": 148340,
+			"failedChecks": [],
+			"calls": [
+				[
+					"render_page"
+				],
+				[
+					"get_table",
+					"render_page"
+				],
+				[
+					"get_table",
+					"render_page!invalid-input",
+					"render_page"
+				]
+			]
+		},
+		{
+			"id": "fix-page",
+			"runs": 3,
+			"completed": 3,
+			"toolCalls": 6,
+			"errorResults": 0,
+			"invalidInputErrors": 0,
+			"retries": 0,
+			"turns": 9,
+			"checksPassed": 33,
+			"checksTotal": 33,
+			"compositionCalls": 3,
+			"compositionErrors": 0,
+			"compositionRetries": 0,
+			"blockDepth": 3,
+			"blockNodes": 13,
+			"deliveredVerbatim": 0,
+			"deliveredEdited": 2,
+			"deliveredDescribed": 1,
+			"fallbacks": 0,
+			"strictValid": 3,
+			"firstRequestTokens": 36948,
+			"inputTokens": 348199,
+			"outputTokens": 11130,
+			"costUsd": 0.12410960000000001,
+			"durationMs": 90643,
+			"failedChecks": [],
+			"calls": [
+				[
+					"validate_html",
+					"render_page"
+				],
+				[
+					"render_page",
+					"validate_html"
+				],
+				[
+					"validate_html",
+					"render_page"
+				]
+			]
+		}
+	]
+}
