@@ -122,7 +122,7 @@ Measurements (2026-09-29), what they say about the shrink options, and kickoff q
 - [x] An `examples` table keyed by tool name, with a golden test (every example validates with `strict: true`). The error hints' known-good payloads are built from it. This is the first piece of `defineTool()`'s `examples`, without migrating any tool.
 - [x] English: foundations and form-field schemas.
 - [x] English: layout and typography schemas and tools.
-- [ ] English: interactive schemas and tools.
+- [x] English: interactive schemas and tools.
 - [ ] English: composition schemas, `COMPOSITION_CHEAT_SHEET`, and error hints.
 - [ ] Optional: a `KERN_TOOLSET=compact` profile.
 

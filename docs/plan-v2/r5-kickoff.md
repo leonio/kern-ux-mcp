@@ -172,4 +172,30 @@ Learned in C:
 
 `english-2` against `english-1`: the same checks and errors, 8 fewer calls, and 1,056 fewer first-request tokens.
 
-Pause for review here. Next: D (the interactive tools, then composition), starting with finding 4.
+Paused for review after C; the maintainer then started D.
+
+### D. The interactive tools and composition (roadmap boxes 7 and 8)
+
+- [x] `080fa68`: fix, the maintainer's choice. Buttons take KERN 2.8's five sizes. `small` rendered `kern-btn--x-small` as a "legacy alias", although KERN 2.8.0 added its own `kern-btn--small` (40 px), `--large` and `--x-large`. The `get_button` hint lists the five sizes (finding 1).
+- [x] `419bba0`, `18165f5`, `890c10e`: the nested eval scenarios from [post-alpha-work.md](post-alpha-work.md) section 4, run before D's text changes, as that doc proposed. Four layouts run with `--suite nested`. The new measurements, for every run:
+  - how the answer delivered the HTML (verbatim, edited, described)
+  - hand-written KERN markup
+  - strict validity of the delivered HTML
+  - errors on `render_composition` and `render_page`
+  - nesting depth and block count
+  - structure checks
+  - unparsable tool input as its own error class
+- [x] `a303ab0`: area 3, the interactive tools. 13 component tools plus `get_component_docs`, `list_components_by_category` and `validate_html`. Findings 2 (no payloads in descriptions) and 4 (`items` without `content` select group mode). The listing went from 129,840 to 119,225 characters; the budget ratchets to 120,000. [r5-eval/english-3.json](r5-eval/english-3.json), [r5-eval/nested-english-3.json](r5-eval/nested-english-3.json)
+- [ ] Area 4, composition: drafted, not applied. See [r5-handover.md](r5-handover.md#do-first).
+
+Learned in D:
+- **KERN moved under the tools.** The button sizes had been wrong since KERN 2.8.0, and nothing in the repo noticed. The knowledge bundle's conformance tests (K2) are what would catch this kind of drift.
+- **The nested baseline:**
+  - Haiku builds depth-4 layouts with no invalid calls, and every delivered page is strict-valid.
+  - The ten base scenarios never went past depth 3, which confirms that they didn't exercise the union.
+  - The checks that failed were two runs that didn't call `validate_html`.
+- **Shorter isn't always safe.** Area 3 cut the alert's `body` description to "Optional content below the heading". In one run Haiku then wrote `body` as a sentence: 13 unparsable calls, then a string, then right. The description should name the object's keys.
+- **What the evals measure:**
+  - The first harness version counted three tags named in inline code (`` `<caption>` ``) as an HTML answer; it now ignores inline code.
+  - An eval's own report made the next back-to-back eval record "+dirty"; the reports no longer count.
+  - Both were found by reading transcripts. Read them before trusting a new measurement.
