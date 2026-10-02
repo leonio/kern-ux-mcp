@@ -1,6 +1,7 @@
 import type { z } from "zod";
 import { debugLog } from "./logging.js";
 import type { ToolDef } from "./ux/tool-builders/shared.js";
+import { knownGoodPayload } from "./ux/tool-examples.js";
 import {
 	COMPOSITION_CHEAT_SHEET,
 	COMPOSITION_VALID_KINDS,
@@ -167,32 +168,28 @@ export function formatInputValidationHint(
 
 	if (name === "get_dialog") {
 		return (
-			`${base}\n` +
-			"Known-good payload: { title: 'Bestätigen', body: 'Möchten Sie fortfahren?', confirmLabel: 'Ja', cancelLabel: 'Nein', triggerLabel: 'Dialog öffnen', triggerVariant: 'primary' }.\n" +
+			`${base}\n${knownGoodPayload(name)}\n` +
 			"Legacy payload with actions.confirm/cancel is also accepted and auto-mapped."
 		);
 	}
 
 	if (name === "get_section") {
 		return (
-			`${base}\n` +
-			"Known-good payload: { headingText: 'Überblick', headingLevel: 2, paragraphs: ['Erster Absatz', 'Zweiter Absatz'], paragraphSize: 'default', paragraphBold: false, divider: false }.\n" +
+			`${base}\n${knownGoodPayload(name)}\n` +
 			"Compatibility aliases are accepted: heading (string/object), paragraphs as [{ text }], and paragraph as single string."
 		);
 	}
 
 	if (name === "get_grid") {
 		return (
-			`${base}\n` +
-			"Known-good payload: { columns: 3, includeHeading: true, headingText: 'Partner', headingLevel: 2 }.\n" +
+			`${base}\n${knownGoodPayload(name)}\n` +
 			'columns must be a divisor of 12: [1, 2, 3, 4, 6, 12]. For 5 or 7 equal columns, do not use get_grid; use CSS Grid utilities via get_utility_reference, e.g. class="kern-grid kern-grid-cols-5".'
 		);
 	}
 
 	if (name === "get_button") {
 		return (
-			`${base}\n` +
-			"Known-good payload: { label: 'More Info', variant: 'primary' }.\n" +
+			`${base}\n${knownGoodPayload(name)}\n` +
 			"Allowed variants: primary | secondary | tertiary. Allowed sizes: default | small. " +
 			"Optional icon shape: { icon: { name: 'arrow-forward', position: 'right' } }."
 		);
@@ -200,40 +197,35 @@ export function formatInputValidationHint(
 
 	if (name === "get_icon") {
 		return (
-			`${base}\n` +
-			"Known-good payload: { name: 'download', decorative: false, ariaLabel: 'Download PDF' }.\n" +
+			`${base}\n${knownGoodPayload(name)}\n` +
 			"Use list_icons to discover valid icon names."
 		);
 	}
 
 	if (name === "get_card_group") {
 		return (
-			`${base}\n` +
-			"Known-good payload: { columns: 3, cards: [{ header: { title: 'Service A' }, body: 'Kurzbeschreibung', footer: { primaryLabel: 'More Info' } }] }.\n" +
+			`${base}\n${knownGoodPayload(name)}\n` +
 			"cards must be an array of 1-6 objects. Each card can include media, header, body/bodyIsHtml/contentBlocks, and footer."
 		);
 	}
 
 	if (name === "get_heading") {
 		return (
-			`${base}\n` +
-			"Known-good payload: { text: 'Services', level: 2 }.\n" +
+			`${base}\n${knownGoodPayload(name)}\n` +
 			"Allowed heading levels: 1 | 2 | 3 | 4 | 5 | 6."
 		);
 	}
 
 	if (name === "get_tasklist") {
 		return (
-			`${base}\n` +
-			"Known-good payload: { heading: 'Antragsschritte', numbered: true, items: [{ title: 'Persoenliche Daten', status: 'In Bearbeitung', statusType: 'info' }] }.\n" +
+			`${base}\n${knownGoodPayload(name)}\n` +
 			"items accepts an array of objects with keys: title (required), href (optional), status (optional), statusType (info|success|warning|danger)."
 		);
 	}
 
 	if (name === "get_alert") {
 		return (
-			`${base}\n` +
-			"Known-good payload: { type: 'danger', title: 'Serverstörung', body: { text: 'Unsere Server sind nicht erreichbar.' } }.\n" +
+			`${base}\n${knownGoodPayload(name)}\n` +
 			"type: info (default) | success | warning | danger (highest severity — no separate 'high-contrast' variant exists). " +
 			"body is optional with keys: text, links (array of {href, text}), listItems (array of strings), listStyle ('default'|'bullet')."
 		);
@@ -241,8 +233,7 @@ export function formatInputValidationHint(
 
 	if (name === "get_disclosure") {
 		return (
-			`${base}\n` +
-			"Known-good payload: { triggerLabel: 'Details anzeigen', content: 'Erklärungstext' }.\n" +
+			`${base}\n${knownGoodPayload(name)}\n` +
 			"Required: triggerLabel AND (contentBlocks OR content). " +
 			"contentBlocks accepts recursive content blocks (text/html/button/card/grid). " +
 			"content accepts a plain string (with contentIsHtml: true for raw HTML)."
@@ -251,16 +242,14 @@ export function formatInputValidationHint(
 
 	if (name === "get_badge") {
 		return (
-			`${base}\n` +
-			"Known-good payload: { type: 'success', text: 'Online' }.\n" +
+			`${base}\n${knownGoodPayload(name)}\n` +
 			"Required: type AND text. type: info | success | warning | danger. Optional: showIcon: true."
 		);
 	}
 
 	if (name === "get_select") {
 		return (
-			`${base}\n` +
-			"Known-good payload: { name: 'lang', label: 'Sprache', options: [{ value: 'de', text: 'Deutsch', selected: true }, { value: 'en', text: 'English' }] }.\n" +
+			`${base}\n${knownGoodPayload(name)}\n` +
 			"Required: name, label, options (min 1). Each option: { value, text, selected?: bool, disabled?: bool }. " +
 			"Optional: hint, error, disabled: true, optional: true."
 		);
