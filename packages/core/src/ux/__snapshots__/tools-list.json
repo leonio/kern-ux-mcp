@@ -8649,7 +8649,7 @@
   {
     "name": "get_inputtext",
     "title": "KERN Input Text",
-    "description": "KERN UX: HTML for a text input with label, optional hint and error. Required: name, label. Set hint to the expected format; without one, a generic format hint is added.",
+    "description": "KERN UX: HTML for a text input with label, optional hint and error. Required: name, label. Name the expected format in hint.",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
       "type": "object",

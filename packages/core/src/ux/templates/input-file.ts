@@ -4,41 +4,6 @@ import { type InputFileInput, inputFileSchema } from "../schemas/input-file.js";
 import type { BuildResult, Locale } from "../types.js";
 import { escapeHtml } from "./escape.js";
 
-function formatAcceptForHint(accept?: string): string | undefined {
-	if (!accept) {
-		return undefined;
-	}
-
-	const tokens = accept
-		.split(",")
-		.map((token) => token.trim())
-		.filter((token) => token.length > 0)
-		.map((token) => token.replace(/^\./, ""))
-		.map((token) => token.toUpperCase());
-
-	if (tokens.length === 0) {
-		return undefined;
-	}
-
-	return tokens.join(", ");
-}
-
-function getDefaultFileHint(locale: Locale, accept?: string): string {
-	const acceptText = formatAcceptForHint(accept);
-
-	if (locale === "en") {
-		if (acceptText) {
-			return `Required format: ${acceptText}; maximum file size 10 MB.`;
-		}
-		return "Required format: upload a readable file (for example PDF, JPG, PNG), maximum file size 10 MB.";
-	}
-
-	if (acceptText) {
-		return `Pflichtformat: ${acceptText}; maximale Dateigroesse 10 MB.`;
-	}
-	return "Pflichtformat: lesbare Datei hochladen (zum Beispiel PDF, JPG, PNG), maximale Dateigroesse 10 MB.";
-}
-
 export function buildInputFile(
 	input: InputFileInput,
 	locale: Locale,
@@ -48,7 +13,7 @@ export function buildInputFile(
 	const effectiveHint =
 		typeof params.hint === "string" && params.hint.trim().length > 0
 			? params.hint
-			: getDefaultFileHint(locale, params.accept);
+			: undefined;
 
 	const id = generateId("input");
 	const hintId = effectiveHint ? generateId("hint") : undefined;
@@ -92,7 +57,7 @@ export function buildInputFile(
 		: "";
 
 	const hintHtml = hintId
-		? `\n  <div class="kern-hint" id="${hintId}">${escapeHtml(effectiveHint)}</div>`
+		? `\n  <div class="kern-hint" id="${hintId}">${escapeHtml(effectiveHint ?? "")}</div>`
 		: "";
 
 	let errorHtml = "";

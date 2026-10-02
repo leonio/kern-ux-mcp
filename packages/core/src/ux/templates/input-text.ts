@@ -4,44 +4,6 @@ import type { InputTextInput } from "../schemas/input-text.js";
 import type { BuildResult, Locale } from "../types.js";
 import { escapeHtml } from "./escape.js";
 
-function getDefaultFormatHint(type: string, locale: Locale): string {
-	if (locale === "en") {
-		switch (type) {
-			case "number":
-				return "Required format: digits only (for example 35000).";
-			case "email":
-				return "Required format: valid email address (for example name@example.com).";
-			case "tel":
-				return "Required format: phone number including area code.";
-			case "url":
-				return "Required format: full URL including https://.";
-			case "date":
-				return "Required format: date in the input format shown by your browser.";
-			case "password":
-				return "Required format: strong password according to your policy.";
-			default:
-				return "Required format: enter your full name (for example Max Mustermann).";
-		}
-	}
-
-	switch (type) {
-		case "number":
-			return "Pflichtformat: nur Ziffern (zum Beispiel 35000).";
-		case "email":
-			return "Pflichtformat: gueltige E-Mail-Adresse (zum Beispiel name@example.com).";
-		case "tel":
-			return "Pflichtformat: Telefonnummer inklusive Vorwahl.";
-		case "url":
-			return "Pflichtformat: vollstaendige URL inklusive https://.";
-		case "date":
-			return "Pflichtformat: Datum im vom Browser angezeigten Eingabeformat.";
-		case "password":
-			return "Pflichtformat: sicheres Passwort gemaess Richtlinie.";
-		default:
-			return "Pflichtformat: vollstaendigen Namen angeben (zum Beispiel Max Mustermann).";
-	}
-}
-
 function getEffectiveAutocomplete(
 	type: string,
 	autocomplete?: string,
@@ -62,12 +24,11 @@ function getEffectiveAutocomplete(
 
 /**
  * Build an InputText component (or other input type variant).
- * `defaultHint: false` leaves a field without a hint instead of adding a format hint.
  */
 export function buildInputText(
 	params: InputTextInput,
 	locale: Locale,
-	options: { id?: string; defaultHint?: boolean } = {},
+	options: { id?: string } = {},
 ): BuildResult {
 	const warnings: string[] = [];
 	const inputType = params.type ?? "text";
@@ -75,9 +36,7 @@ export function buildInputText(
 	const effectiveHint =
 		typeof params.hint === "string" && params.hint.trim().length > 0
 			? params.hint
-			: options.defaultHint === false
-				? undefined
-				: getDefaultFormatHint(inputType, locale);
+			: undefined;
 
 	const id = escapeHtml(options.id ?? generateId("input"));
 	const hintId = effectiveHint ? generateId("hint") : undefined;

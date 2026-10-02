@@ -9,8 +9,7 @@ describe("buildInputNumber", () => {
 		expect(result.html).toContain('pattern="[0-9]*"');
 		expect(result.html).not.toContain('type="number"');
 		expect(result.html).toContain('name="count"');
-		expect(result.html).toContain('class="kern-hint"');
-		expect(result.html).toContain("Pflichtformat");
-		expect(result.html).toContain("aria-describedby");
+		expect(result.html).not.toContain("kern-hint");
+		expect(result.html).not.toContain("aria-describedby");
 	});
 });

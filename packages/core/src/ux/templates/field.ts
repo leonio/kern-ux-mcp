@@ -115,7 +115,7 @@ export function buildField(input: FieldInput, locale: Locale): BuildResult {
 						autocomplete: field.autocomplete,
 					},
 					locale,
-					{ id, defaultHint: false },
+					{ id },
 				);
 		}
 	})();

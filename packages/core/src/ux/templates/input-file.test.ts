@@ -8,9 +8,8 @@ describe("buildInputFile", () => {
 		const result = buildInputFile({ name: "upload", label: "Datei" }, "de");
 		expect(result.html).toContain('type="file"');
 		expect(result.html).toContain('name="upload"');
-		expect(result.html).toContain('class="kern-hint"');
-		expect(result.html).toContain("Dateigroesse");
-		expect(result.html).toContain("aria-describedby");
+		expect(result.html).not.toContain("kern-hint");
+		expect(result.html).not.toContain("aria-describedby");
 	});
 
 	it("renders accept and hint", () => {
@@ -22,57 +21,28 @@ describe("buildInputFile", () => {
 		expect(result.html).toContain("Nur PDF");
 	});
 
-	describe("default hint", () => {
-		it("derives the German hint from accept tokens", () => {
-			const result = buildInputFile(
-				{ name: "upload", label: "Nachweis", accept: ".pdf, image/png" },
-				"de",
-			);
-			expect(result.html).toContain(
-				"Pflichtformat: PDF, IMAGE/PNG; maximale Dateigroesse 10 MB.",
-			);
-		});
+	it.each<[string, object]>([
+		["no hint, even with accept", { accept: ".pdf, image/png" }],
+		["a whitespace-only hint", { hint: "   " }],
+	])("renders no hint for %s", (_, fields) => {
+		const result = buildInputFile(
+			{ name: "upload", label: "Nachweis", ...fields },
+			"de",
+		);
 
-		it("derives the English hint from accept tokens", () => {
-			const result = buildInputFile(
-				{ name: "upload", label: "Proof", accept: ".jpg" },
-				"en",
-			);
-			expect(result.html).toContain(
-				"Required format: JPG; maximum file size 10 MB.",
-			);
-		});
-
-		it("uses the generic English hint when accept is missing", () => {
-			const result = buildInputFile({ name: "upload", label: "Proof" }, "en");
-			expect(result.html).toContain(
-				"Required format: upload a readable file (for example PDF, JPG, PNG)",
-			);
-		});
-
-		it("falls back to the generic hint when accept has no usable tokens", () => {
-			const result = buildInputFile(
-				{ name: "upload", label: "Nachweis", accept: " , ," },
-				"de",
-			);
-			expect(result.html).toContain(
-				"Pflichtformat: lesbare Datei hochladen (zum Beispiel PDF, JPG, PNG)",
-			);
-		});
-
-		it("treats a whitespace-only hint as missing", () => {
-			const result = buildInputFile(
-				{ name: "upload", label: "Nachweis", hint: "   " },
-				"de",
-			);
-			expect(result.html).toContain("maximale Dateigroesse 10 MB.");
-		});
+		expect(result.html).not.toContain("kern-hint");
+		expect(result.html).not.toContain("aria-describedby");
 	});
 
 	describe("error state", () => {
 		it("renders the error and references both hint and error via aria-describedby", () => {
 			const result = buildInputFile(
-				{ name: "upload", label: "Nachweis", error: "Datei fehlt" },
+				{
+					name: "upload",
+					label: "Nachweis",
+					hint: "PDF, höchstens 5 MB",
+					error: "Datei fehlt",
+				},
 				"de",
 			);
 

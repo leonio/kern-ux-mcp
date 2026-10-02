@@ -13,9 +13,8 @@ describe("buildInputText", () => {
 		expect(result.html).toContain('type="text"');
 		expect(result.html).toContain('name="username"');
 		expect(result.html).toContain("Benutzername");
-		expect(result.html).toContain('class="kern-hint"');
-		expect(result.html).toContain("Pflichtformat");
-		expect(result.html).toContain("aria-describedby");
+		expect(result.html).not.toContain("kern-hint");
+		expect(result.html).not.toContain("aria-describedby");
 		expect(result.warnings).toHaveLength(0);
 	});
 

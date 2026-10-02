@@ -133,7 +133,7 @@ function buildInputTextTool(component: ComponentInfo): ToolDef {
 	return buildParameterizedComponentTool<InputTextInput>(
 		component,
 		"KERN UX: HTML for a text input with label, optional hint and error. Required: name, label. " +
-			"Set hint to the expected format; without one, a generic format hint is added.",
+			"Name the expected format in hint.",
 		inputTextSchema,
 		buildInputText,
 	);
