@@ -1,5 +1,7 @@
 # R5 handover: part D under way (area 3 done, area 4 drafted)
 
+**Update, later on 2026-10-02:** "Do first" items 1 and 2 are done (`d8e9261`, `f380392`, evals `english-4` and `nested-english-4`); results in [r5-kickoff.md](r5-kickoff.md#d-the-interactive-tools-and-composition-roadmap-boxes-7-and-8). Next is item 3. The listing is 115,556 characters, the budget 116,000 (open item 2 in r5-kickoff.md).
+
 As of 2026-10-02, evening. Start a new session here. The plan, progress and lessons are in [r5-kickoff.md](r5-kickoff.md); this is the short version and what to do first. The previous handover (before group C) is in git history at `c1beb8a`.
 
 ## State

@@ -47,6 +47,7 @@ Measure a fixed shallow block set against sets matched to each tool's job, then 
 ## Open (for the maintainer)
 
 1. **The harness:** which model API it calls (the Claude API, OpenAI, or both), which model, and whose API key. Also the scenario list (8–10 tasks: Wohngeld wizard, contact form, landing page, …) to review.
+2. **The budget after R5:** the listing is at 115,556 and `LISTING_BUDGET.modelFacing` ratchets to 116,000, leaving about 4.5K under the 120K target for the bundle's summaries instead of 7K. The alternative is to hold the budget at 120K and let the ratchet stop there.
 
 ## Progress
 
@@ -186,7 +187,21 @@ Paused for review after C; the maintainer then started D.
   - structure checks
   - unparsable tool input as its own error class
 - [x] `a303ab0`: area 3, the interactive tools. 13 component tools plus `get_component_docs`, `list_components_by_category` and `validate_html`. Findings 2 (no payloads in descriptions) and 4 (`items` without `content` select group mode). The listing went from 129,840 to 119,225 characters; the budget ratchets to 120,000. [r5-eval/english-3.json](r5-eval/english-3.json), [r5-eval/nested-english-3.json](r5-eval/nested-english-3.json)
-- [ ] Area 4, composition: drafted, not applied. See [r5-handover.md](r5-handover.md#do-first).
+- [x] `d8e9261`: fix. `get_alert`'s `body` description names the object `{ text, links, listItems }` again (see "Shorter isn't always safe" below).
+- [x] `f380392`: area 4, composition. `get_section`, `get_card_group`, `get_disclosure`, `render_composition`, `render_page` and the block schema: English descriptions and error messages, no "(Komposition)" and no payloads in descriptions. The cheat sheet states the limits. `render_page`'s example moves into `TOOL_EXAMPLES`, and its hint appends it. A `disclosure` block takes `content` like the tool (finding 5). The listing went from 119,268 to 115,556 characters, and the budget ratchets to 116,000, below the target (open item 2). [r5-eval/english-4.json](r5-eval/english-4.json), [r5-eval/nested-english-4.json](r5-eval/nested-english-4.json)
+
+| | english-3 (`a303ab0`) | english-4 (`f380392`) | nested-english-3 (`a303ab0`) | nested-english-4 (`f380392`) |
+|---|---|---|---|---|
+| Completed | 30/30 | 30/30 | 12/12 | 12/12 |
+| Checks | 96/96 | 95/96 | 105/105 | 105/105 |
+| Error results | 15 | 0 | 0 | 1 |
+| Strict-valid answers | 30/30 | 30/30 | 12/12 | 12/12 |
+| Answers: verbatim / edited / described | 21 / 5 / 4 | 21 / 4 / 5 | 5 / 2 / 5 | 5 / 2 / 5 |
+| First request tokens | 38,179 | 36,654 | 38,491 | 36,956 |
+
+- **The failed check:** one `landing-page` run translated the card titles into English ("Register Dog"), so the expected text "Hund anmelden" was missing. It also wrote the cards by hand in an `html` block. That happened in `landing-page-3` in english-2 and english-3 too.
+- **The one error:** a nested run used a section as a bare heading ("Frequently Asked Questions") with the disclosures as its siblings. The R4 rule ("A section needs contentBlocks or paragraphs.") caught it, and the retry put them inside.
+- **The alert fix:** `outage-status` went from 14 errors to 0.
 
 Learned in D:
 - **KERN moved under the tools.** The button sizes had been wrong since KERN 2.8.0, and nothing in the repo noticed. The knowledge bundle's conformance tests (K2) are what would catch this kind of drift.
@@ -195,6 +210,9 @@ Learned in D:
   - The ten base scenarios never went past depth 3, which confirms that they didn't exercise the union.
   - The checks that failed were two runs that didn't call `validate_html`.
 - **Shorter isn't always safe.** Area 3 cut the alert's `body` description to "Optional content below the heading". In one run Haiku then wrote `body` as a sentence: 13 unparsable calls, then a string, then right. The description should name the object's keys.
+- **Read the assembled text, not the fragments.** The area 4 draft rewrote `render_composition`'s description without the cheat sheet in view, so the description listed every kind right before the cheat sheet listed them again. The snapshot diff showed it; the draft's source fragments didn't.
+- **The ratchet met the target.** The budget test asked for a budget near the listing, and a second test kept the budget at or above the 120K target, so a listing under the target failed one of them. The target is now a ceiling: the budget may rise back to it for the bundle's summaries, not past it.
+- **`html` blocks carry what has no block kind.** Tables went into `html` blocks in 12 of 12 nested runs, accordions in two FAQ runs. All were strict-valid. A table block kind would be a decision of its own (R6 or later), not R5 work.
 - **What the evals measure:**
   - The first harness version counted three tags named in inline code (`` `<caption>` ``) as an HTML answer; it now ignores inline code.
   - An eval's own report made the next back-to-back eval record "+dirty"; the reports no longer count.

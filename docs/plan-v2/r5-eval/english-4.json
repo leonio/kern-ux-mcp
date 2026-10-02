@@ -1,0 +1,456 @@
+{
+	"label": "english-4",
+	"suite": "base",
+	"date": "2026-10-02T19:26:44.060Z",
+	"model": "claude-haiku-4-5",
+	"serverCommit": "f380392",
+	"runsPerScenario": 3,
+	"systemPrompt": "You build web page markup with the KERN UX design system. Use the kern tools to render components instead of writing KERN markup by hand. When you're done, reply with the final HTML.",
+	"total": {
+		"runs": 30,
+		"completed": 30,
+		"toolCalls": 57,
+		"errorResults": 0,
+		"invalidInputErrors": 0,
+		"retries": 0,
+		"turns": 87,
+		"checksPassed": 95,
+		"checksTotal": 96,
+		"compositionCalls": 17,
+		"compositionErrors": 0,
+		"compositionRetries": 0,
+		"blockDepth": 4,
+		"blockNodes": 10,
+		"deliveredVerbatim": 21,
+		"deliveredEdited": 4,
+		"deliveredDescribed": 5,
+		"fallbacks": 1,
+		"strictValid": 30,
+		"firstRequestTokens": 36654,
+		"inputTokens": 2688430,
+		"outputTokens": 71764,
+		"costUsd": 0.9912045000000003,
+		"durationMs": 618426
+	},
+	"scenarios": [
+		{
+			"id": "contact-form",
+			"runs": 3,
+			"completed": 3,
+			"toolCalls": 3,
+			"errorResults": 0,
+			"invalidInputErrors": 0,
+			"retries": 0,
+			"turns": 6,
+			"checksPassed": 12,
+			"checksTotal": 12,
+			"compositionCalls": 3,
+			"compositionErrors": 0,
+			"compositionRetries": 0,
+			"blockDepth": 2,
+			"blockNodes": 5,
+			"deliveredVerbatim": 1,
+			"deliveredEdited": 0,
+			"deliveredDescribed": 2,
+			"fallbacks": 0,
+			"strictValid": 3,
+			"firstRequestTokens": 36624,
+			"inputTokens": 228435,
+			"outputTokens": 8485,
+			"costUsd": 0.2260646,
+			"durationMs": 75520,
+			"failedChecks": [],
+			"calls": [
+				[
+					"render_composition"
+				],
+				[
+					"render_page"
+				],
+				[
+					"render_page"
+				]
+			]
+		},
+		{
+			"id": "wohngeld-wizard",
+			"runs": 3,
+			"completed": 3,
+			"toolCalls": 3,
+			"errorResults": 0,
+			"invalidInputErrors": 0,
+			"retries": 0,
+			"turns": 6,
+			"checksPassed": 9,
+			"checksTotal": 9,
+			"compositionCalls": 3,
+			"compositionErrors": 0,
+			"compositionRetries": 0,
+			"blockDepth": 2,
+			"blockNodes": 6,
+			"deliveredVerbatim": 3,
+			"deliveredEdited": 0,
+			"deliveredDescribed": 0,
+			"fallbacks": 0,
+			"strictValid": 3,
+			"firstRequestTokens": 36646,
+			"inputTokens": 228400,
+			"outputTokens": 10367,
+			"costUsd": 0.10029199999999999,
+			"durationMs": 83709,
+			"failedChecks": [],
+			"calls": [
+				[
+					"render_composition"
+				],
+				[
+					"render_composition"
+				],
+				[
+					"render_composition"
+				]
+			]
+		},
+		{
+			"id": "landing-page",
+			"runs": 3,
+			"completed": 3,
+			"toolCalls": 3,
+			"errorResults": 0,
+			"invalidInputErrors": 0,
+			"retries": 0,
+			"turns": 6,
+			"checksPassed": 11,
+			"checksTotal": 12,
+			"compositionCalls": 3,
+			"compositionErrors": 0,
+			"compositionRetries": 0,
+			"blockDepth": 2,
+			"blockNodes": 5,
+			"deliveredVerbatim": 0,
+			"deliveredEdited": 1,
+			"deliveredDescribed": 2,
+			"fallbacks": 0,
+			"strictValid": 3,
+			"firstRequestTokens": 36654,
+			"inputTokens": 231399,
+			"outputTokens": 10027,
+			"costUsd": 0.1046003,
+			"durationMs": 80506,
+			"failedChecks": [
+				"Hund anmelden"
+			],
+			"calls": [
+				[
+					"render_page"
+				],
+				[
+					"render_page"
+				],
+				[
+					"render_page"
+				]
+			]
+		},
+		{
+			"id": "outage-status",
+			"runs": 3,
+			"completed": 3,
+			"toolCalls": 18,
+			"errorResults": 0,
+			"invalidInputErrors": 0,
+			"retries": 0,
+			"turns": 21,
+			"checksPassed": 9,
+			"checksTotal": 9,
+			"compositionCalls": 2,
+			"compositionErrors": 0,
+			"compositionRetries": 0,
+			"blockDepth": 2,
+			"blockNodes": 3,
+			"deliveredVerbatim": 3,
+			"deliveredEdited": 0,
+			"deliveredDescribed": 0,
+			"fallbacks": 0,
+			"strictValid": 3,
+			"firstRequestTokens": 36598,
+			"inputTokens": 425201,
+			"outputTokens": 9800,
+			"costUsd": 0.1233168,
+			"durationMs": 84622,
+			"failedChecks": [],
+			"calls": [
+				[
+					"get_alert",
+					"get_badge",
+					"get_badge",
+					"get_badge",
+					"get_table"
+				],
+				[
+					"get_alert",
+					"get_badge",
+					"get_badge",
+					"get_badge",
+					"get_badge",
+					"get_table",
+					"render_composition"
+				],
+				[
+					"get_alert",
+					"get_badge",
+					"get_badge",
+					"get_badge",
+					"get_table",
+					"render_composition"
+				]
+			]
+		},
+		{
+			"id": "faq",
+			"runs": 3,
+			"completed": 3,
+			"toolCalls": 6,
+			"errorResults": 0,
+			"invalidInputErrors": 0,
+			"retries": 0,
+			"turns": 9,
+			"checksPassed": 6,
+			"checksTotal": 6,
+			"compositionCalls": 2,
+			"compositionErrors": 0,
+			"compositionRetries": 0,
+			"blockDepth": 2,
+			"blockNodes": 2,
+			"deliveredVerbatim": 3,
+			"deliveredEdited": 0,
+			"deliveredDescribed": 0,
+			"fallbacks": 0,
+			"strictValid": 3,
+			"firstRequestTokens": 36583,
+			"inputTokens": 342436,
+			"outputTokens": 7229,
+			"costUsd": 0.0956747,
+			"durationMs": 63813,
+			"failedChecks": [],
+			"calls": [
+				[
+					"get_accordion",
+					"get_heading"
+				],
+				[
+					"get_accordion",
+					"render_composition"
+				],
+				[
+					"get_accordion",
+					"render_composition"
+				]
+			]
+		},
+		{
+			"id": "delete-dialog",
+			"runs": 3,
+			"completed": 3,
+			"toolCalls": 3,
+			"errorResults": 0,
+			"invalidInputErrors": 0,
+			"retries": 0,
+			"turns": 6,
+			"checksPassed": 9,
+			"checksTotal": 9,
+			"compositionCalls": 0,
+			"compositionErrors": 0,
+			"compositionRetries": 0,
+			"blockDepth": 0,
+			"blockNodes": 0,
+			"deliveredVerbatim": 3,
+			"deliveredEdited": 0,
+			"deliveredDescribed": 0,
+			"fallbacks": 0,
+			"strictValid": 3,
+			"firstRequestTokens": 36593,
+			"inputTokens": 222436,
+			"outputTokens": 3567,
+			"costUsd": 0.05456709999999999,
+			"durationMs": 32106,
+			"failedChecks": [],
+			"calls": [
+				[
+					"get_dialog"
+				],
+				[
+					"get_dialog"
+				],
+				[
+					"get_dialog"
+				]
+			]
+		},
+		{
+			"id": "address-fieldset",
+			"runs": 3,
+			"completed": 3,
+			"toolCalls": 3,
+			"errorResults": 0,
+			"invalidInputErrors": 0,
+			"retries": 0,
+			"turns": 6,
+			"checksPassed": 12,
+			"checksTotal": 12,
+			"compositionCalls": 0,
+			"compositionErrors": 0,
+			"compositionRetries": 0,
+			"blockDepth": 0,
+			"blockNodes": 0,
+			"deliveredVerbatim": 3,
+			"deliveredEdited": 0,
+			"deliveredDescribed": 0,
+			"fallbacks": 0,
+			"strictValid": 3,
+			"firstRequestTokens": 36598,
+			"inputTokens": 222834,
+			"outputTokens": 4188,
+			"costUsd": 0.058419000000000006,
+			"durationMs": 32677,
+			"failedChecks": [],
+			"calls": [
+				[
+					"get_fieldset"
+				],
+				[
+					"get_fieldset"
+				],
+				[
+					"get_fieldset"
+				]
+			]
+		},
+		{
+			"id": "icon-toolbar",
+			"runs": 3,
+			"completed": 3,
+			"toolCalls": 8,
+			"errorResults": 0,
+			"invalidInputErrors": 0,
+			"retries": 0,
+			"turns": 11,
+			"checksPassed": 6,
+			"checksTotal": 6,
+			"compositionCalls": 2,
+			"compositionErrors": 0,
+			"compositionRetries": 0,
+			"blockDepth": 1,
+			"blockNodes": 3,
+			"deliveredVerbatim": 3,
+			"deliveredEdited": 0,
+			"deliveredDescribed": 0,
+			"fallbacks": 0,
+			"strictValid": 3,
+			"firstRequestTokens": 36584,
+			"inputTokens": 261276,
+			"outputTokens": 4402,
+			"costUsd": 0.0646516,
+			"durationMs": 41876,
+			"failedChecks": [],
+			"calls": [
+				[
+					"render_composition"
+				],
+				[
+					"get_button",
+					"get_button",
+					"get_button",
+					"render_composition"
+				],
+				[
+					"get_button",
+					"get_button",
+					"get_button"
+				]
+			]
+		},
+		{
+			"id": "fix-markup",
+			"runs": 3,
+			"completed": 3,
+			"toolCalls": 7,
+			"errorResults": 0,
+			"invalidInputErrors": 0,
+			"retries": 0,
+			"turns": 10,
+			"checksPassed": 12,
+			"checksTotal": 12,
+			"compositionCalls": 0,
+			"compositionErrors": 0,
+			"compositionRetries": 0,
+			"blockDepth": 0,
+			"blockNodes": 0,
+			"deliveredVerbatim": 0,
+			"deliveredEdited": 3,
+			"deliveredDescribed": 0,
+			"fallbacks": 1,
+			"strictValid": 3,
+			"firstRequestTokens": 36604,
+			"inputTokens": 296088,
+			"outputTokens": 3075,
+			"costUsd": 0.058861800000000006,
+			"durationMs": 32091,
+			"failedChecks": [],
+			"calls": [
+				[
+					"validate_html",
+					"get_inputtext",
+					"get_button"
+				],
+				[
+					"validate_html",
+					"get_inputtext",
+					"get_button"
+				],
+				[
+					"validate_html"
+				]
+			]
+		},
+		{
+			"id": "service-cards",
+			"runs": 3,
+			"completed": 3,
+			"toolCalls": 3,
+			"errorResults": 0,
+			"invalidInputErrors": 0,
+			"retries": 0,
+			"turns": 6,
+			"checksPassed": 9,
+			"checksTotal": 9,
+			"compositionCalls": 2,
+			"compositionErrors": 0,
+			"compositionRetries": 0,
+			"blockDepth": 4,
+			"blockNodes": 10,
+			"deliveredVerbatim": 2,
+			"deliveredEdited": 0,
+			"deliveredDescribed": 1,
+			"fallbacks": 0,
+			"strictValid": 3,
+			"firstRequestTokens": 36597,
+			"inputTokens": 229925,
+			"outputTokens": 10624,
+			"costUsd": 0.1047566,
+			"durationMs": 91506,
+			"failedChecks": [],
+			"calls": [
+				[
+					"render_composition"
+				],
+				[
+					"render_composition"
+				],
+				[
+					"get_card_group"
+				]
+			]
+		}
+	]
+}

@@ -123,7 +123,7 @@ Measurements (2026-09-29), what they say about the shrink options, and kickoff q
 - [x] English: foundations and form-field schemas.
 - [x] English: layout and typography schemas and tools.
 - [x] English: interactive schemas and tools.
-- [ ] English: composition schemas, `COMPOSITION_CHEAT_SHEET`, and error hints.
+- [x] English: composition schemas, `COMPOSITION_CHEAT_SHEET`, and error hints.
 - [ ] Optional: a `KERN_TOOLSET=compact` profile.
 
 In the English areas, component tool descriptions are API text only: what the tool renders and its parameters, plus a pointer. "When to use" knowledge stays out of code, and about 7K of the budget stays free for registry summaries (R4b).
