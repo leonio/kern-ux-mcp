@@ -1,0 +1,350 @@
+{
+	"label": "baseline",
+	"date": "2026-10-02T10:30:52.150Z",
+	"rescored": "2026-10-02T10:33:23.471Z",
+	"model": "claude-haiku-4-5",
+	"serverCommit": "bfb41ed",
+	"runsPerScenario": 3,
+	"systemPrompt": "You build web page markup with the KERN UX design system. Use the kern tools to render components instead of writing KERN markup by hand. When you're done, reply with the final HTML.",
+	"total": {
+		"runs": 30,
+		"completed": 30,
+		"toolCalls": 61,
+		"errorResults": 2,
+		"invalidInputErrors": 2,
+		"retries": 2,
+		"turns": 91,
+		"checksPassed": 95,
+		"checksTotal": 96,
+		"firstRequestTokens": 70676,
+		"inputTokens": 5177007,
+		"outputTokens": 68622,
+		"costUsd": 1.0914745000000001,
+		"durationMs": 585761
+	},
+	"scenarios": [
+		{
+			"id": "contact-form",
+			"runs": 3,
+			"completed": 3,
+			"toolCalls": 3,
+			"errorResults": 0,
+			"invalidInputErrors": 0,
+			"retries": 0,
+			"turns": 6,
+			"checksPassed": 12,
+			"checksTotal": 12,
+			"firstRequestTokens": 70646,
+			"inputTokens": 428750,
+			"outputTokens": 6493,
+			"costUsd": 0.0937368,
+			"durationMs": 52024,
+			"failedChecks": [],
+			"calls": [
+				[
+					"render_composition"
+				],
+				[
+					"render_composition"
+				],
+				[
+					"render_composition"
+				]
+			]
+		},
+		{
+			"id": "wohngeld-wizard",
+			"runs": 3,
+			"completed": 3,
+			"toolCalls": 3,
+			"errorResults": 0,
+			"invalidInputErrors": 0,
+			"retries": 0,
+			"turns": 6,
+			"checksPassed": 9,
+			"checksTotal": 9,
+			"firstRequestTokens": 70669,
+			"inputTokens": 436658,
+			"outputTokens": 10387,
+			"costUsd": 0.1290266,
+			"durationMs": 84441,
+			"failedChecks": [],
+			"calls": [
+				[
+					"render_page"
+				],
+				[
+					"render_page"
+				],
+				[
+					"render_page"
+				]
+			]
+		},
+		{
+			"id": "landing-page",
+			"runs": 3,
+			"completed": 3,
+			"toolCalls": 3,
+			"errorResults": 0,
+			"invalidInputErrors": 0,
+			"retries": 0,
+			"turns": 6,
+			"checksPassed": 12,
+			"checksTotal": 12,
+			"firstRequestTokens": 70676,
+			"inputTokens": 435641,
+			"outputTokens": 8282,
+			"costUsd": 0.1164667,
+			"durationMs": 67002,
+			"failedChecks": [],
+			"calls": [
+				[
+					"render_page"
+				],
+				[
+					"render_page"
+				],
+				[
+					"render_page"
+				]
+			]
+		},
+		{
+			"id": "outage-status",
+			"runs": 3,
+			"completed": 3,
+			"toolCalls": 18,
+			"errorResults": 0,
+			"invalidInputErrors": 0,
+			"retries": 0,
+			"turns": 21,
+			"checksPassed": 9,
+			"checksTotal": 9,
+			"firstRequestTokens": 70624,
+			"inputTokens": 800491,
+			"outputTokens": 10286,
+			"costUsd": 0.1648832,
+			"durationMs": 87014,
+			"failedChecks": [],
+			"calls": [
+				[
+					"get_alert",
+					"get_badge",
+					"get_badge",
+					"get_badge",
+					"get_badge",
+					"get_table"
+				],
+				[
+					"get_alert",
+					"get_badge",
+					"get_badge",
+					"get_badge",
+					"get_table",
+					"render_composition"
+				],
+				[
+					"get_alert",
+					"get_badge",
+					"get_badge",
+					"get_badge",
+					"get_table",
+					"render_composition"
+				]
+			]
+		},
+		{
+			"id": "faq",
+			"runs": 3,
+			"completed": 3,
+			"toolCalls": 6,
+			"errorResults": 0,
+			"invalidInputErrors": 0,
+			"retries": 0,
+			"turns": 9,
+			"checksPassed": 6,
+			"checksTotal": 6,
+			"firstRequestTokens": 70607,
+			"inputTokens": 650441,
+			"outputTokens": 8127,
+			"costUsd": 0.1338781,
+			"durationMs": 67124,
+			"failedChecks": [],
+			"calls": [
+				[
+					"get_accordion",
+					"render_composition"
+				],
+				[
+					"get_accordion",
+					"render_composition"
+				],
+				[
+					"get_accordion",
+					"render_composition"
+				]
+			]
+		},
+		{
+			"id": "delete-dialog",
+			"runs": 3,
+			"completed": 3,
+			"toolCalls": 3,
+			"errorResults": 0,
+			"invalidInputErrors": 0,
+			"retries": 0,
+			"turns": 6,
+			"checksPassed": 9,
+			"checksTotal": 9,
+			"firstRequestTokens": 70613,
+			"inputTokens": 426857,
+			"outputTokens": 3891,
+			"costUsd": 0.077211,
+			"durationMs": 35200,
+			"failedChecks": [],
+			"calls": [
+				[
+					"get_dialog"
+				],
+				[
+					"get_dialog"
+				],
+				[
+					"get_dialog"
+				]
+			]
+		},
+		{
+			"id": "address-fieldset",
+			"runs": 3,
+			"completed": 3,
+			"toolCalls": 5,
+			"errorResults": 2,
+			"invalidInputErrors": 2,
+			"retries": 2,
+			"turns": 8,
+			"checksPassed": 12,
+			"checksTotal": 12,
+			"firstRequestTokens": 70626,
+			"inputTokens": 571464,
+			"outputTokens": 5527,
+			"costUsd": 0.10339119999999999,
+			"durationMs": 46629,
+			"failedChecks": [],
+			"calls": [
+				[
+					"get_fieldset"
+				],
+				[
+					"get_fieldset!invalid-input",
+					"get_fieldset"
+				],
+				[
+					"get_fieldset!invalid-input",
+					"get_fieldset"
+				]
+			]
+		},
+		{
+			"id": "icon-toolbar",
+			"runs": 3,
+			"completed": 3,
+			"toolCalls": 11,
+			"errorResults": 0,
+			"invalidInputErrors": 0,
+			"retries": 0,
+			"turns": 14,
+			"checksPassed": 6,
+			"checksTotal": 6,
+			"firstRequestTokens": 70612,
+			"inputTokens": 569998,
+			"outputTokens": 4247,
+			"costUsd": 0.09483150000000001,
+			"durationMs": 43194,
+			"failedChecks": [],
+			"calls": [
+				[
+					"list_icons",
+					"get_button",
+					"get_button",
+					"get_button"
+				],
+				[
+					"get_button",
+					"get_button",
+					"get_button"
+				],
+				[
+					"list_icons",
+					"get_button",
+					"get_button",
+					"get_button"
+				]
+			]
+		},
+		{
+			"id": "fix-markup",
+			"runs": 3,
+			"completed": 3,
+			"toolCalls": 6,
+			"errorResults": 0,
+			"invalidInputErrors": 0,
+			"retries": 0,
+			"turns": 9,
+			"checksPassed": 11,
+			"checksTotal": 12,
+			"firstRequestTokens": 70630,
+			"inputTokens": 425855,
+			"outputTokens": 3102,
+			"costUsd": 0.0710452,
+			"durationMs": 32799,
+			"failedChecks": [
+				"alt="
+			],
+			"calls": [
+				[
+					"validate_html"
+				],
+				[
+					"validate_html",
+					"get_icon",
+					"get_inputtext",
+					"get_button"
+				],
+				[
+					"validate_html"
+				]
+			]
+		},
+		{
+			"id": "service-cards",
+			"runs": 3,
+			"completed": 3,
+			"toolCalls": 3,
+			"errorResults": 0,
+			"invalidInputErrors": 0,
+			"retries": 0,
+			"turns": 6,
+			"checksPassed": 9,
+			"checksTotal": 9,
+			"firstRequestTokens": 70620,
+			"inputTokens": 430852,
+			"outputTokens": 8280,
+			"costUsd": 0.10700420000000001,
+			"durationMs": 70334,
+			"failedChecks": [],
+			"calls": [
+				[
+					"render_composition"
+				],
+				[
+					"render_composition"
+				],
+				[
+					"render_composition"
+				]
+			]
+		}
+	]
+}
