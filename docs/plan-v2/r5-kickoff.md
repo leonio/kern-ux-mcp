@@ -99,3 +99,39 @@ Replacing the full block union in the six standalone block tools with:
 | V2 with the leaf union shared through `$ref` inside each tool (estimate) | about 50.4K | about 161K |
 
 Per-tool sets lose most of the saving, because each nested container carries its own leaf union. `button` alone is 1.8K, mostly German descriptions the English pass will shorten.
+
+### B. Option B, done (roadmap box 3)
+
+- [x] `3b896de`: V1a, as the maintainer chose. The six standalone block tools take `text`, `html`, `badge` and `field` blocks; a container block fails with a hint that names the tool and points at `render_composition`.
+- [x] `c7bf5cc`: `npm run eval:compare -- <before> <after>` prints two eval reports side by side.
+- [x] [r5-eval/option-b.json](r5-eval/option-b.json): the eval against option B. Its recorded server commit is `c7bf5cc`, which has the same server code as `3b896de`.
+
+Learned in B:
+- **The builders parse with their own schemas,** so narrowing a tool schema also narrows what its builder accepts, and a section block in `render_composition` would have failed at render time. Each block kind's builder now parses a wide render schema (with the nesting rules), and the tool schema derives from it with `safeExtend`/`extend`, which overrides only the blocks and keeps refinements and key order. `get_card_group` isn't a block kind, so it parses narrow.
+- **Listing:** only the six tools changed; model-facing 201,295 → 143,097 characters, exactly the measured −58.2K. The budget ratchets to 144,000.
+
+**Baseline against option B** (`npm run eval:compare -- baseline option-b`):
+
+| | baseline | option B | change |
+|---|---|---|---|
+| Completed | 30 | 30 | |
+| Checks passed | 95 | 95 | |
+| **First request tokens** | **70,676** | **50,340** | **−20,336 (−29 %)** |
+| Input tokens, all runs | 5.18M | 4.02M | −1.15M (−22 %) |
+| Tool calls | 61 | 62 | +1 |
+| Error results | 2 | 9 | +7, none in the six narrowed tools |
+| Cost | $1.09 | $1.20 | +$0.11: the new listing is a new cache prefix, written once at about $0.12 a run until it's cached |
+
+The seven extra errors are model variance meeting API problems that were there before:
+- `get_accordion` (4): Haiku sent `items` without `mode: "group"`. The mode defaults to `single`, so the error only names the single mode's missing `title` and `content`. In the baseline Haiku happened to get it right.
+- `render_composition` (1): a `disclosure` block given `content` (a string). The block requires `contentBlocks`, although the `get_disclosure` tool accepts `content`.
+- `get_button` (2): guessed icon names, `arrow_forward` and `trash` (KERN has `arrow-forward` and `delete`).
+- `get_fieldset` (2): the known `{ value, text }` option shape, as in the baseline.
+
+**For the English areas (C, D)**, collected so far:
+1. The `get_button` hint's stale size list (`default | small`; the schema also has `x-small`).
+2. Three descriptions repeat payloads that are now in `TOOL_EXAMPLES`.
+3. `field` options: accept `{ value, text }` as well as `{ value, label }`, or align them with `get_select`.
+4. `get_accordion`: infer `mode: "group"` from `items` (a `normalize` step), or say so in the hint. `get_disclosure`'s description sends multi-item accordions to `get_accordion` without mentioning the mode.
+5. The `disclosure` block: accept `content` like the tool, or name `contentBlocks` in the hint.
+6. Icon names: suggest the closest valid names in the hint ("did you mean arrow-forward?") instead of only pointing at `list_icons`.
