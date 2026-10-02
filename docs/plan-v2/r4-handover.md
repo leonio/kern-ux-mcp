@@ -161,8 +161,8 @@ Still open, with recommendations in [registry-requirements.md](registry-requirem
 
 - From R4 ([r4-kickoff.md](r4-kickoff.md), "Open after C"): blocks in `<main>` and in `render_composition` have no spacing between them; a fieldset's group error isn't in the error summary. **Now in R5.1.**
 - From R3 ([r3-handover.md](r3-handover.md)): Claude Desktop running the `.mcpb`; the MCPB icon; dry runs can't test the publish job; release tools pinned outside Renovate; `ubuntu-latest` becomes Ubuntu 26 on 2026-10-19 (no pin; the maintainer is fine with the release as it is).
-- **Coverage floors** are still 87 / 79 / 87 / 87, against 96.3 / 89.7 / 97.9 / 96.2 now. To raise after the 2026-10-02 review.
-- **Docs:** [README.md](README.md) in this folder still describes the pre-R1 layout. To update after the 2026-10-02 review.
+- ~~**Coverage floors** are still 87 / 79 / 87 / 87.~~ Raised to 94.5 / 88 / 96 / 94.5 on 2026-10-02.
+- ~~**Docs:** [README.md](README.md) in this folder still describes the pre-R1 layout.~~ Rewritten on 2026-10-02.
 
 ## Environment notes, beyond r3-handover.md
 

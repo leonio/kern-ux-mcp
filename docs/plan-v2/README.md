@@ -1,93 +1,51 @@
-# Plan v2: progressive architecture improvements
+# Plan v2: the road to 2.0
 
-This folder records the architecture opportunities found during discovery for the TypeScript 7 upgrade (branch `chore/ts7`). The goal is to improve the codebase in small, independently shippable steps. There is no big-bang rewrite.
+This folder holds the plan for 2.0 and the record of how it's going. The work happens on the `feat/v2-alpha` branch, one roadmap step at a time, with a pause for review after each group of commits. There is no big-bang rewrite.
 
-- Detailed write-ups, with file references, are in [findings.md](findings.md).
-- The current runtime map is in [../codebase-guide.md](../codebase-guide.md).
+## What's here
 
-## Roadmap to 2.0 (MCP 2026-07-28)
+| File | What it is |
+|---|---|
+| [roadmap.md](roadmap.md) | **Start here.** The status tracker (steps R0–R7, plus R4b and R5.1), the decisions, the target architecture and the details of each step. |
+| [findings.md](findings.md) | The discovery write-ups (items 1–22) with file references. Roadmap steps point at them. |
+| [r4-handover.md](r4-handover.md) | The latest state: where R4 ended, the 2026-10-02 review, and the groundwork for R4b and R5. |
+| [r4b-kickoff.md](r4b-kickoff.md) | The current step: R4b's plan, progress and what was learned. |
+| [registry-requirements.md](registry-requirements.md) | What the server needs from `registry.json`, and how the external generator (`kern-ux-scraper`) can produce it. |
+| [r3-kickoff.md](r3-kickoff.md), [r3-handover.md](r3-handover.md), [r4-kickoff.md](r4-kickoff.md) | Earlier steps: their plans, progress and lessons. |
+| [../migration-2.0.md](../migration-2.0.md) | What changes for clients between 1.x and 2.0. Every contract change adds an entry. |
 
-The P1–P4 phases below are now folded into a larger roadmap, [roadmap.md](roadmap.md). It covers:
-
-- the move to MCP protocol `2026-07-28` and TypeScript SDK v2
-- a private core library, with stdio/MCPB and Streamable HTTP hosts built on it
-- MCP resources and prompts
-- English as the base language for LLM-facing text
-
-The roadmap runs in steps R0–R7 on the `feat/v2-alpha` branch, and has its own status tracker. Background for the new steps is in findings 17–21. The phase table and item tracker below show which roadmap step picks up each existing item.
-
-## Where we are today
-
-`src/index.ts` is a thin entry point: it creates the server and connects stdio. The actual wiring lives in `src/server.ts` and `src/ux/tools.ts`:
-
-```mermaid
-flowchart LR
-  I[index.ts] --> S[server.ts<br/>low-level Server<br/>list/call handlers]
-  S -->|if-chain by tool name| N[normalizeToolArgs]
-  S -->|if-chain by tool name| E[formatInputValidationError]
-  S --> T[tools.ts createTools]
-  T --> B[tool-builders/*<br/>interactive / layout / typography]
-  T --> C[inline composition + utility tools]
-```
-
-The main problem is that knowledge about a single tool is spread across several places:
-
-- its schema is in `schemas/`
-- its builder and description are in `tool-builders/` or `tools.ts`
-- its argument normalisation and error hints are in `server.ts`, keyed by name strings
-- the rule that decides which builder is used is in both `tools.ts` and `interactive.ts`
-
-## Target shape
-
-- Each tool is one self-describing, strongly typed definition: schema, handler, and optional `normalize` and `errorHint`.
-- `server.ts` becomes a generic pipeline that knows no tool names.
-- Tool selection is declared once, as data.
-
-## Phases
-
-Each phase is independently releasable. Items refer to [findings.md](findings.md).
-
-| Phase | Theme | Items | Status | Roadmap step |
-|-------|-------|-------|--------|--------------|
-| P0 | TS7 and Vitest 5 upgrade, test hardening (see the "Testing" section of [../contributor-guide.md](../contributor-guide.md#testing)) | n/a | Done | n/a |
-| P1 | Low-risk cleanups | 4, 10, 12, 14, 16 | Not started | R1 (4, 10, 12, 16), R3 (14) |
-| P2 | Co-locate per-tool behaviour and extract the call pipeline | 2, 3, 5 | Not started | R1 (3), ongoing `defineTool()` migration (2, 5) |
-| P3 | Typed and declarative tool definitions | 6, 7, 8, 9, 11, 13 | Not started | R1 (13), R4 (9), ongoing migration (6, 7, 8, 11) |
-| P4 | Spike: high-level `McpServer` API | 15 | Superseded | R0 spike and R2 SDK v2 swap |
-
-## P0 follow-ups
-
-- [x] Run the last batch of new tests (`input-file`, `typography`, `content-union`, and the `tools.routing`/`tools.behaviour` additions) and fix any failures.
-- [x] Raise the coverage thresholds in `vitest.config.ts` to just below the new baseline. The run before that batch was 90.0 / 83.2 / 89.6 / 90.2.
-
-## Item tracker
-
-- [ ] 1. The entry-point and wiring overview is documented. It's context only, with nothing to change.
-- [ ] 2. Move per-tool `normalize` and `errorHint` onto `ToolDef`. → ongoing `defineTool()` migration
-- [x] 3. Extract `invokeTool()` and a `logging.ts` module from `server.ts`. → R1
-- [x] 4. Create a single `ValidationResultSchema` and output schema. → R1
-- [ ] 5. Create a generic `buildHtmlTool()` for section, card_group, disclosure and composition. → ongoing migration
-- [ ] 6. Build a declarative interactive tool map to replace the set, the switch and the 26 small builders. → ongoing migration
-- [ ] 7. Remove the double routing in `createTools`. → ongoing migration
-- [ ] 8. Add a `defineTool<I, O>()` helper that infers handler types from the schemas. → ongoing migration (the first PR)
-- [ ] 9. Extract `createCompositionRenderer(locale)`. → R4
-- [x] 10. Read the server version from package.json. → R1
-- [ ] 11. Have builders report the component ID, instead of parsing tool names. → ongoing migration
-- [x] 12. Remove dead code and deduplicate `stories.ts` and `paths.ts`. → R1
-- [x] 13. Type-check `tools/**` and `vitest.config.ts`. → R1
-- [ ] 14. Optional hardening: `verbatimModuleSyntax`, ES2024 target, ~~Biome schema version~~ (done: 2.5.14). → R3 (`tsconfig.base.json`)
-- [x] 15. Spike `McpServer.registerTool`. → superseded by R0 and R2 (SDK v2)
-- [x] 16. Keep a single `formFlow` schema. The copy in `schemas/form-flow.ts` is dead at runtime and duplicated inline in `content-union.ts`. → R1
-- [ ] 17. SDK v2 migration facts. → R0, R2
-- [ ] 18. Composition gaps and bugs. → R4
-- [ ] 19. Context budget of `tools/list`. → R5
-- [x] 20. Release config: GitVersion branch entry and typo. → R1
-- [x] 21. Leaks and packaging: `sourceRoot`, `fast-glob`, unbounded `validate_html` input. → R1
-- [ ] 22. The registry moves to an external generator; this repo owns the contract. → R4b
+The current code layout is in [../codebase-guide.md](../codebase-guide.md).
 
 ## Ground rules
 
-- Each item must keep the tool names, input JSON Schemas and output shapes byte-compatible, unless the item explicitly says otherwise. MCP clients depend on them.
-- The 2.0 roadmap makes the changes listed under "Contract" in [roadmap.md](roadmap.md#decisions) on purpose: `isError` results, `outputSchema` with `structuredContent`, titles and annotations, and input schemas that shrink the context. Each one lands in its own PR, with the snapshot diff reviewed. Tool names stay stable.
-- The `src/ux/tools.*.test.ts` files and `src/server.*.test.ts` (especially `server.mcp.test.ts`) are the safety net. Add characterisation tests first where they're missing.
-- Aim for one item, or a small group of related items, per PR.
+- Tool names stay stable. Input schemas and output shapes change only where [roadmap.md](roadmap.md#decisions) says so ("Contract"), each change in its own commit with the listing-snapshot diff reviewed and an entry in [../migration-2.0.md](../migration-2.0.md).
+- One commit per roadmap checkbox, a pause for review after each group, and a trailing `docs:` commit that records progress in the step's kickoff file. Don't push without asking.
+- English is the base language for model-facing text; German stays where it adds value (see the decisions table).
+- The `tools.*.test.ts` files, the listing snapshots and the e2e suites are the safety net. Add characterisation tests first where they're missing.
+
+## Findings tracker
+
+Which roadmap step picks up each finding. The P0–P4 phases from before the roadmap are folded into it: P0 (TypeScript 7, Vitest 5, test hardening) is done, and P4 (the `McpServer` spike) was superseded by R0 and R2.
+
+- [ ] 1. The entry-point and wiring overview. Context only.
+- [ ] 2. Per-tool `normalize` and `errorHint` on the tool definition. → `defineTool()` migration
+- [x] 3. Extract `invokeTool()` and `logging.ts`. → R1
+- [x] 4. A single `ValidationResultSchema` and output schema. → R1
+- [ ] 5. A generic `buildHtmlTool()` for section, card group, disclosure and composition. → `defineTool()` migration
+- [ ] 6. A declarative interactive tool map instead of the set, the switch and the 26 small builders. → `defineTool()` migration
+- [ ] 7. Remove the double routing in `createTools`. → R4b (code owns the tool list)
+- [ ] 8. A `defineTool<I, O>()` helper; R5 lands its `examples` table first. → `defineTool()` migration
+- [x] 9. `createCompositionRenderer(locale)`. → R4
+- [x] 10. Read the server version from `package.json`. → R1
+- [ ] 11. Check the registry against component IDs instead of parsing tool names. → R4b (code owns the tool list)
+- [x] 12. Remove dead code; deduplicate `stories.ts` and `paths.ts`. → R1
+- [x] 13. Type-check `tools/**` and `vitest.config.ts`. → R1
+- [x] 14. `verbatimModuleSyntax` and an ES2024 target. → R3
+- [x] 15. Spike `McpServer.registerTool`. → superseded by R0 and R2
+- [x] 16. A single `formFlow` schema. → R1
+- [ ] 17. SDK v2 migration facts. → R0 (the client matrix is still open, now a check before GA)
+- [x] 18. Composition gaps and bugs. → R4
+- [ ] 19. The context budget of `tools/list`. → R5
+- [x] 20. GitVersion branch entry and typo. → R1
+- [x] 21. Leaks and packaging: `sourceRoot`, `fast-glob`, unbounded `validate_html` input. → R1
+- [ ] 22. The registry moves to an external generator; this repo owns the contract. → R4b
