@@ -9,6 +9,7 @@
 		"includes": [
 			"**",
 			"!packages/core/src/ux/registry.json",
+			"!docs/registry.schema.json",
 			"!samples/basic-layout/assets",
 			"!**/__snapshots__"
 		]

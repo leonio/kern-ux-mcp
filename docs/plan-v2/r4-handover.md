@@ -126,7 +126,7 @@ What reads which field (non-test code):
 
 ### The in-repo generator to retire
 
-`tools/manifest/` (`build-manifest.ts`, `guidance-overlay.ts`, `validate-guidance-overlay.ts`, `stories.ts`, `paths.ts`), `docs/guidance-overlay.json` and its schema, the root scripts `generate-manifest`, `validate-guidance-overlay`, `loop:start` and `loop:full` (both run `generate-manifest`), and the dev dependencies `fast-glob`, `ajv` and `ajv-formats`.
+`tools/manifest/` (`build-manifest.ts`, `guidance-overlay.ts`, `validate-guidance-overlay.ts`, `stories.ts`, `paths.ts`), `docs/guidance-overlay.json` and its schema, the root scripts `generate-manifest`, `validate-guidance-overlay`, `loop:start` and `loop:full` (both run `generate-manifest`), and the dev dependency `fast-glob`. (`ajv` and `ajv-formats` stay for the registry-schema export test, R4b B2.)
 
 ### The generator side
 

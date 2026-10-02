@@ -214,3 +214,15 @@ export type ComponentInfo = z.infer<typeof ComponentInfoSchema>;
 export type TokenSnapshot = z.infer<typeof TokenSnapshotSchema>;
 export type UpstreamSource = z.infer<typeof UpstreamSourceSchema>;
 export type RegistryManifest = z.infer<typeof RegistryManifestSchema>;
+
+/**
+ * The contract as JSON Schema (2020-12), for the generator to validate against.
+ * It describes input, so unknown keys stay allowed. `npm run registry:schema`
+ * writes it to docs/registry.schema.json, and a test keeps that file current.
+ */
+export function buildRegistryJsonSchema(): Record<string, unknown> {
+	return z.toJSONSchema(RegistryManifestSchema, {
+		target: "draft-2020-12",
+		io: "input",
+	}) as Record<string, unknown>;
+}

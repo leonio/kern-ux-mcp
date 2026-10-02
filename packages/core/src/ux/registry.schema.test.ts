@@ -1,10 +1,19 @@
+import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+
+import ajv2020Module from "ajv/dist/2020.js";
+import ajvFormatsModule from "ajv-formats";
 import { describe, expect, it } from "vitest";
 
 import { registryFromManifest } from "./registry.js";
 import {
+	buildRegistryJsonSchema,
 	type RegistryManifest,
 	RegistryManifestSchema,
 } from "./registry.schema.js";
+
+const Ajv2020 = ajv2020Module.default;
+const addFormats = ajvFormatsModule.default;
 
 const manifest = (
 	overrides: Partial<RegistryManifest> = {},
@@ -140,5 +149,35 @@ describe("registryFromManifest", () => {
 		expect(() => registryFromManifest({ manifestVersion: "1.0.0" })).toThrow(
 			'expected keys "manifestVersion" and "components"',
 		);
+	});
+});
+
+describe("docs/registry.schema.json", () => {
+	const exported = JSON.parse(
+		readFileSync(
+			fileURLToPath(
+				new URL("../../../../docs/registry.schema.json", import.meta.url),
+			),
+			"utf8",
+		),
+	);
+
+	it("is the current export of the contract (npm run registry:schema)", () => {
+		expect(exported).toEqual(buildRegistryJsonSchema());
+	});
+
+	it("leaves room for unknown keys", () => {
+		expect(JSON.stringify(exported)).not.toContain(
+			'"additionalProperties":false',
+		);
+	});
+
+	it("validates a manifest as a JSON Schema validator sees it", () => {
+		const ajv = new Ajv2020({ allErrors: true, strict: false });
+		addFormats(ajv);
+		const validate = ajv.compile(exported);
+
+		expect(validate(manifest())).toBe(true);
+		expect(validate(manifest({ manifestVersion: "2.0.0" }))).toBe(false);
 	});
 });

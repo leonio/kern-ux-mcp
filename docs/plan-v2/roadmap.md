@@ -405,7 +405,7 @@ The field-by-field requirements, the problems with today's file and a generator 
 - The registry owns component knowledge. `get_<component>` descriptions combine the code's text with the registry summary, and R6 cards render from the registry.
 - R5's context budget still applies to the combined descriptions.
 
-**Retirement.** When the generator's output passes the contract and produces an identical tool listing, delete `tools/manifest/*`, `docs/guidance-overlay*.json`, `validate-guidance-overlay`, `generate-manifest`, and the `fast-glob`/`ajv`/`ajv-formats` dev dependencies. Update the R3 path checklist to match.
+**Retirement.** When the generator's output passes the contract and produces an identical tool listing, delete `tools/manifest/*`, `docs/guidance-overlay*.json`, `validate-guidance-overlay`, `generate-manifest`, and the `fast-glob` dev dependency. `ajv` and `ajv-formats` stay: a core test validates against the exported `docs/registry.schema.json` with them (R4b B2). Update the R3 path checklist to match.
 
 ### R5 English base language and the context budget
 
