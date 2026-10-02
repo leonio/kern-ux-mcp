@@ -106,6 +106,34 @@ export const TOOL_EXAMPLES: Readonly<Record<string, readonly ToolExample[]>> = {
 			},
 		},
 	],
+	render_page: [
+		{
+			input: {
+				heading: "Wohngeld beantragen",
+				header: {
+					title: "Stadt Musterstadt",
+					navigation: [{ label: "Start", href: "/" }],
+				},
+				contentBlocks: [
+					{
+						kind: "section",
+						section: {
+							headingText: "Voraussetzungen",
+							paragraphs: ["Sie wohnen zur Miete."],
+						},
+					},
+				],
+				footer: {
+					columns: [
+						{
+							heading: "Service",
+							links: [{ label: "Kontakt", href: "/kontakt" }],
+						},
+					],
+				},
+			},
+		},
+	],
 };
 
 /**

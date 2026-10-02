@@ -21,20 +21,18 @@ export const MAX_RECURSIVE_CONTENT_NODES = 60;
 const embeddedButtonSchema = ButtonSchema.omit({
 	locale: true,
 	strict: true,
-}).describe("Eingebetteter KERN Button im rekursiven Content-Baum.");
+});
 
-const embeddedBadgeSchema = badgeSchema
-	.omit({ locale: true, strict: true })
-	.describe("Eingebettetes KERN Badge im rekursiven Content-Baum.");
+const embeddedBadgeSchema = badgeSchema.omit({ locale: true, strict: true });
 
 const textContentNodeSchema = z.object({
 	kind: z.literal("text"),
-	text: z.string().min(1).describe("KERN Body-Textblock."),
+	text: z.string().min(1).describe("A paragraph (kern-body)."),
 });
 
 const htmlContentNodeSchema = z.object({
 	kind: z.literal("html"),
-	html: z.string().min(1).describe("Rohes HTML (wird nicht escaped)."),
+	html: z.string().min(1).describe("Raw HTML, inserted unescaped."),
 });
 
 const buttonContentNodeSchema = z.object({
@@ -247,9 +245,7 @@ export const RecursiveContentNodeSchema: z.ZodType<
 						paragraphs: z
 							.array(z.string().min(1))
 							.optional()
-							.describe(
-								"Shorthand: string[] wird automatisch zu text-contentBlocks konvertiert.",
-							),
+							.describe("Shorthand for text blocks."),
 					})
 					.superRefine((section, ctx) => {
 						if (!section.contentBlocks?.length && !section.paragraphs?.length) {
@@ -290,8 +286,8 @@ export const RecursiveContentNodeSchema: z.ZodType<
 					hug: z.boolean().optional().default(false),
 					media: z
 						.object({
-							src: z.string().describe("Bild-URL."),
-							alt: z.string().describe("Alt-Text für das Bild."),
+							src: z.string().describe("Image URL."),
+							alt: z.string().describe("Alt text."),
 						})
 						.optional(),
 					header: z
@@ -303,10 +299,7 @@ export const RecursiveContentNodeSchema: z.ZodType<
 							href: z.string().optional(),
 						})
 						.optional(),
-					body: z
-						.string()
-						.optional()
-						.describe("Optionaler einfacher Body-Text."),
+					body: z.string().optional().describe("Body text."),
 					bodyIsHtml: z.boolean().optional().default(false),
 					contentBlocks: z.array(RecursiveContentNodeSchema).optional(),
 					footer: z
@@ -326,7 +319,7 @@ export const RecursiveContentNodeSchema: z.ZodType<
 							.int()
 							.min(1)
 							.describe(
-								"Aktiver Schritt (1-basiert). Werte über steps.length werden begrenzt.",
+								"The active step, from 1; capped at the number of steps.",
 							),
 						steps: z
 							.array(
@@ -370,13 +363,11 @@ export const RecursiveContentNodeSchema: z.ZodType<
 						}).shape,
 					})
 					.describe(
-						"Mehrstufiges Formular: Tasklist + Progress + aktiver Schritt.",
+						"A multi-step form: the step list, progress and the active step.",
 					),
 			}),
 		])
-		.describe(
-			"Rekursiver Content-Knoten: text/html/button/badge/field/fieldset/form/section/disclosure/grid/card/formFlow.",
-		),
+		.describe("One block; kind selects which."),
 );
 
 /** Blocks that contain other blocks. */
@@ -463,7 +454,7 @@ function validateRecursiveContent(
 			ctx.addIssue({
 				code: "custom",
 				path,
-				message: `Maximal ${MAX_RECURSIVE_CONTENT_NODES} Content-Knoten erlaubt.`,
+				message: `At most ${MAX_RECURSIVE_CONTENT_NODES} blocks in all.`,
 			});
 		}
 
@@ -471,7 +462,7 @@ function validateRecursiveContent(
 			ctx.addIssue({
 				code: "custom",
 				path,
-				message: `Maximale Verschachtelungstiefe von ${MAX_RECURSIVE_CONTENT_DEPTH} überschritten.`,
+				message: `Blocks nest at most ${MAX_RECURSIVE_CONTENT_DEPTH} levels deep.`,
 			});
 			return;
 		}
@@ -525,7 +516,7 @@ export function contentBlocksSchema(parent?: ContainerKind) {
 			validateRecursiveContent(nodes, ctx, parent);
 		})
 		.describe(
-			"Rekursive Content-Blöcke mit erlaubten Knotenarten text/html/button/badge/field/fieldset/form/section/disclosure/grid/card/formFlow inklusive Tiefen- und Größenlimit.",
+			`Blocks of any kind, nested at most ${MAX_RECURSIVE_CONTENT_DEPTH} levels deep, ${MAX_RECURSIVE_CONTENT_NODES} blocks in all.`,
 		);
 }
 

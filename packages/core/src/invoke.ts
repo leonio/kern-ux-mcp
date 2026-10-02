@@ -1,7 +1,7 @@
 import type { z } from "zod";
 import { debugLog } from "./logging.js";
 import type { ToolDef } from "./ux/tool-builders/shared.js";
-import { knownGoodPayload } from "./ux/tool-examples.js";
+import { knownGoodPayload, TOOL_EXAMPLES } from "./ux/tool-examples.js";
 import {
 	COMPOSITION_CHEAT_SHEET,
 	COMPOSITION_VALID_KINDS,
@@ -164,6 +164,12 @@ function formatCompositionHint(error: z.ZodError): string {
 	].join("\n");
 }
 
+/** The composition hint, with the tool's known-good payload when it has one. */
+function compositionHint(name: string, error: z.ZodError): string {
+	const hint = formatCompositionHint(error);
+	return TOOL_EXAMPLES[name] ? `${hint}\n\n${knownGoodPayload(name)}` : hint;
+}
+
 /**
  * Try to extract the 'kind' value the caller attempted to use
  * from a Zod invalid_union issue's nested unionErrors.
@@ -292,7 +298,7 @@ function toolHint(name: string, error: z.ZodError): string {
 	}
 
 	if (COMPOSITION_TOOLS.has(name)) {
-		return formatCompositionHint(error);
+		return compositionHint(name, error);
 	}
 
 	return base;
@@ -335,17 +341,21 @@ function renameOptionKey(options: unknown, from: string, to: string): unknown {
 	});
 }
 
-/** Applies renameOptionKey to every field block in a block tree, at any depth. */
-function normalizeFieldBlocks(value: unknown): unknown {
+/**
+ * Accepts what the standalone tools accept, in a block tree at any depth: field
+ * options with text instead of label, and a disclosure block's content string
+ * like get_disclosure's (as one text or html block).
+ */
+function normalizeBlocks(value: unknown): unknown {
 	if (Array.isArray(value)) {
-		return value.map(normalizeFieldBlocks);
+		return value.map(normalizeBlocks);
 	}
 	if (!isRecord(value)) {
 		return value;
 	}
 	const normalized: Record<string, unknown> = {};
 	for (const [key, child] of Object.entries(value)) {
-		normalized[key] = normalizeFieldBlocks(child);
+		normalized[key] = normalizeBlocks(child);
 	}
 	const field = normalized.field;
 	if (
@@ -358,6 +368,20 @@ function normalizeFieldBlocks(value: unknown): unknown {
 			options: renameOptionKey(field.options, "text", "label"),
 		};
 	}
+	const disclosure = normalized.disclosure;
+	if (
+		normalized.kind === "disclosure" &&
+		isRecord(disclosure) &&
+		typeof disclosure.content === "string" &&
+		disclosure.contentBlocks === undefined
+	) {
+		const { content, contentIsHtml, ...rest } = disclosure;
+		const block =
+			contentIsHtml === true
+				? { kind: "html", html: content }
+				: { kind: "text", text: content };
+		normalized.disclosure = { ...rest, contentBlocks: [block] };
+	}
 	return normalized;
 }
 
@@ -367,7 +391,7 @@ export function normalizeToolArgs(name: string, args: unknown): unknown {
 	}
 	const normalized = normalizeArgsByTool(name, args);
 	return COMPOSITION_TOOLS.has(name) || SIMPLE_BLOCK_TOOLS.has(name)
-		? normalizeFieldBlocks(normalized)
+		? normalizeBlocks(normalized)
 		: normalized;
 }
 

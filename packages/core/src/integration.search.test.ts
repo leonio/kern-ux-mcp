@@ -217,8 +217,7 @@ describe("Elterngeld search-result composition", () => {
 		const tool = tools.getTool("render_composition");
 		expect(tool).toBeDefined();
 
-		expect(tool?.description).toContain("MUSS");
-		expect(tool?.description).toContain("kind");
+		expect(tool?.description).toContain("Every block must have a 'kind'");
 	});
 
 	it("section block accepts paragraphs shorthand and renders text blocks", async () => {

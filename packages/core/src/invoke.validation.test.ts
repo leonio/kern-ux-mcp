@@ -206,6 +206,55 @@ describe("formatInputValidationError", () => {
 		expect(message).toContain("type AND text");
 		expect(message).toContain("success");
 	});
+
+	it("adds render_page's known-good payload to the composition hint", () => {
+		const tool = getCatalog().tools.find((t) => t.name === "render_page");
+		if (!tool) throw new Error("No tool render_page");
+		const parsed = parseToolInput(tool, { heading: "Wohngeld" });
+		if (parsed.success) throw new Error("Expected missing contentBlocks");
+
+		const message = formatInputValidationHint("render_page", parsed.error);
+
+		expect(message).toContain("Cheat sheet for contentBlocks:");
+		expect(message).toContain(
+			"Known-good payload: { heading: 'Wohngeld beantragen'",
+		);
+	});
+});
+
+describe("disclosure blocks take content like get_disclosure (finding 5)", () => {
+	const tool = getCatalog().tools.find((t) => t.name === "render_composition");
+	if (!tool) throw new Error("No tool render_composition");
+	const disclosure = (fields: object) => ({
+		contentBlocks: [
+			{ kind: "disclosure", disclosure: { triggerLabel: "Mehr", ...fields } },
+		],
+	});
+
+	it.each<[string, object, object]>([
+		["text", { content: "A < B" }, { kind: "text", text: "A < B" }],
+		[
+			"html",
+			{ content: "<b>B</b>", contentIsHtml: true },
+			{ kind: "html", html: "<b>B</b>" },
+		],
+	])("turns content into one %s block", (_, fields, block) => {
+		const parsed = parseToolInput(tool, disclosure(fields));
+		if (!parsed.success) throw new Error(parsed.error.message);
+
+		expect(parsed.data).toMatchObject(disclosure({ contentBlocks: [block] }));
+	});
+
+	it("keeps contentBlocks when both are set", () => {
+		const blocks = [{ kind: "text", text: "Blöcke" }];
+		const parsed = parseToolInput(
+			tool,
+			disclosure({ content: "Text", contentBlocks: blocks }),
+		);
+		if (!parsed.success) throw new Error(parsed.error.message);
+
+		expect(parsed.data).toMatchObject(disclosure({ contentBlocks: blocks }));
+	});
 });
 
 describe("get_accordion with items", () => {

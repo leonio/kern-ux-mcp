@@ -5,7 +5,11 @@ import {
 	getToolOutputJsonSchema,
 } from "./json-schema.js";
 import { CardGroupSchema } from "./schemas/card-group.js";
-import { RecursiveContentBlocksSchema } from "./schemas/content-union.js";
+import {
+	MAX_RECURSIVE_CONTENT_DEPTH,
+	MAX_RECURSIVE_CONTENT_NODES,
+	RecursiveContentBlocksSchema,
+} from "./schemas/content-union.js";
 import { DisclosureSchema } from "./schemas/disclosure.js";
 import { McpCommonSchema } from "./schemas/foundations.js";
 import { PageSchema } from "./schemas/page.js";
@@ -453,9 +457,8 @@ function buildGetSectionTool(): ToolDef {
 		name: "get_section",
 		title: "KERN Section",
 		description:
-			"KERN UX (Komposition): Erzeugt eine <section> mit Heading, Body-Absätzen und optionalem Divider. " +
-			"Verwende dieses Tool anstelle von get_heading + get_body einzeln. " +
-			"Known-good payload: { headingText: 'Überblick', headingLevel: 2, paragraphs: ['Erster Absatz', 'Zweiter Absatz'], paragraphSize: 'default', paragraphBold: false, divider: false }.",
+			"KERN UX: HTML for a <section> with a heading, content blocks (text, html, badge or field) and an optional divider. " +
+			"A composition helper of this repo, not a KERN component. For containers inside, use render_composition.",
 		inputSchema,
 		outputSchema,
 		handler: async (args: z.input<typeof inputSchema>) => {
@@ -482,11 +485,8 @@ function buildGetCardGroupTool(): ToolDef {
 		name: "get_card_group",
 		title: "KERN Card Group",
 		description:
-			"KERN UX (Komposition): Erzeugt mehrere Cards in einem responsive 12-Spalten-Grid " +
-			"(kern-container/kern-row/kern-col-md-{n} kern-col-sm-12). " +
-			"Spaltenbreite wird automatisch berechnet (12 / columns). " +
-			"Verwende dieses Tool anstelle von get_card + get_grid einzeln. " +
-			"Known-good payload: { columns: 3, cards: [{ header: { title: 'Service A' }, body: 'Kurzbeschreibung', footer: { primaryLabel: 'More Info' } }] }.",
+			"KERN UX: HTML for 1 to 6 cards side by side in the 12-column grid (kern-col-md-{12 / columns} kern-col-sm-12). " +
+			"Each card: an optional image, header, body text or simple blocks, and footer buttons.",
 		inputSchema,
 		outputSchema,
 		handler: async (args: z.input<typeof inputSchema>) => {
@@ -513,10 +513,8 @@ function buildGetDisclosureTool(): ToolDef {
 		name: "get_disclosure",
 		title: "KERN Disclosure",
 		description:
-			"KERN UX (Komposition): Erzeugt ein Expand/Collapse-Element (<details>/<summary>) mit KERN Accordion-Styling (kern-accordion__item / kern-accordion__body). " +
-			"Pflichtfelder: triggerLabel UND (contentBlocks oder content). " +
-			"Beispiel: { triggerLabel: 'Details anzeigen', content: 'Erklärungstext' }. " +
-			"Für mehrteilige Akkordeons (mehrere Items) siehe get_accordion.",
+			"KERN UX: HTML for one expandable area: <details>/<summary> with the kern-accordion classes. " +
+			"Required: triggerLabel, and contentBlocks or content. For several items, use get_accordion with mode 'group'.",
 		inputSchema,
 		outputSchema,
 		handler: async (args: z.input<typeof inputSchema>) => {
@@ -566,36 +564,28 @@ export const COMPOSITION_CHEAT_SHEET = [
 	'  fieldset:   { kind: "fieldset", fieldset: { legend: "...", legendSize?: "large", hint?: "...", contentBlocks: [field, ...] } }',
 	'  form:       { kind: "form", form: { action?: "/senden", errorSummary?: {}, contentBlocks: [fieldset, field, ...], actions?: { submitLabel: "Absenden" } } }',
 	"                 errorSummary lists every field inside the form that has an error, linked to the field.",
-	'  card:     { kind: "card", card: { header: { title: "..." }, body: "...", contentBlocks?: [...], footer?: { primaryLabel: "..." } } }',
+	'  card:       { kind: "card", card: { header: { title: "..." }, body: "...", contentBlocks?: [...], footer?: { primaryLabel: "..." } } }',
 	'  section:    { kind: "section", section: { headingText: "...", contentBlocks: [...] } }',
 	'                 Shorthand: paragraphs: ["text1", "text2"] is also accepted (auto-converted to text blocks).',
-	'  disclosure: { kind: "disclosure", disclosure: { triggerLabel: "...", contentBlocks: [...] } }',
+	'  disclosure: { kind: "disclosure", disclosure: { triggerLabel: "...", contentBlocks: [...] } }; content: "..." also works',
 	'  grid:       { kind: "grid", grid: { columns: 3, columnsContent: [ [block, block], [block], [block] ] } }',
 	"                 columnsContent is an array of arrays — one inner array per column. Each inner array holds content blocks.",
 	'  formFlow:   { kind: "formFlow", formFlow: { currentStep: 1, heading?: "...", steps: [{ label: "...", contentBlocks: [...] }, ...], navigation?: { backLabel, nextLabel, submitLabel } } }',
 	"                 The steps render inside a form; renderAllSteps: true renders every step, the inactive ones hidden.",
 	"",
 	"Nested blocks (section.contentBlocks, card.contentBlocks, grid.columnsContent[][], disclosure.contentBlocks, fieldset.contentBlocks, form.contentBlocks) use the same kind-based shapes recursively.",
-	"Rules: forms don't nest (no form or formFlow inside a form or formFlow); no card directly inside a card; a section needs contentBlocks or paragraphs, a disclosure needs contentBlocks.",
+	"Rules: forms don't nest (no form or formFlow inside a form or formFlow); no card directly inside a card; a section needs contentBlocks or paragraphs, a disclosure contentBlocks or content.",
+	`Limits: blocks nest at most ${MAX_RECURSIVE_CONTENT_DEPTH} levels deep, ${MAX_RECURSIVE_CONTENT_NODES} blocks in all.`,
 ].join("\n");
 
 function buildRenderCompositionTool(): ToolDef {
-	const inputSchema = z
-		.object({
-			...McpCommonSchema.shape,
-			contentBlocks: RecursiveContentBlocksSchema.refine(
-				(blocks) => blocks.length > 0,
-				{
-					error: "Mindestens ein Content-Block ist erforderlich.",
-				},
-			).describe(
-				"Wurzel-Content-Blöcke für rekursive Komposition (mindestens ein Block).",
-			),
-		})
-		.describe(
-			"Master-Kompositionstool für rekursive KERN-Layouts. " +
-				"Kombiniert Grid, Card, Section und Disclosure in einer einzigen Struktur.",
-		);
+	const inputSchema = z.object({
+		...McpCommonSchema.shape,
+		contentBlocks: RecursiveContentBlocksSchema.refine(
+			(blocks) => blocks.length > 0,
+			{ error: "Add at least one block." },
+		).describe("The top-level blocks, at least one."),
+	});
 
 	const outputSchema = ComponentOutputSchema;
 
@@ -603,11 +593,8 @@ function buildRenderCompositionTool(): ToolDef {
 		name: "render_composition",
 		title: "Render KERN Composition",
 		description:
-			"KERN UX (Komposition): Rendert rekursive Content-Blöcke als zusammenhängendes Layout. " +
-			"WICHTIG: Jeder Block in contentBlocks MUSS eine 'kind'-Eigenschaft haben. " +
-			`Gültige kind-Werte: ${COMPOSITION_VALID_KINDS.join(", ")}.\n\n` +
-			COMPOSITION_CHEAT_SHEET +
-			"\n\nFormFlow orchestriert mehrstufige Formulare mit Tasklist + Progress + Schritt-Inhalt über einen einzigen currentStep-Parameter.",
+			"KERN UX: Renders nested content blocks as one layout: sections, grids, cards, disclosures, forms and multi-step forms (formFlow).\n\n" +
+			COMPOSITION_CHEAT_SHEET,
 		inputSchema,
 		outputSchema,
 		handler: async (args: z.input<typeof inputSchema>) => {
@@ -640,12 +627,9 @@ function buildRenderPageTool(registry: Registry): ToolDef {
 		name: "render_page",
 		title: "Render KERN Page",
 		description:
-			"KERN UX (Komposition): Renders a whole page: an optional Kopfzeile, a header with brand and navigation, " +
+			"KERN UX: Renders a whole page: an optional Kopfzeile, a header with brand and navigation, " +
 			"<main> with an h1 and content blocks (the same kinds as render_composition), and a footer with up to four link columns. " +
-			"document: true returns a complete HTML document that loads the KERN stylesheets. " +
-			"Example: { heading: 'Wohngeld beantragen', header: { title: 'Stadt Musterstadt', navigation: [{ label: 'Start', href: '/' }] }, " +
-			"contentBlocks: [{ kind: 'section', section: { headingText: 'Voraussetzungen', paragraphs: ['...'] } }], " +
-			"footer: { columns: [{ heading: 'Service', links: [{ label: 'Kontakt', href: '/kontakt' }] }] } }.",
+			"document: true returns a complete HTML document that loads the KERN stylesheets.",
 		inputSchema,
 		outputSchema,
 		handler: async (args: z.input<typeof inputSchema>) => {

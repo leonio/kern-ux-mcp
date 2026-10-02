@@ -27,8 +27,8 @@ describe("tools/list context budget", () => {
 		).toBeGreaterThan(LISTING_BUDGET.modelFacing - LISTING_BUDGET.slack);
 	});
 
-	it("keeps the budget at or above the R5 target", () => {
-		expect(LISTING_BUDGET.modelFacing).toBeGreaterThanOrEqual(
+	it("keeps the budget at or below the R5 target", () => {
+		expect(LISTING_BUDGET.modelFacing).toBeLessThanOrEqual(
 			LISTING_BUDGET.target,
 		);
 	});

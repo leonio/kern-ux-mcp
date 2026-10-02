@@ -955,7 +955,7 @@
     {
       "name": "render_composition",
       "title": "Render KERN Composition",
-      "description": "KERN UX (Komposition): Rendert rekursive Content-Blöcke als zusammenhängendes Layout. WICHTIG: Jeder Block in contentBlocks MUSS eine 'kind'-Eigenschaft haben. Gültige kind-Werte: text, html, button, badge, field, fieldset, form, card, section, disclosure, grid, formFlow.\n\nEvery block must have a 'kind' discriminator. Valid kinds and their shapes:\n\n  text:       { kind: \"text\", text: \"...\" }\n  html:       { kind: \"html\", html: \"<p>...</p>\" }\n  button:     { kind: \"button\", button: { label: \"OK\", variant: \"primary\" } }\n  badge:      { kind: \"badge\", badge: { type: \"info\", text: \"Neu\" } }\n  field:      { kind: \"field\", field: { type: \"email\", name: \"email\", label: \"E-Mail\", hint?: \"...\", error?: \"...\" } }\n                 type: text|email|tel|url|number|date|password|textarea|select|radio|checkbox; select/radio need options: [{ value, label }].\n  fieldset:   { kind: \"fieldset\", fieldset: { legend: \"...\", legendSize?: \"large\", hint?: \"...\", contentBlocks: [field, ...] } }\n  form:       { kind: \"form\", form: { action?: \"/senden\", errorSummary?: {}, contentBlocks: [fieldset, field, ...], actions?: { submitLabel: \"Absenden\" } } }\n                 errorSummary lists every field inside the form that has an error, linked to the field.\n  card:     { kind: \"card\", card: { header: { title: \"...\" }, body: \"...\", contentBlocks?: [...], footer?: { primaryLabel: \"...\" } } }\n  section:    { kind: \"section\", section: { headingText: \"...\", contentBlocks: [...] } }\n                 Shorthand: paragraphs: [\"text1\", \"text2\"] is also accepted (auto-converted to text blocks).\n  disclosure: { kind: \"disclosure\", disclosure: { triggerLabel: \"...\", contentBlocks: [...] } }\n  grid:       { kind: \"grid\", grid: { columns: 3, columnsContent: [ [block, block], [block], [block] ] } }\n                 columnsContent is an array of arrays — one inner array per column. Each inner array holds content blocks.\n  formFlow:   { kind: \"formFlow\", formFlow: { currentStep: 1, heading?: \"...\", steps: [{ label: \"...\", contentBlocks: [...] }, ...], navigation?: { backLabel, nextLabel, submitLabel } } }\n                 The steps render inside a form; renderAllSteps: true renders every step, the inactive ones hidden.\n\nNested blocks (section.contentBlocks, card.contentBlocks, grid.columnsContent[][], disclosure.contentBlocks, fieldset.contentBlocks, form.contentBlocks) use the same kind-based shapes recursively.\nRules: forms don't nest (no form or formFlow inside a form or formFlow); no card directly inside a card; a section needs contentBlocks or paragraphs, a disclosure needs contentBlocks.\n\nFormFlow orchestriert mehrstufige Formulare mit Tasklist + Progress + Schritt-Inhalt über einen einzigen currentStep-Parameter.",
+      "description": "KERN UX: Renders nested content blocks as one layout: sections, grids, cards, disclosures, forms and multi-step forms (formFlow).\n\nEvery block must have a 'kind' discriminator. Valid kinds and their shapes:\n\n  text:       { kind: \"text\", text: \"...\" }\n  html:       { kind: \"html\", html: \"<p>...</p>\" }\n  button:     { kind: \"button\", button: { label: \"OK\", variant: \"primary\" } }\n  badge:      { kind: \"badge\", badge: { type: \"info\", text: \"Neu\" } }\n  field:      { kind: \"field\", field: { type: \"email\", name: \"email\", label: \"E-Mail\", hint?: \"...\", error?: \"...\" } }\n                 type: text|email|tel|url|number|date|password|textarea|select|radio|checkbox; select/radio need options: [{ value, label }].\n  fieldset:   { kind: \"fieldset\", fieldset: { legend: \"...\", legendSize?: \"large\", hint?: \"...\", contentBlocks: [field, ...] } }\n  form:       { kind: \"form\", form: { action?: \"/senden\", errorSummary?: {}, contentBlocks: [fieldset, field, ...], actions?: { submitLabel: \"Absenden\" } } }\n                 errorSummary lists every field inside the form that has an error, linked to the field.\n  card:       { kind: \"card\", card: { header: { title: \"...\" }, body: \"...\", contentBlocks?: [...], footer?: { primaryLabel: \"...\" } } }\n  section:    { kind: \"section\", section: { headingText: \"...\", contentBlocks: [...] } }\n                 Shorthand: paragraphs: [\"text1\", \"text2\"] is also accepted (auto-converted to text blocks).\n  disclosure: { kind: \"disclosure\", disclosure: { triggerLabel: \"...\", contentBlocks: [...] } }; content: \"...\" also works\n  grid:       { kind: \"grid\", grid: { columns: 3, columnsContent: [ [block, block], [block], [block] ] } }\n                 columnsContent is an array of arrays — one inner array per column. Each inner array holds content blocks.\n  formFlow:   { kind: \"formFlow\", formFlow: { currentStep: 1, heading?: \"...\", steps: [{ label: \"...\", contentBlocks: [...] }, ...], navigation?: { backLabel, nextLabel, submitLabel } } }\n                 The steps render inside a form; renderAllSteps: true renders every step, the inactive ones hidden.\n\nNested blocks (section.contentBlocks, card.contentBlocks, grid.columnsContent[][], disclosure.contentBlocks, fieldset.contentBlocks, form.contentBlocks) use the same kind-based shapes recursively.\nRules: forms don't nest (no form or formFlow inside a form or formFlow); no card directly inside a card; a section needs contentBlocks or paragraphs, a disclosure contentBlocks or content.\nLimits: blocks nest at most 4 levels deep, 60 blocks in all.",
       "inputSchema": {
         "$schema": "http://json-schema.org/draft-07/schema#",
         "type": "object",
@@ -975,7 +975,7 @@
           "contentBlocks": {
             "type": "array",
             "items": {
-              "description": "Rekursiver Content-Knoten: text/html/button/badge/field/fieldset/form/section/disclosure/grid/card/formFlow.",
+              "description": "One block; kind selects which.",
               "anyOf": [
                 {
                   "type": "object",
@@ -987,7 +987,7 @@
                     "text": {
                       "type": "string",
                       "minLength": 1,
-                      "description": "KERN Body-Textblock."
+                      "description": "A paragraph (kern-body)."
                     }
                   },
                   "required": [
@@ -1005,7 +1005,7 @@
                     "html": {
                       "type": "string",
                       "minLength": 1,
-                      "description": "Rohes HTML (wird nicht escaped)."
+                      "description": "Raw HTML, inserted unescaped."
                     }
                   },
                   "required": [
@@ -1104,8 +1104,7 @@
                       },
                       "required": [
                         "label"
-                      ],
-                      "description": "Eingebetteter KERN Button im rekursiven Content-Baum."
+                      ]
                     }
                   },
                   "required": [
@@ -1146,8 +1145,7 @@
                       "required": [
                         "type",
                         "text"
-                      ],
-                      "description": "Eingebettetes KERN Badge im rekursiven Content-Baum."
+                      ]
                     }
                   },
                   "required": [
@@ -1451,7 +1449,7 @@
                           }
                         },
                         "paragraphs": {
-                          "description": "Shorthand: string[] wird automatisch zu text-contentBlocks konvertiert.",
+                          "description": "Shorthand for text blocks.",
                           "type": "array",
                           "items": {
                             "type": "string",
@@ -1641,11 +1639,11 @@
                           "properties": {
                             "src": {
                               "type": "string",
-                              "description": "Bild-URL."
+                              "description": "Image URL."
                             },
                             "alt": {
                               "type": "string",
-                              "description": "Alt-Text für das Bild."
+                              "description": "Alt text."
                             }
                           },
                           "required": [
@@ -1705,7 +1703,7 @@
                           ]
                         },
                         "body": {
-                          "description": "Optionaler einfacher Body-Text.",
+                          "description": "Body text.",
                           "type": "string"
                         },
                         "bodyIsHtml": {
@@ -1751,7 +1749,7 @@
                           "type": "integer",
                           "minimum": 1,
                           "maximum": 9007199254740991,
-                          "description": "Aktiver Schritt (1-basiert). Werte über steps.length werden begrenzt."
+                          "description": "The active step, from 1; capped at the number of steps."
                         },
                         "steps": {
                           "minItems": 2,
@@ -1867,7 +1865,7 @@
                         "currentStep",
                         "steps"
                       ],
-                      "description": "Mehrstufiges Formular: Tasklist + Progress + aktiver Schritt."
+                      "description": "A multi-step form: the step list, progress and the active step."
                     }
                   },
                   "required": [
@@ -1877,13 +1875,12 @@
                 }
               ]
             },
-            "description": "Wurzel-Content-Blöcke für rekursive Komposition (mindestens ein Block)."
+            "description": "The top-level blocks, at least one."
           }
         },
         "required": [
           "contentBlocks"
-        ],
-        "description": "Master-Kompositionstool für rekursive KERN-Layouts. Kombiniert Grid, Card, Section und Disclosure in einer einzigen Struktur."
+        ]
       },
       "outputSchema": {
         "$schema": "http://json-schema.org/draft-07/schema#",
@@ -1974,7 +1971,7 @@
     {
       "name": "render_page",
       "title": "Render KERN Page",
-      "description": "KERN UX (Komposition): Renders a whole page: an optional Kopfzeile, a header with brand and navigation, <main> with an h1 and content blocks (the same kinds as render_composition), and a footer with up to four link columns. document: true returns a complete HTML document that loads the KERN stylesheets. Example: { heading: 'Wohngeld beantragen', header: { title: 'Stadt Musterstadt', navigation: [{ label: 'Start', href: '/' }] }, contentBlocks: [{ kind: 'section', section: { headingText: 'Voraussetzungen', paragraphs: ['...'] } }], footer: { columns: [{ heading: 'Service', links: [{ label: 'Kontakt', href: '/kontakt' }] }] } }.",
+      "description": "KERN UX: Renders a whole page: an optional Kopfzeile, a header with brand and navigation, <main> with an h1 and content blocks (the same kinds as render_composition), and a footer with up to four link columns. document: true returns a complete HTML document that loads the KERN stylesheets.",
       "inputSchema": {
         "$schema": "http://json-schema.org/draft-07/schema#",
         "type": "object",
@@ -2091,7 +2088,7 @@
             "minItems": 1,
             "type": "array",
             "items": {
-              "description": "Rekursiver Content-Knoten: text/html/button/badge/field/fieldset/form/section/disclosure/grid/card/formFlow.",
+              "description": "One block; kind selects which.",
               "anyOf": [
                 {
                   "type": "object",
@@ -2103,7 +2100,7 @@
                     "text": {
                       "type": "string",
                       "minLength": 1,
-                      "description": "KERN Body-Textblock."
+                      "description": "A paragraph (kern-body)."
                     }
                   },
                   "required": [
@@ -2121,7 +2118,7 @@
                     "html": {
                       "type": "string",
                       "minLength": 1,
-                      "description": "Rohes HTML (wird nicht escaped)."
+                      "description": "Raw HTML, inserted unescaped."
                     }
                   },
                   "required": [
@@ -2220,8 +2217,7 @@
                       },
                       "required": [
                         "label"
-                      ],
-                      "description": "Eingebetteter KERN Button im rekursiven Content-Baum."
+                      ]
                     }
                   },
                   "required": [
@@ -2262,8 +2258,7 @@
                       "required": [
                         "type",
                         "text"
-                      ],
-                      "description": "Eingebettetes KERN Badge im rekursiven Content-Baum."
+                      ]
                     }
                   },
                   "required": [
@@ -2567,7 +2562,7 @@
                           }
                         },
                         "paragraphs": {
-                          "description": "Shorthand: string[] wird automatisch zu text-contentBlocks konvertiert.",
+                          "description": "Shorthand for text blocks.",
                           "type": "array",
                           "items": {
                             "type": "string",
@@ -2757,11 +2752,11 @@
                           "properties": {
                             "src": {
                               "type": "string",
-                              "description": "Bild-URL."
+                              "description": "Image URL."
                             },
                             "alt": {
                               "type": "string",
-                              "description": "Alt-Text für das Bild."
+                              "description": "Alt text."
                             }
                           },
                           "required": [
@@ -2821,7 +2816,7 @@
                           ]
                         },
                         "body": {
-                          "description": "Optionaler einfacher Body-Text.",
+                          "description": "Body text.",
                           "type": "string"
                         },
                         "bodyIsHtml": {
@@ -2867,7 +2862,7 @@
                           "type": "integer",
                           "minimum": 1,
                           "maximum": 9007199254740991,
-                          "description": "Aktiver Schritt (1-basiert). Werte über steps.length werden begrenzt."
+                          "description": "The active step, from 1; capped at the number of steps."
                         },
                         "steps": {
                           "minItems": 2,
@@ -2983,7 +2978,7 @@
                         "currentStep",
                         "steps"
                       ],
-                      "description": "Mehrstufiges Formular: Tasklist + Progress + aktiver Schritt."
+                      "description": "A multi-step form: the step list, progress and the active step."
                     }
                   },
                   "required": [
@@ -3052,8 +3047,7 @@
         },
         "required": [
           "contentBlocks"
-        ],
-        "description": "A whole KERN page: optional Kopfzeile, header with navigation, <main> with content blocks, and footer."
+        ]
       },
       "outputSchema": {
         "$schema": "http://json-schema.org/draft-07/schema#",
@@ -3144,7 +3138,7 @@
     {
       "name": "get_section",
       "title": "KERN Section",
-      "description": "KERN UX (Komposition): Erzeugt eine <section> mit Heading, Body-Absätzen und optionalem Divider. Verwende dieses Tool anstelle von get_heading + get_body einzeln. Known-good payload: { headingText: 'Überblick', headingLevel: 2, paragraphs: ['Erster Absatz', 'Zweiter Absatz'], paragraphSize: 'default', paragraphBold: false, divider: false }.",
+      "description": "KERN UX: HTML for a <section> with a heading, content blocks (text, html, badge or field) and an optional divider. A composition helper of this repo, not a KERN component. For containers inside, use render_composition.",
       "inputSchema": {
         "$schema": "http://json-schema.org/draft-07/schema#",
         "type": "object",
@@ -3164,11 +3158,11 @@
           "headingText": {
             "type": "string",
             "minLength": 1,
-            "description": "Abschnitts-Überschrift für diese Komposition. Sollte den Inhalt des folgenden Blocks präzise benennen."
+            "description": "Section heading."
           },
           "headingLevel": {
             "default": 2,
-            "description": "Heading-Ebene (h1–h6). Im Seitenkontext hierarchisch ohne Sprünge verwenden. Standard: h2.",
+            "description": "Heading level, h1 to h6; h2 by default. Don't skip levels.",
             "anyOf": [
               {
                 "type": "number",
@@ -3213,7 +3207,7 @@
                     "text": {
                       "type": "string",
                       "minLength": 1,
-                      "description": "KERN Body-Textblock."
+                      "description": "A paragraph (kern-body)."
                     }
                   },
                   "required": [
@@ -3231,7 +3225,7 @@
                     "html": {
                       "type": "string",
                       "minLength": 1,
-                      "description": "Rohes HTML (wird nicht escaped)."
+                      "description": "Raw HTML, inserted unescaped."
                     }
                   },
                   "required": [
@@ -3272,8 +3266,7 @@
                       "required": [
                         "type",
                         "text"
-                      ],
-                      "description": "Eingebettetes KERN Badge im rekursiven Content-Baum."
+                      ]
                     }
                   },
                   "required": [
@@ -3398,7 +3391,7 @@
             }
           },
           "paragraphs": {
-            "description": "Legacy-Kompatibilität: Ein oder mehrere Absätze als String-Liste. Für neue Aufrufe contentBlocks bevorzugen.",
+            "description": "Paragraphs as strings; contentBlocks is preferred.",
             "minItems": 1,
             "type": "array",
             "items": {
@@ -3408,7 +3401,7 @@
           },
           "paragraphSize": {
             "default": "default",
-            "description": "Legacy-Kompatibilität: gemeinsame Textgröße für paragraphs.",
+            "description": "Text size of paragraphs.",
             "type": "string",
             "enum": [
               "default",
@@ -3418,19 +3411,18 @@
           },
           "paragraphBold": {
             "default": false,
-            "description": "Legacy-Kompatibilität: macht paragraphs fett.",
+            "description": "Bold paragraphs.",
             "type": "boolean"
           },
           "divider": {
             "default": false,
-            "description": "Optionale Trennlinie am Ende des Abschnitts, wenn der Bereich visuell klar vom nächsten Block getrennt werden soll.",
+            "description": "Adds a divider at the end of the section.",
             "type": "boolean"
           }
         },
         "required": [
           "headingText"
-        ],
-        "description": "Parameters for a KERN section: a heading, content blocks and an optional divider. A composition helper of this repo, not an upstream KERN component. Prefer contentBlocks; paragraphs is still supported."
+        ]
       },
       "outputSchema": {
         "$schema": "http://json-schema.org/draft-07/schema#",
@@ -3521,7 +3513,7 @@
     {
       "name": "get_card_group",
       "title": "KERN Card Group",
-      "description": "KERN UX (Komposition): Erzeugt mehrere Cards in einem responsive 12-Spalten-Grid (kern-container/kern-row/kern-col-md-{n} kern-col-sm-12). Spaltenbreite wird automatisch berechnet (12 / columns). Verwende dieses Tool anstelle von get_card + get_grid einzeln. Known-good payload: { columns: 3, cards: [{ header: { title: 'Service A' }, body: 'Kurzbeschreibung', footer: { primaryLabel: 'More Info' } }] }.",
+      "description": "KERN UX: HTML for 1 to 6 cards side by side in the 12-column grid (kern-col-md-{12 / columns} kern-col-sm-12). Each card: an optional image, header, body text or simple blocks, and footer buttons.",
       "inputSchema": {
         "$schema": "http://json-schema.org/draft-07/schema#",
         "type": "object",
@@ -3547,7 +3539,7 @@
               "properties": {
                 "size": {
                   "default": "default",
-                  "description": "Card-Größe.",
+                  "description": "Card size.",
                   "type": "string",
                   "enum": [
                     "default",
@@ -3557,20 +3549,19 @@
                 },
                 "hug": {
                   "default": false,
-                  "description": "Hug-Modus (Karte dehnt sich nicht auf gleiche Höhe).",
+                  "description": "Keeps the card's own height instead of matching its row.",
                   "type": "boolean"
                 },
                 "media": {
-                  "description": "Optionaler Medien-/Bildbereich.",
                   "type": "object",
                   "properties": {
                     "src": {
                       "type": "string",
-                      "description": "Bild-URL."
+                      "description": "Image URL."
                     },
                     "alt": {
                       "type": "string",
-                      "description": "Alt-Text für das Bild."
+                      "description": "Alt text; required for an informative image."
                     }
                   },
                   "required": [
@@ -3579,21 +3570,20 @@
                   ]
                 },
                 "header": {
-                  "description": "Optionaler Header mit Titel.",
                   "type": "object",
                   "properties": {
                     "preline": {
-                      "description": "Optionale Preline über dem Titel.",
+                      "description": "Short line above the title.",
                       "type": "string"
                     },
                     "title": {
                       "type": "string",
                       "minLength": 1,
-                      "description": "Titel-Text."
+                      "description": "Card title."
                     },
                     "titleLevel": {
                       "default": 2,
-                      "description": "Heading-Ebene für den Karten-Titel (h1–h6).",
+                      "description": "Heading level of the title, h1 to h6.",
                       "anyOf": [
                         {
                           "type": "number",
@@ -3622,11 +3612,11 @@
                       ]
                     },
                     "subline": {
-                      "description": "Optionale Subline unter dem Titel.",
+                      "description": "Short line below the title.",
                       "type": "string"
                     },
                     "href": {
-                      "description": "Link-URL – macht die Karte interaktiv.",
+                      "description": "Makes the whole card a link.",
                       "type": "string"
                     }
                   },
@@ -3635,12 +3625,12 @@
                   ]
                 },
                 "body": {
-                  "description": "Body-Text der Karte.",
+                  "description": "Short body text.",
                   "type": "string"
                 },
                 "bodyIsHtml": {
                   "default": false,
-                  "description": "Wenn true: body wird als HTML interpretiert.",
+                  "description": "Treat body as trusted HTML instead of escaping it.",
                   "type": "boolean"
                 },
                 "contentBlocks": {
@@ -3660,7 +3650,7 @@
                           "text": {
                             "type": "string",
                             "minLength": 1,
-                            "description": "KERN Body-Textblock."
+                            "description": "A paragraph (kern-body)."
                           }
                         },
                         "required": [
@@ -3678,7 +3668,7 @@
                           "html": {
                             "type": "string",
                             "minLength": 1,
-                            "description": "Rohes HTML (wird nicht escaped)."
+                            "description": "Raw HTML, inserted unescaped."
                           }
                         },
                         "required": [
@@ -3719,8 +3709,7 @@
                             "required": [
                               "type",
                               "text"
-                            ],
-                            "description": "Eingebettetes KERN Badge im rekursiven Content-Baum."
+                            ]
                           }
                         },
                         "required": [
@@ -3845,25 +3834,24 @@
                   }
                 },
                 "footer": {
-                  "description": "Optionaler Footer mit Buttons.",
                   "type": "object",
                   "properties": {
                     "primaryLabel": {
-                      "description": "Primärer Button Text.",
+                      "description": "Label of the primary button.",
                       "type": "string"
                     },
                     "secondaryLabel": {
-                      "description": "Sekundärer Button Text.",
+                      "description": "Label of the secondary button.",
                       "type": "string"
                     }
                   }
                 }
               }
             },
-            "description": "Array von 1–6 Karten-Definitionen."
+            "description": "The cards, 1 to 6."
           },
           "columns": {
-            "description": "Anzahl der Spalten im Grid. Standard: Anzahl der Karten (max 4).",
+            "description": "Columns; by default the number of cards, at most 4.",
             "anyOf": [
               {
                 "type": "number",
@@ -3892,17 +3880,16 @@
             ]
           },
           "heading": {
-            "description": "Optionale Gruppen-Überschrift über den Karten.",
             "type": "object",
             "properties": {
               "text": {
                 "type": "string",
                 "minLength": 1,
-                "description": "Gruppen-Überschrift."
+                "description": "Heading above the cards."
               },
               "level": {
                 "default": 2,
-                "description": "Heading-Ebene (h1–h6). Standard: h2.",
+                "description": "Its level; h2 by default.",
                 "anyOf": [
                   {
                     "type": "number",
@@ -3938,8 +3925,7 @@
         },
         "required": [
           "cards"
-        ],
-        "description": "Parameter für KERN UX Card-Group-Komposition (mehrere Karten im Grid)."
+        ]
       },
       "outputSchema": {
         "$schema": "http://json-schema.org/draft-07/schema#",
@@ -4030,7 +4016,7 @@
     {
       "name": "get_disclosure",
       "title": "KERN Disclosure",
-      "description": "KERN UX (Komposition): Erzeugt ein Expand/Collapse-Element (<details>/<summary>) mit KERN Accordion-Styling (kern-accordion__item / kern-accordion__body). Pflichtfelder: triggerLabel UND (contentBlocks oder content). Beispiel: { triggerLabel: 'Details anzeigen', content: 'Erklärungstext' }. Für mehrteilige Akkordeons (mehrere Items) siehe get_accordion.",
+      "description": "KERN UX: HTML for one expandable area: <details>/<summary> with the kern-accordion classes. Required: triggerLabel, and contentBlocks or content. For several items, use get_accordion with mode 'group'.",
       "inputSchema": {
         "$schema": "http://json-schema.org/draft-07/schema#",
         "type": "object",
@@ -4050,7 +4036,7 @@
           "triggerLabel": {
             "type": "string",
             "minLength": 1,
-            "description": "Text für den Expand/Collapse-Trigger im <summary>. Kurz, eindeutig und als aufklappbare Information verständlich formulieren."
+            "description": "Text of the <summary> that opens it."
           },
           "contentBlocks": {
             "description": "The hidden content: text, html, badge or field blocks. For containers inside, use render_composition with a disclosure block.",
@@ -4069,7 +4055,7 @@
                     "text": {
                       "type": "string",
                       "minLength": 1,
-                      "description": "KERN Body-Textblock."
+                      "description": "A paragraph (kern-body)."
                     }
                   },
                   "required": [
@@ -4087,7 +4073,7 @@
                     "html": {
                       "type": "string",
                       "minLength": 1,
-                      "description": "Rohes HTML (wird nicht escaped)."
+                      "description": "Raw HTML, inserted unescaped."
                     }
                   },
                   "required": [
@@ -4128,8 +4114,7 @@
                       "required": [
                         "type",
                         "text"
-                      ],
-                      "description": "Eingebettetes KERN Badge im rekursiven Content-Baum."
+                      ]
                     }
                   },
                   "required": [
@@ -4254,25 +4239,24 @@
             }
           },
           "content": {
-            "description": "Legacy-Inhalt des auf-/zuklappbaren Bereichs als Text oder HTML-String. Für neue Aufrufe contentBlocks bevorzugen.",
+            "description": "The hidden content as a string; contentBlocks is preferred.",
             "type": "string",
             "minLength": 1
           },
           "contentIsHtml": {
             "default": false,
-            "description": "Legacy-Kompatibilität: Wenn true wird content als HTML interpretiert. Nur für vertrauenswürdige Inhalte verwenden.",
+            "description": "Treat content as trusted HTML instead of escaping it.",
             "type": "boolean"
           },
           "open": {
             "default": false,
-            "description": "Wenn true: Bereich ist initial geöffnet. Standardmäßig geschlossen lassen, außer der Kontext erfordert sofort sichtbare Zusatzinformationen.",
+            "description": "Open initially.",
             "type": "boolean"
           }
         },
         "required": [
           "triggerLabel"
-        ],
-        "description": "Parameters for a KERN disclosure: expand and collapse with <details>/<summary> and accordion styling. A composition helper of this repo for single disclosures, not the upstream accordion component."
+        ]
       },
       "outputSchema": {
         "$schema": "http://json-schema.org/draft-07/schema#",
@@ -5318,7 +5302,7 @@
                     "text": {
                       "type": "string",
                       "minLength": 1,
-                      "description": "KERN Body-Textblock."
+                      "description": "A paragraph (kern-body)."
                     }
                   },
                   "required": [
@@ -5336,7 +5320,7 @@
                     "html": {
                       "type": "string",
                       "minLength": 1,
-                      "description": "Rohes HTML (wird nicht escaped)."
+                      "description": "Raw HTML, inserted unescaped."
                     }
                   },
                   "required": [
@@ -5377,8 +5361,7 @@
                       "required": [
                         "type",
                         "text"
-                      ],
-                      "description": "Eingebettetes KERN Badge im rekursiven Content-Baum."
+                      ]
                     }
                   },
                   "required": [
@@ -6636,7 +6619,7 @@
                     "text": {
                       "type": "string",
                       "minLength": 1,
-                      "description": "KERN Body-Textblock."
+                      "description": "A paragraph (kern-body)."
                     }
                   },
                   "required": [
@@ -6654,7 +6637,7 @@
                     "html": {
                       "type": "string",
                       "minLength": 1,
-                      "description": "Rohes HTML (wird nicht escaped)."
+                      "description": "Raw HTML, inserted unescaped."
                     }
                   },
                   "required": [
@@ -6695,8 +6678,7 @@
                       "required": [
                         "type",
                         "text"
-                      ],
-                      "description": "Eingebettetes KERN Badge im rekursiven Content-Baum."
+                      ]
                     }
                   },
                   "required": [
@@ -7035,7 +7017,7 @@
                       "text": {
                         "type": "string",
                         "minLength": 1,
-                        "description": "KERN Body-Textblock."
+                        "description": "A paragraph (kern-body)."
                       }
                     },
                     "required": [
@@ -7053,7 +7035,7 @@
                       "html": {
                         "type": "string",
                         "minLength": 1,
-                        "description": "Rohes HTML (wird nicht escaped)."
+                        "description": "Raw HTML, inserted unescaped."
                       }
                     },
                     "required": [
@@ -7094,8 +7076,7 @@
                         "required": [
                           "type",
                           "text"
-                        ],
-                        "description": "Eingebettetes KERN Badge im rekursiven Content-Baum."
+                        ]
                       }
                     },
                     "required": [

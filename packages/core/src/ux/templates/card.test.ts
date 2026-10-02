@@ -233,7 +233,7 @@ describe("buildCard", () => {
 		};
 
 		expect(() => buildCard({ contentBlocks: [tooDeepTree] }, "de")).toThrow(
-			"Maximale Verschachtelungstiefe",
+			"Blocks nest at most",
 		);
 	});
 });

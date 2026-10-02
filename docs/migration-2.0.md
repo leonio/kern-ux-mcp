@@ -67,18 +67,22 @@ Pre-releases go out under the npm dist-tag `alpha`. "Next alpha" means landed on
   - the layout and typography tools: `get_grid`, `get_descriptionlist`, `get_divider`, `get_fieldset`, `get_kopfzeile`, `get_body`, `get_heading`, `get_label`, `get_link`, `get_lists`, `get_preline`, `get_subline` and `get_title`
   - the tools that return KERN's example HTML (`get_details`, `get_layers`, `get_pattern`, `get_search`), and `get_utility_reference`, `get_tokens` and `list_icons`
   - the interactive tools: `get_accordion`, `get_alert`, `get_badge`, `get_button`, `get_card`, `get_dialog`, `get_dropdown`, `get_icon`, `get_loader`, `get_progress`, `get_summary`, `get_table` and `get_tasklist`
+  - the composition tools: `get_section`, `get_card_group`, `get_disclosure`, `render_composition` and `render_page`, and the block schema they share
   - `get_component_docs`, `list_components_by_category` and `validate_html`. `validate_html`'s `locale` is described as what it is: ignored, because the messages come in both languages.
   - the parameters every tool shares: `locale`, `strict`, heading levels, grid columns, sizes and icons
 
-  Names, types and defaults are unchanged.
+  Names, types and defaults are unchanged. The tool descriptions no longer say "(Komposition)"; `get_section` says it's a composition helper of this repo, and `get_disclosure` points at `get_accordion` with mode `group` for several items.
 - These tools' input schemas no longer have a top-level `description`; it repeated the tool description. Their advice on when to use a component (a select or radios, a textarea or a text input) is gone too. It will come from the KERN knowledge bundle.
 - The tool descriptions say what each tool renders and what it leaves out, for example that `get_heading` uses `kern-heading-medium` at every level. They no longer carry a category such as "(Foundational/Layout)".
 - `get_pattern` points at `render_page` for a page with header and footer.
-- Descriptions no longer carry example payloads (`get_button`, `get_dialog`, `get_heading`, `get_icon`, `get_select`, `get_tasklist`). The invalid-input hints keep their known-good payloads.
+- Descriptions no longer carry example payloads (`get_button`, `get_card_group`, `get_dialog`, `get_disclosure`, `get_heading`, `get_icon`, `get_section`, `get_select`, `get_tasklist`, `render_page`). The invalid-input hints keep their known-good payloads, and `render_page`'s hint now has one too.
+- The block schema's error messages are in English: "Blocks nest at most 4 levels deep.", "At most 60 blocks in all.", "Set contentBlocks or paragraphs." (`get_section`), "Set contentBlocks or content." (`get_disclosure`) and "Add at least one block." (`render_composition`). A client that matched the German messages needs updating.
+- `render_composition`'s cheat sheet states the limits (4 levels, 60 blocks).
 - `get_accordion` renders a group when it gets `items` without `content`, whatever `mode` says. Why: in the R5 evals the most frequent error was `items` sent with `mode: "single"` or no mode, which failed on the missing `title` and `content`.
 - `get_select` options accept `label` as well as `text`, and the options of a `field` block accept `text` as well as `label`. Why: the R5 baseline's only errors were `field` options written in `get_select`'s shape.
 - An unknown icon name now fails with "Unknown icon name. Did you mean arrow-forward?" when a close name exists (`arrow_forward`, or `trash` for `delete`). It used to say "Invalid icon name. Use list_icons for allowed names."
-- The model-facing listing shrinks from 143K to 119K characters.
+- A `disclosure` block takes `content` (and `contentIsHtml`) like `get_disclosure`, as one text or html block. Why: in the R5 baseline a `disclosure` block sent with `content` failed, because only the tool accepted it.
+- The model-facing listing shrinks from 143K to 116K characters.
 
 ## Tools and block content (next alpha)
 
@@ -96,7 +100,7 @@ Pre-releases go out under the npm dist-tag `alpha`. "Next alpha" means landed on
 - **Nesting rules.** The block schema rejects what used to render wrongly or fail later:
   - a `form` or `formFlow` inside a `form` or `formFlow`
   - a `card` directly inside a `card`
-  - a `section` with neither `contentBlocks` nor `paragraphs`, and a `disclosure` without `contentBlocks`
+  - a `section` with neither `contentBlocks` nor `paragraphs`, and a `disclosure` with neither `contentBlocks` nor `content`
 
   The error reports the exact path. A tool's own container counts too: `get_card` rejects a card among its blocks.
 - **Depth.** A tool's own blocks are depth 1, and the limit (4) means the same in the schema and the renderer. In 1.x, blocks past the limit could still render.
@@ -117,5 +121,4 @@ Pre-releases go out under the npm dist-tag `alpha`. "Next alpha" means landed on
 ## Planned before 2.0.0 (may still change)
 
 These are on the roadmap and not released. Entries move up when they land.
-- **English tool and parameter descriptions** (R5) for the remaining tools. Form fields, layout, typography, the interactive tools and the shared parameters have landed (above); the composition tools follow. This changes text, not the contract.
 - **Resources** (`kern://…`, R6) and **prompts** (R7).

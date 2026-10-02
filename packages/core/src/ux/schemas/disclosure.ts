@@ -16,31 +16,19 @@ export const DisclosureRenderSchema = z
 		triggerLabel: z
 			.string()
 			.min(1)
-			.describe(
-				"Text für den Expand/Collapse-Trigger im <summary>. Kurz, eindeutig und als aufklappbare Information verständlich formulieren.",
-			),
+			.describe("Text of the <summary> that opens it."),
 		contentBlocks: contentBlocksSchema("disclosure").optional(),
 		content: z
 			.string()
 			.min(1)
 			.optional()
-			.describe(
-				"Legacy-Inhalt des auf-/zuklappbaren Bereichs als Text oder HTML-String. Für neue Aufrufe contentBlocks bevorzugen.",
-			),
+			.describe("The hidden content as a string; contentBlocks is preferred."),
 		contentIsHtml: z
 			.boolean()
 			.optional()
 			.default(false)
-			.describe(
-				"Legacy-Kompatibilität: Wenn true wird content als HTML interpretiert. Nur für vertrauenswürdige Inhalte verwenden.",
-			),
-		open: z
-			.boolean()
-			.optional()
-			.default(false)
-			.describe(
-				"Wenn true: Bereich ist initial geöffnet. Standardmäßig geschlossen lassen, außer der Kontext erfordert sofort sichtbare Zusatzinformationen.",
-			),
+			.describe("Treat content as trusted HTML instead of escaping it."),
+		open: z.boolean().optional().default(false).describe("Open initially."),
 	})
 	.superRefine((params, ctx) => {
 		const hasBlocks =
@@ -52,7 +40,7 @@ export const DisclosureRenderSchema = z
 			ctx.addIssue({
 				code: "custom",
 				path: ["contentBlocks"],
-				message: "Mindestens contentBlocks oder content muss gesetzt sein.",
+				message: "Set contentBlocks or content.",
 			});
 		}
 	});
@@ -64,10 +52,7 @@ export const DisclosureSchema = DisclosureRenderSchema.safeExtend({
 		.describe(
 			"The hidden content: text, html, badge or field blocks. For containers inside, use render_composition with a disclosure block.",
 		),
-}).describe(
-	"Parameters for a KERN disclosure: expand and collapse with <details>/<summary> and accordion styling. " +
-		"A composition helper of this repo for single disclosures, not the upstream accordion component.",
-);
+});
 
 export type DisclosureInput = z.input<typeof DisclosureRenderSchema>;
 export type DisclosureParams = z.output<typeof DisclosureRenderSchema>;

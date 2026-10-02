@@ -894,25 +894,28 @@ describe("tool input schemas", () => {
 		const tools = createTools(createRegistry([]));
 		const sectionSchema = getListedToolSchema(tools, "get_section");
 		const disclosureSchema = getListedToolSchema(tools, "get_disclosure");
+		const description = (name: string) => tools.getTool(name)?.description;
 
-		expect(sectionSchema.description).toContain(
+		expect(description("get_section")).toContain(
 			"composition helper of this repo",
 		);
+		expect(sectionSchema.description).toBeUndefined();
 		expect(sectionSchema.properties.contentBlocks.description).toContain(
 			"use render_composition",
 		);
 		expect(sectionSchema.properties.paragraphs.description).toContain(
-			"Für neue Aufrufe contentBlocks bevorzugen",
+			"contentBlocks is preferred",
 		);
 
-		expect(disclosureSchema.description).toContain(
-			"composition helper of this repo",
+		expect(description("get_disclosure")).toContain(
+			"use get_accordion with mode 'group'",
 		);
+		expect(disclosureSchema.description).toBeUndefined();
 		expect(disclosureSchema.properties.triggerLabel.description).toContain(
 			"<summary>",
 		);
 		expect(disclosureSchema.properties.content.description).toContain(
-			"Für neue Aufrufe contentBlocks bevorzugen",
+			"contentBlocks is preferred",
 		);
 	});
 

@@ -16,86 +16,71 @@ const CommonParams = McpCommonSchema.shape;
 const CardItemSchema = z.object({
 	size: ComponentSizeSchema.optional()
 		.default("default")
-		.describe("Card-Größe."),
+		.describe("Card size."),
 	hug: z
 		.boolean()
 		.optional()
 		.default(false)
-		.describe("Hug-Modus (Karte dehnt sich nicht auf gleiche Höhe)."),
+		.describe("Keeps the card's own height instead of matching its row."),
 	media: z
 		.object({
-			src: z.string().describe("Bild-URL."),
-			alt: z.string().describe("Alt-Text für das Bild."),
+			src: z.string().describe("Image URL."),
+			alt: z.string().describe("Alt text; required for an informative image."),
 		})
-		.optional()
-		.describe("Optionaler Medien-/Bildbereich."),
+		.optional(),
 	header: z
 		.object({
-			preline: z
-				.string()
-				.optional()
-				.describe("Optionale Preline über dem Titel."),
-			title: z.string().min(1).describe("Titel-Text."),
+			preline: z.string().optional().describe("Short line above the title."),
+			title: z.string().min(1).describe("Card title."),
 			titleLevel: HeadingLevelSchema.optional()
 				.default(2)
-				.describe("Heading-Ebene für den Karten-Titel (h1–h6)."),
-			subline: z
-				.string()
-				.optional()
-				.describe("Optionale Subline unter dem Titel."),
-			href: z
-				.string()
-				.optional()
-				.describe("Link-URL – macht die Karte interaktiv."),
+				.describe("Heading level of the title, h1 to h6."),
+			subline: z.string().optional().describe("Short line below the title."),
+			href: z.string().optional().describe("Makes the whole card a link."),
 		})
-		.optional()
-		.describe("Optionaler Header mit Titel."),
-	body: z.string().optional().describe("Body-Text der Karte."),
+		.optional(),
+	body: z.string().optional().describe("Short body text."),
 	bodyIsHtml: z
 		.boolean()
 		.optional()
 		.default(false)
-		.describe("Wenn true: body wird als HTML interpretiert."),
+		.describe("Treat body as trusted HTML instead of escaping it."),
 	contentBlocks: simpleBlocksSchema()
 		.optional()
 		.describe("Optional body blocks: text, html, badge or field."),
 	footer: z
 		.object({
-			primaryLabel: z.string().optional().describe("Primärer Button Text."),
-			secondaryLabel: z.string().optional().describe("Sekundärer Button Text."),
+			primaryLabel: z
+				.string()
+				.optional()
+				.describe("Label of the primary button."),
+			secondaryLabel: z
+				.string()
+				.optional()
+				.describe("Label of the secondary button."),
 		})
-		.optional()
-		.describe("Optionaler Footer mit Buttons."),
+		.optional(),
 });
 
 /**
  * Zod schema for Card Group composition tool.
  * Produces multiple cards inside a responsive grid layout.
  */
-export const CardGroupSchema = z
-	.object({
-		...CommonParams,
-		cards: z
-			.array(CardItemSchema)
-			.min(1)
-			.max(6)
-			.describe("Array von 1–6 Karten-Definitionen."),
-		columns: GridColumnsSchema.optional().describe(
-			"Anzahl der Spalten im Grid. Standard: Anzahl der Karten (max 4).",
-		),
-		heading: z
-			.object({
-				text: z.string().min(1).describe("Gruppen-Überschrift."),
-				level: HeadingLevelSchema.optional()
-					.default(2)
-					.describe("Heading-Ebene (h1–h6). Standard: h2."),
-			})
-			.optional()
-			.describe("Optionale Gruppen-Überschrift über den Karten."),
-	})
-	.describe(
-		"Parameter für KERN UX Card-Group-Komposition (mehrere Karten im Grid).",
-	);
+export const CardGroupSchema = z.object({
+	...CommonParams,
+	cards: z.array(CardItemSchema).min(1).max(6).describe("The cards, 1 to 6."),
+	columns: GridColumnsSchema.optional().describe(
+		"Columns; by default the number of cards, at most 4.",
+	),
+	heading: z
+		.object({
+			text: z.string().min(1).describe("Heading above the cards."),
+			level: HeadingLevelSchema.optional()
+				.default(2)
+				.describe("Its level; h2 by default."),
+		})
+		.optional(),
+});
 
 export type CardGroupInput = z.input<typeof CardGroupSchema>;
 export type CardGroupParams = z.output<typeof CardGroupSchema>;

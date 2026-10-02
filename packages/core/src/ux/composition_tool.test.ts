@@ -141,7 +141,7 @@ describe("render_composition tool", () => {
 		}
 		expect(
 			parsed?.error.issues.some((issue) =>
-				issue.message.includes("Maximale Verschachtelungstiefe"),
+				issue.message.includes("Blocks nest at most"),
 			),
 		).toBe(true);
 	});

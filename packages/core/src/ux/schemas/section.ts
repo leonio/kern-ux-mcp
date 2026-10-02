@@ -16,40 +16,29 @@ const CommonParams = McpCommonSchema.shape;
 export const SectionRenderSchema = z
 	.object({
 		...CommonParams,
-		headingText: z
-			.string()
-			.min(1)
-			.describe(
-				"Abschnitts-Überschrift für diese Komposition. Sollte den Inhalt des folgenden Blocks präzise benennen.",
-			),
+		headingText: z.string().min(1).describe("Section heading."),
 		headingLevel: HeadingLevelSchema.optional()
 			.default(2)
-			.describe(
-				"Heading-Ebene (h1–h6). Im Seitenkontext hierarchisch ohne Sprünge verwenden. Standard: h2.",
-			),
+			.describe("Heading level, h1 to h6; h2 by default. Don't skip levels."),
 		contentBlocks: contentBlocksSchema("section").optional(),
 		paragraphs: z
 			.array(z.string().min(1))
 			.min(1)
 			.optional()
-			.describe(
-				"Legacy-Kompatibilität: Ein oder mehrere Absätze als String-Liste. Für neue Aufrufe contentBlocks bevorzugen.",
-			),
+			.describe("Paragraphs as strings; contentBlocks is preferred."),
 		paragraphSize: ComponentSizeSchema.optional()
 			.default("default")
-			.describe("Legacy-Kompatibilität: gemeinsame Textgröße für paragraphs."),
+			.describe("Text size of paragraphs."),
 		paragraphBold: z
 			.boolean()
 			.optional()
 			.default(false)
-			.describe("Legacy-Kompatibilität: macht paragraphs fett."),
+			.describe("Bold paragraphs."),
 		divider: z
 			.boolean()
 			.optional()
 			.default(false)
-			.describe(
-				"Optionale Trennlinie am Ende des Abschnitts, wenn der Bereich visuell klar vom nächsten Block getrennt werden soll.",
-			),
+			.describe("Adds a divider at the end of the section."),
 	})
 	.superRefine((params, ctx) => {
 		const hasBlocks =
@@ -61,7 +50,7 @@ export const SectionRenderSchema = z
 			ctx.addIssue({
 				code: "custom",
 				path: ["contentBlocks"],
-				message: "Mindestens contentBlocks oder paragraphs muss gesetzt sein.",
+				message: "Set contentBlocks or paragraphs.",
 			});
 		}
 	});
@@ -73,11 +62,7 @@ export const SectionSchema = SectionRenderSchema.safeExtend({
 		.describe(
 			"The section's content: text, html, badge or field blocks. For cards, grids or other containers inside a section, use render_composition with a section block.",
 		),
-}).describe(
-	"Parameters for a KERN section: a heading, content blocks and an optional divider. " +
-		"A composition helper of this repo, not an upstream KERN component. " +
-		"Prefer contentBlocks; paragraphs is still supported.",
-);
+});
 
 export type SectionInput = z.input<typeof SectionRenderSchema>;
 export type SectionParams = z.output<typeof SectionRenderSchema>;
