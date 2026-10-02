@@ -36,7 +36,7 @@ With 30 runs, error counts are noisy; read the transcripts (`tools/eval/.runs/<l
 
 ## Do first
 
-1. **Review the generator's first bundle** (the maintainer asked for feedback). It's at `C:\src\github\leonio\kern-ux-scraper\kern-knowledge\` (bundle version 0.2.0, 49 component files with examples split into `*.examples.json`, `foundations/`, `patterns/`, `report.json`, 1.3 MB), with its own schema at `kern-ux-scraper/schema/knowledge-bundle.schema.json`. Check it against [knowledge-bundle.md](knowledge-bundle.md):
+1. **Done:** [knowledge-bundle-review.md](knowledge-bundle-review.md) has the feedback and the K1a–K2 outline; decisions 6 and 7 in [knowledge-bundle.md](knowledge-bundle.md#10-decisions-2026-10-02). What follows is the original brief. **Review the generator's first bundle** (the maintainer asked for feedback). It's at `C:\src\github\leonio\kern-ux-scraper\kern-knowledge\` (bundle version 0.2.0, 49 component files with examples split into `*.examples.json`, `foundations/`, `patterns/`, `report.json`, 1.3 MB), with its own schema at `kern-ux-scraper/schema/knowledge-bundle.schema.json`. Check it against [knowledge-bundle.md](knowledge-bundle.md):
    - the layout and the component document's sections
    - stable IDs, size limits, provenance, drift
    - option bindings and example tags (K2)

@@ -220,7 +220,7 @@ What each section is for:
 ### Import
 
 `npm run knowledge:import -- <bundle-dir> [--dry-run]` will:
-1. Validate the bundle against the contract. The contract is Zod in this repo, exported as JSON Schema for the generator, the same way `registry.schema.ts` works today.
+1. Validate the bundle against the consumer contract: Zod in this repo for only the fields it reads, unknown keys allowed, exported as JSON Schema for the generator's CI. The generator owns the full bundle schema (decision 6).
 2. Print a diff by component and section ("button: options.size.values +large +x-large").
 3. Write the bundle to `knowledge/`, checked in, so upstream changes show up as reviewable diffs.
 4. Regenerate `registry.json` from it. That file is the runtime projection: only what the server reads.
@@ -281,7 +281,7 @@ To paste into a session in `kern-ux-scraper`:
 > - Never name kern-ux-mcp tools or parameters.
 > - Pin all three sources to a version and commit in `index.json`; stop if `kern-ux-plain` and the docs describe different KERN versions.
 >
-> **Done when.** The bundle validates against the JSON Schema kern-ux-mcp exports (it will publish one for the bundle, as it does for `registry.json` today). Every component page of the docs has a document. Every example in `kern-ux-plain` stories appears in a document. `report.json` lists what couldn't be mapped. A rerun with unchanged inputs produces no diff.
+> **Done when.** The bundle validates against its own schema and against the consumer contract kern-ux-mcp exports (decision 6). Every component page of the docs has a document. Every example in `kern-ux-plain` stories appears in a document. `report.json` lists what couldn't be mapped. A rerun with unchanged inputs produces no diff.
 
 ## 10. Decisions (2026-10-02)
 
@@ -291,3 +291,8 @@ The maintainer is rebuilding the generator from this design. Until a bundle exis
 3. **Option IDs follow KERN's vocabulary** (`block`, not `isBlock`). Third-party libraries such as the React kit get their own tools, which may later move out of this repo.
 4. **English only** for generated text. German stays in component names, synonyms and the UI labels in examples.
 5. **The React checks wait** until K5.
+
+Added after reviewing the first bundle ([knowledge-bundle-review.md](knowledge-bundle-review.md)):
+
+6. **The generator owns the bundle schema** (`kern-ux-scraper/schema/knowledge-bundle.schema.json`). This repo owns a consumer contract: Zod for the fields it reads, unknown keys allowed, exported as JSON Schema. The generator's CI validates against both. Semver and the additive rule stay.
+7. **`registry.json` is derived from the bundle alone**, plus a code-owned map (component ID aliases, the tools without a bundle component, later the parameter map). The two aren't merged; a one-time parity diff against today's registry catches regressions.
