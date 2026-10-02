@@ -4,8 +4,8 @@ import { fileURLToPath } from "node:url";
 import ajv2020Module from "ajv/dist/2020.js";
 import ajvFormatsModule from "ajv-formats";
 import { describe, expect, it } from "vitest";
-
 import { registryFromManifest } from "./registry.js";
+import checkedIn from "./registry.json" with { type: "json" };
 import {
 	buildRegistryJsonSchema,
 	type RegistryManifest,
@@ -179,5 +179,26 @@ describe("docs/registry.schema.json", () => {
 
 		expect(validate(manifest())).toBe(true);
 		expect(validate(manifest({ manifestVersion: "2.0.0" }))).toBe(false);
+	});
+});
+
+describe("the checked-in registry.json", () => {
+	it("fits the contract", () => {
+		const result = RegistryManifestSchema.safeParse(checkedIn);
+		const issues = result.success
+			? []
+			: result.error.issues.map(
+					(issue) => `${issue.path.join(".")}: ${issue.message}`,
+				);
+
+		expect(issues).toEqual([]);
+	});
+
+	it("fits the exported JSON Schema", () => {
+		const ajv = new Ajv2020({ allErrors: true, strict: false });
+		addFormats(ajv);
+		const validate = ajv.compile(buildRegistryJsonSchema());
+
+		expect(validate(checkedIn) ? [] : validate.errors).toEqual([]);
 	});
 });
