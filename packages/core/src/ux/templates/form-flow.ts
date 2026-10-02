@@ -130,7 +130,7 @@ export function buildFormFlow(
 				isActive && step.contentBlocks
 					? withErrorIds(step.contentBlocks, errors)
 					: step.contentBlocks;
-			const content = renderChildBlocks(context, blocks);
+			const content = renderChildBlocks(context, blocks, { stacked: true });
 			warnings.push(...content.warnings);
 
 			const nav = stepNavigation(index, steps.length, input);

@@ -241,6 +241,60 @@ describe("render_composition tool", () => {
 	});
 });
 
+describe("render_composition spacing", () => {
+	const tool = createTools(createRegistry()).getTool("render_composition");
+	const text = { kind: "text", text: "Hinweis" };
+	const button = { kind: "button", button: { label: "Weiter" } };
+	const badge = { kind: "badge", badge: { type: "info", text: "Neu" } };
+
+	it("stacks several blocks, keeping buttons and badges at their own width", async () => {
+		const result = await callHandler<RenderedToolResult>(tool, {
+			contentBlocks: [text, button, badge],
+		});
+
+		expect(result.html).toMatch(
+			/^<div class="kern-flex kern-flex-col kern-gap-lg">\n {2}<p class="kern-body">Hinweis<\/p>/,
+		);
+		expect(result.html).toMatch(/<div><button [^>]*class="kern-btn/);
+		expect(result.html).toMatch(/<div><span class="kern-badge/);
+		expect(result.validation.ok).toBe(true);
+	});
+
+	it("leaves a single block as it is", async () => {
+		const result = await callHandler<RenderedToolResult>(tool, {
+			contentBlocks: [button],
+		});
+
+		expect(result.html).toMatch(/^<button /);
+	});
+
+	it("wraps buttons only where blocks stack", async () => {
+		const result = await callHandler<RenderedToolResult>(tool, {
+			contentBlocks: [
+				{
+					kind: "section",
+					section: { headingText: "Abschnitt", contentBlocks: [button] },
+				},
+				{
+					kind: "form",
+					form: {
+						contentBlocks: [
+							{
+								kind: "field",
+								field: { type: "text", name: "name", label: "Name" },
+							},
+							button,
+						],
+					},
+				},
+			],
+		});
+
+		expect(result.html.match(/<div><button /g)).toHaveLength(1);
+		expect(result.html).toMatch(/<form [^>]*>[\s\S]*<div><button /);
+	});
+});
+
 describe("render_composition with field blocks", () => {
 	it("renders fields of several types that pass strict validation", async () => {
 		const tool = createTools(createRegistry()).getTool("render_composition");
@@ -481,7 +535,9 @@ describe("render_page tool", () => {
 		const result = await callHandler<RenderedToolResult>(tool, args);
 
 		expect(result.html).toContain("@kern-ux/native@2.8.2/dist/kern.min.css");
-		expect(result.html).toContain('<main id="main" class="kern-container">');
+		expect(result.html).toContain(
+			'<main id="main" class="kern-container kern-flex kern-flex-col kern-gap-lg">',
+		);
 		expect(result.validation.ok).toBe(true);
 	});
 

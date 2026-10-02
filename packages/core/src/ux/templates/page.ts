@@ -3,6 +3,7 @@ import { type PageInput, PageSchema } from "../schemas/page.js";
 import type { BuildResult, Locale } from "../types.js";
 import { createCompositionRenderer } from "./composition-renderer.js";
 import { escapeHtml } from "./escape.js";
+import { STACK_CLASSES } from "./form.js";
 import { buildKopfzeile } from "./kopfzeile.js";
 
 type PageParams = ReturnType<typeof PageSchema.parse>;
@@ -24,11 +25,12 @@ export function buildPage(
 	options: { kernVersion?: string } = {},
 ): BuildResult {
 	const params = PageSchema.parse(input);
-	// <main> is the page's container, so grids in it don't add their own.
+	// <main> is the page's container, so grids in it don't add their own, and it
+	// stacks its heading and blocks like a form.
 	const main = createCompositionRenderer(locale).renderBlocks(
 		params.contentBlocks,
 		1,
-		{ inContainer: true },
+		{ inContainer: true, stacked: true },
 	);
 	const warnings = [...main.warnings];
 	if (!params.heading) {
@@ -47,7 +49,7 @@ export function buildPage(
 			: "",
 		params.kopfzeile ? buildKopfzeile({}, locale).html : "",
 		params.header ? renderHeader(params.header, locale) : "",
-		`<main id="main" class="kern-container">
+		`<main id="main" class="kern-container ${STACK_CLASSES}">
   ${headingHtml}${main.html}
 </main>`,
 		params.footer ? renderFooter(params.footer) : "",

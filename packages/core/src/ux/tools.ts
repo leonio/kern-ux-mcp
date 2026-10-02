@@ -18,6 +18,7 @@ import { UtilityReferenceSchema } from "./schemas/utility-reference.js";
 import { buildCardGroup } from "./templates/card-group.js";
 import { createCompositionRenderer } from "./templates/composition-renderer.js";
 import { buildDisclosure } from "./templates/disclosure.js";
+import { STACK_CLASSES } from "./templates/form.js";
 import { buildPage } from "./templates/page.js";
 import { buildSection } from "./templates/section.js";
 import { buildUtilityReference } from "./templates/utility-reference.js";
@@ -601,10 +602,21 @@ function buildRenderCompositionTool(): ToolDef {
 			const locale = pickLocale(args.locale);
 			const strict = args.strict === true;
 
-			const rendered = createCompositionRenderer(locale).renderBlocks(
+			// Several blocks stack with KERN spacing, like a form's content.
+			const stacked = args.contentBlocks.length > 1;
+			const blocks = createCompositionRenderer(locale).renderBlocks(
 				args.contentBlocks,
 				1,
+				{ stacked },
 			);
+			const rendered = stacked
+				? {
+						...blocks,
+						html: `<div class="${STACK_CLASSES}">
+  ${blocks.html}
+</div>`,
+					}
+				: blocks;
 
 			const validation = validateHtmlStrict(rendered.html);
 			assertStrictValidationOrThrow({

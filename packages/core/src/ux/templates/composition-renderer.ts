@@ -20,12 +20,13 @@ export type CompositionRenderer = {
 	/**
 	 * Renders blocks that sit `depth` levels deep: 1 for a tool's own blocks,
 	 * 2 for the blocks inside one of those, and so on. `inContainer` says a
-	 * kern-container already surrounds them.
+	 * kern-container already surrounds them; `stacked` says they are the items of
+	 * a flex column (STACK_CLASSES).
 	 */
 	renderBlocks(
 		blocks: readonly RecursiveContentNodeInput[] | undefined,
 		depth: number,
-		options?: { inContainer?: boolean },
+		options?: { inContainer?: boolean; stacked?: boolean },
 	): BuildResult;
 };
 
@@ -49,7 +50,13 @@ export function createCompositionRenderer(locale: Locale): CompositionRenderer {
 	const renderer: CompositionRenderer = {
 		locale,
 		renderBlocks: (blocks, depth, options) =>
-			renderBlocks(renderer, blocks, depth, options?.inContainer ?? false),
+			renderBlocks(
+				renderer,
+				blocks,
+				depth,
+				options?.inContainer ?? false,
+				options?.stacked ?? false,
+			),
 	};
 	return renderer;
 }
@@ -67,18 +74,26 @@ export function standaloneContext(locale: Locale): BlockContext {
 export function renderChildBlocks(
 	context: BlockContext,
 	blocks: readonly RecursiveContentNodeInput[] | undefined,
-	options: { inContainer?: boolean } = {},
+	options: { inContainer?: boolean; stacked?: boolean } = {},
 ): BuildResult {
 	return context.renderer.renderBlocks(blocks, context.depth + 1, {
 		inContainer: options.inContainer ?? context.inContainer,
+		stacked: options.stacked,
 	});
 }
+
+/** Blocks whose element is inline-level: a flex column would stretch it to full width. */
+const INLINE_KINDS: ReadonlySet<RecursiveContentNodeInput["kind"]> = new Set([
+	"button",
+	"badge",
+]);
 
 function renderBlocks(
 	renderer: CompositionRenderer,
 	blocks: readonly RecursiveContentNodeInput[] | undefined,
 	depth: number,
 	inContainer: boolean,
+	stacked: boolean,
 ): BuildResult {
 	if (!blocks || blocks.length === 0) {
 		return { html: "", warnings: [] };
@@ -95,7 +110,12 @@ function renderBlocks(
 	}
 
 	const context: BlockContext = { renderer, depth, inContainer };
-	const results = blocks.map((block) => renderBlock(block, context));
+	const results = blocks.map((block) => {
+		const result = renderBlock(block, context);
+		return stacked && INLINE_KINDS.has(block.kind)
+			? { ...result, html: `<div>${result.html}</div>` }
+			: result;
+	});
 
 	return {
 		html: results.map((result) => result.html).join("\n      "),

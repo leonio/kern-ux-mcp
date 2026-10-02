@@ -33,7 +33,7 @@ export function buildForm(
 ): BuildResult {
 	const errors: FieldError[] = [];
 	const blocks = withErrorIds(input.contentBlocks, errors);
-	const body = renderChildBlocks(context, blocks);
+	const body = renderChildBlocks(context, blocks, { stacked: true });
 	const summary = renderErrorSummary(errors, input.errorSummary, locale);
 
 	let actionsHtml = "";
