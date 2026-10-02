@@ -5,6 +5,7 @@ import {
 	renderChildBlocks,
 	standaloneContext,
 } from "./composition-renderer.js";
+import { escapeHtml } from "./escape.js";
 
 /**
  * Build HTML for a KERN UX Card component
@@ -124,16 +125,4 @@ export function buildCard(
 </article>`;
 
 	return { html, warnings };
-}
-
-/**
- * Escape HTML special characters.
- */
-function escapeHtml(text: string): string {
-	return text
-		.replace(/&/g, "&amp;")
-		.replace(/</g, "&lt;")
-		.replace(/>/g, "&gt;")
-		.replace(/"/g, "&quot;")
-		.replace(/'/g, "&#039;");
 }

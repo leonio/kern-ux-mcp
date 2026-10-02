@@ -1,6 +1,7 @@
 import { type CardGroupInput, CardGroupSchema } from "../schemas/card-group.js";
 import type { BuildResult, Locale } from "../types.js";
 import { buildCard } from "./card.js";
+import { escapeHtml } from "./escape.js";
 
 /**
  * Build HTML for a KERN UX Card Group composition.
@@ -52,13 +53,4 @@ ${colHtml}
 </div>`;
 
 	return { html, warnings };
-}
-
-function escapeHtml(text: string): string {
-	return text
-		.replace(/&/g, "&amp;")
-		.replace(/</g, "&lt;")
-		.replace(/>/g, "&gt;")
-		.replace(/"/g, "&quot;")
-		.replace(/'/g, "&#039;");
 }

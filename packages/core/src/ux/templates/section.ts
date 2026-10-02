@@ -5,6 +5,7 @@ import {
 	renderChildBlocks,
 	standaloneContext,
 } from "./composition-renderer.js";
+import { escapeHtml } from "./escape.js";
 
 /**
  * Build HTML for a KERN UX Section composition (heading + paragraphs + optional divider).
@@ -57,13 +58,4 @@ export function buildSection(
 </section>`;
 
 	return { html, warnings };
-}
-
-function escapeHtml(text: string): string {
-	return text
-		.replace(/&/g, "&amp;")
-		.replace(/</g, "&lt;")
-		.replace(/>/g, "&gt;")
-		.replace(/"/g, "&quot;")
-		.replace(/'/g, "&#039;");
 }

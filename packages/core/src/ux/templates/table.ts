@@ -6,18 +6,7 @@ import {
 	tableSchema,
 } from "../schemas/table.js";
 import type { BuildResult, Locale } from "../types.js";
-
-/**
- * Escape HTML special characters.
- */
-function escapeHtml(text: string): string {
-	return text
-		.replace(/&/g, "&amp;")
-		.replace(/</g, "&lt;")
-		.replace(/>/g, "&gt;")
-		.replace(/"/g, "&quot;")
-		.replace(/'/g, "&#039;");
-}
+import { escapeHtml } from "./escape.js";
 
 /**
  * Build a table header cell

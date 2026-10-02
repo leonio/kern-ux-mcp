@@ -2,6 +2,7 @@ import { LABELS } from "../i18n.js";
 import { generateId } from "../id.js";
 import { type TextareaInput, textareaSchema } from "../schemas/textarea.js";
 import type { BuildResult, Locale } from "../types.js";
+import { escapeHtml } from "./escape.js";
 
 /**
  * Build HTML for a KERN UX Textarea component
@@ -97,16 +98,4 @@ export function buildTextarea(
 </div>`;
 
 	return { html, warnings };
-}
-
-/**
- * Escape HTML special characters.
- */
-function escapeHtml(text: string): string {
-	return text
-		.replace(/&/g, "&amp;")
-		.replace(/</g, "&lt;")
-		.replace(/>/g, "&gt;")
-		.replace(/"/g, "&quot;")
-		.replace(/'/g, "&#039;");
 }

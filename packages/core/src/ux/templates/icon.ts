@@ -1,5 +1,6 @@
 import { type IconInput, iconSchema } from "../schemas/icon.js";
 import type { BuildResult, Locale } from "../types.js";
+import { escapeHtml } from "./escape.js";
 
 /**
  * Build HTML for a KERN UX Icon component
@@ -33,16 +34,4 @@ export function buildIcon(input: IconInput, _locale: Locale): BuildResult {
 	const html = `<span class="${classes.join(" ")}" ${ariaAttrs}></span>`;
 
 	return { html, warnings };
-}
-
-/**
- * Escape HTML special characters.
- */
-function escapeHtml(text: string): string {
-	return text
-		.replace(/&/g, "&amp;")
-		.replace(/</g, "&lt;")
-		.replace(/>/g, "&gt;")
-		.replace(/"/g, "&quot;")
-		.replace(/'/g, "&#039;");
 }

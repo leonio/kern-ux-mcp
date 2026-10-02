@@ -1,6 +1,7 @@
 import { generateId } from "../id.js";
 import { type ProgressInput, progressSchema } from "../schemas/progress.js";
 import type { BuildResult, Locale } from "../types.js";
+import { escapeHtml } from "./escape.js";
 
 /**
  * Build HTML for a KERN UX Progress component
@@ -43,16 +44,4 @@ export function buildProgress(
 </div>`;
 
 	return { html, warnings };
-}
-
-/**
- * Escape HTML special characters.
- */
-function escapeHtml(text: string): string {
-	return text
-		.replace(/&/g, "&amp;")
-		.replace(/</g, "&lt;")
-		.replace(/>/g, "&gt;")
-		.replace(/"/g, "&quot;")
-		.replace(/'/g, "&#039;");
 }

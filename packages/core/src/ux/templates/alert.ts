@@ -4,6 +4,7 @@ import {
 	AlertSchema,
 } from "../schemas/alert.js";
 import type { BuildResult, Locale } from "../types.js";
+import { escapeHtml } from "./escape.js";
 
 /** Map alert type to icon name */
 const TYPE_ICON_MAP: Record<AlertParams["type"], string> = {
@@ -79,16 +80,4 @@ ${headerHtml}${bodyHtml}
 </div>`;
 
 	return { html, warnings };
-}
-
-/**
- * Escape HTML special characters.
- */
-function escapeHtml(text: string): string {
-	return text
-		.replace(/&/g, "&amp;")
-		.replace(/</g, "&lt;")
-		.replace(/>/g, "&gt;")
-		.replace(/"/g, "&quot;")
-		.replace(/'/g, "&#039;");
 }

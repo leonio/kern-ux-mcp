@@ -8,6 +8,7 @@ import {
 	renderChildBlocks,
 	standaloneContext,
 } from "./composition-renderer.js";
+import { escapeHtml } from "./escape.js";
 
 /**
  * Build HTML for a KERN UX Disclosure (expand/collapse) component.
@@ -47,13 +48,4 @@ export function buildDisclosure(
 </details>`;
 
 	return { html, warnings };
-}
-
-function escapeHtml(text: string): string {
-	return text
-		.replace(/&/g, "&amp;")
-		.replace(/</g, "&lt;")
-		.replace(/>/g, "&gt;")
-		.replace(/"/g, "&quot;")
-		.replace(/'/g, "&#039;");
 }

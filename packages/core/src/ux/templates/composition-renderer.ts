@@ -7,6 +7,7 @@ import { buildBadge } from "./badge.js";
 import { buildButton } from "./button.js";
 import { buildCard } from "./card.js";
 import { buildDisclosure } from "./disclosure.js";
+import { escapeHtml } from "./escape.js";
 import { buildField } from "./field.js";
 import { buildFieldset } from "./fieldset.js";
 import { buildForm } from "./form.js";
@@ -172,13 +173,4 @@ function withParagraphBlocks(section: SectionBlock): SectionBlock {
 		paragraphs: undefined,
 		contentBlocks: paragraphs.map((text) => ({ kind: "text", text })),
 	};
-}
-
-function escapeHtml(text: string): string {
-	return text
-		.replace(/&/g, "&amp;")
-		.replace(/</g, "&lt;")
-		.replace(/>/g, "&gt;")
-		.replace(/"/g, "&quot;")
-		.replace(/'/g, "&#039;");
 }

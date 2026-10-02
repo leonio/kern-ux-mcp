@@ -1,5 +1,6 @@
 import { type ButtonInput, ButtonSchema } from "../schemas/button.js";
 import type { BuildResult, Locale } from "../types.js";
+import { escapeHtml } from "./escape.js";
 
 /**
  * Build HTML for a KERN UX Button component.
@@ -60,16 +61,4 @@ export function buildButton(input: ButtonInput, _locale: Locale): BuildResult {
 </button>`;
 
 	return { html, warnings };
-}
-
-/**
- * Escape HTML special characters.
- */
-function escapeHtml(text: string): string {
-	return text
-		.replace(/&/g, "&amp;")
-		.replace(/</g, "&lt;")
-		.replace(/>/g, "&gt;")
-		.replace(/"/g, "&quot;")
-		.replace(/'/g, "&#039;");
 }
