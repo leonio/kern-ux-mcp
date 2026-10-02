@@ -63,3 +63,39 @@ Learned in A:
   - The `get_button` hint says "Allowed sizes: default | small"; the schema also allows `x-small`. The hint text is stale.
   - Three descriptions repeat a known-good payload that is now in `TOOL_EXAMPLES` (`get_section`, `get_card_group` in `tools.ts`, `get_dialog` in `interactive.ts`). The English pass should render them from the table, or drop them in favour of the hint.
 - Tests: 1742 → 1764. Coverage 97.0 / 91.1 / 98.0 / 96.9.
+
+### The scripted baseline (roadmap box 1)
+
+- [x] `bfb41ed`, `2a329f9`: `npm run eval -- --label <name>` (harness in `tools/eval/`), with `--from-transcripts` to re-score saved runs
+- [x] `c07f269`: the baseline, [r5-eval/baseline.json](r5-eval/baseline.json)
+
+**How it runs.** Claude Code in headless mode (`claude -p`) with Haiku 4.5 (`claude-haiku-4-5`, the maintainer's choice), the kern stdio server as its only MCP server, built-in tools off, a short client-like system prompt, an empty working directory and no project settings. It runs on the Claude Code login, so no API key. Ten scenarios × three runs; about $0.03–0.06 a run once the tool listing is cached, $1.09 and ten minutes for the whole baseline.
+
+**The baseline** (server model-facing identical to `52b24fa`):
+
+| | |
+|---|---|
+| Completed | 30/30 |
+| Kern tool calls | 61 (2 per run on average; composite tasks often take one `render_page` or `render_composition` call) |
+| Error results | 2, both invalid input on `get_fieldset`, both retried successfully |
+| Markup checks | 95/96 (the miss: one run replaced the `<img>` with an icon instead of adding `alt`) |
+| **First request** | **70,676 input tokens**: the system prompt plus our tool listing. This is the number R5 is shrinking. |
+
+What the transcripts show:
+- **The standalone block tools are barely used.** Composite tasks go to `render_page` (6 calls) and `render_composition` (11). The six standalone block tools saw 5 calls, all `get_fieldset` with `field` blocks only. That's the evidence for option B.
+- **A real API inconsistency.** Both errors: Haiku wrote a `field` block's select options as `{ value, text }`, which is `get_select`'s shape; `field` blocks want `{ value, label }`. For the English pass: accept both, or align the two.
+- **Models describe long pages instead of pasting them.** For `render_page` results Haiku often summarized. The first scoring missed this (82/96); the checks now also read the HTML the tools returned.
+- Most-used tools: `render_composition` 11, `get_button` 10, `get_badge` 10, `render_page` 6, `get_fieldset` 5.
+
+### Option B, measured
+
+Replacing the full block union in the six standalone block tools with:
+
+| Variant | Six tools (now 90.6K) | Listing (now 201.3K) |
+|---|---|---|
+| V1a: `text`, `html`, `badge`, `field` | 32.4K | **143.2K** (−58.1K) |
+| V1b: V1a plus `button` | 43.4K | 154.1K (−47.2K) |
+| V2: per-tool sets (`get_section` with cards and grids, `get_grid` with cards, …), inlined | 64.0K | 174.7K; `get_section` grows to 24.4K |
+| V2 with the leaf union shared through `$ref` inside each tool (estimate) | about 50.4K | about 161K |
+
+Per-tool sets lose most of the saving, because each nested container carries its own leaf union. `button` alone is 1.8K, mostly German descriptions the English pass will shorten.
