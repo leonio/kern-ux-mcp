@@ -1,0 +1,368 @@
+import type { ReviewedComponentGuidance } from "./types.js";
+
+/**
+ * Reviewed notes about this repo's component tools: where a tool deliberately
+ * differs from the upstream KERN component, and what that means for authors.
+ * They describe our implementation, not KERN, so they live in code rather than
+ * in the registry (docs/plan-v2/registry-requirements.md, 2.4).
+ * get_component_docs serves them as reviewedGuidance.
+ */
+const TOOL_NOTES: Readonly<Record<string, ReviewedComponentGuidance>> = {
+	kopfzeile: {
+		status: "reviewed",
+		summary: {
+			text: {
+				de: "Die Kopfzeile ist die schmale Leiste mit Bundesflagge und dem Hinweis 'Offizielle Website – Bundesrepublik Deutschland'. Das Tool rendert die CSS-Variante der upstream Komponente, auf Wunsch mit eigenem Label oder fluidem Container.",
+				en: "The Kopfzeile is the thin bar with the German flag and the label 'Offizielle Website – Bundesrepublik Deutschland'. The tool renders the CSS variant of the upstream component, optionally with a custom label or a fluid container.",
+			},
+			confidence: "high",
+			evidence: [
+				{
+					kind: "story",
+					source: "kern-ux-plain/stories/Kopfzeile/Kopfzeile.stories.js",
+				},
+				{
+					kind: "schema",
+					source: "packages/core/src/ux/schemas/kopfzeile.ts",
+				},
+				{
+					kind: "template",
+					source: "packages/core/src/ux/templates/kopfzeile.ts",
+				},
+			],
+		},
+		primaryUseCases: [
+			{
+				text: {
+					de: "Ganz oben auf offiziellen Websites der Bundesverwaltung, vor dem Seitenkopf. render_page setzt sie mit kopfzeile: true ein.",
+					en: "At the very top of official websites of the federal administration, above the page header. render_page adds it with kopfzeile: true.",
+				},
+				confidence: "high",
+				evidence: [
+					{
+						kind: "story",
+						source: "kern-ux-plain/stories/Kopfzeile/Kopfzeile.stories.js",
+					},
+				],
+			},
+		],
+		antiUseCases: [
+			{
+				text: {
+					de: "Nicht auf Websites verwenden, die keine offiziellen Angebote des Bundes sind: das Label behauptet einen amtlichen Absender.",
+					en: "Don't use it on sites that aren't official federal services: the label claims an official sender.",
+				},
+				confidence: "high",
+				evidence: [
+					{
+						kind: "story",
+						source: "kern-ux-plain/stories/Kopfzeile/Kopfzeile.stories.js",
+					},
+				],
+			},
+		],
+		requiredA11yPractices: [
+			{
+				text: {
+					de: 'Die Flagge ist dekorativ (aria-hidden="true"); die Aussage traegt allein das sichtbare Label.',
+					en: 'The flag is decorative (aria-hidden="true"); the visible label carries the meaning on its own.',
+				},
+				confidence: "high",
+				evidence: [
+					{
+						kind: "story",
+						source: "kern-ux-plain/stories/Kopfzeile/Kopfzeile.stories.js",
+					},
+					{
+						kind: "template",
+						source: "packages/core/src/ux/templates/kopfzeile.ts",
+					},
+				],
+			},
+		],
+		semanticInvariants: [],
+		compositionPatterns: [],
+		authoringNotes: [
+			{
+				text: {
+					de: "Die Web Component <kern-kopfzeile> (Properties fluid, breakpoints, theme) bildet das Tool nicht ab; es rendert statisches HTML.",
+					en: "The tool doesn't cover the <kern-kopfzeile> web component (properties fluid, breakpoints, theme); it renders static HTML.",
+				},
+				confidence: "high",
+				evidence: [
+					{
+						kind: "story",
+						source: "kern-ux-plain/stories/Kopfzeile/Kopfzeile.stories.js",
+					},
+					{
+						kind: "template",
+						source: "packages/core/src/ux/templates/kopfzeile.ts",
+					},
+				],
+			},
+		],
+		migrationNotes: [
+			{
+				text: {
+					de: "Bis R4 renderte das Tool einen Platzhalter-Header mit Titel und Navigation (Parameter title, includeNav). Seit 2.0 rendert es die upstream Kopfzeile (Parameter label, fluid).",
+					en: "Until R4 the tool rendered a placeholder header with a title and navigation (parameters title, includeNav). Since 2.0 it renders the upstream Kopfzeile (parameters label, fluid).",
+				},
+				confidence: "high",
+				evidence: [
+					{
+						kind: "schema",
+						source: "packages/core/src/ux/schemas/kopfzeile.ts",
+					},
+				],
+			},
+		],
+	},
+	inputdate: {
+		status: "reviewed",
+		summary: {
+			text: {
+				de: "Das MCP-Tool fuer InputDate modelliert bewusst nur ein einzelnes browser-natives Datumsfeld und nicht die upstream KERN-Variante mit getrennten Tag-/Monat-/Jahr-Eingaben.",
+				en: "The MCP InputDate tool intentionally models only a single browser-native date field rather than the upstream KERN variant with separate day, month, and year inputs.",
+			},
+			confidence: "high",
+			evidence: [
+				{
+					kind: "story",
+					source: "kern-ux-plain/stories/InputDate/InputDate.stories.js",
+				},
+				{
+					kind: "schema",
+					source: "packages/core/src/ux/schemas/input-date.ts",
+				},
+				{
+					kind: "template",
+					source: "packages/core/src/ux/templates/input-date.ts",
+				},
+			],
+		},
+		primaryUseCases: [
+			{
+				text: {
+					de: "Geeignet fuer einfache MCP-Ausgaben, bei denen ein nativer Datepicker ausreichend ist und die volle KERN-Feldgruppe nicht benoetigt wird.",
+					en: "Suitable for simple MCP output where a native date picker is sufficient and the full KERN field group is not required.",
+				},
+				confidence: "high",
+				evidence: [
+					{
+						kind: "template",
+						source: "packages/core/src/ux/templates/input-date.ts",
+					},
+				],
+			},
+		],
+		antiUseCases: [
+			{
+				text: {
+					de: "Nicht als vollstaendige Nachbildung der upstream KERN-Date-Gruppe mit separaten Eingaben, Hilfstexten und gruppierter Validierungslogik einsetzen.",
+					en: "Do not treat it as a full reproduction of the upstream KERN date group with separate inputs, hints, and grouped validation logic.",
+				},
+				confidence: "high",
+				evidence: [
+					{
+						kind: "story",
+						source: "kern-ux-plain/stories/InputDate/InputDate.stories.js",
+					},
+				],
+			},
+		],
+		requiredA11yPractices: [
+			{
+				text: {
+					de: "Das vereinfachte native Datumsfeld muss weiterhin die allgemeinen Formularanforderungen aus Label-, Hint- und Error-Wiring einhalten, auch wenn die upstream Gruppensemantik hier nicht modelliert wird.",
+					en: "The simplified native date field must still follow the general form requirements for label, hint, and error wiring, even though the upstream grouped semantics are not modeled here.",
+				},
+				confidence: "medium",
+				evidence: [
+					{
+						kind: "schema",
+						source: "packages/core/src/ux/schemas/input-date.ts",
+					},
+					{
+						kind: "schema",
+						source: "packages/core/src/ux/schemas/foundations.ts",
+					},
+				],
+			},
+		],
+		semanticInvariants: [
+			{
+				text: {
+					de: "Die Dokumentation muss klar zwischen der MCP-Vereinfachung und der richer upstream KERN-Datumseingabe unterscheiden.",
+					en: "Documentation should clearly distinguish between the MCP simplification and the richer upstream KERN date input pattern.",
+				},
+				confidence: "high",
+				evidence: [
+					{
+						kind: "manual-review",
+						source: "docs/contributor-guide.md",
+					},
+				],
+			},
+		],
+		compositionPatterns: [],
+		authoringNotes: [
+			{
+				text: {
+					de: "Wenn ein Nutzer explizit die KERN-Tag/Monat/Jahr-Struktur benoetigt, sollte die aktuelle Tool-Grenze offengelegt werden statt stillschweigend nativen Ersatz zu liefern.",
+					en: "If a user explicitly needs the KERN day/month/year structure, the current tool boundary should be stated instead of silently substituting the native field.",
+				},
+				confidence: "high",
+				evidence: [
+					{
+						kind: "story",
+						source: "kern-ux-plain/stories/InputDate/InputDate.stories.js",
+					},
+					{
+						kind: "template",
+						source: "packages/core/src/ux/templates/input-date.ts",
+					},
+				],
+			},
+		],
+		migrationNotes: [
+			{
+				text: {
+					de: "Eine spaetere Erweiterung auf getrennte Tag/Monat/Jahr-Felder sollte als additive Faehigkeit geplant werden, nicht als stiller Austausch des bestehenden nativen Date-Feldes.",
+					en: "A later extension to separate day, month, and year fields should be planned as an additive capability, not as a silent replacement of the existing native date field.",
+				},
+				confidence: "medium",
+				evidence: [
+					{
+						kind: "manual-review",
+						source: "docs/contributor-guide.md",
+						locator: "input-date simplification",
+					},
+				],
+			},
+		],
+	},
+	dropdown: {
+		status: "reviewed",
+		summary: {
+			text: {
+				de: "Das aktuelle Dropdown-Tool ist explizit experimentell und bildet nur einen leichten Details/Summary-Wrapper mit eingebetteten Auswahloptionen ab, nicht ein vollwertiges Menu- oder Select-System.",
+				en: "The current dropdown tool is explicitly experimental and only models a lightweight details/summary wrapper with embedded selection options, not a full menu or select system.",
+			},
+			confidence: "high",
+			evidence: [
+				{
+					kind: "schema",
+					source: "packages/core/src/ux/schemas/dropdown.ts",
+				},
+				{
+					kind: "template",
+					source: "packages/core/src/ux/templates/dropdown.ts",
+				},
+				{
+					kind: "manual-review",
+					source: "docs/contributor-guide.md",
+				},
+			],
+		},
+		primaryUseCases: [
+			{
+				text: {
+					de: "Geeignet fuer dokumentierte experimentelle Ausgaben, in denen eine einfache, offen deklarierte Details-basierte Auswahlstruktur ausreicht.",
+					en: "Suitable for documented experimental output where a simple, explicitly declared details-based choice structure is enough.",
+				},
+				confidence: "medium",
+				evidence: [
+					{
+						kind: "template",
+						source: "packages/core/src/ux/templates/dropdown.ts",
+					},
+				],
+			},
+		],
+		antiUseCases: [
+			{
+				text: {
+					de: "Nicht als Ersatz fuer echte Select-, Menu- oder komplexe Navigationselemente verwenden.",
+					en: "Do not use it as a replacement for real select, menu, or complex navigation elements.",
+				},
+				confidence: "high",
+				evidence: [
+					{
+						kind: "schema",
+						source: "packages/core/src/ux/schemas/dropdown.ts",
+					},
+				],
+			},
+		],
+		requiredA11yPractices: [
+			{
+				text: {
+					de: "Der Summary-Trigger muss weiterhin einen aussagekraeftigen sichtbaren Text haben, weil die Interaktion an das native details/summary-Muster gebunden ist.",
+					en: "The summary trigger should keep meaningful visible text because the interaction is tied to the native details/summary pattern.",
+				},
+				confidence: "medium",
+				evidence: [
+					{
+						kind: "template",
+						source: "packages/core/src/ux/templates/dropdown.ts",
+					},
+				],
+			},
+		],
+		semanticInvariants: [
+			{
+				text: {
+					de: "Die experimentelle Kennzeichnung des Dropdown-Tools sollte in Guidance und UI erhalten bleiben, bis ein stabileres Pattern eingefuehrt wird.",
+					en: "The dropdown tool's experimental status should remain visible in guidance and UI until a more stable pattern is introduced.",
+				},
+				confidence: "high",
+				evidence: [
+					{
+						kind: "schema",
+						source: "packages/core/src/ux/schemas/dropdown.ts",
+					},
+				],
+			},
+		],
+		compositionPatterns: [],
+		authoringNotes: [
+			{
+				text: {
+					de: "Wenn Nutzer:innen nach vollwertigen Menues oder Select-Interaktionen fragen, sollte auf die derzeitige Grenze des experimentellen Dropdown-Tools hingewiesen werden.",
+					en: "When users ask for full menu or select interactions, point out the current boundary of the experimental dropdown tool.",
+				},
+				confidence: "medium",
+				evidence: [
+					{
+						kind: "manual-review",
+						source: "docs/contributor-guide.md",
+					},
+				],
+			},
+		],
+		migrationNotes: [
+			{
+				text: {
+					de: "Falls spaeter ein stabileres Dropdown- oder Menu-Pattern eingefuehrt wird, sollte diese Overlay-Notiz die bisherige Details/Summary-Variante als Legacy- oder Experimentalpfad kennzeichnen.",
+					en: "If a more stable dropdown or menu pattern is introduced later, this overlay note should reframe the current details/summary variant as a legacy or experimental path.",
+				},
+				confidence: "medium",
+				evidence: [
+					{
+						kind: "schema",
+						source: "packages/core/src/ux/schemas/dropdown.ts",
+					},
+				],
+			},
+		],
+	},
+};
+
+/** The reviewed notes about a component's tool, if there are any. */
+export function getToolNotes(
+	componentId: string,
+): ReviewedComponentGuidance | undefined {
+	return Object.hasOwn(TOOL_NOTES, componentId)
+		? TOOL_NOTES[componentId]
+		: undefined;
+}

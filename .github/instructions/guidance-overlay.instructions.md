@@ -5,6 +5,8 @@ applyTo: "docs/guidance-overlay.json, docs/guidance-overlay.schema.json, docs/gu
 
 # Guidance Overlay Rules
 
+> **Since R4b (2026-10-02) the overlay has no entries.** Reviewed notes about this repo's tools (where a tool deliberately differs from upstream KERN) live in `packages/core/src/ux/tool-notes.ts`, which `get_component_docs` serves as `reviewedGuidance`. Add or correct them there, with the same evidence rules as below. Knowledge about KERN components will come from the external registry generator ([docs/plan-v2/registry-requirements.md](../../docs/plan-v2/registry-requirements.md)). The overlay and `tools/manifest/*` retire once that generator reaches parity.
+
 - Treat `docs/guidance-overlay.json` and `docs/guidance-overlay.schema.json` as checked-in source inputs. Do not edit `packages/core/src/ux/registry.json` directly.
 - If a change logically requires updating `packages/core/src/ux/registry.json`, surface this as a blocker in your response and explain which upstream source file should be changed instead so the registry is regenerated correctly.
 - Add new `reviewedGuidance` entries freely, and correct or update existing ones as needed, but never delete or overwrite the extracted `guidance` or `guidanceSections` fields that were produced by automated extraction.

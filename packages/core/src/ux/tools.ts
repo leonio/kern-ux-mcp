@@ -35,7 +35,13 @@ import {
 	type ToolDef,
 } from "./tool-builders/shared.js";
 import { buildTypographyTool } from "./tool-builders/typography.js";
-import type { ComponentInfo, Locale, Registry } from "./types.js";
+import { getToolNotes } from "./tool-notes.js";
+import type {
+	ComponentInfo,
+	Locale,
+	Registry,
+	ReviewedGuidanceStatement,
+} from "./types.js";
 import { VALID_ICON_NAMES } from "./types.js";
 import { validateHtmlStrict } from "./validate.js";
 import { ValidationResultSchema } from "./validate.schema.js";
@@ -270,10 +276,11 @@ function buildDocsTool(registry: Registry): ToolDef {
 				content: s.content,
 			}));
 
+			// Reviewed notes about our tool come from code (tool-notes.ts), not the registry.
+			const notes = getToolNotes(component.id);
+
 			const mapEvidence = (
-				entry: NonNullable<
-					typeof component.reviewedGuidance
-				>["summary"]["evidence"][number],
+				entry: ReviewedGuidanceStatement["evidence"][number],
 			) => ({
 				kind: entry.kind,
 				source: entry.source,
@@ -285,34 +292,24 @@ function buildDocsTool(registry: Registry): ToolDef {
 					: undefined,
 			});
 
-			const mapStatement = (
-				statement: NonNullable<typeof component.reviewedGuidance>["summary"],
-			) => ({
+			const mapStatement = (statement: ReviewedGuidanceStatement) => ({
 				text: locale === "en" ? statement.text.en : statement.text.de,
 				confidence: statement.confidence,
 				evidence: statement.evidence.map(mapEvidence),
 			});
 
-			const reviewedGuidance = component.reviewedGuidance
+			const reviewedGuidance = notes
 				? {
-						status: component.reviewedGuidance.status,
-						summary: mapStatement(component.reviewedGuidance.summary),
-						primaryUseCases:
-							component.reviewedGuidance.primaryUseCases.map(mapStatement),
-						antiUseCases:
-							component.reviewedGuidance.antiUseCases.map(mapStatement),
+						status: notes.status,
+						summary: mapStatement(notes.summary),
+						primaryUseCases: notes.primaryUseCases.map(mapStatement),
+						antiUseCases: notes.antiUseCases.map(mapStatement),
 						requiredA11yPractices:
-							component.reviewedGuidance.requiredA11yPractices.map(
-								mapStatement,
-							),
-						semanticInvariants:
-							component.reviewedGuidance.semanticInvariants.map(mapStatement),
-						compositionPatterns:
-							component.reviewedGuidance.compositionPatterns.map(mapStatement),
-						authoringNotes:
-							component.reviewedGuidance.authoringNotes.map(mapStatement),
-						migrationNotes:
-							component.reviewedGuidance.migrationNotes.map(mapStatement),
+							notes.requiredA11yPractices.map(mapStatement),
+						semanticInvariants: notes.semanticInvariants.map(mapStatement),
+						compositionPatterns: notes.compositionPatterns.map(mapStatement),
+						authoringNotes: notes.authoringNotes.map(mapStatement),
+						migrationNotes: notes.migrationNotes.map(mapStatement),
 					}
 				: undefined;
 

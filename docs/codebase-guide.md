@@ -71,11 +71,10 @@ This is the normal path when you change HTML output, validation-friendly default
 
 Typical path:
 
-1. Update the relevant `kern-ux-plain` source, or change [docs/guidance-overlay.json](guidance-overlay.json).
-2. Run `npm run validate-guidance-overlay` if the overlay changed.
-3. Run `npm run generate-manifest`.
+1. Update the relevant `kern-ux-plain` source.
+2. Run `npm run generate-manifest`.
 
-This is the normal path when you change component metadata, canonical HTML extraction, or reviewed guidance.
+This is the normal path when you change component metadata or canonical HTML extraction. Reviewed notes about our tools are code: [packages/core/src/ux/tool-notes.ts](../packages/core/src/ux/tool-notes.ts). The overlay ([docs/guidance-overlay.json](guidance-overlay.json)) has no entries since R4b.
 
 ### 3. Change the MCP surface
 

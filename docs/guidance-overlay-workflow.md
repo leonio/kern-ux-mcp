@@ -1,5 +1,7 @@
 # Guidance Overlay Workflow
 
+> **Status (2026-10-02, R4b): the overlay has no entries and is being retired.** Its three entries (Kopfzeile, InputDate, Dropdown) described this repo's tools rather than KERN, so they moved to [packages/core/src/ux/tool-notes.ts](../packages/core/src/ux/tool-notes.ts), which `get_component_docs` serves as `reviewedGuidance`. Add or correct notes about our tools there, with the evidence rules below. Knowledge about KERN components will come from the external registry generator ([plan-v2/registry-requirements.md](plan-v2/registry-requirements.md)). This file, the overlay, its schema and `tools/manifest/*` go when that generator reaches parity (roadmap R4b). The rest of this page describes the workflow as it was.
+
 This repo now has a deterministic reviewed-guidance workflow layered on top of the generated KERN manifest.
 
 The purpose of the overlay is to capture guidance that is too semantic, too cautionary, or too repo-specific to be extracted reliably from stories, SCSS comments, and upstream docs alone.

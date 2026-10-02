@@ -73,6 +73,7 @@ export type ComponentInfo = {
 	/** Written by the in-repo generator; not read. Tools are routed by COMPONENT_TOOLS. */
 	strategy?: ComponentStrategy;
 	docs?: ComponentDocs;
+	/** Baked in from the overlay by the in-repo generator; not read. Notes about our tools are in tool-notes.ts. */
 	reviewedGuidance?: ReviewedComponentGuidance;
 	sources?: {
 		scss?: string[];

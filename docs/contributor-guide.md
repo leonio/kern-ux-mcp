@@ -97,6 +97,8 @@ Use checked-in evidence in this order:
 4. local templates in `packages/core/src/ux/templates/`
 5. local tests and validation rules
 
+Reviewed notes about our tools (where a tool deliberately differs from upstream KERN) live in `packages/core/src/ux/tool-notes.ts` since R4b. The overlay below has no entries and retires with the in-repo generator.
+
 Curated overlay assets:
 
 - payload: `docs/guidance-overlay.json`

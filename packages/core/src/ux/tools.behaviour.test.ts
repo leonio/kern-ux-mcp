@@ -17,7 +17,7 @@ type DocsToolResult = {
 		status: string;
 		summary: {
 			text: string;
-			evidence: Array<{ note?: string }>;
+			evidence: Array<{ source: string; note?: string }>;
 		};
 	};
 };
@@ -84,14 +84,12 @@ describe("tool behaviour", () => {
 		});
 	});
 
-	it("get_component_docs returns extracted docs plus locale-selected reviewed guidance", async () => {
+	it("get_component_docs returns extracted docs plus the locale-selected notes about our tool", async () => {
 		const registry = createRegistry([
 			{
 				id: "kopfzeile",
 				title: "Kopfzeile",
 				status: "stable",
-				category: "foundational",
-				strategy: "layout",
 				docs: {
 					excerpt: "Sanitized docs excerpt",
 					sections: [
@@ -102,24 +100,13 @@ describe("tool behaviour", () => {
 						},
 					],
 				},
+				// A registry built before R4b still carries the overlay; it isn't read.
 				reviewedGuidance: {
-					status: "reviewed",
+					status: "draft",
 					summary: {
-						text: {
-							de: "Kuratiertes Summary DE",
-							en: "Curated summary EN",
-						},
-						confidence: "high",
-						evidence: [
-							{
-								kind: "story",
-								source: "kern-ux-plain/stories/Kopfzeile/Kopfzeile.stories.js",
-								note: {
-									de: "Story-Hinweis DE",
-									en: "Story note EN",
-								},
-							},
-						],
+						text: { de: "Platzhalter", en: "Placeholder header" },
+						confidence: "low",
+						evidence: [],
 					},
 					primaryUseCases: [],
 					antiUseCases: [],
@@ -130,13 +117,7 @@ describe("tool behaviour", () => {
 					migrationNotes: [],
 				},
 			},
-			{
-				id: "body",
-				title: "Body",
-				status: "stable",
-				category: "foundational",
-				strategy: "typography",
-			},
+			{ id: "body", title: "Body", status: "stable" },
 		]);
 
 		const tools = createTools(registry);
@@ -151,20 +132,22 @@ describe("tool behaviour", () => {
 		expect(result.excerpt).toBe("Sanitized docs excerpt");
 		expect(result.sections?.[0].content).toBe("Sanitized section content");
 		expect(result.reviewedGuidance?.status).toBe("reviewed");
-		expect(result.reviewedGuidance?.summary.text).toBe(
-			"Kuratiertes Summary DE",
+		expect(result.reviewedGuidance?.summary.text).toContain(
+			"Die Kopfzeile ist die schmale Leiste mit Bundesflagge",
 		);
-		expect(result.reviewedGuidance?.summary.evidence[0].note).toBe(
-			"Story-Hinweis DE",
+		expect(result.reviewedGuidance?.summary.evidence[0].source).toBe(
+			"kern-ux-plain/stories/Kopfzeile/Kopfzeile.stories.js",
 		);
 
 		const resultEn = await callHandler<DocsToolResult>(docsTool, {
 			componentId: "kopfzeile",
 			locale: "en",
 		});
-		expect(resultEn.reviewedGuidance?.summary.text).toBe("Curated summary EN");
-		expect(resultEn.reviewedGuidance?.summary.evidence[0].note).toBe(
-			"Story note EN",
+		expect(resultEn.reviewedGuidance?.summary.text).toContain(
+			"The tool renders the CSS variant of the upstream component",
+		);
+		expect(JSON.stringify(resultEn.reviewedGuidance)).not.toContain(
+			"Placeholder header",
 		);
 
 		const resultWithoutDocs = await callHandler<DocsToolResult>(docsTool, {
@@ -175,6 +158,26 @@ describe("tool behaviour", () => {
 		);
 		expect(resultWithoutDocs.reviewedGuidance).toBeUndefined();
 	});
+
+	it.each([
+		["inputdate", "single browser-native date field"],
+		["dropdown", "details/summary"],
+	])(
+		"get_component_docs serves the notes about the %s tool",
+		async (componentId, phrase) => {
+			const tools = createTools(
+				createRegistry([
+					{ id: componentId, title: componentId, status: "stable" },
+				]),
+			);
+			const result = await callHandler<DocsToolResult>(
+				tools.getTool("get_component_docs"),
+				{ componentId, locale: "en" },
+			);
+
+			expect(result.reviewedGuidance?.summary.text).toContain(phrase);
+		},
+	);
 
 	it("get_utility_reference returns surface section with background custom properties", async () => {
 		const tools = createTools(createRegistry([]));

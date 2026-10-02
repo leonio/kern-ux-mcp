@@ -48,6 +48,7 @@ Pre-releases go out under the npm dist-tag `alpha`. "Next alpha" means landed on
 - **Code decides which tools exist, not the registry.** In 1.x and alpha.69, every component in `registry.json` became a `get_<id>` tool, so regenerating the registry could add or remove tools. That's how `get_details` and `get_search` arrived with KERN 2.8.2, and how `get_index` came from `_index.scss`, an internal partial. Now a table in code lists the 54 component tools; a registry component outside it is documented by `get_component_docs` but has no tool.
 - `get_index` is removed: 54 tools.
 - `get_heading`, `get_label`, `get_preline`, `get_subline` and `get_title` no longer return the warning "No canonical story template extracted for …" on every call. It was a diagnostic from the registry generator.
+- `get_component_docs` takes `reviewedGuidance` (notes about where our tools differ from upstream KERN) from code instead of the registry. Its shape is unchanged. The Kopfzeile notes now describe the real Kopfzeile; alpha.69 still called the tool a placeholder.
 - `list_components_by_category` no longer lists `index`. It reports `strategy: "interactive"` for `inputdate`, `inputemail`, `inputfile`, `inputgroup`, `inputnumber`, `inputpassword`, `inputtel`, `inputurl` and `tasklist`, whose tools have full schemas; it said `"fallback"`.
 
 ## Tools and block content (next alpha)

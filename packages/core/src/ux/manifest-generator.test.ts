@@ -32,7 +32,7 @@ describe("manifest generator regression", () => {
 		expect(card?.status).not.toBe("deprecated");
 	});
 
-	it("keeps extracted docs lean while preserving reviewed overlay guidance", () => {
+	it("keeps extracted docs lean", () => {
 		const registry = loadRegistryFromManifest();
 
 		const kopfzeile = registry.byId.get("kopfzeile");
@@ -42,14 +42,8 @@ describe("manifest generator regression", () => {
 		expect(kopfzeile?.docs?.excerpt).toContain("Kopfzeile");
 		expect(kopfzeile?.docs?.excerpt).not.toContain("@author");
 		expect(kopfzeile?.docs?.excerpt).not.toContain("@file");
-		expect(kopfzeile?.reviewedGuidance?.status).toBe("reviewed");
-
-		expect(inputDate?.reviewedGuidance?.summary.text.en).toContain(
-			"single browser-native date field",
-		);
 
 		expect(inputDate?.docs).toBeUndefined();
 		expect(body?.docs).toBeUndefined();
-		expect(body?.reviewedGuidance).toBeUndefined();
 	});
 });

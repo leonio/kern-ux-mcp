@@ -12,7 +12,7 @@ Use this skill for the end-to-end contributor workflow when a change might touch
 
 - Change a component schema or template.
 - Update tool-builder wiring or tool metadata.
-- Update reviewed guidance in `docs/guidance-overlay.json`.
+- Update the reviewed notes about a tool in `packages/core/src/ux/tool-notes.ts` (since R4b; `docs/guidance-overlay.json` has no entries and retires with the in-repo generator).
 - Change manifest extraction or overlay validation logic.
 - Decide which focused validation steps to run for a mixed change.
 
