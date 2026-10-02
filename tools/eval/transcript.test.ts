@@ -360,6 +360,9 @@ describe("what reached the user", () => {
 	it("finds the HTML in an answer", () => {
 		expect(htmlInAnswer("Use `<details>` for this.")).toBeUndefined();
 		expect(
+			htmlInAnswer("Added `<caption>`, `<thead>` and `<tbody>`."),
+		).toBeUndefined();
+		expect(
 			htmlInAnswer("```css\n.a{}\n```\n```html\n<a><b><i>x</i></b></a>\n```"),
 		).toBe("<a><b><i>x</i></b></a>\n");
 		expect(htmlInAnswer("Result: <p><b>x</b><i>y</i></p> done")).toBe(

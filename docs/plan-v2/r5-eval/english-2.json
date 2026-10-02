@@ -2,7 +2,7 @@
 	"label": "english-2",
 	"suite": "base",
 	"date": "2026-10-02T12:14:10.163Z",
-	"rescored": "2026-10-02T12:44:52.575Z",
+	"rescored": "2026-10-02T12:51:37.204Z",
 	"model": "claude-haiku-4-5",
 	"serverCommit": "e4f498c",
 	"runsPerScenario": 3,

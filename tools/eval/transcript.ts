@@ -169,18 +169,20 @@ const TAG = /<[a-zA-Z][^>]*>/g;
 
 /**
  * The HTML in a final answer: its fenced code blocks that contain tags, or else
- * the span from the first tag to the last. Fewer than three tags is prose.
+ * the span from the first tag to the last, leaving out tags named in inline code
+ * (`<caption>`). Fewer than three tags is prose.
  */
 export function htmlInAnswer(text: string): string | undefined {
 	const fenced = [...text.matchAll(/```[^\n]*\n([\s\S]*?)```/g)]
 		.map((match) => match[1] ?? "")
 		.filter((block) => (block.match(TAG) ?? []).length >= 3);
+	const prose = text.replace(/`[^`\n]*`/g, "");
 	const html =
 		fenced.length > 0
 			? fenced.join("\n")
-			: text.slice(
-					Math.max(0, text.search(/<[a-zA-Z!]/)),
-					text.lastIndexOf(">") + 1,
+			: prose.slice(
+					Math.max(0, prose.search(/<[a-zA-Z!]/)),
+					prose.lastIndexOf(">") + 1,
 				);
 	return (html.match(TAG) ?? []).length >= 3 ? html : undefined;
 }
