@@ -10,7 +10,7 @@ export const LISTING_BUDGET = {
 	 * fails when the total falls more than `slack` below it, so each saving lowers
 	 * the ceiling. R5 takes it down to `target`.
 	 */
-	modelFacing: 144_000,
+	modelFacing: 132_000,
 	/** Where R5 ends for the full toolset. About 7K of it is kept for registry summaries. */
 	target: 120_000,
 	slack: 2_000,

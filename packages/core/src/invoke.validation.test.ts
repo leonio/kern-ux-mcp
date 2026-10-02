@@ -112,6 +112,33 @@ describe("formatInputValidationError", () => {
 		expect(message).toContain("list_icons");
 	});
 
+	it.each([
+		["arrow_forward", "Did you mean arrow-forward?"],
+		["Arrow Forward", "Did you mean arrow-forward?"],
+		["trash", "Did you mean delete?"],
+		["arrow-right", "Did you mean arrow-forward?"],
+		[
+			"double-arrow",
+			"Did you mean keyboard-double-arrow-left, keyboard-double-arrow-right?",
+		],
+	])("suggests icon names for %s", (name, suggestion) => {
+		const parsed = ButtonSchema.safeParse({ label: "Weiter", icon: { name } });
+		if (parsed.success) throw new Error(`Expected ${name} to be rejected`);
+		const message = formatInputValidationHint("get_button", parsed.error);
+
+		expect(message).toContain(`- icon.name: Unknown icon name. ${suggestion}`);
+		expect(message).toContain("list_icons has every valid name.");
+	});
+
+	it("names no icon when nothing is close", () => {
+		const parsed = iconSchema.safeParse({ name: "zzz" });
+		if (parsed.success) throw new Error("Expected zzz to be rejected");
+
+		expect(formatInputValidationHint("get_icon", parsed.error)).toContain(
+			"- name: Unknown icon name. list_icons has every valid name.",
+		);
+	});
+
 	it("adds actionable hint for get_card_group", () => {
 		const parsed = CardGroupSchema.safeParse({});
 
@@ -218,6 +245,27 @@ describe("standalone block tools take simple blocks (R5 option B)", () => {
 		expect(
 			formatInputValidationHint("get_fieldset", parsed.error),
 		).not.toContain("render_composition");
+	});
+
+	it("accepts select options written as { value, text } in a field block", () => {
+		const tool = tools.get("get_fieldset");
+		if (!tool) throw new Error("No tool get_fieldset");
+		const parsed = parseToolInput(tool, {
+			legend: "Antrag",
+			contentBlocks: [
+				{
+					kind: "field",
+					field: {
+						type: "select",
+						name: "art",
+						label: "Art",
+						options: [{ value: "neu", text: "Neuantrag" }],
+					},
+				},
+			],
+		});
+
+		expect(parsed.success).toBe(true);
 	});
 
 	it("keeps nesting in render_composition", () => {

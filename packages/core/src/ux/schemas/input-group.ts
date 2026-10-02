@@ -10,30 +10,22 @@ const InputGroupFieldSchema = FormFieldBaseSchema.pick({
 export const inputGroupSchema = z
 	.object({
 		...CommonParams,
-		name: z
-			.string()
-			.describe("Name-Attribut des Input-Felds innerhalb der Input Group."),
+		name: z.string().describe("Name submitted with the form."),
 		prefix: z
 			.string()
 			.optional()
 			.describe(
-				"Optionaler visueller Prefix vor dem Input, z.B. 'https://' oder '€'. Muss laut KERN bei Bedarf im Feldlabel mitbeschrieben werden, da Prefix/Suffix fuer Screenreader rein visuell bleiben.",
+				"Text before the input, e.g. 'https://' or '€'. Screen readers don't announce it: repeat it in the label if it matters.",
 			),
 		suffix: z
 			.string()
 			.optional()
 			.describe(
-				"Optionaler visueller Suffix nach dem Input, z.B. '.de' oder 'EUR'. Muss laut KERN bei Bedarf im Feldlabel mitbeschrieben werden.",
+				"Text after the input, e.g. '.de' or 'EUR'. Screen readers don't announce it: repeat it in the label if it matters.",
 			),
-		value: z.string().optional().describe("Optionaler Startwert im Input."),
-		placeholder: z
-			.string()
-			.optional()
-			.describe("Optionaler Platzhaltertext im eigentlichen Textfeld."),
+		value: z.string().optional().describe("Initial value."),
+		placeholder: z.string().optional().describe("Placeholder in the input."),
 	})
-	.extend(InputGroupFieldSchema.shape)
-	.describe(
-		"Parameter fuer KERN UX InputGroup-Komponente. Diese MCP-Schnittstelle modelliert die einfache Textfeld-Variante mit visuellem Prefix/Suffix sowie disabled/readonly, nicht die erweiterten Button- oder Error-Kompositionen aus den Story-Beispielen.",
-	);
+	.extend(InputGroupFieldSchema.shape);
 
 export type InputGroupInput = z.input<typeof inputGroupSchema>;

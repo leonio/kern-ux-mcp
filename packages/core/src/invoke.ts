@@ -314,9 +314,69 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 	return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
+/**
+ * get_select's options are { value, text } and a field block's are { value, label }.
+ * Each tool accepts the other's key too: models mix the two up.
+ */
+function renameOptionKey(options: unknown, from: string, to: string): unknown {
+	if (!Array.isArray(options)) {
+		return options;
+	}
+	return options.map((option: unknown) => {
+		if (
+			!isRecord(option) ||
+			typeof option[to] === "string" ||
+			typeof option[from] !== "string"
+		) {
+			return option;
+		}
+		const { [from]: text, ...rest } = option;
+		return { ...rest, [to]: text };
+	});
+}
+
+/** Applies renameOptionKey to every field block in a block tree, at any depth. */
+function normalizeFieldBlocks(value: unknown): unknown {
+	if (Array.isArray(value)) {
+		return value.map(normalizeFieldBlocks);
+	}
+	if (!isRecord(value)) {
+		return value;
+	}
+	const normalized: Record<string, unknown> = {};
+	for (const [key, child] of Object.entries(value)) {
+		normalized[key] = normalizeFieldBlocks(child);
+	}
+	const field = normalized.field;
+	if (
+		normalized.kind === "field" &&
+		isRecord(field) &&
+		Array.isArray(field.options)
+	) {
+		normalized.field = {
+			...field,
+			options: renameOptionKey(field.options, "text", "label"),
+		};
+	}
+	return normalized;
+}
+
 export function normalizeToolArgs(name: string, args: unknown): unknown {
 	if (!isRecord(args)) {
 		return args;
+	}
+	const normalized = normalizeArgsByTool(name, args);
+	return COMPOSITION_TOOLS.has(name) || SIMPLE_BLOCK_TOOLS.has(name)
+		? normalizeFieldBlocks(normalized)
+		: normalized;
+}
+
+function normalizeArgsByTool(
+	name: string,
+	args: Record<string, unknown>,
+): unknown {
+	if (name === "get_select" && Array.isArray(args.options)) {
+		return { ...args, options: renameOptionKey(args.options, "label", "text") };
 	}
 
 	if (name === "get_inputtext") {

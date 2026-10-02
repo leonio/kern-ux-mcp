@@ -59,45 +59,47 @@ describe("tool input schemas", () => {
 		const inputPasswordSchema = getListedToolSchema(tools, "get_inputpassword");
 		const textareaSchema = getListedToolSchema(tools, "get_textarea");
 		const selectSchema = getListedToolSchema(tools, "get_select");
+		const description = (name: string) => tools.getTool(name)?.description;
 
-		expect(inputTextSchema.description).toContain("einzeilige");
-		expect(inputTextSchema.description).toContain("autocomplete-Tokens");
+		expect(description("get_inputtext")).toContain("Required: name, label");
+		expect(description("get_inputtext")).toContain("expected format");
 		expect(inputTextSchema.properties.placeholder.description).toContain(
-			"Kein Ersatz",
+			"doesn't replace the label",
 		);
 		expect(inputTextSchema.properties.autocomplete.description).toContain(
-			"HTML-autocomplete-Token",
+			"autocomplete token",
 		);
-		expect(inputTextSchema.properties.hint.description).toContain("ohne Links");
+		expect(inputTextSchema.properties.hint.description).toContain(
+			"without links",
+		);
+		expect(inputTextSchema.properties.hint.description).toContain(
+			"aria-describedby",
+		);
 		expect(inputTextSchema.properties.disabled.description).toContain(
-			"möglichst vermeiden",
+			"Avoid where possible",
 		);
 
-		expect(inputEmailSchema.description).toContain("E-Mail-Adressen");
-		expect(inputEmailSchema.description).toContain("autocomplete=email");
-		expect(inputEmailSchema.properties.type.description).toContain(
-			"HTML-Typ email",
+		expect(description("get_inputemail")).toContain("type=email");
+		expect(description("get_inputemail")).toContain(
+			"autocomplete defaults to email",
 		);
+		expect(inputEmailSchema.properties.type.const).toBe("email");
 
-		expect(inputPasswordSchema.description).toContain("Passwortfeld selbst");
-		expect(inputPasswordSchema.properties.type.description).toContain(
-			"HTML-Typ password",
-		);
+		expect(description("get_inputpassword")).toContain("Only the field");
+		expect(inputPasswordSchema.properties.type.const).toBe("password");
 		expect(inputPasswordSchema.properties.disabled).toBeUndefined();
 		expect(inputPasswordSchema.properties.readonly).toBeUndefined();
 
-		expect(textareaSchema.description).toContain("mehrzeilige Eingaben");
+		expect(description("get_textarea")).toContain("multi-line");
 		expect(textareaSchema.properties.rows.description).toContain(
-			"Proportional",
+			"in proportion",
 		);
 
-		expect(selectSchema.description).toContain(
-			"nicht für Aktionen oder Navigation",
-		);
-		expect(selectSchema.properties.options.description).toContain("5 bis 15");
+		expect(description("get_select")).toContain("{ value, text }");
+		expect(selectSchema.properties.options.minItems).toBe(1);
 		expect(
 			selectSchema.properties.options.items.properties.text.description,
-		).toContain("kurz");
+		).toContain("short");
 	});
 
 	it("number, url, date, tel, and file schemas document source-specific usage guidance", () => {
@@ -150,39 +152,32 @@ describe("tool input schemas", () => {
 		const inputDateSchema = getListedToolSchema(tools, "get_inputdate");
 		const inputTelSchema = getListedToolSchema(tools, "get_inputtel");
 		const inputFileSchema = getListedToolSchema(tools, "get_inputfile");
+		const description = (name: string) => tools.getTool(name)?.description;
 
-		expect(inputNumberSchema.description).toContain('inputmode="numeric"');
-		expect(inputNumberSchema.description).toContain(
-			'statt nativer type="number"',
-		);
+		expect(description("get_inputnumber")).toContain('inputmode="numeric"');
+		expect(description("get_inputnumber")).toContain('not type="number"');
 		expect(inputNumberSchema.properties.type).toBeUndefined();
 
-		expect(inputUrlSchema.description).toContain(
-			"vollstaendige Web- oder Service-Adressen",
-		);
-		expect(inputUrlSchema.properties.type.description).toContain(
-			"inklusive https://",
-		);
+		expect(description("get_inputurl")).toContain("full address with https://");
+		expect(inputUrlSchema.properties.type.const).toBe("url");
 
-		expect(inputDateSchema.description).toContain("vereinfachte Annaeherung");
-		expect(inputDateSchema.description).toContain("Tag, Monat und Jahr");
-		expect(inputDateSchema.properties.type.description).toContain(
-			"HTML-Typ date",
-		);
+		expect(description("get_inputdate")).toContain("native type=date field");
+		expect(description("get_inputdate")).toContain("day, month and year");
+		expect(inputDateSchema.properties.type.const).toBe("date");
 
-		expect(inputTelSchema.description).toContain("Telefonnummern");
-		expect(inputTelSchema.description).toContain('autocomplete="tel"');
-		expect(inputTelSchema.properties.type.description).toContain(
-			'autocomplete="tel"',
+		expect(description("get_inputtel")).toContain("type=tel");
+		expect(description("get_inputtel")).toContain(
+			"autocomplete defaults to tel",
 		);
+		expect(inputTelSchema.properties.type.const).toBe("tel");
 
-		expect(inputFileSchema.description).toContain("erlaubte Formate");
-		expect(inputFileSchema.description).toContain("genau eine Datei");
+		expect(description("get_inputfile")).toContain("allowed formats");
+		expect(description("get_inputfile")).toContain("for one file");
 		expect(inputFileSchema.properties.accept.description).toContain(
-			"serverseitige Validierung",
+			"validate on the server",
 		);
 		expect(inputFileSchema.properties.label.description).toContain(
-			"nicht nur allgemein 'Upload'",
+			"not just 'Upload'",
 		);
 	});
 
@@ -213,8 +208,10 @@ describe("tool input schemas", () => {
 		const checkboxVariants = schemaVariants(checkboxSchema);
 		const radioVariants = schemaVariants(radioSchema);
 
-		expect(checkboxSchema.description).toContain("Einzel- oder Listen-Modus");
-		expect(radioSchema.description).toContain("Einzel- oder Listen-Modus");
+		for (const name of ["get_checkbox", "get_radio"]) {
+			expect(tools.getTool(name)?.description).toContain("mode 'single'");
+			expect(tools.getTool(name)?.description).toContain("mode 'list'");
+		}
 
 		const checkboxSingle = findVariant(
 			checkboxVariants,
@@ -234,29 +231,29 @@ describe("tool input schemas", () => {
 		);
 
 		expect(checkboxSingle.properties.label.description).toContain(
-			"bestaetigbare Aussage",
+			"statement to confirm",
 		);
 		expect(checkboxList.properties.groupName.description).toContain(
-			"kein eigenes name-Attribut",
+			"no name of their own",
 		);
 		expect(checkboxList.properties.items.description).toContain(
-			"mehrere Eintraege gleichzeitig",
+			"Any number can be checked",
 		);
 		expect(checkboxList.properties.items.items.properties.name).toBeUndefined();
 
-		expect(radioSingle.description).toContain("einzelnen Radio-Button");
+		expect(radioSingle.description).toContain("one radio button on its own");
 		expect(radioList.properties.legend.description).toContain(
-			"gemeinsame Frage oder Entscheidung",
+			"question or decision",
 		);
 		expect(radioList.properties.items.description).toContain(
-			"genau eine Auswahl",
+			"exactly one can be selected",
 		);
 		expect(radioList.properties.horizontal.description).toContain(
-			"wenige kurze Optionen",
+			"few short options",
 		);
 		expect(
 			radioList.properties.items.items.properties.checked.description,
-		).toContain("hoechstens eine Option");
+		).toContain("at most one option");
 	});
 
 	it("dialog and dropdown schemas document structural and experimental guidance", () => {
@@ -603,20 +600,17 @@ describe("tool input schemas", () => {
 		const tools = createTools(registry);
 		const inputGroupSchema = getListedToolSchema(tools, "get_inputgroup");
 
-		expect(inputGroupSchema.description).toContain(
-			"einfache Textfeld-Variante",
-		);
-		expect(inputGroupSchema.description).toContain(
-			"Button- oder Error-Kompositionen",
-		);
+		const description = tools.getTool("get_inputgroup")?.description;
+		expect(description).toContain("plain text-field variant");
+		expect(description).toContain("no buttons or error state");
 		expect(inputGroupSchema.properties.prefix.description).toContain(
-			"rein visuell",
+			"Screen readers don't announce it",
 		);
 		expect(inputGroupSchema.properties.suffix.description).toContain(
-			"Feldlabel",
+			"repeat it in the label",
 		);
 		expect(inputGroupSchema.properties.readonly.description).toContain(
-			"schreibgeschützt",
+			"not editable",
 		);
 	});
 

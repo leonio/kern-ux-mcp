@@ -94,3 +94,86 @@ describe("normalizeToolArgs", () => {
 		]);
 	});
 });
+
+describe("option text and label", () => {
+	const selectField = (options: object[]) => ({
+		kind: "field",
+		field: { type: "select", name: "lang", label: "Sprache", options },
+	});
+
+	it("field blocks take { value, text } options at any depth", () => {
+		const normalized = normalize("render_composition", {
+			contentBlocks: [
+				{
+					kind: "formFlow",
+					formFlow: {
+						steps: [
+							{
+								title: "Schritt 1",
+								contentBlocks: [
+									selectField([{ value: "de", text: "Deutsch" }]),
+								],
+							},
+						],
+					},
+				},
+			],
+		});
+
+		expect(normalized).toEqual({
+			contentBlocks: [
+				{
+					kind: "formFlow",
+					formFlow: {
+						steps: [
+							{
+								title: "Schritt 1",
+								contentBlocks: [
+									selectField([{ value: "de", label: "Deutsch" }]),
+								],
+							},
+						],
+					},
+				},
+			],
+		});
+	});
+
+	it("keeps a label that is already there", () => {
+		const normalized = normalize("get_fieldset", {
+			legend: "Sprache",
+			contentBlocks: [
+				selectField([{ value: "de", label: "Deutsch", text: "x" }]),
+			],
+		});
+
+		expect(normalized.contentBlocks).toEqual([
+			selectField([{ value: "de", label: "Deutsch", text: "x" }]),
+		]);
+	});
+
+	it("still applies get_section's own aliases", () => {
+		const normalized = normalize("get_section", {
+			heading: "Sprache",
+			contentBlocks: [selectField([{ value: "de", text: "Deutsch" }])],
+		});
+
+		expect(normalized.headingText).toBe("Sprache");
+		expect(normalized.contentBlocks).toEqual([
+			selectField([{ value: "de", label: "Deutsch" }]),
+		]);
+	});
+
+	it("get_select takes { value, label } options", () => {
+		const normalized = normalize("get_select", {
+			name: "lang",
+			label: "Sprache",
+			options: [{ value: "de", label: "Deutsch", selected: true }],
+		});
+
+		expect(normalized.label).toBe("Sprache");
+		expect(normalized.options).toEqual([
+			{ value: "de", text: "Deutsch", selected: true },
+		]);
+	});
+});

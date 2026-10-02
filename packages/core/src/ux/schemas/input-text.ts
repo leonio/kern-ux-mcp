@@ -14,29 +14,20 @@ export const inputTextSchema = z
 	.object({
 		...CommonParams,
 		/** Name attribute for the input */
-		name: z
-			.string()
-			.describe(
-				"Name-Attribut für das Feld (wird beim Submit übertragen). Sollte zur fachlichen Bedeutung des Werts passen.",
-			),
+		name: z.string().describe("Name submitted with the form."),
 		/** Optional initial value */
-		value: z
-			.string()
-			.optional()
-			.describe("Optionaler vorbefüllter oder bereits bekannter Feldwert."),
+		value: z.string().optional().describe("Initial value."),
 		/** Optional placeholder text */
 		placeholder: z
 			.string()
 			.optional()
-			.describe(
-				"Optionaler Platzhaltertext für ein kurzes Format- oder Beispielmuster. Kein Ersatz für das Label.",
-			),
+			.describe("A short format example. It doesn't replace the label."),
 		/** Optional autocomplete token */
 		autocomplete: z
 			.string()
 			.optional()
 			.describe(
-				"Optionaler HTML-autocomplete-Token wie email, tel, name, given-name, family-name, street-address oder one-time-code. Nur standardisierte Tokens verwenden.",
+				"Standard HTML autocomplete token, e.g. name, given-name, family-name, email, tel, street-address. Set it for personal data.",
 			),
 		/** Input type - defaults to "text", can be extended for other input components */
 		type: z
@@ -44,12 +35,9 @@ export const inputTextSchema = z
 			.optional()
 			.default("text")
 			.describe(
-				"HTML input type. Spezifische Tools setzen feste Typen (z.B. get_inputemail => email). Für freie Einzelauswahl mit bekannten Optionen besser Select, Radios oder Checkboxes verwenden.",
+				"HTML input type. get_inputemail and the other typed tools set it for you.",
 			),
 	})
-	.extend(LabeledFormFieldBaseSchema.shape)
-	.describe(
-		"Parameter für KERN UX InputText-Komponente (Basis für abgeleitete Input-Typen). Für einzeilige, nicht vorhersehbare Eingaben; für mehrzeilige Texte Textarea und für bekannte Optionen Select, Radios oder Checkboxes bevorzugen. Bei personenbezogenen oder bekannten Daten wenn moeglich passende autocomplete-Tokens setzen.",
-	);
+	.extend(LabeledFormFieldBaseSchema.shape);
 
 export type InputTextInput = z.input<typeof inputTextSchema>;

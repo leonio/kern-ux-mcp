@@ -1067,11 +1067,11 @@
                         "properties": {
                           "name": {
                             "type": "string",
-                            "description": "Icon-Name aus dem KERN-Iconset. Bei Unsicherheit zuerst list_icons aufrufen."
+                            "description": "KERN icon name, e.g. arrow-forward. list_icons has them all."
                           },
                           "position": {
                             "default": "left",
-                            "description": "Icon-Position relativ zum Label.",
+                            "description": "Which side of the label the icon sits on.",
                             "type": "string",
                             "enum": [
                               "left",
@@ -1430,7 +1430,7 @@
                             "const": 6
                           }
                         ],
-                        "description": "HTML-Überschriftenebene von h1 bis h6. Hierarchisch ohne Sprünge verwenden."
+                        "description": "Heading level, h1 to h6. Don't skip levels."
                       },
                       "divider": {
                         "default": false,
@@ -1536,7 +1536,7 @@
                             "const": 12
                           }
                         ],
-                        "description": "Spaltenanzahl im 12-Spalten-Grid. Gültig sind 1, 2, 3, 4, 6, 12, damit 12 / columns eine ganze Zahl ergibt. Für mobile Darstellung wird typischerweise kern-col-sm-12 zum Stapeln verwendet."
+                        "description": "Columns in the 12-column grid; 12 / columns must be whole."
                       },
                       "containerFluid": {
                         "default": false,
@@ -1585,7 +1585,7 @@
                             "const": 6
                           }
                         ],
-                        "description": "HTML-Überschriftenebene von h1 bis h6. Hierarchisch ohne Sprünge verwenden."
+                        "description": "Heading level, h1 to h6. Don't skip levels."
                       },
                       "columnsContent": {
                         "type": "array",
@@ -1622,7 +1622,7 @@
                           "small",
                           "large"
                         ],
-                        "description": "Komponentengröße: default, small oder large (entsprechend KERN Space-Token)."
+                        "description": "Size, on KERN's spacing scale."
                       },
                       "hug": {
                         "default": false,
@@ -1683,7 +1683,7 @@
                                 "const": 6
                               }
                             ],
-                            "description": "HTML-Überschriftenebene von h1 bis h6. Hierarchisch ohne Sprünge verwenden."
+                            "description": "Heading level, h1 to h6. Don't skip levels."
                           },
                           "subline": {
                             "type": "string"
@@ -1802,7 +1802,7 @@
                             "const": 6
                           }
                         ],
-                        "description": "HTML-Überschriftenebene von h1 bis h6. Hierarchisch ohne Sprünge verwenden."
+                        "description": "Heading level, h1 to h6. Don't skip levels."
                       },
                       "tasklistHeading": {
                         "description": "Heading of the step list; 'Fortschritt' or 'Progress' when omitted.",
@@ -1947,7 +1947,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Validierungsergebnis (strict-mode relevant)."
+          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
         }
       },
       "required": [
@@ -1972,7 +1972,7 @@
       "type": "object",
       "properties": {
         "locale": {
-          "description": "Sprache für Beschriftungen und Fehlermeldungen (Standard: de).",
+          "description": "Language of generated labels and messages (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -1980,7 +1980,7 @@
           ]
         },
         "strict": {
-          "description": "Wenn true: Validierungsfehler blockieren die HTML-Ausgabe (BITV-strikt).",
+          "description": "If true, validation errors fail the call instead of returning HTML.",
           "type": "boolean"
         },
         "title": {
@@ -2181,11 +2181,11 @@
                         "properties": {
                           "name": {
                             "type": "string",
-                            "description": "Icon-Name aus dem KERN-Iconset. Bei Unsicherheit zuerst list_icons aufrufen."
+                            "description": "KERN icon name, e.g. arrow-forward. list_icons has them all."
                           },
                           "position": {
                             "default": "left",
-                            "description": "Icon-Position relativ zum Label.",
+                            "description": "Which side of the label the icon sits on.",
                             "type": "string",
                             "enum": [
                               "left",
@@ -2544,7 +2544,7 @@
                             "const": 6
                           }
                         ],
-                        "description": "HTML-Überschriftenebene von h1 bis h6. Hierarchisch ohne Sprünge verwenden."
+                        "description": "Heading level, h1 to h6. Don't skip levels."
                       },
                       "divider": {
                         "default": false,
@@ -2650,7 +2650,7 @@
                             "const": 12
                           }
                         ],
-                        "description": "Spaltenanzahl im 12-Spalten-Grid. Gültig sind 1, 2, 3, 4, 6, 12, damit 12 / columns eine ganze Zahl ergibt. Für mobile Darstellung wird typischerweise kern-col-sm-12 zum Stapeln verwendet."
+                        "description": "Columns in the 12-column grid; 12 / columns must be whole."
                       },
                       "containerFluid": {
                         "default": false,
@@ -2699,7 +2699,7 @@
                             "const": 6
                           }
                         ],
-                        "description": "HTML-Überschriftenebene von h1 bis h6. Hierarchisch ohne Sprünge verwenden."
+                        "description": "Heading level, h1 to h6. Don't skip levels."
                       },
                       "columnsContent": {
                         "type": "array",
@@ -2736,7 +2736,7 @@
                           "small",
                           "large"
                         ],
-                        "description": "Komponentengröße: default, small oder large (entsprechend KERN Space-Token)."
+                        "description": "Size, on KERN's spacing scale."
                       },
                       "hug": {
                         "default": false,
@@ -2797,7 +2797,7 @@
                                 "const": 6
                               }
                             ],
-                            "description": "HTML-Überschriftenebene von h1 bis h6. Hierarchisch ohne Sprünge verwenden."
+                            "description": "Heading level, h1 to h6. Don't skip levels."
                           },
                           "subline": {
                             "type": "string"
@@ -2916,7 +2916,7 @@
                             "const": 6
                           }
                         ],
-                        "description": "HTML-Überschriftenebene von h1 bis h6. Hierarchisch ohne Sprünge verwenden."
+                        "description": "Heading level, h1 to h6. Don't skip levels."
                       },
                       "tasklistHeading": {
                         "description": "Heading of the step list; 'Fortschritt' or 'Progress' when omitted.",
@@ -3115,7 +3115,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Validierungsergebnis (strict-mode relevant)."
+          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
         }
       },
       "required": [
@@ -3140,7 +3140,7 @@
       "type": "object",
       "properties": {
         "locale": {
-          "description": "Sprache für Beschriftungen und Fehlermeldungen (Standard: de).",
+          "description": "Language of generated labels and messages (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -3148,7 +3148,7 @@
           ]
         },
         "strict": {
-          "description": "Wenn true: Validierungsfehler blockieren die HTML-Ausgabe (BITV-strikt).",
+          "description": "If true, validation errors fail the call instead of returning HTML.",
           "type": "boolean"
         },
         "headingText": {
@@ -3492,7 +3492,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Validierungsergebnis (strict-mode relevant)."
+          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
         }
       },
       "required": [
@@ -3517,7 +3517,7 @@
       "type": "object",
       "properties": {
         "locale": {
-          "description": "Sprache für Beschriftungen und Fehlermeldungen (Standard: de).",
+          "description": "Language of generated labels and messages (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -3525,7 +3525,7 @@
           ]
         },
         "strict": {
-          "description": "Wenn true: Validierungsfehler blockieren die HTML-Ausgabe (BITV-strikt).",
+          "description": "If true, validation errors fail the call instead of returning HTML.",
           "type": "boolean"
         },
         "cards": {
@@ -4001,7 +4001,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Validierungsergebnis (strict-mode relevant)."
+          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
         }
       },
       "required": [
@@ -4026,7 +4026,7 @@
       "type": "object",
       "properties": {
         "locale": {
-          "description": "Sprache für Beschriftungen und Fehlermeldungen (Standard: de).",
+          "description": "Language of generated labels and messages (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -4034,7 +4034,7 @@
           ]
         },
         "strict": {
-          "description": "Wenn true: Validierungsfehler blockieren die HTML-Ausgabe (BITV-strikt).",
+          "description": "If true, validation errors fail the call instead of returning HTML.",
           "type": "boolean"
         },
         "triggerLabel": {
@@ -4334,7 +4334,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Validierungsergebnis (strict-mode relevant)."
+          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
         }
       },
       "required": [
@@ -4362,7 +4362,7 @@
           "type": "object",
           "properties": {
             "locale": {
-              "description": "Sprache für Beschriftungen und Fehlermeldungen (Standard: de).",
+              "description": "Language of generated labels and messages (default: de).",
               "type": "string",
               "enum": [
                 "de",
@@ -4370,7 +4370,7 @@
               ]
             },
             "strict": {
-              "description": "Wenn true: Validierungsfehler blockieren die HTML-Ausgabe (BITV-strikt).",
+              "description": "If true, validation errors fail the call instead of returning HTML.",
               "type": "boolean"
             },
             "mode": {
@@ -4409,7 +4409,7 @@
           "type": "object",
           "properties": {
             "locale": {
-              "description": "Sprache für Beschriftungen und Fehlermeldungen (Standard: de).",
+              "description": "Language of generated labels and messages (default: de).",
               "type": "string",
               "enum": [
                 "de",
@@ -4417,7 +4417,7 @@
               ]
             },
             "strict": {
-              "description": "Wenn true: Validierungsfehler blockieren die HTML-Ausgabe (BITV-strikt).",
+              "description": "If true, validation errors fail the call instead of returning HTML.",
               "type": "boolean"
             },
             "mode": {
@@ -4539,7 +4539,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Validierungsergebnis (strict-mode relevant)."
+          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
         }
       },
       "required": [
@@ -4714,7 +4714,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Validierungsergebnis (strict-mode relevant)."
+          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
         }
       },
       "required": [
@@ -4739,7 +4739,7 @@
       "type": "object",
       "properties": {
         "locale": {
-          "description": "Sprache für Beschriftungen und Fehlermeldungen (Standard: de).",
+          "description": "Language of generated labels and messages (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -4747,7 +4747,7 @@
           ]
         },
         "strict": {
-          "description": "Wenn true: Validierungsfehler blockieren die HTML-Ausgabe (BITV-strikt).",
+          "description": "If true, validation errors fail the call instead of returning HTML.",
           "type": "boolean"
         },
         "type": {
@@ -4846,7 +4846,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Validierungsergebnis (strict-mode relevant)."
+          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
         }
       },
       "required": [
@@ -4891,7 +4891,7 @@
           "type": "boolean"
         },
         "locale": {
-          "description": "Sprache für Beschriftungen und Fehlermeldungen (Standard: de).",
+          "description": "Language of generated labels and messages (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -4899,7 +4899,7 @@
           ]
         },
         "strict": {
-          "description": "Wenn true: Validierungsfehler blockieren die HTML-Ausgabe (BITV-strikt).",
+          "description": "If true, validation errors fail the call instead of returning HTML.",
           "type": "boolean"
         }
       }
@@ -4974,7 +4974,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Validierungsergebnis (strict-mode relevant)."
+          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
         }
       },
       "required": [
@@ -4999,7 +4999,7 @@
       "type": "object",
       "properties": {
         "locale": {
-          "description": "Sprache für Beschriftungen und Fehlermeldungen (Standard: de).",
+          "description": "Language of generated labels and messages (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -5007,7 +5007,7 @@
           ]
         },
         "strict": {
-          "description": "Wenn true: Validierungsfehler blockieren die HTML-Ausgabe (BITV-strikt).",
+          "description": "If true, validation errors fail the call instead of returning HTML.",
           "type": "boolean"
         },
         "variant": {
@@ -5060,11 +5060,11 @@
           "properties": {
             "name": {
               "type": "string",
-              "description": "Icon-Name aus dem KERN-Iconset. Bei Unsicherheit zuerst list_icons aufrufen."
+              "description": "KERN icon name, e.g. arrow-forward. list_icons has them all."
             },
             "position": {
               "default": "left",
-              "description": "Icon-Position relativ zum Label.",
+              "description": "Which side of the label the icon sits on.",
               "type": "string",
               "enum": [
                 "left",
@@ -5162,7 +5162,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Validierungsergebnis (strict-mode relevant)."
+          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
         }
       },
       "required": [
@@ -5187,7 +5187,7 @@
       "type": "object",
       "properties": {
         "locale": {
-          "description": "Sprache für Beschriftungen und Fehlermeldungen (Standard: de).",
+          "description": "Language of generated labels and messages (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -5195,7 +5195,7 @@
           ]
         },
         "strict": {
-          "description": "Wenn true: Validierungsfehler blockieren die HTML-Ausgabe (BITV-strikt).",
+          "description": "If true, validation errors fail the call instead of returning HTML.",
           "type": "boolean"
         },
         "size": {
@@ -5580,7 +5580,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Validierungsergebnis (strict-mode relevant)."
+          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
         }
       },
       "required": [
@@ -5599,10 +5599,9 @@
   {
     "name": "get_checkbox",
     "title": "KERN Checkbox",
-    "description": "KERN UX: HTML für Checkbox erzeugen (Einzel- oder Listen-Modus).",
+    "description": "KERN UX: HTML for checkboxes. mode 'single' (default): one checkbox, e.g. a consent. mode 'list': a fieldset of independent options under a legend.",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
-      "description": "Parameter fuer KERN UX Checkbox-Komponente (Einzel- oder Listen-Modus). Einzelmodus fuer eine unabhaengige Ja/Nein-Bestaetigung, Listenmodus fuer mehrere unabhaengige Auswahloptionen im Fieldset.",
       "anyOf": [
         {
           "type": "object",
@@ -5613,7 +5612,7 @@
               "const": "single"
             },
             "locale": {
-              "description": "Sprache für Beschriftungen und Fehlermeldungen (Standard: de).",
+              "description": "Language of generated labels and messages (default: de).",
               "type": "string",
               "enum": [
                 "de",
@@ -5621,43 +5620,43 @@
               ]
             },
             "strict": {
-              "description": "Wenn true: Validierungsfehler blockieren die HTML-Ausgabe (BITV-strikt).",
+              "description": "If true, validation errors fail the call instead of returning HTML.",
               "type": "boolean"
             },
             "id": {
-              "description": "Optionale feste ID fuer die Checkbox. Ohne Angabe wird sie automatisch generiert.",
+              "description": "Element id; generated when omitted.",
               "type": "string"
             },
             "name": {
               "type": "string",
               "minLength": 1,
-              "description": "Name-Attribut der Checkbox fuer den Form-Submit."
+              "description": "Name submitted with the form."
             },
             "label": {
               "type": "string",
               "minLength": 1,
-              "description": "Sichtbarer Label-Text der Checkbox. Fuer einzelne Checkboxen idealerweise als bestaetigbare Aussage formulieren, z.B. Zustimmung zu Bedingungen."
+              "description": "Visible label, phrased as a statement to confirm, e.g. 'I accept the terms'."
             },
             "checked": {
               "default": false,
-              "description": "Checkbox ist aktiviert oder bereits vorselektiert.",
+              "description": "Checked initially.",
               "type": "boolean"
             },
             "disabled": {
               "default": false,
-              "description": "Checkbox ist deaktiviert und nicht fokussierbar.",
+              "description": "Not focusable and can't be changed.",
               "type": "boolean"
             },
             "error": {
-              "description": "Fehlerzustand fuer die einzelne Checkbox mit optionaler Meldung.",
+              "description": "Puts the checkbox in its error state.",
               "type": "object",
               "properties": {
                 "message": {
                   "type": "string",
-                  "description": "Konkrete Fehlermeldung fuer die einzelne Checkbox. Leerer String zeigt nur den Fehlerstil ohne Text."
+                  "description": "Error message. An empty string shows the error style without text."
                 },
                 "id": {
-                  "description": "Optionale ID fuer aria-describedby. Ohne Angabe wird sie automatisch generiert.",
+                  "description": "Id of the message, for aria-describedby; generated when omitted.",
                   "type": "string"
                 }
               },
@@ -5669,7 +5668,8 @@
           "required": [
             "name",
             "label"
-          ]
+          ],
+          "description": "mode 'single' (the default): one checkbox on its own."
         },
         {
           "type": "object",
@@ -5679,7 +5679,7 @@
               "const": "list"
             },
             "locale": {
-              "description": "Sprache für Beschriftungen und Fehlermeldungen (Standard: de).",
+              "description": "Language of generated labels and messages (default: de).",
               "type": "string",
               "enum": [
                 "de",
@@ -5687,29 +5687,29 @@
               ]
             },
             "strict": {
-              "description": "Wenn true: Validierungsfehler blockieren die HTML-Ausgabe (BITV-strikt).",
+              "description": "If true, validation errors fail the call instead of returning HTML.",
               "type": "boolean"
             },
             "legend": {
               "type": "string",
               "minLength": 1,
-              "description": "Fieldset-Legende fuer die Checkbox-Gruppe. Sollte die gemeinsame Frage oder Kategorie der Optionen benennen."
+              "description": "Fieldset legend: the question or topic the options share."
             },
             "optional": {
               "default": false,
-              "description": "Zeigt den Optional-Marker an der Legende an.",
+              "description": "Shows the optional marker on the legend.",
               "type": "boolean"
             },
             "hint": {
-              "description": "Optionaler Hinweistext fuer die gesamte Checkbox-Gruppe.",
+              "description": "Help text for the whole group.",
               "type": "object",
               "properties": {
                 "text": {
                   "type": "string",
-                  "description": "Hinweistext fuer die gesamte Gruppe, z.B. Auswahlregeln oder Kontext."
+                  "description": "Help text for the group, e.g. how many to choose."
                 },
                 "id": {
-                  "description": "Optionale ID fuer aria-describedby der Gruppe.",
+                  "description": "Id of the hint, for aria-describedby; generated when omitted.",
                   "type": "string"
                 }
               },
@@ -5720,7 +5720,7 @@
             "groupName": {
               "type": "string",
               "minLength": 1,
-              "description": "Gemeinsames Name-Attribut fuer alle Checkboxen der Gruppe. Die einzelnen Items erben dieses Feld und benoetigen kein eigenes name-Attribut."
+              "description": "Name shared by every checkbox in the group; items have no name of their own."
             },
             "items": {
               "minItems": 1,
@@ -5729,7 +5729,7 @@
                 "type": "object",
                 "properties": {
                   "id": {
-                    "description": "Optionale feste ID pro Checkbox. Ohne Angabe wird sie automatisch generiert.",
+                    "description": "Element id; generated when omitted.",
                     "type": "string"
                   },
                   "value": {
@@ -5739,16 +5739,16 @@
                   "label": {
                     "type": "string",
                     "minLength": 1,
-                    "description": "Sichtbarer Label-Text der Option. Mehrere Eintraege duerfen gleichzeitig ausgewaehlt sein."
+                    "description": "Visible option text."
                   },
                   "checked": {
                     "default": false,
-                    "description": "Checkbox ist aktiviert oder bereits vorselektiert.",
+                    "description": "Checked initially.",
                     "type": "boolean"
                   },
                   "disabled": {
                     "default": false,
-                    "description": "Checkbox ist deaktiviert und kann nicht geaendert werden.",
+                    "description": "Can't be changed.",
                     "type": "boolean"
                   }
                 },
@@ -5756,18 +5756,18 @@
                   "label"
                 ]
               },
-              "description": "Liste unabhaengiger Checkbox-Optionen. Anders als bei Radio duerfen mehrere Eintraege gleichzeitig ausgewaehlt sein."
+              "description": "The checkboxes. Any number can be checked at once."
             },
             "error": {
-              "description": "Fehlerzustand mit optionaler Meldung fuer die gesamte Gruppe.",
+              "description": "Puts the whole group in its error state.",
               "type": "object",
               "properties": {
                 "message": {
                   "type": "string",
-                  "description": "Konkrete Fehlermeldung fuer die gesamte Gruppe. Leerer String zeigt nur den Fehlerstil ohne Text."
+                  "description": "Error message. An empty string shows the error style without text."
                 },
                 "id": {
-                  "description": "Optionale ID fuer aria-describedby der Gruppe. Ohne Angabe wird sie automatisch generiert.",
+                  "description": "Id of the message, for aria-describedby; generated when omitted.",
                   "type": "string"
                 }
               },
@@ -5781,7 +5781,8 @@
             "legend",
             "groupName",
             "items"
-          ]
+          ],
+          "description": "mode 'list': a group of checkboxes in a fieldset."
         }
       ],
       "type": "object"
@@ -5856,7 +5857,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Validierungsergebnis (strict-mode relevant)."
+          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
         }
       },
       "required": [
@@ -5918,7 +5919,7 @@
           "type": "boolean"
         },
         "locale": {
-          "description": "Sprache für Beschriftungen und Fehlermeldungen (Standard: de).",
+          "description": "Language of generated labels and messages (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -5926,7 +5927,7 @@
           ]
         },
         "strict": {
-          "description": "Wenn true: Validierungsfehler blockieren die HTML-Ausgabe (BITV-strikt).",
+          "description": "If true, validation errors fail the call instead of returning HTML.",
           "type": "boolean"
         }
       }
@@ -6001,7 +6002,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Validierungsergebnis (strict-mode relevant)."
+          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
         }
       },
       "required": [
@@ -6110,7 +6111,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Validierungsergebnis (strict-mode relevant)."
+          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
         }
       },
       "required": [
@@ -6280,7 +6281,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Validierungsergebnis (strict-mode relevant)."
+          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
         }
       },
       "required": [
@@ -6310,7 +6311,7 @@
           "type": "boolean"
         },
         "locale": {
-          "description": "Sprache für Beschriftungen und Fehlermeldungen (Standard: de).",
+          "description": "Language of generated labels and messages (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -6318,7 +6319,7 @@
           ]
         },
         "strict": {
-          "description": "Wenn true: Validierungsfehler blockieren die HTML-Ausgabe (BITV-strikt).",
+          "description": "If true, validation errors fail the call instead of returning HTML.",
           "type": "boolean"
         }
       }
@@ -6393,7 +6394,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Validierungsergebnis (strict-mode relevant)."
+          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
         }
       },
       "required": [
@@ -6418,7 +6419,7 @@
       "type": "object",
       "properties": {
         "locale": {
-          "description": "Sprache für Beschriftungen und Fehlermeldungen (Standard: de).",
+          "description": "Language of generated labels and messages (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -6426,7 +6427,7 @@
           ]
         },
         "strict": {
-          "description": "Wenn true: Validierungsfehler blockieren die HTML-Ausgabe (BITV-strikt).",
+          "description": "If true, validation errors fail the call instead of returning HTML.",
           "type": "boolean"
         },
         "triggerLabel": {
@@ -6562,7 +6563,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Validierungsergebnis (strict-mode relevant)."
+          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
         }
       },
       "required": [
@@ -6818,7 +6819,7 @@
           "description": "The grouped content: field blocks, plus text, html or badge, e.g. [{ kind: 'field', field: { type: 'text', name: 'street', label: 'Street' } }]."
         },
         "locale": {
-          "description": "Sprache für Beschriftungen und Fehlermeldungen (Standard: de).",
+          "description": "Language of generated labels and messages (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -6826,7 +6827,7 @@
           ]
         },
         "strict": {
-          "description": "Wenn true: Validierungsfehler blockieren die HTML-Ausgabe (BITV-strikt).",
+          "description": "If true, validation errors fail the call instead of returning HTML.",
           "type": "boolean"
         }
       },
@@ -6905,7 +6906,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Validierungsergebnis (strict-mode relevant)."
+          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
         }
       },
       "required": [
@@ -7218,7 +7219,7 @@
           }
         },
         "locale": {
-          "description": "Sprache für Beschriftungen und Fehlermeldungen (Standard: de).",
+          "description": "Language of generated labels and messages (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -7226,7 +7227,7 @@
           ]
         },
         "strict": {
-          "description": "Wenn true: Validierungsfehler blockieren die HTML-Ausgabe (BITV-strikt).",
+          "description": "If true, validation errors fail the call instead of returning HTML.",
           "type": "boolean"
         }
       }
@@ -7301,7 +7302,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Validierungsergebnis (strict-mode relevant)."
+          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
         }
       },
       "required": [
@@ -7361,7 +7362,7 @@
           ]
         },
         "locale": {
-          "description": "Sprache für Beschriftungen und Fehlermeldungen (Standard: de).",
+          "description": "Language of generated labels and messages (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -7369,7 +7370,7 @@
           ]
         },
         "strict": {
-          "description": "Wenn true: Validierungsfehler blockieren die HTML-Ausgabe (BITV-strikt).",
+          "description": "If true, validation errors fail the call instead of returning HTML.",
           "type": "boolean"
         }
       }
@@ -7444,7 +7445,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Validierungsergebnis (strict-mode relevant)."
+          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
         }
       },
       "required": [
@@ -7469,7 +7470,7 @@
       "type": "object",
       "properties": {
         "locale": {
-          "description": "Sprache für Beschriftungen und Fehlermeldungen (Standard: de).",
+          "description": "Language of generated labels and messages (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -7477,7 +7478,7 @@
           ]
         },
         "strict": {
-          "description": "Wenn true: Validierungsfehler blockieren die HTML-Ausgabe (BITV-strikt).",
+          "description": "If true, validation errors fail the call instead of returning HTML.",
           "type": "boolean"
         },
         "name": {
@@ -7580,7 +7581,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Validierungsergebnis (strict-mode relevant)."
+          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
         }
       },
       "required": [
@@ -7599,13 +7600,13 @@
   {
     "name": "get_inputdate",
     "title": "KERN Input Date",
-    "description": "KERN UX: HTML für Datum-Input erzeugen (mit optionalem Error/Hint, readonly, disabled).",
+    "description": "KERN UX: HTML for a date input: one native type=date field with label, optional hint and error. KERN's own date pattern, a fieldset with separate day, month and year inputs, isn't rendered by this tool.",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
       "type": "object",
       "properties": {
         "locale": {
-          "description": "Sprache für Beschriftungen und Fehlermeldungen (Standard: de).",
+          "description": "Language of generated labels and messages (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -7613,56 +7614,55 @@
           ]
         },
         "strict": {
-          "description": "Wenn true: Validierungsfehler blockieren die HTML-Ausgabe (BITV-strikt).",
+          "description": "If true, validation errors fail the call instead of returning HTML.",
           "type": "boolean"
         },
         "name": {
           "type": "string",
-          "description": "Name-Attribut für das Feld (wird beim Submit übertragen). Sollte zur fachlichen Bedeutung des Werts passen."
+          "description": "Name submitted with the form."
         },
         "value": {
-          "description": "Optionaler vorbefüllter oder bereits bekannter Feldwert.",
+          "description": "Initial value.",
           "type": "string"
         },
         "placeholder": {
-          "description": "Optionaler Platzhaltertext für ein kurzes Format- oder Beispielmuster. Kein Ersatz für das Label.",
+          "description": "A short format example. It doesn't replace the label.",
           "type": "string"
         },
         "autocomplete": {
-          "description": "Optionaler HTML-autocomplete-Token wie email, tel, name, given-name, family-name, street-address oder one-time-code. Nur standardisierte Tokens verwenden.",
+          "description": "Standard HTML autocomplete token, e.g. name, given-name, family-name, email, tel, street-address. Set it for personal data.",
           "type": "string"
         },
         "label": {
           "type": "string",
           "minLength": 1,
-          "description": "Pflicht-Beschriftung des Feldes für barrierefreie Formulare. Kurz, präzise und möglichst einzeilig formulieren."
+          "description": "Visible label: short, one line. A placeholder doesn't replace it."
         },
         "hint": {
-          "description": "Optionaler Hinweistext unterhalb des Feldes. Für hilfreichen Kontext oder Formatbeispiele, möglichst als kurzer ganzer Satz ohne Links; wird per aria-describedby mit dem Feld verknüpft.",
+          "description": "Help text below the field, linked via aria-describedby. One short sentence without links, e.g. the expected format.",
           "type": "string"
         },
         "error": {
-          "description": "Konstruktive, konkrete Fehlermeldung pro Fehlerzustand. Ein leerer String aktiviert nur den Fehlerstil ohne sichtbaren Text.",
+          "description": "Error message; puts the field in its error state. An empty string shows the error style without text.",
           "type": "string"
         },
         "optional": {
           "default": false,
-          "description": "Zeigt den Optional-Marker am Label an. KERN bevorzugt wenige optionale Felder statt viele Pflicht-Markierungen.",
+          "description": "Shows the optional marker on the label. KERN marks optional fields, not required ones.",
           "type": "boolean"
         },
         "disabled": {
           "default": false,
-          "description": "Deaktiviert das Feld (nicht fokussierbar, nicht submit-bar). Nach KERN möglichst vermeiden; wenn ein Feld nicht gebraucht wird, eher ausblenden oder mit aria-disabled gesondert steuern.",
+          "description": "Not focusable and not submitted. Avoid where possible: hide a field that isn't needed.",
           "type": "boolean"
         },
         "readonly": {
           "default": false,
-          "description": "Feld ist schreibgeschützt (fokussierbar, aber nicht editierbar). Nur nutzen, wenn der gespeicherte Wert für Nutzende weiterhin sinnvoll einsehbar sein soll.",
+          "description": "Focusable but not editable, for a stored value that stays visible.",
           "type": "boolean"
         },
         "type": {
           "default": "date",
-          "description": "Fest auf HTML-Typ date gesetzt.",
           "type": "string",
           "const": "date"
         }
@@ -7670,8 +7670,7 @@
       "required": [
         "name",
         "label"
-      ],
-      "description": "Parameter fuer KERN UX InputDate-Komponente. Dieses Repo modelliert hier bewusst ein einzelnes browsernatives Datumsfeld als vereinfachte Annaeherung; die KERN-Quelle zeigt stattdessen ein Fieldset mit getrennten Eingaben fuer Tag, Monat und Jahr."
+      ]
     },
     "outputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -7743,7 +7742,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Validierungsergebnis (strict-mode relevant)."
+          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
         }
       },
       "required": [
@@ -7762,13 +7761,13 @@
   {
     "name": "get_inputemail",
     "title": "KERN Input Email",
-    "description": "KERN UX: HTML für E-Mail-Input erzeugen (mit optionalem Error/Hint, readonly, disabled).",
+    "description": "KERN UX: HTML for an email input (type=email) with label, optional hint and error. autocomplete defaults to email.",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
       "type": "object",
       "properties": {
         "locale": {
-          "description": "Sprache für Beschriftungen und Fehlermeldungen (Standard: de).",
+          "description": "Language of generated labels and messages (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -7776,56 +7775,55 @@
           ]
         },
         "strict": {
-          "description": "Wenn true: Validierungsfehler blockieren die HTML-Ausgabe (BITV-strikt).",
+          "description": "If true, validation errors fail the call instead of returning HTML.",
           "type": "boolean"
         },
         "name": {
           "type": "string",
-          "description": "Name-Attribut für das Feld (wird beim Submit übertragen). Sollte zur fachlichen Bedeutung des Werts passen."
+          "description": "Name submitted with the form."
         },
         "value": {
-          "description": "Optionaler vorbefüllter oder bereits bekannter Feldwert.",
+          "description": "Initial value.",
           "type": "string"
         },
         "placeholder": {
-          "description": "Optionaler Platzhaltertext für ein kurzes Format- oder Beispielmuster. Kein Ersatz für das Label.",
+          "description": "A short format example. It doesn't replace the label.",
           "type": "string"
         },
         "autocomplete": {
-          "description": "Optionaler HTML-autocomplete-Token wie email, tel, name, given-name, family-name, street-address oder one-time-code. Nur standardisierte Tokens verwenden.",
+          "description": "Standard HTML autocomplete token, e.g. name, given-name, family-name, email, tel, street-address. Set it for personal data.",
           "type": "string"
         },
         "label": {
           "type": "string",
           "minLength": 1,
-          "description": "Pflicht-Beschriftung des Feldes für barrierefreie Formulare. Kurz, präzise und möglichst einzeilig formulieren."
+          "description": "Visible label: short, one line. A placeholder doesn't replace it."
         },
         "hint": {
-          "description": "Optionaler Hinweistext unterhalb des Feldes. Für hilfreichen Kontext oder Formatbeispiele, möglichst als kurzer ganzer Satz ohne Links; wird per aria-describedby mit dem Feld verknüpft.",
+          "description": "Help text below the field, linked via aria-describedby. One short sentence without links, e.g. the expected format.",
           "type": "string"
         },
         "error": {
-          "description": "Konstruktive, konkrete Fehlermeldung pro Fehlerzustand. Ein leerer String aktiviert nur den Fehlerstil ohne sichtbaren Text.",
+          "description": "Error message; puts the field in its error state. An empty string shows the error style without text.",
           "type": "string"
         },
         "optional": {
           "default": false,
-          "description": "Zeigt den Optional-Marker am Label an. KERN bevorzugt wenige optionale Felder statt viele Pflicht-Markierungen.",
+          "description": "Shows the optional marker on the label. KERN marks optional fields, not required ones.",
           "type": "boolean"
         },
         "disabled": {
           "default": false,
-          "description": "Deaktiviert das Feld (nicht fokussierbar, nicht submit-bar). Nach KERN möglichst vermeiden; wenn ein Feld nicht gebraucht wird, eher ausblenden oder mit aria-disabled gesondert steuern.",
+          "description": "Not focusable and not submitted. Avoid where possible: hide a field that isn't needed.",
           "type": "boolean"
         },
         "readonly": {
           "default": false,
-          "description": "Feld ist schreibgeschützt (fokussierbar, aber nicht editierbar). Nur nutzen, wenn der gespeicherte Wert für Nutzende weiterhin sinnvoll einsehbar sein soll.",
+          "description": "Focusable but not editable, for a stored value that stays visible.",
           "type": "boolean"
         },
         "type": {
           "default": "email",
-          "description": "Fest auf HTML-Typ email gesetzt.",
           "type": "string",
           "const": "email"
         }
@@ -7833,8 +7831,7 @@
       "required": [
         "name",
         "label"
-      ],
-      "description": "Parameter für KERN UX InputEmail-Komponente. Nur zur Eingabe von E-Mail-Adressen verwenden; Hinweistext sollte bei Bedarf das erwartete Format erläutern. Ohne abweichende Vorgabe wird autocomplete=email gesetzt."
+      ]
     },
     "outputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -7906,7 +7903,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Validierungsergebnis (strict-mode relevant)."
+          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
         }
       },
       "required": [
@@ -7925,13 +7922,13 @@
   {
     "name": "get_inputfile",
     "title": "KERN Input File",
-    "description": "KERN UX: HTML für File-Input erzeugen (mit optionalem Error/Hint). Empfohlen fuer Barrierefreiheit: hint mit Dateiformat und Groessenlimit setzen. Pflichtfelder: name, label (werden bei leeren Calls mit sinnvollen Defaults befuellt).",
+    "description": "KERN UX: HTML for a file input for one file, with label, optional hint and error. Required: name, label. Name the allowed formats and size limit in hint.",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
       "type": "object",
       "properties": {
         "locale": {
-          "description": "Sprache für Beschriftungen und Fehlermeldungen (Standard: de).",
+          "description": "Language of generated labels and messages (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -7939,46 +7936,45 @@
           ]
         },
         "strict": {
-          "description": "Wenn true: Validierungsfehler blockieren die HTML-Ausgabe (BITV-strikt).",
+          "description": "If true, validation errors fail the call instead of returning HTML.",
           "type": "boolean"
         },
         "name": {
           "type": "string",
-          "description": "Name-Attribut des Datei-Felds. Sollte die fachliche Bedeutung der hochgeladenen Datei benennen."
+          "description": "Name submitted with the form."
         },
         "accept": {
-          "description": "Optionaler accept-Filter, z.B. 'image/*,.pdf'. Nur als UI-Filter fuer die Dateiauswahl verstehen; serverseitige Validierung bleibt trotzdem erforderlich.",
+          "description": "File types the picker offers, e.g. 'image/*,.pdf'. Only a UI filter: validate on the server too.",
           "type": "string"
         },
         "label": {
           "type": "string",
           "minLength": 1,
-          "description": "Sichtbares Label fuer den Datei-Upload. Sollte die erwartete Datei oder den Zweck des Uploads konkret benennen, nicht nur allgemein 'Upload'."
+          "description": "Visible label naming the file expected, e.g. 'Proof of income', not just 'Upload'."
         },
         "hint": {
-          "description": "Optionaler Hinweistext unterhalb des Feldes. Für hilfreichen Kontext oder Formatbeispiele, möglichst als kurzer ganzer Satz ohne Links; wird per aria-describedby mit dem Feld verknüpft.",
+          "description": "Help text below the field, linked via aria-describedby. One short sentence without links, e.g. the expected format.",
           "type": "string"
         },
         "error": {
-          "description": "Konstruktive, konkrete Fehlermeldung pro Fehlerzustand. Ein leerer String aktiviert nur den Fehlerstil ohne sichtbaren Text.",
+          "description": "Error message; puts the field in its error state. An empty string shows the error style without text.",
           "type": "string"
         },
         "optional": {
           "default": false,
-          "description": "Zeigt den Optional-Marker am Label an. KERN bevorzugt wenige optionale Felder statt viele Pflicht-Markierungen.",
+          "description": "Shows the optional marker on the label. KERN marks optional fields, not required ones.",
           "type": "boolean"
         },
         "disabled": {
           "default": false,
-          "description": "Deaktiviert das Feld (nicht fokussierbar, nicht submit-bar). Nach KERN möglichst vermeiden; wenn ein Feld nicht gebraucht wird, eher ausblenden oder mit aria-disabled gesondert steuern.",
+          "description": "Not focusable and not submitted. Avoid where possible: hide a field that isn't needed.",
           "type": "boolean"
         }
       },
       "required": [
         "name",
         "label"
-      ],
-      "description": "Parameter fuer KERN UX InputFile-Komponente. Hinweistext sollte erlaubte Formate und, wenn relevant, Groessenlimits nennen. Der Upload selbst bleibt fachlich auf genau eine Datei ausgerichtet."
+      ]
     },
     "outputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -8050,7 +8046,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Validierungsergebnis (strict-mode relevant)."
+          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
         }
       },
       "required": [
@@ -8069,13 +8065,13 @@
   {
     "name": "get_inputgroup",
     "title": "KERN Input Group",
-    "description": "KERN UX: HTML für InputGroup erzeugen (Prefix/Suffix mit Input).",
+    "description": "KERN UX: HTML for a text input with a visual prefix or suffix, e.g. '€' or '.de'. Only the plain text-field variant: no buttons or error state inside the group.",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
       "type": "object",
       "properties": {
         "locale": {
-          "description": "Sprache für Beschriftungen und Fehlermeldungen (Standard: de).",
+          "description": "Language of generated labels and messages (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -8083,44 +8079,43 @@
           ]
         },
         "strict": {
-          "description": "Wenn true: Validierungsfehler blockieren die HTML-Ausgabe (BITV-strikt).",
+          "description": "If true, validation errors fail the call instead of returning HTML.",
           "type": "boolean"
         },
         "name": {
           "type": "string",
-          "description": "Name-Attribut des Input-Felds innerhalb der Input Group."
+          "description": "Name submitted with the form."
         },
         "prefix": {
-          "description": "Optionaler visueller Prefix vor dem Input, z.B. 'https://' oder '€'. Muss laut KERN bei Bedarf im Feldlabel mitbeschrieben werden, da Prefix/Suffix fuer Screenreader rein visuell bleiben.",
+          "description": "Text before the input, e.g. 'https://' or '€'. Screen readers don't announce it: repeat it in the label if it matters.",
           "type": "string"
         },
         "suffix": {
-          "description": "Optionaler visueller Suffix nach dem Input, z.B. '.de' oder 'EUR'. Muss laut KERN bei Bedarf im Feldlabel mitbeschrieben werden.",
+          "description": "Text after the input, e.g. '.de' or 'EUR'. Screen readers don't announce it: repeat it in the label if it matters.",
           "type": "string"
         },
         "value": {
-          "description": "Optionaler Startwert im Input.",
+          "description": "Initial value.",
           "type": "string"
         },
         "placeholder": {
-          "description": "Optionaler Platzhaltertext im eigentlichen Textfeld.",
+          "description": "Placeholder in the input.",
           "type": "string"
         },
         "disabled": {
           "default": false,
-          "description": "Deaktiviert das Feld (nicht fokussierbar, nicht submit-bar). Nach KERN möglichst vermeiden; wenn ein Feld nicht gebraucht wird, eher ausblenden oder mit aria-disabled gesondert steuern.",
+          "description": "Not focusable and not submitted. Avoid where possible: hide a field that isn't needed.",
           "type": "boolean"
         },
         "readonly": {
           "default": false,
-          "description": "Feld ist schreibgeschützt (fokussierbar, aber nicht editierbar). Nur nutzen, wenn der gespeicherte Wert für Nutzende weiterhin sinnvoll einsehbar sein soll.",
+          "description": "Focusable but not editable, for a stored value that stays visible.",
           "type": "boolean"
         }
       },
       "required": [
         "name"
-      ],
-      "description": "Parameter fuer KERN UX InputGroup-Komponente. Diese MCP-Schnittstelle modelliert die einfache Textfeld-Variante mit visuellem Prefix/Suffix sowie disabled/readonly, nicht die erweiterten Button- oder Error-Kompositionen aus den Story-Beispielen."
+      ]
     },
     "outputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -8192,7 +8187,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Validierungsergebnis (strict-mode relevant)."
+          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
         }
       },
       "required": [
@@ -8211,13 +8206,13 @@
   {
     "name": "get_inputnumber",
     "title": "KERN Input Number",
-    "description": "KERN UX: HTML für Number-Input erzeugen (mit optionalem Error/Hint, readonly, disabled). Empfohlen fuer Barrierefreiheit: hint mit Zahlenformat setzen. Pflichtfelder: name, label (werden bei leeren Calls mit sinnvollen Defaults befuellt).",
+    "description": "KERN UX: HTML for a number input with label, optional hint and error. Required: name, label. Like KERN, it renders type=\"text\" with inputmode=\"numeric\" and pattern=\"[0-9]*\", not type=\"number\".",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
       "type": "object",
       "properties": {
         "locale": {
-          "description": "Sprache für Beschriftungen und Fehlermeldungen (Standard: de).",
+          "description": "Language of generated labels and messages (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -8225,59 +8220,58 @@
           ]
         },
         "strict": {
-          "description": "Wenn true: Validierungsfehler blockieren die HTML-Ausgabe (BITV-strikt).",
+          "description": "If true, validation errors fail the call instead of returning HTML.",
           "type": "boolean"
         },
         "name": {
           "type": "string",
-          "description": "Name-Attribut für das Feld (wird beim Submit übertragen). Sollte zur fachlichen Bedeutung des Werts passen."
+          "description": "Name submitted with the form."
         },
         "value": {
-          "description": "Optionaler vorbefüllter oder bereits bekannter Feldwert.",
+          "description": "Initial value.",
           "type": "string"
         },
         "placeholder": {
-          "description": "Optionaler Platzhaltertext für ein kurzes Format- oder Beispielmuster. Kein Ersatz für das Label.",
+          "description": "A short format example. It doesn't replace the label.",
           "type": "string"
         },
         "autocomplete": {
-          "description": "Optionaler HTML-autocomplete-Token wie email, tel, name, given-name, family-name, street-address oder one-time-code. Nur standardisierte Tokens verwenden.",
+          "description": "Standard HTML autocomplete token, e.g. name, given-name, family-name, email, tel, street-address. Set it for personal data.",
           "type": "string"
         },
         "label": {
           "type": "string",
           "minLength": 1,
-          "description": "Pflicht-Beschriftung des Feldes für barrierefreie Formulare. Kurz, präzise und möglichst einzeilig formulieren."
+          "description": "Visible label: short, one line. A placeholder doesn't replace it."
         },
         "hint": {
-          "description": "Optionaler Hinweistext unterhalb des Feldes. Für hilfreichen Kontext oder Formatbeispiele, möglichst als kurzer ganzer Satz ohne Links; wird per aria-describedby mit dem Feld verknüpft.",
+          "description": "Help text below the field, linked via aria-describedby. One short sentence without links, e.g. the expected format.",
           "type": "string"
         },
         "error": {
-          "description": "Konstruktive, konkrete Fehlermeldung pro Fehlerzustand. Ein leerer String aktiviert nur den Fehlerstil ohne sichtbaren Text.",
+          "description": "Error message; puts the field in its error state. An empty string shows the error style without text.",
           "type": "string"
         },
         "optional": {
           "default": false,
-          "description": "Zeigt den Optional-Marker am Label an. KERN bevorzugt wenige optionale Felder statt viele Pflicht-Markierungen.",
+          "description": "Shows the optional marker on the label. KERN marks optional fields, not required ones.",
           "type": "boolean"
         },
         "disabled": {
           "default": false,
-          "description": "Deaktiviert das Feld (nicht fokussierbar, nicht submit-bar). Nach KERN möglichst vermeiden; wenn ein Feld nicht gebraucht wird, eher ausblenden oder mit aria-disabled gesondert steuern.",
+          "description": "Not focusable and not submitted. Avoid where possible: hide a field that isn't needed.",
           "type": "boolean"
         },
         "readonly": {
           "default": false,
-          "description": "Feld ist schreibgeschützt (fokussierbar, aber nicht editierbar). Nur nutzen, wenn der gespeicherte Wert für Nutzende weiterhin sinnvoll einsehbar sein soll.",
+          "description": "Focusable but not editable, for a stored value that stays visible.",
           "type": "boolean"
         }
       },
       "required": [
         "name",
         "label"
-      ],
-      "description": "Parameter fuer KERN UX InputNumber-Komponente. Fuer numerische Eingaben ohne Rechen- oder Spinbox-Bedienung; Rendering folgt KERN als Textfeld mit inputmode=\"numeric\" und pattern=\"[0-9]*\" statt nativer type=\"number\"."
+      ]
     },
     "outputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -8349,7 +8343,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Validierungsergebnis (strict-mode relevant)."
+          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
         }
       },
       "required": [
@@ -8368,13 +8362,13 @@
   {
     "name": "get_inputpassword",
     "title": "KERN Input Password",
-    "description": "KERN UX: HTML für Passwort-Input erzeugen (mit optionalem Error/Hint, readonly, disabled).",
+    "description": "KERN UX: HTML for a password input (type=password) with label, optional hint and error. Only the field: no show-password toggle, no forgot-password link.",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
       "type": "object",
       "properties": {
         "locale": {
-          "description": "Sprache für Beschriftungen und Fehlermeldungen (Standard: de).",
+          "description": "Language of generated labels and messages (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -8382,46 +8376,45 @@
           ]
         },
         "strict": {
-          "description": "Wenn true: Validierungsfehler blockieren die HTML-Ausgabe (BITV-strikt).",
+          "description": "If true, validation errors fail the call instead of returning HTML.",
           "type": "boolean"
         },
         "name": {
           "type": "string",
-          "description": "Name-Attribut für das Feld (wird beim Submit übertragen). Sollte zur fachlichen Bedeutung des Werts passen."
+          "description": "Name submitted with the form."
         },
         "value": {
-          "description": "Optionaler vorbefüllter oder bereits bekannter Feldwert.",
+          "description": "Initial value.",
           "type": "string"
         },
         "placeholder": {
-          "description": "Optionaler Platzhaltertext für ein kurzes Format- oder Beispielmuster. Kein Ersatz für das Label.",
+          "description": "A short format example. It doesn't replace the label.",
           "type": "string"
         },
         "autocomplete": {
-          "description": "Optionaler HTML-autocomplete-Token wie email, tel, name, given-name, family-name, street-address oder one-time-code. Nur standardisierte Tokens verwenden.",
+          "description": "Standard HTML autocomplete token, e.g. name, given-name, family-name, email, tel, street-address. Set it for personal data.",
           "type": "string"
         },
         "label": {
           "type": "string",
           "minLength": 1,
-          "description": "Pflicht-Beschriftung des Feldes für barrierefreie Formulare. Kurz, präzise und möglichst einzeilig formulieren."
+          "description": "Visible label: short, one line. A placeholder doesn't replace it."
         },
         "hint": {
-          "description": "Optionaler Hinweistext unterhalb des Feldes. Für hilfreichen Kontext oder Formatbeispiele, möglichst als kurzer ganzer Satz ohne Links; wird per aria-describedby mit dem Feld verknüpft.",
+          "description": "Help text below the field, linked via aria-describedby. One short sentence without links, e.g. the expected format.",
           "type": "string"
         },
         "error": {
-          "description": "Konstruktive, konkrete Fehlermeldung pro Fehlerzustand. Ein leerer String aktiviert nur den Fehlerstil ohne sichtbaren Text.",
+          "description": "Error message; puts the field in its error state. An empty string shows the error style without text.",
           "type": "string"
         },
         "optional": {
           "default": false,
-          "description": "Zeigt den Optional-Marker am Label an. KERN bevorzugt wenige optionale Felder statt viele Pflicht-Markierungen.",
+          "description": "Shows the optional marker on the label. KERN marks optional fields, not required ones.",
           "type": "boolean"
         },
         "type": {
           "default": "password",
-          "description": "Fest auf HTML-Typ password gesetzt.",
           "type": "string",
           "const": "password"
         }
@@ -8430,8 +8423,7 @@
         "name",
         "label"
       ],
-      "additionalProperties": false,
-      "description": "Parameter für KERN UX InputPassword-Komponente. Nur für Passwort-Eingabe oder -Erstellung verwenden. Dieses Schema modelliert das Passwortfeld selbst, aber keinen Passwort-vergessen-Link und keinen Sichtbarkeits-Toggle."
+      "additionalProperties": false
     },
     "outputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -8503,7 +8495,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Validierungsergebnis (strict-mode relevant)."
+          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
         }
       },
       "required": [
@@ -8522,13 +8514,13 @@
   {
     "name": "get_inputtel",
     "title": "KERN Input Tel",
-    "description": "KERN UX: HTML für Telefon-Input erzeugen (mit optionalem Error/Hint, readonly, disabled).",
+    "description": "KERN UX: HTML for a phone number input (type=tel) with label, optional hint and error. autocomplete defaults to tel. Name the expected format, e.g. with area code, in hint.",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
       "type": "object",
       "properties": {
         "locale": {
-          "description": "Sprache für Beschriftungen und Fehlermeldungen (Standard: de).",
+          "description": "Language of generated labels and messages (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -8536,56 +8528,55 @@
           ]
         },
         "strict": {
-          "description": "Wenn true: Validierungsfehler blockieren die HTML-Ausgabe (BITV-strikt).",
+          "description": "If true, validation errors fail the call instead of returning HTML.",
           "type": "boolean"
         },
         "name": {
           "type": "string",
-          "description": "Name-Attribut für das Feld (wird beim Submit übertragen). Sollte zur fachlichen Bedeutung des Werts passen."
+          "description": "Name submitted with the form."
         },
         "value": {
-          "description": "Optionaler vorbefüllter oder bereits bekannter Feldwert.",
+          "description": "Initial value.",
           "type": "string"
         },
         "placeholder": {
-          "description": "Optionaler Platzhaltertext für ein kurzes Format- oder Beispielmuster. Kein Ersatz für das Label.",
+          "description": "A short format example. It doesn't replace the label.",
           "type": "string"
         },
         "autocomplete": {
-          "description": "Optionaler HTML-autocomplete-Token wie email, tel, name, given-name, family-name, street-address oder one-time-code. Nur standardisierte Tokens verwenden.",
+          "description": "Standard HTML autocomplete token, e.g. name, given-name, family-name, email, tel, street-address. Set it for personal data.",
           "type": "string"
         },
         "label": {
           "type": "string",
           "minLength": 1,
-          "description": "Pflicht-Beschriftung des Feldes für barrierefreie Formulare. Kurz, präzise und möglichst einzeilig formulieren."
+          "description": "Visible label: short, one line. A placeholder doesn't replace it."
         },
         "hint": {
-          "description": "Optionaler Hinweistext unterhalb des Feldes. Für hilfreichen Kontext oder Formatbeispiele, möglichst als kurzer ganzer Satz ohne Links; wird per aria-describedby mit dem Feld verknüpft.",
+          "description": "Help text below the field, linked via aria-describedby. One short sentence without links, e.g. the expected format.",
           "type": "string"
         },
         "error": {
-          "description": "Konstruktive, konkrete Fehlermeldung pro Fehlerzustand. Ein leerer String aktiviert nur den Fehlerstil ohne sichtbaren Text.",
+          "description": "Error message; puts the field in its error state. An empty string shows the error style without text.",
           "type": "string"
         },
         "optional": {
           "default": false,
-          "description": "Zeigt den Optional-Marker am Label an. KERN bevorzugt wenige optionale Felder statt viele Pflicht-Markierungen.",
+          "description": "Shows the optional marker on the label. KERN marks optional fields, not required ones.",
           "type": "boolean"
         },
         "disabled": {
           "default": false,
-          "description": "Deaktiviert das Feld (nicht fokussierbar, nicht submit-bar). Nach KERN möglichst vermeiden; wenn ein Feld nicht gebraucht wird, eher ausblenden oder mit aria-disabled gesondert steuern.",
+          "description": "Not focusable and not submitted. Avoid where possible: hide a field that isn't needed.",
           "type": "boolean"
         },
         "readonly": {
           "default": false,
-          "description": "Feld ist schreibgeschützt (fokussierbar, aber nicht editierbar). Nur nutzen, wenn der gespeicherte Wert für Nutzende weiterhin sinnvoll einsehbar sein soll.",
+          "description": "Focusable but not editable, for a stored value that stays visible.",
           "type": "boolean"
         },
         "type": {
           "default": "tel",
-          "description": "Fest auf HTML-Typ tel gesetzt. Ohne abweichende Vorgabe wird autocomplete=\"tel\" gesetzt.",
           "type": "string",
           "const": "tel"
         }
@@ -8593,8 +8584,7 @@
       "required": [
         "name",
         "label"
-      ],
-      "description": "Parameter fuer KERN UX InputTel-Komponente. Nur fuer Telefonnummern verwenden; Hinweistext sollte bei Bedarf Vorwahl, Laendercode oder das erwartete Nummernformat erklaeren. KERN-Beispiele setzen hier standardmaessig autocomplete=\"tel\"."
+      ]
     },
     "outputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -8666,7 +8656,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Validierungsergebnis (strict-mode relevant)."
+          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
         }
       },
       "required": [
@@ -8685,13 +8675,13 @@
   {
     "name": "get_inputtext",
     "title": "KERN Input Text",
-    "description": "KERN UX: HTML für Text-Input erzeugen (mit optionalem Error/Hint, readonly, disabled). Empfohlen fuer Barrierefreiheit: hint mit Pflichtformat setzen. Pflichtfelder: name, label (werden bei leeren Calls mit sinnvollen Defaults befuellt).",
+    "description": "KERN UX: HTML for a text input with label, optional hint and error. Required: name, label. Set hint to the expected format; without one, a generic format hint is added.",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
       "type": "object",
       "properties": {
         "locale": {
-          "description": "Sprache für Beschriftungen und Fehlermeldungen (Standard: de).",
+          "description": "Language of generated labels and messages (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -8699,28 +8689,28 @@
           ]
         },
         "strict": {
-          "description": "Wenn true: Validierungsfehler blockieren die HTML-Ausgabe (BITV-strikt).",
+          "description": "If true, validation errors fail the call instead of returning HTML.",
           "type": "boolean"
         },
         "name": {
           "type": "string",
-          "description": "Name-Attribut für das Feld (wird beim Submit übertragen). Sollte zur fachlichen Bedeutung des Werts passen."
+          "description": "Name submitted with the form."
         },
         "value": {
-          "description": "Optionaler vorbefüllter oder bereits bekannter Feldwert.",
+          "description": "Initial value.",
           "type": "string"
         },
         "placeholder": {
-          "description": "Optionaler Platzhaltertext für ein kurzes Format- oder Beispielmuster. Kein Ersatz für das Label.",
+          "description": "A short format example. It doesn't replace the label.",
           "type": "string"
         },
         "autocomplete": {
-          "description": "Optionaler HTML-autocomplete-Token wie email, tel, name, given-name, family-name, street-address oder one-time-code. Nur standardisierte Tokens verwenden.",
+          "description": "Standard HTML autocomplete token, e.g. name, given-name, family-name, email, tel, street-address. Set it for personal data.",
           "type": "string"
         },
         "type": {
           "default": "text",
-          "description": "HTML input type. Spezifische Tools setzen feste Typen (z.B. get_inputemail => email). Für freie Einzelauswahl mit bekannten Optionen besser Select, Radios oder Checkboxes verwenden.",
+          "description": "HTML input type. get_inputemail and the other typed tools set it for you.",
           "type": "string",
           "enum": [
             "text",
@@ -8735,37 +8725,36 @@
         "label": {
           "type": "string",
           "minLength": 1,
-          "description": "Pflicht-Beschriftung des Feldes für barrierefreie Formulare. Kurz, präzise und möglichst einzeilig formulieren."
+          "description": "Visible label: short, one line. A placeholder doesn't replace it."
         },
         "hint": {
-          "description": "Optionaler Hinweistext unterhalb des Feldes. Für hilfreichen Kontext oder Formatbeispiele, möglichst als kurzer ganzer Satz ohne Links; wird per aria-describedby mit dem Feld verknüpft.",
+          "description": "Help text below the field, linked via aria-describedby. One short sentence without links, e.g. the expected format.",
           "type": "string"
         },
         "error": {
-          "description": "Konstruktive, konkrete Fehlermeldung pro Fehlerzustand. Ein leerer String aktiviert nur den Fehlerstil ohne sichtbaren Text.",
+          "description": "Error message; puts the field in its error state. An empty string shows the error style without text.",
           "type": "string"
         },
         "optional": {
           "default": false,
-          "description": "Zeigt den Optional-Marker am Label an. KERN bevorzugt wenige optionale Felder statt viele Pflicht-Markierungen.",
+          "description": "Shows the optional marker on the label. KERN marks optional fields, not required ones.",
           "type": "boolean"
         },
         "disabled": {
           "default": false,
-          "description": "Deaktiviert das Feld (nicht fokussierbar, nicht submit-bar). Nach KERN möglichst vermeiden; wenn ein Feld nicht gebraucht wird, eher ausblenden oder mit aria-disabled gesondert steuern.",
+          "description": "Not focusable and not submitted. Avoid where possible: hide a field that isn't needed.",
           "type": "boolean"
         },
         "readonly": {
           "default": false,
-          "description": "Feld ist schreibgeschützt (fokussierbar, aber nicht editierbar). Nur nutzen, wenn der gespeicherte Wert für Nutzende weiterhin sinnvoll einsehbar sein soll.",
+          "description": "Focusable but not editable, for a stored value that stays visible.",
           "type": "boolean"
         }
       },
       "required": [
         "name",
         "label"
-      ],
-      "description": "Parameter für KERN UX InputText-Komponente (Basis für abgeleitete Input-Typen). Für einzeilige, nicht vorhersehbare Eingaben; für mehrzeilige Texte Textarea und für bekannte Optionen Select, Radios oder Checkboxes bevorzugen. Bei personenbezogenen oder bekannten Daten wenn moeglich passende autocomplete-Tokens setzen."
+      ]
     },
     "outputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -8837,7 +8826,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Validierungsergebnis (strict-mode relevant)."
+          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
         }
       },
       "required": [
@@ -8856,13 +8845,13 @@
   {
     "name": "get_inputurl",
     "title": "KERN Input Url",
-    "description": "KERN UX: HTML für URL-Input erzeugen (mit optionalem Error/Hint, readonly, disabled).",
+    "description": "KERN UX: HTML for a URL input (type=url) with label, optional hint and error. It expects a full address with https://; say so in hint.",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
       "type": "object",
       "properties": {
         "locale": {
-          "description": "Sprache für Beschriftungen und Fehlermeldungen (Standard: de).",
+          "description": "Language of generated labels and messages (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -8870,56 +8859,55 @@
           ]
         },
         "strict": {
-          "description": "Wenn true: Validierungsfehler blockieren die HTML-Ausgabe (BITV-strikt).",
+          "description": "If true, validation errors fail the call instead of returning HTML.",
           "type": "boolean"
         },
         "name": {
           "type": "string",
-          "description": "Name-Attribut für das Feld (wird beim Submit übertragen). Sollte zur fachlichen Bedeutung des Werts passen."
+          "description": "Name submitted with the form."
         },
         "value": {
-          "description": "Optionaler vorbefüllter oder bereits bekannter Feldwert.",
+          "description": "Initial value.",
           "type": "string"
         },
         "placeholder": {
-          "description": "Optionaler Platzhaltertext für ein kurzes Format- oder Beispielmuster. Kein Ersatz für das Label.",
+          "description": "A short format example. It doesn't replace the label.",
           "type": "string"
         },
         "autocomplete": {
-          "description": "Optionaler HTML-autocomplete-Token wie email, tel, name, given-name, family-name, street-address oder one-time-code. Nur standardisierte Tokens verwenden.",
+          "description": "Standard HTML autocomplete token, e.g. name, given-name, family-name, email, tel, street-address. Set it for personal data.",
           "type": "string"
         },
         "label": {
           "type": "string",
           "minLength": 1,
-          "description": "Pflicht-Beschriftung des Feldes für barrierefreie Formulare. Kurz, präzise und möglichst einzeilig formulieren."
+          "description": "Visible label: short, one line. A placeholder doesn't replace it."
         },
         "hint": {
-          "description": "Optionaler Hinweistext unterhalb des Feldes. Für hilfreichen Kontext oder Formatbeispiele, möglichst als kurzer ganzer Satz ohne Links; wird per aria-describedby mit dem Feld verknüpft.",
+          "description": "Help text below the field, linked via aria-describedby. One short sentence without links, e.g. the expected format.",
           "type": "string"
         },
         "error": {
-          "description": "Konstruktive, konkrete Fehlermeldung pro Fehlerzustand. Ein leerer String aktiviert nur den Fehlerstil ohne sichtbaren Text.",
+          "description": "Error message; puts the field in its error state. An empty string shows the error style without text.",
           "type": "string"
         },
         "optional": {
           "default": false,
-          "description": "Zeigt den Optional-Marker am Label an. KERN bevorzugt wenige optionale Felder statt viele Pflicht-Markierungen.",
+          "description": "Shows the optional marker on the label. KERN marks optional fields, not required ones.",
           "type": "boolean"
         },
         "disabled": {
           "default": false,
-          "description": "Deaktiviert das Feld (nicht fokussierbar, nicht submit-bar). Nach KERN möglichst vermeiden; wenn ein Feld nicht gebraucht wird, eher ausblenden oder mit aria-disabled gesondert steuern.",
+          "description": "Not focusable and not submitted. Avoid where possible: hide a field that isn't needed.",
           "type": "boolean"
         },
         "readonly": {
           "default": false,
-          "description": "Feld ist schreibgeschützt (fokussierbar, aber nicht editierbar). Nur nutzen, wenn der gespeicherte Wert für Nutzende weiterhin sinnvoll einsehbar sein soll.",
+          "description": "Focusable but not editable, for a stored value that stays visible.",
           "type": "boolean"
         },
         "type": {
           "default": "url",
-          "description": "Fest auf HTML-Typ url gesetzt. Erwartet vollstaendige Adressen inklusive https://, falls ein Web-Link eingegeben werden soll.",
           "type": "string",
           "const": "url"
         }
@@ -8927,8 +8915,7 @@
       "required": [
         "name",
         "label"
-      ],
-      "description": "Parameter fuer KERN UX InputUrl-Komponente. Nur fuer vollstaendige Web- oder Service-Adressen verwenden; Hinweistext sollte das erwartete Format inklusive Protokoll klar machen."
+      ]
     },
     "outputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -9000,7 +8987,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Validierungsergebnis (strict-mode relevant)."
+          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
         }
       },
       "required": [
@@ -9034,7 +9021,7 @@
           "type": "boolean"
         },
         "locale": {
-          "description": "Sprache für Beschriftungen und Fehlermeldungen (Standard: de).",
+          "description": "Language of generated labels and messages (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -9042,7 +9029,7 @@
           ]
         },
         "strict": {
-          "description": "Wenn true: Validierungsfehler blockieren die HTML-Ausgabe (BITV-strikt).",
+          "description": "If true, validation errors fail the call instead of returning HTML.",
           "type": "boolean"
         }
       }
@@ -9117,7 +9104,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Validierungsergebnis (strict-mode relevant)."
+          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
         }
       },
       "required": [
@@ -9147,7 +9134,7 @@
           "type": "string"
         },
         "locale": {
-          "description": "Sprache für Beschriftungen und Fehlermeldungen (Standard: de).",
+          "description": "Language of generated labels and messages (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -9155,7 +9142,7 @@
           ]
         },
         "strict": {
-          "description": "Wenn true: Validierungsfehler blockieren die HTML-Ausgabe (BITV-strikt).",
+          "description": "If true, validation errors fail the call instead of returning HTML.",
           "type": "boolean"
         }
       }
@@ -9230,7 +9217,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Validierungsergebnis (strict-mode relevant)."
+          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
         }
       },
       "required": [
@@ -9339,7 +9326,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Validierungsergebnis (strict-mode relevant)."
+          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
         }
       },
       "required": [
@@ -9374,7 +9361,7 @@
           "type": "string"
         },
         "locale": {
-          "description": "Sprache für Beschriftungen und Fehlermeldungen (Standard: de).",
+          "description": "Language of generated labels and messages (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -9382,7 +9369,7 @@
           ]
         },
         "strict": {
-          "description": "Wenn true: Validierungsfehler blockieren die HTML-Ausgabe (BITV-strikt).",
+          "description": "If true, validation errors fail the call instead of returning HTML.",
           "type": "boolean"
         }
       }
@@ -9457,7 +9444,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Validierungsergebnis (strict-mode relevant)."
+          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
         }
       },
       "required": [
@@ -9492,7 +9479,7 @@
           "type": "boolean"
         },
         "locale": {
-          "description": "Sprache für Beschriftungen und Fehlermeldungen (Standard: de).",
+          "description": "Language of generated labels and messages (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -9500,7 +9487,7 @@
           ]
         },
         "strict": {
-          "description": "Wenn true: Validierungsfehler blockieren die HTML-Ausgabe (BITV-strikt).",
+          "description": "If true, validation errors fail the call instead of returning HTML.",
           "type": "boolean"
         }
       }
@@ -9575,7 +9562,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Validierungsergebnis (strict-mode relevant)."
+          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
         }
       },
       "required": [
@@ -9600,7 +9587,7 @@
       "type": "object",
       "properties": {
         "locale": {
-          "description": "Sprache für Beschriftungen und Fehlermeldungen (Standard: de).",
+          "description": "Language of generated labels and messages (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -9608,7 +9595,7 @@
           ]
         },
         "strict": {
-          "description": "Wenn true: Validierungsfehler blockieren die HTML-Ausgabe (BITV-strikt).",
+          "description": "If true, validation errors fail the call instead of returning HTML.",
           "type": "boolean"
         },
         "visible": {
@@ -9693,7 +9680,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Validierungsergebnis (strict-mode relevant)."
+          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
         }
       },
       "required": [
@@ -9802,7 +9789,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Validierungsergebnis (strict-mode relevant)."
+          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
         }
       },
       "required": [
@@ -9832,7 +9819,7 @@
           "type": "string"
         },
         "locale": {
-          "description": "Sprache für Beschriftungen und Fehlermeldungen (Standard: de).",
+          "description": "Language of generated labels and messages (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -9840,7 +9827,7 @@
           ]
         },
         "strict": {
-          "description": "Wenn true: Validierungsfehler blockieren die HTML-Ausgabe (BITV-strikt).",
+          "description": "If true, validation errors fail the call instead of returning HTML.",
           "type": "boolean"
         }
       }
@@ -9915,7 +9902,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Validierungsergebnis (strict-mode relevant)."
+          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
         }
       },
       "required": [
@@ -9940,7 +9927,7 @@
       "type": "object",
       "properties": {
         "locale": {
-          "description": "Sprache für Beschriftungen und Fehlermeldungen (Standard: de).",
+          "description": "Language of generated labels and messages (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -9948,7 +9935,7 @@
           ]
         },
         "strict": {
-          "description": "Wenn true: Validierungsfehler blockieren die HTML-Ausgabe (BITV-strikt).",
+          "description": "If true, validation errors fail the call instead of returning HTML.",
           "type": "boolean"
         },
         "value": {
@@ -10051,7 +10038,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Validierungsergebnis (strict-mode relevant)."
+          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
         }
       },
       "required": [
@@ -10070,16 +10057,15 @@
   {
     "name": "get_radio",
     "title": "KERN Radio",
-    "description": "KERN UX: HTML für Radio erzeugen (Einzel- oder Listen-Modus mit optionalem Error/Hint).",
+    "description": "KERN UX: HTML for radio buttons. mode 'list': a fieldset of options under a legend, one of which can be selected, with optional hint and error. mode 'single': one radio button on its own.",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
-      "description": "Parameter fuer KERN UX Radio-Komponente (Einzel- oder Listen-Modus).",
       "anyOf": [
         {
           "type": "object",
           "properties": {
             "locale": {
-              "description": "Sprache für Beschriftungen und Fehlermeldungen (Standard: de).",
+              "description": "Language of generated labels and messages (default: de).",
               "type": "string",
               "enum": [
                 "de",
@@ -10087,7 +10073,7 @@
               ]
             },
             "strict": {
-              "description": "Wenn true: Validierungsfehler blockieren die HTML-Ausgabe (BITV-strikt).",
+              "description": "If true, validation errors fail the call instead of returning HTML.",
               "type": "boolean"
             },
             "mode": {
@@ -10096,25 +10082,25 @@
             },
             "name": {
               "type": "string",
-              "description": "Name-Attribut des Radiofelds fuer den Form-Submit."
+              "description": "Name submitted with the form."
             },
             "value": {
               "type": "string",
-              "description": "Wert des Einzel-Radiofelds."
+              "description": "Submitted value."
             },
             "checked": {
               "default": false,
-              "description": "Radio ist vorausgewaehlt.",
+              "description": "Selected initially.",
               "type": "boolean"
             },
             "label": {
               "type": "string",
               "minLength": 1,
-              "description": "Sichtbarer Label-Text des Einzel-Radiofelds. Kurz und eindeutig formulieren."
+              "description": "Visible label: short and unambiguous."
             },
             "disabled": {
               "default": false,
-              "description": "Deaktiviert das Feld (nicht fokussierbar, nicht submit-bar). Nach KERN möglichst vermeiden; wenn ein Feld nicht gebraucht wird, eher ausblenden oder mit aria-disabled gesondert steuern.",
+              "description": "Not focusable and not submitted. Avoid where possible: hide a field that isn't needed.",
               "type": "boolean"
             }
           },
@@ -10124,13 +10110,13 @@
             "value",
             "label"
           ],
-          "description": "Parameter fuer einen einzelnen Radio-Button (mode='single'). Geeignet fuer einen einzelnen exklusiven Auswahlpunkt ausserhalb einer groesseren Gruppe."
+          "description": "mode 'single': one radio button on its own."
         },
         {
           "type": "object",
           "properties": {
             "locale": {
-              "description": "Sprache für Beschriftungen und Fehlermeldungen (Standard: de).",
+              "description": "Language of generated labels and messages (default: de).",
               "type": "string",
               "enum": [
                 "de",
@@ -10138,7 +10124,7 @@
               ]
             },
             "strict": {
-              "description": "Wenn true: Validierungsfehler blockieren die HTML-Ausgabe (BITV-strikt).",
+              "description": "If true, validation errors fail the call instead of returning HTML.",
               "type": "boolean"
             },
             "mode": {
@@ -10147,11 +10133,11 @@
             },
             "name": {
               "type": "string",
-              "description": "Gemeinsames Name-Attribut fuer alle Optionen der Gruppe."
+              "description": "Name shared by every option in the group."
             },
             "legend": {
               "type": "string",
-              "description": "Fieldset-Legende fuer die gesamte Radio-Gruppe. Sollte die gemeinsame Frage oder Entscheidung klar benennen."
+              "description": "Fieldset legend: the question or decision the options answer."
             },
             "items": {
               "minItems": 1,
@@ -10160,52 +10146,51 @@
                 "type": "object",
                 "properties": {
                   "id": {
-                    "description": "Optionale feste ID; ohne Angabe wird sie generiert.",
+                    "description": "Element id; generated when omitted.",
                     "type": "string"
                   },
                   "value": {
                     "type": "string",
-                    "description": "Technischer Wert der Radio-Option fuer den Form-Submit."
+                    "description": "Submitted value."
                   },
                   "label": {
                     "type": "string",
-                    "description": "Sichtbarer Label-Text der Option. Radio-Optionen sollten sich gegenseitig ausschliessen und gut unterscheidbar sein."
+                    "description": "Visible option text. Options exclude each other, so make them distinct."
                   },
                   "checked": {
                     "default": false,
-                    "description": "Option ist vorausgewaehlt. Innerhalb einer Gruppe fachlich hoechstens eine Option auf true setzen.",
+                    "description": "Selected initially. Set it on at most one option.",
                     "type": "boolean"
                   },
                   "disabled": {
                     "default": false,
-                    "description": "Option ist deaktiviert und kann nicht ausgewaehlt werden.",
+                    "description": "Can't be selected.",
                     "type": "boolean"
                   }
                 },
                 "required": [
                   "value",
                   "label"
-                ],
-                "description": "Ein einzelner Radio-Eintrag in Listenmodus."
+                ]
               },
-              "description": "Radio-Optionen der Gruppe; genau eine Auswahl ist vorgesehen. Wenn ein Default gesetzt wird, hoechstens eine Option mit checked=true markieren."
+              "description": "The options; exactly one can be selected."
             },
             "horizontal": {
               "default": false,
-              "description": "Horizontale Darstellung der Optionen in einer Zeile. Nur fuer wenige kurze Optionen verwenden.",
+              "description": "Options side by side. Only for a few short options.",
               "type": "boolean"
             },
             "hint": {
-              "description": "Optionaler Hinweistext unterhalb des Feldes. Für hilfreichen Kontext oder Formatbeispiele, möglichst als kurzer ganzer Satz ohne Links; wird per aria-describedby mit dem Feld verknüpft.",
+              "description": "Help text below the field, linked via aria-describedby. One short sentence without links, e.g. the expected format.",
               "type": "string"
             },
             "error": {
-              "description": "Konstruktive, konkrete Fehlermeldung pro Fehlerzustand. Ein leerer String aktiviert nur den Fehlerstil ohne sichtbaren Text.",
+              "description": "Error message; puts the field in its error state. An empty string shows the error style without text.",
               "type": "string"
             },
             "optional": {
               "default": false,
-              "description": "Zeigt den Optional-Marker am Label an. KERN bevorzugt wenige optionale Felder statt viele Pflicht-Markierungen.",
+              "description": "Shows the optional marker on the label. KERN marks optional fields, not required ones.",
               "type": "boolean"
             }
           },
@@ -10215,7 +10200,7 @@
             "legend",
             "items"
           ],
-          "description": "Parameter fuer eine Radio-Gruppe im Fieldset (mode='list'). Verwenden, wenn genau eine Option aus mehreren moeglichen Antworten gewaehlt werden soll."
+          "description": "mode 'list': a group of radio buttons in a fieldset."
         }
       ],
       "type": "object"
@@ -10290,7 +10275,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Validierungsergebnis (strict-mode relevant)."
+          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
         }
       },
       "required": [
@@ -10399,7 +10384,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Validierungsergebnis (strict-mode relevant)."
+          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
         }
       },
       "required": [
@@ -10418,13 +10403,13 @@
   {
     "name": "get_select",
     "title": "KERN Select",
-    "description": "KERN UX: HTML für Select erzeugen. Pflichtfelder: name, label, options (Array von { value, text }). Optional: hint, error, disabled: true, optional: true. Jede Option kann selected: true oder disabled: true haben. Der Wrapper kern-form-input__select-wrapper ist Pflicht und wird automatisch erzeugt. Beispiel: { name: 'lang', label: 'Sprache', options: [{ value: 'de', text: 'Deutsch', selected: true }, { value: 'en', text: 'English' }] }.",
+    "description": "KERN UX: HTML for a select with label, optional hint and error, inside the kern-form-input__select-wrapper KERN requires. Required: name, label and options, each { value, text }; an option can be selected or disabled.",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
       "type": "object",
       "properties": {
         "locale": {
-          "description": "Sprache für Beschriftungen und Fehlermeldungen (Standard: de).",
+          "description": "Language of generated labels and messages (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -10432,12 +10417,12 @@
           ]
         },
         "strict": {
-          "description": "Wenn true: Validierungsfehler blockieren die HTML-Ausgabe (BITV-strikt).",
+          "description": "If true, validation errors fail the call instead of returning HTML.",
           "type": "boolean"
         },
         "name": {
           "type": "string",
-          "description": "Name-Attribut des Select-Felds. Sollte die ausgewählte Information fachlich benennen."
+          "description": "Name submitted with the form."
         },
         "options": {
           "minItems": 1,
@@ -10447,52 +10432,51 @@
             "properties": {
               "value": {
                 "type": "string",
-                "description": "Technischer Option-Wert für Form-Submit."
+                "description": "Submitted value."
               },
               "text": {
                 "type": "string",
-                "description": "Sichtbarer Option-Text im Dropdown. Möglichst kurz halten, damit die Liste gut scannbar bleibt."
+                "description": "Visible option text; keep it short."
               },
               "selected": {
                 "default": false,
-                "description": "Markiert die Option als vorausgewählt. Nur sinnvoll, wenn dies bereits die aktive Einstellung oder ein fachlich legitimer Default ist.",
+                "description": "Pre-selected: the current setting or a sensible default.",
                 "type": "boolean"
               },
               "disabled": {
                 "default": false,
-                "description": "Option kann nicht ausgewählt werden, z.B. wenn sie fachlich nicht verfügbar ist.",
+                "description": "Shown but can't be chosen.",
                 "type": "boolean"
               }
             },
             "required": [
               "value",
               "text"
-            ],
-            "description": "Ein einzelner Select-Optionseintrag."
+            ]
           },
-          "description": "Optionenliste; mindestens eine Option erforderlich. Geeignet vor allem für einzelne Auswahl aus vordefinierten Optionen, typischerweise bei ungefähr 5 bis 15 Einträgen."
+          "description": "The options, at least one."
         },
         "label": {
           "type": "string",
           "minLength": 1,
-          "description": "Sichtbares Label des Select-Felds. Kurz, präzise und ohne Doppelpunkt formulieren."
+          "description": "Visible label: short, without a trailing colon."
         },
         "hint": {
-          "description": "Optionaler Hinweistext unterhalb des Feldes. Für hilfreichen Kontext oder Formatbeispiele, möglichst als kurzer ganzer Satz ohne Links; wird per aria-describedby mit dem Feld verknüpft.",
+          "description": "Help text below the field, linked via aria-describedby. One short sentence without links, e.g. the expected format.",
           "type": "string"
         },
         "error": {
-          "description": "Konstruktive, konkrete Fehlermeldung pro Fehlerzustand. Ein leerer String aktiviert nur den Fehlerstil ohne sichtbaren Text.",
+          "description": "Error message; puts the field in its error state. An empty string shows the error style without text.",
           "type": "string"
         },
         "optional": {
           "default": false,
-          "description": "Zeigt den Optional-Marker am Label an. KERN bevorzugt wenige optionale Felder statt viele Pflicht-Markierungen.",
+          "description": "Shows the optional marker on the label. KERN marks optional fields, not required ones.",
           "type": "boolean"
         },
         "disabled": {
           "default": false,
-          "description": "Deaktiviert das Feld (nicht fokussierbar, nicht submit-bar). Nach KERN möglichst vermeiden; wenn ein Feld nicht gebraucht wird, eher ausblenden oder mit aria-disabled gesondert steuern.",
+          "description": "Not focusable and not submitted. Avoid where possible: hide a field that isn't needed.",
           "type": "boolean"
         }
       },
@@ -10500,8 +10484,7 @@
         "name",
         "options",
         "label"
-      ],
-      "description": "Parameter für KERN UX Select-Komponente. Für genau eine Auswahl aus vordefinierten Optionen; nicht für Aktionen oder Navigation verwenden. Wenn Radios möglich sind, diese oft bevorzugen."
+      ]
     },
     "outputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -10573,7 +10556,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Validierungsergebnis (strict-mode relevant)."
+          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
         }
       },
       "required": [
@@ -10603,7 +10586,7 @@
           "type": "string"
         },
         "locale": {
-          "description": "Sprache für Beschriftungen und Fehlermeldungen (Standard: de).",
+          "description": "Language of generated labels and messages (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -10611,7 +10594,7 @@
           ]
         },
         "strict": {
-          "description": "Wenn true: Validierungsfehler blockieren die HTML-Ausgabe (BITV-strikt).",
+          "description": "If true, validation errors fail the call instead of returning HTML.",
           "type": "boolean"
         }
       }
@@ -10686,7 +10669,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Validierungsergebnis (strict-mode relevant)."
+          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
         }
       },
       "required": [
@@ -10714,7 +10697,7 @@
           "type": "object",
           "properties": {
             "locale": {
-              "description": "Sprache für Beschriftungen und Fehlermeldungen (Standard: de).",
+              "description": "Language of generated labels and messages (default: de).",
               "type": "string",
               "enum": [
                 "de",
@@ -10722,7 +10705,7 @@
               ]
             },
             "strict": {
-              "description": "Wenn true: Validierungsfehler blockieren die HTML-Ausgabe (BITV-strikt).",
+              "description": "If true, validation errors fail the call instead of returning HTML.",
               "type": "boolean"
             },
             "mode": {
@@ -10813,7 +10796,7 @@
           "type": "object",
           "properties": {
             "locale": {
-              "description": "Sprache für Beschriftungen und Fehlermeldungen (Standard: de).",
+              "description": "Language of generated labels and messages (default: de).",
               "type": "string",
               "enum": [
                 "de",
@@ -10821,7 +10804,7 @@
               ]
             },
             "strict": {
-              "description": "Wenn true: Validierungsfehler blockieren die HTML-Ausgabe (BITV-strikt).",
+              "description": "If true, validation errors fail the call instead of returning HTML.",
               "type": "boolean"
             },
             "mode": {
@@ -11012,7 +10995,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Validierungsergebnis (strict-mode relevant)."
+          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
         }
       },
       "required": [
@@ -11037,7 +11020,7 @@
       "type": "object",
       "properties": {
         "locale": {
-          "description": "Sprache für Beschriftungen und Fehlermeldungen (Standard: de).",
+          "description": "Language of generated labels and messages (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -11045,7 +11028,7 @@
           ]
         },
         "strict": {
-          "description": "Wenn true: Validierungsfehler blockieren die HTML-Ausgabe (BITV-strikt).",
+          "description": "If true, validation errors fail the call instead of returning HTML.",
           "type": "boolean"
         },
         "caption": {
@@ -11242,7 +11225,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Validierungsergebnis (strict-mode relevant)."
+          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
         }
       },
       "required": [
@@ -11267,7 +11250,7 @@
       "type": "object",
       "properties": {
         "locale": {
-          "description": "Sprache für Beschriftungen und Fehlermeldungen (Standard: de).",
+          "description": "Language of generated labels and messages (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -11275,7 +11258,7 @@
           ]
         },
         "strict": {
-          "description": "Wenn true: Validierungsfehler blockieren die HTML-Ausgabe (BITV-strikt).",
+          "description": "If true, validation errors fail the call instead of returning HTML.",
           "type": "boolean"
         },
         "heading": {
@@ -11401,7 +11384,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Validierungsergebnis (strict-mode relevant)."
+          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
         }
       },
       "required": [
@@ -11420,13 +11403,13 @@
   {
     "name": "get_textarea",
     "title": "KERN Textarea",
-    "description": "KERN UX: HTML für Textarea (mehrzeiliges Textfeld) erzeugen.",
+    "description": "KERN UX: HTML for a multi-line text field (textarea) with label, optional hint and error. Required: name, label.",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
       "type": "object",
       "properties": {
         "locale": {
-          "description": "Sprache für Beschriftungen und Fehlermeldungen (Standard: de).",
+          "description": "Language of generated labels and messages (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -11434,65 +11417,64 @@
           ]
         },
         "strict": {
-          "description": "Wenn true: Validierungsfehler blockieren die HTML-Ausgabe (BITV-strikt).",
+          "description": "If true, validation errors fail the call instead of returning HTML.",
           "type": "boolean"
         },
         "name": {
           "type": "string",
-          "description": "Name-Attribut des Textarea-Felds. Sollte zur fachlichen Bedeutung des Textinhalts passen."
+          "description": "Name submitted with the form."
         },
         "value": {
-          "description": "Optionaler Startwert des Textareas, z.B. bei Bearbeitungs- oder Review-Schritten.",
+          "description": "Initial text.",
           "type": "string"
         },
         "placeholder": {
-          "description": "Optionaler Platzhaltertext für ein kurzes Beispiel oder Formatmuster. Kein Ersatz für das Label.",
+          "description": "A short example. It doesn't replace the label.",
           "type": "string"
         },
         "rows": {
-          "description": "Anzahl sichtbarer Zeilen (rows-Attribut). Proportional zur erwarteten Textmenge wählen.",
+          "description": "Visible rows, in proportion to the text expected.",
           "type": "number",
           "exclusiveMinimum": 0
         },
         "cols": {
-          "description": "Anzahl sichtbarer Spalten (cols-Attribut). Nur nutzen, wenn eine feste Breitensteuerung fachlich sinnvoll ist.",
+          "description": "Visible columns. Only when a fixed width is needed.",
           "type": "number",
           "exclusiveMinimum": 0
         },
         "label": {
           "type": "string",
           "minLength": 1,
-          "description": "Pflicht-Beschriftung des Feldes für barrierefreie Formulare. Kurz, präzise und möglichst einzeilig formulieren."
+          "description": "Visible label: short, one line. A placeholder doesn't replace it."
         },
         "hint": {
-          "description": "Optionaler Hinweistext unterhalb des Feldes. Für hilfreichen Kontext oder Formatbeispiele, möglichst als kurzer ganzer Satz ohne Links; wird per aria-describedby mit dem Feld verknüpft.",
+          "description": "Help text below the field, linked via aria-describedby. One short sentence without links, e.g. the expected format.",
           "type": "string"
         },
         "error": {
-          "description": "Konstruktive, konkrete Fehlermeldung pro Fehlerzustand. Ein leerer String aktiviert nur den Fehlerstil ohne sichtbaren Text.",
+          "description": "Error message; puts the field in its error state. An empty string shows the error style without text.",
           "type": "string"
         },
         "optional": {
           "default": false,
-          "description": "Zeigt den Optional-Marker am Label an. KERN bevorzugt wenige optionale Felder statt viele Pflicht-Markierungen.",
+          "description": "Shows the optional marker on the label. KERN marks optional fields, not required ones.",
           "type": "boolean"
         },
         "disabled": {
           "default": false,
-          "description": "Deaktiviert das Feld (nicht fokussierbar, nicht submit-bar). Nach KERN möglichst vermeiden; wenn ein Feld nicht gebraucht wird, eher ausblenden oder mit aria-disabled gesondert steuern.",
+          "description": "Not focusable and not submitted. Avoid where possible: hide a field that isn't needed.",
           "type": "boolean"
         },
         "readonly": {
           "default": false,
-          "description": "Feld ist schreibgeschützt (fokussierbar, aber nicht editierbar). Nur nutzen, wenn der gespeicherte Wert für Nutzende weiterhin sinnvoll einsehbar sein soll.",
+          "description": "Focusable but not editable, for a stored value that stays visible.",
           "type": "boolean"
         }
       },
       "required": [
         "name",
         "label"
-      ],
-      "description": "Parameter für KERN UX Textarea-Komponente. Nur für mehrzeilige Eingaben oder längere Freitexte verwenden; für kurze einzeilige Werte InputText bevorzugen."
+      ]
     },
     "outputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -11564,7 +11546,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Validierungsergebnis (strict-mode relevant)."
+          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
         }
       },
       "required": [
@@ -11604,7 +11586,7 @@
           ]
         },
         "locale": {
-          "description": "Sprache für Beschriftungen und Fehlermeldungen (Standard: de).",
+          "description": "Language of generated labels and messages (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -11612,7 +11594,7 @@
           ]
         },
         "strict": {
-          "description": "Wenn true: Validierungsfehler blockieren die HTML-Ausgabe (BITV-strikt).",
+          "description": "If true, validation errors fail the call instead of returning HTML.",
           "type": "boolean"
         }
       }
@@ -11687,7 +11669,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Validierungsergebnis (strict-mode relevant)."
+          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
         }
       },
       "required": [

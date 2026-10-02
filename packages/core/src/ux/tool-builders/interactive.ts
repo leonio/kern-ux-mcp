@@ -94,7 +94,8 @@ function buildAlertTool(component: ComponentInfo): ToolDef {
 function buildCheckboxTool(component: ComponentInfo): ToolDef {
 	return buildParameterizedComponentTool<CheckboxInput>(
 		component,
-		`KERN UX: HTML für Checkbox erzeugen (Einzel- oder Listen-Modus).`,
+		"KERN UX: HTML for checkboxes. mode 'single' (default): one checkbox, e.g. a consent. " +
+			"mode 'list': a fieldset of independent options under a legend.",
 		CheckboxSchema,
 		buildCheckbox,
 	);
@@ -114,7 +115,8 @@ function buildDialogTool(component: ComponentInfo): ToolDef {
 function buildRadioTool(component: ComponentInfo): ToolDef {
 	return buildParameterizedComponentTool<RadioInput>(
 		component,
-		`KERN UX: HTML für Radio erzeugen (Einzel- oder Listen-Modus mit optionalem Error/Hint).`,
+		"KERN UX: HTML for radio buttons. mode 'list': a fieldset of options under a legend, one of which can be selected, with optional hint and error. " +
+			"mode 'single': one radio button on its own.",
 		radioSchema,
 		buildRadio,
 	);
@@ -123,12 +125,8 @@ function buildRadioTool(component: ComponentInfo): ToolDef {
 function buildSelectTool(component: ComponentInfo): ToolDef {
 	return buildParameterizedComponentTool<SelectInput>(
 		component,
-		"KERN UX: HTML für Select erzeugen. " +
-			"Pflichtfelder: name, label, options (Array von { value, text }). " +
-			"Optional: hint, error, disabled: true, optional: true. " +
-			"Jede Option kann selected: true oder disabled: true haben. " +
-			"Der Wrapper kern-form-input__select-wrapper ist Pflicht und wird automatisch erzeugt. " +
-			"Beispiel: { name: 'lang', label: 'Sprache', options: [{ value: 'de', text: 'Deutsch', selected: true }, { value: 'en', text: 'English' }] }.",
+		"KERN UX: HTML for a select with label, optional hint and error, inside the kern-form-input__select-wrapper KERN requires. " +
+			"Required: name, label and options, each { value, text }; an option can be selected or disabled.",
 		selectSchema,
 		buildSelect,
 	);
@@ -137,8 +135,8 @@ function buildSelectTool(component: ComponentInfo): ToolDef {
 function buildInputTextTool(component: ComponentInfo): ToolDef {
 	return buildParameterizedComponentTool<InputTextInput>(
 		component,
-		"KERN UX: HTML für Text-Input erzeugen (mit optionalem Error/Hint, readonly, disabled). " +
-			"Empfohlen fuer Barrierefreiheit: hint mit Pflichtformat setzen. Pflichtfelder: name, label (werden bei leeren Calls mit sinnvollen Defaults befuellt).",
+		"KERN UX: HTML for a text input with label, optional hint and error. Required: name, label. " +
+			"Set hint to the expected format; without one, a generic format hint is added.",
 		inputTextSchema,
 		buildInputText,
 	);
@@ -147,7 +145,8 @@ function buildInputTextTool(component: ComponentInfo): ToolDef {
 function buildInputDateTool(component: ComponentInfo): ToolDef {
 	return buildParameterizedComponentTool<InputDateInput>(
 		component,
-		`KERN UX: HTML für Datum-Input erzeugen (mit optionalem Error/Hint, readonly, disabled).`,
+		"KERN UX: HTML for a date input: one native type=date field with label, optional hint and error. " +
+			"KERN's own date pattern, a fieldset with separate day, month and year inputs, isn't rendered by this tool.",
 		inputDateSchema,
 		buildInputDate,
 	);
@@ -156,7 +155,8 @@ function buildInputDateTool(component: ComponentInfo): ToolDef {
 function buildInputEmailTool(component: ComponentInfo): ToolDef {
 	return buildParameterizedComponentTool<InputEmailInput>(
 		component,
-		`KERN UX: HTML für E-Mail-Input erzeugen (mit optionalem Error/Hint, readonly, disabled).`,
+		"KERN UX: HTML for an email input (type=email) with label, optional hint and error. " +
+			"autocomplete defaults to email.",
 		inputEmailSchema,
 		buildInputEmail,
 	);
@@ -165,8 +165,8 @@ function buildInputEmailTool(component: ComponentInfo): ToolDef {
 function buildInputFileTool(component: ComponentInfo): ToolDef {
 	return buildParameterizedComponentTool<InputFileInput>(
 		component,
-		"KERN UX: HTML für File-Input erzeugen (mit optionalem Error/Hint). " +
-			"Empfohlen fuer Barrierefreiheit: hint mit Dateiformat und Groessenlimit setzen. Pflichtfelder: name, label (werden bei leeren Calls mit sinnvollen Defaults befuellt).",
+		"KERN UX: HTML for a file input for one file, with label, optional hint and error. Required: name, label. " +
+			"Name the allowed formats and size limit in hint.",
 		inputFileSchema,
 		buildInputFile,
 	);
@@ -175,7 +175,8 @@ function buildInputFileTool(component: ComponentInfo): ToolDef {
 function buildInputGroupTool(component: ComponentInfo): ToolDef {
 	return buildParameterizedComponentTool<InputGroupInput>(
 		component,
-		`KERN UX: HTML für InputGroup erzeugen (Prefix/Suffix mit Input).`,
+		"KERN UX: HTML for a text input with a visual prefix or suffix, e.g. '€' or '.de'. " +
+			"Only the plain text-field variant: no buttons or error state inside the group.",
 		inputGroupSchema,
 		buildInputGroup,
 	);
@@ -184,8 +185,8 @@ function buildInputGroupTool(component: ComponentInfo): ToolDef {
 function buildInputNumberTool(component: ComponentInfo): ToolDef {
 	return buildParameterizedComponentTool<InputNumberInput>(
 		component,
-		"KERN UX: HTML für Number-Input erzeugen (mit optionalem Error/Hint, readonly, disabled). " +
-			"Empfohlen fuer Barrierefreiheit: hint mit Zahlenformat setzen. Pflichtfelder: name, label (werden bei leeren Calls mit sinnvollen Defaults befuellt).",
+		"KERN UX: HTML for a number input with label, optional hint and error. Required: name, label. " +
+			'Like KERN, it renders type="text" with inputmode="numeric" and pattern="[0-9]*", not type="number".',
 		inputNumberSchema,
 		buildInputNumber,
 	);
@@ -194,7 +195,8 @@ function buildInputNumberTool(component: ComponentInfo): ToolDef {
 function buildInputPasswordTool(component: ComponentInfo): ToolDef {
 	return buildParameterizedComponentTool<InputPasswordInput>(
 		component,
-		`KERN UX: HTML für Passwort-Input erzeugen (mit optionalem Error/Hint, readonly, disabled).`,
+		"KERN UX: HTML for a password input (type=password) with label, optional hint and error. " +
+			"Only the field: no show-password toggle, no forgot-password link.",
 		inputPasswordSchema,
 		buildInputPassword,
 	);
@@ -203,7 +205,8 @@ function buildInputPasswordTool(component: ComponentInfo): ToolDef {
 function buildInputTelTool(component: ComponentInfo): ToolDef {
 	return buildParameterizedComponentTool<InputTelInput>(
 		component,
-		`KERN UX: HTML für Telefon-Input erzeugen (mit optionalem Error/Hint, readonly, disabled).`,
+		"KERN UX: HTML for a phone number input (type=tel) with label, optional hint and error. " +
+			"autocomplete defaults to tel. Name the expected format, e.g. with area code, in hint.",
 		inputTelSchema,
 		buildInputTel,
 	);
@@ -212,7 +215,8 @@ function buildInputTelTool(component: ComponentInfo): ToolDef {
 function buildInputUrlTool(component: ComponentInfo): ToolDef {
 	return buildParameterizedComponentTool<InputUrlInput>(
 		component,
-		`KERN UX: HTML für URL-Input erzeugen (mit optionalem Error/Hint, readonly, disabled).`,
+		"KERN UX: HTML for a URL input (type=url) with label, optional hint and error. " +
+			"It expects a full address with https://; say so in hint.",
 		inputUrlSchema,
 		buildInputUrl,
 	);
@@ -255,7 +259,7 @@ function buildBadgeTool(component: ComponentInfo): ToolDef {
 function buildTextareaTool(component: ComponentInfo): ToolDef {
 	return buildParameterizedComponentTool<TextareaInput>(
 		component,
-		`KERN UX: HTML für Textarea (mehrzeiliges Textfeld) erzeugen.`,
+		"KERN UX: HTML for a multi-line text field (textarea) with label, optional hint and error. Required: name, label.",
 		textareaSchema,
 		buildTextarea,
 	);

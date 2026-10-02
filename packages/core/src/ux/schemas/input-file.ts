@@ -13,28 +13,21 @@ const FileFieldSchema = FormFieldBaseSchema.pick({
 		.string()
 		.min(1)
 		.describe(
-			"Sichtbares Label fuer den Datei-Upload. Sollte die erwartete Datei oder den Zweck des Uploads konkret benennen, nicht nur allgemein 'Upload'.",
+			"Visible label naming the file expected, e.g. 'Proof of income', not just 'Upload'.",
 		),
 });
 
 export const inputFileSchema = z
 	.object({
 		...CommonParams,
-		name: z
-			.string()
-			.describe(
-				"Name-Attribut des Datei-Felds. Sollte die fachliche Bedeutung der hochgeladenen Datei benennen.",
-			),
+		name: z.string().describe("Name submitted with the form."),
 		accept: z
 			.string()
 			.optional()
 			.describe(
-				"Optionaler accept-Filter, z.B. 'image/*,.pdf'. Nur als UI-Filter fuer die Dateiauswahl verstehen; serverseitige Validierung bleibt trotzdem erforderlich.",
+				"File types the picker offers, e.g. 'image/*,.pdf'. Only a UI filter: validate on the server too.",
 			),
 	})
-	.extend(FileFieldSchema.shape)
-	.describe(
-		"Parameter fuer KERN UX InputFile-Komponente. Hinweistext sollte erlaubte Formate und, wenn relevant, Groessenlimits nennen. Der Upload selbst bleibt fachlich auf genau eine Datei ausgerichtet.",
-	);
+	.extend(FileFieldSchema.shape);
 
 export type InputFileInput = z.input<typeof inputFileSchema>;

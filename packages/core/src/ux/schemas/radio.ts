@@ -9,12 +9,7 @@ const SingleRadioFieldSchema = FormFieldBaseSchema.pick({
 	label: true,
 	disabled: true,
 }).extend({
-	label: z
-		.string()
-		.min(1)
-		.describe(
-			"Sichtbarer Label-Text des Einzel-Radiofelds. Kurz und eindeutig formulieren.",
-		),
+	label: z.string().min(1).describe("Visible label: short and unambiguous."),
 });
 const RadioListFieldSchema = FormFieldBaseSchema.pick({
 	hint: true,
@@ -25,39 +20,30 @@ const RadioListFieldSchema = FormFieldBaseSchema.pick({
 /**
  * Schema for a single radio item
  */
-export const radioItemSchema = z
-	.object({
-		/** Optional custom ID, auto-generated if not provided */
-		id: z
-			.string()
-			.optional()
-			.describe("Optionale feste ID; ohne Angabe wird sie generiert."),
-		/** Value attribute for the radio input */
-		value: z
-			.string()
-			.describe("Technischer Wert der Radio-Option fuer den Form-Submit."),
-		/** Label text for the radio */
-		label: z
-			.string()
-			.describe(
-				"Sichtbarer Label-Text der Option. Radio-Optionen sollten sich gegenseitig ausschliessen und gut unterscheidbar sein.",
-			),
-		/** Whether this radio is checked */
-		checked: z
-			.boolean()
-			.optional()
-			.default(false)
-			.describe(
-				"Option ist vorausgewaehlt. Innerhalb einer Gruppe fachlich hoechstens eine Option auf true setzen.",
-			),
-		/** Whether this radio is disabled */
-		disabled: z
-			.boolean()
-			.optional()
-			.default(false)
-			.describe("Option ist deaktiviert und kann nicht ausgewaehlt werden."),
-	})
-	.describe("Ein einzelner Radio-Eintrag in Listenmodus.");
+export const radioItemSchema = z.object({
+	/** Optional custom ID, auto-generated if not provided */
+	id: z.string().optional().describe("Element id; generated when omitted."),
+	/** Value attribute for the radio input */
+	value: z.string().describe("Submitted value."),
+	/** Label text for the radio */
+	label: z
+		.string()
+		.describe(
+			"Visible option text. Options exclude each other, so make them distinct.",
+		),
+	/** Whether this radio is checked */
+	checked: z
+		.boolean()
+		.optional()
+		.default(false)
+		.describe("Selected initially. Set it on at most one option."),
+	/** Whether this radio is disabled */
+	disabled: z
+		.boolean()
+		.optional()
+		.default(false)
+		.describe("Can't be selected."),
+});
 
 /**
  * Schema for single radio mode - one standalone radio
@@ -67,22 +53,18 @@ export const radioSingleSchema = z
 		...CommonParams,
 		mode: z.literal("single"),
 		/** Name attribute for the radio (required for form submission) */
-		name: z
-			.string()
-			.describe("Name-Attribut des Radiofelds fuer den Form-Submit."),
+		name: z.string().describe("Name submitted with the form."),
 		/** Value attribute */
-		value: z.string().describe("Wert des Einzel-Radiofelds."),
+		value: z.string().describe("Submitted value."),
 		/** Whether checked */
 		checked: z
 			.boolean()
 			.optional()
 			.default(false)
-			.describe("Radio ist vorausgewaehlt."),
+			.describe("Selected initially."),
 	})
 	.extend(SingleRadioFieldSchema.shape)
-	.describe(
-		"Parameter fuer einen einzelnen Radio-Button (mode='single'). Geeignet fuer einen einzelnen exklusiven Auswahlpunkt ausserhalb einer groesseren Gruppe.",
-	);
+	.describe("mode 'single': one radio button on its own.");
 
 /**
  * Schema for radio list/group mode - multiple radios in a fieldset
@@ -92,44 +74,35 @@ export const radioListSchema = z
 		...CommonParams,
 		mode: z.literal("list"),
 		/** Name attribute shared by all radios in the group */
-		name: z
-			.string()
-			.describe("Gemeinsames Name-Attribut fuer alle Optionen der Gruppe."),
+		name: z.string().describe("Name shared by every option in the group."),
 		/** Legend text for the fieldset */
 		legend: z
 			.string()
 			.describe(
-				"Fieldset-Legende fuer die gesamte Radio-Gruppe. Sollte die gemeinsame Frage oder Entscheidung klar benennen.",
+				"Fieldset legend: the question or decision the options answer.",
 			),
 		/** Array of radio items */
 		items: z
 			.array(radioItemSchema)
 			.min(1)
-			.describe(
-				"Radio-Optionen der Gruppe; genau eine Auswahl ist vorgesehen. Wenn ein Default gesetzt wird, hoechstens eine Option mit checked=true markieren.",
-			),
+			.describe("The options; exactly one can be selected."),
 		/** Horizontal layout for items */
 		horizontal: z
 			.boolean()
 			.optional()
 			.default(false)
-			.describe(
-				"Horizontale Darstellung der Optionen in einer Zeile. Nur fuer wenige kurze Optionen verwenden.",
-			),
+			.describe("Options side by side. Only for a few short options."),
 	})
 	.extend(RadioListFieldSchema.shape)
-	.describe(
-		"Parameter fuer eine Radio-Gruppe im Fieldset (mode='list'). Verwenden, wenn genau eine Option aus mehreren moeglichen Antworten gewaehlt werden soll.",
-	);
+	.describe("mode 'list': a group of radio buttons in a fieldset.");
 
 /**
  * Discriminated union for radio: single vs list mode
  */
-export const radioSchema = z
-	.discriminatedUnion("mode", [radioSingleSchema, radioListSchema])
-	.describe(
-		"Parameter fuer KERN UX Radio-Komponente (Einzel- oder Listen-Modus).",
-	);
+export const radioSchema = z.discriminatedUnion("mode", [
+	radioSingleSchema,
+	radioListSchema,
+]);
 
 export type RadioSingleInput = z.input<typeof radioSingleSchema>;
 export type RadioListInput = z.input<typeof radioListSchema>;

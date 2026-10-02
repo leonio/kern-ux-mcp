@@ -7,158 +7,129 @@ const CommonParams = McpCommonSchema.shape;
  * Schema for a single checkbox item inside list mode.
  */
 const CheckboxListItemSchema = z.object({
-	id: z
-		.string()
-		.optional()
-		.describe(
-			"Optionale feste ID pro Checkbox. Ohne Angabe wird sie automatisch generiert.",
-		),
+	id: z.string().optional().describe("Element id; generated when omitted."),
 	value: z
 		.string()
 		.optional()
 		.describe(
 			"Value submitted when this box is checked. Without one the browser sends 'on'.",
 		),
-	label: z
-		.string()
-		.min(1)
-		.describe(
-			"Sichtbarer Label-Text der Option. Mehrere Eintraege duerfen gleichzeitig ausgewaehlt sein.",
-		),
-	checked: z
-		.boolean()
-		.optional()
-		.default(false)
-		.describe("Checkbox ist aktiviert oder bereits vorselektiert."),
-	disabled: z
-		.boolean()
-		.optional()
-		.default(false)
-		.describe("Checkbox ist deaktiviert und kann nicht geaendert werden."),
+	label: z.string().min(1).describe("Visible option text."),
+	checked: z.boolean().optional().default(false).describe("Checked initially."),
+	disabled: z.boolean().optional().default(false).describe("Can't be changed."),
 });
 
 /**
  * Single checkbox mode schema.
  */
-const SingleCheckboxSchema = z.object({
-	mode: z.literal("single").default("single"),
-	...CommonParams,
-	id: z
-		.string()
-		.optional()
-		.describe(
-			"Optionale feste ID fuer die Checkbox. Ohne Angabe wird sie automatisch generiert.",
-		),
-	name: z
-		.string()
-		.min(1)
-		.describe("Name-Attribut der Checkbox fuer den Form-Submit."),
-	label: z
-		.string()
-		.min(1)
-		.describe(
-			"Sichtbarer Label-Text der Checkbox. Fuer einzelne Checkboxen idealerweise als bestaetigbare Aussage formulieren, z.B. Zustimmung zu Bedingungen.",
-		),
-	checked: z
-		.boolean()
-		.optional()
-		.default(false)
-		.describe("Checkbox ist aktiviert oder bereits vorselektiert."),
-	disabled: z
-		.boolean()
-		.optional()
-		.default(false)
-		.describe("Checkbox ist deaktiviert und nicht fokussierbar."),
-	error: z
-		.object({
-			message: z
-				.string()
-				.describe(
-					"Konkrete Fehlermeldung fuer die einzelne Checkbox. Leerer String zeigt nur den Fehlerstil ohne Text.",
-				),
-			id: z
-				.string()
-				.optional()
-				.describe(
-					"Optionale ID fuer aria-describedby. Ohne Angabe wird sie automatisch generiert.",
-				),
-		})
-		.optional()
-		.describe(
-			"Fehlerzustand fuer die einzelne Checkbox mit optionaler Meldung.",
-		),
-});
+const SingleCheckboxSchema = z
+	.object({
+		mode: z.literal("single").default("single"),
+		...CommonParams,
+		id: z.string().optional().describe("Element id; generated when omitted."),
+		name: z.string().min(1).describe("Name submitted with the form."),
+		label: z
+			.string()
+			.min(1)
+			.describe(
+				"Visible label, phrased as a statement to confirm, e.g. 'I accept the terms'.",
+			),
+		checked: z
+			.boolean()
+			.optional()
+			.default(false)
+			.describe("Checked initially."),
+		disabled: z
+			.boolean()
+			.optional()
+			.default(false)
+			.describe("Not focusable and can't be changed."),
+		error: z
+			.object({
+				message: z
+					.string()
+					.describe(
+						"Error message. An empty string shows the error style without text.",
+					),
+				id: z
+					.string()
+					.optional()
+					.describe(
+						"Id of the message, for aria-describedby; generated when omitted.",
+					),
+			})
+			.optional()
+			.describe("Puts the checkbox in its error state."),
+	})
+	.describe("mode 'single' (the default): one checkbox on its own.");
 
 /**
  * Checkbox list mode schema (multiple checkboxes in a fieldset).
  */
-const ListCheckboxSchema = z.object({
-	mode: z.literal("list"),
-	...CommonParams,
-	legend: z
-		.string()
-		.min(1)
-		.describe(
-			"Fieldset-Legende fuer die Checkbox-Gruppe. Sollte die gemeinsame Frage oder Kategorie der Optionen benennen.",
-		),
-	optional: z
-		.boolean()
-		.optional()
-		.default(false)
-		.describe("Zeigt den Optional-Marker an der Legende an."),
-	hint: z
-		.object({
-			text: z
-				.string()
-				.describe(
-					"Hinweistext fuer die gesamte Gruppe, z.B. Auswahlregeln oder Kontext.",
-				),
-			id: z
-				.string()
-				.optional()
-				.describe("Optionale ID fuer aria-describedby der Gruppe."),
-		})
-		.optional()
-		.describe("Optionaler Hinweistext fuer die gesamte Checkbox-Gruppe."),
-	groupName: z
-		.string()
-		.min(1)
-		.describe(
-			"Gemeinsames Name-Attribut fuer alle Checkboxen der Gruppe. Die einzelnen Items erben dieses Feld und benoetigen kein eigenes name-Attribut.",
-		),
-	items: z
-		.array(CheckboxListItemSchema)
-		.min(1)
-		.describe(
-			"Liste unabhaengiger Checkbox-Optionen. Anders als bei Radio duerfen mehrere Eintraege gleichzeitig ausgewaehlt sein.",
-		),
-	error: z
-		.object({
-			message: z
-				.string()
-				.describe(
-					"Konkrete Fehlermeldung fuer die gesamte Gruppe. Leerer String zeigt nur den Fehlerstil ohne Text.",
-				),
-			id: z
-				.string()
-				.optional()
-				.describe(
-					"Optionale ID fuer aria-describedby der Gruppe. Ohne Angabe wird sie automatisch generiert.",
-				),
-		})
-		.optional()
-		.describe("Fehlerzustand mit optionaler Meldung fuer die gesamte Gruppe."),
-});
+const ListCheckboxSchema = z
+	.object({
+		mode: z.literal("list"),
+		...CommonParams,
+		legend: z
+			.string()
+			.min(1)
+			.describe("Fieldset legend: the question or topic the options share."),
+		optional: z
+			.boolean()
+			.optional()
+			.default(false)
+			.describe("Shows the optional marker on the legend."),
+		hint: z
+			.object({
+				text: z
+					.string()
+					.describe("Help text for the group, e.g. how many to choose."),
+				id: z
+					.string()
+					.optional()
+					.describe(
+						"Id of the hint, for aria-describedby; generated when omitted.",
+					),
+			})
+			.optional()
+			.describe("Help text for the whole group."),
+		groupName: z
+			.string()
+			.min(1)
+			.describe(
+				"Name shared by every checkbox in the group; items have no name of their own.",
+			),
+		items: z
+			.array(CheckboxListItemSchema)
+			.min(1)
+			.describe("The checkboxes. Any number can be checked at once."),
+		error: z
+			.object({
+				message: z
+					.string()
+					.describe(
+						"Error message. An empty string shows the error style without text.",
+					),
+				id: z
+					.string()
+					.optional()
+					.describe(
+						"Id of the message, for aria-describedby; generated when omitted.",
+					),
+			})
+			.optional()
+			.describe("Puts the whole group in its error state."),
+	})
+	.describe("mode 'list': a group of checkboxes in a fieldset.");
 
 /**
  * Discriminated union schema for Checkbox component.
  * Use mode: "single" for a single checkbox, mode: "list" for a group in a fieldset.
  */
-export const CheckboxSchema = z
-	.discriminatedUnion("mode", [SingleCheckboxSchema, ListCheckboxSchema])
-	.describe(
-		"Parameter fuer KERN UX Checkbox-Komponente (Einzel- oder Listen-Modus). Einzelmodus fuer eine unabhaengige Ja/Nein-Bestaetigung, Listenmodus fuer mehrere unabhaengige Auswahloptionen im Fieldset.",
-	);
+export const CheckboxSchema = z.discriminatedUnion("mode", [
+	SingleCheckboxSchema,
+	ListCheckboxSchema,
+]);
 
 /** Type for checkbox input (before Zod parsing, allows missing defaulted fields) */
 export type CheckboxInput = z.input<typeof CheckboxSchema>;

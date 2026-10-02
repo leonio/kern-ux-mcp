@@ -19,6 +19,7 @@ export type JsonSchemaNode = {
 	oneOf?: JsonSchemaNode[];
 	enum?: unknown[];
 	const?: unknown;
+	minItems?: number;
 	default?: unknown;
 	$ref?: string;
 	definitions?: Record<string, JsonSchemaNode>;
