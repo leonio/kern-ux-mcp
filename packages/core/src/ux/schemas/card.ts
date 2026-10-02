@@ -2,6 +2,7 @@ import { z } from "zod";
 import {
 	contentBlocksSchema,
 	RecursiveContentNodeSchema,
+	simpleBlocksSchema,
 } from "./content-union.js";
 import {
 	ComponentSizeSchema,
@@ -98,9 +99,11 @@ const cardFooterSchema = z.object({
 export const cardContentBlockSchema = RecursiveContentNodeSchema;
 
 /**
- * Schema for the Card component
+ * What buildCard parses. A card block in render_composition can hold any block
+ * except a card, so this takes the full content union; the get_card tool takes
+ * cardSchema.
  */
-export const cardSchema = z.object({
+export const cardRenderSchema = z.object({
 	...CommonParams,
 	/** Card size variant */
 	size: ComponentSizeSchema.optional()
@@ -135,19 +138,23 @@ export const cardSchema = z.object({
 		.describe(
 			"Wenn true wird body als Roh-HTML gerendert. Nur für vertrauenswürdige, semantisch passende Inhalte verwenden.",
 		),
-	/** Optional typed content blocks (text/html/button/badge) for rich card composition */
-	contentBlocks: contentBlocksSchema("card")
-		.optional()
-		.describe(
-			"Optionale strukturierte Body-Blöcke für kompakte, zusammengehörige Inhalte. Erlaubt rekursive Komposition, sollte aber denselben fokussierten Charakter wie eine klassische Card behalten.",
-		),
+	contentBlocks: contentBlocksSchema("card").optional(),
 	/** Optional footer with buttons */
 	footer: cardFooterSchema.optional(),
+});
+
+/** The get_card tool's input: simple blocks only (roadmap R5, option B). */
+export const cardSchema = cardRenderSchema.extend({
+	contentBlocks: simpleBlocksSchema()
+		.optional()
+		.describe(
+			"Optional body blocks: text, html, badge or field. Keep the card compact; actions go in footer.",
+		),
 });
 
 export type CardMediaInput = z.input<typeof cardMediaSchema>;
 export type CardHeaderInput = z.input<typeof cardHeaderSchema>;
 export type CardFooterInput = z.input<typeof cardFooterSchema>;
 export type CardContentBlockInput = z.input<typeof cardContentBlockSchema>;
-export type CardInput = z.input<typeof cardSchema>;
-export type CardParams = z.output<typeof cardSchema>;
+export type CardInput = z.input<typeof cardRenderSchema>;
+export type CardParams = z.output<typeof cardRenderSchema>;

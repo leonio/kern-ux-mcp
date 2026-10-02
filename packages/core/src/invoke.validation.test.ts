@@ -1,6 +1,11 @@
 import { describe, expect, it } from "vitest";
 
-import { formatInputValidationError } from "./invoke.js";
+import {
+	formatInputValidationError,
+	formatInputValidationHint,
+	parseToolInput,
+} from "./invoke.js";
+import { getCatalog } from "./mcp/catalog.js";
 import { AlertSchema } from "./ux/schemas/alert.js";
 import { badgeSchema } from "./ux/schemas/badge.js";
 import { ButtonSchema } from "./ux/schemas/button.js";
@@ -173,5 +178,61 @@ describe("formatInputValidationError", () => {
 		expect(message).toContain("Known-good payload");
 		expect(message).toContain("type AND text");
 		expect(message).toContain("success");
+	});
+});
+
+describe("standalone block tools take simple blocks (R5 option B)", () => {
+	const tools = new Map(getCatalog().tools.map((tool) => [tool.name, tool]));
+	const grid = { kind: "grid", grid: { columns: 2 } };
+
+	it.each<[string, object]>([
+		["get_section", { headingText: "Überblick", contentBlocks: [grid] }],
+		["get_card", { contentBlocks: [grid] }],
+		["get_card_group", { cards: [{ contentBlocks: [grid] }] }],
+		["get_disclosure", { triggerLabel: "Mehr", contentBlocks: [grid] }],
+		["get_fieldset", { legend: "Anschrift", contentBlocks: [grid] }],
+		["get_grid", { columnsContent: [[grid]] }],
+	])(
+		"%s rejects a container block and points at render_composition",
+		(name, args) => {
+			const tool = tools.get(name);
+			if (!tool) throw new Error(`No tool ${name}`);
+			const parsed = parseToolInput(tool, args);
+			if (parsed.success) throw new Error(`${name} accepted a grid block`);
+
+			expect(formatInputValidationHint(name, parsed.error)).toContain(
+				`${name} takes text, html, badge and field blocks. For cards, grids, sections, buttons or forms inside, use render_composition.`,
+			);
+		},
+	);
+
+	it("leaves the note out when the blocks' kinds are fine", () => {
+		const tool = tools.get("get_fieldset");
+		if (!tool) throw new Error("No tool get_fieldset");
+		const parsed = parseToolInput(tool, {
+			legend: "Anschrift",
+			contentBlocks: [{ kind: "field", field: { type: "text", name: "plz" } }],
+		});
+		if (parsed.success) throw new Error("Expected a missing label");
+
+		expect(
+			formatInputValidationHint("get_fieldset", parsed.error),
+		).not.toContain("render_composition");
+	});
+
+	it("keeps nesting in render_composition", () => {
+		const tool = tools.get("render_composition");
+		if (!tool) throw new Error("No tool render_composition");
+
+		expect(
+			parseToolInput(tool, {
+				contentBlocks: [
+					{
+						kind: "section",
+						section: { headingText: "Überblick", contentBlocks: [grid] },
+					},
+				],
+			}).success,
+		).toBe(true);
 	});
 });

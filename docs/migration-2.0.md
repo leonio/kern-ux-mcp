@@ -19,6 +19,7 @@ Pre-releases go out under the npm dist-tag `alpha`. "Next alpha" means landed on
 | `formFlow`: `heading` is the form heading; the step list has its own `tasklistHeading` | next alpha | Set `tasklistHeading` if you relied on `heading` for the step list |
 | Text in labels, hints, errors, values and option text is escaped | next alpha | Don't pass markup in these strings |
 | `get_index` is gone | next alpha | Nothing: it rendered a placeholder for an internal SCSS file, not a KERN component |
+| `get_section`, `get_card`, `get_card_group`, `get_grid`, `get_disclosure` and `get_fieldset` take only `text`, `html`, `badge` and `field` blocks | next alpha | Build nested layouts (cards in a section, a grid in a disclosure, buttons in a card's body) with `render_composition` or `render_page`; put card actions in `footer` |
 
 ## Protocol and errors (2.0.0-alpha.69)
 
@@ -50,6 +51,13 @@ Pre-releases go out under the npm dist-tag `alpha`. "Next alpha" means landed on
 - `get_heading`, `get_label`, `get_preline`, `get_subline` and `get_title` no longer return the warning "No canonical story template extracted for …" on every call. It was a diagnostic from the registry generator.
 - `get_component_docs` takes `reviewedGuidance` (notes about where our tools differ from upstream KERN) from code instead of the registry. Its shape is unchanged. The Kopfzeile notes now describe the real Kopfzeile; alpha.69 still called the tool a placeholder.
 - `list_components_by_category` no longer lists `index`. It reports `strategy: "interactive"` for `inputdate`, `inputemail`, `inputfile`, `inputgroup`, `inputnumber`, `inputpassword`, `inputtel`, `inputurl` and `tasklist`, whose tools have full schemas; it said `"fallback"`.
+
+## Smaller standalone block tools (next alpha)
+
+- `get_section`, `get_card`, `get_card_group`, `get_grid`, `get_disclosure` and `get_fieldset` take **simple blocks only**: `text`, `html`, `badge` and `field`. Each of them used to list the full recursive block union, 12.5K characters of JSON Schema per tool. Without it the listing shrinks from 201K to 143K characters.
+- Containers still nest in `render_composition` and `render_page`, which take every block kind. A `section`, `card`, `grid`, `disclosure` or `fieldset` block there holds any block, as before.
+- A container block sent to one of the six tools is rejected. The hint names the tool and points at `render_composition`.
+- Why: the R5 baseline (Haiku 4.5, ten scenarios, three runs each) sent composite tasks to `render_page` and `render_composition`. The six tools got 5 calls in 30 runs, all `get_fieldset` with field blocks only.
 
 ## Tools and block content (next alpha)
 
@@ -87,6 +95,5 @@ Pre-releases go out under the npm dist-tag `alpha`. "Next alpha" means landed on
 ## Planned before 2.0.0 (may still change)
 
 These are on the roadmap and not released. Entries move up when they land.
-- **Standalone block tools accept fewer block kinds** (R5). `get_section`, `get_card`, `get_card_group`, `get_grid`, `get_disclosure` and `get_fieldset` get a smaller set suited to each tool, to shrink the tool listing. Deep nesting goes through `render_composition` and `render_page`.
 - **English tool and parameter descriptions** (R5). This changes text, not the contract.
 - **Resources** (`kern://…`, R6) and **prompts** (R7).

@@ -72,6 +72,38 @@ const COMPOSITION_TOOLS: ReadonlySet<string> = new Set([
 	"render_page",
 ]);
 
+/** Tools whose blocks are text, html, badge or field only (roadmap R5, option B). */
+const SIMPLE_BLOCK_TOOLS: ReadonlySet<string> = new Set([
+	"get_card",
+	"get_card_group",
+	"get_disclosure",
+	"get_fieldset",
+	"get_grid",
+	"get_section",
+]);
+
+/**
+ * When a standalone block tool got a container block (a kind it doesn't take),
+ * points the model at render_composition, where containers nest.
+ */
+function simpleBlocksNote(name: string, error: z.ZodError): string {
+	if (!SIMPLE_BLOCK_TOOLS.has(name)) {
+		return "";
+	}
+	const rejectedKind = error.issues.some(
+		(issue) =>
+			issue.code === "invalid_union" &&
+			issue.path.at(-1) === "kind" &&
+			issue.path.some(
+				(segment) =>
+					segment === "contentBlocks" || segment === "columnsContent",
+			),
+	);
+	return rejectedKind
+		? `\n${name} takes text, html, badge and field blocks. For cards, grids, sections, buttons or forms inside, use render_composition.`
+		: "";
+}
+
 /**
  * Specialized hint for render_composition and render_page.
  * Detects discriminated union failures (missing/invalid kind) and replaces
@@ -164,6 +196,10 @@ export function formatInputValidationHint(
 	name: string,
 	error: z.ZodError,
 ): string {
+	return toolHint(name, error) + simpleBlocksNote(name, error);
+}
+
+function toolHint(name: string, error: z.ZodError): string {
 	const base = formatZodIssues(error);
 
 	if (name === "get_dialog") {
@@ -235,7 +271,7 @@ export function formatInputValidationHint(
 		return (
 			`${base}\n${knownGoodPayload(name)}\n` +
 			"Required: triggerLabel AND (contentBlocks OR content). " +
-			"contentBlocks accepts recursive content blocks (text/html/button/card/grid). " +
+			"contentBlocks takes text, html, badge or field blocks. " +
 			"content accepts a plain string (with contentIsHtml: true for raw HTML)."
 		);
 	}

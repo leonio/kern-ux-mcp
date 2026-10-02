@@ -1,11 +1,16 @@
 import { z } from "zod";
-import { contentBlocksSchema } from "./content-union.js";
+import { contentBlocksSchema, simpleBlocksSchema } from "./content-union.js";
 import {
 	GridColumnsSchema,
 	HeadingLevelSchema,
 	McpCommonSchema,
 } from "./foundations.js";
 
+/**
+ * What buildGrid parses. A grid block in render_composition can hold any block
+ * in its columns, so this takes the full content union; the get_grid tool takes
+ * GridToolSchema.
+ */
 export const GridRenderSchema = z
 	.object({
 		columns: GridColumnsSchema.optional()
@@ -44,14 +49,7 @@ export const GridRenderSchema = z
 			.describe(
 				"Heading-Ebene der optionalen Grid-Überschrift (h1-h6). Hierarchisch ohne Sprünge verwenden.",
 			),
-		columnsContent: z
-			.array(contentBlocksSchema("grid"))
-			.optional()
-			.describe(
-				"Optionale Inhalte pro Spalte. Jede Spalte ist ein rekursiver Content-Block-Array und erlaubt z.B. Cards in Grid-Spalten. " +
-					"Für Side-by-Side-Layouts musst du mehrere Zellen definieren: Für zwei gleich breite Komponenten setze columns=2 (ergibt zwei kern-col-md-6-Zellen) und platziere je Komponente in eine eigene Zelle. " +
-					"Mehrere große Komponenten (z.B. mehrere Cards) in derselben Zelle werden vertikal untereinander gerendert. Zu viele verschachtelte Rows/Container vermeiden; das Grid soll die Struktur vereinfachen, nicht verkomplizieren.",
-			),
+		columnsContent: z.array(contentBlocksSchema("grid")).optional(),
 	})
 	.describe(
 		"Parameter für KERN UX 12-Spalten-Grid (kern-container/kern-row/kern-col-{breakpoint}-{span}). " +
@@ -60,6 +58,15 @@ export const GridRenderSchema = z
 			"Dieses Tool bildet das mobile-first Container/Row/Column-Modell ab; für speziellere Offsets oder horizontale Verteilungen ist direkte Grid-Klassensteuerung außerhalb dieses Schemas sinnvoller.",
 	);
 
-export const GridToolSchema = GridRenderSchema.extend(McpCommonSchema.shape);
+/** The get_grid tool's input: simple blocks only (roadmap R5, option B). */
+export const GridToolSchema = GridRenderSchema.extend({
+	columnsContent: z
+		.array(simpleBlocksSchema())
+		.optional()
+		.describe(
+			"Optional content per column, one block list per column: text, html, badge or field blocks. For cards in a grid use get_card_group; for other containers in columns, use render_composition with a grid block.",
+		),
+	...McpCommonSchema.shape,
+});
 
 export type GridRenderInput = z.input<typeof GridRenderSchema>;

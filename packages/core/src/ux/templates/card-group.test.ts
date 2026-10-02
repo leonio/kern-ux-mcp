@@ -137,7 +137,7 @@ describe("buildCardGroup", () => {
 		expect(result.html).toContain("kern-card--interactive");
 	});
 
-	it("supports structured content blocks in grouped cards", () => {
+	it("supports simple content blocks in grouped cards", () => {
 		const result = buildCardGroup(
 			{
 				cards: [
@@ -145,11 +145,9 @@ describe("buildCardGroup", () => {
 						header: { title: "Block Card" },
 						contentBlocks: [
 							{ kind: "badge", badge: { type: "success", text: "OK" } },
-							{
-								kind: "button",
-								button: { variant: "secondary", label: "Details" },
-							},
+							{ kind: "text", text: "Bearbeitung abgeschlossen" },
 						],
+						footer: { primaryLabel: "Details" },
 					},
 				],
 			},
@@ -157,31 +155,30 @@ describe("buildCardGroup", () => {
 		);
 
 		expect(result.html).toContain("kern-badge--success");
-		expect(result.html).toContain("kern-btn--secondary");
+		expect(result.html).toContain("Bearbeitung abgeschlossen");
+		expect(result.html).toContain("kern-btn--primary");
 	});
 
-	it("rejects a card directly inside a grouped card", () => {
-		const build = () =>
-			buildCardGroup(
-				{
-					cards: [
-						{
-							header: { title: "Outer Card" },
-							contentBlocks: [
-								{
-									kind: "card",
-									card: {
-										header: { title: "Inner Card" },
-										contentBlocks: [{ kind: "text", text: "Inner body" }],
-									},
-								},
-							],
-						},
-					],
-				},
-				"de",
-			);
+	it.each(["card", "button", "grid"])(
+		"rejects a %s block inside a grouped card: containers go through render_composition",
+		(kind) => {
+			const build = () =>
+				buildCardGroup(
+					{
+						cards: [
+							{
+								header: { title: "Outer Card" },
+								contentBlocks: [
+									// @ts-expect-error: grouped cards take text, html, badge and field blocks only
+									{ kind, [kind]: {} },
+								],
+							},
+						],
+					},
+					"de",
+				);
 
-		expect(build).toThrow("A card can't sit directly inside another card");
-	});
+			expect(build).toThrow(/contentBlocks/);
+		},
+	);
 });

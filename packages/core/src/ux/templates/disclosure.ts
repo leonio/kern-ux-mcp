@@ -1,6 +1,6 @@
 import {
 	type DisclosureInput,
-	DisclosureSchema,
+	DisclosureRenderSchema,
 } from "../schemas/disclosure.js";
 import type { BuildResult, Locale } from "../types.js";
 import {
@@ -19,7 +19,7 @@ export function buildDisclosure(
 	context: BlockContext = standaloneContext(locale),
 ): BuildResult {
 	const warnings: string[] = [];
-	const params = DisclosureSchema.parse(input);
+	const params = DisclosureRenderSchema.parse(input);
 
 	const { triggerLabel, contentBlocks, content, contentIsHtml, open } = params;
 

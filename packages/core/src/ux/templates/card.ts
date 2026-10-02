@@ -1,4 +1,4 @@
-import { type CardInput, cardSchema } from "../schemas/card.js";
+import { type CardInput, cardRenderSchema } from "../schemas/card.js";
 import type { BuildResult, Locale } from "../types.js";
 import {
 	type BlockContext,
@@ -17,7 +17,7 @@ export function buildCard(
 	const warnings: string[] = [];
 
 	// Parse input to apply defaults
-	const params = cardSchema.parse(input);
+	const params = cardRenderSchema.parse(input);
 
 	const { size, hug, media, header, body, bodyIsHtml, contentBlocks, footer } =
 		params;

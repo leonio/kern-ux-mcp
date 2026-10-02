@@ -47,6 +47,29 @@ const badgeContentNodeSchema = z.object({
 	badge: embeddedBadgeSchema,
 });
 
+const fieldContentNodeSchema = z.object({
+	kind: z.literal("field"),
+	field: FieldSchema,
+});
+
+/** The block kinds the standalone block tools accept (get_section, get_card, ...). */
+export const SIMPLE_BLOCK_KINDS = ["text", "html", "badge", "field"] as const;
+
+/**
+ * A block without children. The standalone block tools take only these, which
+ * keeps the full recursive union (12.5K characters of JSON Schema) out of six
+ * tool listings (roadmap R5, option B). Containers nest through
+ * render_composition and render_page.
+ */
+export const SimpleContentNodeSchema = z
+	.discriminatedUnion("kind", [
+		textContentNodeSchema,
+		htmlContentNodeSchema,
+		badgeContentNodeSchema,
+		fieldContentNodeSchema,
+	])
+	.describe("A block: text, html, badge or field.");
+
 type TextContentNodeInput = {
 	kind: "text";
 	text: string;
@@ -200,10 +223,7 @@ export const RecursiveContentNodeSchema: z.ZodType<
 			htmlContentNodeSchema,
 			buttonContentNodeSchema,
 			badgeContentNodeSchema,
-			z.object({
-				kind: z.literal("field"),
-				field: FieldSchema,
-			}),
+			fieldContentNodeSchema,
 			z.object({
 				kind: z.literal("fieldset"),
 				fieldset: FieldsetBaseSchema.extend({
@@ -511,3 +531,16 @@ export function contentBlocksSchema(parent?: ContainerKind) {
 
 /** A tool's own content blocks, outside any container. */
 export const RecursiveContentBlocksSchema = contentBlocksSchema();
+
+/**
+ * The content blocks of a standalone block tool: text, html, badge and field,
+ * no containers. The node limit still applies.
+ */
+export function simpleBlocksSchema() {
+	return z
+		.array(SimpleContentNodeSchema)
+		.max(MAX_RECURSIVE_CONTENT_NODES)
+		.describe(
+			"Blocks: text, html, badge or field. For cards, grids, sections, buttons or forms inside, use render_composition.",
+		);
+}

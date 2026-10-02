@@ -1,14 +1,16 @@
 import { z } from "zod";
-import { contentBlocksSchema } from "./content-union.js";
+import { contentBlocksSchema, simpleBlocksSchema } from "./content-union.js";
 import { McpCommonSchema } from "./foundations.js";
 
 const CommonParams = McpCommonSchema.shape;
 
 /**
- * Zod schema for Disclosure (expand/collapse) component.
- * Uses native <details>/<summary> with KERN UX accordion styling.
+ * What buildDisclosure parses: expand/collapse with native <details>/<summary>
+ * and KERN accordion styling. A disclosure block in render_composition can hold
+ * any block, so this takes the full content union; the get_disclosure tool
+ * takes DisclosureSchema.
  */
-export const DisclosureSchema = z
+export const DisclosureRenderSchema = z
 	.object({
 		...CommonParams,
 		triggerLabel: z
@@ -17,11 +19,7 @@ export const DisclosureSchema = z
 			.describe(
 				"Text für den Expand/Collapse-Trigger im <summary>. Kurz, eindeutig und als aufklappbare Information verständlich formulieren.",
 			),
-		contentBlocks: contentBlocksSchema("disclosure")
-			.optional()
-			.describe(
-				"Primärer Disclosure-Inhalt als rekursive Content-Blöcke (empfohlen). Eignet sich für strukturierte, aber kompakte Zusatzinformationen.",
-			),
+		contentBlocks: contentBlocksSchema("disclosure").optional(),
 		content: z
 			.string()
 			.min(1)
@@ -57,11 +55,19 @@ export const DisclosureSchema = z
 				message: "Mindestens contentBlocks oder content muss gesetzt sein.",
 			});
 		}
-	})
-	.describe(
-		"Parameter für KERN UX Disclosure (Expand/Collapse mit <details>/<summary> und Accordion-Styling). " +
-			"Dies ist eine repo-eigene Kompositionshilfe für einzelne Disclosure-Blöcke, keine offizielle Upstream-Akkordeon-Komponente.",
-	);
+	});
 
-export type DisclosureInput = z.input<typeof DisclosureSchema>;
-export type DisclosureParams = z.output<typeof DisclosureSchema>;
+/** The get_disclosure tool's input: simple blocks only (roadmap R5, option B). */
+export const DisclosureSchema = DisclosureRenderSchema.safeExtend({
+	contentBlocks: simpleBlocksSchema()
+		.optional()
+		.describe(
+			"The hidden content: text, html, badge or field blocks. For containers inside, use render_composition with a disclosure block.",
+		),
+}).describe(
+	"Parameters for a KERN disclosure: expand and collapse with <details>/<summary> and accordion styling. " +
+		"A composition helper of this repo for single disclosures, not the upstream accordion component.",
+);
+
+export type DisclosureInput = z.input<typeof DisclosureRenderSchema>;
+export type DisclosureParams = z.output<typeof DisclosureRenderSchema>;

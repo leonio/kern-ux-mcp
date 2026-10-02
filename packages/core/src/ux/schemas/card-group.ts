@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { contentBlocksSchema } from "./content-union.js";
+import { simpleBlocksSchema } from "./content-union.js";
 import {
 	ComponentSizeSchema,
 	GridColumnsSchema,
@@ -56,11 +56,9 @@ const CardItemSchema = z.object({
 		.optional()
 		.default(false)
 		.describe("Wenn true: body wird als HTML interpretiert."),
-	contentBlocks: contentBlocksSchema("card")
+	contentBlocks: simpleBlocksSchema()
 		.optional()
-		.describe(
-			"Optionale strukturierte Body-Blöcke (text/html/button/badge/card).",
-		),
+		.describe("Optional body blocks: text, html, badge or field."),
 	footer: z
 		.object({
 			primaryLabel: z.string().optional().describe("Primärer Button Text."),

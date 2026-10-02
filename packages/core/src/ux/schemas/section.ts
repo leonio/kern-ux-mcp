@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { contentBlocksSchema } from "./content-union.js";
+import { contentBlocksSchema, simpleBlocksSchema } from "./content-union.js";
 import {
 	ComponentSizeSchema,
 	HeadingLevelSchema,
@@ -9,10 +9,11 @@ import {
 const CommonParams = McpCommonSchema.shape;
 
 /**
- * Zod schema for Section composition tool.
- * Produces a <section> with heading + body paragraphs + optional divider.
+ * What buildSection parses: a <section> with heading, content and an optional
+ * divider. A section block in render_composition can hold any block, so this
+ * takes the full content union; the get_section tool takes SectionSchema.
  */
-export const SectionSchema = z
+export const SectionRenderSchema = z
 	.object({
 		...CommonParams,
 		headingText: z
@@ -26,11 +27,7 @@ export const SectionSchema = z
 			.describe(
 				"Heading-Ebene (h1–h6). Im Seitenkontext hierarchisch ohne Sprünge verwenden. Standard: h2.",
 			),
-		contentBlocks: contentBlocksSchema("section")
-			.optional()
-			.describe(
-				"Primärer Inhaltsbereich als rekursive Content-Blöcke (empfohlen). Geeignet für strukturierte Section-Inhalte mit Grid, Card, Disclosure oder Text.",
-			),
+		contentBlocks: contentBlocksSchema("section").optional(),
 		paragraphs: z
 			.array(z.string().min(1))
 			.min(1)
@@ -67,12 +64,20 @@ export const SectionSchema = z
 				message: "Mindestens contentBlocks oder paragraphs muss gesetzt sein.",
 			});
 		}
-	})
-	.describe(
-		"Parameter für KERN UX Section-Komposition (Heading + rekursiver Body + optionaler Divider). " +
-			"Dies ist eine repo-eigene Kompositionshilfe, keine offizielle Upstream-Einzelkomponente. " +
-			"Empfohlen: contentBlocks verwenden. Legacy: paragraphs wird weiterhin unterstützt.",
-	);
+	});
 
-export type SectionInput = z.input<typeof SectionSchema>;
-export type SectionParams = z.output<typeof SectionSchema>;
+/** The get_section tool's input: simple blocks only (roadmap R5, option B). */
+export const SectionSchema = SectionRenderSchema.safeExtend({
+	contentBlocks: simpleBlocksSchema()
+		.optional()
+		.describe(
+			"The section's content: text, html, badge or field blocks. For cards, grids or other containers inside a section, use render_composition with a section block.",
+		),
+}).describe(
+	"Parameters for a KERN section: a heading, content blocks and an optional divider. " +
+		"A composition helper of this repo, not an upstream KERN component. " +
+		"Prefer contentBlocks; paragraphs is still supported.",
+);
+
+export type SectionInput = z.input<typeof SectionRenderSchema>;
+export type SectionParams = z.output<typeof SectionRenderSchema>;

@@ -75,7 +75,9 @@ describe("measureListing", () => {
 		const table = formatListingSizes(measureListing(tools), 1);
 
 		expect(table).toContain("in 2 tools");
-		expect(table).toContain("budget 202,000, R5 target 120,000");
+		expect(table).toContain(
+			`budget ${LISTING_BUDGET.modelFacing.toLocaleString("en-US")}, R5 target 120,000`,
+		);
 		expect(table).toMatch(/\n {2}large {2,}\d+/);
 		expect(table).not.toMatch(/\n {2}small /);
 	});

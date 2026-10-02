@@ -842,7 +842,10 @@ describe("tool input schemas", () => {
 		);
 		expect(schema.properties.rowAlignment.description).toContain("kern-row");
 		expect(schema.properties.columnsContent.description).toContain(
-			"Side-by-Side-Layouts",
+			"text, html, badge or field blocks",
+		);
+		expect(schema.properties.columnsContent.description).toContain(
+			"render_composition",
 		);
 	});
 
@@ -882,17 +885,17 @@ describe("tool input schemas", () => {
 		const disclosureSchema = getListedToolSchema(tools, "get_disclosure");
 
 		expect(sectionSchema.description).toContain(
-			"repo-eigene Kompositionshilfe",
+			"composition helper of this repo",
 		);
 		expect(sectionSchema.properties.contentBlocks.description).toContain(
-			"empfohlen",
+			"use render_composition",
 		);
 		expect(sectionSchema.properties.paragraphs.description).toContain(
 			"Für neue Aufrufe contentBlocks bevorzugen",
 		);
 
 		expect(disclosureSchema.description).toContain(
-			"repo-eigene Kompositionshilfe",
+			"composition helper of this repo",
 		);
 		expect(disclosureSchema.properties.triggerLabel.description).toContain(
 			"<summary>",

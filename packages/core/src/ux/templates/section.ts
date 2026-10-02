@@ -1,4 +1,4 @@
-import { type SectionInput, SectionSchema } from "../schemas/section.js";
+import { type SectionInput, SectionRenderSchema } from "../schemas/section.js";
 import type { BuildResult, Locale } from "../types.js";
 import {
 	type BlockContext,
@@ -15,7 +15,7 @@ export function buildSection(
 	context: BlockContext = standaloneContext(locale),
 ): BuildResult {
 	const warnings: string[] = [];
-	const params = SectionSchema.parse(input);
+	const params = SectionRenderSchema.parse(input);
 
 	const {
 		headingText,
