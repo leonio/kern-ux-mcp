@@ -84,7 +84,7 @@ describe("tool descriptions", () => {
 
 		expect(tool).toBeDefined();
 		expect(tool?.description).toContain("numbered: false");
-		expect(tool?.description).toContain("Checkliste");
+		expect(tool?.description).toContain("checklist");
 	});
 
 	it("get_select description lists required fields and wrapper note", () => {

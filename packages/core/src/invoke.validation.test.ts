@@ -208,6 +208,38 @@ describe("formatInputValidationError", () => {
 	});
 });
 
+describe("get_accordion with items", () => {
+	const tool = getCatalog().tools.find((t) => t.name === "get_accordion");
+	if (!tool) throw new Error("No tool get_accordion");
+	const items = [
+		{ title: "Wie lange dauert es?", content: "Fünf Tage." },
+		{ title: "Was kostet es?", content: "Nichts." },
+	];
+
+	it.each<[string, object]>([
+		["no mode", { items }],
+		[
+			"mode single and a title, as Haiku sent it",
+			{ mode: "single", title: "FAQ", items },
+		],
+	])("renders a group with %s", async (_, args) => {
+		const parsed = parseToolInput(tool, args);
+		if (!parsed.success) throw new Error(parsed.error.message);
+
+		expect(parsed.data).toMatchObject({ mode: "group", items });
+	});
+
+	it("keeps a single accordion that has content", () => {
+		const parsed = parseToolInput(tool, {
+			title: "Mehr",
+			content: "Text",
+			items,
+		});
+
+		expect(parsed.success && parsed.data).toMatchObject({ mode: "single" });
+	});
+});
+
 describe("standalone block tools take simple blocks (R5 option B)", () => {
 	const tools = new Map(getCatalog().tools.map((tool) => [tool.name, tool]));
 	const grid = { kind: "grid", grid: { columns: 2 } };

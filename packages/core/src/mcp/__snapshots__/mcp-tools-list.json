@@ -11,7 +11,7 @@
     {
       "name": "validate_html",
       "title": "Validate KERN HTML",
-      "description": "KERN UX: HTML strikt validieren (A11Y/BITV). Der Parameter 'html' erwartet den vollständigen Markup-String – keinen Dateipfad. Den 'html'-Wert aus einem get_*-Tool direkt übergeben.",
+      "description": "KERN UX: Checks HTML against KERN's accessibility rules (BITV) and returns the issues. html takes the full markup string, not a file path: pass the html value of a get_* result.",
       "inputSchema": {
         "$schema": "http://json-schema.org/draft-07/schema#",
         "type": "object",
@@ -19,10 +19,10 @@
           "html": {
             "type": "string",
             "maxLength": 500000,
-            "description": "Der vollständige HTML-Markup-String, der validiert werden soll. Den 'html'-Wert aus einem get_*-Tool-Ergebnis direkt übergeben (kein Dateipfad, kein Dateiname – nur der Markup-String)."
+            "description": "The complete HTML markup string to check. Pass the html value of a get_* result as is, not a file path or file name."
           },
           "locale": {
-            "description": "Sprache für Fehlermeldungen (Standard: de).",
+            "description": "Ignored: the messages come in German and English.",
             "type": "string",
             "enum": [
               "de",
@@ -32,8 +32,7 @@
         },
         "required": [
           "html"
-        ],
-        "description": "Validiert HTML strikt gegen KERN UX A11Y-Regeln (BITV-orientiert)."
+        ]
       },
       "outputSchema": {
         "$schema": "http://json-schema.org/draft-07/schema#",
@@ -102,17 +101,17 @@
     {
       "name": "get_component_docs",
       "title": "KERN Component Docs",
-      "description": "KERN UX: Dokumentation zu einer Komponente lesen. Gültige IDs liefert list_components_by_category – bei unbekannter ID dieses Tool zuerst aufrufen.",
+      "description": "KERN UX: The documentation of one component: an excerpt, sections, its canonical HTML, and notes where our tool differs from KERN. Valid IDs come from list_components_by_category; call it first if you don't know the ID.",
       "inputSchema": {
         "$schema": "http://json-schema.org/draft-07/schema#",
         "type": "object",
         "properties": {
           "componentId": {
             "type": "string",
-            "description": "Komponenten-ID aus list_components_by_category, z.B. 'button', 'inputtext', 'select', 'checkbox'. IDs sind kleingeschrieben ohne Bindestriche – 'inputtext' nicht 'input-text', 'form-input' existiert nicht. Unbekannte ID: zuerst list_components_by_category aufrufen."
+            "description": "Component ID from list_components_by_category, e.g. 'button', 'inputtext', 'select', 'checkbox'. IDs are lowercase without hyphens: 'inputtext', not 'input-text'; there is no 'form-input'. If unsure, call list_components_by_category first."
           },
           "locale": {
-            "description": "Sprache für Zusammenfassung (Standard: de).",
+            "description": "Language of the reviewed notes (default: de).",
             "type": "string",
             "enum": [
               "de",
@@ -122,8 +121,7 @@
         },
         "required": [
           "componentId"
-        ],
-        "description": "Liest vereinfachte, paketierte Komponentendokumentation aus dem Runtime-Manifest."
+        ]
       },
       "outputSchema": {
         "$schema": "http://json-schema.org/draft-07/schema#",
@@ -777,7 +775,7 @@
     {
       "name": "list_components_by_category",
       "title": "KERN Components by Category",
-      "description": "KERN UX (Discovery): Alle Komponenten-IDs auflisten. Vor get_component_docs oder get_<id>-Tools aufrufen, wenn die Komponenten-ID unbekannt ist. Liefert id, title, category und strategy für jede Komponente.",
+      "description": "KERN UX: Lists every component ID with its title, category and strategy. Call it before get_component_docs or a get_<id> tool when you don't know the ID.",
       "inputSchema": {
         "$schema": "http://json-schema.org/draft-07/schema#",
         "type": "object",
@@ -1027,7 +1025,7 @@
                       "properties": {
                         "variant": {
                           "default": "primary",
-                          "description": "Button-Variante: primary, secondary oder tertiary.",
+                          "description": "Visual weight: primary (the default), secondary or tertiary.",
                           "type": "string",
                           "enum": [
                             "primary",
@@ -1038,7 +1036,7 @@
                         "label": {
                           "type": "string",
                           "minLength": 1,
-                          "description": "Sichtbarer Button-Text. Auch bei Icon-only-Varianten erforderlich, damit ein sr-only oder sr-only-mobile Label gerendert werden kann."
+                          "description": "Button text. Required for icon-only buttons too: it becomes their sr-only label."
                         },
                         "size": {
                           "default": "default",
@@ -1054,7 +1052,7 @@
                         },
                         "block": {
                           "default": false,
-                          "description": "Volle Breite als kern-btn--block.",
+                          "description": "Full width (kern-btn--block).",
                           "type": "boolean"
                         },
                         "type": {
@@ -1068,11 +1066,11 @@
                         },
                         "disabled": {
                           "default": false,
-                          "description": "Button deaktiviert.",
+                          "description": "Disabled.",
                           "type": "boolean"
                         },
                         "icon": {
-                          "description": "Optionales Icon im Button. In den KERN-Beispielen dekorativ mit aria-hidden=\"true\"; Position wird ueber icon.position gesteuert.",
+                          "description": "Decorative icon (aria-hidden=\"true\"); icon.position sets its side.",
                           "type": "object",
                           "properties": {
                             "name": {
@@ -1095,7 +1093,7 @@
                         },
                         "labelVisibility": {
                           "default": "visible",
-                          "description": "Label-Sichtbarkeit: visible, sr-only oder sr-only-mobile. Die Icon-only-Varianten der KERN-Beispiele nutzen sr-only bzw. sr-only-mobile fuer zugaengliche Beschriftung.",
+                          "description": "sr-only hides the label visually, for an icon-only button; sr-only-mobile hides it on small screens only.",
                           "type": "string",
                           "enum": [
                             "visible",
@@ -1133,15 +1131,15 @@
                             "warning",
                             "danger"
                           ],
-                          "description": "Badge-Variante: info, success, warning oder danger. Steuert Farbe und optional das passende Status-Icon."
+                          "description": "Sets the colour and the status icon."
                         },
                         "text": {
                           "type": "string",
-                          "description": "Sichtbarer Badge-Text. Sollte den Status oder die Kategorie knapp benennen."
+                          "description": "Badge text: a short status or category."
                         },
                         "showIcon": {
                           "default": false,
-                          "description": "Wenn true, wird ein passendes Status-Icon vor dem Text gerendert. In den KERN-Beispielen bleibt dieses Icon standardmaessig aria-hidden=\"true\".",
+                          "description": "Shows the status icon before the text, aria-hidden=\"true\".",
                           "type": "boolean"
                         }
                       },
@@ -2143,7 +2141,7 @@
                       "properties": {
                         "variant": {
                           "default": "primary",
-                          "description": "Button-Variante: primary, secondary oder tertiary.",
+                          "description": "Visual weight: primary (the default), secondary or tertiary.",
                           "type": "string",
                           "enum": [
                             "primary",
@@ -2154,7 +2152,7 @@
                         "label": {
                           "type": "string",
                           "minLength": 1,
-                          "description": "Sichtbarer Button-Text. Auch bei Icon-only-Varianten erforderlich, damit ein sr-only oder sr-only-mobile Label gerendert werden kann."
+                          "description": "Button text. Required for icon-only buttons too: it becomes their sr-only label."
                         },
                         "size": {
                           "default": "default",
@@ -2170,7 +2168,7 @@
                         },
                         "block": {
                           "default": false,
-                          "description": "Volle Breite als kern-btn--block.",
+                          "description": "Full width (kern-btn--block).",
                           "type": "boolean"
                         },
                         "type": {
@@ -2184,11 +2182,11 @@
                         },
                         "disabled": {
                           "default": false,
-                          "description": "Button deaktiviert.",
+                          "description": "Disabled.",
                           "type": "boolean"
                         },
                         "icon": {
-                          "description": "Optionales Icon im Button. In den KERN-Beispielen dekorativ mit aria-hidden=\"true\"; Position wird ueber icon.position gesteuert.",
+                          "description": "Decorative icon (aria-hidden=\"true\"); icon.position sets its side.",
                           "type": "object",
                           "properties": {
                             "name": {
@@ -2211,7 +2209,7 @@
                         },
                         "labelVisibility": {
                           "default": "visible",
-                          "description": "Label-Sichtbarkeit: visible, sr-only oder sr-only-mobile. Die Icon-only-Varianten der KERN-Beispiele nutzen sr-only bzw. sr-only-mobile fuer zugaengliche Beschriftung.",
+                          "description": "sr-only hides the label visually, for an icon-only button; sr-only-mobile hides it on small screens only.",
                           "type": "string",
                           "enum": [
                             "visible",
@@ -2249,15 +2247,15 @@
                             "warning",
                             "danger"
                           ],
-                          "description": "Badge-Variante: info, success, warning oder danger. Steuert Farbe und optional das passende Status-Icon."
+                          "description": "Sets the colour and the status icon."
                         },
                         "text": {
                           "type": "string",
-                          "description": "Sichtbarer Badge-Text. Sollte den Status oder die Kategorie knapp benennen."
+                          "description": "Badge text: a short status or category."
                         },
                         "showIcon": {
                           "default": false,
-                          "description": "Wenn true, wird ein passendes Status-Icon vor dem Text gerendert. In den KERN-Beispielen bleibt dieses Icon standardmaessig aria-hidden=\"true\".",
+                          "description": "Shows the status icon before the text, aria-hidden=\"true\".",
                           "type": "boolean"
                         }
                       },
@@ -3259,15 +3257,15 @@
                             "warning",
                             "danger"
                           ],
-                          "description": "Badge-Variante: info, success, warning oder danger. Steuert Farbe und optional das passende Status-Icon."
+                          "description": "Sets the colour and the status icon."
                         },
                         "text": {
                           "type": "string",
-                          "description": "Sichtbarer Badge-Text. Sollte den Status oder die Kategorie knapp benennen."
+                          "description": "Badge text: a short status or category."
                         },
                         "showIcon": {
                           "default": false,
-                          "description": "Wenn true, wird ein passendes Status-Icon vor dem Text gerendert. In den KERN-Beispielen bleibt dieses Icon standardmaessig aria-hidden=\"true\".",
+                          "description": "Shows the status icon before the text, aria-hidden=\"true\".",
                           "type": "boolean"
                         }
                       },
@@ -3706,15 +3704,15 @@
                                   "warning",
                                   "danger"
                                 ],
-                                "description": "Badge-Variante: info, success, warning oder danger. Steuert Farbe und optional das passende Status-Icon."
+                                "description": "Sets the colour and the status icon."
                               },
                               "text": {
                                 "type": "string",
-                                "description": "Sichtbarer Badge-Text. Sollte den Status oder die Kategorie knapp benennen."
+                                "description": "Badge text: a short status or category."
                               },
                               "showIcon": {
                                 "default": false,
-                                "description": "Wenn true, wird ein passendes Status-Icon vor dem Text gerendert. In den KERN-Beispielen bleibt dieses Icon standardmaessig aria-hidden=\"true\".",
+                                "description": "Shows the status icon before the text, aria-hidden=\"true\".",
                                 "type": "boolean"
                               }
                             },
@@ -4115,15 +4113,15 @@
                             "warning",
                             "danger"
                           ],
-                          "description": "Badge-Variante: info, success, warning oder danger. Steuert Farbe und optional das passende Status-Icon."
+                          "description": "Sets the colour and the status icon."
                         },
                         "text": {
                           "type": "string",
-                          "description": "Sichtbarer Badge-Text. Sollte den Status oder die Kategorie knapp benennen."
+                          "description": "Badge text: a short status or category."
                         },
                         "showIcon": {
                           "default": false,
-                          "description": "Wenn true, wird ein passendes Status-Icon vor dem Text gerendert. In den KERN-Beispielen bleibt dieses Icon standardmaessig aria-hidden=\"true\".",
+                          "description": "Shows the status icon before the text, aria-hidden=\"true\".",
                           "type": "boolean"
                         }
                       },
@@ -4365,11 +4363,10 @@
     {
       "name": "get_accordion",
       "title": "KERN Accordion",
-      "description": "KERN UX: HTML für Accordion (aufklappbare Abschnitte) erzeugen.",
+      "description": "KERN UX: HTML for accordions, built on <details> and <summary>. mode 'single' (default) takes title and content; mode 'group' takes items, each with title and content. Sending items without content selects group.",
       "inputSchema": {
         "$schema": "http://json-schema.org/draft-07/schema#",
         "type": "object",
-        "description": "Parameter fuer KERN UX Accordion-Komponente (single oder group).",
         "anyOf": [
           {
             "type": "object",
@@ -4394,21 +4391,21 @@
               "title": {
                 "type": "string",
                 "minLength": 1,
-                "description": "Titel des einzelnen Accordions im <summary>."
+                "description": "Header text, in the <summary>."
               },
               "content": {
                 "type": "string",
                 "minLength": 1,
-                "description": "Inhalt des Accordion-Bodys."
+                "description": "Body content."
               },
               "open": {
                 "default": false,
-                "description": "Wenn true, wird das <details>-Element initial geoeffnet gerendert.",
+                "description": "Open initially.",
                 "type": "boolean"
               },
               "contentIsHtml": {
                 "default": false,
-                "description": "Wenn true, wird content als vertrauenswuerdiges HTML interpretiert statt escaped.",
+                "description": "Treat content as trusted HTML instead of escaping it.",
                 "type": "boolean"
               }
             },
@@ -4416,7 +4413,7 @@
               "title",
               "content"
             ],
-            "description": "Parameter fuer ein einzelnes Accordion auf Basis von <details>/<summary>."
+            "description": "mode 'single' (the default): one accordion, a <details>/<summary>."
           },
           {
             "type": "object",
@@ -4446,38 +4443,37 @@
                     "title": {
                       "type": "string",
                       "minLength": 1,
-                      "description": "Titel des einzelnen Accordion-Headers im <summary>."
+                      "description": "Header text, in the <summary>."
                     },
                     "content": {
                       "type": "string",
                       "minLength": 1,
-                      "description": "Inhalt des Accordion-Bodys."
+                      "description": "Body content."
                     },
                     "open": {
                       "default": false,
-                      "description": "Wenn true, wird das einzelne <details>-Element initial mit open gerendert.",
+                      "description": "Open initially.",
                       "type": "boolean"
                     },
                     "contentIsHtml": {
                       "default": false,
-                      "description": "Wenn true, wird content als vertrauenswuerdiges HTML interpretiert statt escaped.",
+                      "description": "Treat content as trusted HTML instead of escaping it.",
                       "type": "boolean"
                     }
                   },
                   "required": [
                     "title",
                     "content"
-                  ],
-                  "description": "Ein einzelner Accordion-Eintrag fuer den Gruppenmodus."
+                  ]
                 },
-                "description": "Accordion-Eintraege innerhalb einer kern-accordion-group. Der Wrapper dient laut KERN vor allem zur Isolation gegen aeussere Flex- oder Grid-Einfluesse."
+                "description": "The accordions, each with title and content."
               }
             },
             "required": [
               "mode",
               "items"
             ],
-            "description": "Parameter fuer eine Accordion-Gruppe mit mehreren <details>-Elementen im kern-accordion-group-Wrapper."
+            "description": "mode 'group': several accordions in a kern-accordion-group."
           }
         ]
       },
@@ -4570,13 +4566,13 @@
     {
       "name": "get_alert",
       "title": "KERN Alert",
-      "description": "KERN UX: HTML für Alert erzeugen. Pflichtfeld: title. Varianten via type: info (Standard) | success | warning | danger (höchste Schwere, kein separater 'high-contrast'-Modus). Optionaler body mit text, links und listItems. Beispiel: { type: 'danger', title: 'Serverstörung', body: { text: 'Unsere Server sind nicht erreichbar.' } }.",
+      "description": "KERN UX: HTML for an alert with role=\"alert\": a heading with a decorative status icon, and optional body text, links and a list. Required: title. type info (default), success, warning or danger; danger is the most severe, and there is no separate high-contrast variant.",
       "inputSchema": {
         "$schema": "http://json-schema.org/draft-07/schema#",
         "type": "object",
         "properties": {
           "locale": {
-            "description": "Sprache für Tool-Strings (Standard: de).",
+            "description": "Language of generated labels and messages (default: de).",
             "type": "string",
             "enum": [
               "de",
@@ -4584,12 +4580,12 @@
             ]
           },
           "strict": {
-            "description": "Wenn true: bei Validierungsfehlern wird kein HTML geliefert.",
+            "description": "If true, validation errors fail the call instead of returning HTML.",
             "type": "boolean"
           },
           "type": {
             "default": "info",
-            "description": "Alert-Typ: info, success, warning oder danger. Steuert Variante und passendes Status-Icon im Header.",
+            "description": "Sets the colour and the status icon in the header.",
             "type": "string",
             "enum": [
               "info",
@@ -4601,29 +4597,29 @@
           "title": {
             "type": "string",
             "minLength": 1,
-            "description": "Alert-Ueberschrift. Kurz und eindeutig formulieren; sie traegt die Hauptaussage des Alerts."
+            "description": "Heading: short; it carries the main message."
           },
           "body": {
-            "description": "Optionaler Body-Inhalt des Alerts. Der Alert kann nur aus Header bestehen oder zusaetzlich Text, Links und Listen aufnehmen.",
+            "description": "Optional content below the heading.",
             "type": "object",
             "properties": {
               "text": {
-                "description": "Optionaler Fliesstext im Alert-Body fuer zusaetzlichen Kontext oder Erlaeuterungen.",
+                "description": "Body text.",
                 "type": "string"
               },
               "links": {
-                "description": "Optionale Links im Body. Der Renderer verwendet dafuer KERN-Links mit dekorativem Arrow-Forward-Icon.",
+                "description": "Links, rendered as KERN links with a decorative arrow-forward icon.",
                 "type": "array",
                 "items": {
                   "type": "object",
                   "properties": {
                     "href": {
                       "type": "string",
-                      "description": "Link-Ziel fuer eine weiterfuehrende Aktion oder Information."
+                      "description": "Link target."
                     },
                     "text": {
                       "type": "string",
-                      "description": "Sichtbarer Link-Text im Alert-Body."
+                      "description": "Link text."
                     }
                   },
                   "required": [
@@ -4633,7 +4629,7 @@
                 }
               },
               "listItems": {
-                "description": "Optionale Listenelemente im Body, z.B. fuer mehrere Hinweise, Schritte oder Fehlerpunkte.",
+                "description": "List items, e.g. several points or steps.",
                 "type": "array",
                 "items": {
                   "type": "string"
@@ -4641,7 +4637,7 @@
               },
               "listStyle": {
                 "default": "default",
-                "description": "Listen-Stil: default oder bullet. Entspricht kern-list bzw. kern-list kern-list--bullet.",
+                "description": "default: kern-list; bullet: kern-list kern-list--bullet.",
                 "type": "string",
                 "enum": [
                   "default",
@@ -4653,8 +4649,7 @@
         },
         "required": [
           "title"
-        ],
-        "description": "Parameter fuer KERN UX Alert-Komponente. Der Renderer erzeugt immer role=\"alert\" und setzt das Status-Icon standardmaessig auf aria-hidden=\"true\", weil die Textinhalte die eigentliche Information tragen."
+        ]
       },
       "outputSchema": {
         "$schema": "http://json-schema.org/draft-07/schema#",
@@ -4745,7 +4740,7 @@
     {
       "name": "get_badge",
       "title": "KERN Badge",
-      "description": "KERN UX: HTML für Badge erzeugen. Pflichtfelder: type und text. type: info | success | warning | danger. Beispiel: { type: 'success', text: 'Online' }. Optional: showIcon: true.",
+      "description": "KERN UX: HTML for a badge: a short, non-interactive status or category label. Required: type (info, success, warning or danger) and text. showIcon: true adds the status icon.",
       "inputSchema": {
         "$schema": "http://json-schema.org/draft-07/schema#",
         "type": "object",
@@ -4770,23 +4765,22 @@
               "warning",
               "danger"
             ],
-            "description": "Badge-Variante: info, success, warning oder danger. Steuert Farbe und optional das passende Status-Icon."
+            "description": "Sets the colour and the status icon."
           },
           "text": {
             "type": "string",
-            "description": "Sichtbarer Badge-Text. Sollte den Status oder die Kategorie knapp benennen."
+            "description": "Badge text: a short status or category."
           },
           "showIcon": {
             "default": false,
-            "description": "Wenn true, wird ein passendes Status-Icon vor dem Text gerendert. In den KERN-Beispielen bleibt dieses Icon standardmaessig aria-hidden=\"true\".",
+            "description": "Shows the status icon before the text, aria-hidden=\"true\".",
             "type": "boolean"
           }
         },
         "required": [
           "type",
           "text"
-        ],
-        "description": "Parameter fuer KERN UX Badge-Komponente. Geeignet fuer kompakte Status- oder Kategoriehinweise; das Badge ist rein darstellend und nicht als interaktives Element gedacht."
+        ]
       },
       "outputSchema": {
         "$schema": "http://json-schema.org/draft-07/schema#",
@@ -5005,7 +4999,7 @@
     {
       "name": "get_button",
       "title": "KERN Button",
-      "description": "KERN UX: HTML für Button erzeugen (primary/secondary/tertiary, mit Icon-Optionen). Pflichtfeld: label. Varianten: primary|secondary|tertiary. Beispiel: { label: 'More Info', variant: 'primary' }.",
+      "description": "KERN UX: HTML for a button. Required: label. variant primary (default), secondary or tertiary; five sizes; an optional icon. labelVisibility 'sr-only' makes an icon-only button that keeps an accessible name.",
       "inputSchema": {
         "$schema": "http://json-schema.org/draft-07/schema#",
         "type": "object",
@@ -5024,7 +5018,7 @@
           },
           "variant": {
             "default": "primary",
-            "description": "Button-Variante: primary, secondary oder tertiary.",
+            "description": "Visual weight: primary (the default), secondary or tertiary.",
             "type": "string",
             "enum": [
               "primary",
@@ -5035,7 +5029,7 @@
           "label": {
             "type": "string",
             "minLength": 1,
-            "description": "Sichtbarer Button-Text. Auch bei Icon-only-Varianten erforderlich, damit ein sr-only oder sr-only-mobile Label gerendert werden kann."
+            "description": "Button text. Required for icon-only buttons too: it becomes their sr-only label."
           },
           "size": {
             "default": "default",
@@ -5051,7 +5045,7 @@
           },
           "block": {
             "default": false,
-            "description": "Volle Breite als kern-btn--block.",
+            "description": "Full width (kern-btn--block).",
             "type": "boolean"
           },
           "type": {
@@ -5065,11 +5059,11 @@
           },
           "disabled": {
             "default": false,
-            "description": "Button deaktiviert.",
+            "description": "Disabled.",
             "type": "boolean"
           },
           "icon": {
-            "description": "Optionales Icon im Button. In den KERN-Beispielen dekorativ mit aria-hidden=\"true\"; Position wird ueber icon.position gesteuert.",
+            "description": "Decorative icon (aria-hidden=\"true\"); icon.position sets its side.",
             "type": "object",
             "properties": {
               "name": {
@@ -5092,7 +5086,7 @@
           },
           "labelVisibility": {
             "default": "visible",
-            "description": "Label-Sichtbarkeit: visible, sr-only oder sr-only-mobile. Die Icon-only-Varianten der KERN-Beispiele nutzen sr-only bzw. sr-only-mobile fuer zugaengliche Beschriftung.",
+            "description": "sr-only hides the label visually, for an icon-only button; sr-only-mobile hides it on small screens only.",
             "type": "string",
             "enum": [
               "visible",
@@ -5103,8 +5097,7 @@
         },
         "required": [
           "label"
-        ],
-        "description": "Parameter fuer KERN UX Button-Komponente. Unterstuetzt KERN-Varianten primary, secondary und tertiary sowie Icon-only-Muster mit verstecktem, aber zugaenglichem Label."
+        ]
       },
       "outputSchema": {
         "$schema": "http://json-schema.org/draft-07/schema#",
@@ -5195,7 +5188,7 @@
     {
       "name": "get_card",
       "title": "KERN Card",
-      "description": "KERN UX: HTML für Card (Karten-Container) erzeugen.",
+      "description": "KERN UX: HTML for a card: an optional image, a header (preline, title, subline, optional link), body text or simple blocks, and up to two footer buttons.",
       "inputSchema": {
         "$schema": "http://json-schema.org/draft-07/schema#",
         "type": "object",
@@ -5214,7 +5207,7 @@
           },
           "size": {
             "default": "default",
-            "description": "Card-Größe: small, default oder large. Innerhalb eines gemeinsamen Kontexts möglichst konsistent halten.",
+            "description": "Card size; keep cards that sit together the same size.",
             "type": "string",
             "enum": [
               "default",
@@ -5224,7 +5217,7 @@
           },
           "hug": {
             "default": false,
-            "description": "Wenn true: Card behält ihre eigene Höhe statt sich in einer Reihe auf Equal Height auszudehnen.",
+            "description": "Keeps the card's own height instead of matching the tallest in its row.",
             "type": "boolean"
           },
           "media": {
@@ -5232,11 +5225,11 @@
             "properties": {
               "src": {
                 "type": "string",
-                "description": "Bild-URL für den optionalen Medienbereich. Pro Card höchstens ein Medieninhalt verwenden."
+                "description": "Image URL; at most one image per card."
               },
               "alt": {
                 "type": "string",
-                "description": "Aussagekräftiger Alt-Text für das Card-Bild. Bei informativen Bildern erforderlich, damit WCAG 1.1.1 erfüllt bleibt."
+                "description": "Alt text; required for an informative image (WCAG 1.1.1)."
               }
             },
             "required": [
@@ -5248,17 +5241,17 @@
             "type": "object",
             "properties": {
               "preline": {
-                "description": "Optionale Vorzeile oberhalb des Titels für knappe Einordnung oder Kategorie.",
+                "description": "Short line above the title, e.g. a category.",
                 "type": "string"
               },
               "title": {
                 "type": "string",
                 "minLength": 1,
-                "description": "Pflichttitel der Card. Soll den klaren Fokus der Informationseinheit benennen."
+                "description": "Card title."
               },
               "titleLevel": {
                 "default": 2,
-                "description": "Heading-Ebene für den Card-Titel (h1-h6). Im Seitenkontext hierarchisch und ohne Sprünge verwenden (WCAG 2.4.6).",
+                "description": "Heading level of the title, h1 to h6. Don't skip levels.",
                 "anyOf": [
                   {
                     "type": "number",
@@ -5287,11 +5280,11 @@
                 ]
               },
               "subline": {
-                "description": "Optionale Unterzeile unterhalb des Titels für zusätzliche, knappe Kontextinformation.",
+                "description": "Short line below the title.",
                 "type": "string"
               },
               "href": {
-                "description": "Optionaler Link für eine flächig interaktive Card. Nur setzen, wenn die gesamte Card genau ein gemeinsames Navigationsziel hat.",
+                "description": "Makes the whole card a link. Only when the card has a single destination.",
                 "type": "string"
               }
             },
@@ -5300,12 +5293,12 @@
             ]
           },
           "body": {
-            "description": "Optionaler einfacher Body-Text. Kurz halten; KERN empfiehlt kompakte Inhalte und höchstens etwa 150 Zeichen als Richtwert. Nicht für lange Texte oder komplexe Tabellen verwenden.",
+            "description": "Short body text, about 150 characters at most.",
             "type": "string"
           },
           "bodyIsHtml": {
             "default": false,
-            "description": "Wenn true wird body als Roh-HTML gerendert. Nur für vertrauenswürdige, semantisch passende Inhalte verwenden.",
+            "description": "Treat body as trusted HTML instead of escaping it.",
             "type": "boolean"
           },
           "contentBlocks": {
@@ -5369,15 +5362,15 @@
                             "warning",
                             "danger"
                           ],
-                          "description": "Badge-Variante: info, success, warning oder danger. Steuert Farbe und optional das passende Status-Icon."
+                          "description": "Sets the colour and the status icon."
                         },
                         "text": {
                           "type": "string",
-                          "description": "Sichtbarer Badge-Text. Sollte den Status oder die Kategorie knapp benennen."
+                          "description": "Badge text: a short status or category."
                         },
                         "showIcon": {
                           "default": false,
-                          "description": "Wenn true, wird ein passendes Status-Icon vor dem Text gerendert. In den KERN-Beispielen bleibt dieses Icon standardmaessig aria-hidden=\"true\".",
+                          "description": "Shows the status icon before the text, aria-hidden=\"true\".",
                           "type": "boolean"
                         }
                       },
@@ -5513,11 +5506,11 @@
             "type": "object",
             "properties": {
               "primaryLabel": {
-                "description": "Text der primären Footer-Aktion. Cards sollten insgesamt sparsam mit Aktionen umgehen.",
+                "description": "Label of the primary footer button.",
                 "type": "string"
               },
               "secondaryLabel": {
-                "description": "Text der sekundären Footer-Aktion. Zusammen mit primaryLabel maximal zwei Aktionen pro Card.",
+                "description": "Label of the secondary footer button.",
                 "type": "string"
               }
             }
@@ -6143,13 +6136,13 @@
     {
       "name": "get_dialog",
       "title": "KERN Dialog",
-      "description": "KERN UX: HTML für Dialog erzeugen (mit optionalem Trigger-Button). Known-good payload: { title: 'Bestätigen', body: 'Möchten Sie fortfahren?', confirmLabel: 'Ja', cancelLabel: 'Nein', triggerLabel: 'Dialog öffnen', triggerVariant: 'primary' }. Legacy payload mit actions.confirm/cancel wird ebenfalls akzeptiert.",
+      "description": "KERN UX: HTML for a modal <dialog> with header, body and footer buttons; cancel and close use formmethod=\"dialog\". Required: title, body, confirmLabel, cancelLabel. triggerLabel adds the button that opens it.",
       "inputSchema": {
         "$schema": "http://json-schema.org/draft-07/schema#",
         "type": "object",
         "properties": {
           "locale": {
-            "description": "Sprache für Tool-Strings (Standard: de).",
+            "description": "Language of generated labels and messages (default: de).",
             "type": "string",
             "enum": [
               "de",
@@ -6157,53 +6150,53 @@
             ]
           },
           "strict": {
-            "description": "Wenn true: bei Validierungsfehlern wird kein HTML geliefert.",
+            "description": "If true, validation errors fail the call instead of returning HTML.",
             "type": "boolean"
           },
           "id": {
-            "description": "Optionale feste ID fuer den Dialog. Ohne Angabe wird sie automatisch generiert und fuer aria-labelledby sowie Trigger-Verknuepfung wiederverwendet.",
+            "description": "Dialog id, for aria-labelledby and the trigger; generated when omitted.",
             "type": "string"
           },
           "title": {
             "type": "string",
             "minLength": 1,
-            "description": "Dialog-Ueberschrift. Sollte die Frage, Entscheidung oder Konsequenz des Dialogs kurz und eindeutig benennen."
+            "description": "Heading: the question or decision, short and clear."
           },
           "body": {
             "type": "string",
             "minLength": 1,
-            "description": "Dialog-Inhalt. Standardmaessig als Text gerendert; fuer laengere Inhalte oder strukturierte Hinweise knapp halten und auf die entscheidungsrelevanten Informationen fokussieren."
+            "description": "Content, rendered as text. Keep it to what the decision needs."
           },
           "bodyIsHtml": {
             "default": false,
-            "description": "Wenn true, wird body als vertrauenswuerdiges HTML interpretiert statt escaped. Nur fuer bewusst erzeugte KERN-kompatible Markup-Inhalte verwenden.",
+            "description": "Treat body as trusted HTML instead of escaping it.",
             "type": "boolean"
           },
           "confirmLabel": {
             "type": "string",
             "minLength": 1,
-            "description": "Text des primaeren Aktions-Buttons. Sollte die auszufuehrende Handlung klar benennen, z.B. 'Loeschen' statt allgemeinem 'OK'."
+            "description": "Label of the primary button. Name the action, e.g. 'Löschen', not 'OK'."
           },
           "confirmId": {
-            "description": "Optionale feste ID fuer den primaeren Aktions-Button, z.B. fuer gezielte Weiterverarbeitung im Host.",
+            "description": "Id of the primary button.",
             "type": "string"
           },
           "cancelLabel": {
             "type": "string",
             "minLength": 1,
-            "description": "Text des sekundaeren Abbrechen-Buttons. Im gerenderten Dialog als Button mit formmethod=\"dialog\" umgesetzt."
+            "description": "Label of the cancel button, which uses formmethod=\"dialog\"."
           },
           "tertiaryLabel": {
-            "description": "Optionaler tertiaerer Button-Text fuer eine weniger gewichtete Zusatzaktion oder einen Link-aehnlichen Ausweg.",
+            "description": "Label of an optional third button for a lesser action.",
             "type": "string"
           },
           "triggerLabel": {
-            "description": "Text fuer den optionalen Trigger-Button. Wenn gesetzt, wird vor dem Dialog ein Button mit data-dialog-target erzeugt, der den Dialog oeffnen kann.",
+            "description": "Adds a button before the dialog that opens it (data-dialog-target).",
             "type": "string"
           },
           "triggerVariant": {
             "default": "primary",
-            "description": "Variante des Trigger-Buttons. Nur relevant, wenn triggerLabel gesetzt ist.",
+            "description": "Variant of the trigger button.",
             "type": "string",
             "enum": [
               "primary",
@@ -6212,7 +6205,7 @@
             ]
           },
           "closeButtonLabel": {
-            "description": "Screenreader-Text fuer den Schliessen-Button im Header. Standard: 'Schliessen' bzw. 'Close'.",
+            "description": "Screen-reader text of the close button; 'Schließen' or 'Close' by default.",
             "type": "string"
           }
         },
@@ -6221,8 +6214,7 @@
           "body",
           "confirmLabel",
           "cancelLabel"
-        ],
-        "description": "Parameter fuer KERN UX Dialog-Komponente. Der Renderer bildet die KERN-Struktur mit <dialog>, Header, Body, Footer und Formular-Buttons nach; Abbrechen und Schliessen verwenden formmethod=\"dialog\". Beispiel: { title: 'Bestaetigen', body: 'Moechten Sie fortfahren?', confirmLabel: 'Ja', cancelLabel: 'Nein', triggerLabel: 'Dialog oeffnen', triggerVariant: 'primary' }."
+        ]
       },
       "outputSchema": {
         "$schema": "http://json-schema.org/draft-07/schema#",
@@ -6426,7 +6418,7 @@
     {
       "name": "get_dropdown",
       "title": "KERN Dropdown",
-      "description": "KERN UX: HTML für Dropdown erzeugen (experimentell).",
+      "description": "KERN UX: HTML for a dropdown (experimental): a <details>/<summary> with radio or checkbox options inside. Not a menu or a select.",
       "inputSchema": {
         "$schema": "http://json-schema.org/draft-07/schema#",
         "type": "object",
@@ -6445,11 +6437,11 @@
           },
           "triggerLabel": {
             "type": "string",
-            "description": "Sichtbarer Text im <summary>-Trigger des Dropdowns."
+            "description": "Text of the <summary> that opens the dropdown."
           },
           "name": {
             "type": "string",
-            "description": "Gemeinsames Name-Attribut fuer alle enthaltenen Input-Optionen."
+            "description": "Name shared by every option."
           },
           "options": {
             "minItems": 1,
@@ -6459,34 +6451,33 @@
               "properties": {
                 "value": {
                   "type": "string",
-                  "description": "Technischer Wert der Option fuer den Form-Submit."
+                  "description": "Submitted value."
                 },
                 "label": {
                   "type": "string",
-                  "description": "Sichtbarer Label-Text der Option."
+                  "description": "Visible option text."
                 },
                 "checked": {
                   "default": false,
-                  "description": "Markiert die Option als initial aktiviert. Bei inputType='radio' fachlich hoechstens eine Option auf true setzen.",
+                  "description": "Checked initially. With inputType radio, at most one option.",
                   "type": "boolean"
                 },
                 "disabled": {
                   "default": false,
-                  "description": "Option ist deaktiviert und kann nicht ausgewaehlt werden.",
+                  "description": "Can't be chosen.",
                   "type": "boolean"
                 }
               },
               "required": [
                 "value",
                 "label"
-              ],
-              "description": "Ein einzelner Dropdown-Eintrag innerhalb der Liste."
+              ]
             },
-            "description": "Optionenliste innerhalb des geoeffneten Dropdowns. Je nach inputType als exklusive Radio- oder mehrfache Checkbox-Auswahl gerendert."
+            "description": "The options, rendered as radios or checkboxes (inputType)."
           },
           "inputType": {
             "default": "radio",
-            "description": "Typ der inneren Inputs: radio fuer genau eine Auswahl, checkbox fuer Mehrfachauswahl.",
+            "description": "radio (the default) for one choice, checkbox for several.",
             "type": "string",
             "enum": [
               "radio",
@@ -6495,7 +6486,7 @@
           },
           "open": {
             "default": false,
-            "description": "Wenn true, wird das zugrunde liegende <details>-Element initial mit open gerendert.",
+            "description": "Open initially (<details open>).",
             "type": "boolean"
           }
         },
@@ -6503,8 +6494,7 @@
           "triggerLabel",
           "name",
           "options"
-        ],
-        "description": "Parameter fuer KERN UX Dropdown-Komponente. Diese Implementierung ist experimentell und bildet ein einfaches <details>/<summary>-Muster mit eingebetteten Radio- oder Checkbox-Optionen nach, nicht eine umfangreiche Menue- oder Select-Komponente."
+        ]
       },
       "outputSchema": {
         "$schema": "http://json-schema.org/draft-07/schema#",
@@ -6690,15 +6680,15 @@
                             "warning",
                             "danger"
                           ],
-                          "description": "Badge-Variante: info, success, warning oder danger. Steuert Farbe und optional das passende Status-Icon."
+                          "description": "Sets the colour and the status icon."
                         },
                         "text": {
                           "type": "string",
-                          "description": "Sichtbarer Badge-Text. Sollte den Status oder die Kategorie knapp benennen."
+                          "description": "Badge text: a short status or category."
                         },
                         "showIcon": {
                           "default": false,
-                          "description": "Wenn true, wird ein passendes Status-Icon vor dem Text gerendert. In den KERN-Beispielen bleibt dieses Icon standardmaessig aria-hidden=\"true\".",
+                          "description": "Shows the status icon before the text, aria-hidden=\"true\".",
                           "type": "boolean"
                         }
                       },
@@ -7089,15 +7079,15 @@
                               "warning",
                               "danger"
                             ],
-                            "description": "Badge-Variante: info, success, warning oder danger. Steuert Farbe und optional das passende Status-Icon."
+                            "description": "Sets the colour and the status icon."
                           },
                           "text": {
                             "type": "string",
-                            "description": "Sichtbarer Badge-Text. Sollte den Status oder die Kategorie knapp benennen."
+                            "description": "Badge text: a short status or category."
                           },
                           "showIcon": {
                             "default": false,
-                            "description": "Wenn true, wird ein passendes Status-Icon vor dem Text gerendert. In den KERN-Beispielen bleibt dieses Icon standardmaessig aria-hidden=\"true\".",
+                            "description": "Shows the status icon before the text, aria-hidden=\"true\".",
                             "type": "boolean"
                           }
                         },
@@ -7477,7 +7467,7 @@
     {
       "name": "get_icon",
       "title": "KERN Icon",
-      "description": "KERN UX: HTML für Icon erzeugen. Pflichtfeld: name (siehe list_icons). Beispiel: { name: 'download', decorative: false, ariaLabel: 'Download PDF' }.",
+      "description": "KERN UX: HTML for an icon, decorative by default. Required: name (see list_icons). A meaningful icon needs decorative: false and an ariaLabel.",
       "inputSchema": {
         "$schema": "http://json-schema.org/draft-07/schema#",
         "type": "object",
@@ -7496,11 +7486,11 @@
           },
           "name": {
             "type": "string",
-            "description": "Icon-Name aus der bekannten KERN-Iconliste. Die Grundklasse kern-icon ist immer enthalten; ein default-Modifier wird nicht benoetigt."
+            "description": "KERN icon name, e.g. arrow-forward. list_icons has them all."
           },
           "size": {
             "default": "default",
-            "description": "Icon-Groesse: default ohne Zusatzklasse oder small, large, x-large mit entsprechendem Modifier.",
+            "description": "Size; every size but default adds a modifier.",
             "type": "string",
             "enum": [
               "default",
@@ -7511,18 +7501,17 @@
           },
           "decorative": {
             "default": true,
-            "description": "Wenn true, wird aria-hidden=\"true\" gesetzt und das Icon bleibt rein dekorativ. Wenn false, muss ariaLabel gesetzt werden.",
+            "description": "Decorative (aria-hidden=\"true\"), the default. false needs ariaLabel.",
             "type": "boolean"
           },
           "ariaLabel": {
-            "description": "Zugaengliche Beschreibung fuer bedeutungstragende Icons. Nur notwendig, wenn decorative=false ist.",
+            "description": "Accessible name of a meaningful icon (decorative: false).",
             "type": "string"
           }
         },
         "required": [
           "name"
-        ],
-        "description": "Parameter fuer KERN UX Icon-Komponente. KERN behandelt Icons standardmaessig als dekorativ; nur bedeutungstragende Icons sollten mit aria-hidden=\"false\" und aria-label exponiert werden."
+        ]
       },
       "outputSchema": {
         "$schema": "http://json-schema.org/draft-07/schema#",
@@ -9593,7 +9582,7 @@
     {
       "name": "get_loader",
       "title": "KERN Loader",
-      "description": "KERN UX: HTML für Loader (Lade-Indikator) erzeugen.",
+      "description": "KERN UX: HTML for a loading spinner with role=\"status\" and hidden screen-reader text.",
       "inputSchema": {
         "$schema": "http://json-schema.org/draft-07/schema#",
         "type": "object",
@@ -9612,15 +9601,14 @@
           },
           "visible": {
             "default": true,
-            "description": "Wenn true, wird der Modifier kern-loader--visible gesetzt. Ohne diesen Modifier bleibt nur die Grundstruktur erhalten.",
+            "description": "Adds kern-loader--visible; without it only the markup renders, hidden.",
             "type": "boolean"
           },
           "srText": {
-            "description": "Optionaler Screenreader-Text innerhalb von kern-sr-only. Ohne Angabe wird der lokalisierte Standardtext fuer 'Wird geladen' bzw. 'Loading' verwendet.",
+            "description": "Screen-reader text; 'Wird geladen' or 'Loading' by default.",
             "type": "string"
           }
-        },
-        "description": "Parameter fuer KERN UX Loader-Komponente. Der Renderer erzeugt einen visuellen Ladeindikator mit role=\"status\" und verborgenem Screenreader-Text."
+        }
       },
       "outputSchema": {
         "$schema": "http://json-schema.org/draft-07/schema#",
@@ -9932,7 +9920,7 @@
     {
       "name": "get_progress",
       "title": "KERN Progress",
-      "description": "KERN UX: HTML für Progress (Fortschrittsbalken) erzeugen.",
+      "description": "KERN UX: HTML for a progress bar: a native <progress> in kern-progress, with an optional linked label.",
       "inputSchema": {
         "$schema": "http://json-schema.org/draft-07/schema#",
         "type": "object",
@@ -9952,21 +9940,21 @@
           "value": {
             "type": "number",
             "minimum": 0,
-            "description": "Aktueller Fortschrittswert des nativen <progress>-Elements."
+            "description": "Current value."
           },
           "max": {
             "default": 100,
-            "description": "Maximalwert des Fortschritts. Standard ist 100, kann aber auch fuer Schrittzaehlungen wie 2 von 5 gesetzt werden.",
+            "description": "Maximum; 100 by default, or e.g. 5 for steps.",
             "type": "number",
             "minimum": 1
           },
           "label": {
-            "description": "Optionaler sichtbarer Label-Text wie 'Schritt 2 von 5'. Wenn gesetzt, wird er per for/id mit dem Progress-Element verknuepft.",
+            "description": "Visible label linked to the bar, e.g. 'Schritt 2 von 5'.",
             "type": "string"
           },
           "labelPosition": {
             "default": "top",
-            "description": "Position des Labels relativ zum Balken: oberhalb oder unterhalb.",
+            "description": "Label above (top, the default) or below the bar.",
             "type": "string",
             "enum": [
               "top",
@@ -9976,8 +9964,7 @@
         },
         "required": [
           "value"
-        ],
-        "description": "Parameter fuer KERN UX Progress-Komponente. Diese Implementierung bildet das native HTML5-<progress>-Element in einem kern-progress-Wrapper nach und unterstuetzt optional einen verknuepften Label-Text."
+        ]
       },
       "outputSchema": {
         "$schema": "http://json-schema.org/draft-07/schema#",
@@ -10698,11 +10685,10 @@
     {
       "name": "get_summary",
       "title": "KERN Summary",
-      "description": "KERN UX: HTML für Summary (Zusammenfassung) erzeugen.",
+      "description": "KERN UX: HTML for a summary: a title, answers as term and value pairs, and an optional edit link. mode 'single' or 'group'. Unlike a task list, it shows no status.",
       "inputSchema": {
         "$schema": "http://json-schema.org/draft-07/schema#",
         "type": "object",
-        "description": "Parameter fuer KERN UX Summary-Komponente (single oder group). Summary zeigt Inhalte und Bearbeitungslinks, aber keinen Bearbeitungsstatus wie eine Tasklist.",
         "anyOf": [
           {
             "type": "object",
@@ -10724,7 +10710,7 @@
                 "const": "single"
               },
               "number": {
-                "description": "Optionale sichtbare Nummer vor dem Titel, z.B. fuer Aufgabenfolgen.",
+                "description": "Number shown before the title, e.g. of a step.",
                 "type": [
                   "string",
                   "number"
@@ -10732,11 +10718,11 @@
               },
               "title": {
                 "type": "string",
-                "description": "Titel der einzelnen Summary-Aufgabe."
+                "description": "Title."
               },
               "headingLevel": {
                 "default": "3",
-                "description": "Heading-Level des Titels. Der Renderer verwendet kern-title kern-title--small.",
+                "description": "Heading level of the title (kern-title kern-title--small).",
                 "type": "string",
                 "enum": [
                   "2",
@@ -10753,41 +10739,40 @@
                   "properties": {
                     "key": {
                       "type": "string",
-                      "description": "Begriff der Description List innerhalb der Summary."
+                      "description": "The term, e.g. a form field's label."
                     },
                     "value": {
                       "type": "string",
-                      "description": "Wert oder Beschreibung zum jeweiligen Begriff."
+                      "description": "Its value, e.g. the answer given."
                     },
                     "valueIsHtml": {
                       "default": false,
-                      "description": "Wenn true, wird value als vertrauenswuerdiges HTML interpretiert, z.B. fuer Listen im Detailbereich.",
+                      "description": "Treat value as trusted HTML, e.g. a list, instead of escaping it.",
                       "type": "boolean"
                     }
                   },
                   "required": [
                     "key",
                     "value"
-                  ],
-                  "description": "Ein einzelnes Key-Value-Paar der eingebetteten Description List."
+                  ]
                 },
-                "description": "Eintraege der eingebetteten Description List."
+                "description": "Term and value pairs."
               },
               "action": {
-                "description": "Optionale Bearbeiten-Aktion. Summary zeigt dabei keinen Status, sondern nur Inhalte und moegliche Bearbeitung.",
+                "description": "An optional edit link.",
                 "type": "object",
                 "properties": {
                   "href": {
                     "type": "string",
-                    "description": "Link-Ziel fuer die optionale Bearbeiten-Aktion."
+                    "description": "Target of the edit link."
                   },
                   "label": {
-                    "description": "Optionaler sichtbarer Link-Text. Ohne Angabe wird lokalisiert 'Bearbeiten' bzw. 'Edit' verwendet.",
+                    "description": "Link text; 'Bearbeiten' or 'Edit' by default.",
                     "type": "string"
                   },
                   "icon": {
                     "default": "edit",
-                    "description": "Icon der Aktion. Standard ist edit, passend zu den KERN-Beispielen.",
+                    "description": "Icon of the link; edit by default.",
                     "type": "string"
                   }
                 },
@@ -10801,7 +10786,7 @@
               "title",
               "items"
             ],
-            "description": "Parameter fuer eine einzelne KERN Summary."
+            "description": "mode 'single': one summary."
           },
           {
             "type": "object",
@@ -10824,11 +10809,11 @@
               },
               "groupTitle": {
                 "type": "string",
-                "description": "Gruppenueberschrift der Summary-Gruppe."
+                "description": "Heading of the group."
               },
               "groupHeadingLevel": {
                 "default": "2",
-                "description": "Heading-Level der Gruppenueberschrift. Der Renderer nutzt hier kern-heading-medium.",
+                "description": "Heading level of the group (kern-heading-medium).",
                 "type": "string",
                 "enum": [
                   "2",
@@ -10845,7 +10830,7 @@
                   "type": "object",
                   "properties": {
                     "number": {
-                      "description": "Optionale sichtbare Nummer vor dem Titel, z.B. fuer Aufgabenfolgen.",
+                      "description": "Number shown before the title, e.g. of a step.",
                       "type": [
                         "string",
                         "number"
@@ -10853,11 +10838,11 @@
                     },
                     "title": {
                       "type": "string",
-                      "description": "Titel der einzelnen Summary-Aufgabe."
+                      "description": "Title."
                     },
                     "headingLevel": {
                       "default": "3",
-                      "description": "Heading-Level des Titels. Der Renderer verwendet kern-title kern-title--small.",
+                      "description": "Heading level of the title (kern-title kern-title--small).",
                       "type": "string",
                       "enum": [
                         "2",
@@ -10874,41 +10859,40 @@
                         "properties": {
                           "key": {
                             "type": "string",
-                            "description": "Begriff der Description List innerhalb der Summary."
+                            "description": "The term, e.g. a form field's label."
                           },
                           "value": {
                             "type": "string",
-                            "description": "Wert oder Beschreibung zum jeweiligen Begriff."
+                            "description": "Its value, e.g. the answer given."
                           },
                           "valueIsHtml": {
                             "default": false,
-                            "description": "Wenn true, wird value als vertrauenswuerdiges HTML interpretiert, z.B. fuer Listen im Detailbereich.",
+                            "description": "Treat value as trusted HTML, e.g. a list, instead of escaping it.",
                             "type": "boolean"
                           }
                         },
                         "required": [
                           "key",
                           "value"
-                        ],
-                        "description": "Ein einzelnes Key-Value-Paar der eingebetteten Description List."
+                        ]
                       },
-                      "description": "Eintraege der eingebetteten Description List."
+                      "description": "Term and value pairs."
                     },
                     "action": {
-                      "description": "Optionale Bearbeiten-Aktion. Summary zeigt dabei keinen Status, sondern nur Inhalte und moegliche Bearbeitung.",
+                      "description": "An optional edit link.",
                       "type": "object",
                       "properties": {
                         "href": {
                           "type": "string",
-                          "description": "Link-Ziel fuer die optionale Bearbeiten-Aktion."
+                          "description": "Target of the edit link."
                         },
                         "label": {
-                          "description": "Optionaler sichtbarer Link-Text. Ohne Angabe wird lokalisiert 'Bearbeiten' bzw. 'Edit' verwendet.",
+                          "description": "Link text; 'Bearbeiten' or 'Edit' by default.",
                           "type": "string"
                         },
                         "icon": {
                           "default": "edit",
-                          "description": "Icon der Aktion. Standard ist edit, passend zu den KERN-Beispielen.",
+                          "description": "Icon of the link; edit by default.",
                           "type": "string"
                         }
                       },
@@ -10920,10 +10904,9 @@
                   "required": [
                     "title",
                     "items"
-                  ],
-                  "description": "Parameter fuer eine einzelne Summary-Aufgabe."
+                  ]
                 },
-                "description": "Enthaltene Summary-Aufgaben der Gruppe."
+                "description": "The summaries in the group."
               }
             },
             "required": [
@@ -10931,7 +10914,7 @@
               "groupTitle",
               "summaries"
             ],
-            "description": "Parameter fuer eine Summary-Gruppe mit mehreren Aufgabenbereichen."
+            "description": "mode 'group': several summaries under one heading."
           }
         ]
       },
@@ -11024,7 +11007,7 @@
     {
       "name": "get_table",
       "title": "KERN Table",
-      "description": "KERN UX: HTML für Table (Datentabelle) erzeugen.",
+      "description": "KERN UX: HTML for a data table: column headings, optional row headings, caption and footer row, in a scrolling container. Mark numeric and currency columns numeric to right-align them. KERN's action-column pattern isn't offered.",
       "inputSchema": {
         "$schema": "http://json-schema.org/draft-07/schema#",
         "type": "object",
@@ -11042,7 +11025,7 @@
             "type": "boolean"
           },
           "caption": {
-            "description": "Optionale Tabellenbeschriftung als <caption class=\"kern-title\">. Hilft laut KERN beim Auffinden, Verstehen und Navigieren der Tabelle.",
+            "description": "Caption (<caption class=\"kern-title\">); it helps users find and understand the table.",
             "type": "string"
           },
           "headers": {
@@ -11053,20 +11036,19 @@
               "properties": {
                 "text": {
                   "type": "string",
-                  "description": "Spaltenüberschrift (wird als <th scope='col'> gerendert)."
+                  "description": "Column heading, rendered as <th scope=\"col\">."
                 },
                 "numeric": {
                   "default": false,
-                  "description": "KERN UX: true für numerische/monetäre Spalten, damit Werte rechtsbündig ausgerichtet werden.",
+                  "description": "A numeric or currency column: its cells are right-aligned.",
                   "type": "boolean"
                 }
               },
               "required": [
                 "text"
-              ],
-              "description": "Definition einer Tabellenkopfzelle."
+              ]
             },
-            "description": "Spaltenkoepfe; mindestens eine Kopfzelle erforderlich. Scope=\"col\" wird automatisch gesetzt."
+            "description": "Column headings, at least one."
           },
           "rows": {
             "type": "array",
@@ -11074,7 +11056,7 @@
               "type": "object",
               "properties": {
                 "rowHeader": {
-                  "description": "Optionale Zeilenüberschrift (<th scope='row'>).",
+                  "description": "Row heading, rendered as <th scope=\"row\">.",
                   "type": "string"
                 },
                 "cells": {
@@ -11084,64 +11066,61 @@
                     "properties": {
                       "content": {
                         "type": "string",
-                        "description": "Zelleninhalt als Text oder HTML (abhängig von isHtml)."
+                        "description": "Cell content."
                       },
                       "isHtml": {
                         "default": false,
-                        "description": "Wenn true wird content als HTML gerendert, sonst escaped.",
+                        "description": "Treat content as trusted HTML instead of escaping it.",
                         "type": "boolean"
                       },
                       "numeric": {
                         "default": false,
-                        "description": "Explizite Rechtsausrichtung dieser Zelle; wird zusätzlich automatisch von numeric-Headern abgeleitet.",
+                        "description": "Right-aligns this cell; a numeric column does it for you.",
                         "type": "boolean"
                       }
                     },
                     "required": [
                       "content"
-                    ],
-                    "description": "Definition einer Tabellen-Datenzelle."
+                    ]
                   },
-                  "description": "Zellen der Zeile in Spaltenreihenfolge."
+                  "description": "The cells, in column order."
                 }
               },
               "required": [
                 "cells"
-              ],
-              "description": "Definition einer Tabellenzeile."
+              ]
             },
-            "description": "Tabellenzeilen mit Zellen in Header-Reihenfolge. Optionale rowHeader-Werte werden als <th scope=\"row\"> gerendert."
+            "description": "The rows."
           },
           "footer": {
-            "description": "Optionale Footer-Zeile, z.B. fuer Summen oder Abschlusswerte. Der aktuelle Renderer bildet nur Datenzellen ab, keine speziellen Action-Footer-Muster.",
+            "description": "A footer row of data cells, e.g. totals.",
             "type": "array",
             "items": {
               "type": "object",
               "properties": {
                 "content": {
                   "type": "string",
-                  "description": "Zelleninhalt als Text oder HTML (abhängig von isHtml)."
+                  "description": "Cell content."
                 },
                 "isHtml": {
                   "default": false,
-                  "description": "Wenn true wird content als HTML gerendert, sonst escaped.",
+                  "description": "Treat content as trusted HTML instead of escaping it.",
                   "type": "boolean"
                 },
                 "numeric": {
                   "default": false,
-                  "description": "Explizite Rechtsausrichtung dieser Zelle; wird zusätzlich automatisch von numeric-Headern abgeleitet.",
+                  "description": "Right-aligns this cell; a numeric column does it for you.",
                   "type": "boolean"
                 }
               },
               "required": [
                 "content"
-              ],
-              "description": "Definition einer Tabellen-Datenzelle."
+              ]
             }
           },
           "size": {
             "default": "default",
-            "description": "Tabellengroesse: default oder small. small rendert kern-table--small fuer kompaktere Tabellen.",
+            "description": "small renders the compact kern-table--small.",
             "type": "string",
             "enum": [
               "default",
@@ -11150,20 +11129,19 @@
           },
           "striped": {
             "default": false,
-            "description": "Aktiviert kern-table--striped fuer alternierende Zeilenhintergruende und bessere Lesbarkeit.",
+            "description": "Alternating row backgrounds (kern-table--striped).",
             "type": "boolean"
           },
           "responsive": {
             "default": true,
-            "description": "Wrappt die Tabelle standardmaessig in einen horizontal scrollbaren Responsive-Container. Wenn eine caption vorhanden ist, wird der Wrapper als role=\"region\" mit aria-labelledby zur caption beschriftet.",
+            "description": "Wraps the table in a horizontally scrolling container; with a caption, it becomes a role=\"region\" labelled by the caption.",
             "type": "boolean"
           }
         },
         "required": [
           "headers",
           "rows"
-        ],
-        "description": "Parameter fuer KERN UX Table-Komponente. Ausrichtungsregel: numerische und Waehrungs-Spalten als numeric markieren, damit sie rechtsbuendig erscheinen; Textspalten bleiben linksbuendig. Diese MCP-Schnittstelle modelliert derzeit klassische Daten-Tabellen; die erweiterten Action-Column-Muster aus den KERN-Beispielen werden noch nicht als eigene Struktur abgebildet."
+        ]
       },
       "outputSchema": {
         "$schema": "http://json-schema.org/draft-07/schema#",
@@ -11254,7 +11232,7 @@
     {
       "name": "get_tasklist",
       "title": "KERN Tasklist",
-      "description": "KERN UX: HTML fuer Tasklist erzeugen (Aufgabenliste mit Status). items erwartet Objekte mit title, optional href, status und statusType. numbered (Standard: true) erzeugt eine nummerierte Liste (ol). Setze numbered: false für eine unnummerierte Checkliste (ul) — ideal für Feature-Listen oder Vergleichs-Checklisten mit Häkchen-Icons. Beispiel nummeriert: { heading: 'Schritte', items: [{ title: 'Unterlagen hochladen', status: 'Offen', statusType: 'info' }] }. Beispiel Checkliste: { heading: 'Leistungen', numbered: false, items: [{ title: 'Inklusive', status: 'Ja', statusType: 'success' }] }.",
+      "description": "KERN UX: HTML for a task list: tasks with a title, an optional link and a status badge. numbered (default true) numbers them; numbered: false gives an unnumbered checklist.",
       "inputSchema": {
         "$schema": "http://json-schema.org/draft-07/schema#",
         "type": "object",
@@ -11273,12 +11251,12 @@
           },
           "heading": {
             "default": "Aufgaben",
-            "description": "Ueberschrift der Tasklist. Der Renderer nutzt immer die KERN-Darstellung mit kern-heading-medium.",
+            "description": "Heading (kern-heading-medium); 'Aufgaben' by default.",
             "type": "string"
           },
           "numbered": {
             "default": true,
-            "description": "Wenn true, wird vor jedem Eintrag ein fortlaufender <span class=\"kern-number\"> gerendert. Bei false entsteht die ungeordnete Variante.",
+            "description": "Numbers each task (<span class=\"kern-number\">); false gives an unnumbered list.",
             "type": "boolean"
           },
           "items": {
@@ -11289,20 +11267,20 @@
               "properties": {
                 "title": {
                   "type": "string",
-                  "description": "Aufgabentitel oder Zusammenfassungs-Text des Eintrags."
+                  "description": "Task title."
                 },
                 "href": {
-                  "description": "Optionales Link-Ziel. Ohne href wird der Titel als nicht klickbarer Text gerendert.",
+                  "description": "Link target; without one the title is plain text.",
                   "type": "string"
                 },
                 "status": {
                   "default": "Offen",
-                  "description": "Sichtbarer Status-Text des Eintrags, z.B. 'Erledigt' oder 'Unvollstaendig'.",
+                  "description": "Status text, e.g. 'Erledigt'; 'Offen' by default.",
                   "type": "string"
                 },
                 "statusType": {
                   "default": "info",
-                  "description": "Badge-Variante fuer den Status des Eintrags.",
+                  "description": "Badge colour of the status.",
                   "type": "string",
                   "enum": [
                     "info",
@@ -11316,13 +11294,12 @@
                 "title"
               ]
             },
-            "description": "Eintraege der Tasklist. Dieses Schema modelliert genau eine Tasklist, nicht den zusaetzlichen kern-task-list-group-Wrapper aus den KERN-Beispielen."
+            "description": "The tasks, each with a status badge."
           }
         },
         "required": [
           "items"
-        ],
-        "description": "Parameter fuer KERN UX Tasklist-Komponente. Geeignet fuer Aufgaben oder Pruefschritte mit sichtbarem Bearbeitungsstatus; jeder Eintrag wird mit einem Status-Badge gerendert."
+        ]
       },
       "outputSchema": {
         "$schema": "http://json-schema.org/draft-07/schema#",

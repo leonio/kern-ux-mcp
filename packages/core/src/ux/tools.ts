@@ -116,22 +116,18 @@ export const VALIDATE_HTML_MAX_LENGTH = 500_000;
 function buildValidateHtmlTool(): ToolDef {
 	const name = "validate_html";
 
-	const inputSchema = z
-		.object({
-			html: z
-				.string()
-				.max(VALIDATE_HTML_MAX_LENGTH)
-				.describe(
-					"Der vollständige HTML-Markup-String, der validiert werden soll. Den 'html'-Wert aus einem get_*-Tool-Ergebnis direkt übergeben (kein Dateipfad, kein Dateiname – nur der Markup-String).",
-				),
-			locale: z
-				.enum(["de", "en"])
-				.optional()
-				.describe("Sprache für Fehlermeldungen (Standard: de)."),
-		})
-		.describe(
-			"Validiert HTML strikt gegen KERN UX A11Y-Regeln (BITV-orientiert).",
-		);
+	const inputSchema = z.object({
+		html: z
+			.string()
+			.max(VALIDATE_HTML_MAX_LENGTH)
+			.describe(
+				"The complete HTML markup string to check. Pass the html value of a get_* result as is, not a file path or file name.",
+			),
+		locale: z
+			.enum(["de", "en"])
+			.optional()
+			.describe("Ignored: the messages come in German and English."),
+	});
 
 	const outputSchema = ValidationResultSchema;
 
@@ -139,7 +135,8 @@ function buildValidateHtmlTool(): ToolDef {
 		name,
 		title: "Validate KERN HTML",
 		description:
-			"KERN UX: HTML strikt validieren (A11Y/BITV). Der Parameter 'html' erwartet den vollständigen Markup-String – keinen Dateipfad. Den 'html'-Wert aus einem get_*-Tool direkt übergeben.",
+			"KERN UX: Checks HTML against KERN's accessibility rules (BITV) and returns the issues. " +
+			"html takes the full markup string, not a file path: pass the html value of a get_* result.",
 		inputSchema,
 		outputSchema,
 		// Messages are returned in both languages, so the locale input doesn't change the result.
@@ -174,21 +171,17 @@ function buildDocsTool(registry: Registry): ToolDef {
 		evidence: z.array(reviewedGuidanceEvidenceSchema),
 	});
 
-	const inputSchema = z
-		.object({
-			componentId: z
-				.string()
-				.describe(
-					"Komponenten-ID aus list_components_by_category, z.B. 'button', 'inputtext', 'select', 'checkbox'. IDs sind kleingeschrieben ohne Bindestriche – 'inputtext' nicht 'input-text', 'form-input' existiert nicht. Unbekannte ID: zuerst list_components_by_category aufrufen.",
-				),
-			locale: z
-				.enum(["de", "en"])
-				.optional()
-				.describe("Sprache für Zusammenfassung (Standard: de)."),
-		})
-		.describe(
-			"Liest vereinfachte, paketierte Komponentendokumentation aus dem Runtime-Manifest.",
-		);
+	const inputSchema = z.object({
+		componentId: z
+			.string()
+			.describe(
+				"Component ID from list_components_by_category, e.g. 'button', 'inputtext', 'select', 'checkbox'. IDs are lowercase without hyphens: 'inputtext', not 'input-text'; there is no 'form-input'. If unsure, call list_components_by_category first.",
+			),
+		locale: z
+			.enum(["de", "en"])
+			.optional()
+			.describe("Language of the reviewed notes (default: de)."),
+	});
 
 	const outputSchema = z.object({
 		componentId: z.string(),
@@ -225,7 +218,8 @@ function buildDocsTool(registry: Registry): ToolDef {
 		name,
 		title: "KERN Component Docs",
 		description:
-			"KERN UX: Dokumentation zu einer Komponente lesen. Gültige IDs liefert list_components_by_category – bei unbekannter ID dieses Tool zuerst aufrufen.",
+			"KERN UX: The documentation of one component: an excerpt, sections, its canonical HTML, and notes where our tool differs from KERN. " +
+			"Valid IDs come from list_components_by_category; call it first if you don't know the ID.",
 		inputSchema,
 		outputSchema,
 		handler: async (args: { componentId: string; locale?: Locale }) => {
@@ -399,7 +393,8 @@ function buildListComponentsByCategoryTool(registry: Registry): ToolDef {
 		name: "list_components_by_category",
 		title: "KERN Components by Category",
 		description:
-			"KERN UX (Discovery): Alle Komponenten-IDs auflisten. Vor get_component_docs oder get_<id>-Tools aufrufen, wenn die Komponenten-ID unbekannt ist. Liefert id, title, category und strategy für jede Komponente.",
+			"KERN UX: Lists every component ID with its title, category and strategy. " +
+			"Call it before get_component_docs or a get_<id> tool when you don't know the ID.",
 		inputSchema,
 		outputSchema: z.object({
 			components: z.array(

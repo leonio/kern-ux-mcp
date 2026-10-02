@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { McpCommonSchema } from "./foundations.js";
 
 /**
  * Zod schema for Dialog component parameters.
@@ -6,89 +7,60 @@ import { z } from "zod";
  * Flat top-level properties only — no nested objects — so that MCP clients
  * can construct the input reliably.
  */
-export const DialogSchema = z
-	.object({
-		locale: z
-			.enum(["de", "en"])
-			.optional()
-			.describe("Sprache für Tool-Strings (Standard: de)."),
-		strict: z
-			.boolean()
-			.optional()
-			.describe("Wenn true: bei Validierungsfehlern wird kein HTML geliefert."),
-		id: z
-			.string()
-			.optional()
-			.describe(
-				"Optionale feste ID fuer den Dialog. Ohne Angabe wird sie automatisch generiert und fuer aria-labelledby sowie Trigger-Verknuepfung wiederverwendet.",
-			),
-		title: z
-			.string()
-			.min(1)
-			.describe(
-				"Dialog-Ueberschrift. Sollte die Frage, Entscheidung oder Konsequenz des Dialogs kurz und eindeutig benennen.",
-			),
-		body: z
-			.string()
-			.min(1)
-			.describe(
-				"Dialog-Inhalt. Standardmaessig als Text gerendert; fuer laengere Inhalte oder strukturierte Hinweise knapp halten und auf die entscheidungsrelevanten Informationen fokussieren.",
-			),
-		bodyIsHtml: z
-			.boolean()
-			.optional()
-			.default(false)
-			.describe(
-				"Wenn true, wird body als vertrauenswuerdiges HTML interpretiert statt escaped. Nur fuer bewusst erzeugte KERN-kompatible Markup-Inhalte verwenden.",
-			),
-		confirmLabel: z
-			.string()
-			.min(1)
-			.describe(
-				"Text des primaeren Aktions-Buttons. Sollte die auszufuehrende Handlung klar benennen, z.B. 'Loeschen' statt allgemeinem 'OK'.",
-			),
-		confirmId: z
-			.string()
-			.optional()
-			.describe(
-				"Optionale feste ID fuer den primaeren Aktions-Button, z.B. fuer gezielte Weiterverarbeitung im Host.",
-			),
-		cancelLabel: z
-			.string()
-			.min(1)
-			.describe(
-				'Text des sekundaeren Abbrechen-Buttons. Im gerenderten Dialog als Button mit formmethod="dialog" umgesetzt.',
-			),
-		tertiaryLabel: z
-			.string()
-			.optional()
-			.describe(
-				"Optionaler tertiaerer Button-Text fuer eine weniger gewichtete Zusatzaktion oder einen Link-aehnlichen Ausweg.",
-			),
-		triggerLabel: z
-			.string()
-			.optional()
-			.describe(
-				"Text fuer den optionalen Trigger-Button. Wenn gesetzt, wird vor dem Dialog ein Button mit data-dialog-target erzeugt, der den Dialog oeffnen kann.",
-			),
-		triggerVariant: z
-			.enum(["primary", "secondary", "tertiary"])
-			.optional()
-			.default("primary")
-			.describe(
-				"Variante des Trigger-Buttons. Nur relevant, wenn triggerLabel gesetzt ist.",
-			),
-		closeButtonLabel: z
-			.string()
-			.optional()
-			.describe(
-				"Screenreader-Text fuer den Schliessen-Button im Header. Standard: 'Schliessen' bzw. 'Close'.",
-			),
-	})
-	.describe(
-		'Parameter fuer KERN UX Dialog-Komponente. Der Renderer bildet die KERN-Struktur mit <dialog>, Header, Body, Footer und Formular-Buttons nach; Abbrechen und Schliessen verwenden formmethod="dialog". ' +
-			"Beispiel: { title: 'Bestaetigen', body: 'Moechten Sie fortfahren?', confirmLabel: 'Ja', cancelLabel: 'Nein', triggerLabel: 'Dialog oeffnen', triggerVariant: 'primary' }.",
-	);
+export const DialogSchema = z.object({
+	...McpCommonSchema.shape,
+	id: z
+		.string()
+		.optional()
+		.describe(
+			"Dialog id, for aria-labelledby and the trigger; generated when omitted.",
+		),
+	title: z
+		.string()
+		.min(1)
+		.describe("Heading: the question or decision, short and clear."),
+	body: z
+		.string()
+		.min(1)
+		.describe("Content, rendered as text. Keep it to what the decision needs."),
+	bodyIsHtml: z
+		.boolean()
+		.optional()
+		.default(false)
+		.describe("Treat body as trusted HTML instead of escaping it."),
+	confirmLabel: z
+		.string()
+		.min(1)
+		.describe(
+			"Label of the primary button. Name the action, e.g. 'Löschen', not 'OK'.",
+		),
+	confirmId: z.string().optional().describe("Id of the primary button."),
+	cancelLabel: z
+		.string()
+		.min(1)
+		.describe('Label of the cancel button, which uses formmethod="dialog".'),
+	tertiaryLabel: z
+		.string()
+		.optional()
+		.describe("Label of an optional third button for a lesser action."),
+	triggerLabel: z
+		.string()
+		.optional()
+		.describe(
+			"Adds a button before the dialog that opens it (data-dialog-target).",
+		),
+	triggerVariant: z
+		.enum(["primary", "secondary", "tertiary"])
+		.optional()
+		.default("primary")
+		.describe("Variant of the trigger button."),
+	closeButtonLabel: z
+		.string()
+		.optional()
+		.describe(
+			"Screen-reader text of the close button; 'Schließen' or 'Close' by default.",
+		),
+});
 
 /** Type for dialog input (before Zod parsing, allows missing defaulted fields) */
 export type DialogInput = z.input<typeof DialogSchema>;

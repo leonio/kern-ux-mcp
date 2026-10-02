@@ -20,17 +20,11 @@ const CommonParams = McpCommonSchema.shape;
  */
 const cardMediaSchema = z.object({
 	/** Image source URL */
-	src: z
-		.string()
-		.describe(
-			"Bild-URL für den optionalen Medienbereich. Pro Card höchstens ein Medieninhalt verwenden.",
-		),
+	src: z.string().describe("Image URL; at most one image per card."),
 	/** Alt text for the image */
 	alt: z
 		.string()
-		.describe(
-			"Aussagekräftiger Alt-Text für das Card-Bild. Bei informativen Bildern erforderlich, damit WCAG 1.1.1 erfüllt bleibt.",
-		),
+		.describe("Alt text; required for an informative image (WCAG 1.1.1)."),
 });
 
 /**
@@ -41,35 +35,21 @@ const cardHeaderSchema = z.object({
 	preline: z
 		.string()
 		.optional()
-		.describe(
-			"Optionale Vorzeile oberhalb des Titels für knappe Einordnung oder Kategorie.",
-		),
+		.describe("Short line above the title, e.g. a category."),
 	/** Title text (required) */
-	title: z
-		.string()
-		.min(1)
-		.describe(
-			"Pflichttitel der Card. Soll den klaren Fokus der Informationseinheit benennen.",
-		),
+	title: z.string().min(1).describe("Card title."),
 	/** Heading level used for the card title */
 	titleLevel: HeadingLevelSchema.optional()
 		.default(2)
-		.describe(
-			"Heading-Ebene für den Card-Titel (h1-h6). Im Seitenkontext hierarchisch und ohne Sprünge verwenden (WCAG 2.4.6).",
-		),
+		.describe("Heading level of the title, h1 to h6. Don't skip levels."),
 	/** Optional subline text (below title) */
-	subline: z
-		.string()
-		.optional()
-		.describe(
-			"Optionale Unterzeile unterhalb des Titels für zusätzliche, knappe Kontextinformation.",
-		),
+	subline: z.string().optional().describe("Short line below the title."),
 	/** Optional link URL - makes the card interactive with stretched link */
 	href: z
 		.string()
 		.optional()
 		.describe(
-			"Optionaler Link für eine flächig interaktive Card. Nur setzen, wenn die gesamte Card genau ein gemeinsames Navigationsziel hat.",
+			"Makes the whole card a link. Only when the card has a single destination.",
 		),
 });
 
@@ -81,16 +61,12 @@ const cardFooterSchema = z.object({
 	primaryLabel: z
 		.string()
 		.optional()
-		.describe(
-			"Text der primären Footer-Aktion. Cards sollten insgesamt sparsam mit Aktionen umgehen.",
-		),
+		.describe("Label of the primary footer button."),
 	/** Secondary button label */
 	secondaryLabel: z
 		.string()
 		.optional()
-		.describe(
-			"Text der sekundären Footer-Aktion. Zusammen mit primaryLabel maximal zwei Aktionen pro Card.",
-		),
+		.describe("Label of the secondary footer button."),
 });
 
 /**
@@ -108,16 +84,14 @@ export const cardRenderSchema = z.object({
 	/** Card size variant */
 	size: ComponentSizeSchema.optional()
 		.default("default")
-		.describe(
-			"Card-Größe: small, default oder large. Innerhalb eines gemeinsamen Kontexts möglichst konsistent halten.",
-		),
+		.describe("Card size; keep cards that sit together the same size."),
 	/** Hug sizing - cards don't stretch to equal height */
 	hug: z
 		.boolean()
 		.optional()
 		.default(false)
 		.describe(
-			"Wenn true: Card behält ihre eigene Höhe statt sich in einer Reihe auf Equal Height auszudehnen.",
+			"Keeps the card's own height instead of matching the tallest in its row.",
 		),
 	/** Optional media/image section */
 	media: cardMediaSchema.optional(),
@@ -127,17 +101,13 @@ export const cardRenderSchema = z.object({
 	body: z
 		.string()
 		.optional()
-		.describe(
-			"Optionaler einfacher Body-Text. Kurz halten; KERN empfiehlt kompakte Inhalte und höchstens etwa 150 Zeichen als Richtwert. Nicht für lange Texte oder komplexe Tabellen verwenden.",
-		),
+		.describe("Short body text, about 150 characters at most."),
 	/** Whether body should be treated as raw HTML (not escaped) */
 	bodyIsHtml: z
 		.boolean()
 		.optional()
 		.default(false)
-		.describe(
-			"Wenn true wird body als Roh-HTML gerendert. Nur für vertrauenswürdige, semantisch passende Inhalte verwenden.",
-		),
+		.describe("Treat body as trusted HTML instead of escaping it."),
 	contentBlocks: contentBlocksSchema("card").optional(),
 	/** Optional footer with buttons */
 	footer: cardFooterSchema.optional(),

@@ -279,31 +279,35 @@ describe("tool input schemas", () => {
 		const tools = createTools(registry);
 		const dialogSchema = getListedToolSchema(tools, "get_dialog");
 		const dropdownSchema = getListedToolSchema(tools, "get_dropdown");
+		const description = (name: string) => tools.getTool(name)?.description;
 
-		expect(dialogSchema.description).toContain("<dialog>");
-		expect(dialogSchema.description).toContain('formmethod="dialog"');
+		expect(description("get_dialog")).toContain("<dialog>");
+		expect(description("get_dialog")).toContain('formmethod="dialog"');
+		expect(description("get_dialog")).not.toContain("Known-good payload");
 		expect(dialogSchema.properties.bodyIsHtml.description).toContain(
-			"vertrauenswuerdiges HTML",
+			"trusted HTML",
 		);
 		expect(dialogSchema.properties.triggerLabel.description).toContain(
 			"data-dialog-target",
 		);
 		expect(dialogSchema.properties.confirmLabel.description).toContain(
-			"'Loeschen'",
+			"Name the action",
 		);
 
-		expect(dropdownSchema.description).toContain("experimentell");
-		expect(dropdownSchema.description).toContain("<details>/<summary>");
+		expect(description("get_dropdown")).toContain("experimental");
+		expect(description("get_dropdown")).toContain("<details>/<summary>");
 		expect(dropdownSchema.properties.options.description).toContain(
-			"Radio- oder mehrfache Checkbox-Auswahl",
+			"radios or checkboxes",
 		);
 		expect(dropdownSchema.properties.inputType.description).toContain(
-			"genau eine Auswahl",
+			"several",
 		);
-		expect(dropdownSchema.properties.open.description).toContain("<details>");
+		expect(dropdownSchema.properties.open.description).toContain(
+			"<details open>",
+		);
 		expect(
 			dropdownSchema.properties.options.items.properties.checked.description,
-		).toContain("hoechstens eine Option");
+		).toContain("at most one option");
 	});
 
 	it("alert, badge, and tasklist schemas document rendered status semantics", () => {
@@ -338,32 +342,31 @@ describe("tool input schemas", () => {
 		const alertSchema = getListedToolSchema(tools, "get_alert");
 		const badgeSchema = getListedToolSchema(tools, "get_badge");
 		const tasklistSchema = getListedToolSchema(tools, "get_tasklist");
+		const description = (name: string) => tools.getTool(name)?.description;
 
-		expect(alertSchema.description).toContain('role="alert"');
-		expect(alertSchema.description).toContain('aria-hidden="true"');
-		expect(alertSchema.properties.type.description).toContain("Status-Icon");
+		expect(description("get_alert")).toContain('role="alert"');
+		expect(description("get_alert")).toContain("decorative status icon");
+		expect(alertSchema.properties.type.description).toContain("status icon");
 		expect(alertSchema.properties.body.description).toContain(
-			"nur aus Header bestehen",
+			"below the heading",
 		);
 		expect(alertSchema.properties.body.properties.links.description).toContain(
-			"Arrow-Forward-Icon",
+			"arrow-forward",
 		);
 		expect(
 			alertSchema.properties.body.properties.listStyle.description,
-		).toContain("kern-list");
+		).toContain("kern-list--bullet");
 
-		expect(badgeSchema.description).toContain("rein darstellend");
-		expect(badgeSchema.properties.type.description).toContain(
-			"optional das passende Status-Icon",
-		);
+		expect(description("get_badge")).toContain("non-interactive");
+		expect(badgeSchema.properties.type.description).toContain("status icon");
 		expect(badgeSchema.properties.text.description).toContain(
-			"Status oder die Kategorie",
+			"status or category",
 		);
 		expect(badgeSchema.properties.showIcon.description).toContain(
 			'aria-hidden="true"',
 		);
 
-		expect(tasklistSchema.description).toContain("Status-Badge");
+		expect(description("get_tasklist")).toContain("status badge");
 		expect(tasklistSchema.properties.heading.description).toContain(
 			"kern-heading-medium",
 		);
@@ -371,14 +374,11 @@ describe("tool input schemas", () => {
 			"kern-number",
 		);
 		expect(tasklistSchema.properties.items.description).toContain(
-			"genau eine Tasklist",
+			"status badge",
 		);
 		expect(
 			tasklistSchema.properties.items.items.properties.href.description,
-		).toContain("nicht klickbarer Text");
-		expect(
-			tasklistSchema.properties.items.items.properties.statusType.description,
-		).toContain("Badge-Variante");
+		).toContain("plain text");
 	});
 
 	it("progress and loader schemas document native element and accessibility semantics", () => {
@@ -404,21 +404,23 @@ describe("tool input schemas", () => {
 		const tools = createTools(registry);
 		const progressSchema = getListedToolSchema(tools, "get_progress");
 		const loaderSchema = getListedToolSchema(tools, "get_loader");
+		const description = (name: string) => tools.getTool(name)?.description;
 
-		expect(progressSchema.description).toContain("HTML5-<progress>");
-		expect(progressSchema.properties.value.description).toContain("<progress>");
-		expect(progressSchema.properties.max.description).toContain("2 von 5");
-		expect(progressSchema.properties.label.description).toContain("for/id");
+		expect(description("get_progress")).toContain("native <progress>");
+		expect(progressSchema.properties.max.description).toContain("for steps");
+		expect(progressSchema.properties.label.description).toContain(
+			"linked to the bar",
+		);
 		expect(progressSchema.properties.labelPosition.description).toContain(
-			"oberhalb oder unterhalb",
+			"below",
 		);
 
-		expect(loaderSchema.description).toContain('role="status"');
+		expect(description("get_loader")).toContain('role="status"');
 		expect(loaderSchema.properties.visible.description).toContain(
 			"kern-loader--visible",
 		);
 		expect(loaderSchema.properties.srText.description).toContain(
-			"kern-sr-only",
+			"Wird geladen",
 		);
 		expect(loaderSchema.properties.srText.description).toContain("Loading");
 	});
@@ -447,8 +449,9 @@ describe("tool input schemas", () => {
 		const buttonSchema = getListedToolSchema(tools, "get_button");
 		const accordionSchema = getListedToolSchema(tools, "get_accordion");
 		const accordionVariants = schemaVariants(accordionSchema);
+		const description = (name: string) => tools.getTool(name)?.description;
 
-		expect(buttonSchema.description).toContain("Icon-only-Muster");
+		expect(description("get_button")).toContain("icon-only");
 		expect(buttonSchema.properties.label.description).toContain("sr-only");
 		expect(buttonSchema.properties.size.enum).toEqual([
 			"x-small",
@@ -465,7 +468,7 @@ describe("tool input schemas", () => {
 			"sr-only-mobile",
 		);
 
-		expect(accordionSchema.description).toContain("single oder group");
+		expect(description("get_accordion")).toContain("mode 'group' takes items");
 
 		const accordionSingle = findVariant(
 			accordionVariants,
@@ -478,15 +481,15 @@ describe("tool input schemas", () => {
 
 		expect(accordionSingle.description).toContain("<details>/<summary>");
 		expect(accordionSingle.properties.contentIsHtml.description).toContain(
-			"vertrauenswuerdiges HTML",
+			"trusted HTML",
 		);
 		expect(accordionGroup.description).toContain("kern-accordion-group");
 		expect(accordionGroup.properties.items.description).toContain(
-			"Flex- oder Grid-Einfluesse",
+			"title and content",
 		);
 		expect(
 			accordionGroup.properties.items.items.properties.open.description,
-		).toContain("open");
+		).toContain("Open");
 	});
 
 	it("table schema documents caption labelling, numeric alignment, and current action-column limitation", () => {
@@ -503,26 +506,28 @@ describe("tool input schemas", () => {
 
 		const tools = createTools(registry);
 		const tableSchema = getListedToolSchema(tools, "get_table");
+		const description = tools.getTool("get_table")?.description;
 
-		expect(tableSchema.description).toContain("Daten-Tabellen");
-		expect(tableSchema.description).toContain("Action-Column-Muster");
+		expect(description).toContain("data table");
+		expect(description).toContain("action-column pattern");
+		expect(description).toContain("right-align");
 		expect(tableSchema.properties.caption.description).toContain(
 			'<caption class="kern-title">',
 		);
-		expect(tableSchema.properties.headers.description).toContain('Scope="col"');
-		expect(tableSchema.properties.rows.description).toContain('scope="row"');
-		expect(tableSchema.properties.footer.description).toContain(
-			"Action-Footer-Muster",
-		);
+		expect(
+			tableSchema.properties.headers.items.properties.text.description,
+		).toContain('scope="col"');
+		expect(
+			tableSchema.properties.rows.items.properties.rowHeader.description,
+		).toContain('scope="row"');
+		expect(tableSchema.properties.footer.description).toContain("totals");
 		expect(tableSchema.properties.striped.description).toContain(
 			"kern-table--striped",
 		);
 		expect(tableSchema.properties.responsive.description).toContain(
 			'role="region"',
 		);
-		expect(tableSchema.properties.responsive.description).toContain(
-			"aria-labelledby",
-		);
+		expect(tableSchema.properties.responsive.description).toContain("caption");
 	});
 
 	it("icon and summary schemas document accessibility and description-list semantics", () => {
@@ -549,21 +554,21 @@ describe("tool input schemas", () => {
 		const iconSchema = getListedToolSchema(tools, "get_icon");
 		const summarySchema = getListedToolSchema(tools, "get_summary");
 		const summaryVariants = schemaVariants(summarySchema);
+		const description = (name: string) => tools.getTool(name)?.description;
 
-		expect(iconSchema.description).toContain('aria-hidden="false"');
-		expect(iconSchema.properties.name.description).toContain(
-			"default-Modifier",
-		);
-		expect(iconSchema.properties.size.description).toContain("x-large");
+		expect(description("get_icon")).toContain("decorative by default");
+		expect(description("get_icon")).toContain("ariaLabel");
+		expect(iconSchema.properties.name.description).toContain("list_icons");
+		expect(iconSchema.properties.size.enum).toContain("x-large");
 		expect(iconSchema.properties.decorative.description).toContain(
 			'aria-hidden="true"',
 		);
 		expect(iconSchema.properties.ariaLabel.description).toContain(
-			"decorative=false",
+			"decorative: false",
 		);
 
-		expect(summarySchema.description).toContain("Bearbeitungslinks");
-		expect(summarySchema.description).toContain("Tasklist");
+		expect(description("get_summary")).toContain("edit link");
+		expect(description("get_summary")).toContain("Unlike a task list");
 
 		const summarySingle = findVariant(
 			summaryVariants,
@@ -575,11 +580,9 @@ describe("tool input schemas", () => {
 		);
 
 		expect(summarySingle.properties.items.description).toContain(
-			"Description List",
+			"Term and value pairs",
 		);
-		expect(summarySingle.properties.action.description).toContain(
-			"keinen Status",
-		);
+		expect(summarySingle.properties.action.description).toContain("edit link");
 		expect(summarySingle.properties.headingLevel.description).toContain(
 			"kern-title kern-title--small",
 		);
@@ -587,7 +590,7 @@ describe("tool input schemas", () => {
 			"kern-heading-medium",
 		);
 		expect(summaryGroup.properties.summaries.description).toContain(
-			"Summary-Aufgaben",
+			"summaries",
 		);
 	});
 
@@ -877,14 +880,14 @@ describe("tool input schemas", () => {
 		);
 		expect(
 			schema.properties.header.properties.titleLevel.description,
-		).toContain("WCAG 2.4.6");
+		).toContain("Don't skip levels");
 		expect(schema.properties.header.properties.href.description).toContain(
-			"interaktive Card",
+			"whole card a link",
 		);
-		expect(schema.properties.body.description).toContain("150 Zeichen");
-		expect(
-			schema.properties.footer.properties.secondaryLabel.description,
-		).toContain("maximal zwei Aktionen");
+		expect(schema.properties.body.description).toContain("150 characters");
+		expect(tools.getTool("get_card")?.description).toContain(
+			"up to two footer buttons",
+		);
 	});
 
 	it("get_section and get_disclosure schemas clarify composition-only guidance", () => {

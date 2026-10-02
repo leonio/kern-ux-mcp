@@ -72,8 +72,8 @@ import { buildParameterizedComponentTool, type ToolDef } from "./shared.js";
 function buildButtonTool(component: ComponentInfo): ToolDef {
 	return buildParameterizedComponentTool<ButtonInput>(
 		component,
-		"KERN UX: HTML für Button erzeugen (primary/secondary/tertiary, mit Icon-Optionen). " +
-			"Pflichtfeld: label. Varianten: primary|secondary|tertiary. Beispiel: { label: 'More Info', variant: 'primary' }.",
+		"KERN UX: HTML for a button. Required: label. variant primary (default), secondary or tertiary; five sizes; an optional icon. " +
+			"labelVisibility 'sr-only' makes an icon-only button that keeps an accessible name.",
 		ButtonSchema,
 		buildButton,
 	);
@@ -82,10 +82,8 @@ function buildButtonTool(component: ComponentInfo): ToolDef {
 function buildAlertTool(component: ComponentInfo): ToolDef {
 	return buildParameterizedComponentTool<AlertInput>(
 		component,
-		"KERN UX: HTML für Alert erzeugen. Pflichtfeld: title. " +
-			"Varianten via type: info (Standard) | success | warning | danger (höchste Schwere, kein separater 'high-contrast'-Modus). " +
-			"Optionaler body mit text, links und listItems. " +
-			"Beispiel: { type: 'danger', title: 'Serverstörung', body: { text: 'Unsere Server sind nicht erreichbar.' } }.",
+		'KERN UX: HTML for an alert with role="alert": a heading with a decorative status icon, and optional body text, links and a list. Required: title. ' +
+			"type info (default), success, warning or danger; danger is the most severe, and there is no separate high-contrast variant.",
 		AlertSchema,
 		buildAlert,
 	);
@@ -104,9 +102,8 @@ function buildCheckboxTool(component: ComponentInfo): ToolDef {
 function buildDialogTool(component: ComponentInfo): ToolDef {
 	return buildParameterizedComponentTool<DialogInput>(
 		component,
-		"KERN UX: HTML für Dialog erzeugen (mit optionalem Trigger-Button). " +
-			"Known-good payload: { title: 'Bestätigen', body: 'Möchten Sie fortfahren?', confirmLabel: 'Ja', cancelLabel: 'Nein', triggerLabel: 'Dialog öffnen', triggerVariant: 'primary' }. " +
-			"Legacy payload mit actions.confirm/cancel wird ebenfalls akzeptiert.",
+		'KERN UX: HTML for a modal <dialog> with header, body and footer buttons; cancel and close use formmethod="dialog". ' +
+			"Required: title, body, confirmLabel, cancelLabel. triggerLabel adds the button that opens it.",
 		DialogSchema,
 		buildDialog,
 	);
@@ -225,12 +222,8 @@ function buildInputUrlTool(component: ComponentInfo): ToolDef {
 function buildTasklistTool(component: ComponentInfo): ToolDef {
 	return buildParameterizedComponentTool<TasklistInput>(
 		component,
-		"KERN UX: HTML fuer Tasklist erzeugen (Aufgabenliste mit Status). " +
-			"items erwartet Objekte mit title, optional href, status und statusType. " +
-			"numbered (Standard: true) erzeugt eine nummerierte Liste (ol). " +
-			"Setze numbered: false für eine unnummerierte Checkliste (ul) — ideal für Feature-Listen oder Vergleichs-Checklisten mit Häkchen-Icons. " +
-			"Beispiel nummeriert: { heading: 'Schritte', items: [{ title: 'Unterlagen hochladen', status: 'Offen', statusType: 'info' }] }. " +
-			"Beispiel Checkliste: { heading: 'Leistungen', numbered: false, items: [{ title: 'Inklusive', status: 'Ja', statusType: 'success' }] }.",
+		"KERN UX: HTML for a task list: tasks with a title, an optional link and a status badge. " +
+			"numbered (default true) numbers them; numbered: false gives an unnumbered checklist.",
 		tasklistSchema,
 		buildTasklist,
 	);
@@ -239,7 +232,7 @@ function buildTasklistTool(component: ComponentInfo): ToolDef {
 function buildLoaderTool(component: ComponentInfo): ToolDef {
 	return buildParameterizedComponentTool<LoaderInput>(
 		component,
-		`KERN UX: HTML für Loader (Lade-Indikator) erzeugen.`,
+		'KERN UX: HTML for a loading spinner with role="status" and hidden screen-reader text.',
 		loaderSchema,
 		buildLoader,
 	);
@@ -248,9 +241,8 @@ function buildLoaderTool(component: ComponentInfo): ToolDef {
 function buildBadgeTool(component: ComponentInfo): ToolDef {
 	return buildParameterizedComponentTool<BadgeInput>(
 		component,
-		"KERN UX: HTML für Badge erzeugen. Pflichtfelder: type und text. " +
-			"type: info | success | warning | danger. " +
-			"Beispiel: { type: 'success', text: 'Online' }. Optional: showIcon: true.",
+		"KERN UX: HTML for a badge: a short, non-interactive status or category label. " +
+			"Required: type (info, success, warning or danger) and text. showIcon: true adds the status icon.",
 		badgeSchema,
 		buildBadge,
 	);
@@ -268,7 +260,7 @@ function buildTextareaTool(component: ComponentInfo): ToolDef {
 function buildProgressTool(component: ComponentInfo): ToolDef {
 	return buildParameterizedComponentTool<ProgressInput>(
 		component,
-		`KERN UX: HTML für Progress (Fortschrittsbalken) erzeugen.`,
+		"KERN UX: HTML for a progress bar: a native <progress> in kern-progress, with an optional linked label.",
 		progressSchema,
 		buildProgress,
 	);
@@ -277,7 +269,8 @@ function buildProgressTool(component: ComponentInfo): ToolDef {
 function buildAccordionTool(component: ComponentInfo): ToolDef {
 	return buildParameterizedComponentTool<AccordionInput>(
 		component,
-		`KERN UX: HTML für Accordion (aufklappbare Abschnitte) erzeugen.`,
+		"KERN UX: HTML for accordions, built on <details> and <summary>. mode 'single' (default) takes title and content; " +
+			"mode 'group' takes items, each with title and content. Sending items without content selects group.",
 		accordionSchema,
 		buildAccordion,
 	);
@@ -286,7 +279,8 @@ function buildAccordionTool(component: ComponentInfo): ToolDef {
 function buildCardTool(component: ComponentInfo): ToolDef {
 	return buildParameterizedComponentTool<CardInput>(
 		component,
-		`KERN UX: HTML für Card (Karten-Container) erzeugen.`,
+		"KERN UX: HTML for a card: an optional image, a header (preline, title, subline, optional link), " +
+			"body text or simple blocks, and up to two footer buttons.",
 		cardSchema,
 		buildCard,
 	);
@@ -295,8 +289,8 @@ function buildCardTool(component: ComponentInfo): ToolDef {
 function buildIconTool(component: ComponentInfo): ToolDef {
 	return buildParameterizedComponentTool<IconInput>(
 		component,
-		"KERN UX: HTML für Icon erzeugen. Pflichtfeld: name (siehe list_icons). " +
-			"Beispiel: { name: 'download', decorative: false, ariaLabel: 'Download PDF' }.",
+		"KERN UX: HTML for an icon, decorative by default. Required: name (see list_icons). " +
+			"A meaningful icon needs decorative: false and an ariaLabel.",
 		iconSchema,
 		buildIcon,
 	);
@@ -305,7 +299,8 @@ function buildIconTool(component: ComponentInfo): ToolDef {
 function buildTableTool(component: ComponentInfo): ToolDef {
 	return buildParameterizedComponentTool<TableInput>(
 		component,
-		`KERN UX: HTML für Table (Datentabelle) erzeugen.`,
+		"KERN UX: HTML for a data table: column headings, optional row headings, caption and footer row, in a scrolling container. " +
+			"Mark numeric and currency columns numeric to right-align them. KERN's action-column pattern isn't offered.",
 		tableSchema,
 		buildTable,
 	);
@@ -314,7 +309,8 @@ function buildTableTool(component: ComponentInfo): ToolDef {
 function buildSummaryTool(component: ComponentInfo): ToolDef {
 	return buildParameterizedComponentTool<SummaryInput>(
 		component,
-		`KERN UX: HTML für Summary (Zusammenfassung) erzeugen.`,
+		"KERN UX: HTML for a summary: a title, answers as term and value pairs, and an optional edit link. " +
+			"mode 'single' or 'group'. Unlike a task list, it shows no status.",
 		summarySchema,
 		buildSummary,
 	);
@@ -323,7 +319,8 @@ function buildSummaryTool(component: ComponentInfo): ToolDef {
 function buildDropdownTool(component: ComponentInfo): ToolDef {
 	return buildParameterizedComponentTool<DropdownInput>(
 		component,
-		`KERN UX: HTML für Dropdown erzeugen (experimentell).`,
+		"KERN UX: HTML for a dropdown (experimental): a <details>/<summary> with radio or checkbox options inside. " +
+			"Not a menu or a select.",
 		dropdownSchema,
 		buildDropdown,
 	);

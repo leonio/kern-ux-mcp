@@ -375,6 +375,15 @@ function normalizeArgsByTool(
 	name: string,
 	args: Record<string, unknown>,
 ): unknown {
+	// Models send several items without mode: "group", sometimes with mode "single".
+	if (
+		name === "get_accordion" &&
+		Array.isArray(args.items) &&
+		typeof args.content !== "string"
+	) {
+		return { ...args, mode: "group" };
+	}
+
 	if (name === "get_select" && Array.isArray(args.options)) {
 		return { ...args, options: renameOptionKey(args.options, "label", "text") };
 	}

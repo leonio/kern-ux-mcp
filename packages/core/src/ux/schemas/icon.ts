@@ -13,40 +13,31 @@ export const iconSchema = z
 	.object({
 		...CommonParams,
 		/** Icon name from VALID_ICON_NAMES */
-		name: IconRefSchema.shape.name.describe(
-			"Icon-Name aus der bekannten KERN-Iconliste. Die Grundklasse kern-icon ist immer enthalten; ein default-Modifier wird nicht benoetigt.",
-		),
+		name: IconRefSchema.shape.name,
 		/** Icon size variant */
 		size: z
 			.enum(["default", "small", "large", "x-large"])
 			.optional()
 			.default("default")
-			.describe(
-				"Icon-Groesse: default ohne Zusatzklasse oder small, large, x-large mit entsprechendem Modifier.",
-			),
+			.describe("Size; every size but default adds a modifier."),
 		/** Whether icon is decorative (aria-hidden) or meaningful (needs aria-label) */
 		decorative: z
 			.boolean()
 			.optional()
 			.default(true)
 			.describe(
-				'Wenn true, wird aria-hidden="true" gesetzt und das Icon bleibt rein dekorativ. Wenn false, muss ariaLabel gesetzt werden.',
+				'Decorative (aria-hidden="true"), the default. false needs ariaLabel.',
 			),
 		/** Accessible label - required when icon is not decorative */
 		ariaLabel: z
 			.string()
 			.optional()
-			.describe(
-				"Zugaengliche Beschreibung fuer bedeutungstragende Icons. Nur notwendig, wenn decorative=false ist.",
-			),
+			.describe("Accessible name of a meaningful icon (decorative: false)."),
 	})
 	.refine((data) => data.decorative !== false || data.ariaLabel, {
 		error: "ariaLabel is required when icon is not decorative",
 		path: ["ariaLabel"],
-	})
-	.describe(
-		'Parameter fuer KERN UX Icon-Komponente. KERN behandelt Icons standardmaessig als dekorativ; nur bedeutungstragende Icons sollten mit aria-hidden="false" und aria-label exponiert werden.',
-	);
+	});
 
 export type IconInput = z.input<typeof iconSchema>;
 export type IconParams = z.output<typeof iconSchema>;
