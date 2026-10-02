@@ -105,6 +105,8 @@ In progress: [r4b-kickoff.md](r4b-kickoff.md) has the plan and progress. Can sta
 - [x] Export it as JSON Schema, replacing `docs/registry.schema.json`, for the generator to validate against.
 - [x] Validate `registry.json` in a test and in `registry:import`. **Not at startup:** the file is bundled, so the server runs exactly the file CI checked (decided 2026-10-02).
 - [x] `npm run registry:import -- <path>`: validate, copy, and print the component and field diff.
+**The boxes below wait on the first knowledge bundle** and get re-planned then as phases K1–K4 of [knowledge-bundle.md](knowledge-bundle.md) (`knowledge:import` replaces `registry:import`).
+
 - [ ] Optional knowledge fields and inventories from [registry-requirements.md](registry-requirements.md) section 3 (summary, synonyms, similar, when to use, examples, classes, accessibility, anatomy; icons, utilities, all `kern-*` classes, tokens with values; `docsOnly`), with size limits and the corpus version in `upstream`.
 - [ ] Consume the inventories: `list_icons`, `get_utility_reference` and `get_tokens` read the registry instead of hand-coded lists, and `validate_html` warns on unknown `kern-*` classes.
 - [ ] Tool descriptions combine code-owned API text with the registry summary; component knowledge stops being written in code. **Waits on the generator delivering summaries** (3 of 44 components have one today), not on R5; it fits next to R6's cards.
@@ -210,7 +212,7 @@ References:
 | HTTP | It must run locally, in a container, and eventually publicly. There's no deploy target yet, so the container ships complete, with auth and rate limiting as options. |
 | Branch | `feat/v2-alpha` is the long-lived integration branch. It publishes pre-releases under an npm dist-tag: `release.yml` already turns the GitVersion pre-release label into the dist-tag. |
 | Node | `>=24` everywhere, including stdio, the MCPB bundle and the container. |
-| Registry | `registry.json` will be produced by an external generator (the `kern-ux-scraper` repository: source scan, docs-corpus mapping, curation, LLM-generated English component knowledge). This repo owns the **contract** (a Zod schema exported as JSON Schema) and imports the checked-in result. The generator can stay private. No kern-ux.de text is copied; generated text must be original, and example markup comes from the EUPL-1.2 source. See finding 22 and R4b. |
+| Knowledge | **Tooling is built from a knowledge bundle, not `registry.json`** (decided 2026-10-02). The external generator (`kern-ux-scraper`) reads `kern-ux-plain`, the kern-ux.de docs source and third-party component libraries (the React kit first), and writes one English JSON document per component ([knowledge-bundle.md](knowledge-bundle.md)). This repo owns the bundle contract, checks the bundle in under `knowledge/`, and derives the runtime `registry.json` from it. English only; the docs prose (CC BY-NC-SA) is never copied. Third-party libraries get their own tools, which may later move out of this repo. Until the first bundle arrives, the roadmap continues on today's `registry.json`. |
 | Clients | VS Code + GitHub Copilot, OpenAI (Codex CLI over stdio; ChatGPT and the Responses API over remote HTTP), Claude (Code, Desktop), plus the MCP Inspector. |
 
 **On keeping core private.** Not publishing core stops anyone from doing `npm install @leonio/kern-ux-core`. It doesn't hide the code:

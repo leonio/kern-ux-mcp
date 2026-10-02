@@ -283,10 +283,11 @@ To paste into a session in `kern-ux-scraper`:
 >
 > **Done when.** The bundle validates against the JSON Schema kern-ux-mcp exports (it will publish one for the bundle, as it does for `registry.json` today). Every component page of the docs has a document. Every example in `kern-ux-plain` stories appears in a document. `report.json` lists what couldn't be mapped. A rerun with unchanged inputs produces no diff.
 
-## 10. Open questions
+## 10. Decisions (2026-10-02)
 
-1. **Check the bundle into this repo** under `knowledge/`? Recommended. Upstream changes become reviewable diffs, and skills and tests can read it without the generator. The cost is maybe 1–2 MB of JSON, not shipped in the packages.
-2. **The bundle replaces `registry.json` as the external contract**, and `registry.json` becomes the internal runtime projection. Recommended; it keeps the runtime file small while the knowledge grows.
-3. **German text.** The docs prose can't be reused. Proposed: English only for generated text. German component names and synonyms stay as facts, and the UI labels in examples come from EUPL code. `get_component_docs` already serves de/en; German knowledge text would need its own generation, and its own review.
-4. **The React step needs Node.** The generator is Go; typechecking and rendering React examples need a small Node step in the generator, or can wait until K5.
-5. **Option IDs follow KERN's vocabulary, not React's** (`block`, not `isBlock`). Recommended, since the HTML class names are the shared ground.
+The maintainer is rebuilding the generator from this design. Until a bundle exists, this repo carries on with the roadmap on today's `registry.json`.
+1. **When the bundle arrives, it's checked in under `knowledge/`.** Until then there's nothing to check in.
+2. **`registry.json` retires as the way tooling is built.** Tooling is built from multiple sources through the bundle, including more component libraries later. `registry.json` survives only as the runtime projection.
+3. **Option IDs follow KERN's vocabulary** (`block`, not `isBlock`). Third-party libraries such as the React kit get their own tools, which may later move out of this repo.
+4. **English only** for generated text. German stays in component names, synonyms and the UI labels in examples.
+5. **The React checks wait** until K5.
