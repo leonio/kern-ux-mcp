@@ -120,8 +120,8 @@ Measurements (2026-09-29), what they say about the shrink options, and kickoff q
 - [x] Add a context-budget test that prints per-tool listing sizes and fails above the budget. Targets: **≤ 120K compact characters model-facing** (name, description, `inputSchema`) for the full toolset, **≤ 60K** for a compact profile. `outputSchema` is reported, not counted.
 - [x] Option B: the six standalone block tools accept a smaller block set (about 58K saved). Measure a fixed shallow set (`text`, `html`, `badge`, `field`) against sets matched to each tool's job (a grid of cards, a section with a grid: containers whose children are simple blocks) before choosing. Deep nesting goes through `render_composition` and `render_page`. Once the registry has `anatomy` (R4b), a test checks the sets against it.
 - [x] An `examples` table keyed by tool name, with a golden test (every example validates with `strict: true`). The error hints' known-good payloads are built from it. This is the first piece of `defineTool()`'s `examples`, without migrating any tool.
-- [ ] English: foundations and form-field schemas.
-- [ ] English: layout and typography schemas and tools.
+- [x] English: foundations and form-field schemas.
+- [x] English: layout and typography schemas and tools.
 - [ ] English: interactive schemas and tools.
 - [ ] English: composition schemas, `COMPOSITION_CHEAT_SHEET`, and error hints.
 - [ ] Optional: a `KERN_TOOLSET=compact` profile.

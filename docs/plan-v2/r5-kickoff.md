@@ -135,3 +135,41 @@ The seven extra errors are model variance meeting API problems that were there b
 4. `get_accordion`: infer `mode: "group"` from `items` (a `normalize` step), or say so in the hint. `get_disclosure`'s description sends multi-item accordions to `get_accordion` without mentioning the mode.
 5. The `disclosure` block: accept `content` like the tool, or name `contentBlocks` in the hint.
 6. Icon names: suggest the closest valid names in the hint ("did you mean arrow-forward?") instead of only pointing at `list_icons`.
+
+### C. English: areas 1 and 2 (roadmap boxes 5 and 6)
+
+- [x] `db14199`: area 1, foundations and form fields. English for the shared parameters (`locale`, `strict`, heading level, grid columns, size, icon) and the 13 form-field tools. Findings 3 and 6 folded in: option keys `text` and `label` are accepted both ways, and an unknown icon name suggests the closest names. [r5-eval/english-1.json](r5-eval/english-1.json)
+- [x] `e4f498c`: area 2, layout and typography. English for the 13 layout and typography tools, the four tools that return KERN's example HTML, `get_utility_reference`, `get_tokens` and `list_icons`. [r5-eval/english-2.json](r5-eval/english-2.json)
+
+Learned in C:
+- **Most of the saving was duplication, not translation.** Every component tool's input schema had a top-level `description` that repeated its tool description at more length. Dropping it, and keeping one short tool description, saved more than the shorter English did.
+  - What a tool renders, and what it leaves out, went into that description: `get_heading` uses `kern-heading-medium` at every level, and `get_inputdate` is a native date field, not KERN's day/month/year fieldset.
+  - Advice on when to use a component, such as select or radios, went out, as decided. It comes back from the bundle's summaries.
+- **The listing:** 143,097 → 131,548 (area 1) → 129,939 (area 2). Area 2's tools were already small.
+  - What's left to shrink: `render_composition` and `render_page` (31.6K together), the block tools, and the interactive tools.
+  - German is still left in the simple-block union (`html` and `badge` blocks) inside `get_fieldset` and `get_grid`, which belongs to D.
+- **`outputSchema` counts too, even off the budget.** Area 1's English for the shared `validation` field was longer than the German, which added 2.3K across 48 tools; area 2 shortened it. `npm run listing:sizes` prints the `outputSchema` total, so check it.
+- **The eval:**
+  - `npm run eval` defaults to 2 runs per scenario; the baseline and option B ran 3, so pass `--runs 3`. `english-1` ran with 2. A third attempt ran under its own label against the same build, and its transcripts were merged in as attempt 3 and re-scored with `--from-transcripts`.
+  - Don't edit the working tree while the eval runs: it records the commit as `<sha>+dirty` when it finishes. For `english-1` the build predates the edits (`dist/` 13:59:54, first edit 14:01:01), so its `serverCommit` was set to `db14199` by hand.
+- **The errors left are on interactive tools (area 3):**
+  - `get_accordion` (one in `english-1`, two in `english-2`): `items` sent with `mode: "single"`, and then, in the retry, with no mode at all. The mode defaults to `single`, so the hint names `title` and `content`, and the model gives up and uses `render_composition`. That makes finding 4 the most frequent error now, so area 3 should do it first.
+  - `get_button` got `trash` in `english-1`. The new hint said "Did you mean delete?" and the next call worked. That hint still lists the stale sizes (finding 1).
+  - The `field` option errors from the baseline and option B are gone.
+- **For later (rendered markup, R5.1 or a fix of its own):** the body, heading, label, link, lists, preline, subline, title and description-list templates interpolate text unescaped, and `get_link` does the same with `href`. R4 fixed this in the form templates only.
+
+| | baseline | option B | english-1 | english-2 |
+|---|---|---|---|---|
+| Server | `52b24fa` | `c7bf5cc` | `db14199` | `e4f498c` |
+| Listing (characters) | 201,295 | 143,097 | 131,548 | 129,939 |
+| First request tokens | 70,676 | 50,340 | 43,591 | 42,535 |
+| Completed | 30 | 30 | 30 | 30 |
+| Checks passed (of 96) | 95 | 95 | 96 | 96 |
+| Error results | 2 | 9 | 2 | 2 |
+| Retries | 2 | 7 | 1 | 1 |
+| Tool calls | 61 | 62 | 64 | 56 |
+| Cost (USD) | 1.09 | 1.20 | 1.10 | 0.99 |
+
+`english-2` against `english-1`: the same checks and errors, 8 fewer calls, and 1,056 fewer first-request tokens.
+
+Pause for review here. Next: D (the interactive tools, then composition), starting with finding 4.

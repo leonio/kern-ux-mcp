@@ -43,7 +43,7 @@ With 30 runs, error counts are noisy; read the transcripts (`tools/eval/.runs/<l
    - no copied docs prose (CC BY-NC-SA)
    - who owns the schema: the design has this repo owning the contract (Zod, exported); the generator wrote its own
    Give feedback first, then plan the bundle contract and `knowledge:import` (R4b, re-planned as phases K1–K4).
-2. **Then R5 group C** (English areas 1 and 2), with the eval after each area.
+2. **Done:** R5 group C (English areas 1 and 2), `db14199` and `e4f498c`, with an eval after each; recorded in [r5-kickoff.md](r5-kickoff.md#c-english-areas-1-and-2-roadmap-boxes-5-and-6). Listing 129,939 characters, budget 130,000. Next is D, starting with finding 4 (`get_accordion`).
 
 ## Next in R5
 
