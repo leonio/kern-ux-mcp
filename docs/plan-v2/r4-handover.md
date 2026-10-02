@@ -153,8 +153,7 @@ Answered on 2026-10-02:
 
 - **Q1–Q3** were decided as recommended and implemented in R4b group B: `manifestVersion` 1.x with an additive contract, unknown keys accepted and listed by `registry:import`, and a JSON Schema 2020-12 export ([registry-requirements.md](registry-requirements.md#7-contract-decisions), [r4b-kickoff.md](r4b-kickoff.md)).
 
-Still open:
-- **Q5, the docs source's licence**, if the generator reads the docs repository instead of the site: it decides whether German text can be carried over verbatim with attribution.
+- **Q5, the docs source's licence:** answered on 2026-10-02. The docs repository's texts and graphics are CC BY-NC-SA (its code is EUPL), so no verbatim German text: the English is generated from facts. The generator design for its three sources is [knowledge-bundle.md](knowledge-bundle.md).
 
 ## Other open items (not scheduled)
 

@@ -10,7 +10,8 @@ This folder holds the plan for 2.0 and the record of how it's going. The work ha
 | [findings.md](findings.md) | The discovery write-ups (items 1–22) with file references. Roadmap steps point at them. |
 | [r4-handover.md](r4-handover.md) | The latest state: where R4 ended, the 2026-10-02 review, and the groundwork for R4b and R5. |
 | [r4b-kickoff.md](r4b-kickoff.md) | The current step: R4b's plan, progress and what was learned. |
-| [registry-requirements.md](registry-requirements.md) | What the server needs from `registry.json`, and how the external generator (`kern-ux-scraper`) can produce it. |
+| [knowledge-bundle.md](knowledge-bundle.md) | Draft: what the external generator (`kern-ux-scraper`) writes from its three sources, and how this repo builds tooling from it. Includes a brief for the generator repo. |
+| [registry-requirements.md](registry-requirements.md) | What the server needs from `registry.json` today, and what's wrong with it. Partly superseded by the knowledge bundle. |
 | [r3-kickoff.md](r3-kickoff.md), [r3-handover.md](r3-handover.md), [r4-kickoff.md](r4-kickoff.md) | Earlier steps: their plans, progress and lessons. |
 | [../migration-2.0.md](../migration-2.0.md) | What changes for clients between 1.x and 2.0. Every contract change adds an entry. |
 

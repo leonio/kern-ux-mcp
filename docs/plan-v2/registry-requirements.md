@@ -2,6 +2,8 @@
 
 As of 2026-10-02, against `registry.json` from 2026-09-27 (KERN 2.8.2, 44 components). This is the input for the generator in `kern-ux-scraper` ([finding 22](findings.md#22-the-registry-moves-to-an-external-generator-this-repo-owns-the-contract)) and for R4b's Zod contract in this repo.
 
+**Partly superseded (2026-10-02):** the generator now reads three sources (`kern-ux-plain`, the kern-ux.de docs source `technische-dokumentation`, and `kern-react-kit`). The design for what it writes is [knowledge-bundle.md](knowledge-bundle.md), which replaces sections 3, 5 and 6 here. Sections 1, 2 and 4 still describe today's registry and what stays in this repo.
+
 **The contract exists now** (R4b, 2026-10-02): `RegistryManifestSchema` in [packages/core/src/ux/registry.schema.ts](../../packages/core/src/ux/registry.schema.ts), exported as [docs/registry.schema.json](../registry.schema.json) for the generator to validate against. `npm run registry:import -- <path> [--dry-run]` checks a generated file and prints what changes. The schema is the source of truth for the shape; this file is the reasoning, and the list of what to add (section 3) as new optional fields. Sections 2.1–2.4 are done in this repo.
 
 The short version:
@@ -176,6 +178,6 @@ Decided and implemented on 2026-10-02 (R4b group B):
 2. **Unknown keys** are accepted: parsing strips them, and `registry:import` lists them, so the generator can work ahead of the contract and the additions still show up in review.
 3. **JSON Schema dialect:** 2020-12, published as `docs/registry.schema.json` by `npm run registry:schema`. A test keeps it current.
 
-Still open:
+Answered on 2026-10-02:
 
-4. **The docs source's licence** (section 5).
+4. **The docs source's licence.** The `technische-dokumentation` repository's licence page says texts and graphics are CC BY-NC-SA and code is EUPL. So docs prose can't be carried into this EUPL package; the generated English is written from facts, as section 5 says.
