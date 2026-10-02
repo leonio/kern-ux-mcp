@@ -38,7 +38,7 @@ kern-react-kit ┘    → curate → validate)           │        ▼         
 | Source | Licence | Authoritative for | Watch out for |
 |---|---|---|---|
 | `kern-ux-plain` (`@kern-ux/native`) | EUPL-1.2 | Markup and the class API: blocks, elements and modifiers in SCSS. Stories as examples. `component-layouts.md` as anatomy (32 components). Token values, icons, utility classes. `CHANGELOG.md` for when things appeared or were deprecated. | Story names carry the variant (`PrimaryXSmallIconOnly`), not structured args. |
-| `technische-dokumentation` (kern-ux.de) | Code EUPL-1.2. **Texts and graphics CC BY-NC-SA** (its licence page) | Front matter: title, description, Figma link. Synonyms and similar components. Usage rules, do's and don'ts, size tables. `accessibility/*.json`: WCAG criterion slug, status, date checked. Foundations pages. Patterns and templates (stubs today). | **Its prose can't be copied** into an EUPL package (non-commercial, share-alike). Facts go in; the English is written fresh from those facts, and nothing is close paraphrase. Example markup is code (EUPL), but prefer the plain stories. |
+| `technische-dokumentation` (kern-ux.de) | Code EUPL-1.2. **Texts and graphics CC BY-NC-SA** (its licence page) | Front matter: title, description, Figma link. Synonyms and similar components. Usage rules, do's and don'ts, size tables. `accessibility/*.json`: WCAG criterion slug, status, date checked. Foundations pages. Patterns and templates (stubs today). | ~~Its prose can't be copied into an EUPL package.~~ **Decision 8 (2026-10-02):** the generator takes the docs' German text and translates it into English. Example markup is code (EUPL), but prefer the plain stories. |
 | `kern-react-kit` (`@publicplan`, 1.3.5) | EUPL-1.2 | Typed props with defaults and JSDoc. The prop-to-class mapping in its source (`variant` → `kern-btn--{variant}`). Compound parts (`Card.Header`). Story `args` and `argTypes`. Its own agent skill. | **It lags behind and differs from plain**: Button has no size prop, and its own `COMPONENTS.md` uses a `text` prop that Button doesn't have. Bindings must come from source, and examples must be rendered to be trusted. |
 
 **Precedence:**
@@ -275,7 +275,7 @@ To paste into a session in `kern-ux-scraper`:
 > **Rules.**
 > - One JSON document per component, about 20 KB at most, stable IDs for components, parts, options, values, examples and criteria.
 > - Extract facts deterministically first. Write English only from extracted facts. Cite sources per text item. Never overwrite reviewed text; mark it stale.
-> - **Docs prose is CC BY-NC-SA: don't copy or closely paraphrase it.** Take example markup from `kern-ux-plain` stories (EUPL). Facts (names, classes, criterion IDs, sizes) are fine.
+> - **Docs text is taken and translated into English** (decision 8). Take example markup from `kern-ux-plain` stories (EUPL).
 > - Derive example option tags by parsing classes and attributes against the bindings. Typecheck and render React examples before marking them verified.
 > - Report disagreements between sources as drift; don't resolve them silently.
 > - Never name kern-ux-mcp tools or parameters.
@@ -296,3 +296,7 @@ Added after reviewing the first bundle ([knowledge-bundle-review.md](knowledge-b
 
 6. **The generator owns the bundle schema** (`kern-ux-scraper/schema/knowledge-bundle.schema.json`). This repo owns a consumer contract: Zod for the fields it reads, unknown keys allowed, exported as JSON Schema. The generator's CI validates against both. Semver and the additive rule stay.
 7. **`registry.json` is derived from the bundle alone**, plus a code-owned map (component ID aliases, the tools without a bundle component, later the parameter map). The two aren't merged; a one-time parity diff against today's registry catches regressions.
+
+Added later on 2026-10-02:
+
+8. **The generator builds everything, the docs text included.** It takes the kern-ux.de docs' German text and translates it into English; this repo only consumes the bundle as static JSON under `knowledge/`. The maintainer's decision, which supersedes the earlier "docs prose is never copied" (the docs repository's `LICENSE.md` is EUPL-1.2, while its licence page puts texts and graphics under CC BY-NC-SA).

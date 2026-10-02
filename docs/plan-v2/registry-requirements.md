@@ -180,4 +180,4 @@ Decided and implemented on 2026-10-02 (R4b group B):
 
 Answered on 2026-10-02:
 
-4. **The docs source's licence.** The `technische-dokumentation` repository's licence page says texts and graphics are CC BY-NC-SA and code is EUPL. So docs prose can't be carried into this EUPL package; the generated English is written from facts, as section 5 says.
+4. **The docs source's licence.** The `technische-dokumentation` repository's licence page says texts and graphics are CC BY-NC-SA and code is EUPL. So docs prose can't be carried into this EUPL package; the generated English is written from facts, as section 5 says. **Superseded 2026-10-02** by decision 8 in [knowledge-bundle.md](knowledge-bundle.md#10-decisions-2026-10-02): the generator translates the docs' text into English.

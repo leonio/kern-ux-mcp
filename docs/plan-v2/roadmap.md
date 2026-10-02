@@ -141,10 +141,10 @@ These change what tools return, so they wait until R5's before/after measurement
 
 ### R6: Resources
 
-In planning: [r6-kickoff.md](r6-kickoff.md) has the plan and three open questions.
+Planned: [r6-kickoff.md](r6-kickoff.md). It starts with K1a (importing the knowledge bundle), since R6 takes all KERN knowledge from the bundle.
 
 - [ ] Resource registration, cache hints and a snapshot test harness.
-- [ ] `kern://components`, the `kern://components/{id}` cards with completion, and `kern://components/{id}/schema`.
+- [ ] `kern://components` and the `kern://components/{id}` cards with completion. (`/schema` dropped 2026-10-02: it served the compact profile, and `tools/list` already carries every input schema.)
 - [ ] Guides: composition, forms, layout, accessibility.
 - [ ] `kern://tokens`, `kern://utilities`, `kern://icons` and `kern://templates/page-shell`.
 - [ ] Add `resource_link`s from `get_component_docs`.
@@ -216,7 +216,7 @@ References:
 | HTTP | It must run locally, in a container, and eventually publicly. There's no deploy target yet, so the container ships complete, with auth and rate limiting as options. |
 | Branch | `feat/v2-alpha` is the long-lived integration branch. It publishes pre-releases under an npm dist-tag: `release.yml` already turns the GitVersion pre-release label into the dist-tag. |
 | Node | `>=24` everywhere, including stdio, the MCPB bundle and the container. |
-| Knowledge | **Tooling is built from a knowledge bundle, not `registry.json`** (decided 2026-10-02). The external generator (`kern-ux-scraper`) reads `kern-ux-plain`, the kern-ux.de docs source and third-party component libraries (the React kit first), and writes one English JSON document per component ([knowledge-bundle.md](knowledge-bundle.md)). This repo owns the bundle contract, checks the bundle in under `knowledge/`, and derives the runtime `registry.json` from it. English only; the docs prose (CC BY-NC-SA) is never copied. Third-party libraries get their own tools, which may later move out of this repo. Until the first bundle arrives, the roadmap continues on today's `registry.json`. |
+| Knowledge | **Tooling is built from a knowledge bundle, not `registry.json`** (decided 2026-10-02). The external generator (`kern-ux-scraper`) reads `kern-ux-plain`, the kern-ux.de docs source and third-party component libraries (the React kit first), and writes one English JSON document per component ([knowledge-bundle.md](knowledge-bundle.md)). This repo owns the bundle contract, checks the bundle in under `knowledge/`, and derives the runtime `registry.json` from it. English only: the generator translates the docs' German text (decision 8 in [knowledge-bundle.md](knowledge-bundle.md#10-decisions-2026-10-02)), and this repo consumes the bundle as static JSON. Third-party libraries get their own tools, which may later move out of this repo. Until the first bundle arrives, the roadmap continues on today's `registry.json`. |
 | Clients | VS Code + GitHub Copilot and Claude (Code, Desktop), plus the MCP Inspector. **Narrowed 2026-10-02:** OpenAI clients (Codex CLI, ChatGPT, the Responses API) are no longer targets. |
 
 **On keeping core private.** Not publishing core stops anyone from doing `npm install @leonio/kern-ux-core`. It doesn't hide the code:
@@ -443,7 +443,6 @@ Content is generated at runtime from existing data and cached: the registry, Zod
 |---|---|---|
 | `kern://components` | `application/yaml` | Index: id, title, status, category, tool, one-line summary |
 | `kern://components/{id}` (template, `{id}` completion) | `text/markdown` | Card: status, tool, summary, a **`yaml` field digest from the Zod schema** (name, type, required, enum, default, description), examples, canonical HTML, reviewed guidance, applicable validation rules, related tools, anti-use cases |
-| `kern://components/{id}/schema` | `application/schema+json` | The exact input JSON Schema |
 | `kern://guides/composition` | `text/markdown` | Block kinds, nesting matrix, cheat sheet, form and field blocks |
 | `kern://guides/forms` | `text/markdown` | Label/hint/error pattern, ids and `aria-describedby`, optional marking, error summary, from `foundations.ts` + KERN Form Controls |
 | `kern://guides/layout` | `text/markdown` | Container/row/col, 12-column rule, breakpoints, spacing tokens, heading hierarchy, `kern-layer` surfaces |
