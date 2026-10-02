@@ -72,7 +72,7 @@ This is the normal path when you change HTML output, validation-friendly default
 Typical path:
 
 1. Update the relevant `kern-ux-plain` source.
-2. Run `npm run generate-manifest`.
+2. Run `npm run generate-manifest`, or import a registry from the external generator with `npm run registry:import -- <path>` (it checks the file against the contract in [packages/core/src/ux/registry.schema.ts](../packages/core/src/ux/registry.schema.ts) and prints what changes).
 
 This is the normal path when you change component metadata or canonical HTML extraction. Reviewed notes about our tools are code: [packages/core/src/ux/tool-notes.ts](../packages/core/src/ux/tool-notes.ts). The overlay ([docs/guidance-overlay.json](guidance-overlay.json)) has no entries since R4b.
 

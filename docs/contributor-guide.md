@@ -87,6 +87,18 @@ npm run build
 
 If you are only running the server, you do not need to regenerate the manifest. Regeneration is a contributor task.
 
+### The registry contract and imports
+
+`registry.json` must fit the registry contract, `RegistryManifestSchema` in `packages/core/src/ux/registry.schema.ts`. A core test checks the checked-in file against it. The external generator (`kern-ux-scraper`, see [plan-v2/registry-requirements.md](plan-v2/registry-requirements.md)) validates against the exported JSON Schema, `docs/registry.schema.json`.
+
+```bash
+npm run registry:schema                                   # after changing the contract: re-export docs/registry.schema.json
+npm run registry:import -- ../kern-ux-scraper/registry.json --dry-run   # check a generated registry and print what changes
+npm run registry:import -- ../kern-ux-scraper/registry.json             # check, then write packages/core/src/ux/registry.json
+```
+
+`registry:import` stops if the file doesn't fit the contract or lacks a component that has a tool (`COMPONENT_TOOLS`). It prints added, removed and changed components, token changes, components that are documented only, and unknown keys (accepted, not read). After an import, run `npm test` and review the snapshot diffs: tool titles come from the registry.
+
 ## Guidance Sources
 
 Use checked-in evidence in this order:
