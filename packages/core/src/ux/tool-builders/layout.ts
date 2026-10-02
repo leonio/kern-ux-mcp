@@ -26,47 +26,45 @@ import {
 
 type LayoutToolSpec = {
 	inputSchema: z.ZodType;
-	description: (component: ComponentInfo) => string;
+	description: string;
 	build: (args: unknown, locale: Locale) => BuildResult;
 };
-
-const describeLayout = (component: ComponentInfo) =>
-	`KERN UX (Foundational/Layout): HTML für ${component.title} erzeugen (Container/Grid/Section).`;
 
 /** The layout tools, by component ID (see COMPONENT_TOOLS). */
 const LAYOUT_TOOLS: Record<string, LayoutToolSpec> = {
 	descriptionlist: {
 		inputSchema: descriptionListToolSchema,
-		description: describeLayout,
+		description:
+			"KERN UX: HTML for a description list (dl): term and value pairs as dt and dd, values as plain text.",
 		build: (args) =>
 			buildDescriptionList(args as Parameters<typeof buildDescriptionList>[0]),
 	},
 	divider: {
 		inputSchema: dividerToolSchema,
-		description: describeLayout,
+		description:
+			'KERN UX: HTML for a divider, <hr class="kern-divider">, decorative by default.',
 		build: (args) => buildDivider(args as Parameters<typeof buildDivider>[0]),
 	},
 	fieldset: {
 		inputSchema: FieldsetToolSchema,
-		description: () =>
-			"KERN UX (Foundational/Layout): Groups related form fields under a legend, with an optional hint and group error. " +
+		description:
+			"KERN UX: HTML for a fieldset: related form fields under a legend, with an optional hint and group error. " +
 			"Put the fields in contentBlocks as field blocks, e.g. { legend: 'Ihre Anschrift', legendSize: 'large', contentBlocks: [{ kind: 'field', field: { type: 'text', name: 'strasse', label: 'Straße und Hausnummer' } }] }.",
 		build: (args, locale) =>
 			buildFieldset(args as Parameters<typeof buildFieldset>[0], locale),
 	},
 	grid: {
 		inputSchema: GridToolSchema,
-		description: () =>
-			"KERN UX (Foundational/Layout): HTML für 12-Spalten-Grid erzeugen (kern-container/kern-row/kern-col-{breakpoint}-{span}). " +
-			"Verwendet responsive Breakpoints (kern-col-md-{n}, kern-col-sm-12). " +
-			"Spalten müssen Teiler von 12 sein: 1, 2, 3, 4, 6, 12. Für 5 oder 7 gleich breite Spalten verwende dieses Tool NICHT; nutze stattdessen CSS-Grid-Utilities über get_utility_reference (z.B. kern-grid kern-grid-cols-5).",
+		description:
+			"KERN UX: HTML for equal-width columns in the 12-column grid: kern-container, kern-row and kern-col-md-{span} kern-col-sm-12, stacking on small screens. " +
+			"columns must divide 12: 1, 2, 3, 4, 6 or 12. For 5 or 7 equal columns, use the CSS grid utilities instead (get_utility_reference, e.g. kern-grid kern-grid-cols-5).",
 		build: (args, locale) =>
 			buildGrid(args as Parameters<typeof buildGrid>[0], locale),
 	},
 	kopfzeile: {
 		inputSchema: kopfzeileToolSchema,
-		description: () =>
-			"KERN UX (Foundational/Layout): The Kopfzeile, the thin bar with the German flag that marks an official website of the Federal Republic of Germany. " +
+		description:
+			"KERN UX: HTML for the Kopfzeile, the thin bar with the German flag that marks an official website of the Federal Republic of Germany. " +
 			"Only for official federal websites. render_page can add it to a whole page.",
 		build: (args, locale) =>
 			buildKopfzeile(args as Parameters<typeof buildKopfzeile>[0], locale),
@@ -84,7 +82,7 @@ export function buildLayoutTool(component: ComponentInfo): ToolDef {
 
 	return {
 		name,
-		description: spec.description(component),
+		description: spec.description,
 		inputSchema: spec.inputSchema,
 		outputSchema: ComponentOutputSchema,
 		handler: async (args: { locale?: Locale; strict?: boolean }) => {

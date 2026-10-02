@@ -32,7 +32,7 @@ import {
 
 type TypographyToolSpec = {
 	inputSchema: z.ZodType;
-	description?: string;
+	description: string;
 	build: (args: unknown) => BuildResult;
 };
 
@@ -40,37 +40,49 @@ type TypographyToolSpec = {
 const TYPOGRAPHY_TOOLS: Record<string, TypographyToolSpec> = {
 	body: {
 		inputSchema: bodyToolSchema,
+		description:
+			"KERN UX: HTML for a body text paragraph (kern-body) in three sizes, optionally bold. No muted variant.",
 		build: (args) => buildBody(args as Parameters<typeof buildBody>[0]),
 	},
 	heading: {
 		inputSchema: headingToolSchema,
 		description:
-			"KERN UX (Foundational/Typography): HTML für Heading erzeugen. " +
-			"Nutze level 1-6 für Hierarchie (h1..h6). Beispiel: { text: 'Services', level: 2 }.",
+			"KERN UX: HTML for a heading, h1 to h6. Every level gets kern-heading-medium; KERN's other heading sizes aren't offered.",
 		build: (args) => buildHeading(args as Parameters<typeof buildHeading>[0]),
 	},
 	label: {
 		inputSchema: labelToolSchema,
+		description: "KERN UX: HTML for a <label> with kern-label.",
 		build: (args) => buildLabel(args as Parameters<typeof buildLabel>[0]),
 	},
 	link: {
 		inputSchema: linkToolSchema,
+		description:
+			'KERN UX: HTML for a text link, <a class="kern-link">. Not the icon link, small link or link button.',
 		build: (args) => buildLink(args as Parameters<typeof buildLink>[0]),
 	},
 	lists: {
 		inputSchema: listsToolSchema,
+		description:
+			"KERN UX: HTML for a ul or ol with kern-list and two example items. Not KERN's bullet, number, size or horizontal variants.",
 		build: (args) => buildLists(args as Parameters<typeof buildLists>[0]),
 	},
 	preline: {
 		inputSchema: prelineToolSchema,
+		description:
+			"KERN UX: HTML for a preline (kern-preline), default size only.",
 		build: (args) => buildPreline(args as Parameters<typeof buildPreline>[0]),
 	},
 	subline: {
 		inputSchema: sublineToolSchema,
+		description:
+			"KERN UX: HTML for a subline (kern-subline), default size only.",
 		build: (args) => buildSubline(args as Parameters<typeof buildSubline>[0]),
 	},
 	title: {
 		inputSchema: titleToolSchema,
+		description:
+			"KERN UX: HTML for a title: always an <h2> with kern-title and the size modifier.",
 		build: (args) => buildTitle(args as Parameters<typeof buildTitle>[0]),
 	},
 };
@@ -86,9 +98,7 @@ export function buildTypographyTool(component: ComponentInfo): ToolDef {
 
 	return {
 		name,
-		description:
-			spec.description ??
-			`KERN UX (Foundational/Typography): HTML für ${component.title} erzeugen.`,
+		description: spec.description,
 		inputSchema: spec.inputSchema,
 		outputSchema: ComponentOutputSchema,
 		handler: async (args: { locale?: Locale; strict?: boolean }) => {

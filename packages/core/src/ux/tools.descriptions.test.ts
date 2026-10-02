@@ -126,8 +126,9 @@ describe("tool descriptions", () => {
 		const tool = tools.getTool("get_pattern");
 
 		expect(tool).toBeDefined();
-		expect(tool?.description).toContain("Header-Pattern");
-		expect(tool?.description).toContain("Footer");
+		expect(tool?.description).toContain("header pattern");
+		expect(tool?.description).toContain("no footer pattern");
+		expect(tool?.description).toContain("render_page");
 		expect(tool?.description).toContain("render_composition");
 	});
 });

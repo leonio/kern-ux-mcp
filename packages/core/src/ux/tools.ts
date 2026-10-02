@@ -7,6 +7,7 @@ import {
 import { CardGroupSchema } from "./schemas/card-group.js";
 import { RecursiveContentBlocksSchema } from "./schemas/content-union.js";
 import { DisclosureSchema } from "./schemas/disclosure.js";
+import { McpCommonSchema } from "./schemas/foundations.js";
 import { PageSchema } from "./schemas/page.js";
 import { SectionSchema } from "./schemas/section.js";
 import { UtilityReferenceSchema } from "./schemas/utility-reference.js";
@@ -60,45 +61,24 @@ type ToolRegistry = {
 	getTool(name: string): ToolDef | undefined;
 };
 
-const CommonParams = {
-	locale: z
-		.enum(["de", "en"])
-		.optional()
-		.describe("Sprache für Tool-Strings (Standard: de)."),
-	strict: z
-		.boolean()
-		.optional()
-		.describe(
-			"Wenn true: bei Validierungsfehlern wird kein HTML geliefert (BITV-strikt).",
-		),
-};
-
 function buildComponentTool(component: ComponentInfo): ToolDef {
 	const name = getComponentToolName(component);
 
-	const inputSchema = z
-		.object({
-			...CommonParams,
-			// Visible text is caller-controlled; we intentionally keep this minimal at first.
-			// Component-specific params can be added later via generator.
-		})
-		.describe(
-			`Gibt korrektes HTML für die KERN UX Komponente '${component.title}' zurück.`,
-		);
+	const inputSchema = z.object({ ...McpCommonSchema.shape });
 
 	const outputSchema = ComponentOutputSchema;
 
 	const descriptionOverrides: Record<string, string> = {
 		pattern:
-			"KERN UX: Liefert kanonisches HTML für ein Layout-Pattern (aktuell nur Header-Pattern mit Flex/Grid-Variante). " +
-			"KEINE Footer-Patterns vorhanden. Für Footer: verwende render_composition mit Section (aria-label) + Grid (4 columns) + verschachtelte Blöcke.",
+			"KERN UX: KERN's header pattern as fixed HTML (flex and grid variants). There is no footer pattern: " +
+			"render_page renders a page with header and footer, and render_composition can build one from a section and a 4-column grid.",
 	};
 
 	return {
 		name,
 		description:
 			descriptionOverrides[component.id] ??
-			`KERN UX: HTML für ${component.title} erzeugen (mit optionaler strikter Validierung).`,
+			`KERN UX: KERN's example HTML for ${component.title}, as is. No parameters besides locale and strict.`,
 		inputSchema,
 		outputSchema,
 		handler: async (args: { locale?: Locale; strict?: boolean }) => {
@@ -347,7 +327,7 @@ function buildListIconsTool(): ToolDef {
 	return {
 		name: "list_icons",
 		title: "KERN Icon Names",
-		description: "KERN UX (Utility): Liefert alle verfügbaren Icon-Namen.",
+		description: "KERN UX: Lists every KERN icon name.",
 		inputSchema: z.object({}),
 		outputSchema: z.object({ icons: z.array(z.string()) }),
 		handler: async () => ({ icons: [...VALID_ICON_NAMES] }),
@@ -359,7 +339,7 @@ function buildGetTokensTool(registry: Registry): ToolDef {
 		name: "get_tokens",
 		title: "KERN Design Tokens",
 		description:
-			"KERN UX (Utility): Liefert Token-Snapshot aus dem Build-Manifest (Farben, Spacing, Variablen).",
+			"KERN UX: Lists the names of KERN's CSS custom properties: colours, spacing and all variables.",
 		inputSchema: z.object({}),
 		outputSchema: z.object({
 			colors: z.array(z.string()),
@@ -377,9 +357,8 @@ function buildGetUtilityReferenceTool(): ToolDef {
 		name: "get_utility_reference",
 		title: "KERN Utility Classes",
 		description:
-			"KERN UX (Utility): Referenz für CSS-Hilfsklassen (Flex, CSS Grid, Gap, Spacing, Surface/Background, Stack, Alignment). " +
-			"Verwende dieses Tool, wenn du Layouts mit Flex- oder Grid-Utilities, Abständen, Ausrichtung oder Hintergrundfarben brauchst. " +
-			"WICHTIG: KERN hat KEINE kern-bg-* Utility-Klassen. Hintergrundfarben nur über CSS Custom Properties (z.B. --kern-color-background-subtle). Kategorie 'surface' liefert alle verfügbaren Variablen.",
+			"KERN UX: Reference for KERN's CSS utility classes: flex, CSS grid, gap, spacing, stack, alignment, and Surface (background colours). " +
+			"KERN has no kern-bg-* classes: backgrounds use CSS custom properties such as --kern-color-background-subtle, listed under category 'surface'.",
 		inputSchema,
 		outputSchema: z.object({
 			sections: z.array(
@@ -608,7 +587,7 @@ export const COMPOSITION_CHEAT_SHEET = [
 function buildRenderCompositionTool(): ToolDef {
 	const inputSchema = z
 		.object({
-			...CommonParams,
+			...McpCommonSchema.shape,
 			contentBlocks: RecursiveContentBlocksSchema.refine(
 				(blocks) => blocks.length > 0,
 				{

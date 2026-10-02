@@ -58,7 +58,7 @@ describe("createTools routing", () => {
 		const tool = tools.getTool("get_heading");
 
 		expect(tool).toBeDefined();
-		expect(tool?.description).toContain("level 1-6");
+		expect(tool?.description).toContain("h1 to h6");
 
 		const result = await callHandler<RenderedToolResult>(tool, {
 			text: "Titel",
@@ -406,7 +406,7 @@ describe("createTools routing", () => {
 			const tool = tools.getTool("get_search");
 
 			expect(tool?.description).toBe(
-				"KERN UX: HTML für search erzeugen (mit optionaler strikter Validierung).",
+				"KERN UX: KERN's example HTML for search, as is. No parameters besides locale and strict.",
 			);
 			const result = await callHandler<RenderedToolResult>(tool, {});
 			expect(result.html).toBe(canonical);

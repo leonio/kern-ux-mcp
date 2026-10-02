@@ -692,7 +692,7 @@
   {
     "name": "get_tokens",
     "title": "KERN Design Tokens",
-    "description": "KERN UX (Utility): Liefert Token-Snapshot aus dem Build-Manifest (Farben, Spacing, Variablen).",
+    "description": "KERN UX: Lists the names of KERN's CSS custom properties: colours, spacing and all variables.",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
       "type": "object",
@@ -737,7 +737,7 @@
   {
     "name": "list_icons",
     "title": "KERN Icon Names",
-    "description": "KERN UX (Utility): Liefert alle verfügbaren Icon-Namen.",
+    "description": "KERN UX: Lists every KERN icon name.",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
       "type": "object",
@@ -841,14 +841,14 @@
   {
     "name": "get_utility_reference",
     "title": "KERN Utility Classes",
-    "description": "KERN UX (Utility): Referenz für CSS-Hilfsklassen (Flex, CSS Grid, Gap, Spacing, Surface/Background, Stack, Alignment). Verwende dieses Tool, wenn du Layouts mit Flex- oder Grid-Utilities, Abständen, Ausrichtung oder Hintergrundfarben brauchst. WICHTIG: KERN hat KEINE kern-bg-* Utility-Klassen. Hintergrundfarben nur über CSS Custom Properties (z.B. --kern-color-background-subtle). Kategorie 'surface' liefert alle verfügbaren Variablen.",
+    "description": "KERN UX: Reference for KERN's CSS utility classes: flex, CSS grid, gap, spacing, stack, alignment, and Surface (background colours). KERN has no kern-bg-* classes: backgrounds use CSS custom properties such as --kern-color-background-subtle, listed under category 'surface'.",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
       "type": "object",
       "properties": {
         "category": {
           "default": "all",
-          "description": "Filtert die Referenz auf eine bestimmte Utility-Kategorie. Standard: alle.",
+          "description": "Limits the reference to one category; all by default.",
           "type": "string",
           "enum": [
             "all",
@@ -862,15 +862,14 @@
           ]
         },
         "locale": {
-          "description": "Sprache für Beschreibungstexte (Standard: de).",
+          "description": "Language of the descriptions (default: de).",
           "type": "string",
           "enum": [
             "de",
             "en"
           ]
         }
-      },
-      "description": "Parameter für die KERN UX Utility-Klassen-Referenz."
+      }
     },
     "outputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -955,7 +954,7 @@
       "type": "object",
       "properties": {
         "locale": {
-          "description": "Sprache für Tool-Strings (Standard: de).",
+          "description": "Language of generated labels and messages (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -963,7 +962,7 @@
           ]
         },
         "strict": {
-          "description": "Wenn true: bei Validierungsfehlern wird kein HTML geliefert (BITV-strikt).",
+          "description": "If true, validation errors fail the call instead of returning HTML.",
           "type": "boolean"
         },
         "contentBlocks": {
@@ -1947,7 +1946,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
+          "description": "Accessibility checks of the HTML."
         }
       },
       "required": [
@@ -3115,7 +3114,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
+          "description": "Accessibility checks of the HTML."
         }
       },
       "required": [
@@ -3492,7 +3491,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
+          "description": "Accessibility checks of the HTML."
         }
       },
       "required": [
@@ -4001,7 +4000,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
+          "description": "Accessibility checks of the HTML."
         }
       },
       "required": [
@@ -4334,7 +4333,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
+          "description": "Accessibility checks of the HTML."
         }
       },
       "required": [
@@ -4539,7 +4538,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
+          "description": "Accessibility checks of the HTML."
         }
       },
       "required": [
@@ -4714,7 +4713,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
+          "description": "Accessibility checks of the HTML."
         }
       },
       "required": [
@@ -4846,7 +4845,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
+          "description": "Accessibility checks of the HTML."
         }
       },
       "required": [
@@ -4865,19 +4864,19 @@
   {
     "name": "get_body",
     "title": "KERN Body",
-    "description": "KERN UX (Foundational/Typography): HTML für Body erzeugen.",
+    "description": "KERN UX: HTML for a body text paragraph (kern-body) in three sizes, optionally bold. No muted variant.",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
       "type": "object",
       "properties": {
         "text": {
           "default": "Beispieltext",
-          "description": "Textinhalt des Absatzes.",
+          "description": "Paragraph text.",
           "type": "string"
         },
         "size": {
           "default": "default",
-          "description": "Body-Groesse: default, small oder large. Der Renderer unterstuetzt diese drei KERN-Modifier, nicht jedoch muted.",
+          "description": "Text size.",
           "type": "string",
           "enum": [
             "default",
@@ -4887,7 +4886,7 @@
         },
         "bold": {
           "default": false,
-          "description": "Wenn true, wird kern-body--bold gesetzt.",
+          "description": "Bold text (kern-body--bold).",
           "type": "boolean"
         },
         "locale": {
@@ -4974,7 +4973,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
+          "description": "Accessibility checks of the HTML."
         }
       },
       "required": [
@@ -5162,7 +5161,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
+          "description": "Accessibility checks of the HTML."
         }
       },
       "required": [
@@ -5580,7 +5579,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
+          "description": "Accessibility checks of the HTML."
         }
       },
       "required": [
@@ -5857,7 +5856,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
+          "description": "Accessibility checks of the HTML."
         }
       },
       "required": [
@@ -5876,7 +5875,7 @@
   {
     "name": "get_descriptionlist",
     "title": "KERN Description List",
-    "description": "KERN UX (Foundational/Layout): HTML für DescriptionList erzeugen (Container/Grid/Section).",
+    "description": "KERN UX: HTML for a description list (dl): term and value pairs as dt and dd, values as plain text.",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
       "type": "object",
@@ -5892,7 +5891,7 @@
               "value": "Mustermann"
             }
           ],
-          "description": "Mindestens ein Begriff-Wert-Paar fuer die Description List.",
+          "description": "Term and value pairs, at least one.",
           "minItems": 1,
           "type": "array",
           "items": {
@@ -5900,11 +5899,11 @@
             "properties": {
               "key": {
                 "type": "string",
-                "description": "Begriff oder Bezeichnung, die im <dt> gerendert wird."
+                "description": "The term, rendered in <dt>."
               },
               "value": {
                 "type": "string",
-                "description": "Zugehoeriger Wert als Textinhalt des <dd>. Die aktuelle MCP-Variante modelliert hier nur Text, kein verschachteltes HTML wie Listen oder Links."
+                "description": "Its value as plain text, rendered in <dd>."
               }
             },
             "required": [
@@ -5915,7 +5914,7 @@
         },
         "stacked": {
           "default": false,
-          "description": "Wenn true, wird zusaetzlich kern-description-list--col gesetzt, um Begriffe und Werte direkt untereinander darzustellen.",
+          "description": "Puts each value under its term (kern-description-list--col) instead of beside it.",
           "type": "boolean"
         },
         "locale": {
@@ -6002,7 +6001,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
+          "description": "Accessibility checks of the HTML."
         }
       },
       "required": [
@@ -6021,13 +6020,13 @@
   {
     "name": "get_details",
     "title": "KERN Details",
-    "description": "KERN UX: HTML für Details erzeugen (mit optionaler strikter Validierung).",
+    "description": "KERN UX: KERN's example HTML for Details, as is. No parameters besides locale and strict.",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
       "type": "object",
       "properties": {
         "locale": {
-          "description": "Sprache für Tool-Strings (Standard: de).",
+          "description": "Language of generated labels and messages (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -6035,11 +6034,10 @@
           ]
         },
         "strict": {
-          "description": "Wenn true: bei Validierungsfehlern wird kein HTML geliefert (BITV-strikt).",
+          "description": "If true, validation errors fail the call instead of returning HTML.",
           "type": "boolean"
         }
-      },
-      "description": "Gibt korrektes HTML für die KERN UX Komponente 'Details' zurück."
+      }
     },
     "outputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -6111,7 +6109,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
+          "description": "Accessibility checks of the HTML."
         }
       },
       "required": [
@@ -6281,7 +6279,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
+          "description": "Accessibility checks of the HTML."
         }
       },
       "required": [
@@ -6300,14 +6298,14 @@
   {
     "name": "get_divider",
     "title": "KERN Divider",
-    "description": "KERN UX (Foundational/Layout): HTML für Divider erzeugen (Container/Grid/Section).",
+    "description": "KERN UX: HTML for a divider, <hr class=\"kern-divider\">, decorative by default.",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
       "type": "object",
       "properties": {
         "decorative": {
           "default": true,
-          "description": "Wenn true, wird der Divider rein dekorativ mit aria-hidden=\"true\" ausgegeben; andernfalls bleibt das <hr> fuer assistive Technologien sichtbar.",
+          "description": "Hides the divider from assistive technology (aria-hidden=\"true\"). false keeps the <hr> as a semantic break.",
           "type": "boolean"
         },
         "locale": {
@@ -6394,7 +6392,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
+          "description": "Accessibility checks of the HTML."
         }
       },
       "required": [
@@ -6563,7 +6561,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
+          "description": "Accessibility checks of the HTML."
         }
       },
       "required": [
@@ -6582,7 +6580,7 @@
   {
     "name": "get_fieldset",
     "title": "KERN Fieldset",
-    "description": "KERN UX (Foundational/Layout): Groups related form fields under a legend, with an optional hint and group error. Put the fields in contentBlocks as field blocks, e.g. { legend: 'Ihre Anschrift', legendSize: 'large', contentBlocks: [{ kind: 'field', field: { type: 'text', name: 'strasse', label: 'Straße und Hausnummer' } }] }.",
+    "description": "KERN UX: HTML for a fieldset: related form fields under a legend, with an optional hint and group error. Put the fields in contentBlocks as field blocks, e.g. { legend: 'Ihre Anschrift', legendSize: 'large', contentBlocks: [{ kind: 'field', field: { type: 'text', name: 'strasse', label: 'Straße und Hausnummer' } }] }.",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
       "type": "object",
@@ -6906,7 +6904,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
+          "description": "Accessibility checks of the HTML."
         }
       },
       "required": [
@@ -6925,14 +6923,14 @@
   {
     "name": "get_grid",
     "title": "KERN Grid",
-    "description": "KERN UX (Foundational/Layout): HTML für 12-Spalten-Grid erzeugen (kern-container/kern-row/kern-col-{breakpoint}-{span}). Verwendet responsive Breakpoints (kern-col-md-{n}, kern-col-sm-12). Spalten müssen Teiler von 12 sein: 1, 2, 3, 4, 6, 12. Für 5 oder 7 gleich breite Spalten verwende dieses Tool NICHT; nutze stattdessen CSS-Grid-Utilities über get_utility_reference (z.B. kern-grid kern-grid-cols-5).",
+    "description": "KERN UX: HTML for equal-width columns in the 12-column grid: kern-container, kern-row and kern-col-md-{span} kern-col-sm-12, stacking on small screens. columns must divide 12: 1, 2, 3, 4, 6 or 12. For 5 or 7 equal columns, use the CSS grid utilities instead (get_utility_reference, e.g. kern-grid kern-grid-cols-5).",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
       "type": "object",
       "properties": {
         "columns": {
           "default": 2,
-          "description": "Anzahl gleich breiter Spalten im 12-Spalten-Grid. Erlaubt sind nur 1, 2, 3, 4, 6 und 12, damit jede Spalte sauber in das KERN Raster passt.",
+          "description": "Equal-width columns: 1, 2, 3, 4, 6 or 12, so they fit the 12-column grid.",
           "anyOf": [
             {
               "type": "number",
@@ -6962,11 +6960,11 @@
         },
         "containerFluid": {
           "default": false,
-          "description": "Wenn true: kern-container-fluid statt kern-container. Nur für Layouts verwenden, die bewusst über die gesamte Viewport-Breite laufen sollen, z.B. Banner oder Hintergrundflächen.",
+          "description": "kern-container-fluid instead of kern-container: the full viewport width, e.g. for a banner.",
           "type": "boolean"
         },
         "rowAlignment": {
-          "description": "Vertikale Ausrichtung der Spalten innerhalb der kern-row über kern-align-items-{start|center|end}.",
+          "description": "Vertical alignment of the columns (kern-align-items-*).",
           "type": "string",
           "enum": [
             "start",
@@ -6976,16 +6974,16 @@
         },
         "includeHeading": {
           "default": false,
-          "description": "Wenn true wird oberhalb des Grids eine Abschnittsüberschrift ausgegeben.",
+          "description": "Adds a heading above the grid.",
           "type": "boolean"
         },
         "headingText": {
-          "description": "Optionaler Überschriftentext für das Grid, wenn includeHeading=true gesetzt ist.",
+          "description": "Text of the heading, with includeHeading: true.",
           "type": "string"
         },
         "headingLevel": {
           "default": 2,
-          "description": "Heading-Ebene der optionalen Grid-Überschrift (h1-h6). Hierarchisch ohne Sprünge verwenden.",
+          "description": "Level of the heading, h1 to h6. Don't skip levels.",
           "anyOf": [
             {
               "type": "number",
@@ -7302,7 +7300,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
+          "description": "Accessibility checks of the HTML."
         }
       },
       "required": [
@@ -7321,19 +7319,19 @@
   {
     "name": "get_heading",
     "title": "KERN Heading",
-    "description": "KERN UX (Foundational/Typography): HTML für Heading erzeugen. Nutze level 1-6 für Hierarchie (h1..h6). Beispiel: { text: 'Services', level: 2 }.",
+    "description": "KERN UX: HTML for a heading, h1 to h6. Every level gets kern-heading-medium; KERN's other heading sizes aren't offered.",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
       "type": "object",
       "properties": {
         "text": {
           "default": "Beispieltext",
-          "description": "Textinhalt der Ueberschrift.",
+          "description": "Heading text.",
           "type": "string"
         },
         "level": {
           "default": 2,
-          "description": "Ueberschriftenebene h1-h6; ohne Hierarchiespruenge im Seitenaufbau verwenden. Der aktuelle Renderer kombiniert jede Ebene mit der Klasse kern-heading-medium und bildet nicht die volle KERN-Skala von display bis small ab.",
+          "description": "Heading level, h1 to h6. Don't skip levels.",
           "anyOf": [
             {
               "type": "number",
@@ -7445,7 +7443,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
+          "description": "Accessibility checks of the HTML."
         }
       },
       "required": [
@@ -7581,7 +7579,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
+          "description": "Accessibility checks of the HTML."
         }
       },
       "required": [
@@ -7742,7 +7740,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
+          "description": "Accessibility checks of the HTML."
         }
       },
       "required": [
@@ -7903,7 +7901,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
+          "description": "Accessibility checks of the HTML."
         }
       },
       "required": [
@@ -8046,7 +8044,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
+          "description": "Accessibility checks of the HTML."
         }
       },
       "required": [
@@ -8187,7 +8185,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
+          "description": "Accessibility checks of the HTML."
         }
       },
       "required": [
@@ -8343,7 +8341,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
+          "description": "Accessibility checks of the HTML."
         }
       },
       "required": [
@@ -8495,7 +8493,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
+          "description": "Accessibility checks of the HTML."
         }
       },
       "required": [
@@ -8656,7 +8654,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
+          "description": "Accessibility checks of the HTML."
         }
       },
       "required": [
@@ -8826,7 +8824,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
+          "description": "Accessibility checks of the HTML."
         }
       },
       "required": [
@@ -8987,7 +8985,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
+          "description": "Accessibility checks of the HTML."
         }
       },
       "required": [
@@ -9006,7 +9004,7 @@
   {
     "name": "get_kopfzeile",
     "title": "KERN Kopfzeile",
-    "description": "KERN UX (Foundational/Layout): The Kopfzeile, the thin bar with the German flag that marks an official website of the Federal Republic of Germany. Only for official federal websites. render_page can add it to a whole page.",
+    "description": "KERN UX: HTML for the Kopfzeile, the thin bar with the German flag that marks an official website of the Federal Republic of Germany. Only for official federal websites. render_page can add it to a whole page.",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
       "type": "object",
@@ -9104,7 +9102,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
+          "description": "Accessibility checks of the HTML."
         }
       },
       "required": [
@@ -9123,14 +9121,14 @@
   {
     "name": "get_label",
     "title": "KERN Label",
-    "description": "KERN UX (Foundational/Typography): HTML für Label erzeugen.",
+    "description": "KERN UX: HTML for a <label> with kern-label.",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
       "type": "object",
       "properties": {
         "text": {
           "default": "Beispieltext",
-          "description": "Sichtbarer Label-Text.",
+          "description": "Label text.",
           "type": "string"
         },
         "locale": {
@@ -9217,7 +9215,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
+          "description": "Accessibility checks of the HTML."
         }
       },
       "required": [
@@ -9236,13 +9234,13 @@
   {
     "name": "get_layers",
     "title": "KERN Layers",
-    "description": "KERN UX: HTML für Layers erzeugen (mit optionaler strikter Validierung).",
+    "description": "KERN UX: KERN's example HTML for Layers, as is. No parameters besides locale and strict.",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
       "type": "object",
       "properties": {
         "locale": {
-          "description": "Sprache für Tool-Strings (Standard: de).",
+          "description": "Language of generated labels and messages (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -9250,11 +9248,10 @@
           ]
         },
         "strict": {
-          "description": "Wenn true: bei Validierungsfehlern wird kein HTML geliefert (BITV-strikt).",
+          "description": "If true, validation errors fail the call instead of returning HTML.",
           "type": "boolean"
         }
-      },
-      "description": "Gibt korrektes HTML für die KERN UX Komponente 'Layers' zurück."
+      }
     },
     "outputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -9326,7 +9323,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
+          "description": "Accessibility checks of the HTML."
         }
       },
       "required": [
@@ -9345,19 +9342,19 @@
   {
     "name": "get_link",
     "title": "KERN Link",
-    "description": "KERN UX (Foundational/Typography): HTML für Link erzeugen.",
+    "description": "KERN UX: HTML for a text link, <a class=\"kern-link\">. Not the icon link, small link or link button.",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
       "type": "object",
       "properties": {
         "text": {
           "default": "Beispieltext",
-          "description": "Sichtbarer Link-Text.",
+          "description": "Link text.",
           "type": "string"
         },
         "href": {
           "default": "#",
-          "description": "Ziel-URL fuer das href-Attribut des Links.",
+          "description": "Link target.",
           "type": "string"
         },
         "locale": {
@@ -9444,7 +9441,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
+          "description": "Accessibility checks of the HTML."
         }
       },
       "required": [
@@ -9463,19 +9460,19 @@
   {
     "name": "get_lists",
     "title": "KERN Lists",
-    "description": "KERN UX (Foundational/Typography): HTML für Lists erzeugen.",
+    "description": "KERN UX: HTML for a ul or ol with kern-list and two example items. Not KERN's bullet, number, size or horizontal variants.",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
       "type": "object",
       "properties": {
         "text": {
           "default": "Beispieltext",
-          "description": "Basistext fuer die automatisch erzeugten Beispiel-Listeneintraege.",
+          "description": "Base text of the two example items, \"<text> 1\" and \"<text> 2\".",
           "type": "string"
         },
         "ordered": {
           "default": false,
-          "description": "Wenn true, wird eine einfache geordnete Liste (<ol class=\"kern-list\">) erzeugt; sonst eine einfache ungeordnete Liste (<ul class=\"kern-list\">).",
+          "description": "An ordered list (ol) instead of an unordered one (ul).",
           "type": "boolean"
         },
         "locale": {
@@ -9562,7 +9559,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
+          "description": "Accessibility checks of the HTML."
         }
       },
       "required": [
@@ -9680,7 +9677,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
+          "description": "Accessibility checks of the HTML."
         }
       },
       "required": [
@@ -9699,13 +9696,13 @@
   {
     "name": "get_pattern",
     "title": "KERN Pattern",
-    "description": "KERN UX: Liefert kanonisches HTML für ein Layout-Pattern (aktuell nur Header-Pattern mit Flex/Grid-Variante). KEINE Footer-Patterns vorhanden. Für Footer: verwende render_composition mit Section (aria-label) + Grid (4 columns) + verschachtelte Blöcke.",
+    "description": "KERN UX: KERN's header pattern as fixed HTML (flex and grid variants). There is no footer pattern: render_page renders a page with header and footer, and render_composition can build one from a section and a 4-column grid.",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
       "type": "object",
       "properties": {
         "locale": {
-          "description": "Sprache für Tool-Strings (Standard: de).",
+          "description": "Language of generated labels and messages (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -9713,11 +9710,10 @@
           ]
         },
         "strict": {
-          "description": "Wenn true: bei Validierungsfehlern wird kein HTML geliefert (BITV-strikt).",
+          "description": "If true, validation errors fail the call instead of returning HTML.",
           "type": "boolean"
         }
-      },
-      "description": "Gibt korrektes HTML für die KERN UX Komponente 'Pattern' zurück."
+      }
     },
     "outputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -9789,7 +9785,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
+          "description": "Accessibility checks of the HTML."
         }
       },
       "required": [
@@ -9808,14 +9804,14 @@
   {
     "name": "get_preline",
     "title": "KERN Preline",
-    "description": "KERN UX (Foundational/Typography): HTML für Preline erzeugen.",
+    "description": "KERN UX: HTML for a preline (kern-preline), default size only.",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
       "type": "object",
       "properties": {
         "text": {
           "default": "Beispieltext",
-          "description": "Textinhalt der Preline.",
+          "description": "Preline text.",
           "type": "string"
         },
         "locale": {
@@ -9902,7 +9898,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
+          "description": "Accessibility checks of the HTML."
         }
       },
       "required": [
@@ -10038,7 +10034,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
+          "description": "Accessibility checks of the HTML."
         }
       },
       "required": [
@@ -10275,7 +10271,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
+          "description": "Accessibility checks of the HTML."
         }
       },
       "required": [
@@ -10294,13 +10290,13 @@
   {
     "name": "get_search",
     "title": "KERN Search",
-    "description": "KERN UX: HTML für Search erzeugen (mit optionaler strikter Validierung).",
+    "description": "KERN UX: KERN's example HTML for Search, as is. No parameters besides locale and strict.",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
       "type": "object",
       "properties": {
         "locale": {
-          "description": "Sprache für Tool-Strings (Standard: de).",
+          "description": "Language of generated labels and messages (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -10308,11 +10304,10 @@
           ]
         },
         "strict": {
-          "description": "Wenn true: bei Validierungsfehlern wird kein HTML geliefert (BITV-strikt).",
+          "description": "If true, validation errors fail the call instead of returning HTML.",
           "type": "boolean"
         }
-      },
-      "description": "Gibt korrektes HTML für die KERN UX Komponente 'Search' zurück."
+      }
     },
     "outputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -10384,7 +10379,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
+          "description": "Accessibility checks of the HTML."
         }
       },
       "required": [
@@ -10556,7 +10551,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
+          "description": "Accessibility checks of the HTML."
         }
       },
       "required": [
@@ -10575,14 +10570,14 @@
   {
     "name": "get_subline",
     "title": "KERN Subline",
-    "description": "KERN UX (Foundational/Typography): HTML für Subline erzeugen.",
+    "description": "KERN UX: HTML for a subline (kern-subline), default size only.",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
       "type": "object",
       "properties": {
         "text": {
           "default": "Beispieltext",
-          "description": "Textinhalt der Subline.",
+          "description": "Subline text.",
           "type": "string"
         },
         "locale": {
@@ -10669,7 +10664,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
+          "description": "Accessibility checks of the HTML."
         }
       },
       "required": [
@@ -10995,7 +10990,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
+          "description": "Accessibility checks of the HTML."
         }
       },
       "required": [
@@ -11225,7 +11220,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
+          "description": "Accessibility checks of the HTML."
         }
       },
       "required": [
@@ -11384,7 +11379,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
+          "description": "Accessibility checks of the HTML."
         }
       },
       "required": [
@@ -11546,7 +11541,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
+          "description": "Accessibility checks of the HTML."
         }
       },
       "required": [
@@ -11565,19 +11560,19 @@
   {
     "name": "get_title",
     "title": "KERN Title",
-    "description": "KERN UX (Foundational/Typography): HTML für Title erzeugen.",
+    "description": "KERN UX: HTML for a title: always an <h2> with kern-title and the size modifier.",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
       "type": "object",
       "properties": {
         "text": {
           "default": "Beispieltext",
-          "description": "Textinhalt des Title-Elements.",
+          "description": "Title text.",
           "type": "string"
         },
         "size": {
           "default": "default",
-          "description": "Title-Groesse: default, small oder large ueber die entsprechenden KERN-Modifier.",
+          "description": "Title size.",
           "type": "string",
           "enum": [
             "default",
@@ -11669,7 +11664,7 @@
             "issues"
           ],
           "additionalProperties": false,
-          "description": "Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead."
+          "description": "Accessibility checks of the HTML."
         }
       },
       "required": [

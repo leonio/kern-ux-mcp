@@ -47,7 +47,7 @@ export const ComponentOutputSchema = z.object({
 	html: z.string(),
 	warnings: z.array(z.string()).default([]),
 	validation: ValidationResultSchema.describe(
-		"Accessibility and markup checks of the HTML. With strict: true, errors fail the call instead.",
+		"Accessibility checks of the HTML.",
 	),
 });
 

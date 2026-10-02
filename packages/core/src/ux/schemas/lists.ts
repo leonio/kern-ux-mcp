@@ -1,26 +1,18 @@
 import { z } from "zod";
 import { McpCommonSchema } from "./foundations.js";
 
-export const listsRenderSchema = z
-	.object({
-		text: z
-			.string()
-			.optional()
-			.default("Beispieltext")
-			.describe(
-				"Basistext fuer die automatisch erzeugten Beispiel-Listeneintraege.",
-			),
-		ordered: z
-			.boolean()
-			.optional()
-			.default(false)
-			.describe(
-				'Wenn true, wird eine einfache geordnete Liste (<ol class="kern-list">) erzeugt; sonst eine einfache ungeordnete Liste (<ul class="kern-list">).',
-			),
-	})
-	.describe(
-		"Parameter fuer KERN UX Listen-Typografie. Diese MCP-Variante ist bewusst einfach und modelliert nur grundlegende ul/ol-Listen, nicht die vollstaendigen KERN-Varianten fuer bullet, number, small, large oder horizontal.",
-	);
+export const listsRenderSchema = z.object({
+	text: z
+		.string()
+		.optional()
+		.default("Beispieltext")
+		.describe('Base text of the two example items, "<text> 1" and "<text> 2".'),
+	ordered: z
+		.boolean()
+		.optional()
+		.default(false)
+		.describe("An ordered list (ol) instead of an unordered one (ul)."),
+});
 
 export const listsToolSchema = listsRenderSchema.extend(McpCommonSchema.shape);
 

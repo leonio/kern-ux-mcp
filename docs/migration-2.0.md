@@ -59,17 +59,21 @@ Pre-releases go out under the npm dist-tag `alpha`. "Next alpha" means landed on
 - A container block sent to one of the six tools is rejected. The hint names the tool and points at `render_composition`.
 - Why: the R5 baseline (Haiku 4.5, ten scenarios, three runs each) sent composite tasks to `render_page` and `render_composition`. The six tools got 5 calls in 30 runs, all `get_fieldset` with field blocks only.
 
-## English descriptions: form fields and shared parameters (next alpha)
+## English descriptions (next alpha)
 
 - English text for:
   - the 13 form-field tools: `get_inputtext`, `get_inputdate`, `get_inputemail`, `get_inputnumber`, `get_inputpassword`, `get_inputtel`, `get_inputurl`, `get_inputfile`, `get_inputgroup`, `get_textarea`, `get_select`, `get_checkbox` and `get_radio`
+  - the layout and typography tools: `get_grid`, `get_descriptionlist`, `get_divider`, `get_fieldset`, `get_kopfzeile`, `get_body`, `get_heading`, `get_label`, `get_link`, `get_lists`, `get_preline`, `get_subline` and `get_title`
+  - the tools that return KERN's example HTML (`get_details`, `get_layers`, `get_pattern`, `get_search`), and `get_utility_reference`, `get_tokens` and `list_icons`
   - the parameters every tool shares: `locale`, `strict`, heading levels, grid columns, sizes and icons
 
   Names, types and defaults are unchanged.
 - These tools' input schemas no longer have a top-level `description`; it repeated the tool description. Their advice on when to use a component (a select or radios, a textarea or a text input) is gone too. It will come from the KERN knowledge bundle.
+- The tool descriptions say what each tool renders and what it leaves out, for example that `get_heading` uses `kern-heading-medium` at every level. They no longer carry a category such as "(Foundational/Layout)".
+- `get_pattern` points at `render_page` for a page with header and footer.
 - `get_select` options accept `label` as well as `text`, and the options of a `field` block accept `text` as well as `label`. Why: the R5 baseline's only errors were `field` options written in `get_select`'s shape.
 - An unknown icon name now fails with "Unknown icon name. Did you mean arrow-forward?" when a close name exists (`arrow_forward`, or `trash` for `delete`). It used to say "Invalid icon name. Use list_icons for allowed names."
-- The model-facing listing shrinks from 143K to 131.5K characters.
+- The model-facing listing shrinks from 143K to 130K characters.
 
 ## Tools and block content (next alpha)
 
@@ -107,5 +111,5 @@ Pre-releases go out under the npm dist-tag `alpha`. "Next alpha" means landed on
 ## Planned before 2.0.0 (may still change)
 
 These are on the roadmap and not released. Entries move up when they land.
-- **English tool and parameter descriptions** (R5) for the remaining tools. Form fields and the shared parameters have landed (above). This changes text, not the contract.
+- **English tool and parameter descriptions** (R5) for the remaining tools. Form fields, layout, typography and the shared parameters have landed (above). This changes text, not the contract.
 - **Resources** (`kern://…`, R6) and **prompts** (R7).

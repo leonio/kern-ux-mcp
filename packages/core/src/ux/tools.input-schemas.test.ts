@@ -664,33 +664,36 @@ describe("tool input schemas", () => {
 		const labelSchema = getListedToolSchema(tools, "get_label");
 		const listsSchema = getListedToolSchema(tools, "get_lists");
 		const titleSchema = getListedToolSchema(tools, "get_title");
+		const description = (name: string) => tools.getTool(name)?.description;
 
-		expect(headingSchema.properties.level.description).toContain(
-			"display bis small",
+		expect(description("get_heading")).toContain("kern-heading-medium");
+		expect(description("get_heading")).toContain(
+			"other heading sizes aren't offered",
 		);
 		expect(headingSchema.properties.level.description).toContain(
-			"kern-heading-medium",
+			"Don't skip levels",
 		);
 
-		expect(bodySchema.properties.size.description).toContain(
-			"nicht jedoch muted",
-		);
+		expect(description("get_body")).toContain("No muted variant");
+		expect(bodySchema.properties.size.enum).toEqual([
+			"default",
+			"small",
+			"large",
+		]);
 		expect(bodySchema.properties.bold.description).toContain("kern-body--bold");
 
-		expect(labelSchema.properties.text.description).toContain("Label-Text");
+		expect(labelSchema.properties.text.description).toContain("Label text");
 
+		expect(description("get_lists")).toContain("ul or ol with kern-list");
 		expect(listsSchema.properties.text.description).toContain(
-			"Beispiel-Listeneintraege",
+			"two example items",
 		);
 		expect(listsSchema.properties.ordered.description).toContain(
-			'<ol class="kern-list">',
-		);
-		expect(listsSchema.properties.ordered.description).toContain(
-			"ungeordnete Liste",
+			"ordered list (ol)",
 		);
 
-		expect(titleSchema.properties.size.description).toContain("KERN-Modifier");
-		expect(titleSchema.properties.size.description).toContain("small");
+		expect(description("get_title")).toContain("<h2> with kern-title");
+		expect(titleSchema.properties.size.enum).toContain("small");
 	});
 
 	it("foundational text and description schemas document simplified renderer contracts", () => {
@@ -739,18 +742,18 @@ describe("tool input schemas", () => {
 		const prelineSchema = getListedToolSchema(tools, "get_preline");
 
 		expect(sublineSchema.properties.text.description).toContain("Subline");
-		expect(linkSchema.properties.href.description).toContain("href-Attribut");
-		expect(linkSchema.properties.text.description).toContain("Link-Text");
+		expect(linkSchema.properties.href.description).toContain("Link target");
+		expect(linkSchema.properties.text.description).toContain("Link text");
 
 		expect(descriptionListSchema.properties.items.description).toContain(
-			"Begriff-Wert-Paar",
+			"Term and value pairs",
 		);
 		expect(descriptionListSchema.properties.stacked.description).toContain(
 			"kern-description-list--col",
 		);
 		expect(
 			descriptionListSchema.properties.items.items.properties.value.description,
-		).toContain("kein verschachteltes HTML");
+		).toContain("plain text");
 
 		expect(prelineSchema.properties.text.description).toContain("Preline");
 	});
@@ -830,11 +833,16 @@ describe("tool input schemas", () => {
 			.find((entry) => entry.name === "get_grid");
 
 		expect(listedTool).toBeDefined();
-		expect(listedTool?.description).toContain("responsive Breakpoints");
+		expect(listedTool?.description).toContain(
+			"kern-col-md-{span} kern-col-sm-12",
+		);
+		expect(listedTool?.description).toContain("must divide 12");
 		expect(schema.properties.containerFluid.description).toContain(
 			"kern-container-fluid",
 		);
-		expect(schema.properties.rowAlignment.description).toContain("kern-row");
+		expect(schema.properties.rowAlignment.description).toContain(
+			"kern-align-items",
+		);
 		expect(schema.properties.columnsContent.description).toContain(
 			"text, html, badge or field blocks",
 		);
