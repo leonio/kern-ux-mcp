@@ -151,10 +151,9 @@ Reviewed on 2026-10-02: [registry-requirements.md](registry-requirements.md). In
 Answered on 2026-10-02:
 - **Q4, startup cost:** no validation at startup. The bundles inline `registry.json`, so the server runs the file CI validated.
 
-Still open, with recommendations in [registry-requirements.md](registry-requirements.md#7-open-questions-r4b-kickoff):
-- **Q1, `manifestVersion`:** the loader accepts major 1 (`"1.x"`), and a breaking contract change means `2.0.0` in both repos? Recommended: yes, and keep the contract additive.
-- **Q2, unknown keys:** strict (reject) or passthrough? Recommended: accept them when loading, and have `registry:import` list them.
-- **Q3, JSON Schema dialect** for the export: draft-07 like the tool schemas, or 2020-12? Recommended: 2020-12, published as `docs/registry.schema.json`.
+- **Q1–Q3** were decided as recommended and implemented in R4b group B: `manifestVersion` 1.x with an additive contract, unknown keys accepted and listed by `registry:import`, and a JSON Schema 2020-12 export ([registry-requirements.md](registry-requirements.md#7-contract-decisions), [r4b-kickoff.md](r4b-kickoff.md)).
+
+Still open:
 - **Q5, the docs source's licence**, if the generator reads the docs repository instead of the site: it decides whether German text can be carried over verbatim with attribution.
 
 ## Other open items (not scheduled)

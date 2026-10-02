@@ -46,7 +46,7 @@ Working agreements (standing, from the user):
 **B3.** A test validates the checked-in `registry.json` against the schema. No validation at startup.
 **B4.** `npm run registry:import -- <path>`: validate, copy into `packages/core/src/ux/registry.json`, and print added, removed and changed components and the fields that changed.
 
-Decisions for B (recommended in [registry-requirements.md](registry-requirements.md#7-open-questions-r4b-kickoff); proceeding with these unless the maintainer objects at the A pause):
+Decisions for B (recommended in [registry-requirements.md](registry-requirements.md#7-contract-decisions); taken as recommended, see "Decisions for B" under Progress):
 1. `manifestVersion` stays 1.x; the loader accepts major 1, and a breaking change bumps both repositories to 2.
 2. Unknown keys are accepted when loading, and `registry:import` lists them.
 3. The export uses JSON Schema 2020-12.
@@ -63,10 +63,10 @@ Roadmap boxes 6–9: the knowledge fields and inventories, consuming them, summa
 
 - [x] A1 `61fa863`: `COMPONENT_TOOLS` decides which component tools exist; `get_index` gone; generator warnings out of tool output
 - [x] A2 `88467a6`: the notes about our tools served from `tool-notes.ts`; the overlay has no entries
-- [ ] B1 `RegistryManifestSchema`
-- [ ] B2 JSON Schema export
-- [ ] B3 validation test
-- [ ] B4 `registry:import`
+- [x] B1 `a49d540`: `RegistryManifestSchema` in `registry.schema.ts`, the registry types derived from it, the loader's major check
+- [x] B2 `27da921`: `docs/registry.schema.json` exported by `npm run registry:schema`, kept current by a test
+- [x] B3 `47ffb3f`: the checked-in `registry.json` validated against the schema and the export
+- [x] B4 `e522b80`: `npm run registry:import -- <path> [--dry-run]`
 
 Learned in A:
 - **The release no longer needs a registry regeneration.** The only reason was the stale Kopfzeile text in `get_component_docs`, which now comes from code. The checked-in `registry.json` still carries the overlay and the routing fields; nothing reads them.
@@ -75,3 +75,19 @@ Learned in A:
 - **`git stash` keeps untracked files,** so a coverage comparison against `HEAD` with a new module still present counts that module as untested.
 - Listing: 55 → 54 tools, 257.6K → 256.1K compact characters; only `get_index` changed.
 - Tests: 1713 → 1718. Coverage 96.7 / 90.1 / 98.0 / 96.7.
+
+Decisions for B, taken as recommended (the maintainer said "continue" at the A pause): `manifestVersion` stays 1.x and the contract is additive; unknown keys are accepted and listed by `registry:import`; the export is JSON Schema 2020-12.
+
+Learned in B:
+- **Building the contract's Zod schemas costs about 10 ms** in a compiled bundle (an empty module costs about 1 ms). So `REGISTRY_CONTRACT_MAJOR` lives in `registry.ts`, the loader checks only the major, and the server bundles don't contain the schema module or the import code. Keep it that way: nothing on the runtime path should import `registry.schema.ts`.
+- **Zod's JSON Schema export:**
+  - `io: "input"` leaves out `additionalProperties: false` (output mode adds it), which keeps unknown keys allowed for the generator. Parsing still strips them, which is how `registry:import` finds them.
+  - `reused: "ref"` names its `$defs` `__schema0`, `__schema1`…; naming them with `.meta({ id })` registers them in Zod's global registry, which can clash when Vitest re-evaluates the module per test file. The export stays inlined (20K characters).
+  - `z.iso.datetime()` exports a long pattern without lookarounds, so RE2-based validators (Go) handle it.
+- **The export is generated, so Biome ignores it,** like `registry.json`; otherwise each `registry:schema` run would fail `biome ci`.
+- **Ajv stays** after the in-repo generator retires: a test validates with the exported JSON Schema, which proves it works for a generator, not just the Zod side.
+- **Additive means new names.** The richer shapes in [registry-requirements.md](registry-requirements.md) (tokens with values, for example) have to arrive as new optional fields. Changing what `tokens` holds would be major 2.
+- The checked-in `registry.json` fits the contract unchanged, including `index` and the fields nothing reads.
+- Tests: 1718 → 1742. Coverage 96.9 / 90.5 / 97.9 / 96.9.
+
+What's left of R4b waits on the generator's first output: the knowledge fields and inventories, consuming them, summaries in tool descriptions, and retiring `tools/manifest/*`.

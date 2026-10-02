@@ -1,6 +1,8 @@
 # Registry requirements: what kern-ux-mcp needs from `registry.json`
 
-As of 2026-10-02, against `registry.json` from 2026-09-27 (KERN 2.8.2, 44 components). This is the input for the generator in `kern-ux-scraper` ([finding 22](findings.md#22-the-registry-moves-to-an-external-generator-this-repo-owns-the-contract)) and for R4b's Zod contract in this repo. Once the contract lands, its exported JSON Schema is the source of truth and this file is the reasoning behind it.
+As of 2026-10-02, against `registry.json` from 2026-09-27 (KERN 2.8.2, 44 components). This is the input for the generator in `kern-ux-scraper` ([finding 22](findings.md#22-the-registry-moves-to-an-external-generator-this-repo-owns-the-contract)) and for R4b's Zod contract in this repo.
+
+**The contract exists now** (R4b, 2026-10-02): `RegistryManifestSchema` in [packages/core/src/ux/registry.schema.ts](../../packages/core/src/ux/registry.schema.ts), exported as [docs/registry.schema.json](../registry.schema.json) for the generator to validate against. `npm run registry:import -- <path> [--dry-run]` checks a generated file and prints what changes. The schema is the source of truth for the shape; this file is the reasoning, and the list of what to add (section 3) as new optional fields. Sections 2.1–2.4 are done in this repo.
 
 The short version:
 - Today's registry is mostly **inventory plus raw German excerpts**. It also carries things that belong to this repo (tool routing, notes about our own tools, generator diagnostics), and it decides which tools exist.
@@ -167,9 +169,13 @@ Reading the docs repository directly (front matter, Markdown or MDX) is sturdier
 
 Generator commands that would pay off: `build`, `diff <old> <new>`, `review <id>`, and `explain <id>`, which shows where each field came from.
 
-## 7. Open questions (R4b kickoff)
+## 7. Contract decisions
 
-1. **Versioning.** Recommended: keep `manifestVersion` 1.x and make the contract additive. Today's file must keep validating, so `category`, `strategy`, `warnings`, `docs` and `reviewedGuidance` become optional once code stops reading them. A breaking change bumps the major in both repositories.
-2. **Unknown keys.** Recommended: accept them when loading, and have `registry:import` list them, so the generator can work ahead of the contract and the additions still show up in review.
-3. **JSON Schema dialect.** Recommended: 2020-12, `z.toJSONSchema`'s default. The registry has none of the MCP client constraints that keep the tool schemas on draft-07. Publish it as `docs/registry.schema.json`, replacing the stale file.
+Decided and implemented on 2026-10-02 (R4b group B):
+1. **Versioning.** `manifestVersion` stays 1.x and the contract is additive. Today's file validates unchanged; `category`, `strategy`, `warnings` and `reviewedGuidance` are optional and marked deprecated, since code no longer reads them. New kinds of knowledge arrive as new optional fields: changing what an existing field holds (for example `tokens`) would be major 2, in both repositories.
+2. **Unknown keys** are accepted: parsing strips them, and `registry:import` lists them, so the generator can work ahead of the contract and the additions still show up in review.
+3. **JSON Schema dialect:** 2020-12, published as `docs/registry.schema.json` by `npm run registry:schema`. A test keeps it current.
+
+Still open:
+
 4. **The docs source's licence** (section 5).

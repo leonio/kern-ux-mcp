@@ -101,10 +101,10 @@ Done, not yet released. Where R4 ended and the groundwork for R5 and R4b: [r4-ha
 In progress: [r4b-kickoff.md](r4b-kickoff.md) has the plan and progress. Can start any time after R3's JSON import of `registry.json`. Background in [finding 22](findings.md#22-the-registry-moves-to-an-external-generator-this-repo-owns-the-contract). Current state, field usage and kickoff questions: [r4-handover.md](r4-handover.md#r4b-registry-contract). **What the registry is missing, and how to generate it:** [registry-requirements.md](registry-requirements.md) (2026-10-02).
 
 - [x] Code owns the tool list and routing: a component-to-tool table replaces `category`/`strategy` routing, so a regenerated registry can't add or remove tools (`get_index` goes). The overlay's notes about our own tools (Kopfzeile, InputDate, Dropdown) move to code, and generator `warnings` stop reaching tool output. ([registry-requirements.md](registry-requirements.md) 2.1–2.4)
-- [ ] `RegistryManifestSchema` in Zod, with `RegistryManifest`/`ComponentInfo` derived from it and a major `manifestVersion`. Additive: today's file keeps validating, and the fields code no longer reads become optional.
-- [ ] Export it as JSON Schema, replacing `docs/registry.schema.json`, for the generator to validate against.
-- [ ] Validate `registry.json` in a test and in `registry:import`. **Not at startup:** the file is bundled, so the server runs exactly the file CI checked (decided 2026-10-02).
-- [ ] `npm run registry:import -- <path>`: validate, copy, and print the component and field diff.
+- [x] `RegistryManifestSchema` in Zod, with `RegistryManifest`/`ComponentInfo` derived from it and a major `manifestVersion`. Additive: today's file keeps validating, and the fields code no longer reads become optional.
+- [x] Export it as JSON Schema, replacing `docs/registry.schema.json`, for the generator to validate against.
+- [x] Validate `registry.json` in a test and in `registry:import`. **Not at startup:** the file is bundled, so the server runs exactly the file CI checked (decided 2026-10-02).
+- [x] `npm run registry:import -- <path>`: validate, copy, and print the component and field diff.
 - [ ] Optional knowledge fields and inventories from [registry-requirements.md](registry-requirements.md) section 3 (summary, synonyms, similar, when to use, examples, classes, accessibility, anatomy; icons, utilities, all `kern-*` classes, tokens with values; `docsOnly`), with size limits and the corpus version in `upstream`.
 - [ ] Consume the inventories: `list_icons`, `get_utility_reference` and `get_tokens` read the registry instead of hand-coded lists, and `validate_html` warns on unknown `kern-*` classes.
 - [ ] Tool descriptions combine code-owned API text with the registry summary; component knowledge stops being written in code. **Waits on the generator delivering summaries** (3 of 44 components have one today), not on R5; it fits next to R6's cards.
