@@ -46,7 +46,7 @@ New order:
 
 ## Before either step (the maintainer)
 
-1. **Regenerate `registry.json` with the in-repo generator** (`npm run generate-manifest`), then **release an alpha**. The `kopfzeile` entry in `docs/guidance-overlay.json` describes the real Kopfzeile, but `registry.json` bakes the overlay in, so `get_component_docs` still calls it a placeholder. This is the only change the regeneration should bring. The external generator's output comes later, through R4b's `registry:import`, once the contract exists ([registry-requirements.md](registry-requirements.md)). Release: `gh workflow run release.yml --ref feat/v2-alpha -f dry-run=false`, then the approvals in [CONTRIBUTING.md](../../CONTRIBUTING.md#releasing). R5's baseline runs against that release.
+1. **Release an alpha** before R5, so R5's baseline has a release to run against: `gh workflow run release.yml --ref feat/v2-alpha -f dry-run=false`, then the approvals in [CONTRIBUTING.md](../../CONTRIBUTING.md#releasing). **No registry regeneration is needed** since R4b A2 (2026-10-02): the Kopfzeile notes that were stale in `registry.json` now come from code. The external generator's output comes later, through R4b's `registry:import` ([registry-requirements.md](registry-requirements.md)).
 2. **R0 client matrix**, before GA (runbook: `git checkout 31110cf -- spike/r0`, then `spike/r0/CLIENT-MATRIX.md`). It no longer decides anything in R5.
 
 ## R5: English base language and the context budget

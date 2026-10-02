@@ -61,9 +61,17 @@ Roadmap boxes 6–9: the knowledge fields and inventories, consuming them, summa
 
 ## Progress
 
-- [ ] A1 the component-tool table
-- [ ] A2 tool notes in code
+- [x] A1 `61fa863`: `COMPONENT_TOOLS` decides which component tools exist; `get_index` gone; generator warnings out of tool output
+- [x] A2 `88467a6`: the notes about our tools served from `tool-notes.ts`; the overlay has no entries
 - [ ] B1 `RegistryManifestSchema`
 - [ ] B2 JSON Schema export
 - [ ] B3 validation test
 - [ ] B4 `registry:import`
+
+Learned in A:
+- **The release no longer needs a registry regeneration.** The only reason was the stale Kopfzeile text in `get_component_docs`, which now comes from code. The checked-in `registry.json` still carries the overlay and the routing fields; nothing reads them.
+- **Tests can't invent component IDs any more.** Only table entries get tools, so tests for the canonical-HTML fallback use `search` and `details`. A partial registry still works: `createTools()` builds what it finds, and only the catalog insists on every entry.
+- **Function coverage counts each lookup entry.** The layout and typography builders are now maps of small `build` functions, and four (`kopfzeile`, `link`, `preline`, `subline`) were never called through a handler. One table-driven test renders all 13 layout and typography tools from the checked-in registry in strict mode, which also pins the routing end to end.
+- **`git stash` keeps untracked files,** so a coverage comparison against `HEAD` with a new module still present counts that module as untested.
+- Listing: 55 → 54 tools, 257.6K → 256.1K compact characters; only `get_index` changed.
+- Tests: 1713 → 1718. Coverage 96.7 / 90.1 / 98.0 / 96.7.
