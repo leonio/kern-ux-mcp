@@ -226,7 +226,7 @@ function toolHint(name: string, error: z.ZodError): string {
 	if (name === "get_button") {
 		return (
 			`${base}\n${knownGoodPayload(name)}\n` +
-			"Allowed variants: primary | secondary | tertiary. Allowed sizes: default | small. " +
+			"Allowed variants: primary | secondary | tertiary. Allowed sizes: x-small | small | default | large | x-large. " +
 			"Optional icon shape: { icon: { name: 'arrow-forward', position: 'right' } }."
 		);
 	}

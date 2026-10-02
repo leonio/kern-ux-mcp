@@ -423,7 +423,7 @@ describe("tool input schemas", () => {
 		expect(loaderSchema.properties.srText.description).toContain("Loading");
 	});
 
-	it("button and accordion schemas document x-small sizing and details semantics", () => {
+	it("button and accordion schemas document KERN sizes and details semantics", () => {
 		const registry = createRegistry([
 			{
 				id: "button",
@@ -450,8 +450,14 @@ describe("tool input schemas", () => {
 
 		expect(buttonSchema.description).toContain("Icon-only-Muster");
 		expect(buttonSchema.properties.label.description).toContain("sr-only");
-		expect(buttonSchema.properties.size.description).toContain("x-small");
-		expect(buttonSchema.properties.size.description).toContain("Legacy-Alias");
+		expect(buttonSchema.properties.size.enum).toEqual([
+			"x-small",
+			"small",
+			"default",
+			"large",
+			"x-large",
+		]);
+		expect(buttonSchema.properties.size.description).toContain("small 40");
 		expect(buttonSchema.properties.icon.description).toContain(
 			'aria-hidden="true"',
 		);

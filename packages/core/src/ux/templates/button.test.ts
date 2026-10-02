@@ -24,14 +24,24 @@ describe("buildButton", () => {
 		expect(result.html).toContain("Cancel");
 	});
 
-	it("keeps legacy small alias compatible", () => {
-		const result = buildButton(
-			{ variant: "secondary", label: "Cancel", size: "small" },
-			"en",
-		);
+	it.each(["small", "large", "x-large"] as const)(
+		"renders KERN's %s size",
+		(size) => {
+			const result = buildButton(
+				{ variant: "secondary", label: "Cancel", size },
+				"en",
+			);
 
-		expect(result.html).toContain("kern-btn--x-small");
-		expect(result.html).not.toContain("kern-btn--small");
+			expect(result.html).toContain(
+				`class="kern-btn kern-btn--secondary kern-btn--${size}"`,
+			);
+		},
+	);
+
+	it("adds no size class for the default size", () => {
+		const result = buildButton({ label: "Cancel", size: "default" }, "en");
+
+		expect(result.html).toContain('class="kern-btn kern-btn--primary"');
 	});
 
 	it("builds a tertiary button with block modifier", () => {

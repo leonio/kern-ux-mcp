@@ -15,8 +15,8 @@ export function buildButton(input: ButtonInput, _locale: Locale): BuildResult {
 
 	// Build class list
 	const classes = ["kern-btn", `kern-btn--${variant}`];
-	if (size === "small" || size === "x-small") {
-		classes.push("kern-btn--x-small");
+	if (size !== "default") {
+		classes.push(`kern-btn--${size}`);
 	}
 	if (block) {
 		classes.push("kern-btn--block");

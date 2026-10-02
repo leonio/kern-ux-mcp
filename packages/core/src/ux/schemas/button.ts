@@ -18,11 +18,11 @@ export const ButtonSchema = z
 				"Sichtbarer Button-Text. Auch bei Icon-only-Varianten erforderlich, damit ein sr-only oder sr-only-mobile Label gerendert werden kann.",
 			),
 		size: z
-			.enum(["default", "x-small", "small"])
+			.enum(["x-small", "small", "default", "large", "x-large"])
 			.optional()
 			.default("default")
 			.describe(
-				"Button-Groesse: default oder x-small. Der Wert small bleibt als Legacy-Alias erhalten und wird wie x-small gerendert.",
+				"Height: x-small 32 px, small 40, default 48, large 56, x-large 64.",
 			),
 		block: z
 			.boolean()

@@ -15,6 +15,7 @@ Pre-releases go out under the npm dist-tag `alpha`. "Next alpha" means landed on
 | `get_fieldset` wraps your own fields: `legend` and `contentBlocks` are required; `includeHint` and `hintText` are gone | next alpha | Pass `field` blocks in `contentBlocks`; use `hint` |
 | `get_kopfzeile` renders the upstream Kopfzeile: `title` and `includeNav` are replaced by `label` and `fluid` | next alpha | Use `render_page` for a header with navigation |
 | Buttons render `type="button"` unless you ask for `type: "submit"` | next alpha | Set `type: "submit"` on a button that should submit its form |
+| A button with `size: "small"` renders KERN's `kern-btn--small` (40 px), not `kern-btn--x-small` (32 px) | next alpha | Ask for `size: "x-small"` if you want the 32 px button |
 | Block content rejects nested forms, a card directly in a card, and a section or disclosure without content | next alpha | Restructure; the error names the path |
 | `formFlow`: `heading` is the form heading; the step list has its own `tasklistHeading` | next alpha | Set `tasklistHeading` if you relied on `heading` for the step list |
 | Text in labels, hints, errors, values and option text is escaped | next alpha | Don't pass markup in these strings |
@@ -98,6 +99,7 @@ Pre-releases go out under the npm dist-tag `alpha`. "Next alpha" means landed on
 
 ## Rendered markup (next alpha)
 
+- Buttons (`get_button` and button blocks) take KERN 2.8's five sizes: `x-small`, `small`, `default`, `large` and `x-large`. KERN 2.8.0 added `small`, `large` and `x-large`. Until now `small` was an alias that rendered `kern-btn--x-small`; it now renders `kern-btn--small`.
 - Every nesting the schema accepts renders. In 1.x some were dropped with a warning: standalone `get_grid` dropped sections and disclosures, a grid inside a grid lost its sections, and a card inside a card lost its grids.
 - Model-supplied text is HTML-escaped in the text-like input (text, email, date, number, tel, url, password), select, radio, file, input-group and tasklist templates. In 1.x a `&` or `<` in a label broke the markup there. Checkbox and textarea already escaped.
 - A grid inside a container (`render_page`'s `<main>`, a grid column) renders only its row, without a second `kern-container`. `containerFluid` is ignored there, with a warning.
