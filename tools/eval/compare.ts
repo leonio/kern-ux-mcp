@@ -10,31 +10,49 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 
 import type { Aggregate } from "./transcript.js";
 
+/** Reports written before a measurement existed lack it; the table shows "-". */
+type Totals = Partial<Aggregate>;
+
 type Report = {
 	label: string;
 	serverCommit: string;
-	total: Aggregate;
-	scenarios: Array<Aggregate & { id: string }>;
+	total: Totals;
+	scenarios: Array<Totals & { id: string }>;
 };
 
-const ROWS: Array<[string, (a: Aggregate) => number]> = [
+const ROWS: Array<[string, (a: Totals) => number | undefined]> = [
 	["completed", (a) => a.completed],
 	["tool calls", (a) => a.toolCalls],
 	["error results", (a) => a.errorResults],
 	["invalid input", (a) => a.invalidInputErrors],
 	["retries", (a) => a.retries],
 	["checks passed", (a) => a.checksPassed],
+	["composition calls", (a) => a.compositionCalls],
+	["composition errors", (a) => a.compositionErrors],
+	["composition retries", (a) => a.compositionRetries],
+	["block depth (max)", (a) => a.blockDepth],
+	["block nodes (max)", (a) => a.blockNodes],
+	["answer: verbatim", (a) => a.deliveredVerbatim],
+	["answer: edited", (a) => a.deliveredEdited],
+	["answer: described", (a) => a.deliveredDescribed],
+	["hand-written", (a) => a.fallbacks],
+	["strict-valid runs", (a) => a.strictValid],
 	["first request tokens", (a) => a.firstRequestTokens],
 	["input tokens", (a) => a.inputTokens],
 	["output tokens", (a) => a.outputTokens],
-	["cost (USD)", (a) => Math.round(a.costUsd * 100) / 100],
+	[
+		"cost (USD)",
+		(a) =>
+			a.costUsd === undefined ? undefined : Math.round(a.costUsd * 100) / 100,
+	],
 ];
 
 /** A plain-text comparison of two reports. */
 export function compareReports(before: Report, after: Report): string {
-	const pad = (value: string | number, width: number) =>
-		String(value).padStart(width);
-	const delta = (a: number, b: number) => {
+	const pad = (value: string | number | undefined, width: number) =>
+		String(value ?? "-").padStart(width);
+	const delta = (a: number | undefined, b: number | undefined) => {
+		if (a === undefined || b === undefined) return "";
 		const d = Math.round((b - a) * 100) / 100;
 		return d === 0 ? "" : d > 0 ? `+${d}` : `${d}`;
 	};
@@ -46,12 +64,15 @@ export function compareReports(before: Report, after: Report): string {
 				`${name.padEnd(22)}${pad(pick(before.total), 12)}${pad(pick(after.total), 12)}${pad(delta(pick(before.total), pick(after.total)), 10)}`,
 		),
 		"",
-		`${"scenario".padEnd(22)}${pad("errors", 9)}${pad("retries", 9)}${pad("calls", 9)}${pad("checks", 9)}`,
+		`${"scenario".padEnd(22)}${pad("errors", 9)}${pad("retries", 9)}${pad("calls", 9)}${pad("checks", 9)}${pad("valid", 9)}`,
 	];
 	for (const scenario of after.scenarios) {
 		const old = before.scenarios.find((s) => s.id === scenario.id);
-		const pair = (pick: (a: Aggregate) => number) =>
-			old ? `${pick(old)}→${pick(scenario)}` : `→${pick(scenario)}`;
+		const show = (value: number | undefined) => value ?? "-";
+		const pair = (pick: (a: Totals) => number | undefined) =>
+			old
+				? `${show(pick(old))}→${show(pick(scenario))}`
+				: `→${show(pick(scenario))}`;
 		lines.push(
 			`${scenario.id.padEnd(22)}${pad(
 				pair((a) => a.errorResults),
@@ -64,6 +85,9 @@ export function compareReports(before: Report, after: Report): string {
 				9,
 			)}${pad(
 				pair((a) => a.checksPassed),
+				9,
+			)}${pad(
+				pair((a) => a.strictValid),
 				9,
 			)}`,
 		);

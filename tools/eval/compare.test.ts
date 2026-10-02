@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import { compareReports } from "./compare.js";
 import type { Aggregate } from "./transcript.js";
 
-const aggregate = (overrides: Partial<Aggregate> = {}): Aggregate => ({
+const aggregate = (overrides: Partial<Aggregate> = {}): Partial<Aggregate> => ({
 	runs: 3,
 	completed: 3,
 	toolCalls: 6,
@@ -41,6 +41,7 @@ describe("compareReports", () => {
 			{ id: "new", ...aggregate({ toolCalls: 2 }) },
 		],
 	};
+	after.total.compositionCalls = 2;
 	const table = compareReports(before, after);
 
 	it("shows totals with their change", () => {
@@ -48,6 +49,10 @@ describe("compareReports", () => {
 		expect(table).toMatch(/error results\s+1\s+0\s+-1/);
 		expect(table).toMatch(/cost \(USD\)\s+0\.1\s+0\.08\s+-0\.02/);
 		expect(table).toMatch(/completed\s+3\s+3 *\n/);
+	});
+
+	it("shows a dash for a measurement the older report lacks", () => {
+		expect(table).toMatch(/composition calls\s+-\s+2 *\n/);
 	});
 
 	it("pairs each scenario's numbers, before and after", () => {

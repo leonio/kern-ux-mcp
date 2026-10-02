@@ -1,7 +1,13 @@
 import { describe, expect, it } from "vitest";
 
 import type { Scenario } from "./scenarios.js";
-import { aggregate, parseTranscript, summarizeRun } from "./transcript.js";
+import {
+	aggregate,
+	blockShape,
+	htmlInAnswer,
+	parseTranscript,
+	summarizeRun,
+} from "./transcript.js";
 
 const scenario: Scenario = {
 	id: "demo",
@@ -194,5 +200,170 @@ describe("aggregate", () => {
 			firstRequestTokens: 70_010,
 			costUsd: 0.3,
 		});
+	});
+});
+
+describe("what reached the user", () => {
+	type Call = { tool: string; input?: object; html?: string; error?: string };
+
+	/** A transcript with the given kern calls and final answer. */
+	const runOf = (calls: Call[], answer: string, check: Scenario = scenario) =>
+		summarizeRun(
+			parseTranscript(
+				[
+					...calls.flatMap((call, index) => [
+						line({
+							type: "assistant",
+							message: {
+								content: [
+									{
+										type: "tool_use",
+										id: `c${index}`,
+										name: `mcp__kern__${call.tool}`,
+										input: call.input ?? {},
+									},
+								],
+							},
+						}),
+						line({
+							type: "user",
+							message: {
+								content: [
+									{
+										type: "tool_result",
+										tool_use_id: `c${index}`,
+										is_error: call.error !== undefined,
+										content:
+											call.error ?? JSON.stringify({ html: call.html ?? "" }),
+									},
+								],
+							},
+						}),
+					]),
+					line({ type: "result", subtype: "success", result: answer }),
+				].join("\n"),
+			),
+			check,
+		);
+
+	const card = '<div class="kern-card"><p class="kern-body">A</p></div>';
+
+	it("measures the nesting of render_composition and render_page input", () => {
+		const blocks = {
+			contentBlocks: [
+				{
+					kind: "section",
+					section: {
+						contentBlocks: [
+							{
+								kind: "grid",
+								grid: {
+									columnsContent: [
+										[
+											{
+												kind: "card",
+												card: { contentBlocks: [{ kind: "badge" }] },
+											},
+										],
+										[{ kind: "text" }],
+									],
+								},
+							},
+						],
+					},
+				},
+			],
+		};
+		const run = runOf(
+			[
+				{
+					tool: "render_composition",
+					input: blocks,
+					error: "Invalid arguments",
+				},
+				{ tool: "render_composition", input: blocks, html: card },
+				{ tool: "get_badge", input: { kind: "x" }, html: "<span></span>" },
+			],
+			"Done.",
+		);
+
+		expect(blockShape(blocks)).toEqual({ depth: 4, nodes: 5 });
+		expect(run).toMatchObject({
+			compositionCalls: 2,
+			compositionErrors: 1,
+			compositionRetries: 1,
+			blockDepth: 4,
+			blockNodes: 5,
+		});
+	});
+
+	it("tells a pasted result from an edited, a described and a hand-written one", () => {
+		const tools = [{ tool: "get_card", html: card }];
+
+		expect(
+			runOf(tools, `Here:\n\`\`\`html\n<main>\n  ${card}\n</main>\n\`\`\``),
+		).toMatchObject({ delivery: "verbatim", fallback: false });
+		expect(
+			runOf(
+				tools,
+				'<main><div class="kern-card"><p class="kern-body">B</p></div></main>',
+			),
+		).toMatchObject({ delivery: "edited", fallback: false });
+		expect(runOf(tools, "I built a card with the text A.")).toMatchObject({
+			delivery: "described",
+			fallback: false,
+		});
+		expect(
+			runOf(
+				[],
+				'<div class="kern-grid"><div class="kern-box"><p>B</p></div></div>',
+			),
+		).toMatchObject({ delivery: "edited", fallback: true });
+		expect(runOf([], "No HTML here.")).toMatchObject({
+			delivery: "none",
+			strictErrors: null,
+		});
+	});
+
+	it("checks structure and validates the delivered HTML", () => {
+		const nested: Scenario = {
+			id: "nested",
+			prompt: "…",
+			expectStructure: [
+				{ selector: ".kern-card", min: 2 },
+				{
+					selector: ".kern-card .kern-card",
+					max: 0,
+					label: "no card in a card",
+				},
+			],
+		};
+		const twoCards = runOf(
+			[{ tool: "get_card", html: card + card }],
+			"Done.",
+			nested,
+		);
+		const cardInCard = runOf(
+			[],
+			`<div class="kern-card">${card}</div><img src="a.png">`,
+			nested,
+		);
+
+		expect(twoCards.checks).toEqual({ passed: 2, total: 2, failed: [] });
+		expect(twoCards.strictErrors).toBe(0);
+		expect(cardInCard.checks.failed).toEqual([
+			"structure: no card in a card (1)",
+		]);
+		expect(cardInCard.strictErrors).toBeGreaterThan(0);
+	});
+
+	it("finds the HTML in an answer", () => {
+		expect(htmlInAnswer("Use `<details>` for this.")).toBeUndefined();
+		expect(
+			htmlInAnswer("```css\n.a{}\n```\n```html\n<a><b><i>x</i></b></a>\n```"),
+		).toBe("<a><b><i>x</i></b></a>\n");
+		expect(htmlInAnswer("Result: <p><b>x</b><i>y</i></p> done")).toBe(
+			"<p><b>x</b><i>y</i></p>",
+		);
 	});
 });

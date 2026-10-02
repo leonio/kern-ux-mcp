@@ -1,11 +1,29 @@
 /**
  * Turns a Claude Code `--output-format stream-json` transcript into the
  * measurements the R5 baseline compares: kern tool calls, error results,
- * retries, turns, tokens, cost and the scenario's completion checks.
+ * retries, turns, tokens, cost and the scenario's completion checks, plus what
+ * reached the user: whether the answer carries the tools' HTML, whether the model
+ * wrote KERN markup by hand, and how that HTML validates.
  */
+import { parse } from "node-html-parser";
+
+import { validateHtmlStrict } from "../../packages/core/src/ux/validate.js";
 import type { Scenario } from "./scenarios.js";
 
 const KERN_PREFIX = "mcp__kern__";
+
+/** The tools that take the whole recursive block union. */
+const COMPOSITION_TOOLS: ReadonlySet<string> = new Set([
+	"render_composition",
+	"render_page",
+]);
+
+/**
+ * How the built HTML reached the user: the answer contains the largest tool
+ * result as is (verbatim), contains other HTML (edited), only describes it
+ * (described), or no HTML exists at all (none).
+ */
+export type Delivery = "verbatim" | "edited" | "described" | "none";
 
 export type ToolCall = {
 	tool: string;
@@ -33,6 +51,18 @@ export type RunSummary = {
 	costUsd: number;
 	durationMs: number;
 	checks: { passed: number; total: number; failed: string[] };
+	/** Calls, error results and retries on render_composition and render_page */
+	compositionCalls: number;
+	compositionErrors: number;
+	compositionRetries: number;
+	/** The deepest block nesting and the most blocks in one render_composition or render_page call */
+	blockDepth: number;
+	blockNodes: number;
+	delivery: Delivery;
+	/** The answer's KERN markup is mostly hand-written: most of its class attributes appear in no tool result */
+	fallback: boolean;
+	/** Errors validate_html finds in the delivered HTML; null when there is none */
+	strictErrors: number | null;
 	finalText: string;
 };
 
@@ -51,6 +81,7 @@ type ContentBlock = {
 	is_error?: boolean;
 	content?: unknown;
 	text?: string;
+	input?: unknown;
 };
 
 type StreamEvent = {
@@ -106,6 +137,101 @@ function htmlOf(text: string): string | undefined {
 	}
 }
 
+function isRecord(value: unknown): value is Record<string, unknown> {
+	return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+/** Nesting depth and count of block nodes (objects with a `kind`) in a tool input. */
+export function blockShape(
+	value: unknown,
+	depth = 0,
+): { depth: number; nodes: number } {
+	const children = Array.isArray(value)
+		? value
+		: isRecord(value)
+			? Object.values(value)
+			: [];
+	const isBlock = isRecord(value) && typeof value.kind === "string";
+	const level = isBlock ? depth + 1 : depth;
+	return children.reduce<{ depth: number; nodes: number }>(
+		(shape, child) => {
+			const inner = blockShape(child, level);
+			return {
+				depth: Math.max(shape.depth, inner.depth),
+				nodes: shape.nodes + inner.nodes,
+			};
+		},
+		{ depth: isBlock ? level : 0, nodes: isBlock ? 1 : 0 },
+	);
+}
+
+const TAG = /<[a-zA-Z][^>]*>/g;
+
+/**
+ * The HTML in a final answer: its fenced code blocks that contain tags, or else
+ * the span from the first tag to the last. Fewer than three tags is prose.
+ */
+export function htmlInAnswer(text: string): string | undefined {
+	const fenced = [...text.matchAll(/```[^\n]*\n([\s\S]*?)```/g)]
+		.map((match) => match[1] ?? "")
+		.filter((block) => (block.match(TAG) ?? []).length >= 3);
+	const html =
+		fenced.length > 0
+			? fenced.join("\n")
+			: text.slice(
+					Math.max(0, text.search(/<[a-zA-Z!]/)),
+					text.lastIndexOf(">") + 1,
+				);
+	return (html.match(TAG) ?? []).length >= 3 ? html : undefined;
+}
+
+const normalizeHtml = (html: string) =>
+	html
+		.replace(/<!--[\s\S]*?-->/g, "")
+		.replace(/\s+/g, " ")
+		.replace(/> </g, "><")
+		.trim();
+
+const classAttributes = (html: string) =>
+	new Set(
+		[...html.matchAll(/class="([^"]*)"/g)]
+			.map((match) => (match[1] ?? "").trim().replace(/\s+/g, " "))
+			.filter((value) => value.length > 0),
+	);
+
+function deliveryOf(
+	answerHtml: string | undefined,
+	toolHtml: string[],
+): Delivery {
+	if (!answerHtml) return toolHtml.length > 0 ? "described" : "none";
+	const largest = toolHtml.reduce((a, b) => (b.length > a.length ? b : a), "");
+	return largest && normalizeHtml(answerHtml).includes(normalizeHtml(largest))
+		? "verbatim"
+		: "edited";
+}
+
+function isFallback(answerHtml: string | undefined, toolHtml: string[]) {
+	if (!answerHtml) return false;
+	const own = classAttributes(answerHtml);
+	if (own.size === 0) return false;
+	const fromTools = classAttributes(toolHtml.join("\n"));
+	const handWritten = [...own].filter((value) => !fromTools.has(value));
+	return handWritten.length / own.size > 0.5;
+}
+
+/** The scenario's structure checks that the delivered HTML fails. */
+function failedStructure(scenario: Scenario, html: string | undefined) {
+	const root = html ? parse(html) : undefined;
+	return (scenario.expectStructure ?? []).flatMap((check) => {
+		const count = root ? root.querySelectorAll(check.selector).length : 0;
+		const ok =
+			root !== undefined &&
+			(check.min === undefined || count >= check.min) &&
+			(check.max === undefined || count <= check.max);
+		return ok ? [] : [`structure: ${check.label ?? check.selector} (${count})`];
+	});
+}
+
 function classifyError(text: string): NonNullable<ToolCall["error"]> {
 	if (
 		text.includes("Input validation error") ||
@@ -131,6 +257,7 @@ export function summarizeRun(
 
 	// Claude Code emits each content block as its own event; a tool_use id can repeat.
 	const calls = new Map<string, ToolCall>();
+	const shape = { depth: 0, nodes: 0 };
 	// The HTML the kern tools returned: a model may describe a long page instead
 	// of pasting it, so the checks look at what was built as well as the answer.
 	const toolHtml: string[] = [];
@@ -143,10 +270,13 @@ export function summarizeRun(
 				block.name?.startsWith(KERN_PREFIX) &&
 				!calls.has(block.id)
 			) {
-				calls.set(block.id, {
-					tool: block.name.slice(KERN_PREFIX.length),
-					error: null,
-				});
+				const tool = block.name.slice(KERN_PREFIX.length);
+				calls.set(block.id, { tool, error: null });
+				if (COMPOSITION_TOOLS.has(tool)) {
+					const inner = blockShape(block.input);
+					shape.depth = Math.max(shape.depth, inner.depth);
+					shape.nodes = Math.max(shape.nodes, inner.nodes);
+				}
 			}
 			if (
 				event.type === "user" &&
@@ -166,14 +296,23 @@ export function summarizeRun(
 	const ordered = [...calls.values()];
 
 	let retries = 0;
+	let compositionRetries = 0;
 	const lastErrored = new Map<string, boolean>();
 	for (const call of ordered) {
-		if (lastErrored.get(call.tool)) retries += 1;
+		if (lastErrored.get(call.tool)) {
+			retries += 1;
+			if (COMPOSITION_TOOLS.has(call.tool)) compositionRetries += 1;
+		}
 		lastErrored.set(call.tool, call.error !== null);
 	}
+	const composition = ordered.filter((c) => COMPOSITION_TOOLS.has(c.tool));
 
 	const finalText = result?.result ?? "";
 	const built = [finalText, ...toolHtml].join("\n");
+	const answerHtml = htmlInAnswer(finalText);
+	// What the user gets: the answer's HTML, or what the tools built if it only describes it.
+	const delivered =
+		answerHtml ?? (toolHtml.length > 0 ? toolHtml.join("\n") : undefined);
 	const failed = [
 		...(scenario.expectTools ?? [])
 			.filter(
@@ -181,9 +320,12 @@ export function summarizeRun(
 			)
 			.map((group) => `called ${group.join(" or ")}`),
 		...(scenario.expectHtml ?? []).filter((marker) => !built.includes(marker)),
+		...failedStructure(scenario, delivered),
 	];
 	const total =
-		(scenario.expectTools?.length ?? 0) + (scenario.expectHtml?.length ?? 0);
+		(scenario.expectTools?.length ?? 0) +
+		(scenario.expectHtml?.length ?? 0) +
+		(scenario.expectStructure?.length ?? 0);
 
 	return {
 		scenario: scenario.id,
@@ -204,6 +346,18 @@ export function summarizeRun(
 		costUsd: result?.total_cost_usd ?? 0,
 		durationMs: result?.duration_ms ?? 0,
 		checks: { passed: total - failed.length, total, failed },
+		compositionCalls: composition.length,
+		compositionErrors: composition.filter((c) => c.error !== null).length,
+		compositionRetries,
+		blockDepth: shape.depth,
+		blockNodes: shape.nodes,
+		delivery: deliveryOf(answerHtml, toolHtml),
+		fallback: isFallback(answerHtml, toolHtml),
+		strictErrors: delivered
+			? validateHtmlStrict(delivered).issues.filter(
+					(issue) => issue.severity === "error",
+				).length
+			: null,
 		finalText,
 	};
 }
@@ -218,6 +372,18 @@ export type Aggregate = {
 	turns: number;
 	checksPassed: number;
 	checksTotal: number;
+	compositionCalls: number;
+	compositionErrors: number;
+	compositionRetries: number;
+	/** Maximum over the runs */
+	blockDepth: number;
+	blockNodes: number;
+	deliveredVerbatim: number;
+	deliveredEdited: number;
+	deliveredDescribed: number;
+	fallbacks: number;
+	/** Runs whose delivered HTML has no validate_html errors */
+	strictValid: number;
 	firstRequestTokens: number;
 	inputTokens: number;
 	outputTokens: number;
@@ -239,6 +405,16 @@ export function aggregate(runs: readonly RunSummary[]): Aggregate {
 		turns: sum((r) => r.turns),
 		checksPassed: sum((r) => r.checks.passed),
 		checksTotal: sum((r) => r.checks.total),
+		compositionCalls: sum((r) => r.compositionCalls),
+		compositionErrors: sum((r) => r.compositionErrors),
+		compositionRetries: sum((r) => r.compositionRetries),
+		blockDepth: Math.max(0, ...runs.map((r) => r.blockDepth)),
+		blockNodes: Math.max(0, ...runs.map((r) => r.blockNodes)),
+		deliveredVerbatim: runs.filter((r) => r.delivery === "verbatim").length,
+		deliveredEdited: runs.filter((r) => r.delivery === "edited").length,
+		deliveredDescribed: runs.filter((r) => r.delivery === "described").length,
+		fallbacks: runs.filter((r) => r.fallback).length,
+		strictValid: runs.filter((r) => r.strictErrors === 0).length,
 		firstRequestTokens: Math.max(0, ...runs.map((r) => r.firstRequestTokens)),
 		inputTokens: sum((r) => r.inputTokens),
 		outputTokens: sum((r) => r.outputTokens),

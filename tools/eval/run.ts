@@ -3,11 +3,14 @@
  * mode, with a small model and the kern stdio server as its only tools, and
  * records tool calls, errors, retries, tokens and cost per run.
  *
- *   npm run eval -- --label baseline [--server <path/to/stdio/dist/index.js>]
- *                   [--runs 2] [--only contact-form,faq] [--model claude-haiku-4-5]
- *                   [--concurrency 2]
+ *   npm run eval -- --label baseline [--suite base|nested]
+ *                   [--server <path/to/stdio/dist/index.js>] [--runs 3]
+ *                   [--only contact-form,faq] [--model claude-haiku-4-5] [--concurrency 2]
  *   npm run eval -- --label baseline --from-transcripts
  *                   (re-scores the saved transcripts, e.g. after changing the checks)
+ *
+ * The base suite is the ten R5 scenarios; nested is four layouts that need the
+ * recursive block union (scenarios.ts).
  *
  * It uses the Claude Code login of whoever runs it (no API key needed); each run
  * costs a few cents at Haiku rates. The summary goes to
@@ -19,7 +22,7 @@ import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { SCENARIOS, type Scenario } from "./scenarios.js";
+import { type Scenario, SUITES } from "./scenarios.js";
 import {
 	aggregate,
 	parseTranscript,
@@ -42,19 +45,39 @@ function option(name: string, fallback?: string): string | undefined {
 const label = option("label");
 if (!label || !/^[\w.-]+$/.test(label)) {
 	console.error(
-		"Usage: npm run eval -- --label <name> [--server <path>] [--runs 2] [--only a,b] [--model claude-haiku-4-5] [--concurrency 2]",
+		"Usage: npm run eval -- --label <name> [--suite base|nested] [--server <path>] [--runs 3] [--only a,b] [--model claude-haiku-4-5] [--concurrency 2]",
+	);
+	process.exit(2);
+}
+const fromTranscripts = process.argv.includes("--from-transcripts");
+const reportDir = path.join(REPO_ROOT, "docs/plan-v2/r5-eval");
+const reportPath = path.join(reportDir, `${label}.json`);
+// Re-scoring keeps what describes the original run, including its suite.
+const previous = fromTranscripts
+	? (JSON.parse(await fs.readFile(reportPath, "utf8")) as Record<
+			string,
+			unknown
+		>)
+	: undefined;
+const suite =
+	option("suite") ??
+	(typeof previous?.suite === "string" ? previous.suite : "base");
+const suiteScenarios = SUITES[suite];
+if (!suiteScenarios) {
+	console.error(
+		`Unknown suite "${suite}". Suites: ${Object.keys(SUITES).join(", ")}.`,
 	);
 	process.exit(2);
 }
 const server = path.resolve(
 	option("server", path.join(REPO_ROOT, "packages/stdio/dist/index.js")) ?? "",
 );
-const runs = Number(option("runs", "2"));
+// The baseline and every comparison since run each scenario three times.
+const runs = Number(option("runs", "3"));
 const model = option("model", "claude-haiku-4-5") ?? "claude-haiku-4-5";
 const concurrency = Number(option("concurrency", "2"));
 const only = option("only")?.split(",");
-const scenarios = SCENARIOS.filter((s) => !only || only.includes(s.id));
-const fromTranscripts = process.argv.includes("--from-transcripts");
+const scenarios = suiteScenarios.filter((s) => !only || only.includes(s.id));
 
 if (!fromTranscripts) {
 	try {
@@ -153,10 +176,8 @@ function runOnce(scenario: Scenario, attempt: number): Promise<RunSummary> {
 }
 
 const results: RunSummary[] = [];
-const reportDir = path.join(REPO_ROOT, "docs/plan-v2/r5-eval");
-const reportPath = path.join(reportDir, `${label}.json`);
 const describeRun = (summary: RunSummary, attempt: number) =>
-	`${summary.scenario} #${attempt}: ${summary.completed ? "done" : "FAILED"}, ${summary.toolCalls} calls, ${summary.errorResults} errors, ${summary.retries} retries, checks ${summary.checks.passed}/${summary.checks.total}, $${summary.costUsd.toFixed(3)}`;
+	`${summary.scenario} #${attempt}: ${summary.completed ? "done" : "FAILED"}, ${summary.toolCalls} calls, ${summary.errorResults} errors, ${summary.retries} retries, checks ${summary.checks.passed}/${summary.checks.total}, ${summary.delivery}${summary.fallback ? " (hand-written)" : ""}, strict errors ${summary.strictErrors ?? "-"}, $${summary.costUsd.toFixed(3)}`;
 
 if (fromTranscripts) {
 	const files = await fs.readdir(rawDir);
@@ -202,15 +223,9 @@ const byScenario = scenarios.map((scenario) => {
 	};
 });
 const total = aggregate(results);
-// Re-scoring keeps what describes the original run.
-const previous = fromTranscripts
-	? (JSON.parse(await fs.readFile(reportPath, "utf8")) as Record<
-			string,
-			unknown
-		>)
-	: undefined;
 const report = {
 	label,
+	suite,
 	date: previous?.date ?? new Date().toISOString(),
 	...(previous ? { rescored: new Date().toISOString() } : {}),
 	model: previous?.model ?? model,
@@ -225,6 +240,9 @@ await fs.writeFile(reportPath, `${JSON.stringify(report, null, "\t")}\n`);
 
 console.log(
 	`\nTotal: ${total.completed}/${total.runs} completed, ${total.toolCalls} calls, ${total.errorResults} error results (${total.invalidInputErrors} invalid input), ${total.retries} retries, checks ${total.checksPassed}/${total.checksTotal}`,
+);
+console.log(
+	`Answers: ${total.deliveredVerbatim} verbatim, ${total.deliveredEdited} edited, ${total.deliveredDescribed} described, ${total.fallbacks} hand-written; ${total.strictValid}/${total.runs} strict-valid. Composition: ${total.compositionCalls} calls, ${total.compositionErrors} errors, depth ${total.blockDepth}, ${total.blockNodes} blocks at most`,
 );
 console.log(
 	`Tokens: first request ${total.firstRequestTokens}, input ${total.inputTokens}, output ${total.outputTokens}; cost $${total.costUsd.toFixed(2)}; ${Math.round(total.durationMs / 1000)} s`,
