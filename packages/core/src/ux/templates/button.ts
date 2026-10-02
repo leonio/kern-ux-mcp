@@ -23,12 +23,12 @@ export function buildButton(input: ButtonInput, _locale: Locale): BuildResult {
 		classes.push("kern-btn--block");
 	}
 
-	// Build label class
+	// The label keeps kern-label when hidden, as in KERN's button markup.
 	let labelClass = "kern-label";
 	if (labelVisibility === "sr-only") {
-		labelClass = "kern-sr-only";
+		labelClass = "kern-label kern-sr-only";
 	} else if (labelVisibility === "sr-only-mobile") {
-		labelClass = "kern-sr-only-mobile";
+		labelClass = "kern-label kern-sr-only-mobile";
 	}
 
 	// Build icon HTML

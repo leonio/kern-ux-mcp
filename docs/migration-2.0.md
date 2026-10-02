@@ -108,6 +108,7 @@ Pre-releases go out under the npm dist-tag `alpha`. "Next alpha" means landed on
 ## Rendered markup (next alpha)
 
 - Buttons (`get_button` and button blocks) take KERN 2.8's five sizes: `x-small`, `small`, `default`, `large` and `x-large`. KERN 2.8.0 added `small`, `large` and `x-large`. Until now `small` was an alias that rendered `kern-btn--x-small`; it now renders `kern-btn--small`.
+- A button label hidden with `labelVisibility: "sr-only"` or `"sr-only-mobile"` keeps `kern-label`: `<span class="kern-label kern-sr-only">`, as in KERN's markup. It used to render `kern-sr-only` alone.
 - Every nesting the schema accepts renders. In 1.x some were dropped with a warning: standalone `get_grid` dropped sections and disclosures, a grid inside a grid lost its sections, and a card inside a card lost its grids.
 - Model-supplied text is HTML-escaped in the text-like input (text, email, date, number, tel, url, password), select, radio, file, input-group and tasklist templates. In 1.x a `&` or `<` in a label broke the markup there. Checkbox and textarea already escaped.
 - The same now holds for `get_body`, `get_heading`, `get_label`, `get_link` (text and `href`), `get_lists`, `get_preline`, `get_subline`, `get_title`, `get_descriptionlist`, `get_badge` and badge blocks, `get_loader`'s `srText` and a grid's `headingText`. Their text is plain text: markup in it now shows as text. Use an `html` block or `get_table`'s `isHtml` where markup is meant.

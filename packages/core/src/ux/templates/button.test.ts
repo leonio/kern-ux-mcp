@@ -108,7 +108,7 @@ describe("buildButton", () => {
 			"en",
 		);
 
-		expect(result.html).toContain('class="kern-sr-only"');
+		expect(result.html).toContain('class="kern-label kern-sr-only"');
 		expect(result.html).toContain("Close");
 	});
 
@@ -123,7 +123,7 @@ describe("buildButton", () => {
 			"de",
 		);
 
-		expect(result.html).toContain('class="kern-sr-only-mobile"');
+		expect(result.html).toContain('class="kern-label kern-sr-only-mobile"');
 	});
 
 	it("escapes HTML in label", () => {
