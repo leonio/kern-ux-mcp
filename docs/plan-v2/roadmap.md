@@ -13,6 +13,8 @@ Discovery date: 2026-09-27. Line numbers refer to the code at that point and wil
 
 ### R0: SDK v2 spike
 
+**R0 no longer blocks R5** (decided 2026-10-02). Option A was measured and doesn't shrink anything, and 55 tools are well under VS Code's 128-tool limit. The open boxes are a client check to finish before GA (R7's merge). Whether a client passes `outputSchema` to the model only changes how R5 reports it.
+
 - [x] Install `@modelcontextprotocol/server`, `@modelcontextprotocol/node` and `@modelcontextprotocol/client`.
 - [x] Check that the `tools/list` output through the adapter deep-equals [tools-list.json](../../packages/core/src/ux/__snapshots__/tools-list.json), ignoring key order.
 - [x] Record the exact `isError` text for invalid input and for strict-validation failures.
@@ -96,28 +98,42 @@ Done, not yet released. Where R4 ended and the groundwork for R5 and R4b: [r4-ha
 
 ### R4b: Registry contract (consumer side of the external generator)
 
-Can start any time after R3's JSON import of `registry.json`. Background in [finding 22](findings.md#22-the-registry-moves-to-an-external-generator-this-repo-owns-the-contract). Current state, field usage and kickoff questions: [r4-handover.md](r4-handover.md#r4b-registry-contract).
+Can start any time after R3's JSON import of `registry.json`. Background in [finding 22](findings.md#22-the-registry-moves-to-an-external-generator-this-repo-owns-the-contract). Current state, field usage and kickoff questions: [r4-handover.md](r4-handover.md#r4b-registry-contract). **What the registry is missing, and how to generate it:** [registry-requirements.md](registry-requirements.md) (2026-10-02).
 
-- [ ] `RegistryManifestSchema` in Zod, with `RegistryManifest`/`ComponentInfo` derived from it and a major `manifestVersion`.
+- [ ] Code owns the tool list and routing: a component-to-tool table replaces `category`/`strategy` routing, so a regenerated registry can't add or remove tools (`get_index` goes). The overlay's notes about our own tools (Kopfzeile, InputDate, Dropdown) move to code, and generator `warnings` stop reaching tool output. ([registry-requirements.md](registry-requirements.md) 2.1–2.4)
+- [ ] `RegistryManifestSchema` in Zod, with `RegistryManifest`/`ComponentInfo` derived from it and a major `manifestVersion`. Additive: today's file keeps validating, and the fields code no longer reads become optional.
 - [ ] Export it as JSON Schema, replacing `docs/registry.schema.json`, for the generator to validate against.
-- [ ] Validate `registry.json` on load (fail at startup) and in CI.
-- [ ] `npm run registry:import -- <path>`: validate, copy, and print the component diff.
-- [ ] Optional component-knowledge fields (summary, when to use, do's and don'ts, accessibility notes, examples, synonyms), plus the corpus version in `upstream`.
-- [ ] Tool descriptions combine code-owned API text with the registry summary; component knowledge stops being written in code.
-- [ ] Retire `tools/manifest/*` and the overlay files once the external generator reaches parity (contract passes, identical listing).
+- [ ] Validate `registry.json` in a test and in `registry:import`. **Not at startup:** the file is bundled, so the server runs exactly the file CI checked (decided 2026-10-02).
+- [ ] `npm run registry:import -- <path>`: validate, copy, and print the component and field diff.
+- [ ] Optional knowledge fields and inventories from [registry-requirements.md](registry-requirements.md) section 3 (summary, synonyms, similar, when to use, examples, classes, accessibility, anatomy; icons, utilities, all `kern-*` classes, tokens with values; `docsOnly`), with size limits and the corpus version in `upstream`.
+- [ ] Consume the inventories: `list_icons`, `get_utility_reference` and `get_tokens` read the registry instead of hand-coded lists, and `validate_html` warns on unknown `kern-*` classes.
+- [ ] Tool descriptions combine code-owned API text with the registry summary; component knowledge stops being written in code. **Waits on the generator delivering summaries** (3 of 44 components have one today), not on R5; it fits next to R6's cards.
+- [ ] Retire `tools/manifest/*` and the overlay files once the external generator reaches parity (contract passes, identical listing before any summaries are consumed).
 
 ### R5: English base language and the context budget
 
-Measurements (2026-09-29), what they say about the shrink options, and kickoff questions: [r4-handover.md](r4-handover.md#r5-english-base-language-and-the-context-budget).
+Measurements (2026-09-29), what they say about the shrink options, and kickoff questions: [r4-handover.md](r4-handover.md#r5-english-base-language-and-the-context-budget). **Order and targets decided 2026-10-02:** option B comes before the English areas, the `examples` table comes before the hints are rewritten, and the baseline is scripted.
 
-- [ ] Optional baseline: run 8–10 scenario tasks against the pre-R5 server in VS Code Copilot and Claude Code.
-- [ ] Add a context-budget test that prints per-tool listing sizes and fails above the budget. Measure what reaches the model (name, description, `inputSchema`) separately from `outputSchema`.
+- [ ] A scripted scenario baseline: a small harness runs the 8–10 scenarios against the stdio server through a model API, recording invalid calls, retries and tokens. Run it against the R4 release; VS Code Copilot and Claude Code stay as spot checks. Re-run after each area below.
+- [ ] Add a context-budget test that prints per-tool listing sizes and fails above the budget. Targets: **≤ 120K compact characters model-facing** (name, description, `inputSchema`) for the full toolset, **≤ 60K** for a compact profile. `outputSchema` is reported, not counted.
+- [ ] Option B: the six standalone block tools accept a smaller block set (about 58K saved). Measure a fixed shallow set (`text`, `html`, `badge`, `field`) against sets matched to each tool's job (a grid of cards, a section with a grid: containers whose children are simple blocks) before choosing. Deep nesting goes through `render_composition` and `render_page`. Once the registry has `anatomy` (R4b), a test checks the sets against it.
+- [ ] An `examples` table keyed by tool name, with a golden test (every example validates with `strict: true`). The error hints' known-good payloads are built from it. This is the first piece of `defineTool()`'s `examples`, without migrating any tool.
 - [ ] English: foundations and form-field schemas.
 - [ ] English: layout and typography schemas and tools.
 - [ ] English: interactive schemas and tools.
 - [ ] English: composition schemas, `COMPOSITION_CHEAT_SHEET`, and error hints.
-- [ ] Shrink the recursive schemas with option A or B, down to under 60K compact characters.
 - [ ] Optional: a `KERN_TOOLSET=compact` profile.
+
+In the English areas, component tool descriptions are API text only: what the tool renders and its parameters, plus a pointer. "When to use" knowledge stays out of code, and about 7K of the budget stays free for registry summaries (R4b).
+
+### R5.1: Output polish (after R5)
+
+These change what tools return, so they wait until R5's before/after measurements are done. That way the noise is the same in the baseline and every re-run.
+
+- [ ] The grid warns "KERN UX has two layout systems…" only when it matters (columns that don't divide 12), not on every grid.
+- [ ] `get_inputtext` and the other text-like tools drop the default "enter your full name" format hint (the `field` block already has none).
+- [ ] Blocks in `<main>` and in `render_composition` get spacing between them, like a form's stack.
+- [ ] A fieldset's group error appears in the form's error summary, linked to the group's first input.
 
 ### R6: Resources
 
@@ -138,7 +154,7 @@ Measurements (2026-09-29), what they say about the shrink options, and kickoff q
 
 ### Ongoing from R2: progressive `defineTool()` migration
 
-- [ ] `defineTool()` with `examples`, co-located `normalize`/`errorHint`, and the golden-example test (items 2, 8).
+- [ ] `defineTool()` with `examples`, co-located `normalize`/`errorHint`, and the golden-example test (items 2, 8). R5 lands the `examples` table and the golden test first; `defineTool()` then takes them over.
 - [ ] Utility tools.
 - [ ] Typography and layout tools.
 - [ ] Interactive tools as a declarative table, with routing declared once and the component ID on the definition (items 6, 7, 11).
@@ -261,9 +277,9 @@ Today the same payloads are duplicated across tool descriptions, `server.ts` and
 
 ### R0 spike
 
-This step is time-boxed. The harness in `spike/r0/` was throwaway and was deleted in R2; only the findings are kept. `git checkout 31110cf -- spike/r0` restores it (reinstall `@modelcontextprotocol/node` for its HTTP entry). The tracker lists what to confirm. Two of the answers gate later steps:
-- **`$defs`/`$ref` and `anyOf`-root support per client** decides between the R5 schema-shrink options.
-- **Tool-count limits** decide whether the R5 compact profile is needed.
+This step is time-boxed. The harness in `spike/r0/` was throwaway and was deleted in R2; only the findings are kept. `git checkout 31110cf -- spike/r0` restores it (reinstall `@modelcontextprotocol/node` for its HTTP entry). The tracker lists what to confirm. Two of the answers were meant to gate R5; neither does any more (2026-10-02):
+- **`$defs`/`$ref` and `anyOf`-root support per client** was to decide between the R5 schema-shrink options. Option A was measured and makes the listing larger, so R5 uses option B. `render_composition` already relies on `$ref` for recursion.
+- **Tool-count limits** were to decide whether the R5 compact profile is needed. 55 tools are well under VS Code's 128, so the profile stays optional.
 
 ### R1 prerequisites
 
@@ -367,14 +383,18 @@ These are real bugs or missing pieces, and the prompts would expose them (findin
 
 The registry stops being generated here (finding 22). This repo says what it needs, and the external generator delivers it.
 
+The field-by-field requirements, the problems with today's file and a generator design are in [registry-requirements.md](registry-requirements.md).
+
 **Ownership**
 - The generator owns the source scan (it reads `kern-ux-plain` directly, never this repo's `registry.json`), the corpus mapping, the curated exclusion and alias tables, and the generated text.
 - This repo owns the contract and the tool implementations. Neither side copies the other's tables.
+- **The tool list is code's** (2026-10-02). Today `createTools()` makes one tool per registry component, so a regeneration adds or removes tools (`get_index`; `get_details` and `get_search` arrived that way with 2.8.2), and `category`/`strategy` encode our routing in the generator. A component-to-tool table in code replaces both. A registry component without a tool is documentation only.
 
 **Contract**
-- `src/ux/registry.schema.ts`: `RegistryManifestSchema` in Zod, the single source for the TS types. It is exported to JSON Schema with the same `json-schema.ts` path the tools use, and published as `docs/registry.schema.json`.
+- `src/ux/registry.schema.ts`: `RegistryManifestSchema` in Zod, the single source for the TS types. It is exported to JSON Schema and published as `docs/registry.schema.json`.
 - `manifestVersion` becomes a major version that the loader checks. A breaking contract change bumps it, and both repositories change together.
 - New optional fields first, so today's registry keeps validating: component summary, when to use, do's and don'ts, accessibility notes (WCAG criterion IDs), examples, synonyms, related components, and `upstream` extended with the corpus version.
+- Validation runs in a test and in `registry:import`, not at startup: the bundles inline the file, so it can't differ from what CI checked.
 
 **Hand-over**
 - `registry.json` stays checked in. CI never needs the generator.
@@ -389,17 +409,22 @@ The registry stops being generated here (finding 22). This repo says what it nee
 
 ### R5 English base language and the context budget
 
-Do one area per PR, and check each against the [failure catalog](../../.github/skills/tool-description-quality/references/failure-catalog.md).
-1. **Baseline first, optional but recommended.** Run 8–10 scenario tasks (Wohngeld wizard, contact form, landing page) in VS Code Copilot and Claude Code against the pre-R5 server. Record invalid calls and retries, then re-run after each area.
-2. **English becomes the base** for every `.describe()`, tool description and `COMPOSITION_CHEAT_SHEET`. German stays as listed in the decisions table.
-3. **Trim descriptions** to *what + when + a pointer to the resource*. Long payloads move into `examples`.
-4. **Shrink the recursive schemas.** The goal is `tools/list` under 60K compact characters. Measure both options:
-   - **(A)** 2020-12 `$defs`/`$ref`, gated on the R0 client findings
-   - **(B)** the standalone section/grid/card/disclosure/card_group tools accept only a shallow block set, and deep nesting goes through `render_composition`
-5. **Add a context-budget test.** It fails above the budget and prints per-tool sizes.
-6. **Optional toolset profile.** `KERN_TOOLSET=full|compact` is server config, so the listing doesn't vary per connection.
+Do one area per PR, and check each against the [failure catalog](../../.github/skills/tool-description-quality/references/failure-catalog.md). The order below was decided on 2026-10-02.
+1. **Scripted baseline first.** A small harness runs 8–10 scenario tasks (Wohngeld wizard, contact form, landing page) against the stdio server through a model API, and records invalid calls, retries and tokens. It runs against the R4 release, then again after each step below, so the comparisons are cheap and repeatable. VS Code Copilot and Claude Code stay as manual spot checks.
+2. **Add a context-budget test.** It prints per-tool sizes and fails above the budget: ≤ 120K compact characters model-facing for the full toolset, ≤ 60K for a compact profile, with `outputSchema` reported but not counted. (The original 60K target predates R2b and R4; the model-facing part alone was 200K on 2026-09-29.)
+3. **Shrink the standalone block tools with option B.** It comes before the English pass, because it changes which text is repeated: afterwards the block union appears in 2 tools instead of 8.
+   - **(B)** `get_section`, `get_card`, `get_card_group`, `get_grid`, `get_disclosure` and `get_fieldset` accept a smaller block set, and deep nesting goes through `render_composition` and `render_page`. Measure a fixed shallow set against sets matched to each tool's job before choosing.
+   - **(A)** 2020-12 `$defs`/`$ref` was measured on 2026-09-29 and made the input schemas larger (186.6K to 256.5K): the duplication is across tools, and a tool can't reference another tool's schema.
+4. **The `examples` table and its golden test**, before the hints are rewritten, so hints are built from tested payloads instead of translated as prose.
+5. **English becomes the base** for every `.describe()`, tool description and `COMPOSITION_CHEAT_SHEET`, one area per PR. German stays as listed in the decisions table.
+6. **Trim descriptions** to *what + when + a pointer to the resource*. Long payloads move into `examples`. Component tool descriptions carry API text only; the "when" comes from the registry summary later (R4b), and about 7K of the budget stays free for it.
+7. **Optional toolset profile.** `KERN_TOOLSET=full|compact` is server config, so the listing doesn't vary per connection.
    - The compact profile keeps `render_composition`, `render_page`, `render_component({componentId, props})`, `validate_html` and the docs tools.
-   - This matters because VS Code Copilot caps how many tools can be enabled per request (128 at the time of writing), and the full set is 52+ tools.
+   - VS Code Copilot caps how many tools can be enabled per request (128 at the time of writing). The full set is 55 tools, so this is about context size, not the cap.
+
+### R5.1 output polish
+
+The R4 leftovers that change tool output: the grid's layout-systems warning, the default text-field hint, spacing between top-level blocks, and fieldset group errors in the error summary. They wait until R5's measurements are done, so the baseline and every re-run see the same output.
 
 ## R6 resources (`packages/core/src/resources`)
 
@@ -441,7 +466,7 @@ Each prompt returns:
 
 ## Verification
 
-**Every PR:** `npm run lint`, the typecheck, `npm test`.
+**Every PR:** `npm run lint`, the typecheck, `npm test`. A change to the MCP contract adds an entry to [docs/migration-2.0.md](../migration-2.0.md) in the same commit.
 
 **Listing**
 - The domain snapshot ([tools-list.json](../../packages/core/src/ux/__snapshots__/tools-list.json)) stays.
@@ -494,7 +519,7 @@ Run the 3 layout/form prompts where they're supported, and paste the output into
 ## Top risks and guards
 
 1. **Listing drift** (2020-12 dialect, key order, new fields): the adapter, the semantic-equality test, and review of snapshot diffs.
-2. **Error semantics change:** it happens on the alpha branch, with a changelog entry and the tests updated in the same PR.
+2. **Error semantics change:** it happens on the alpha branch, with an entry in [docs/migration-2.0.md](../migration-2.0.md) and the tests updated in the same PR. (The GitHub release notes come from PRs, and this branch has none.)
 3. **HTTP exposure:**
    - `maxLength` on large strings
    - explicit host/origin allowlists in the container
@@ -509,4 +534,4 @@ Run the 3 layout/form prompts where they're supported, and paste the output into
 - **Publish to the official MCP Registry** (`server.json`): the npm package, the OCI image, and later a remote URL.
 - **MCP Apps extension:** a live HTML preview of rendered output (a `ui://` resource) in hosts that support it.
 - **Harvest more KERN docs:** superseded by the external generator and the docs corpus (finding 22, R4b). The ideas still apply there: the `COMPONENTS.MD` Form Controls `###` sections, and story `parameters.docs.description` fields.
-- **Clean-up:** the junk `index` component (from `_index.scss`) and the `tests` story folder (new in `kern-ux-plain` 2.8.2) belong on the generator's exclusion list. `docs/registry.schema.json` is replaced in R4b.
+- **Clean-up:** the junk `index` component (from `_index.scss`) and the `tests` story folder (new in `kern-ux-plain` 2.8.2) belong on the generator's exclusion list. `get_index` goes once code owns the tool list (R4b). `docs/registry.schema.json` is replaced in R4b.

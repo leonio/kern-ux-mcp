@@ -1,6 +1,6 @@
 # R4 handover: composition done, preparing R5 and R4b
 
-As of 2026-09-29. Branch `feat/v2-alpha`, **not pushed**: 17 commits ahead of origin before this file, with none of R4 released yet (the last release is `2.0.0-alpha.69`, from R3). How R4 was planned and what was learned on the way is in [r4-kickoff.md](r4-kickoff.md). This file is the state to pick up from, and the groundwork for the next two steps: [R5](#r5-english-base-language-and-the-context-budget) and [R4b](#r4b-registry-contract).
+As of 2026-09-29, **reviewed on 2026-10-02** (see [the review](#review-on-2026-10-02)). Branch `feat/v2-alpha`, pushed on 2026-10-02 with CI green; none of R4 is released yet (the last release is `2.0.0-alpha.69`, from R3). How R4 was planned and what was learned on the way is in [r4-kickoff.md](r4-kickoff.md). This file is the state to pick up from, and the groundwork for the next two steps: [R5](#r5-english-base-language-and-the-context-budget) and [R4b](#r4b-registry-contract).
 
 ## Where R4 ended
 
@@ -18,11 +18,36 @@ All eight R4 boxes are ticked in [roadmap.md](roadmap.md). The server has 55 too
 
 All paths are under `packages/core/src/ux/`. Checks on 2026-09-29: 1713 tests, coverage 96.3 / 89.7 / 97.9 / 96.2, Biome, both typechecks, build and e2e all pass.
 
+## Review on 2026-10-02
+
+The maintainer and Claude went through this handover. Decisions, all written into [roadmap.md](roadmap.md):
+
+| Topic | Decision |
+|---|---|
+| R0 | No longer blocks R5. The client matrix is a check before GA. |
+| R5 order | Scripted baseline, budget test, **option B**, the `examples` table, then the English areas, then the optional compact profile. |
+| R5 targets | ≤ 120K compact characters model-facing for the full toolset, ≤ 60K for a compact profile; `outputSchema` reported, not counted. |
+| Option B | Measure a fixed shallow set against sets matched to each tool's job before choosing. The registry's `anatomy` (from `kern-ux-plain/component-layouts.md`) checks the sets later. |
+| Error hints | The known-good payloads move into an `examples` table with a golden test, early in R5. |
+| Baseline | Scripted against a model API, run against the R4 release and after each R5 step, to save manual runs and tokens. |
+| R4 output leftovers | A new **R5.1**, after R5, so before/after stays comparable: the grid warning, the default text-field hint, spacing in `<main>`, fieldset errors in the summary. |
+| R4b validation | In a test and in `registry:import`, not at startup: the bundled file is the one CI checked. |
+| R4b descriptions | "Combine with the registry summary" waits on the generator delivering summaries, not on R5. |
+| Registry | What it's missing and how to generate it: [registry-requirements.md](registry-requirements.md). New R4b first box: code owns the tool list and routing (`get_index` goes). |
+| Migration notes | [docs/migration-2.0.md](../migration-2.0.md), written now for the record, then one entry per contract change. |
+| Housekeeping | Raise the coverage floors and update [README.md](README.md) in this folder after this review. No runner pin for Ubuntu 26. |
+
+New order:
+1. The maintainer regenerates `registry.json` and releases the next alpha (below).
+2. R4b's code and contract boxes (the tool list in code, the schema, the export, the validation test, `registry:import`). They don't touch tool text, and they give the generator a schema to validate against while R5 runs.
+3. R5, then R5.1.
+4. The generator's first import (R4b), then the knowledge fields and summaries, next to R6.
+5. The R0 client matrix, any time before GA.
+
 ## Before either step (the maintainer)
 
-1. **Push, let CI run, and release an alpha.** R5's first step is a baseline against the pre-R5 server, and that server should be the R4 one. `gh workflow run release.yml --ref feat/v2-alpha -f dry-run=false`, then the approvals described in [CONTRIBUTING.md](../../CONTRIBUTING.md#releasing).
-2. **Regenerate `registry.json`** (`npm run generate-manifest`). The `kopfzeile` entry in `docs/guidance-overlay.json` now describes the real Kopfzeile, but `registry.json` bakes the overlay in, so `get_component_docs` still calls it a placeholder.
-3. **R0 client matrix** (still open since R0; runbook: `git checkout 31110cf -- spike/r0`, then `spike/r0/CLIENT-MATRIX.md`). Two of its answers now decide R5 details: whether each client passes `outputSchema` to the model, and its tool-count limit.
+1. **Regenerate `registry.json` with the in-repo generator** (`npm run generate-manifest`), then **release an alpha**. The `kopfzeile` entry in `docs/guidance-overlay.json` describes the real Kopfzeile, but `registry.json` bakes the overlay in, so `get_component_docs` still calls it a placeholder. This is the only change the regeneration should bring. The external generator's output comes later, through R4b's `registry:import`, once the contract exists ([registry-requirements.md](registry-requirements.md)). Release: `gh workflow run release.yml --ref feat/v2-alpha -f dry-run=false`, then the approvals in [CONTRIBUTING.md](../../CONTRIBUTING.md#releasing). R5's baseline runs against that release.
+2. **R0 client matrix**, before GA (runbook: `git checkout 31110cf -- spike/r0`, then `spike/r0/CLIENT-MATRIX.md`). It no longer decides anything in R5.
 
 ## R5: English base language and the context budget
 
@@ -59,18 +84,22 @@ Language, by a simple German-word heuristic on the listing: 52 of 55 tool descri
 - Validation messages: the walk's size and depth messages in `content-union.ts` are German; the R4 nesting-rule messages are English.
 - The failure catalog to check each area against: [.github/skills/tool-description-quality/references/failure-catalog.md](../../.github/skills/tool-description-quality/references/failure-catalog.md).
 
-### R4 leftovers that belong in R5
+Per-tool sizes from the snapshot on 2026-10-02: the 8 block tools are 122K of the ~200K model-facing characters (60%), the 13 form-input tools 37K, the other 34 tools 43K. The six standalone block tools are 90.6K together. Option B saves about 58K (to about 144K), and the English pass should take it to about 115–125K.
 
-- Every grid warns "KERN UX has two layout systems…", even when the columns divide 12. That's noise in every page's warnings.
-- `get_inputtext` (and the other text-like tools) adds a default format hint that says "enter your full name" for *any* text field. The `field` block already switches it off.
+### R4 leftovers: now R5.1
+
+The grid's "two layout systems" warning on every grid, and the "enter your full name" default hint in `get_inputtext` and its siblings, moved to [R5.1](roadmap.md#r51-output-polish-after-r5) (decided 2026-10-02), together with the two "Other open items" from R4 below.
 
 ### Questions for the R5 kickoff
 
-1. **Budget targets.** For example: model-facing ≤ 120K for the full toolset and ≤ 60K for the compact profile, with `outputSchema` reported but not counted until R0 says otherwise.
-2. **Option B's shallow set.** `text`, `html`, `badge`, `field`? `button` is the second-largest branch (1.9K). `get_fieldset` needs at least `field` and `text`.
-3. **Compact profile**: in R5 or later? Which tools does it keep? The roadmap lists `render_composition`, `render_page`, `render_component`, `validate_html` and the docs tools.
-4. **Baseline**: who runs the 8–10 scenario tasks, in which clients (the roadmap says VS Code Copilot and Claude Code), and against which release.
-5. **Error hints**: move the known-good payloads into `examples` now (the `defineTool()` track), or only translate them?
+Answered on 2026-10-02:
+- **Q1, budget targets:** ≤ 120K model-facing for the full toolset, ≤ 60K for a compact profile, `outputSchema` reported but not counted.
+- **Q2, option B's block set:** measure a fixed shallow set (`text`, `html`, `badge`, `field`) against per-tool sets (`get_grid` and `get_card_group` with cards, `get_section` with a grid, and so on; containers whose children are simple blocks), then choose. `get_fieldset` needs at least `field` and `text`.
+- **Q4, baseline:** a scripted harness against a model API, run against the R4 release, with VS Code Copilot and Claude Code as spot checks. Which API and model it uses is for the kickoff.
+- **Q5, error hints:** the known-good payloads move into an `examples` table with a golden test, before the hints are translated.
+
+Still open:
+- **Q3, compact profile:** which tools it keeps, and whether it's needed once the full set is under 120K. The roadmap lists `render_composition`, `render_page`, `render_component`, `validate_html` and the docs tools.
 
 ## R4b: registry contract
 
@@ -103,25 +132,37 @@ What reads which field (non-test code):
 
 `C:\src\github\leonio\kern-ux-scraper` (Go) finished its Phase 1: an offline corpus of kern-ux.de (64 pages, 382 chunks, KERN 2.8.2) plus a corpus-to-component mapping in `mapping/`. Its `HANDOFF.md` still describes Phase 2 as feeding the corpus into *this* repo's generator. That predates finding 22, which made the scraper the generator. Updating that handoff is the maintainer's call, in that repo. This repo builds no corpus mapping or curation (finding 22).
 
+### What the registry is missing
+
+Reviewed on 2026-10-02: [registry-requirements.md](registry-requirements.md). In short:
+- **The registry decides which tools exist** (`createTools()` makes one per component). That's how `get_index` exists, and how `get_details` and `get_search` arrived silently with 2.8.2.
+- `category`/`strategy` are our routing, `warnings` are generator diagnostics that reach tool output, and the three `reviewedGuidance` entries describe our tools, not KERN. All of these move to code.
+- Missing: English summaries, synonyms, similar components, when to use, examples (7 components have none), classes, accessibility obligations, anatomy, and the inventories hand-coded here (icons, which have already drifted: 3 upstream icons are missing; utilities; all valid `kern-*` classes; tokens with values).
+- How to generate it: pin, extract, curate, generate, then assemble and validate, with per-component curation files for easy additions and cached, reviewable LLM text.
+
 ### Suggested order
 
-- **First:** the contract, in the first four boxes. That's the Zod `RegistryManifestSchema` with the types derived from it, the JSON Schema export replacing `docs/registry.schema.json`, validation at startup and in CI, and `registry:import` with the component diff. None of this touches tool text, so it can run before, after or alongside R5.
-- **Then:** the optional knowledge fields.
-- **Last:** the box "tool descriptions combine code-owned API text with the registry summary". It overlaps R5's English rewrite and budget. Do it after R5's text areas, or as part of them.
+- **First:** code owns the tool list and routing (the new first box), then the contract: the Zod `RegistryManifestSchema` with the types derived from it, the JSON Schema export replacing `docs/registry.schema.json`, validation in a test and in `registry:import`, and `registry:import` with the component diff. None of this touches tool text, so it can run before, after or alongside R5.
+- **Then:** the generator's first import, the optional knowledge fields, and consuming the inventories (icons, utilities, tokens, the unknown-class warning).
+- **Last:** the box "tool descriptions combine code-owned API text with the registry summary", once the generator delivers summaries, next to R6's cards. R5 leaves room for them in the budget.
 
 ### Questions for the R4b kickoff
 
-1. **`manifestVersion`**: the loader accepts major 1 (`"1.x"`), and a breaking contract change means `2.0.0` in both repos?
-2. **Unknown keys**: strict (reject) or passthrough (the generator can add fields ahead of the contract)?
-3. **JSON Schema dialect** for the export: draft-07 like the tool schemas (`json-schema.ts`), or 2020-12 like today's file. And where it's published: the checked-in `docs/registry.schema.json`, and possibly a raw GitHub URL for the generator.
-4. **Startup cost**: a Zod parse of the 120 KB registry at boot. On the 2026 protocol, stdio boot time counts twice (`server/discover` runs on a throwaway process). Measure it, and validate in CI and `registry:import` only if it's noticeable.
+Answered on 2026-10-02:
+- **Q4, startup cost:** no validation at startup. The bundles inline `registry.json`, so the server runs the file CI validated.
+
+Still open, with recommendations in [registry-requirements.md](registry-requirements.md#7-open-questions-r4b-kickoff):
+- **Q1, `manifestVersion`:** the loader accepts major 1 (`"1.x"`), and a breaking contract change means `2.0.0` in both repos? Recommended: yes, and keep the contract additive.
+- **Q2, unknown keys:** strict (reject) or passthrough? Recommended: accept them when loading, and have `registry:import` list them.
+- **Q3, JSON Schema dialect** for the export: draft-07 like the tool schemas, or 2020-12? Recommended: 2020-12, published as `docs/registry.schema.json`.
+- **Q5, the docs source's licence**, if the generator reads the docs repository instead of the site: it decides whether German text can be carried over verbatim with attribution.
 
 ## Other open items (not scheduled)
 
-- From R4 ([r4-kickoff.md](r4-kickoff.md), "Open after C"): blocks in `<main>` and in `render_composition` have no spacing between them; a fieldset's group error isn't in the error summary.
-- From R3 ([r3-handover.md](r3-handover.md)): Claude Desktop running the `.mcpb`; the MCPB icon; dry runs can't test the publish job; release tools pinned outside Renovate; `ubuntu-latest` becomes Ubuntu 26 on 2026-10-19.
-- **Coverage floors** are still 87 / 79 / 87 / 87, against 96.3 / 89.7 / 97.9 / 96.2 now.
-- **Docs:** [README.md](README.md) in this folder still describes the pre-R1 layout.
+- From R4 ([r4-kickoff.md](r4-kickoff.md), "Open after C"): blocks in `<main>` and in `render_composition` have no spacing between them; a fieldset's group error isn't in the error summary. **Now in R5.1.**
+- From R3 ([r3-handover.md](r3-handover.md)): Claude Desktop running the `.mcpb`; the MCPB icon; dry runs can't test the publish job; release tools pinned outside Renovate; `ubuntu-latest` becomes Ubuntu 26 on 2026-10-19 (no pin; the maintainer is fine with the release as it is).
+- **Coverage floors** are still 87 / 79 / 87 / 87, against 96.3 / 89.7 / 97.9 / 96.2 now. To raise after the 2026-10-02 review.
+- **Docs:** [README.md](README.md) in this folder still describes the pre-R1 layout. To update after the 2026-10-02 review.
 
 ## Environment notes, beyond r3-handover.md
 
