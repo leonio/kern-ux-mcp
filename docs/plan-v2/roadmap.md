@@ -19,8 +19,8 @@ Discovery date: 2026-09-27. Line numbers refer to the code at that point and wil
 - [x] Check that the `tools/list` output through the adapter deep-equals [tools-list.json](../../packages/core/src/ux/__snapshots__/tools-list.json), ignoring key order.
 - [x] Record the exact `isError` text for invalid input and for strict-validation failures.
 - [ ] Test the client matrix on both protocol versions (2026-07-28 and 2025-11-25). MCP Inspector is done; Claude and VS Code Copilot (HTTP) are reported working. The per-probe results follow the runbook `spike/r0/CLIENT-MATRIX.md`, deleted in R2: `git checkout 31110cf -- spike/r0` restores it (reinstall `@modelcontextprotocol/node` for its HTTP entry).
-  - Over stdio: VS Code Copilot, Codex CLI, Claude Code, Claude Desktop, MCP Inspector.
-  - Over HTTP through a tunnel: ChatGPT and the Responses API `mcp` tool.
+  - Over stdio: VS Code Copilot, Claude Code, Claude Desktop, MCP Inspector.
+  - **Narrowed 2026-10-02:** only VS Code Copilot and Claude are targets. Codex CLI, ChatGPT and the Responses API (HTTP through a tunnel) drop out of the matrix.
   - For each client, record:
     - whether it supports prompts and resources
     - whether it handles `$defs`/`$ref` and `anyOf` roots
@@ -215,7 +215,7 @@ References:
 | Branch | `feat/v2-alpha` is the long-lived integration branch. It publishes pre-releases under an npm dist-tag: `release.yml` already turns the GitVersion pre-release label into the dist-tag. |
 | Node | `>=24` everywhere, including stdio, the MCPB bundle and the container. |
 | Knowledge | **Tooling is built from a knowledge bundle, not `registry.json`** (decided 2026-10-02). The external generator (`kern-ux-scraper`) reads `kern-ux-plain`, the kern-ux.de docs source and third-party component libraries (the React kit first), and writes one English JSON document per component ([knowledge-bundle.md](knowledge-bundle.md)). This repo owns the bundle contract, checks the bundle in under `knowledge/`, and derives the runtime `registry.json` from it. English only; the docs prose (CC BY-NC-SA) is never copied. Third-party libraries get their own tools, which may later move out of this repo. Until the first bundle arrives, the roadmap continues on today's `registry.json`. |
-| Clients | VS Code + GitHub Copilot, OpenAI (Codex CLI over stdio; ChatGPT and the Responses API over remote HTTP), Claude (Code, Desktop), plus the MCP Inspector. |
+| Clients | VS Code + GitHub Copilot and Claude (Code, Desktop), plus the MCP Inspector. **Narrowed 2026-10-02:** OpenAI clients (Codex CLI, ChatGPT, the Responses API) are no longer targets. |
 
 **On keeping core private.** Not publishing core stops anyone from doing `npm install @leonio/kern-ux-core`. It doesn't hide the code:
 - The repo is public under EUPL-1.2. npm `--provenance` needs a public repo.
@@ -336,7 +336,7 @@ These are plan-v2 items that make the swap mechanical, plus small fixes from fin
 
 - Optional OpenTelemetry (`_meta` `traceparent`), off by default. **Deferred** (2026-09-28): not in the tracker, and it adds dependencies.
 - SIGTERM drain.
-- ChatGPT and the Responses API need a public HTTPS URL. For local testing, document a tunnel (`cloudflared`/`ngrok`) in the README.
+- ~~ChatGPT and the Responses API need a public HTTPS URL. For local testing, document a tunnel (`cloudflared`/`ngrok`) in the README.~~ Not needed: OpenAI clients stopped being targets (2026-10-02).
 
 **Container**
 - Multi-stage `Dockerfile`, with the fully inlined HTTP bundle copied into `gcr.io/distroless/nodejs24:nonroot`. (Done as `gcr.io/distroless/nodejs24-debian13:nonroot`, pinned by digest; the untagged name floats to the newest Debian.)
@@ -449,7 +449,16 @@ Content is generated at runtime from existing data and cached: the registry, Zod
 | `kern://tokens`, `kern://utilities`, `kern://icons` | `application/yaml` | Existing data from `get_tokens`, [templates/utility-reference.ts](../../packages/core/src/ux/templates/utility-reference.ts), `VALID_ICON_NAMES` |
 | `kern://templates/page-shell` | `text/html` | HTML5 shell: `lang`, KERN CSS/fonts, skip link, `<main>` |
 
-The existing docs tools stay, because OpenAI clients and many others only consume tools. `get_component_docs` adds `resource_link`s to the matching cards.
+The existing docs tools stay: a resource reaches the model only when the client or the user brings it in, so the tools must work on their own. `get_component_docs` adds `resource_link`s to the matching cards.
+
+**Protocol 2026-07-28** (the [resources](https://modelcontextprotocol.io/specification/2026-07-28/server/resources) and [caching](https://modelcontextprotocol.io/specification/2026-07-28/server/utilities/caching) pages, read 2026-10-02):
+- **The host decides.** Resources are application-driven: the client chooses what reaches the model. In the target clients the user attaches them (VS Code's context picker, Claude's `@`-mentions), and Claude Code also gives the model tools to list and read them. The server points at them with `resource_link`s from tools and with resources embedded in prompts (R7).
+- **Capability:** `resources: {}`, without `listChanged` or `subscribe`: the content is fixed per release. Subscriptions moved to `subscriptions/listen` in this version.
+- **Caching hints are required** on `resources/list`, `resources/templates/list` and `resources/read`. `create-server.ts` already sends an hour and `public` for the lists (R2). Each registered resource needs a `cacheHint` for its reads; `public` fits, since the content is the same for every user.
+- **Not found:** an unknown resource returns JSON-RPC `-32602` with `data.uri`, never an empty `contents`. Earlier versions used `-32002`, so the harness checks what SDK v2 sends on both eras.
+- **Validate every URI:** `{id}` must be a registry id.
+- **Metadata for people:** `title`, `description` and `size` show in the clients' pickers. `annotations` (`audience`, `priority`) are optional hints: schemas for the assistant, guides for both.
+- **One resource per thing:** a read may return several contents, but `/schema` stays a resource of its own, so a client can fetch only that.
 
 ## R7 prompts (`packages/core/src/prompts`)
 
@@ -513,10 +522,8 @@ Assertions:
 
 **Clients**
 - VS Code Copilot (`.vscode/mcp.json`, stdio + HTTP)
-- Codex CLI (stdio)
 - Claude Code (`claude mcp add kern -- node packages/stdio/dist/index.js`)
 - Claude Desktop (install the `.mcpb`)
-- ChatGPT / Responses API (HTTP via a tunnel)
 
 Run the 3 layout/form prompts where they're supported, and paste the output into [samples/basic-layout/index.html](../../samples/basic-layout/index.html) for a visual check.
 
