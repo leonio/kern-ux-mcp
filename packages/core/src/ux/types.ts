@@ -1,95 +1,38 @@
+import type {
+	ComponentInfo,
+	ReviewedComponentGuidance,
+	TokenSnapshot,
+	UpstreamSource,
+} from "./registry.schema.js";
+
 export type Locale = "de" | "en";
 
-export type ComponentStatus = "stable" | "experimental" | "deprecated";
+// The registry types derive from the contract in registry.schema.ts.
+export type {
+	ComponentCategory,
+	ComponentDocs,
+	ComponentInfo,
+	ComponentStatus,
+	ComponentStrategy,
+	GuidanceEvidenceKind,
+	GuidanceSection,
+	RegistryManifest,
+	ReviewedComponentGuidance,
+	ReviewedGuidanceEvidenceRef,
+	ReviewedGuidanceStatement,
+	ReviewedGuidanceStatus,
+	TokenSnapshot,
+	UpstreamSource,
+} from "./registry.schema.js";
 
-export type ComponentCategory = "interactive" | "foundational";
-
-export type ComponentStrategy =
-	| "interactive"
-	| "layout"
-	| "typography"
-	| "fallback";
-
-export type GuidanceSection = {
-	source: string;
-	heading: string;
-	content: string;
-};
-
-export type ComponentDocs = {
-	excerpt: string;
-	sections?: GuidanceSection[];
-};
-
-export type GuidanceEvidenceKind =
-	| "docs-snapshot"
-	| "story"
-	| "scss"
-	| "schema"
-	| "template"
-	| "test"
-	| "manual-review"
-	| "other";
-
-export type ReviewedGuidanceStatus = "draft" | "reviewed" | "approved";
-
-export type ReviewedGuidanceEvidenceRef = {
-	kind: GuidanceEvidenceKind;
-	source: string;
-	locator?: string;
-	note?: LocalizedString;
-};
-
-export type ReviewedGuidanceStatement = {
-	text: LocalizedString;
-	confidence: "high" | "medium" | "low";
-	evidence: ReviewedGuidanceEvidenceRef[];
-};
-
-export type ReviewedComponentGuidance = {
-	status: ReviewedGuidanceStatus;
-	summary: ReviewedGuidanceStatement;
-	primaryUseCases: ReviewedGuidanceStatement[];
-	antiUseCases: ReviewedGuidanceStatement[];
-	requiredA11yPractices: ReviewedGuidanceStatement[];
-	semanticInvariants: ReviewedGuidanceStatement[];
-	compositionPatterns: ReviewedGuidanceStatement[];
-	authoringNotes: ReviewedGuidanceStatement[];
-	migrationNotes: ReviewedGuidanceStatement[];
-};
-
+/** The retired guidance overlay (docs/guidance-overlay.json), read by tools/manifest. */
 export type GuidanceOverlayManifest = {
 	overlayVersion: string;
 	generatedAt?: string;
 	components: Record<string, ReviewedComponentGuidance>;
 };
 
-export type ComponentInfo = {
-	id: string;
-	title: string;
-	status: ComponentStatus;
-	/** Written by the in-repo generator; not read. Tools are routed by COMPONENT_TOOLS. */
-	category?: ComponentCategory;
-	/** Written by the in-repo generator; not read. Tools are routed by COMPONENT_TOOLS. */
-	strategy?: ComponentStrategy;
-	docs?: ComponentDocs;
-	/** Baked in from the overlay by the in-repo generator; not read. Notes about our tools are in tool-notes.ts. */
-	reviewedGuidance?: ReviewedComponentGuidance;
-	sources?: {
-		scss?: string[];
-		stories?: string[];
-	};
-	htmlCanonical?: string;
-	/** Generator diagnostics; not read, so they don't reach tool output. */
-	warnings?: string[];
-};
-
-export type TokenSnapshot = {
-	colors: string[];
-	spacing: string[];
-	rawVariables: string[];
-};
-
+/** The loaded registry, with components sorted by ID and indexed. */
 export type Registry = {
 	manifestVersion: string;
 	generatedAt: string;
@@ -98,21 +41,6 @@ export type Registry = {
 	tokens: TokenSnapshot;
 	components: ComponentInfo[];
 	byId: Map<string, ComponentInfo>;
-};
-
-/** The upstream KERN UX release a manifest was generated from. */
-export type UpstreamSource = {
-	package: string;
-	version: string;
-	commit?: string;
-};
-
-export type RegistryManifest = {
-	manifestVersion: string;
-	generatedAt: string;
-	upstream: UpstreamSource;
-	tokens: TokenSnapshot;
-	components: ComponentInfo[];
 };
 
 export type { ValidationIssue } from "./validate.schema.js";
