@@ -6,6 +6,8 @@
  *   npm run eval -- --label baseline [--server <path/to/stdio/dist/index.js>]
  *                   [--runs 2] [--only contact-form,faq] [--model claude-haiku-4-5]
  *                   [--concurrency 2]
+ *   npm run eval -- --label baseline --from-transcripts
+ *                   (re-scores the saved transcripts, e.g. after changing the checks)
  *
  * It uses the Claude Code login of whoever runs it (no API key needed); each run
  * costs a few cents at Haiku rates. The summary goes to
@@ -52,12 +54,15 @@ const model = option("model", "claude-haiku-4-5") ?? "claude-haiku-4-5";
 const concurrency = Number(option("concurrency", "2"));
 const only = option("only")?.split(",");
 const scenarios = SCENARIOS.filter((s) => !only || only.includes(s.id));
+const fromTranscripts = process.argv.includes("--from-transcripts");
 
-try {
-	await fs.access(server);
-} catch {
-	console.error(`No server at ${server}. Build it first (npm run build).`);
-	process.exit(1);
+if (!fromTranscripts) {
+	try {
+		await fs.access(server);
+	} catch {
+		console.error(`No server at ${server}. Build it first (npm run build).`);
+		process.exit(1);
+	}
 }
 
 function serverCommit(): string {
@@ -147,25 +152,43 @@ function runOnce(scenario: Scenario, attempt: number): Promise<RunSummary> {
 	});
 }
 
-const jobs = scenarios.flatMap((scenario) =>
-	Array.from({ length: runs }, (_, i) => ({ scenario, attempt: i + 1 })),
-);
 const results: RunSummary[] = [];
-let next = 0;
-async function worker() {
-	while (next < jobs.length) {
-		const job = jobs[next++];
-		const summary = await runOnce(job.scenario, job.attempt);
-		results.push(summary);
-		console.log(
-			`${job.scenario.id} #${job.attempt}: ${summary.completed ? "done" : "FAILED"}, ${summary.toolCalls} calls, ${summary.errorResults} errors, ${summary.retries} retries, checks ${summary.checks.passed}/${summary.checks.total}, $${summary.costUsd.toFixed(3)}`,
-		);
+const reportDir = path.join(REPO_ROOT, "docs/plan-v2/r5-eval");
+const reportPath = path.join(reportDir, `${label}.json`);
+const describeRun = (summary: RunSummary, attempt: number) =>
+	`${summary.scenario} #${attempt}: ${summary.completed ? "done" : "FAILED"}, ${summary.toolCalls} calls, ${summary.errorResults} errors, ${summary.retries} retries, checks ${summary.checks.passed}/${summary.checks.total}, $${summary.costUsd.toFixed(3)}`;
+
+if (fromTranscripts) {
+	const files = await fs.readdir(rawDir);
+	for (const scenario of scenarios) {
+		const own = files
+			.filter((file) => new RegExp(`^${scenario.id}-\\d+\\.jsonl$`).test(file))
+			.sort();
+		for (const [index, file] of own.entries()) {
+			const text = await fs.readFile(path.join(rawDir, file), "utf8");
+			const summary = summarizeRun(parseTranscript(text), scenario);
+			results.push(summary);
+			console.log(describeRun(summary, index + 1));
+		}
 	}
+} else {
+	const jobs = scenarios.flatMap((scenario) =>
+		Array.from({ length: runs }, (_, i) => ({ scenario, attempt: i + 1 })),
+	);
+	let next = 0;
+	const worker = async () => {
+		while (next < jobs.length) {
+			const job = jobs[next++];
+			const summary = await runOnce(job.scenario, job.attempt);
+			results.push(summary);
+			console.log(describeRun(summary, job.attempt));
+		}
+	};
+	console.log(
+		`Eval "${label}": ${jobs.length} runs (${scenarios.length} scenarios × ${runs}) with ${model} against ${server}`,
+	);
+	await Promise.all(Array.from({ length: concurrency }, worker));
 }
-console.log(
-	`Eval "${label}": ${jobs.length} runs (${scenarios.length} scenarios × ${runs}) with ${model} against ${server}`,
-);
-await Promise.all(Array.from({ length: concurrency }, worker));
 
 const byScenario = scenarios.map((scenario) => {
 	const own = results.filter((r) => r.scenario === scenario.id);
@@ -179,22 +202,26 @@ const byScenario = scenarios.map((scenario) => {
 	};
 });
 const total = aggregate(results);
+// Re-scoring keeps what describes the original run.
+const previous = fromTranscripts
+	? (JSON.parse(await fs.readFile(reportPath, "utf8")) as Record<
+			string,
+			unknown
+		>)
+	: undefined;
 const report = {
 	label,
-	date: new Date().toISOString(),
-	model,
-	serverCommit: serverCommit(),
-	runsPerScenario: runs,
-	systemPrompt: SYSTEM_PROMPT,
+	date: previous?.date ?? new Date().toISOString(),
+	...(previous ? { rescored: new Date().toISOString() } : {}),
+	model: previous?.model ?? model,
+	serverCommit: previous?.serverCommit ?? serverCommit(),
+	runsPerScenario: previous?.runsPerScenario ?? runs,
+	systemPrompt: previous?.systemPrompt ?? SYSTEM_PROMPT,
 	total,
 	scenarios: byScenario,
 };
-const reportDir = path.join(REPO_ROOT, "docs/plan-v2/r5-eval");
 await fs.mkdir(reportDir, { recursive: true });
-await fs.writeFile(
-	path.join(reportDir, `${label}.json`),
-	`${JSON.stringify(report, null, "\t")}\n`,
-);
+await fs.writeFile(reportPath, `${JSON.stringify(report, null, "\t")}\n`);
 
 console.log(
 	`\nTotal: ${total.completed}/${total.runs} completed, ${total.toolCalls} calls, ${total.errorResults} error results (${total.invalidInputErrors} invalid input), ${total.retries} retries, checks ${total.checksPassed}/${total.checksTotal}`,

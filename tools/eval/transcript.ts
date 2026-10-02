@@ -96,6 +96,16 @@ function resultText(content: unknown): string {
 	return "";
 }
 
+/** The `html` of a kern tool result (its JSON text block), if it has one. */
+function htmlOf(text: string): string | undefined {
+	try {
+		const parsed = JSON.parse(text) as { html?: unknown };
+		return typeof parsed?.html === "string" ? parsed.html : undefined;
+	} catch {
+		return undefined;
+	}
+}
+
 function classifyError(text: string): NonNullable<ToolCall["error"]> {
 	if (
 		text.includes("Input validation error") ||
@@ -121,6 +131,9 @@ export function summarizeRun(
 
 	// Claude Code emits each content block as its own event; a tool_use id can repeat.
 	const calls = new Map<string, ToolCall>();
+	// The HTML the kern tools returned: a model may describe a long page instead
+	// of pasting it, so the checks look at what was built as well as the answer.
+	const toolHtml: string[] = [];
 	for (const event of events) {
 		for (const block of event.message?.content ?? []) {
 			if (
@@ -143,6 +156,9 @@ export function summarizeRun(
 				const call = calls.get(block.tool_use_id);
 				if (call && block.is_error) {
 					call.error = classifyError(resultText(block.content));
+				} else if (call) {
+					const html = htmlOf(resultText(block.content));
+					if (html) toolHtml.push(html);
 				}
 			}
 		}
@@ -157,15 +173,14 @@ export function summarizeRun(
 	}
 
 	const finalText = result?.result ?? "";
+	const built = [finalText, ...toolHtml].join("\n");
 	const failed = [
 		...(scenario.expectTools ?? [])
 			.filter(
 				(group) => !group.some((tool) => ordered.some((c) => c.tool === tool)),
 			)
 			.map((group) => `called ${group.join(" or ")}`),
-		...(scenario.expectHtml ?? []).filter(
-			(marker) => !finalText.includes(marker),
-		),
+		...(scenario.expectHtml ?? []).filter((marker) => !built.includes(marker)),
 	];
 	const total =
 		(scenario.expectTools?.length ?? 0) + (scenario.expectHtml?.length ?? 0);

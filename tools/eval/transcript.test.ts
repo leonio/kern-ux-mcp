@@ -82,7 +82,12 @@ const transcript = [
 		type: "user",
 		message: {
 			content: [
-				{ type: "tool_result", tool_use_id: "t2", content: '{"html":"…"}' },
+				{
+					type: "tool_result",
+					tool_use_id: "t2",
+					// The model may describe a long page instead of pasting it; the checks see the tool's HTML.
+					content: '{"html":"<form>…</form>","warnings":[]}',
+				},
 			],
 		},
 	}),
@@ -152,11 +157,11 @@ describe("summarizeRun", () => {
 		expect(run.durationMs).toBe(6000);
 	});
 
-	it("checks the expected tools and markup", () => {
+	it("checks the expected tools, and markup in the answer or the tools' HTML", () => {
 		expect(run.checks).toEqual({
-			passed: 2,
+			passed: 3,
 			total: 4,
-			failed: ["called get_card or render_composition", "<form"],
+			failed: ["called get_card or render_composition"],
 		});
 	});
 
@@ -184,7 +189,7 @@ describe("aggregate", () => {
 			toolCalls: 6,
 			errorResults: 4,
 			retries: 2,
-			checksPassed: 4,
+			checksPassed: 6,
 			checksTotal: 8,
 			firstRequestTokens: 70_010,
 			costUsd: 0.3,
