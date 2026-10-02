@@ -114,7 +114,7 @@ In progress: [r4b-kickoff.md](r4b-kickoff.md) has the plan and progress. Can sta
 
 ### R5: English base language and the context budget
 
-Measurements (2026-09-29), what they say about the shrink options, and kickoff questions: [r4-handover.md](r4-handover.md#r5-english-base-language-and-the-context-budget). In progress: [r5-kickoff.md](r5-kickoff.md). **Order and targets decided 2026-10-02:** option B comes before the English areas, the `examples` table comes before the hints are rewritten, and the baseline is scripted.
+Measurements (2026-09-29), what they say about the shrink options, and kickoff questions: [r4-handover.md](r4-handover.md#r5-english-base-language-and-the-context-budget). In progress: start at [r5-handover.md](r5-handover.md); plan and progress in [r5-kickoff.md](r5-kickoff.md). **Order and targets decided 2026-10-02:** option B comes before the English areas, the `examples` table comes before the hints are rewritten, and the baseline is scripted.
 
 - [x] A scripted scenario baseline: a small harness runs the 8–10 scenarios against the stdio server through a model API, recording invalid calls, retries and tokens. Run it against the R4 release; VS Code Copilot and Claude Code stay as spot checks. Re-run after each area below.
 - [x] Add a context-budget test that prints per-tool listing sizes and fails above the budget. Targets: **≤ 120K compact characters model-facing** (name, description, `inputSchema`) for the full toolset, **≤ 60K** for a compact profile. `outputSchema` is reported, not counted.
