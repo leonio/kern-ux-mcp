@@ -113,6 +113,7 @@ Pre-releases go out under the npm dist-tag `alpha`. "Next alpha" means landed on
 - A grid inside a container (`render_page`'s `<main>`, a grid column) renders only its row, without a second `kern-container`. `containerFluid` is ignored there, with a warning.
 - Forms and `formFlow` steps stack their content with `kern-flex kern-flex-col kern-gap-lg`.
 - `field` blocks get no default format hint. `get_inputtext` still adds one.
+- Grids no longer warn "KERN UX has two layout systems…" on every call. Columns that don't divide 12 are rejected, and that error's hint names the CSS Grid utilities (`kern-grid kern-grid-cols-5`).
 
 ## Validation (next alpha)
 

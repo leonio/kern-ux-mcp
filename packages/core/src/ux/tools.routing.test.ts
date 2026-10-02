@@ -281,7 +281,7 @@ describe("createTools routing", () => {
 			columns: 3,
 		});
 		expect(result.html).toContain("Spalte 3");
-		expect(result.warnings.join("\n")).toContain("CSS Grid");
+		expect(result.warnings).toEqual([]);
 	});
 
 	it("uses dedicated fieldset tooling for foundational fieldset component", async () => {

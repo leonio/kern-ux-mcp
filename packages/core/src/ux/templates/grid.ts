@@ -13,11 +13,9 @@ export function buildGrid(
 ): BuildResult {
 	const params = GridRenderSchema.parse(input);
 	const warnings: string[] = [];
-	const inferredColumnsFromContent =
-		Array.isArray(params.columnsContent) && params.columnsContent.length > 0
-			? params.columnsContent.length
-			: undefined;
-	const columns = params.columns ?? inferredColumnsFromContent ?? 2;
+	// A divisor of 12: the schema rejects other counts with a hint that points at
+	// the CSS Grid utilities (kern-grid-cols-{n}).
+	const columns = params.columns;
 	// Inside a container (render_page's main, another grid) a row needs no container
 	// of its own; a nested one would add its padding twice.
 	const containerClass = context.inContainer
@@ -39,21 +37,12 @@ export function buildGrid(
 			: "";
 
 	// 12-column system: kern-col-md-{span} for desktop, kern-col-sm-12 for mobile stacking.
-	// Formula: 12 / columns → column span.
-	const colSpan = Math.floor(12 / columns);
-	const colClass = `kern-col-md-${colSpan} kern-col-sm-12`;
-
-	if (12 % columns !== 0) {
-		warnings.push(
-			`Requested ${columns} equal columns cannot be represented evenly in the 12-column system. This output uses kern-col-md-${colSpan} as an approximation. For true equal-width ${columns}-column layouts (for example logo rows), use CSS Grid utilities: kern-grid kern-grid-cols-${columns}. See get_utility_reference.`,
-		);
-	}
+	const colClass = `kern-col-md-${12 / columns} kern-col-sm-12`;
 
 	if (
 		Array.isArray(params.columnsContent) &&
 		params.columnsContent.length > 0 &&
-		params.columns !== undefined &&
-		params.columnsContent.length !== params.columns
+		params.columnsContent.length !== columns
 	) {
 		warnings.push(
 			"columnsContent length does not match columns. Extra entries are ignored and missing entries render empty placeholders.",
@@ -77,10 +66,6 @@ export function buildGrid(
 
 		return `    <div class="${colClass}">\n      ${contentHtml.replace(/\n/g, "\n      ")}\n    </div>`;
 	}).join("\n");
-
-	warnings.push(
-		"KERN UX has two layout systems: (1) 12-column grid (kern-col-{breakpoint}-{span}, e.g. kern-col-md-4 kern-col-sm-12) for page layouts and card grids, and (2) CSS Grid utilities (kern-grid-cols-{n}) for simpler equal-width layouts. This tool uses the 12-column system.",
-	);
 
 	return {
 		html: `<div${containerClass ? ` class="${containerClass}"` : ""}>\n  ${heading}<div class="kern-row${rowAlignmentClass}">\n${cols}\n  </div>\n</div>`,

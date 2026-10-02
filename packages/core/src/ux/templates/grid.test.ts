@@ -22,11 +22,18 @@ describe("buildGrid", () => {
 		expect(result.html).toContain("kern-col-md-3");
 	});
 
-	it("includes a warning about the two layout systems", () => {
-		const result = buildGrid({ columns: 2 });
-		expect(result.warnings.length).toBeGreaterThan(0);
-		expect(result.warnings[0]).toContain("12-column");
-		expect(result.warnings[0]).toContain("CSS Grid");
+	it("has no warning when the columns divide 12", () => {
+		expect(buildGrid({ columns: 2 }).warnings).toEqual([]);
+	});
+
+	it("warns when columnsContent doesn't match columns", () => {
+		const column = [{ kind: "text" as const, text: "Logo" }];
+		const result = buildGrid({ columnsContent: Array(3).fill(column) });
+
+		expect(result.html.match(/kern-col-md-6/g)).toHaveLength(2);
+		expect(result.warnings).toEqual([
+			expect.stringContaining("columnsContent length does not match columns"),
+		]);
 	});
 
 	it("rejects 5-column requests in the 12-column grid schema", () => {
