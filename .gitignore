@@ -50,3 +50,6 @@ packages/*/README.md
 packages/*/LICENSE.md
 # MCP Bundle staging and output (tools/build/mcpb.ts)
 mcpb-dist/
+
+# R5 eval transcripts (summaries go to docs/plan-v2/r5-eval/)
+tools/eval/.runs/
