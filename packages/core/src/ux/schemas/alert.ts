@@ -39,7 +39,9 @@ export const AlertSchema = z.object({
 				.describe("default: kern-list; bullet: kern-list kern-list--bullet."),
 		})
 		.optional()
-		.describe("Optional content below the heading."),
+		.describe(
+			"Content below the heading: an object { text, links, listItems }, not a string.",
+		),
 });
 
 /** Type for alert input (before Zod parsing, allows missing defaulted fields) */

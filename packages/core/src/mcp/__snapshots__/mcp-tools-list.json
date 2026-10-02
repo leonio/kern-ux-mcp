@@ -4600,7 +4600,7 @@
             "description": "Heading: short; it carries the main message."
           },
           "body": {
-            "description": "Optional content below the heading.",
+            "description": "Content below the heading: an object { text, links, listItems }, not a string.",
             "type": "object",
             "properties": {
               "text": {
