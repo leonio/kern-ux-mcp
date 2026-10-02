@@ -16,11 +16,13 @@ import { buildDisclosure } from "./templates/disclosure.js";
 import { buildPage } from "./templates/page.js";
 import { buildSection } from "./templates/section.js";
 import { buildUtilityReference } from "./templates/utility-reference.js";
-import { buildInteractiveTool } from "./tool-builders/interactive.js";
 import {
-	buildLayoutTool,
-	LAYOUT_MANIFEST_IDS,
-} from "./tool-builders/layout.js";
+	type ComponentToolStrategy,
+	getComponentToolCategory,
+	getComponentToolStrategy,
+} from "./tool-builders/component-tools.js";
+import { buildInteractiveTool } from "./tool-builders/interactive.js";
+import { buildLayoutTool } from "./tool-builders/layout.js";
 import {
 	assertStrictValidationOrThrow,
 	ComponentOutputSchema,
@@ -32,10 +34,7 @@ import {
 	type ToolAnnotations,
 	type ToolDef,
 } from "./tool-builders/shared.js";
-import {
-	buildTypographyTool,
-	TYPOGRAPHY_MANIFEST_IDS,
-} from "./tool-builders/typography.js";
+import { buildTypographyTool } from "./tool-builders/typography.js";
 import type { ComponentInfo, Locale, Registry } from "./types.js";
 import { VALID_ICON_NAMES } from "./types.js";
 import { validateHtmlStrict } from "./validate.js";
@@ -319,7 +318,8 @@ function buildDocsTool(registry: Registry): ToolDef {
 
 			// Suggest related tools based on component type
 			const relatedTools: string[] = [];
-			if (component.category === "interactive") {
+			const strategy = getComponentToolStrategy(component.id);
+			if (strategy && getComponentToolCategory(strategy) === "interactive") {
 				relatedTools.push("get_grid", "validate_html");
 			}
 			if (component.id === "button") {
@@ -442,12 +442,20 @@ function buildListComponentsByCategoryTool(registry: Registry): ToolDef {
 			),
 		}),
 		handler: async (args: z.infer<typeof inputSchema>) => {
-			const manifestComponents = registry.components.map((component) => ({
-				id: component.id,
-				title: component.title,
-				category: component.category,
-				strategy: component.strategy,
-			}));
+			// Components with a tool; the others are documented only.
+			const manifestComponents = registry.components.flatMap((component) => {
+				const strategy = getComponentToolStrategy(component.id);
+				return strategy
+					? [
+							{
+								id: component.id,
+								title: component.title,
+								category: getComponentToolCategory(strategy),
+								strategy,
+							},
+						]
+					: [];
+			});
 
 			const composed = compositionComponents.map((component) => ({
 				...component,
@@ -687,36 +695,16 @@ function buildRenderPageTool(registry: Registry): ToolDef {
 	};
 }
 
-/** Picks the tool builder for a component: the manifest strategy first, then the ID sets. */
-function routeComponentTool(component: ComponentInfo): ToolDef {
-	const strategy = component.strategy;
-
-	if (strategy === "interactive") {
-		return buildInteractiveTool(component, buildComponentTool);
-	}
-
-	if (strategy === "layout") {
-		return buildLayoutTool(component);
-	}
-
-	if (strategy === "typography") {
-		return buildTypographyTool(component);
-	}
-
-	if (component.category === "interactive") {
-		return buildInteractiveTool(component, buildComponentTool);
-	}
-
-	if (LAYOUT_MANIFEST_IDS.has(component.id)) {
-		return buildLayoutTool(component);
-	}
-
-	if (TYPOGRAPHY_MANIFEST_IDS.has(component.id)) {
-		return buildTypographyTool(component);
-	}
-
-	return buildComponentTool(component);
-}
+/** The tool builder for each strategy in COMPONENT_TOOLS. */
+const COMPONENT_TOOL_BUILDERS: Record<
+	ComponentToolStrategy,
+	(component: ComponentInfo) => ToolDef
+> = {
+	interactive: buildInteractiveTool,
+	layout: buildLayoutTool,
+	typography: buildTypographyTool,
+	fallback: buildComponentTool,
+};
 
 export function createTools(registry: Registry): ToolRegistry {
 	const toolDefs: ToolDef[] = [];
@@ -735,10 +723,13 @@ export function createTools(registry: Registry): ToolRegistry {
 	toolDefs.push(buildGetCardGroupTool());
 	toolDefs.push(buildGetDisclosureTool());
 
-	// One get_* tool per component, titled from the registry.
+	// One get_* tool per component in COMPONENT_TOOLS, in registry order and titled
+	// from the registry. Registry components without an entry get no tool.
 	for (const component of registry.components) {
+		const strategy = getComponentToolStrategy(component.id);
+		if (!strategy) continue;
 		toolDefs.push({
-			...routeComponentTool(component),
+			...COMPONENT_TOOL_BUILDERS[strategy](component),
 			title: getComponentToolTitle(component),
 		});
 	}

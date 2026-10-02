@@ -23,7 +23,7 @@ flowchart TD
 
 Important distinction:
 
-- The registry decides what components and docs metadata exist at runtime.
+- The registry provides component metadata at runtime: titles, status, canonical HTML and docs. It doesn't decide which tools exist: `COMPONENT_TOOLS` in [packages/core/src/ux/tool-builders/component-tools.ts](../packages/core/src/ux/tool-builders/component-tools.ts) lists the component tools and how each is built, and the catalog fails if the registry lacks one of them.
 - The Zod schemas live in code under [packages/core/src/ux/schemas](../packages/core/src/ux/schemas) and remain the source of truth for tool inputs.
 - MCP clients see JSON Schema because [packages/core/src/ux/json-schema.ts](../packages/core/src/ux/json-schema.ts) converts those Zod schemas when tools are listed.
 
@@ -39,7 +39,7 @@ The repo is an npm workspace:
 - [packages/core/src/mcp](../packages/core/src/mcp): MCP SDK v2 wiring. `create-server.ts` registers every tool on `McpServer`, `kern-schema.ts` adapts each tool's Zod schema for the SDK (our JSON Schema, our validation hints), and `catalog.ts` builds the tool definitions once per process.
 - [packages/core/src/invoke.ts](../packages/core/src/invoke.ts): the call pipeline independent of the SDK: argument normalization, input parsing, validation hints, handler and output validation.
 - [packages/core/src/ux/tools.ts](../packages/core/src/ux/tools.ts): creates the tool registry, selects tool builders, lists tools for MCP.
-- [packages/core/src/ux/tool-builders](../packages/core/src/ux/tool-builders): strategy-specific tool construction shared across many components.
+- [packages/core/src/ux/tool-builders](../packages/core/src/ux/tool-builders): strategy-specific tool construction shared across many components. `component-tools.ts` says which components get a tool and which builder makes it.
 - [packages/core/src/ux/schemas](../packages/core/src/ux/schemas): Zod schemas for tool inputs.
 - [packages/core/src/ux/templates](../packages/core/src/ux/templates): HTML rendering for components and composition blocks.
 - [packages/core/src/ux/json-schema.ts](../packages/core/src/ux/json-schema.ts): converts Zod input schemas to JSON Schema.
@@ -81,7 +81,7 @@ This is the normal path when you change component metadata, canonical HTML extra
 
 Typical path:
 
-1. Update [packages/core/src/ux/tools.ts](../packages/core/src/ux/tools.ts) or a file in [packages/core/src/ux/tool-builders](../packages/core/src/ux/tool-builders).
+1. Update [packages/core/src/ux/tools.ts](../packages/core/src/ux/tools.ts) or a file in [packages/core/src/ux/tool-builders](../packages/core/src/ux/tool-builders). A new component tool also needs an entry in `COMPONENT_TOOLS` (`component-tools.ts`), and its component in `registry.json`.
 2. If tool input listing changes, check [packages/core/src/ux/json-schema.ts](../packages/core/src/ux/json-schema.ts).
 3. If request handling or validation messaging changes, check [packages/core/src/invoke.ts](../packages/core/src/invoke.ts) and [packages/core/src/mcp](../packages/core/src/mcp).
 

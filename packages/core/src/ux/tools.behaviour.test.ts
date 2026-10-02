@@ -26,8 +26,8 @@ describe("tool behaviour", () => {
 	it("formats deprecated warning with object-style get_component_docs args", async () => {
 		const registry = createRegistry([
 			{
-				id: "legacycomponent",
-				title: "LegacyComponent",
+				id: "details",
+				title: "Details",
 				status: "deprecated",
 				category: "interactive",
 				strategy: "fallback",
@@ -37,20 +37,20 @@ describe("tool behaviour", () => {
 		]);
 
 		const tools = createTools(registry);
-		const tool = tools.getTool("get_legacycomponent");
+		const tool = tools.getTool("get_details");
 
 		expect(tool).toBeDefined();
 		const result = await callHandler<RenderedToolResult>(tool, {});
 		expect(result.warnings.join("\n")).toContain(
-			"get_component_docs with { componentId: 'legacycomponent' }",
+			"get_component_docs with { componentId: 'details' }",
 		);
 	});
 
 	it("keeps status warnings of fallback component tools through output validation", async () => {
 		const registry = createRegistry([
 			{
-				id: "legacycomponent",
-				title: "LegacyComponent",
+				id: "details",
+				title: "Details",
 				status: "deprecated",
 				category: "interactive",
 				strategy: "fallback",
@@ -59,14 +59,14 @@ describe("tool behaviour", () => {
 			},
 		]);
 
-		const tool = createTools(registry).getTool("get_legacycomponent");
+		const tool = createTools(registry).getTool("get_details");
 		expect(tool).toBeDefined();
 		if (!tool) return;
 
 		// invokeTool parses the handler result with outputSchema, which strips unknown keys.
 		const result = (await invokeTool(tool, {})) as RenderedToolResult;
 		expect(result.warnings.join("\n")).toContain(
-			"get_component_docs with { componentId: 'legacycomponent' }",
+			"get_component_docs with { componentId: 'details' }",
 		);
 	});
 

@@ -68,8 +68,10 @@ export type ComponentInfo = {
 	id: string;
 	title: string;
 	status: ComponentStatus;
-	category: ComponentCategory;
-	strategy: ComponentStrategy;
+	/** Written by the in-repo generator; not read. Tools are routed by COMPONENT_TOOLS. */
+	category?: ComponentCategory;
+	/** Written by the in-repo generator; not read. Tools are routed by COMPONENT_TOOLS. */
+	strategy?: ComponentStrategy;
 	docs?: ComponentDocs;
 	reviewedGuidance?: ReviewedComponentGuidance;
 	sources?: {
@@ -77,6 +79,7 @@ export type ComponentInfo = {
 		stories?: string[];
 	};
 	htmlCanonical?: string;
+	/** Generator diagnostics; not read, so they don't reach tool output. */
 	warnings?: string[];
 };
 

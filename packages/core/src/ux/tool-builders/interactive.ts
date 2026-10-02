@@ -66,39 +66,8 @@ import type { ComponentInfo } from "../types.js";
 import { buildParameterizedComponentTool, type ToolDef } from "./shared.js";
 
 /**
- * Interactive strategy tooling (parameterized + fallback routing).
+ * Interactive strategy tooling: one parameterized tool per component.
  */
-
-export const INTERACTIVE_PARAMETERIZED_IDS = new Set([
-	"button",
-	"alert",
-	"checkbox",
-	"dialog",
-	"radio",
-	"select",
-	"inputtext",
-	"inputdate",
-	"inputemail",
-	"inputfile",
-	"inputgroup",
-	"inputnumber",
-	"inputpassword",
-	"inputtel",
-	"inputurl",
-	"loader",
-	"badge",
-	"textarea",
-	"progress",
-	"accordion",
-	"card",
-	"icon",
-	"table",
-	"summary",
-	"dropdown",
-	"tasklist",
-]);
-
-type ComponentFallbackBuilder = (component: ComponentInfo) => ToolDef;
 
 function buildButtonTool(component: ComponentInfo): ToolDef {
 	return buildParameterizedComponentTool<ButtonInput>(
@@ -356,7 +325,8 @@ function buildDropdownTool(component: ComponentInfo): ToolDef {
 	);
 }
 
-export function buildPriorityComponentTool(component: ComponentInfo): ToolDef {
+/** The interactive tools, by component ID (see COMPONENT_TOOLS). */
+export function buildInteractiveTool(component: ComponentInfo): ToolDef {
 	switch (component.id) {
 		case "button":
 			return buildButtonTool(component);
@@ -411,16 +381,6 @@ export function buildPriorityComponentTool(component: ComponentInfo): ToolDef {
 		case "dropdown":
 			return buildDropdownTool(component);
 		default:
-			throw new Error(`Unknown priority component: ${component.id}`);
+			throw new Error(`No interactive tool for component: ${component.id}`);
 	}
-}
-
-export function buildInteractiveTool(
-	component: ComponentInfo,
-	fallbackBuilder: ComponentFallbackBuilder,
-): ToolDef {
-	if (INTERACTIVE_PARAMETERIZED_IDS.has(component.id)) {
-		return buildPriorityComponentTool(component);
-	}
-	return fallbackBuilder(component);
 }

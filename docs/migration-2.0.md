@@ -18,6 +18,7 @@ Pre-releases go out under the npm dist-tag `alpha`. "Next alpha" means landed on
 | Block content rejects nested forms, a card directly in a card, and a section or disclosure without content | next alpha | Restructure; the error names the path |
 | `formFlow`: `heading` is the form heading; the step list has its own `tasklistHeading` | next alpha | Set `tasklistHeading` if you relied on `heading` for the step list |
 | Text in labels, hints, errors, values and option text is escaped | next alpha | Don't pass markup in these strings |
+| `get_index` is gone | next alpha | Nothing: it rendered a placeholder for an internal SCSS file, not a KERN component |
 
 ## Protocol and errors (2.0.0-alpha.69)
 
@@ -41,6 +42,13 @@ Pre-releases go out under the npm dist-tag `alpha`. "Next alpha" means landed on
 - **New:** the container image `ghcr.io/leonio/kern-ux-mcp-http`, for amd64 and arm64.
 - **New:** an MCP Bundle (`kern-ux-mcp-<version>.mcpb`) attached to each GitHub release, for Claude Desktop.
 - npm packages are published with provenance and ship a CycloneDX SBOM.
+
+## Tool list (next alpha)
+
+- **Code decides which tools exist, not the registry.** In 1.x and alpha.69, every component in `registry.json` became a `get_<id>` tool, so regenerating the registry could add or remove tools. That's how `get_details` and `get_search` arrived with KERN 2.8.2, and how `get_index` came from `_index.scss`, an internal partial. Now a table in code lists the 54 component tools; a registry component outside it is documented by `get_component_docs` but has no tool.
+- `get_index` is removed: 54 tools.
+- `get_heading`, `get_label`, `get_preline`, `get_subline` and `get_title` no longer return the warning "No canonical story template extracted for …" on every call. It was a diagnostic from the registry generator.
+- `list_components_by_category` no longer lists `index`. It reports `strategy: "interactive"` for `inputdate`, `inputemail`, `inputfile`, `inputgroup`, `inputnumber`, `inputpassword`, `inputtel`, `inputurl` and `tasklist`, whose tools have full schemas; it said `"fallback"`.
 
 ## Tools and block content (next alpha)
 
@@ -80,5 +88,4 @@ Pre-releases go out under the npm dist-tag `alpha`. "Next alpha" means landed on
 These are on the roadmap and not released. Entries move up when they land.
 - **Standalone block tools accept fewer block kinds** (R5). `get_section`, `get_card`, `get_card_group`, `get_grid`, `get_disclosure` and `get_fieldset` get a smaller set suited to each tool, to shrink the tool listing. Deep nesting goes through `render_composition` and `render_page`.
 - **English tool and parameter descriptions** (R5). This changes text, not the contract.
-- **`get_index` goes away** (R4b). It came from an internal SCSS partial, not a KERN component. From then on, code decides which tools exist, not the registry.
 - **Resources** (`kern://…`, R6) and **prompts** (R7).

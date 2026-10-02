@@ -34,23 +34,3 @@ export function loadRegistryFromManifest(): Registry {
 
 	return toRegistry(parsed as RegistryManifest);
 }
-
-export function validateRegistryAgainstToolNames(
-	registry: Registry,
-	toolNames: string[],
-) {
-	const generatedComponentIds = new Set(
-		toolNames
-			.filter((name) => name.startsWith("get_"))
-			.map((name) => name.replace(/^get_/, ""))
-			.filter((id) => id !== "component_docs"),
-	);
-
-	for (const component of registry.components) {
-		if (!generatedComponentIds.has(component.id)) {
-			console.warn(
-				`Manifest component missing MCP wrapper: ${component.id}. Please update createTools().`,
-			);
-		}
-	}
-}

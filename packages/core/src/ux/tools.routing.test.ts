@@ -5,7 +5,17 @@ import {
 	createRegistry,
 	type RenderedToolResult,
 } from "../test-support/tools.js";
+import { loadRegistryFromManifest } from "./registry.js";
+import {
+	assertComponentToolsInRegistry,
+	COMPONENT_TOOL_IDS,
+	getComponentToolStrategy,
+} from "./tool-builders/component-tools.js";
+import { buildInteractiveTool } from "./tool-builders/interactive.js";
+import { buildLayoutTool } from "./tool-builders/layout.js";
+import { buildTypographyTool } from "./tool-builders/typography.js";
 import { createTools } from "./tools.js";
+import type { ComponentInfo } from "./types.js";
 
 describe("createTools routing", () => {
 	it("routes strategy=layout components to layout builder", async () => {
@@ -56,29 +66,6 @@ describe("createTools routing", () => {
 		});
 		expect(result.html).toContain("kern-heading-medium");
 		expect(result.html).toContain("<h3");
-	});
-
-	it("keeps strict-mode error behavior for layout strategy tools", async () => {
-		const registry = createRegistry([
-			{
-				id: "customlayout",
-				title: "CustomLayout",
-				status: "stable",
-				category: "foundational",
-				strategy: "layout",
-				guidance: { de: "", en: "" },
-				htmlCanonical: '<div class="kern-alert kern-alert--info"></div>',
-			},
-		]);
-
-		const tools = createTools(registry);
-		const tool = tools.getTool("get_customlayout");
-
-		expect(tool).toBeDefined();
-
-		await expect(tool?.handler({ strict: true, locale: "en" })).rejects.toThrow(
-			"Strict validation failed for get_customlayout",
-		);
 	});
 
 	it("uses dedicated divider tooling for foundational divider component", async () => {
@@ -329,20 +316,23 @@ describe("createTools routing", () => {
 		expect(result.validation.ok).toBe(true);
 	});
 
-	describe("foundational components with strategy=fallback", () => {
-		// No checked-in component takes this path today; these pin the current fallback
-		// behaviour (tools.ts createTools id-set checks) before plan-v2 item 7 changes it.
-		const fallbackComponent = (id: string, htmlCanonical?: string) => ({
+	describe("routing by COMPONENT_TOOLS", () => {
+		// The code's table decides which components get a tool and how it's built;
+		// the registry's category and strategy are not read.
+		const component = (
+			id: string,
+			extra: Partial<ComponentInfo> = {},
+		): ComponentInfo => ({
 			id,
 			title: id,
-			status: "stable" as const,
-			category: "foundational" as const,
-			strategy: "fallback" as const,
-			htmlCanonical,
+			status: "stable",
+			category: "interactive",
+			strategy: "fallback",
+			...extra,
 		});
 
-		it("routes ids in the layout id set to the layout builder", async () => {
-			const tools = createTools(createRegistry([fallbackComponent("divider")]));
+		it("builds layout tools by the table, whatever the registry's strategy says", async () => {
+			const tools = createTools(createRegistry([component("divider")]));
 			const result = await callHandler<RenderedToolResult>(
 				tools.getTool("get_divider"),
 				{ decorative: true },
@@ -351,8 +341,8 @@ describe("createTools routing", () => {
 			expect(result.html).toContain("kern-divider");
 		});
 
-		it("routes ids in the typography id set to the typography builder", async () => {
-			const tools = createTools(createRegistry([fallbackComponent("title")]));
+		it("builds typography tools by the table, whatever the registry's strategy says", async () => {
+			const tools = createTools(createRegistry([component("title")]));
 			const result = await callHandler<RenderedToolResult>(
 				tools.getTool("get_title"),
 				{ text: "Seitentitel", size: "small" },
@@ -361,66 +351,183 @@ describe("createTools routing", () => {
 			expect(result.html).toContain("kern-title--small");
 		});
 
-		it("serves canonical manifest HTML for any other id", async () => {
-			const canonical = '<div class="kern-mystery">Inhalt</div>';
+		it("gives no tool to a registry component outside the table, but still documents it", async () => {
 			const tools = createTools(
-				createRegistry([fallbackComponent("mystery", canonical)]),
+				createRegistry([
+					component("mystery", {
+						strategy: "interactive",
+						htmlCanonical: '<div class="kern-mystery"></div>',
+					}),
+				]),
 			);
-			const tool = tools.getTool("get_mystery");
+
+			expect(tools.getTool("get_mystery")).toBeUndefined();
+			const docs = await callHandler<{ componentId: string }>(
+				tools.getTool("get_component_docs"),
+				{ componentId: "mystery" },
+			);
+			expect(docs.componentId).toBe("mystery");
+			const listed = await callHandler<{ components: Array<{ id: string }> }>(
+				tools.getTool("list_components_by_category"),
+				{},
+			);
+			expect(listed.components.map((c) => c.id)).not.toContain("mystery");
+		});
+
+		it("keeps generator warnings out of tool output", async () => {
+			const tools = createTools(
+				createRegistry([
+					component("heading", {
+						warnings: ["No canonical story template extracted for heading."],
+					}),
+					component("divider", {
+						warnings: ["No canonical story template extracted for divider."],
+					}),
+				]),
+			);
+			const heading = await callHandler<RenderedToolResult>(
+				tools.getTool("get_heading"),
+				{ text: "Titel", level: 2 },
+			);
+			const divider = await callHandler<RenderedToolResult>(
+				tools.getTool("get_divider"),
+				{ decorative: true },
+			);
+
+			expect(heading.warnings).toEqual([]);
+			expect(divider.warnings).toEqual([]);
+		});
+
+		it("serves the registry's canonical HTML for fallback components", async () => {
+			const canonical = '<search class="kern-form-input">Suche</search>';
+			const tools = createTools(
+				createRegistry([component("search", { htmlCanonical: canonical })]),
+			);
+			const tool = tools.getTool("get_search");
 
 			expect(tool?.description).toBe(
-				"KERN UX: HTML für mystery erzeugen (mit optionaler strikter Validierung).",
+				"KERN UX: HTML für search erzeugen (mit optionaler strikter Validierung).",
 			);
 			const result = await callHandler<RenderedToolResult>(tool, {});
 			expect(result.html).toBe(canonical);
 			expect(result.validation.ok).toBe(true);
 		});
 
-		it("renders a placeholder when there is no canonical HTML", async () => {
-			const tools = createTools(createRegistry([fallbackComponent("mystery")]));
+		it("renders a placeholder when a fallback component has no canonical HTML", async () => {
+			const tools = createTools(createRegistry([component("search")]));
 			const result = await callHandler<RenderedToolResult>(
-				tools.getTool("get_mystery"),
+				tools.getTool("get_search"),
 				{},
 			);
 
 			expect(result.html).toContain(
-				"<!-- TODO: No story template found for mystery. -->",
+				"<!-- TODO: No story template found for search. -->",
 			);
-			expect(result.html).toContain('<div class="kern-mystery"></div>');
+			expect(result.html).toContain('<div class="kern-search"></div>');
 		});
 
 		it("throws in strict mode when the canonical HTML fails validation", async () => {
 			const tools = createTools(
-				createRegistry([fallbackComponent("mystery", '<img src="x.png">')]),
+				createRegistry([
+					component("search", { htmlCanonical: '<img src="x.png">' }),
+				]),
 			);
 
 			await expect(
-				tools.getTool("get_mystery")?.handler({ strict: true }),
-			).rejects.toThrow("Strict validation failed for get_mystery");
+				tools.getTool("get_search")?.handler({ strict: true }),
+			).rejects.toThrow("Strict validation failed for get_search");
 		});
+
+		it.each([
+			["interactive", buildInteractiveTool],
+			["layout", buildLayoutTool],
+			["typography", buildTypographyTool],
+		])(
+			"the %s builder rejects a component it has no tool for",
+			(kind, build) => {
+				expect(() => build(component("mystery"))).toThrow(
+					`No ${kind} tool for component: mystery`,
+				);
+			},
+		);
+
+		it("lists every table entry's component as missing from an incomplete registry", () => {
+			expect(() =>
+				assertComponentToolsInRegistry(createRegistry([component("button")])),
+			).toThrow(
+				/registry\.json has no entry for accordion, alert, badge, body, /,
+			);
+		});
+
+		it("finds every table entry's component in the checked-in registry", () => {
+			const registry = loadRegistryFromManifest();
+
+			expect(() => assertComponentToolsInRegistry(registry)).not.toThrow();
+			expect(getComponentToolStrategy("index")).toBeUndefined();
+			expect(createTools(registry).listToolNames()).toEqual(
+				expect.arrayContaining(COMPONENT_TOOL_IDS.map((id) => `get_${id}`)),
+			);
+		});
+
+		it.each<[string, object]>([
+			["get_body", { text: "Fließtext" }],
+			["get_heading", { text: "Titel", level: 2 }],
+			["get_label", { text: "Feld" }],
+			["get_link", { text: "Mehr erfahren", href: "/mehr" }],
+			["get_lists", { text: "Punkt" }],
+			["get_preline", { text: "Kategorie" }],
+			["get_subline", { text: "Untertitel" }],
+			["get_title", { text: "Titel" }],
+			["get_descriptionlist", { items: [{ key: "Name", value: "Max" }] }],
+			["get_divider", { decorative: true }],
+			[
+				"get_fieldset",
+				{
+					legend: "Kontakt",
+					contentBlocks: [
+						{
+							kind: "field",
+							field: { type: "email", name: "email", label: "E-Mail" },
+						},
+					],
+				},
+			],
+			["get_grid", { columns: 2 }],
+			["get_kopfzeile", {}],
+		])(
+			"%s renders valid markup from the checked-in registry",
+			async (name, args) => {
+				const tools = createTools(loadRegistryFromManifest());
+				const result = await callHandler<RenderedToolResult>(
+					tools.getTool(name),
+					{ ...args, strict: true },
+				);
+
+				expect(result.html).toContain("kern-");
+				expect(result.validation.ok).toBe(true);
+			},
+		);
 	});
 
 	it("prefixes experimental components with a banner and warning", async () => {
 		const tools = createTools(
 			createRegistry([
 				{
-					id: "mystery",
-					title: "Mystery",
+					id: "search",
+					title: "Search",
 					status: "experimental",
-					category: "foundational",
-					strategy: "fallback",
-					htmlCanonical: '<div class="kern-mystery"></div>',
+					htmlCanonical: '<div class="kern-search"></div>',
 				},
 			]),
 		);
 		const result = await callHandler<RenderedToolResult>(
-			tools.getTool("get_mystery"),
+			tools.getTool("get_search"),
 			{},
 		);
 
 		expect(result.html).toMatch(/^<!-- WARNING: Experimental Component/);
 		expect(result.warnings).toEqual([
-			"Component 'mystery' is experimental – API may change.",
+			"Component 'search' is experimental – API may change.",
 		]);
 	});
 });

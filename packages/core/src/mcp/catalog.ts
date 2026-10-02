@@ -1,7 +1,5 @@
-import {
-	loadRegistryFromManifest,
-	validateRegistryAgainstToolNames,
-} from "../ux/registry.js";
+import { loadRegistryFromManifest } from "../ux/registry.js";
+import { assertComponentToolsInRegistry } from "../ux/tool-builders/component-tools.js";
 import type { ToolDef } from "../ux/tool-builders/shared.js";
 import { createTools } from "../ux/tools.js";
 
@@ -22,9 +20,9 @@ export function getCatalog(): Catalog {
 
 function buildCatalog(): Catalog {
 	const registry = loadRegistryFromManifest();
+	assertComponentToolsInRegistry(registry);
 	const registryTools = createTools(registry);
 	const names = registryTools.listToolNames();
-	validateRegistryAgainstToolNames(registry, names);
 
 	const tools = names.map((name) => {
 		const tool = registryTools.getTool(name);
