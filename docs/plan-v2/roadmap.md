@@ -141,6 +141,8 @@ These change what tools return, so they wait until R5's before/after measurement
 
 ### R6: Resources
 
+In planning: [r6-kickoff.md](r6-kickoff.md) has the plan and three open questions.
+
 - [ ] Resource registration, cache hints and a snapshot test harness.
 - [ ] `kern://components`, the `kern://components/{id}` cards with completion, and `kern://components/{id}/schema`.
 - [ ] Guides: composition, forms, layout, accessibility.
