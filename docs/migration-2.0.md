@@ -114,6 +114,7 @@ Pre-releases go out under the npm dist-tag `alpha`. "Next alpha" means landed on
 - Forms and `formFlow` steps stack their content with `kern-flex kern-flex-col kern-gap-lg`.
 - So do `render_page`'s `<main>` (its `h1` and blocks) and `render_composition` with more than one top-level block, which wraps them in a `<div>` with those classes. A single block renders as before. In 1.x the blocks sat on each other with no space between.
 - Where blocks stack, a `button` or `badge` block sits in a plain `<div>`, so the flex column doesn't stretch it to full width. This fixes forms and `formFlow` steps too.
+- A form's error summary lists a fieldset's group error too, before the errors of its fields, linked to the group's first input (a radio group's first option).
 - No default format hints. `get_inputtext`, `get_inputnumber`, `get_inputemail`, `get_inputtel`, `get_inputurl`, `get_inputdate`, `get_inputpassword` and `get_inputfile` render a hint only when one is given, like `field` blocks. The defaults were generic ("Pflichtformat: vollstaendigen Namen angeben"), and the file input's named a 10 MB limit nobody had set.
 - Grids no longer warn "KERN UX has two layout systems…" on every call. Columns that don't divide 12 are rejected, and that error's hint names the CSS Grid utilities (`kern-grid kern-grid-cols-5`).
 

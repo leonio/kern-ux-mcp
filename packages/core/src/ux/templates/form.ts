@@ -140,26 +140,56 @@ export function buttonRow(
 
 /**
  * Gives every field with an error message an id (keeping the model's own) and
- * collects it, in document order, for the error summary.
+ * collects it, in document order, for the error summary. A fieldset's group
+ * error comes before its fields' errors and links to the group's first input.
  */
 export function withErrorIds(
 	blocks: readonly RecursiveContentNodeInput[],
 	errors: FieldError[],
 ): RecursiveContentNodeInput[] {
-	const visit = (children: readonly RecursiveContentNodeInput[]) =>
-		withErrorIds(children, errors);
-
-	return blocks.map((block): RecursiveContentNodeInput => {
-		switch (block.kind) {
-			case "field": {
-				const { field } = block;
-				if (!field.error) {
-					return block;
+	return mapBlocks(blocks, (block) => {
+		if (block.kind === "field" && block.field.error) {
+			const id = block.field.id ?? generateId("field");
+			errors.push({ id, text: `${block.field.label}: ${block.field.error}` });
+			return { ...block, field: { ...block.field, id } };
+		}
+		if (block.kind === "fieldset" && block.fieldset.error) {
+			const { fieldset } = block;
+			let firstId: string | undefined;
+			const contentBlocks = mapBlocks(fieldset.contentBlocks, (child) => {
+				if (firstId !== undefined || child.kind !== "field") {
+					return child;
 				}
-				const id = field.id ?? generateId("field");
-				errors.push({ id, text: `${field.label}: ${field.error}` });
-				return { ...block, field: { ...field, id } };
+				firstId = child.field.id ?? generateId("field");
+				return { ...child, field: { ...child.field, id: firstId } };
+			});
+			if (firstId === undefined) {
+				return block;
 			}
+			errors.push({
+				id: firstId,
+				text: `${fieldset.legend}: ${fieldset.error}`,
+			});
+			return { ...block, fieldset: { ...fieldset, contentBlocks } };
+		}
+		return block;
+	});
+}
+
+/**
+ * Maps every block of a form's tree in document order, a container before its
+ * blocks. Forms don't nest, so form and formFlow blocks aren't entered.
+ */
+function mapBlocks(
+	blocks: readonly RecursiveContentNodeInput[],
+	map: (block: RecursiveContentNodeInput) => RecursiveContentNodeInput,
+): RecursiveContentNodeInput[] {
+	const visit = (children: readonly RecursiveContentNodeInput[]) =>
+		mapBlocks(children, map);
+
+	return blocks.map((original): RecursiveContentNodeInput => {
+		const block = map(original);
+		switch (block.kind) {
 			case "fieldset":
 				return {
 					...block,

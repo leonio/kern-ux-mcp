@@ -117,6 +117,84 @@ describe("buildForm", () => {
 		expect(html).toContain("Please correct the following");
 	});
 
+	describe("a fieldset's group error", () => {
+		const fieldset = (
+			error: string | undefined,
+			contentBlocks: RecursiveContentNodeInput[],
+		): RecursiveContentNodeInput => ({
+			kind: "fieldset",
+			fieldset: { legend: "Anschrift", error, contentBlocks },
+		});
+		const summaryLinks = (contentBlocks: RecursiveContentNodeInput[]) => {
+			const root = parse(
+				buildForm({ errorSummary: {}, contentBlocks }, "de").html,
+			);
+			return root
+				.querySelectorAll(".kern-alert--danger a.kern-link")
+				.map((link) => {
+					const target = link.getAttribute("href")?.slice(1) ?? "";
+					const input = root.querySelector(`[id="${target}"]`);
+					return [link.text, input?.tagName, input?.getAttribute("name")];
+				});
+		};
+
+		it("comes before its fields' errors, linked to the group's first input", () => {
+			expect(
+				summaryLinks([
+					fieldset("Bitte vollständig angeben.", [
+						field("strasse"),
+						field("plz", { error: "Fünf Ziffern." }),
+					]),
+				]),
+			).toEqual([
+				["Anschrift: Bitte vollständig angeben.", "INPUT", "strasse"],
+				["PLZ: Fünf Ziffern.", "INPUT", "plz"],
+			]);
+		});
+
+		it("links a radio group to its first option, and finds a field inside a grid", () => {
+			const radio = field("anrede", {
+				type: "radio",
+				options: [
+					{ value: "frau", label: "Frau" },
+					{ value: "herr", label: "Herr" },
+				],
+			});
+			const grid: RecursiveContentNodeInput = {
+				kind: "grid",
+				grid: { columns: 2, columnsContent: [[field("plz")], [field("ort")]] },
+			};
+
+			expect(
+				summaryLinks([
+					fieldset("Bitte auswählen.", [radio]),
+					fieldset("Bitte angeben.", [grid]),
+				]),
+			).toEqual([
+				["Anschrift: Bitte auswählen.", "INPUT", "anrede"],
+				["Anschrift: Bitte angeben.", "INPUT", "plz"],
+			]);
+		});
+
+		it("keeps the field's own id, and lists nothing for a group without a field", () => {
+			const html = buildForm(
+				{
+					errorSummary: {},
+					contentBlocks: [
+						fieldset("Fehlt.", [field("plz", { id: "eigene-id" })]),
+						fieldset("Leer.", [{ kind: "text", text: "Kein Feld" }]),
+					],
+				},
+				"de",
+			).html;
+			const links = parse(html).querySelectorAll(".kern-alert--danger a");
+
+			expect(links.map((link) => link.getAttribute("href"))).toEqual([
+				"#eigene-id",
+			]);
+		});
+	});
+
 	it("uses the given summary title", () => {
 		const html = buildForm(
 			{ ...FORM_WITH_ERRORS, errorSummary: { title: "Es gibt ein Problem" } },
