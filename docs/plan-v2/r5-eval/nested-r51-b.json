@@ -1,0 +1,211 @@
+{
+	"label": "nested-r51-b",
+	"suite": "nested",
+	"date": "2026-10-02T20:35:20.255Z",
+	"model": "claude-haiku-4-5",
+	"serverCommit": "7f1ca2a",
+	"runsPerScenario": 3,
+	"systemPrompt": "You build web page markup with the KERN UX design system. Use the kern tools to render components instead of writing KERN markup by hand. When you're done, reply with the final HTML.",
+	"total": {
+		"runs": 12,
+		"completed": 12,
+		"toolCalls": 27,
+		"errorResults": 3,
+		"invalidInputErrors": 1,
+		"retries": 3,
+		"turns": 39,
+		"checksPassed": 103,
+		"checksTotal": 105,
+		"compositionCalls": 15,
+		"compositionErrors": 3,
+		"compositionRetries": 3,
+		"blockDepth": 4,
+		"blockNodes": 16,
+		"deliveredVerbatim": 5,
+		"deliveredEdited": 2,
+		"deliveredDescribed": 5,
+		"fallbacks": 0,
+		"strictValid": 12,
+		"firstRequestTokens": 36951,
+		"inputTokens": 1499584,
+		"outputTokens": 74472,
+		"costUsd": 0.7256787,
+		"durationMs": 584700
+	},
+	"scenarios": [
+		{
+			"id": "dashboard",
+			"runs": 3,
+			"completed": 3,
+			"toolCalls": 9,
+			"errorResults": 2,
+			"invalidInputErrors": 0,
+			"retries": 2,
+			"turns": 12,
+			"checksPassed": 21,
+			"checksTotal": 21,
+			"compositionCalls": 5,
+			"compositionErrors": 2,
+			"compositionRetries": 2,
+			"blockDepth": 4,
+			"blockNodes": 10,
+			"deliveredVerbatim": 3,
+			"deliveredEdited": 0,
+			"deliveredDescribed": 0,
+			"fallbacks": 0,
+			"strictValid": 3,
+			"firstRequestTokens": 36667,
+			"inputTokens": 493723,
+			"outputTokens": 21854,
+			"costUsd": 0.2120603,
+			"durationMs": 153784,
+			"failedChecks": [],
+			"calls": [
+				[
+					"get_table",
+					"render_composition"
+				],
+				[
+					"get_table",
+					"render_composition"
+				],
+				[
+					"get_table",
+					"render_composition!unparsable",
+					"render_composition!unparsable",
+					"render_composition",
+					"validate_html"
+				]
+			]
+		},
+		{
+			"id": "application-flow",
+			"runs": 3,
+			"completed": 3,
+			"toolCalls": 3,
+			"errorResults": 0,
+			"invalidInputErrors": 0,
+			"retries": 0,
+			"turns": 6,
+			"checksPassed": 27,
+			"checksTotal": 27,
+			"compositionCalls": 3,
+			"compositionErrors": 0,
+			"compositionRetries": 0,
+			"blockDepth": 3,
+			"blockNodes": 10,
+			"deliveredVerbatim": 0,
+			"deliveredEdited": 0,
+			"deliveredDescribed": 3,
+			"fallbacks": 0,
+			"strictValid": 3,
+			"firstRequestTokens": 36717,
+			"inputTokens": 239289,
+			"outputTokens": 14526,
+			"costUsd": 0.14278020000000002,
+			"durationMs": 121988,
+			"failedChecks": [],
+			"calls": [
+				[
+					"render_page"
+				],
+				[
+					"render_composition"
+				],
+				[
+					"render_page"
+				]
+			]
+		},
+		{
+			"id": "service-page",
+			"runs": 3,
+			"completed": 3,
+			"toolCalls": 8,
+			"errorResults": 1,
+			"invalidInputErrors": 1,
+			"retries": 1,
+			"turns": 11,
+			"checksPassed": 24,
+			"checksTotal": 24,
+			"compositionCalls": 4,
+			"compositionErrors": 1,
+			"compositionRetries": 1,
+			"blockDepth": 3,
+			"blockNodes": 16,
+			"deliveredVerbatim": 1,
+			"deliveredEdited": 0,
+			"deliveredDescribed": 2,
+			"fallbacks": 0,
+			"strictValid": 3,
+			"firstRequestTokens": 36678,
+			"inputTokens": 375628,
+			"outputTokens": 24199,
+			"costUsd": 0.2258401,
+			"durationMs": 198188,
+			"failedChecks": [],
+			"calls": [
+				[
+					"render_page!invalid-input",
+					"render_page"
+				],
+				[
+					"get_table",
+					"get_accordion",
+					"render_page"
+				],
+				[
+					"get_table",
+					"get_accordion",
+					"render_page"
+				]
+			]
+		},
+		{
+			"id": "fix-page",
+			"runs": 3,
+			"completed": 3,
+			"toolCalls": 7,
+			"errorResults": 0,
+			"invalidInputErrors": 0,
+			"retries": 0,
+			"turns": 10,
+			"checksPassed": 31,
+			"checksTotal": 33,
+			"compositionCalls": 3,
+			"compositionErrors": 0,
+			"compositionRetries": 0,
+			"blockDepth": 3,
+			"blockNodes": 14,
+			"deliveredVerbatim": 1,
+			"deliveredEdited": 2,
+			"deliveredDescribed": 0,
+			"fallbacks": 0,
+			"strictValid": 3,
+			"firstRequestTokens": 36951,
+			"inputTokens": 390944,
+			"outputTokens": 13893,
+			"costUsd": 0.1449981,
+			"durationMs": 110740,
+			"failedChecks": [
+				"called validate_html",
+				"structure: KERN buttons (1)"
+			],
+			"calls": [
+				[
+					"render_page"
+				],
+				[
+					"validate_html",
+					"render_page",
+					"validate_html"
+				],
+				[
+					"validate_html",
+					"render_page",
+					"validate_html"
+				]
+			]
+		}
+	]
+}

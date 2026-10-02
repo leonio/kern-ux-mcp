@@ -61,6 +61,31 @@ Learned in A:
 - **A flex column stretches inline elements.** `kern-btn` and `kern-badge` are `inline-flex` without a width, so in any stack they became full-width. The forms had this since R4; no test looked at a button block in a form.
 - **KERN has no page-level spacing to copy.** Its showcase page spaces sections with `<br>`. The repo's form stack is the convention now.
 - **A recurring error to fix:** "A section needs contentBlocks or paragraphs." In two nested evals in a row Haiku used a section as a heading and put its content after it. The message could say to put the blocks that follow into the section's `contentBlocks`.
-- [ ] B5 Escaping in the typography templates and `get_link`
-- [ ] B6 `get_button` keeps `kern-label` with `sr-only`
-- [ ] Evals after B
+- [x] `b9162b6`: refactor first. Sixteen templates had their own copy of `escapeHtml`, identical to `escape.ts`'s; they import it now. No output change.
+- [x] B5 `f93f3bc`: the nine typography tools and `get_link`'s `href` escape the model's text. The sweep of every template found three more: badge text (`get_badge` and badge blocks), `get_loader`'s `srText` and the grid's `headingText`. One test gives all twelve fields the same markup.
+- [x] B6 `7f1ca2a`: a hidden button label renders `kern-label kern-sr-only` (or `kern-sr-only-mobile`), as KERN's button markup does: 59 and 45 uses in KERN 2.8.2, against 7 bare ones elsewhere. The dialog's close button keeps `kern-sr-only` alone, as KERN's dialog does.
+- [x] Evals after B: [r5-eval/r51-b.json](r5-eval/r51-b.json), [r5-eval/nested-r51-b.json](r5-eval/nested-r51-b.json)
+
+| | r51-a (`46076fd`) | r51-b (`7f1ca2a`) | nested-r51-a (`46076fd`) | nested-r51-b (`7f1ca2a`) |
+|---|---|---|---|---|
+| Completed | 30/30 | 30/30 | 12/12 | 12/12 |
+| Checks | 96/96 | 96/96 | 105/105 | 103/105 |
+| Error results | 2 | 1 | 1 | 3 |
+| Strict-valid answers | 30/30 | 30/30 | 12/12 | 12/12 |
+| Answers: verbatim / edited / described | 18 / 8 / 4 | 25 / 3 / 2 | 4 / 2 / 6 | 5 / 2 / 5 |
+
+None of it comes from group B, which doesn't change whether anything renders:
+- Three of the four errors are input that wasn't JSON (a `render_page` and twice the same `render_composition`), rejected by the client before the server.
+- The fourth is the section used as a bare heading, the third nested eval in a row.
+- The two failed checks are both `fix-page`: one run didn't call `validate_html` (the nested baseline's failure too), and one rebuilt the broken page's `kern-button` link as a plain link, so one `.kern-btn` instead of two.
+
+Learned in B:
+- **Sweep, don't list.** The findings named nine templates; a grep over every interpolation found three more. A test that feeds the same markup to every text field is cheap and catches the next one.
+- **Check KERN before "fixing" towards it.** The button and the dialog render hidden labels differently in KERN itself; counting KERN's own uses settled which one each follows.
+- **Unparsable input is now the most common error.** Five of the nine errors in R5.1's four evals were input the client couldn't parse, all in long calls with nested HTML in strings. It's Haiku's JSON, not our schema, but large `html` blocks make it likelier.
+
+## Where R5.1 ended
+
+All six boxes are done. Open for later:
+- **The section error message** (recurring): "A section needs contentBlocks or paragraphs." could say to put the blocks that follow into the section's `contentBlocks`.
+- **Grid column inference:** `columns` defaults to 2, so three column arrays without `columns` render two columns and drop the third, with a warning. No eval run hit it.
