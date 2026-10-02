@@ -11,6 +11,7 @@ This folder holds the plan for 2.0 and the record of how it's going. The work ha
 | [r5-handover.md](r5-handover.md) | **The latest state.** R5 half done, what to do first, and the findings for the English areas. |
 | [r5-kickoff.md](r5-kickoff.md), [r5-eval/](r5-eval/) | R5's plan, progress and lessons; the eval reports. |
 | [r4b-kickoff.md](r4b-kickoff.md), [r4-handover.md](r4-handover.md) | R4b (groups A and B done; the rest waits on the knowledge bundle); where R4 ended and the 2026-10-02 review. |
+| [post-alpha-work.md](post-alpha-work.md) | Unscheduled follow-ups: the context-budget research (tool discovery and sub-agent scoping, with verdicts) and a proposal for nested eval scenarios. |
 | [knowledge-bundle.md](knowledge-bundle.md) | Draft: what the external generator (`kern-ux-scraper`) writes from its three sources, and how this repo builds tooling from it. Includes a brief for the generator repo. |
 | [registry-requirements.md](registry-requirements.md) | What the server needs from `registry.json` today, and what's wrong with it. Partly superseded by the knowledge bundle. |
 | [r3-kickoff.md](r3-kickoff.md), [r3-handover.md](r3-handover.md), [r4-kickoff.md](r4-kickoff.md) | Earlier steps: their plans, progress and lessons. |
