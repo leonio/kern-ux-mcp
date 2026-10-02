@@ -168,5 +168,5 @@ Answered on 2026-10-02:
 - **Git Bash heredocs into Python:** `\n` escapes in a Python string can arrive as real line breaks. Use raw strings (`r'''…'''`) or the Edit tool for anything with escapes.
 - **GitVersion:** a `!:` subject or a `BREAKING CHANGE:` footer is its major bump and would likely turn the alpha into 3.0.0. On this branch, contract changes are described in the commit body.
 - **`callHandler` skips schema validation.** Tests that care whether the server would accept a payload `safeParse` it first.
-- **Listing sizes:** compare `packages/core/src/ux/__snapshots__/tools-list.json` against `git show HEAD:…` per tool, until R5's budget test does it.
+- **Listing sizes:** `npm run listing:sizes` prints every tool's model-facing size; the budget test in `tools.budget.test.ts` enforces the total (R5 A1).
 - `vitest run -u` updates both listing snapshots; the wire-versus-domain test in `mcp/listing.test.ts` reads the domain file, so it passes on the next run.

@@ -114,12 +114,12 @@ In progress: [r4b-kickoff.md](r4b-kickoff.md) has the plan and progress. Can sta
 
 ### R5: English base language and the context budget
 
-Measurements (2026-09-29), what they say about the shrink options, and kickoff questions: [r4-handover.md](r4-handover.md#r5-english-base-language-and-the-context-budget). **Order and targets decided 2026-10-02:** option B comes before the English areas, the `examples` table comes before the hints are rewritten, and the baseline is scripted.
+Measurements (2026-09-29), what they say about the shrink options, and kickoff questions: [r4-handover.md](r4-handover.md#r5-english-base-language-and-the-context-budget). In progress: [r5-kickoff.md](r5-kickoff.md). **Order and targets decided 2026-10-02:** option B comes before the English areas, the `examples` table comes before the hints are rewritten, and the baseline is scripted.
 
 - [ ] A scripted scenario baseline: a small harness runs the 8–10 scenarios against the stdio server through a model API, recording invalid calls, retries and tokens. Run it against the R4 release; VS Code Copilot and Claude Code stay as spot checks. Re-run after each area below.
-- [ ] Add a context-budget test that prints per-tool listing sizes and fails above the budget. Targets: **≤ 120K compact characters model-facing** (name, description, `inputSchema`) for the full toolset, **≤ 60K** for a compact profile. `outputSchema` is reported, not counted.
+- [x] Add a context-budget test that prints per-tool listing sizes and fails above the budget. Targets: **≤ 120K compact characters model-facing** (name, description, `inputSchema`) for the full toolset, **≤ 60K** for a compact profile. `outputSchema` is reported, not counted.
 - [ ] Option B: the six standalone block tools accept a smaller block set (about 58K saved). Measure a fixed shallow set (`text`, `html`, `badge`, `field`) against sets matched to each tool's job (a grid of cards, a section with a grid: containers whose children are simple blocks) before choosing. Deep nesting goes through `render_composition` and `render_page`. Once the registry has `anatomy` (R4b), a test checks the sets against it.
-- [ ] An `examples` table keyed by tool name, with a golden test (every example validates with `strict: true`). The error hints' known-good payloads are built from it. This is the first piece of `defineTool()`'s `examples`, without migrating any tool.
+- [x] An `examples` table keyed by tool name, with a golden test (every example validates with `strict: true`). The error hints' known-good payloads are built from it. This is the first piece of `defineTool()`'s `examples`, without migrating any tool.
 - [ ] English: foundations and form-field schemas.
 - [ ] English: layout and typography schemas and tools.
 - [ ] English: interactive schemas and tools.

@@ -50,5 +50,16 @@ Measure a fixed shallow block set against sets matched to each tool's job, then 
 
 ## Progress
 
-- [ ] A1 context-budget test
-- [ ] A2 `examples` table
+- [x] A1 `67ee553`: `LISTING_BUDGET` with a ratchet test, `npm run listing:sizes`
+- [x] A2 `52b24fa`: `TOOL_EXAMPLES` with a golden test; the hints render their payloads from it, byte for byte
+
+**Baseline commit: `52b24fa`.** Group A changed nothing model-facing, so the harness measures the pre-R5 server at this commit (build it in a worktree: `git worktree add ../kern-ux-mcp-baseline 52b24fa`, then `npm ci && npm run build` there).
+
+Learned in A:
+- **The numbers:** 201,295 model-facing characters in 54 tools; `outputSchema` 48,281 more. The budget starts at 202,000 with 2,000 of slack, so the first saving of more than about 1,300 characters makes the test ask for a lower budget.
+- **"No visible change" can be proved.** For A2, a scratch script captured every tool's validation hint for one invalid input (44 tools produce one) before and after the change and compared them: identical. The same check fits any refactor that must not change model-facing text.
+- **Git Bash heredocs mangle backslashes in JavaScript too,** not only in Python: a regex in a heredoc script lost its escapes. Scripts with escapes go through the Write tool.
+- For the English areas (C, D):
+  - The `get_button` hint says "Allowed sizes: default | small"; the schema also allows `x-small`. The hint text is stale.
+  - Three descriptions repeat a known-good payload that is now in `TOOL_EXAMPLES` (`get_section`, `get_card_group` in `tools.ts`, `get_dialog` in `interactive.ts`). The English pass should render them from the table, or drop them in favour of the hint.
+- Tests: 1742 → 1764. Coverage 97.0 / 91.1 / 98.0 / 96.9.
