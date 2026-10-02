@@ -1,5 +1,6 @@
 import { type TitleRenderInput, titleRenderSchema } from "../schemas/title.js";
 import type { BuildResult } from "../types.js";
+import { escapeHtml } from "./escape.js";
 
 export function buildTitle(input: TitleRenderInput): BuildResult {
 	const params = titleRenderSchema.parse(input);
@@ -14,7 +15,7 @@ export function buildTitle(input: TitleRenderInput): BuildResult {
 	}
 
 	return {
-		html: `<h2 class="${classes.join(" ")}">${params.text}</h2>`,
+		html: `<h2 class="${classes.join(" ")}">${escapeHtml(params.text)}</h2>`,
 		warnings,
 	};
 }

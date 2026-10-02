@@ -1,5 +1,6 @@
 import { type BodyRenderInput, bodyRenderSchema } from "../schemas/body.js";
 import type { BuildResult } from "../types.js";
+import { escapeHtml } from "./escape.js";
 
 export function buildBody(input: BodyRenderInput): BuildResult {
 	const params = bodyRenderSchema.parse(input);
@@ -17,7 +18,7 @@ export function buildBody(input: BodyRenderInput): BuildResult {
 	}
 
 	return {
-		html: `<p class="${classes.join(" ")}">${params.text}</p>`,
+		html: `<p class="${classes.join(" ")}">${escapeHtml(params.text)}</p>`,
 		warnings,
 	};
 }

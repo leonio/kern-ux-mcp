@@ -3,6 +3,7 @@ import {
 	descriptionListRenderSchema,
 } from "../schemas/description-list.js";
 import type { BuildResult } from "../types.js";
+import { escapeHtml } from "./escape.js";
 
 export function buildDescriptionList(
 	input: DescriptionListRenderInput,
@@ -17,7 +18,7 @@ export function buildDescriptionList(
 	const items = params.items
 		.map(
 			(item) =>
-				`  <div class="kern-description-list-item">\n    <dt class="kern-description-list-item__key">${item.key}</dt>\n    <dd class="kern-description-list-item__value">${item.value}</dd>\n  </div>`,
+				`  <div class="kern-description-list-item">\n    <dt class="kern-description-list-item__key">${escapeHtml(item.key)}</dt>\n    <dd class="kern-description-list-item__value">${escapeHtml(item.value)}</dd>\n  </div>`,
 		)
 		.join("\n");
 

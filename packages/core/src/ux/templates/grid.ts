@@ -5,6 +5,7 @@ import {
 	renderChildBlocks,
 	standaloneContext,
 } from "./composition-renderer.js";
+import { escapeHtml } from "./escape.js";
 
 export function buildGrid(
 	input: GridRenderInput,
@@ -33,7 +34,7 @@ export function buildGrid(
 		: "";
 	const heading =
 		params.includeHeading === true
-			? `<h${params.headingLevel} class="kern-heading-medium">${params.headingText ?? "Abschnitt"}</h${params.headingLevel}>\n`
+			? `<h${params.headingLevel} class="kern-heading-medium">${escapeHtml(params.headingText ?? "Abschnitt")}</h${params.headingLevel}>\n`
 			: "";
 
 	// 12-column system: kern-col-md-{span} for desktop, kern-col-sm-12 for mobile stacking.

@@ -1,6 +1,7 @@
 import { LABELS } from "../i18n.js";
 import type { LoaderInput } from "../schemas/loader.js";
 import type { BuildResult, Locale } from "../types.js";
+import { escapeHtml } from "./escape.js";
 
 /**
  * Build a Loader component
@@ -17,7 +18,7 @@ export function buildLoader(params: LoaderInput, locale: Locale): BuildResult {
 	}
 
 	const html = `<div class="${classes.join(" ")}" role="status">
-  <span class="kern-sr-only">${srText}</span>
+  <span class="kern-sr-only">${escapeHtml(srText)}</span>
 </div>`;
 
 	return { html, warnings };
