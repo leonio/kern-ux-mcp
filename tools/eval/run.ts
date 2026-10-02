@@ -98,9 +98,20 @@ function serverCommit(): string {
 				encoding: "utf8",
 			},
 		).trim();
-		const dirty = execFileSync("git", ["-C", dir, "status", "--porcelain"], {
-			encoding: "utf8",
-		}).trim();
+		// The reports this harness writes don't change the server.
+		const dirty = execFileSync(
+			"git",
+			[
+				"-C",
+				dir,
+				"status",
+				"--porcelain",
+				"--",
+				":/",
+				":(top,exclude)docs/plan-v2/r5-eval",
+			],
+			{ encoding: "utf8" },
+		).trim();
 		return dirty ? `${sha}+dirty` : sha;
 	} catch {
 		return "unknown";

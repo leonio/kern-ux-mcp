@@ -27,8 +27,17 @@ export type Delivery = "verbatim" | "edited" | "described" | "none";
 
 export type ToolCall = {
 	tool: string;
-	/** null until its result arrives (or if it never does) */
-	error: null | "invalid-input" | "strict" | "unknown-tool" | "other";
+	/**
+	 * null until its result arrives (or if it never does). "unparsable": the
+	 * client rejected input that wasn't JSON, so the server never saw the call.
+	 */
+	error:
+		| null
+		| "invalid-input"
+		| "unparsable"
+		| "strict"
+		| "unknown-tool"
+		| "other";
 };
 
 export type RunSummary = {
@@ -235,6 +244,7 @@ function failedStructure(scenario: Scenario, html: string | undefined) {
 }
 
 function classifyError(text: string): NonNullable<ToolCall["error"]> {
+	if (text.includes("could not be parsed as JSON")) return "unparsable";
 	if (
 		text.includes("Input validation error") ||
 		text.includes("Invalid arguments")

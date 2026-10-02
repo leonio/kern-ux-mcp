@@ -107,6 +107,12 @@ const transcript = [
 					name: "mcp__kern__validate_html",
 					input: {},
 				},
+				{
+					type: "tool_use",
+					id: "t4",
+					name: "mcp__kern__get_button",
+					input: { __unparsedToolInput: { raw: "{label: Senden}" } },
+				},
 			],
 		},
 	}),
@@ -119,6 +125,13 @@ const transcript = [
 					tool_use_id: "t3",
 					is_error: true,
 					content: "Strict validation failed for get_x",
+				},
+				{
+					type: "tool_result",
+					tool_use_id: "t4",
+					is_error: true,
+					content:
+						"<tool_use_error>InputValidationError: mcp__kern__get_button was called with input that could not be parsed as JSON.</tool_use_error>",
 				},
 			],
 		},
@@ -146,9 +159,10 @@ describe("summarizeRun", () => {
 			{ tool: "get_button", error: "invalid-input" },
 			{ tool: "get_button", error: null },
 			{ tool: "validate_html", error: "strict" },
+			{ tool: "get_button", error: "unparsable" },
 		]);
-		expect(run.toolCalls).toBe(3);
-		expect(run.errorResults).toBe(2);
+		expect(run.toolCalls).toBe(4);
+		expect(run.errorResults).toBe(3);
 		expect(run.invalidInputErrors).toBe(1);
 		expect(run.retries).toBe(1);
 	});
@@ -192,8 +206,8 @@ describe("aggregate", () => {
 		expect(total).toMatchObject({
 			runs: 2,
 			completed: 1,
-			toolCalls: 6,
-			errorResults: 4,
+			toolCalls: 8,
+			errorResults: 6,
 			retries: 2,
 			checksPassed: 6,
 			checksTotal: 8,
