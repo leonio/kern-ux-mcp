@@ -42,12 +42,12 @@ export default defineConfig({
 			],
 			// text: console; html: local browsing (coverage/index.html); json-summary: CI job summary.
 			reporter: ["text", "html", "json-summary"],
-			// Floors ~1.5 points below the baseline (2026-09-27, stmts/branch/funcs/lines: 88.4 / 80.6 / 88.8 / 88.7). Raise as coverage improves.
+			// Floors ~1.5 points below the baseline (2026-10-02, stmts/branch/funcs/lines: 96.3 / 89.7 / 97.9 / 96.2). Raise as coverage improves.
 			thresholds: {
-				statements: 87,
-				branches: 79,
-				functions: 87,
-				lines: 87,
+				statements: 94.5,
+				branches: 88,
+				functions: 96,
+				lines: 94.5,
 			},
 		},
 	},
