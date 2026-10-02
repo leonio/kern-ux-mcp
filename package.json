@@ -49,7 +49,8 @@
 		"check-version": "dotnet-gitversion /version",
 		"pre-commit": "npm run lint && npm run check-version",
 		"registry:schema": "tsx tools/registry/export-schema.ts",
-		"registry:import": "tsx tools/registry/import.ts"
+		"registry:import": "tsx tools/registry/import.ts",
+		"listing:sizes": "tsx tools/listing/sizes.ts"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^2.5.11",
