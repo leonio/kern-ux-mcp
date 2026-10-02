@@ -44,10 +44,13 @@ Measure a fixed shallow block set against sets matched to each tool's job, then 
 
 ### E. Optional compact profile, then R5.1
 
+The compact profile was dropped (open item 3). R5.1 has its own kickoff: [r51-kickoff.md](r51-kickoff.md).
+
 ## Open (for the maintainer)
 
 1. **The harness:** which model API it calls (the Claude API, OpenAI, or both), which model, and whose API key. Also the scenario list (8–10 tasks: Wohngeld wizard, contact form, landing page, …) to review.
-2. **The budget after R5:** the listing is at 115,556 and `LISTING_BUDGET.modelFacing` ratchets to 116,000, leaving about 4.5K under the 120K target for the bundle's summaries instead of 7K. The alternative is to hold the budget at 120K and let the ratchet stop there.
+2. ~~**The budget after R5.**~~ **Decided 2026-10-02:** the budget holds at the 120K target; the ratchet stops there (`4730c88`). The room below is for the bundle's summaries and later changes.
+3. ~~**The compact profile.**~~ **Dropped 2026-10-02:** the full set is under the target.
 
 ## Progress
 
@@ -188,7 +191,7 @@ Paused for review after C; the maintainer then started D.
   - unparsable tool input as its own error class
 - [x] `a303ab0`: area 3, the interactive tools. 13 component tools plus `get_component_docs`, `list_components_by_category` and `validate_html`. Findings 2 (no payloads in descriptions) and 4 (`items` without `content` select group mode). The listing went from 129,840 to 119,225 characters; the budget ratchets to 120,000. [r5-eval/english-3.json](r5-eval/english-3.json), [r5-eval/nested-english-3.json](r5-eval/nested-english-3.json)
 - [x] `d8e9261`: fix. `get_alert`'s `body` description names the object `{ text, links, listItems }` again (see "Shorter isn't always safe" below).
-- [x] `f380392`: area 4, composition. `get_section`, `get_card_group`, `get_disclosure`, `render_composition`, `render_page` and the block schema: English descriptions and error messages, no "(Komposition)" and no payloads in descriptions. The cheat sheet states the limits. `render_page`'s example moves into `TOOL_EXAMPLES`, and its hint appends it. A `disclosure` block takes `content` like the tool (finding 5). The listing went from 119,268 to 115,556 characters, and the budget ratchets to 116,000, below the target (open item 2). [r5-eval/english-4.json](r5-eval/english-4.json), [r5-eval/nested-english-4.json](r5-eval/nested-english-4.json)
+- [x] `f380392`: area 4, composition. `get_section`, `get_card_group`, `get_disclosure`, `render_composition`, `render_page` and the block schema: English descriptions and error messages, no "(Komposition)" and no payloads in descriptions. The cheat sheet states the limits. `render_page`'s example moves into `TOOL_EXAMPLES`, and its hint appends it. A `disclosure` block takes `content` like the tool (finding 5). The listing went from 119,268 to 115,556 characters, and the budget ratchets to 116,000, below the target; `4730c88` holds it at 120,000 (open item 2). [r5-eval/english-4.json](r5-eval/english-4.json), [r5-eval/nested-english-4.json](r5-eval/nested-english-4.json)
 
 | | english-3 (`a303ab0`) | english-4 (`f380392`) | nested-english-3 (`a303ab0`) | nested-english-4 (`f380392`) |
 |---|---|---|---|---|
@@ -211,7 +214,7 @@ Learned in D:
   - The checks that failed were two runs that didn't call `validate_html`.
 - **Shorter isn't always safe.** Area 3 cut the alert's `body` description to "Optional content below the heading". In one run Haiku then wrote `body` as a sentence: 13 unparsable calls, then a string, then right. The description should name the object's keys.
 - **Read the assembled text, not the fragments.** The area 4 draft rewrote `render_composition`'s description without the cheat sheet in view, so the description listed every kind right before the cheat sheet listed them again. The snapshot diff showed it; the draft's source fragments didn't.
-- **The ratchet met the target.** The budget test asked for a budget near the listing, and a second test kept the budget at or above the 120K target, so a listing under the target failed one of them. The target is now a ceiling: the budget may rise back to it for the bundle's summaries, not past it.
+- **The ratchet met the target.** The budget test asked for a budget near the listing, and a second test kept the budget at or above the 120K target, so a listing under the target failed one of them. The ratchet now stops at the target (`4730c88`).
 - **`html` blocks carry what has no block kind.** Tables went into `html` blocks in 12 of 12 nested runs, accordions in two FAQ runs. All were strict-valid. A table block kind would be a decision of its own (R6 or later), not R5 work.
 - **What the evals measure:**
   - The first harness version counted three tags named in inline code (`` `<caption>` ``) as an HTML answer; it now ignores inline code.

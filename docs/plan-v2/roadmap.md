@@ -114,7 +114,7 @@ In progress: [r4b-kickoff.md](r4b-kickoff.md) has the plan and progress. Can sta
 
 ### R5: English base language and the context budget
 
-Measurements (2026-09-29), what they say about the shrink options, and kickoff questions: [r4-handover.md](r4-handover.md#r5-english-base-language-and-the-context-budget). In progress: start at [r5-handover.md](r5-handover.md); plan and progress in [r5-kickoff.md](r5-kickoff.md). **Order and targets decided 2026-10-02:** option B comes before the English areas, the `examples` table comes before the hints are rewritten, and the baseline is scripted.
+Measurements (2026-09-29), what they say about the shrink options, and kickoff questions: [r4-handover.md](r4-handover.md#r5-english-base-language-and-the-context-budget). Done, not yet released: the listing went from 201K to 116K model-facing characters, and the budget holds at the 120K target (decided 2026-10-02). Plan, progress and lessons: [r5-kickoff.md](r5-kickoff.md); where R5 ended: [r5-handover.md](r5-handover.md). **Order and targets decided 2026-10-02:** option B comes before the English areas, the `examples` table comes before the hints are rewritten, and the baseline is scripted.
 
 - [x] A scripted scenario baseline: a small harness runs the 8–10 scenarios against the stdio server through a model API, recording invalid calls, retries and tokens. Run it against the R4 release; VS Code Copilot and Claude Code stay as spot checks. Re-run after each area below.
 - [x] Add a context-budget test that prints per-tool listing sizes and fails above the budget. Targets: **≤ 120K compact characters model-facing** (name, description, `inputSchema`) for the full toolset, **≤ 60K** for a compact profile. `outputSchema` is reported, not counted.
@@ -124,18 +124,20 @@ Measurements (2026-09-29), what they say about the shrink options, and kickoff q
 - [x] English: layout and typography schemas and tools.
 - [x] English: interactive schemas and tools.
 - [x] English: composition schemas, `COMPOSITION_CHEAT_SHEET`, and error hints.
-- [ ] Optional: a `KERN_TOOLSET=compact` profile.
+- [x] ~~Optional: a `KERN_TOOLSET=compact` profile.~~ **Dropped (decided 2026-10-02):** the full set is under the 120K target, and 55 tools are well under VS Code's 128.
 
 In the English areas, component tool descriptions are API text only: what the tool renders and its parameters, plus a pointer. "When to use" knowledge stays out of code, and about 7K of the budget stays free for registry summaries (R4b).
 
 ### R5.1: Output polish (after R5)
 
-These change what tools return, so they wait until R5's before/after measurements are done. That way the noise is the same in the baseline and every re-run.
+These change what tools return, so they wait until R5's before/after measurements are done. That way the noise is the same in the baseline and every re-run. Plan and progress: [r51-kickoff.md](r51-kickoff.md).
 
 - [ ] The grid warns "KERN UX has two layout systems…" only when it matters (columns that don't divide 12), not on every grid.
 - [ ] `get_inputtext` and the other text-like tools drop the default "enter your full name" format hint (the `field` block already has none).
 - [ ] Blocks in `<main>` and in `render_composition` get spacing between them, like a form's stack.
 - [ ] A fieldset's group error appears in the form's error summary, linked to the group's first input.
+- [ ] The typography templates and `get_link`'s `href` escape the model's text (found in R5).
+- [ ] `get_button` with `sr-only` keeps `kern-label`, as KERN's markup does (found in R5).
 
 ### R6: Resources
 
@@ -281,7 +283,7 @@ Today the same payloads are duplicated across tool descriptions, `server.ts` and
 
 This step is time-boxed. The harness in `spike/r0/` was throwaway and was deleted in R2; only the findings are kept. `git checkout 31110cf -- spike/r0` restores it (reinstall `@modelcontextprotocol/node` for its HTTP entry). The tracker lists what to confirm. Two of the answers were meant to gate R5; neither does any more (2026-10-02):
 - **`$defs`/`$ref` and `anyOf`-root support per client** was to decide between the R5 schema-shrink options. Option A was measured and makes the listing larger, so R5 uses option B. `render_composition` already relies on `$ref` for recursion.
-- **Tool-count limits** were to decide whether the R5 compact profile is needed. 55 tools are well under VS Code's 128, so the profile stays optional.
+- **Tool-count limits** were to decide whether the R5 compact profile is needed. 55 tools are well under VS Code's 128, and the profile was dropped (2026-10-02).
 
 ### R1 prerequisites
 
@@ -420,7 +422,7 @@ Do one area per PR, and check each against the [failure catalog](../../.github/s
 4. **The `examples` table and its golden test**, before the hints are rewritten, so hints are built from tested payloads instead of translated as prose.
 5. **English becomes the base** for every `.describe()`, tool description and `COMPOSITION_CHEAT_SHEET`, one area per PR. German stays as listed in the decisions table.
 6. **Trim descriptions** to *what + when + a pointer to the resource*. Long payloads move into `examples`. Component tool descriptions carry API text only; the "when" comes from the registry summary later (R4b), and about 7K of the budget stays free for it.
-7. **Optional toolset profile.** `KERN_TOOLSET=full|compact` is server config, so the listing doesn't vary per connection.
+7. **Optional toolset profile. Dropped (2026-10-02):** the full set ended under the target. `KERN_TOOLSET=full|compact` would have been server config, so the listing doesn't vary per connection.
    - The compact profile keeps `render_composition`, `render_page`, `render_component({componentId, props})`, `validate_html` and the docs tools.
    - VS Code Copilot caps how many tools can be enabled per request (128 at the time of writing). The full set is 55 tools, so this is about context size, not the cap.
 
