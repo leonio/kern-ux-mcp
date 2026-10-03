@@ -105,7 +105,7 @@ In progress: [r4b-kickoff.md](r4b-kickoff.md) has the plan and progress. Can sta
 - [x] Export it as JSON Schema, replacing `docs/registry.schema.json`, for the generator to validate against.
 - [x] Validate `registry.json` in a test and in `registry:import`. **Not at startup:** the file is bundled, so the server runs exactly the file CI checked (decided 2026-10-02).
 - [x] `npm run registry:import -- <path>`: validate, copy, and print the component and field diff.
-**The boxes below wait on the first knowledge bundle** and get re-planned then as phases K1–K4 of [knowledge-bundle.md](knowledge-bundle.md) (`knowledge:import` replaces `registry:import`).
+**The boxes below wait on the first knowledge bundle** and get re-planned then as phases K1–K4 of [knowledge-bundle.md](knowledge-bundle.md) (`knowledge:import` replaces `registry:import`). **Re-planned 2026-10-03:** R6 groups A and B do most of them ([r6-kickoff.md](r6-kickoff.md)): the import and `registry.json` from the bundle (A), `list_icons` from the bundle (C11), and hint lines only in the descriptions that need one (B6). The unknown-class rule, tokens from the bundle and `get_utility_reference` from the bundle stay open.
 
 - [ ] Optional knowledge fields and inventories from [registry-requirements.md](registry-requirements.md) section 3 (summary, synonyms, similar, when to use, examples, classes, accessibility, anatomy; icons, utilities, all `kern-*` classes, tokens with values; `docsOnly`), with size limits and the corpus version in `upstream`.
 - [ ] Consume the inventories: `list_icons`, `get_utility_reference` and `get_tokens` read the registry instead of hand-coded lists, and `validate_html` warns on unknown `kern-*` classes.
@@ -141,12 +141,14 @@ These change what tools return, so they wait until R5's before/after measurement
 
 ### R6: Resources
 
-Planned: [r6-kickoff.md](r6-kickoff.md). It starts with K1a (importing the knowledge bundle), since R6 takes all KERN knowledge from the bundle.
+Planned: [r6-kickoff.md](r6-kickoff.md), re-planned 2026-10-03 after reviewing the bundle. It starts by importing the knowledge bundle and generating `registry.json` from it (K1a and K1b, group A). Next, the bundle's English text goes onto the tool path (group B). Only then come the resources (group C), and only where something uses them.
 
+- [ ] Import the bundle into `knowledge/` and generate `registry.json` from it; retire the in-repo generator.
+- [ ] `get_component_docs` from the bundle, and one-line hints in the tool descriptions that need one.
 - [ ] Resource registration, cache hints and a snapshot test harness.
-- [ ] `kern://components` and the `kern://components/{id}` cards with completion. (`/schema` dropped 2026-10-02: it served the compact profile, and `tools/list` already carries every input schema.)
-- [ ] Guides: composition, forms, layout, accessibility.
-- [ ] `kern://tokens`, `kern://utilities`, `kern://icons` and `kern://templates/page-shell`.
+- [ ] The `kern://components/{id}` cards with completion. (`/schema` dropped 2026-10-02: `tools/list` already carries every input schema. The `kern://components` index dropped 2026-10-03: resource listing and `list_components_by_category` cover it.)
+- [ ] Guides: forms, layout, accessibility. (The composition guide dropped 2026-10-03: the cheat sheet is in the descriptions.)
+- [ ] `list_icons` from the bundle. (`kern://tokens`, `kern://utilities`, `kern://icons` and `kern://templates/page-shell` dropped 2026-10-03: each duplicates a tool.)
 - [ ] Add `resource_link`s from `get_component_docs`.
 
 ### R7: Prompts, then 2.0.0 GA
@@ -434,21 +436,23 @@ The R4 leftovers that change tool output: the grid's layout-systems warning, the
 
 ## R6 resources (`packages/core/src/resources`)
 
-Content is generated at runtime from existing data and cached: the registry, Zod schemas, `examples`, the overlay, `validate.ts` rules, and the utility, token and icon data. Everything is served with `cacheScope: "public"` and a long `ttlMs`, since content only changes per release.
+**Narrowed 2026-10-03** ([r6-kickoff.md](r6-kickoff.md)): only the cards and the forms, layout and accessibility guides are built. The rows struck through below are dropped; we add one back if something needs it. KERN knowledge comes from the bundle through `registry.json`, facts about our tools from code.
+
+Content is generated at runtime from existing data and cached: the registry, Zod schemas, `examples`, `validate.ts` rules. Everything is served with `cacheScope: "public"` and a long `ttlMs`, since content only changes per release.
 - **YAML** is used where the data is tabular. It takes the `yaml` dependency, which has no transitive dependencies.
 - **Markdown** is used where the content is prose plus HTML, with HTML in fenced blocks so nothing needs escaping.
-- English is the base. Where the overlay has German text, cards add a `de` section.
+- English is the base. German stays in component names, synonyms and the UI labels in examples.
 
 | URI | MIME | Content |
 |---|---|---|
-| `kern://components` | `application/yaml` | Index: id, title, status, category, tool, one-line summary |
-| `kern://components/{id}` (template, `{id}` completion) | `text/markdown` | Card: status, tool, summary, a **`yaml` field digest from the Zod schema** (name, type, required, enum, default, description), examples, canonical HTML, reviewed guidance, applicable validation rules, related tools, anti-use cases |
-| `kern://guides/composition` | `text/markdown` | Block kinds, nesting matrix, cheat sheet, form and field blocks |
-| `kern://guides/forms` | `text/markdown` | Label/hint/error pattern, ids and `aria-describedby`, optional marking, error summary, from `foundations.ts` + KERN Form Controls |
-| `kern://guides/layout` | `text/markdown` | Container/row/col, 12-column rule, breakpoints, spacing tokens, heading hierarchy, `kern-layer` surfaces |
-| `kern://guides/accessibility` | `text/markdown` | The 13 `validate.ts` rules with de/en messages and how to satisfy each |
-| `kern://tokens`, `kern://utilities`, `kern://icons` | `application/yaml` | Existing data from `get_tokens`, [templates/utility-reference.ts](../../packages/core/src/ux/templates/utility-reference.ts), `VALID_ICON_NAMES` |
-| `kern://templates/page-shell` | `text/html` | HTML5 shell: `lang`, KERN CSS/fonts, skip link, `<main>` |
+| ~~`kern://components`~~ | ~~`application/yaml`~~ | ~~Index: id, title, status, category, tool, one-line summary~~ |
+| `kern://components/{id}` (template, `{id}` completion) | `text/markdown` | Card. From the bundle: title, status, synonyms, summary, when to use, do's and don'ts, similar components, WCAG criteria, kern-ux.de links. From code: the tool, a **`yaml` field digest from the Zod schema** (name, type, required, enum, default, description), our rendered examples, the applicable validation rules, our tool notes |
+| ~~`kern://guides/composition`~~ | ~~`text/markdown`~~ | ~~Block kinds, nesting matrix, cheat sheet, form and field blocks~~ |
+| `kern://guides/forms` | `text/markdown` | Label/hint/error pattern, ids and `aria-describedby`, optional marking, error summary with group errors (from code), next to the bundle's general input rules (`form-inputs-overview`) |
+| `kern://guides/layout` | `text/markdown` | From the bundle's `layout`, `layout-overview` and `sizes-and-spacing` foundations and the utilities summary; from code, how our tools lay things out |
+| `kern://guides/accessibility` | `text/markdown` | The 13 `validate.ts` rules (one table shared with `validate.ts`) with de/en messages and how to satisfy each, next to the bundle's accessibility foundation and the WCAG criteria per component |
+| ~~`kern://tokens`, `kern://utilities`, `kern://icons`~~ | ~~`application/yaml`~~ | ~~Existing data from `get_tokens`, [templates/utility-reference.ts](../../packages/core/src/ux/templates/utility-reference.ts), `VALID_ICON_NAMES`~~ |
+| ~~`kern://templates/page-shell`~~ | ~~`text/html`~~ | ~~HTML5 shell: `lang`, KERN CSS/fonts, skip link, `<main>`~~ |
 
 The existing docs tools stay: a resource reaches the model only when the client or the user brings it in, so the tools must work on their own. `get_component_docs` adds `resource_link`s to the matching cards.
 

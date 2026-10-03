@@ -300,3 +300,10 @@ Added after reviewing the first bundle ([knowledge-bundle-review.md](knowledge-b
 Added later on 2026-10-02:
 
 8. **The generator builds everything, the docs text included.** It takes the kern-ux.de docs' German text and translates it into English; this repo only consumes the bundle as static JSON under `knowledge/`. The maintainer's decision, which supersedes the earlier "docs prose is never copied" (the docs repository's `LICENSE.md` is EUPL-1.2, while its licence page puts texts and graphics under CC BY-NC-SA).
+
+Added on 2026-10-03, after reviewing the bundle with its English text (details in [r6-kickoff.md](r6-kickoff.md#decisions)):
+
+9. **One command, two files.** `knowledge:import` copies the bundle into `knowledge/` and generates `registry.json` from it, with the code-owned map. `registry.json` becomes internal: only what the server serves, never edited by hand. K1b no longer waits on the generator:
+   - **Canonical HTML:** only the four fallback tools need it, so code picks their bundle examples by ID.
+   - **Tokens:** carried over from today's `registry.json` until the bundle has `tokens.json`.
+10. **Summaries reach tool descriptions only where they change a choice.** A skill in this repo writes one line per tool that needs one, since the best lines name our tools. Section 7's `description-writer` becomes that skill.
