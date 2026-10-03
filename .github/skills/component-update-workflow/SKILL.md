@@ -1,19 +1,19 @@
 ---
 name: component-update-workflow
-description: "Use when updating a KERN UX component workflow in this repo: change a schema, template, tool builder, reviewed guidance, manifest input, or focused validation path. Routes overlay-only, runtime-only, and mixed component changes using bundled YAML references."
-argument-hint: "Describe the component and whether the change touches rendering, guidance, manifest inputs, or all of them"
+description: "Use when updating a KERN UX component workflow in this repo: change a schema, template, tool builder, the notes about a tool, the KERN knowledge import or its ID map, or a focused validation path. Routes knowledge-only, tool-notes-only, runtime-only, and mixed component changes using bundled YAML references."
+argument-hint: "Describe the component and whether the change touches rendering, tool notes, the knowledge import, or all of them"
 ---
 
 # Component Update Workflow
 
-Use this skill for the end-to-end contributor workflow when a change might touch component rendering, MCP tool wiring, reviewed guidance, or the manifest build path.
+Use this skill for the end-to-end contributor workflow when a change might touch component rendering, MCP tool wiring, the notes about a tool, or the KERN knowledge import.
 
 ## When To Use
 
 - Change a component schema or template.
 - Update tool-builder wiring or tool metadata.
-- Update the reviewed notes about a tool in `packages/core/src/ux/tool-notes.ts` (since R4b; `docs/guidance-overlay.json` has no entries and retires with the in-repo generator).
-- Change manifest extraction or overlay validation logic.
+- Update the reviewed notes about a tool in `packages/core/src/ux/tool-notes.ts`.
+- Import a new KERN knowledge bundle, or change the ID map in `packages/core/src/ux/knowledge-map.ts`.
 - Decide which focused validation steps to run for a mixed change.
 
 ## Workflow
@@ -21,16 +21,15 @@ Use this skill for the end-to-end contributor workflow when a change might touch
 1. Classify the change with [change-routing.yml](./references/change-routing.yml).
 2. Load the ordered phases and stop conditions from [workflow-map.yml](./references/workflow-map.yml).
 3. Gather checked-in evidence using [evidence-sources.yml](./references/evidence-sources.yml).
-4. Apply the smallest local change in the owning runtime or manifest surface.
+4. Apply the smallest local change in the owning runtime surface, tool notes or knowledge map.
 5. Choose the narrowest validation path from [validation-matrix.yml](./references/validation-matrix.yml).
 6. Keep human review as the final gate for reviewed guidance and mixed behavior changes.
 
 ## Rules
 
-- Do not edit `packages/core/src/ux/registry.json` directly.
-- Keep extracted guidance separate from `reviewedGuidance`.
+- Do not edit `packages/core/src/ux/registry.json` or `knowledge/` directly: `npm run knowledge:import` generates them.
+- Keep KERN's guidance (from the bundle) separate from the notes about our tools (`reviewedGuidance`, from `tool-notes.ts`).
 - Keep the public MCP contract stable unless the task explicitly requires change.
-- If the change is overlay-only, prefer the narrow drafting prompt in `../../prompts/draft-guidance-overlay-entry.prompt.md` for one-entry authoring.
 
 ## References
 

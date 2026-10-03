@@ -1,10 +1,50 @@
-import type { ReviewedComponentGuidance } from "./types.js";
+/** Text in both languages. */
+type LocalizedText = { de: string; en: string };
+
+export type GuidanceEvidenceKind =
+	| "docs-snapshot"
+	| "story"
+	| "scss"
+	| "schema"
+	| "template"
+	| "test"
+	| "manual-review"
+	| "other";
+
+/** Where a statement in a note comes from. */
+export type ReviewedGuidanceEvidenceRef = {
+	kind: GuidanceEvidenceKind;
+	source: string;
+	locator?: string;
+	note?: LocalizedText;
+};
+
+export type ReviewedGuidanceStatement = {
+	text: LocalizedText;
+	confidence: "high" | "medium" | "low";
+	evidence: ReviewedGuidanceEvidenceRef[];
+};
+
+export type ReviewedGuidanceStatus = "draft" | "reviewed" | "approved";
+
+/** The reviewed notes about one tool, grouped by kind. */
+export type ReviewedComponentGuidance = {
+	status: ReviewedGuidanceStatus;
+	summary: ReviewedGuidanceStatement;
+	primaryUseCases: ReviewedGuidanceStatement[];
+	antiUseCases: ReviewedGuidanceStatement[];
+	requiredA11yPractices: ReviewedGuidanceStatement[];
+	semanticInvariants: ReviewedGuidanceStatement[];
+	compositionPatterns: ReviewedGuidanceStatement[];
+	authoringNotes: ReviewedGuidanceStatement[];
+	migrationNotes: ReviewedGuidanceStatement[];
+};
 
 /**
  * Reviewed notes about this repo's component tools: where a tool deliberately
  * differs from the upstream KERN component, and what that means for authors.
  * They describe our implementation, not KERN, so they live in code rather than
- * in the registry (docs/plan-v2/registry-requirements.md, 2.4).
+ * in the knowledge bundle (docs/plan-v2/registry-requirements.md, 2.4).
  * get_component_docs serves them as reviewedGuidance.
  */
 const TOOL_NOTES: Readonly<Record<string, ReviewedComponentGuidance>> = {

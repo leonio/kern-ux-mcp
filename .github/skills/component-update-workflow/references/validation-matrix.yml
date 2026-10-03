@@ -1,10 +1,14 @@
-version: 1
+version: 2
 scenarios:
-  overlay_only:
+  knowledge_only:
     commands:
-      - npm run validate-guidance-overlay
-      - npm run generate-manifest
-      - npm test -- packages/core/src/ux/manifest-generator.test.ts packages/core/src/ux/tools.behaviour.test.ts packages/core/src/ux/tools.listing.test.ts
+      - npm run knowledge:import -- <bundle-dir> --dry-run   # a new bundle: check it and see what changes
+      - npm run knowledge:import -- <bundle-dir>             # then import it
+      - npm run knowledge:import                             # a map change only: regenerate registry.json from knowledge/
+      - npm test -- packages/core/src/ux/knowledge tools/knowledge packages/core/src/ux/tools.behaviour.test.ts packages/core/src/ux/tools.listing.test.ts
+  tool_notes_only:
+    commands:
+      - npm test -- packages/core/src/ux/tools.behaviour.test.ts
   runtime_only:
     commands:
       - nearest-focused-test-command
@@ -12,9 +16,8 @@ scenarios:
   mixed:
     commands:
       - nearest-focused-test-command
-      - npm run validate-guidance-overlay
-      - npm run generate-manifest
-      - npm test -- packages/core/src/ux/manifest-generator.test.ts packages/core/src/ux/tools.behaviour.test.ts packages/core/src/ux/tools.listing.test.ts
+      - npm run knowledge:import
+      - npm test -- packages/core/src/ux/knowledge tools/knowledge packages/core/src/ux/tools.behaviour.test.ts packages/core/src/ux/tools.listing.test.ts
       - npx tsc --noEmit
 principles:
   - Start with the cheapest behavior-scoped check.

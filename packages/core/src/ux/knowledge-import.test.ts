@@ -168,6 +168,21 @@ describe("checkKnowledgeBundle", () => {
 		]);
 	});
 
+	it("reports a KERN component that takes the ID of a tool without one", () => {
+		const files = bundleWith((files, index) => {
+			files.set("components/layers.json", { id: "layers", status: "stable" });
+			index.components.push({
+				id: "layers",
+				title: "Layers",
+				file: "components/layers.json",
+			});
+		});
+
+		expect(checkKnowledgeBundle(files)).toEqual([
+			"layers maps to layers, which the map says has no component in the bundle.",
+		]);
+	});
+
 	it("reports a picked example that's gone", () => {
 		const files = bundleWith((files) => {
 			files.set("components/details.json", {

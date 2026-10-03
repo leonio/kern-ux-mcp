@@ -29,6 +29,16 @@ export type BundleExampleRef = {
 };
 
 /**
+ * Component tools without a component in the bundle, with the title their
+ * registry entry gets. Their markup is a picked example (FALLBACK_EXAMPLES).
+ */
+export const TOOLS_WITHOUT_BUNDLE_COMPONENT: Readonly<Record<string, string>> =
+	{
+		layers: "Layers",
+		pattern: "Pattern",
+	};
+
+/**
  * The example each fallback tool returns as its HTML, picked by hand: a rule
  * can't choose (it picks deprecated variants and the search field without a
  * label). layers and pattern aren't components in the bundle; their markup is

@@ -1,6 +1,10 @@
 import { describe, expect, it } from "vitest";
 
-import { componentIdFromKernId, FALLBACK_EXAMPLES } from "./knowledge-map.js";
+import {
+	componentIdFromKernId,
+	FALLBACK_EXAMPLES,
+	TOOLS_WITHOUT_BUNDLE_COMPONENT,
+} from "./knowledge-map.js";
 import {
 	COMPONENT_TOOL_IDS,
 	getComponentToolStrategy,
@@ -34,5 +38,14 @@ describe("FALLBACK_EXAMPLES", () => {
 		expect(Object.keys(FALLBACK_EXAMPLES).sort()).toEqual(
 			[...fallbackTools].sort(),
 		);
+	});
+});
+
+describe("TOOLS_WITHOUT_BUNDLE_COMPONENT", () => {
+	it("names component tools that return a picked example", () => {
+		for (const toolId of Object.keys(TOOLS_WITHOUT_BUNDLE_COMPONENT)) {
+			expect(COMPONENT_TOOL_IDS).toContain(toolId);
+			expect(Object.keys(FALLBACK_EXAMPLES)).toContain(toolId);
+		}
 	});
 });

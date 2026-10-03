@@ -21,6 +21,7 @@ Pre-releases go out under the npm dist-tag `alpha`. "Next alpha" means landed on
 | Text in labels, hints, errors, values and option text is escaped | next alpha | Don't pass markup in these strings |
 | `get_index` is gone | next alpha | Nothing: it rendered a placeholder for an internal SCSS file, not a KERN component |
 | `get_section`, `get_card`, `get_card_group`, `get_grid`, `get_disclosure` and `get_fieldset` take only `text`, `html`, `badge` and `field` blocks | next alpha | Build nested layouts (cards in a section, a grid in a disclosure, buttons in a card's body) with `render_composition` or `render_page`; put card actions in `footer` |
+| `get_component_docs` returns `canonicalHtml` only for `details`, `search`, `layers` and `pattern` | next alpha | Call the component's own tool for its markup |
 
 ## Protocol and errors (2.0.0-alpha.69)
 
@@ -123,6 +124,32 @@ Pre-releases go out under the npm dist-tag `alpha`. "Next alpha" means landed on
 ## Validation (next alpha)
 
 - `form.error_id` and `form.error_describedby` check `.kern-error`, the class KERN and the templates use. In 1.x they looked for classes that don't exist and never fired. HTML that passed before can now get these warnings. They are warnings, so strict mode isn't affected.
+
+## KERN knowledge from the knowledge bundle (next alpha)
+
+KERN's facts and text now come from a knowledge bundle built from KERN's three sources (`kern-ux-plain`, the kern-ux.de docs and the React kit), not from the registry this repo generated from `kern-ux-plain` alone.
+
+- **Tool titles follow KERN's names.** Tool names don't change. The titles that do:
+  - `get_checkbox`: "KERN Input Checkboxes"
+  - `get_radio`: "KERN Input Radios"
+  - `get_select`: "KERN Input Select"
+  - `get_textarea`: "KERN Input Textarea"
+  - `get_inputemail`: "KERN Input E-Mail"
+  - `get_tasklist`: "KERN Task List"
+  - `get_lists`: "KERN List"
+  - `get_grid`: "KERN Grid System"
+- **Statuses follow KERN.**
+  - KERN deprecates the container grid, so `get_grid`'s HTML starts with the deprecation banner.
+  - KERN marks lists experimental, so `get_lists`'s HTML starts with the experimental banner.
+- **`get_component_docs`:**
+  - `excerpt` is the English summary of the component's kern-ux.de page, for every component. It was a German excerpt from `COMPONENTS.MD`, for 15 of 44 components.
+  - `sections` are the page's sections: `source` is the section's URL, `heading` the German heading, and `content` an English summary.
+  - `status` can be `docs-only`. Five components KERN documents but doesn't implement (Tabs, Nav, Header, Notification Banner, Bildwortmarke) are documented, without a tool.
+  - `canonicalHtml` is returned only where the component's tool returns it: `details`, `search`, `layers` and `pattern`. For the others, call the component's tool.
+  - `files` lists the `kern-ux-plain` sources the bundle names.
+- **Fallback tools:** `get_details`, `get_search`, `get_layers` and `get_pattern` return KERN's example markup from the bundle.
+  - It's on one line.
+  - `get_pattern` no longer includes the story's inline toggle script.
 
 ## Planned before 2.0.0 (may still change)
 

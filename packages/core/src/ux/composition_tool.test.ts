@@ -564,8 +564,6 @@ describe("standalone composition tools", () => {
 					id: "grid",
 					title: "Grid",
 					status: "stable",
-					category: "foundational",
-					strategy: "layout",
 					guidance: { de: "", en: "" },
 				},
 			]),

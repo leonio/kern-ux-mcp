@@ -1,16 +1,22 @@
-version: 1
+version: 2
 routes:
-  overlay_only:
+  knowledge_only:
     triggers:
-      - docs/guidance-overlay.json
-      - docs/guidance-overlay.schema.json
-      - docs/guidance-overlay-workflow.md
-      - tools/manifest/guidance-overlay.ts
-    primary_owner: docs and manifest overlay inputs
+      - knowledge/
+      - packages/core/src/ux/knowledge-map.ts
+      - packages/core/src/ux/knowledge-import.ts
+      - packages/core/src/ux/knowledge-projection.ts
+      - tools/knowledge
+    primary_owner: the knowledge import and the code-owned ID map
     follow_up:
-      - validate-guidance-overlay
-      - generate-manifest
-      - focused-manifest-tests
+      - knowledge-import
+      - focused-knowledge-tests
+  tool_notes_only:
+    triggers:
+      - packages/core/src/ux/tool-notes.ts
+    primary_owner: notes about our tools (where a tool deliberately differs from KERN)
+    follow_up:
+      - nearest-focused-tests
   runtime_only:
     triggers:
       - packages/core/src/ux/schemas
@@ -23,10 +29,9 @@ routes:
       - typecheck-if-needed
   mixed:
     triggers:
-      - runtime change plus overlay or manifest input change
-    primary_owner: start at the closest behavior owner, then update overlay inputs if the user-facing docs contract changed
+      - runtime change plus a knowledge map or registry contract change
+    primary_owner: start at the closest behavior owner, then the map or the projection if what the registry carries changed
     follow_up:
       - nearest-focused-tests
-      - validate-guidance-overlay
-      - generate-manifest
-      - focused-manifest-tests
+      - knowledge-import
+      - focused-knowledge-tests

@@ -11,6 +11,7 @@ import {
 	type BundleExampleRef,
 	componentIdFromKernId,
 	FALLBACK_EXAMPLES,
+	TOOLS_WITHOUT_BUNDLE_COMPONENT,
 } from "./knowledge-map.js";
 import { COMPONENT_TOOL_IDS } from "./tool-builders/component-tools.js";
 
@@ -88,10 +89,16 @@ export function checkKnowledgeBundle(files: KnowledgeBundleFiles): string[] {
 	}
 
 	for (const toolId of COMPONENT_TOOL_IDS) {
-		const pick = fallbackExample(toolId);
-		const fromOtherDocument =
-			pick !== undefined && !pick.document.startsWith("components/");
-		if (!kernIdsByComponentId.has(toolId) && !fromOtherDocument) {
+		const withoutComponent = Object.hasOwn(
+			TOOLS_WITHOUT_BUNDLE_COMPONENT,
+			toolId,
+		);
+		if (withoutComponent && kernIdsByComponentId.has(toolId)) {
+			problems.push(
+				`${kernIdsByComponentId.get(toolId)?.join(", ")} maps to ${toolId}, which the map says has no component in the bundle.`,
+			);
+		}
+		if (!withoutComponent && !kernIdsByComponentId.has(toolId)) {
 			problems.push(`get_${toolId} has no component in the bundle.`);
 		}
 	}
@@ -105,12 +112,6 @@ export function checkKnowledgeBundle(files: KnowledgeBundleFiles): string[] {
 	}
 
 	return problems;
-}
-
-function fallbackExample(toolId: string): BundleExampleRef | undefined {
-	return Object.hasOwn(FALLBACK_EXAMPLES, toolId)
-		? FALLBACK_EXAMPLES[toolId as keyof typeof FALLBACK_EXAMPLES]
-		: undefined;
 }
 
 /**

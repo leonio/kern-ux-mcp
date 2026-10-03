@@ -1,8 +1,9 @@
+import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
-
 import { describe, expect, it } from "vitest";
 
 import { checkKnowledgeBundle } from "../../packages/core/src/ux/knowledge-import.js";
+import { projectRegistry } from "../../packages/core/src/ux/knowledge-projection.js";
 import {
 	checkAgainstPackerSchema,
 	PACKER_SCHEMA_FILE,
@@ -11,6 +12,9 @@ import {
 } from "./bundle-files.js";
 
 const KNOWLEDGE = fileURLToPath(new URL("../../knowledge/", import.meta.url));
+const REGISTRY = fileURLToPath(
+	new URL("../../packages/core/src/ux/registry.json", import.meta.url),
+);
 
 describe("packerSchemaDef", () => {
 	it.each([
@@ -43,6 +47,12 @@ describe("the checked-in knowledge/", async () => {
 
 	it("passes the checks this repo makes", () => {
 		expect(checkKnowledgeBundle(json)).toEqual([]);
+	});
+
+	it("is what registry.json was generated from (npm run knowledge:import)", () => {
+		const registry = JSON.parse(readFileSync(REGISTRY, "utf8"));
+
+		expect(projectRegistry(json, registry.tokens)).toEqual(registry);
 	});
 
 	it("reports a document the packer's schema rejects", () => {

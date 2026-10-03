@@ -9,13 +9,23 @@ import {
 const manifest = (
 	overrides: Partial<RegistryManifest> = {},
 ): RegistryManifest => ({
-	manifestVersion: "1.0.0",
-	generatedAt: "2026-10-02T08:00:00.000Z",
-	upstream: { package: "@kern-ux/native", version: "2.8.2", commit: "cf2a17b" },
+	manifestVersion: "2.0.0",
+	generatedAt: "2026-10-03T09:09:48Z",
+	upstream: {
+		package: "@kern-ux/native",
+		version: "2.8.2",
+		commit: "c098170a2a9657bc08d5adc1f8f9ae175aee1a64",
+		bundleVersion: "0.2.0",
+	},
 	tokens: { colors: [], spacing: [], rawVariables: [] },
 	components: [
-		{ id: "button", title: "Button", status: "stable" },
-		{ id: "dropdown", title: "Dropdown", status: "experimental" },
+		{ id: "button", kernId: "button", title: "Button", status: "stable" },
+		{
+			id: "dropdown",
+			kernId: "dropdown",
+			title: "Dropdown",
+			status: "experimental",
+		},
 	],
 	...overrides,
 });
@@ -29,52 +39,55 @@ const issuePaths = (input: unknown) => {
 
 describe("RegistryManifestSchema", () => {
 	it("accepts a minimal manifest", () => {
-		expect(RegistryManifestSchema.safeParse(manifest()).success).toBe(true);
+		expect(issuePaths(manifest())).toEqual([]);
 	});
 
-	it("accepts the fields the server no longer reads", () => {
-		const result = RegistryManifestSchema.safeParse(
-			manifest({
-				components: [
-					{
-						id: "heading",
-						title: "Heading",
-						status: "stable",
-						category: "foundational",
-						strategy: "typography",
-						warnings: ["No canonical story template extracted for heading."],
-					},
-				],
-			}),
-		);
-
-		expect(result.success).toBe(true);
-	});
-
-	it("accepts unknown keys and strips them", () => {
-		const input = {
-			...manifest(),
-			generator: { name: "kern-ux-scraper" },
-			components: [
-				{
-					id: "button",
-					title: "Button",
-					status: "stable",
-					summary: { en: "…" },
-				},
-			],
-		};
-		const result = RegistryManifestSchema.parse(input);
-
-		expect(result).not.toHaveProperty("generator");
-		expect(result.components[0]).not.toHaveProperty("summary");
+	it("accepts a docs-only component with the bundle's knowledge", () => {
+		expect(
+			issuePaths(
+				manifest({
+					components: [
+						{
+							id: "notificationbanner",
+							kernId: "notification-banner",
+							title: "Notification Banner",
+							status: "docs-only",
+							summary: "Shows a site-wide message above the page.",
+							knowledge: {
+								similar: [{ id: "alert" }, { name: "Toast" }],
+								whenNotToUse: [
+									{ text: "For one form field.", useInstead: "alert" },
+								],
+							},
+							docs: {
+								url: "https://www.kern-ux.de/komponenten/notification-banner",
+								sections: [
+									{
+										heading: "Kurzbeschreibung",
+										url: "https://www.kern-ux.de/komponenten/notification-banner#kurzbeschreibung",
+									},
+								],
+							},
+							accessibility: [
+								{
+									criterion: "4.1.3",
+									slug: "status-messages",
+									level: "AA",
+									status: "implementation-dependent",
+								},
+							],
+						},
+					],
+				}),
+			),
+		).toEqual([]);
 	});
 
 	it.each([
-		["another major version", { manifestVersion: "2.0.0" }, "manifestVersion"],
+		["another major version", { manifestVersion: "1.0.0" }, "manifestVersion"],
 		[
 			"a version that isn't semver",
-			{ manifestVersion: "1" },
+			{ manifestVersion: "2" },
 			"manifestVersion",
 		],
 		["a date that isn't ISO 8601", { generatedAt: "yesterday" }, "generatedAt"],
@@ -89,16 +102,33 @@ describe("RegistryManifestSchema", () => {
 		).toEqual([path]);
 	});
 
-	it("rejects component IDs that can't be tool names", () => {
+	it("rejects KERN's hyphenated IDs: the registry uses ours", () => {
 		expect(
 			issuePaths(
 				manifest({
 					components: [
-						{ id: "Input Text", title: "Input Text", status: "stable" },
+						{ id: "input-text", title: "Input Text", status: "stable" },
 					],
 				}),
 			),
 		).toEqual(["components.0.id"]);
+	});
+
+	it("rejects a summary longer than the bundle allows", () => {
+		expect(
+			issuePaths(
+				manifest({
+					components: [
+						{
+							id: "button",
+							title: "Button",
+							status: "stable",
+							summary: "x".repeat(161),
+						},
+					],
+				}),
+			),
+		).toEqual(["components.0.summary"]);
 	});
 
 	it("rejects duplicate component IDs at the duplicate", () => {
@@ -130,14 +160,14 @@ describe("registryFromManifest", () => {
 
 	it("refuses another contract major", () => {
 		expect(() =>
-			registryFromManifest(manifest({ manifestVersion: "2.0.0" })),
+			registryFromManifest(manifest({ manifestVersion: "1.0.0" })),
 		).toThrow(
-			"registry.json has manifestVersion 2.0.0, but this server reads contract major 1.",
+			"registry.json has manifestVersion 1.0.0, but this server reads contract major 2.",
 		);
 	});
 
 	it("refuses a manifest without components", () => {
-		expect(() => registryFromManifest({ manifestVersion: "1.0.0" })).toThrow(
+		expect(() => registryFromManifest({ manifestVersion: "2.0.0" })).toThrow(
 			'expected keys "manifestVersion" and "components"',
 		);
 	});

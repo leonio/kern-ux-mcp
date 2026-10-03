@@ -190,7 +190,7 @@ function buildDocsTool(registry: Registry): ToolDef {
 
 	const outputSchema = z.object({
 		componentId: z.string(),
-		status: z.enum(["stable", "experimental", "deprecated"]),
+		status: z.enum(["stable", "experimental", "deprecated", "docs-only"]),
 		files: z.array(z.string()),
 		excerpt: z.string(),
 		canonicalHtml: z.string().optional(),
@@ -236,24 +236,25 @@ function buildDocsTool(registry: Registry): ToolDef {
 			const locale = pickLocale(args.locale);
 
 			const excerpt =
-				component.docs?.excerpt ??
+				component.docs?.summary ??
+				component.summary ??
 				`No packaged component documentation available for '${component.id}'.`;
 
-			// Build file list from manifest sources
-			const files: string[] = ["registry.json"];
-			if (component.sources?.scss) {
-				files.push(...component.sources.scss);
-			}
-			if (component.sources?.stories) {
-				files.push(...component.sources.stories);
-			}
+			// The registry, then the kern-ux-plain sources the bundle names.
+			const files = ["registry.json", ...(component.sources ?? [])];
 
-			// Build sections from structured guidance
-			const sections = (component.docs?.sections ?? []).map((s) => ({
-				source: s.source,
-				heading: s.heading,
-				content: s.content,
-			}));
+			// The docs page's sections that have an English summary, linked.
+			const sections = (component.docs?.sections ?? []).flatMap((section) =>
+				section.summary
+					? [
+							{
+								source: section.url,
+								heading: section.heading,
+								content: section.summary,
+							},
+						]
+					: [],
+			);
 
 			// Reviewed notes about our tool come from code (tool-notes.ts), not the registry.
 			const notes = getToolNotes(component.id);

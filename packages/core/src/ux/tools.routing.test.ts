@@ -24,8 +24,6 @@ describe("createTools routing", () => {
 				id: "descriptionlist",
 				title: "DescriptionList",
 				status: "stable",
-				category: "foundational",
-				strategy: "layout",
 				guidance: { de: "", en: "" },
 			},
 		]);
@@ -48,8 +46,6 @@ describe("createTools routing", () => {
 				id: "heading",
 				title: "Heading",
 				status: "stable",
-				category: "foundational",
-				strategy: "typography",
 				guidance: { de: "", en: "" },
 			},
 		]);
@@ -74,8 +70,6 @@ describe("createTools routing", () => {
 				id: "divider",
 				title: "Divider",
 				status: "stable",
-				category: "foundational",
-				strategy: "layout",
 				guidance: { de: "", en: "" },
 			},
 		]);
@@ -96,8 +90,6 @@ describe("createTools routing", () => {
 				id: "body",
 				title: "Body",
 				status: "stable",
-				category: "foundational",
-				strategy: "typography",
 				guidance: { de: "", en: "" },
 			},
 		]);
@@ -119,8 +111,6 @@ describe("createTools routing", () => {
 				id: "label",
 				title: "Label",
 				status: "stable",
-				category: "foundational",
-				strategy: "typography",
 				guidance: { de: "", en: "" },
 			},
 		]);
@@ -141,8 +131,6 @@ describe("createTools routing", () => {
 				id: "lists",
 				title: "Lists",
 				status: "stable",
-				category: "foundational",
-				strategy: "typography",
 				guidance: { de: "", en: "" },
 			},
 		]);
@@ -164,8 +152,6 @@ describe("createTools routing", () => {
 				id: "title",
 				title: "Title",
 				status: "stable",
-				category: "foundational",
-				strategy: "typography",
 				guidance: { de: "", en: "" },
 			},
 		]);
@@ -187,8 +173,6 @@ describe("createTools routing", () => {
 				id: "inputemail",
 				title: "InputEmail",
 				status: "stable",
-				category: "interactive",
-				strategy: "fallback",
 				guidance: { de: "", en: "" },
 			},
 		]);
@@ -211,8 +195,6 @@ describe("createTools routing", () => {
 				id: "inputfile",
 				title: "InputFile",
 				status: "stable",
-				category: "interactive",
-				strategy: "fallback",
 				guidance: { de: "", en: "" },
 			},
 		]);
@@ -235,8 +217,6 @@ describe("createTools routing", () => {
 				id: "tasklist",
 				title: "Tasklist",
 				status: "stable",
-				category: "interactive",
-				strategy: "fallback",
 				guidance: { de: "", en: "" },
 			},
 		]);
@@ -266,8 +246,6 @@ describe("createTools routing", () => {
 				id: "grid",
 				title: "Grid",
 				status: "stable",
-				category: "foundational",
-				strategy: "layout",
 				guidance: { de: "", en: "" },
 			},
 		]);
@@ -290,8 +268,6 @@ describe("createTools routing", () => {
 				id: "fieldset",
 				title: "Fieldset",
 				status: "stable",
-				category: "foundational",
-				strategy: "layout",
 				guidance: { de: "", en: "" },
 			},
 		]);
@@ -317,8 +293,7 @@ describe("createTools routing", () => {
 	});
 
 	describe("routing by COMPONENT_TOOLS", () => {
-		// The code's table decides which components get a tool and how it's built;
-		// the registry's category and strategy are not read.
+		// The code's table decides which components get a tool and how it's built.
 		const component = (
 			id: string,
 			extra: Partial<ComponentInfo> = {},
@@ -326,12 +301,10 @@ describe("createTools routing", () => {
 			id,
 			title: id,
 			status: "stable",
-			category: "interactive",
-			strategy: "fallback",
 			...extra,
 		});
 
-		it("builds layout tools by the table, whatever the registry's strategy says", async () => {
+		it("builds layout tools by the table", async () => {
 			const tools = createTools(createRegistry([component("divider")]));
 			const result = await callHandler<RenderedToolResult>(
 				tools.getTool("get_divider"),
@@ -341,7 +314,7 @@ describe("createTools routing", () => {
 			expect(result.html).toContain("kern-divider");
 		});
 
-		it("builds typography tools by the table, whatever the registry's strategy says", async () => {
+		it("builds typography tools by the table", async () => {
 			const tools = createTools(createRegistry([component("title")]));
 			const result = await callHandler<RenderedToolResult>(
 				tools.getTool("get_title"),
@@ -355,7 +328,6 @@ describe("createTools routing", () => {
 			const tools = createTools(
 				createRegistry([
 					component("mystery", {
-						strategy: "interactive",
 						htmlCanonical: '<div class="kern-mystery"></div>',
 					}),
 				]),
@@ -372,30 +344,6 @@ describe("createTools routing", () => {
 				{},
 			);
 			expect(listed.components.map((c) => c.id)).not.toContain("mystery");
-		});
-
-		it("keeps generator warnings out of tool output", async () => {
-			const tools = createTools(
-				createRegistry([
-					component("heading", {
-						warnings: ["No canonical story template extracted for heading."],
-					}),
-					component("divider", {
-						warnings: ["No canonical story template extracted for divider."],
-					}),
-				]),
-			);
-			const heading = await callHandler<RenderedToolResult>(
-				tools.getTool("get_heading"),
-				{ text: "Titel", level: 2 },
-			);
-			const divider = await callHandler<RenderedToolResult>(
-				tools.getTool("get_divider"),
-				{ decorative: true },
-			);
-
-			expect(heading.warnings).toEqual([]);
-			expect(divider.warnings).toEqual([]);
 		});
 
 		it("serves the registry's canonical HTML for fallback components", async () => {

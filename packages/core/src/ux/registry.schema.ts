@@ -3,130 +3,121 @@ import { REGISTRY_CONTRACT_MAJOR } from "./registry.js";
 
 /**
  * The registry contract: the shape of registry.json, the data the server reads.
- * The registry types derive from it, and a test checks the checked-in file
- * against it. The server doesn't load this module at startup (see
- * REGISTRY_CONTRACT_MAJOR).
+ * `npm run knowledge:import` generates the file from the knowledge bundle in
+ * knowledge/ (knowledge-projection.ts). It holds only what the server serves,
+ * with our component IDs; nobody edits it by hand. Tests check the checked-in
+ * file against this contract and against a fresh projection. The server
+ * doesn't load this module at startup (see REGISTRY_CONTRACT_MAJOR).
  */
 
-const notRead = (what: string) => ({
-	deprecated: true,
-	description: `${what} The server doesn't read it; it may be dropped in the next major version.`,
-});
-
-const LocalizedTextSchema = z.object({ de: z.string(), en: z.string() });
+const LinkSchema = z.string().regex(/^https:\/\//);
 
 export const ComponentStatusSchema = z.enum([
 	"stable",
 	"experimental",
 	"deprecated",
+	"docs-only",
 ]);
 
-export const ComponentCategorySchema = z.enum(["interactive", "foundational"]);
-
-export const ComponentStrategySchema = z.enum([
-	"interactive",
-	"layout",
-	"typography",
-	"fallback",
-]);
-
-export const GuidanceSectionSchema = z.object({
-	source: z
-		.string()
-		.describe("Where the section comes from, e.g. COMPONENTS.MD."),
-	heading: z.string(),
-	content: z.string(),
+export const ComponentKnowledgeSchema = z.object({
+	whenToUse: z.array(z.string()).optional(),
+	whenNotToUse: z
+		.array(
+			z.object({
+				text: z.string(),
+				useInstead: z.string().optional().describe("Our component ID."),
+			}),
+		)
+		.optional(),
+	dos: z.array(z.string()).optional(),
+	donts: z.array(z.string()).optional(),
+	contentGuidelines: z.array(z.string()).optional(),
+	similar: z
+		.array(
+			z.object({
+				id: z.string().optional().describe("Our component ID."),
+				name: z
+					.string()
+					.optional()
+					.describe("A component KERN doesn't have, e.g. Tooltip."),
+				difference: z.string().optional(),
+			}),
+		)
+		.optional(),
 });
 
 export const ComponentDocsSchema = z.object({
-	excerpt: z
+	url: LinkSchema.describe("The component's page on kern-ux.de."),
+	summary: z.string().optional(),
+	sections: z.array(
+		z.object({
+			heading: z.string().describe("The page's heading, in German."),
+			url: LinkSchema,
+			summary: z.string().optional(),
+		}),
+	),
+});
+
+export const AccessibilityCriterionSchema = z.object({
+	criterion: z
 		.string()
-		.describe("The documentation get_component_docs returns as excerpt."),
-	sections: z.array(GuidanceSectionSchema).optional(),
-});
-
-export const GuidanceEvidenceKindSchema = z.enum([
-	"docs-snapshot",
-	"story",
-	"scss",
-	"schema",
-	"template",
-	"test",
-	"manual-review",
-	"other",
-]);
-
-export const ReviewedGuidanceEvidenceRefSchema = z.object({
-	kind: GuidanceEvidenceKindSchema,
-	source: z.string(),
-	locator: z.string().optional(),
-	note: LocalizedTextSchema.optional(),
-});
-
-export const ReviewedGuidanceStatementSchema = z.object({
-	text: LocalizedTextSchema,
-	confidence: z.enum(["high", "medium", "low"]),
-	evidence: z.array(ReviewedGuidanceEvidenceRefSchema),
-});
-
-export const ReviewedComponentGuidanceSchema = z.object({
-	status: z.enum(["draft", "reviewed", "approved"]),
-	summary: ReviewedGuidanceStatementSchema,
-	primaryUseCases: z.array(ReviewedGuidanceStatementSchema),
-	antiUseCases: z.array(ReviewedGuidanceStatementSchema),
-	requiredA11yPractices: z.array(ReviewedGuidanceStatementSchema),
-	semanticInvariants: z.array(ReviewedGuidanceStatementSchema),
-	compositionPatterns: z.array(ReviewedGuidanceStatementSchema),
-	authoringNotes: z.array(ReviewedGuidanceStatementSchema),
-	migrationNotes: z.array(ReviewedGuidanceStatementSchema),
+		.optional()
+		.describe("WCAG success criterion, e.g. 1.3.1."),
+	slug: z.string(),
+	level: z.enum(["A", "AA", "AAA"]).optional(),
+	status: z
+		.enum(["passed", "implementation-dependent", "failed", "unknown"])
+		.describe(
+			"The strictest status the docs record for the criterion: failed, then implementation-dependent, unknown, passed.",
+		),
 });
 
 export const ComponentInfoSchema = z.object({
 	id: z
 		.string()
-		.regex(/^[a-z0-9][a-z0-9_-]*$/)
+		.regex(/^[a-z0-9]+$/)
 		.describe(
-			"Stable component ID, lowercase. If the server has a tool for the component, it's get_<id>.",
+			"Our component ID: KERN's without hyphens (knowledge-map.ts). If the server has a tool for the component, it's get_<id>.",
+		),
+	kernId: z
+		.string()
+		.optional()
+		.describe(
+			"KERN's ID, e.g. input-text. Missing for tools whose markup comes from elsewhere in the bundle (layers, pattern).",
 		),
 	title: z
 		.string()
 		.min(1)
-		.describe("The component's name. Tool titles derive from it."),
+		.describe("The component's English name. Tool titles derive from it."),
+	titleDe: z
+		.string()
+		.optional()
+		.describe("The German name, where it differs from the English one."),
 	status: ComponentStatusSchema.describe(
-		"experimental and deprecated components get a banner and a warning in tool output.",
+		"experimental and deprecated components get a banner and a warning in tool output. docs-only components have no implementation in KERN.",
 	),
-	category: ComponentCategorySchema.optional().meta(
-		notRead("Tool routing from the in-repo generator."),
-	),
-	strategy: ComponentStrategySchema.optional().meta(
-		notRead("Tool routing from the in-repo generator."),
-	),
-	docs: ComponentDocsSchema.optional().describe(
-		"Extracted documentation, served by get_component_docs.",
-	),
-	reviewedGuidance: ReviewedComponentGuidanceSchema.optional().meta(
-		notRead(
-			"Notes from the retired guidance overlay. The server's notes about its own tools are in code.",
-		),
-	),
-	sources: z
+	group: z.string().optional(),
+	synonyms: z.array(z.string()).optional(),
+	links: z
 		.object({
-			scss: z.array(z.string()).optional(),
-			stories: z.array(z.string()).optional(),
+			docs: LinkSchema.optional(),
+			figma: LinkSchema.optional(),
+			source: LinkSchema.optional(),
 		})
+		.optional(),
+	summary: z.string().max(160).optional(),
+	knowledge: ComponentKnowledgeSchema.optional(),
+	docs: ComponentDocsSchema.optional(),
+	accessibility: z.array(AccessibilityCriterionSchema).optional(),
+	sources: z
+		.array(z.string())
 		.optional()
 		.describe("Source files, relative to the kern-ux-plain root."),
 	htmlCanonical: z
 		.string()
 		.optional()
 		.describe(
-			"Canonical example markup. Tools without their own template return it.",
-		),
-	warnings: z
-		.array(z.string())
-		.optional()
-		.meta(
-			notRead("Generator diagnostics; they belong in the generator's report."),
+			"The markup a fallback tool returns, picked from the bundle by example ID.",
 		),
 });
 
@@ -152,9 +143,11 @@ export const UpstreamSourceSchema = z.object({
 	commit: z
 		.string()
 		.optional()
-		.describe(
-			"The commit of that release in kern-ux-plain (the release tag's).",
-		),
+		.describe("The kern-ux-plain commit the bundle was built from."),
+	bundleVersion: z
+		.string()
+		.optional()
+		.describe("The knowledge bundle the registry was generated from."),
 });
 
 export const RegistryManifestSchema = z
@@ -165,9 +158,13 @@ export const RegistryManifestSchema = z
 			.describe(
 				`The contract version (semver). This server reads major ${REGISTRY_CONTRACT_MAJOR}.`,
 			),
-		generatedAt: z.iso.datetime().describe("When the registry was generated."),
+		generatedAt: z.iso
+			.datetime()
+			.describe("When the bundle the registry comes from was generated."),
 		upstream: UpstreamSourceSchema,
-		tokens: TokenSnapshotSchema,
+		tokens: TokenSnapshotSchema.describe(
+			"Carried over from the previous registry until the bundle has tokens.",
+		),
 		components: z.array(ComponentInfoSchema),
 	})
 	.superRefine((manifest, ctx) => {
@@ -182,28 +179,13 @@ export const RegistryManifestSchema = z
 			}
 			seen.add(component.id);
 		});
-	})
-	.meta({
-		title: "KERN UX MCP registry",
-		description:
-			"registry.json for @leonio/kern-ux-mcp: KERN UX components, tokens and the upstream release they describe. Unknown keys are allowed.",
 	});
 
 export type ComponentStatus = z.infer<typeof ComponentStatusSchema>;
-export type ComponentCategory = z.infer<typeof ComponentCategorySchema>;
-export type ComponentStrategy = z.infer<typeof ComponentStrategySchema>;
-export type GuidanceSection = z.infer<typeof GuidanceSectionSchema>;
+export type ComponentKnowledge = z.infer<typeof ComponentKnowledgeSchema>;
 export type ComponentDocs = z.infer<typeof ComponentDocsSchema>;
-export type GuidanceEvidenceKind = z.infer<typeof GuidanceEvidenceKindSchema>;
-export type ReviewedGuidanceStatus = ReviewedComponentGuidance["status"];
-export type ReviewedGuidanceEvidenceRef = z.infer<
-	typeof ReviewedGuidanceEvidenceRefSchema
->;
-export type ReviewedGuidanceStatement = z.infer<
-	typeof ReviewedGuidanceStatementSchema
->;
-export type ReviewedComponentGuidance = z.infer<
-	typeof ReviewedComponentGuidanceSchema
+export type AccessibilityCriterion = z.infer<
+	typeof AccessibilityCriterionSchema
 >;
 export type ComponentInfo = z.infer<typeof ComponentInfoSchema>;
 export type TokenSnapshot = z.infer<typeof TokenSnapshotSchema>;

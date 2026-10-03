@@ -6,7 +6,7 @@ import type { Registry, RegistryManifest } from "./types.js";
  * reads. It lives here, not in the schema module, so loading the registry at
  * startup doesn't build the contract's Zod schemas (about 10 ms).
  */
-export const REGISTRY_CONTRACT_MAJOR = 1;
+export const REGISTRY_CONTRACT_MAJOR = 2;
 
 function toRegistry(manifest: RegistryManifest): Registry {
 	const components = [...manifest.components].sort((a, b) =>

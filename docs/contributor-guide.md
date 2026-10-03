@@ -1,17 +1,18 @@
 # Contributor Guide
 
-This guide is for contributors changing schemas, templates, manifest generation, or reviewed guidance. Runtime consumers should start with [README.md](../README.md).
+This guide is for contributors changing schemas, templates, the KERN knowledge import, or the notes about our tools. Runtime consumers should start with [README.md](../README.md).
 
 ## How It Fits Together
 
 ```mermaid
 flowchart LR
   subgraph Build_Time
-    A[kern-ux-plain stories + docs]
-    B[docs/guidance-overlay.json]
-    C[tools/manifest/build-manifest.ts]
+    A[knowledge bundle from kern-ux-knowledge-packer]
+    B[knowledge/]
+    C[npm run knowledge:import]
     D[packages/core/src/ux/registry.json]
     A --> C
+    C --> B
     B --> C
     C --> D
   end
@@ -42,62 +43,39 @@ Runtime flow:
 
 Build-only tooling:
 
-- manifest generator: `tools/manifest/build-manifest.ts`
-- overlay loader/validator: `tools/manifest/guidance-overlay.ts`
-- overlay validation entrypoint: `tools/manifest/validate-guidance-overlay.ts`
+- knowledge import: `tools/knowledge/import.ts`, with the checks and diff in `packages/core/src/ux/knowledge-import.ts` and the projection in `packages/core/src/ux/knowledge-projection.ts`
+- the ID map: `packages/core/src/ux/knowledge-map.ts`
 - local dev loop script: `tools/dev/dev-loop.ps1`
 
-## Runtime Manifest Shape
+## The runtime registry
 
-The generated registry keeps only the data needed by runtime tools and curated docs output.
+`packages/core/src/ux/registry.json` holds only what the server serves, with our component IDs. `npm run knowledge:import` generates it from `knowledge/`; nobody edits it by hand. Its contract is `RegistryManifestSchema` in `packages/core/src/ux/registry.schema.ts` (major 2), and tests check the checked-in file against the contract and against a fresh projection of `knowledge/`.
 
-Included in `packages/core/src/ux/registry.json`:
+Per component, from the bundle:
 
-- canonical component ids
-- `title`, `status`, `category`, `strategy`
-- `htmlCanonical`
-- `warnings`
-- token snapshot (`colors`, `spacing`, `rawVariables`)
-- extracted docs as `docs.excerpt` plus optional `docs.sections`
-- additive curated guidance as `reviewedGuidance`
+- our ID (KERN's without hyphens, through `knowledge-map.ts`) and KERN's ID
+- title, status (`stable`, `experimental`, `deprecated` or `docs-only`), group, synonyms, links
+- the English summary, when to use, do's and don'ts, and similar components, as the bundle has them
+- the docs page's sections with their English summaries and links
+- the WCAG criteria, one per criterion with the strictest status
+- the kern-ux-plain sources
+- `htmlCanonical`, only for the four fallback tools, picked by example ID in `knowledge-map.ts`
 
-Not packaged from raw source extraction:
+Plus the upstream pins from the bundle's index, and the token names, carried over from the previous registry until the bundle has tokens.
 
-- raw SCSS docblock provenance text
-- duplicated extracted `de` / `en` doc payloads
-- author/date/file metadata from SCSS comments
+## Importing KERN knowledge
 
-Reviewed guidance remains localized and additive. Extracted docs are intentionally lean and non-localized.
-
-## Manifest Workflow
-
-Regenerate the manifest when KERN UX stories, markdown component docs, reviewed guidance, or manifest extraction logic changes:
+The packer (`kern-ux-knowledge-packer`) owns the bundle and its schema, and knows nothing about this repo. To take in a new bundle:
 
 ```bash
-npm run validate-guidance-overlay
-npm run generate-manifest
-npm test -- packages/core/src/ux/manifest-generator.test.ts packages/core/src/ux/tools.behaviour.test.ts packages/core/src/ux/tools.listing.test.ts
+npm run knowledge:import -- ../kern-ux-scraper/bundle/final --dry-run   # check it and print what changes
+npm run knowledge:import -- ../kern-ux-scraper/bundle/final             # replace knowledge/ and regenerate registry.json
+npm run knowledge:import                                                 # regenerate registry.json from knowledge/ only
 ```
 
-The build inlines the checked-in manifest into each host bundle (`packages/*/dist/index.js`):
+The import validates every file against the schema that ships inside the bundle, then runs the checks only this repo can make: the bundle's major version is one we read, every component tool finds its component, the picked examples exist, and no status is new to the tools. It prints the bundle's version, the packer's text and drift counts, and what changed per file. After an import, run `npm test` and review the snapshot diffs: tool titles and `get_component_docs` come from the registry.
 
-```bash
-npm run build
-```
-
-If you are only running the server, you do not need to regenerate the manifest. Regeneration is a contributor task.
-
-### The registry contract and imports
-
-`registry.json` must fit the registry contract, `RegistryManifestSchema` in `packages/core/src/ux/registry.schema.ts`. A core test checks the checked-in file against it. The external generator (`kern-ux-scraper`, see [plan-v2/registry-requirements.md](plan-v2/registry-requirements.md)) validates against the exported JSON Schema, `docs/registry.schema.json`.
-
-```bash
-npm run registry:schema                                   # after changing the contract: re-export docs/registry.schema.json
-npm run registry:import -- ../kern-ux-scraper/registry.json --dry-run   # check a generated registry and print what changes
-npm run registry:import -- ../kern-ux-scraper/registry.json             # check, then write packages/core/src/ux/registry.json
-```
-
-`registry:import` stops if the file doesn't fit the contract or lacks a component that has a tool (`COMPONENT_TOOLS`). It prints added, removed and changed components, token changes, components that are documented only, and unknown keys (accepted, not read). After an import, run `npm test` and review the snapshot diffs: tool titles come from the registry.
+The build inlines `registry.json` into each host bundle; `knowledge/` is never shipped. If you only run the server, you don't need the import.
 
 ## Guidance Sources
 
@@ -109,15 +87,7 @@ Use checked-in evidence in this order:
 4. local templates in `packages/core/src/ux/templates/`
 5. local tests and validation rules
 
-Reviewed notes about our tools (where a tool deliberately differs from upstream KERN) live in `packages/core/src/ux/tool-notes.ts` since R4b. The overlay below has no entries and retires with the in-repo generator.
-
-Curated overlay assets:
-
-- payload: `docs/guidance-overlay.json`
-- schema: `docs/guidance-overlay.schema.json`
-- workflow: `docs/guidance-overlay-workflow.md`
-- drafting prompt: `.github/prompts/draft-guidance-overlay-entry.prompt.md`
-- workflow skill: `.github/skills/component-update-workflow/SKILL.md`
+KERN's guidance comes from the knowledge bundle. Reviewed notes about our tools (where a tool deliberately differs from upstream KERN) live in `packages/core/src/ux/tool-notes.ts`. The end-to-end workflow is in `.github/skills/component-update-workflow/SKILL.md`.
 
 ## Schema Context
 
@@ -215,13 +185,12 @@ Module cache:
 - Public MCP tool names stay `get_<component-id>` plus utility tools.
 - `checkboxlist` remains merged into `get_checkbox`.
 - `strict: true` must keep throwing on validation failures.
-- Keep extracted docs and reviewed guidance separate.
+- Keep KERN's guidance (from the bundle) and the notes about our tools (`tool-notes.ts`) separate.
 - The `tools/list` output is a public contract. Refactors must leave the tool-listing snapshot unchanged, and a deliberate change must show up as a reviewed snapshot diff.
 
 ## Repo Customizations
 
 - Always-on repo invariants live in `.github/copilot-instructions.md`.
-- File-scoped overlay and manifest rules live in `.github/instructions/guidance-overlay.instructions.md`.
 - File-scoped component-change rules live in `.github/instructions/component-change.instructions.md`.
 - The end-to-end contributor workflow lives in `.github/skills/component-update-workflow/SKILL.md` and its bundled YAML references.
 

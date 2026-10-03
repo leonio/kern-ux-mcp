@@ -8,21 +8,24 @@ export type Locale = "de" | "en";
 
 // The registry types derive from the contract in registry.schema.ts.
 export type {
-	ComponentCategory,
+	AccessibilityCriterion,
 	ComponentDocs,
 	ComponentInfo,
+	ComponentKnowledge,
 	ComponentStatus,
-	ComponentStrategy,
-	GuidanceEvidenceKind,
-	GuidanceSection,
 	RegistryManifest,
+	TokenSnapshot,
+	UpstreamSource,
+} from "./registry.schema.js";
+
+// The notes about our tools are code (tool-notes.ts).
+export type {
+	GuidanceEvidenceKind,
 	ReviewedComponentGuidance,
 	ReviewedGuidanceEvidenceRef,
 	ReviewedGuidanceStatement,
 	ReviewedGuidanceStatus,
-	TokenSnapshot,
-	UpstreamSource,
-} from "./registry.schema.js";
+} from "./tool-notes.js";
 
 /** The loaded registry, with components sorted by ID and indexed. */
 export type Registry = {

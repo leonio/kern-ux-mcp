@@ -29,8 +29,6 @@ describe("tool behaviour", () => {
 				id: "details",
 				title: "Details",
 				status: "deprecated",
-				category: "interactive",
-				strategy: "fallback",
 				guidance: { de: "", en: "" },
 				htmlCanonical: '<div class="kern-body">Legacy</div>',
 			},
@@ -52,8 +50,6 @@ describe("tool behaviour", () => {
 				id: "details",
 				title: "Details",
 				status: "deprecated",
-				category: "interactive",
-				strategy: "fallback",
 				guidance: { de: "", en: "" },
 				htmlCanonical: '<div class="kern-body">Legacy</div>',
 			},
@@ -91,31 +87,26 @@ describe("tool behaviour", () => {
 				title: "Kopfzeile",
 				status: "stable",
 				docs: {
-					excerpt: "Sanitized docs excerpt",
+					url: "https://www.kern-ux.de/komponenten/kopfzeile",
+					summary: "The docs page in short",
 					sections: [
 						{
-							source: "COMPONENTS.MD",
-							heading: "Kopfzeile",
-							content: "Sanitized section content",
+							heading: "Kurzbeschreibung",
+							url: "https://www.kern-ux.de/komponenten/kopfzeile#kurzbeschreibung",
+							summary: "The first section in short",
+						},
+						{
+							heading: "Weitere Hinweise",
+							url: "https://www.kern-ux.de/komponenten/kopfzeile#weitere-hinweise",
 						},
 					],
 				},
-				// A registry built before R4b still carries the overlay; it isn't read.
-				reviewedGuidance: {
-					status: "draft",
-					summary: {
-						text: { de: "Platzhalter", en: "Placeholder header" },
-						confidence: "low",
-						evidence: [],
-					},
-					primaryUseCases: [],
-					antiUseCases: [],
-					requiredA11yPractices: [],
-					semanticInvariants: [],
-					compositionPatterns: [],
-					authoringNotes: [],
-					migrationNotes: [],
-				},
+			},
+			{
+				id: "loader",
+				title: "Loader",
+				status: "stable",
+				summary: "Shows that something is loading.",
 			},
 			{ id: "body", title: "Body", status: "stable" },
 		]);
@@ -129,8 +120,14 @@ describe("tool behaviour", () => {
 			componentId: "kopfzeile",
 			locale: "de",
 		});
-		expect(result.excerpt).toBe("Sanitized docs excerpt");
-		expect(result.sections?.[0].content).toBe("Sanitized section content");
+		expect(result.excerpt).toBe("The docs page in short");
+		expect(result.sections).toEqual([
+			{
+				source: "https://www.kern-ux.de/komponenten/kopfzeile#kurzbeschreibung",
+				heading: "Kurzbeschreibung",
+				content: "The first section in short",
+			},
+		]);
 		expect(result.reviewedGuidance?.status).toBe("reviewed");
 		expect(result.reviewedGuidance?.summary.text).toContain(
 			"Die Kopfzeile ist die schmale Leiste mit Bundesflagge",
@@ -146,8 +143,12 @@ describe("tool behaviour", () => {
 		expect(resultEn.reviewedGuidance?.summary.text).toContain(
 			"The tool renders the CSS variant of the upstream component",
 		);
-		expect(JSON.stringify(resultEn.reviewedGuidance)).not.toContain(
-			"Placeholder header",
+
+		const resultWithSummaryOnly = await callHandler<DocsToolResult>(docsTool, {
+			componentId: "loader",
+		});
+		expect(resultWithSummaryOnly.excerpt).toBe(
+			"Shows that something is loading.",
 		);
 
 		const resultWithoutDocs = await callHandler<DocsToolResult>(docsTool, {
@@ -202,16 +203,10 @@ describe("tool behaviour", () => {
 	});
 
 	describe("utility and discovery tools", () => {
-		const component = (
-			id: string,
-			category: ComponentInfo["category"],
-			strategy: ComponentInfo["strategy"],
-		): ComponentInfo => ({
+		const component = (id: string): ComponentInfo => ({
 			id,
 			title: id,
 			status: "stable",
-			category,
-			strategy,
 		});
 
 		it("validate_html returns the validator result for the given markup", async () => {
@@ -251,10 +246,7 @@ describe("tool behaviour", () => {
 
 		describe("list_components_by_category", () => {
 			const tools = createTools(
-				createRegistry([
-					component("button", "interactive", "interactive"),
-					component("heading", "foundational", "typography"),
-				]),
+				createRegistry([component("button"), component("heading")]),
 			);
 			type Listed = {
 				components: Array<{ id: string; category: string; strategy: string }>;
@@ -299,15 +291,12 @@ describe("tool behaviour", () => {
 				).rejects.toThrow("Unknown componentId: nope");
 			});
 
-			it("lists the registry file plus scss and story sources", async () => {
+			it("lists the registry file plus the kern-ux-plain sources", async () => {
 				const tools = createTools(
 					createRegistry([
 						{
-							...component("heading", "foundational", "typography"),
-							sources: {
-								scss: ["heading.scss"],
-								stories: ["Heading.stories.js"],
-							},
+							...component("heading"),
+							sources: ["heading.scss", "Heading.stories.js"],
 						},
 					]),
 				);
@@ -325,15 +314,15 @@ describe("tool behaviour", () => {
 
 			it.each([
 				{
-					entry: component("button", "interactive", "interactive"),
+					entry: component("button"),
 					expected: ["get_grid", "validate_html", "get_icon", "list_icons"],
 				},
 				{
-					entry: component("dialog", "interactive", "interactive"),
+					entry: component("dialog"),
 					expected: ["get_grid", "validate_html", "get_button"],
 				},
 				{
-					entry: component("card", "interactive", "interactive"),
+					entry: component("card"),
 					expected: [
 						"get_grid",
 						"validate_html",
@@ -342,7 +331,7 @@ describe("tool behaviour", () => {
 					],
 				},
 				{
-					entry: component("heading", "foundational", "typography"),
+					entry: component("heading"),
 					expected: undefined,
 				},
 			])(

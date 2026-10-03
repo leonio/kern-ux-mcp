@@ -21,7 +21,7 @@ feature/add-stepper-component
 fix/checkbox-validation-error
 chore/update-biome-2.5
 ci/add-release-workflow
-docs/guidance-overlay-button
+docs/component-docs-button
 release/1.2.0
 ```
 
@@ -101,9 +101,12 @@ hotfix/*  ───────────────────────�
 ## Local Development
 
 ```sh
-# First-time: install and generate the manifest (needs kern-ux-plain as sibling)
+# First-time: install
 npm install
-npm run generate-manifest
+
+# Import a new KERN knowledge bundle (written by kern-ux-knowledge-packer)
+npm run knowledge:import -- ../kern-ux-scraper/bundle/final --dry-run
+npm run knowledge:import -- ../kern-ux-scraper/bundle/final
 
 # Start the dev loop (TypeScript watch + MCP inspector)
 npm run loop:start
@@ -133,7 +136,7 @@ npm run scan:vulns
 npm run pack:inspect
 ```
 
-> `generate-manifest` is a **local-only** script. CI and release builds use the checked-in `packages/core/src/ux/registry.json`. Run it whenever you pull changes that affect component stories or the guidance overlay.
+> `knowledge:import` is a **local-only** script. CI and release builds use the checked-in `knowledge/` and `packages/core/src/ux/registry.json`; a test checks that the registry is what the bundle and `knowledge-map.ts` produce. After changing `knowledge-map.ts`, run `npm run knowledge:import` without a path to regenerate the registry.
 
 > `sbom:generate` and `scan:vulns*` expect local `syft` and `grype` binaries on `PATH`.
 

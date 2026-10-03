@@ -8,9 +8,11 @@ The project has a build-time metadata pipeline and a runtime tool pipeline.
 
 ```mermaid
 flowchart TD
-  A[kern-ux-plain stories + markdown docs] --> B[tools/manifest/build-manifest.ts]
-  C[docs/guidance-overlay.json] --> B
-  B --> D[packages/core/src/ux/registry.json]
+  A[knowledge bundle from kern-ux-knowledge-packer] --> B[tools/knowledge/import.ts]
+  B --> C[knowledge/]
+  C --> K[packages/core/src/ux/knowledge-projection.ts]
+  M[packages/core/src/ux/knowledge-map.ts] --> K
+  K --> D[packages/core/src/ux/registry.json]
   D --> E[packages/core/src/mcp/create-server.ts]
   E --> P[packages/core/src/invoke.ts]
   E --> F[packages/core/src/ux/tools.ts]
@@ -43,14 +45,17 @@ The repo is an npm workspace:
 - [packages/core/src/ux/schemas](../packages/core/src/ux/schemas): Zod schemas for tool inputs.
 - [packages/core/src/ux/templates](../packages/core/src/ux/templates): HTML rendering for components and composition blocks.
 - [packages/core/src/ux/json-schema.ts](../packages/core/src/ux/json-schema.ts): converts Zod input schemas to JSON Schema.
-- [packages/core/src/ux/registry.json](../packages/core/src/ux/registry.json): generated runtime manifest artifact.
-- [packages/core/src/ux/registry.ts](../packages/core/src/ux/registry.ts): loads the generated manifest.
+- [packages/core/src/ux/registry.json](../packages/core/src/ux/registry.json): the generated runtime data, projected from the knowledge bundle. Don't edit it by hand.
+- [packages/core/src/ux/registry.ts](../packages/core/src/ux/registry.ts): loads it; [registry.schema.ts](../packages/core/src/ux/registry.schema.ts) is its contract.
+- [packages/core/src/ux/knowledge-map.ts](../packages/core/src/ux/knowledge-map.ts): the code-owned map from KERN's IDs to ours, and the example each fallback tool returns.
+- [packages/core/src/ux/knowledge-import.ts](../packages/core/src/ux/knowledge-import.ts) and [knowledge-projection.ts](../packages/core/src/ux/knowledge-projection.ts): the import's checks and diff, and the projection to `registry.json`. Build-time only.
 - [packages/core/src/ux/validate.ts](../packages/core/src/ux/validate.ts): strict HTML validation rules used by tools.
-- [tools/manifest](../tools/manifest): registry build and overlay validation scripts.
+- [knowledge](../knowledge): the KERN knowledge bundle as imported, checked in so upstream changes arrive as diffs. Never shipped; never edited by hand.
+- [tools/knowledge](../tools/knowledge): `npm run knowledge:import`, which validates a bundle against the packer's schema and our checks, prints what changes, replaces `knowledge/` and regenerates `registry.json`.
 - [tools/build/sbom.ts](../tools/build/sbom.ts): writes a host package's CycloneDX SBOM (`npm run sbom`), which the release ships in the tarball and attests for the image and the `.mcpb`.
 - [tools/build/mcpb.ts](../tools/build/mcpb.ts): packs `packages/stdio` as an MCP Bundle (`.mcpb`) from its standalone bundle and the `packages/stdio/mcpb/manifest.json` template, adding the version and the static `tools[]` list.
 - [tools/build/bundle.ts](../tools/build/bundle.ts): bundles a host package with esbuild: `dist/` for npm (core inlined, third-party packages external, undeclared imports fail the build) and `standalone/` for MCPB and the container (everything inlined, plus `THIRD_PARTY_LICENSES.txt`).
-- [docs](../docs): contributor docs, manifest inputs, overlay schema, and historical notes.
+- [docs](../docs): contributor docs, the migration notes, the plans, and historical notes.
 - [.github/instructions](../.github/instructions): targeted file-scoped workflow rules.
 - [.github/skills/component-update-workflow](../.github/skills/component-update-workflow): self-contained workflow skill with YAML references.
 - [samples/basic-layout](../samples/basic-layout): sample app and MCP wiring for local development.
@@ -67,20 +72,21 @@ Typical path:
 
 This is the normal path when you change HTML output, validation-friendly defaults, or input shape.
 
-### 2. Change the manifest or packaged docs
+### 2. Take in new KERN knowledge
 
 Typical path:
 
-1. Update the relevant `kern-ux-plain` source.
-2. Run `npm run generate-manifest`, or import a registry from the external generator with `npm run registry:import -- <path>` (it checks the file against the contract in [packages/core/src/ux/registry.schema.ts](../packages/core/src/ux/registry.schema.ts) and prints what changes).
+1. Run the packer (`kern-ux-knowledge-packer`), which writes the bundle to its `bundle/final`.
+2. `npm run knowledge:import -- <bundle-dir> --dry-run` to see what changes, then without `--dry-run` to replace `knowledge/` and regenerate `registry.json`.
+3. `npm test`, and review the snapshot diffs.
 
-This is the normal path when you change component metadata or canonical HTML extraction. Reviewed notes about our tools are code: [packages/core/src/ux/tool-notes.ts](../packages/core/src/ux/tool-notes.ts). The overlay ([docs/guidance-overlay.json](guidance-overlay.json)) has no entries since R4b.
+KERN knowledge (titles, statuses, summaries, do's and don'ts, docs sections, WCAG criteria) comes only from the bundle. Facts about our tools are code: the notes in [packages/core/src/ux/tool-notes.ts](../packages/core/src/ux/tool-notes.ts), the ID map in [knowledge-map.ts](../packages/core/src/ux/knowledge-map.ts). After changing the map, run `npm run knowledge:import` without a path.
 
 ### 3. Change the MCP surface
 
 Typical path:
 
-1. Update [packages/core/src/ux/tools.ts](../packages/core/src/ux/tools.ts) or a file in [packages/core/src/ux/tool-builders](../packages/core/src/ux/tool-builders). A new component tool also needs an entry in `COMPONENT_TOOLS` (`component-tools.ts`), and its component in `registry.json`.
+1. Update [packages/core/src/ux/tools.ts](../packages/core/src/ux/tools.ts) or a file in [packages/core/src/ux/tool-builders](../packages/core/src/ux/tool-builders). A new component tool also needs an entry in `COMPONENT_TOOLS` (`component-tools.ts`), and a component in the bundle that `knowledge-map.ts` maps to it.
 2. If tool input listing changes, check [packages/core/src/ux/json-schema.ts](../packages/core/src/ux/json-schema.ts).
 3. If request handling or validation messaging changes, check [packages/core/src/invoke.ts](../packages/core/src/invoke.ts) and [packages/core/src/mcp](../packages/core/src/mcp).
 
@@ -94,10 +100,10 @@ Install:
 npm install
 ```
 
-Regenerate the registry:
+Regenerate the registry from `knowledge/`:
 
 ```bash
-npm run generate-manifest
+npm run knowledge:import
 ```
 
 Build:
@@ -114,17 +120,16 @@ npx tsc --noEmit
 npm run test
 ```
 
-Focused manifest workflow:
+Focused knowledge workflow:
 
 ```bash
-npm run validate-guidance-overlay
-npm run generate-manifest
-npm test -- packages/core/src/ux/manifest-generator.test.ts packages/core/src/ux/tools.behaviour.test.ts packages/core/src/ux/tools.listing.test.ts
+npm run knowledge:import -- <bundle-dir> --dry-run
+npm test -- packages/core/src/ux/knowledge tools/knowledge packages/core/src/ux/tools.behaviour.test.ts packages/core/src/ux/tools.listing.test.ts
 ```
 
 ## Where To Start Reading
 
 - Runtime behavior: start at [packages/core/src/mcp/create-server.ts](../packages/core/src/mcp/create-server.ts), then [packages/core/src/invoke.ts](../packages/core/src/invoke.ts) and [packages/core/src/ux/tools.ts](../packages/core/src/ux/tools.ts).
 - Tool input/output shape: start at [packages/core/src/ux/schemas](../packages/core/src/ux/schemas) and [packages/core/src/ux/templates](../packages/core/src/ux/templates).
-- Manifest and docs packaging: start at [tools/manifest/build-manifest.ts](../tools/manifest/build-manifest.ts).
-- Guidance authoring: start at [guidance-overlay-workflow.md](guidance-overlay-workflow.md), then load [../.github/skills/component-update-workflow/SKILL.md](../.github/skills/component-update-workflow/SKILL.md) for the self-contained workflow path.
+- KERN knowledge: start at [tools/knowledge/import.ts](../tools/knowledge/import.ts), then [knowledge-projection.ts](../packages/core/src/ux/knowledge-projection.ts).
+- Component changes end to end: load [../.github/skills/component-update-workflow/SKILL.md](../.github/skills/component-update-workflow/SKILL.md).

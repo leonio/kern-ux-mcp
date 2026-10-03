@@ -135,7 +135,8 @@
             "enum": [
               "stable",
               "experimental",
-              "deprecated"
+              "deprecated",
+              "docs-only"
             ]
           },
           "files": {
@@ -5588,7 +5589,7 @@
     },
     {
       "name": "get_checkbox",
-      "title": "KERN Checkbox",
+      "title": "KERN Input Checkboxes",
       "description": "KERN UX: HTML for checkboxes. mode 'single' (default): one checkbox, e.g. a consent. mode 'list': a fieldset of independent options under a legend.",
       "inputSchema": {
         "$schema": "http://json-schema.org/draft-07/schema#",
@@ -6909,7 +6910,7 @@
     },
     {
       "name": "get_grid",
-      "title": "KERN Grid",
+      "title": "KERN Grid System",
       "description": "KERN UX: HTML for equal-width columns in the 12-column grid: kern-container, kern-row and kern-col-md-{span} kern-col-sm-12, stacking on small screens. columns must divide 12: 1, 2, 3, 4, 6 or 12. For 5 or 7 equal columns, use the CSS grid utilities instead (get_utility_reference, e.g. kern-grid kern-grid-cols-5).",
       "inputSchema": {
         "$schema": "http://json-schema.org/draft-07/schema#",
@@ -7743,7 +7744,7 @@
     },
     {
       "name": "get_inputemail",
-      "title": "KERN Input Email",
+      "title": "KERN Input E-Mail",
       "description": "KERN UX: HTML for an email input (type=email) with label, optional hint and error. autocomplete defaults to email.",
       "inputSchema": {
         "$schema": "http://json-schema.org/draft-07/schema#",
@@ -9444,7 +9445,7 @@
     },
     {
       "name": "get_lists",
-      "title": "KERN Lists",
+      "title": "KERN List",
       "description": "KERN UX: HTML for a ul or ol with kern-list and two example items. Not KERN's bullet, number, size or horizontal variants.",
       "inputSchema": {
         "$schema": "http://json-schema.org/draft-07/schema#",
@@ -10035,7 +10036,7 @@
     },
     {
       "name": "get_radio",
-      "title": "KERN Radio",
+      "title": "KERN Input Radios",
       "description": "KERN UX: HTML for radio buttons. mode 'list': a fieldset of options under a legend, one of which can be selected, with optional hint and error. mode 'single': one radio button on its own.",
       "inputSchema": {
         "$schema": "http://json-schema.org/draft-07/schema#",
@@ -10380,7 +10381,7 @@
     },
     {
       "name": "get_select",
-      "title": "KERN Select",
+      "title": "KERN Input Select",
       "description": "KERN UX: HTML for a select with label, optional hint and error, inside the kern-form-input__select-wrapper KERN requires. Required: name, label and options, each { value, text }; an option can be selected or disabled.",
       "inputSchema": {
         "$schema": "http://json-schema.org/draft-07/schema#",
@@ -11212,7 +11213,7 @@
     },
     {
       "name": "get_tasklist",
-      "title": "KERN Tasklist",
+      "title": "KERN Task List",
       "description": "KERN UX: HTML for a task list: tasks with a title, an optional link and a status badge. numbered (default true) numbers them; numbered: false gives an unnumbered checklist.",
       "inputSchema": {
         "$schema": "http://json-schema.org/draft-07/schema#",
@@ -11370,7 +11371,7 @@
     },
     {
       "name": "get_textarea",
-      "title": "KERN Textarea",
+      "title": "KERN Input Textarea",
       "description": "KERN UX: HTML for a multi-line text field (textarea) with label, optional hint and error. Required: name, label.",
       "inputSchema": {
         "$schema": "http://json-schema.org/draft-07/schema#",

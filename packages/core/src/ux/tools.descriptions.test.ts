@@ -10,8 +10,6 @@ describe("tool descriptions", () => {
 				id: "alert",
 				title: "Alert",
 				status: "stable",
-				category: "interactive",
-				strategy: "interactive",
 				guidance: { de: "", en: "" },
 			},
 		]);
@@ -31,8 +29,6 @@ describe("tool descriptions", () => {
 				id: "badge",
 				title: "Badge",
 				status: "stable",
-				category: "interactive",
-				strategy: "interactive",
 				guidance: { de: "", en: "" },
 			},
 		]);
@@ -73,8 +69,6 @@ describe("tool descriptions", () => {
 				id: "tasklist",
 				title: "Tasklist",
 				status: "stable",
-				category: "interactive",
-				strategy: "interactive",
 				guidance: { de: "", en: "" },
 			},
 		]);
@@ -93,8 +87,6 @@ describe("tool descriptions", () => {
 				id: "select",
 				title: "Select",
 				status: "stable",
-				category: "interactive",
-				strategy: "interactive",
 				guidance: { de: "", en: "" },
 			},
 		]);
@@ -116,8 +108,6 @@ describe("tool descriptions", () => {
 				id: "pattern",
 				title: "Pattern",
 				status: "stable",
-				category: "interactive",
-				strategy: "fallback",
 				guidance: { de: "", en: "" },
 			},
 		]);
