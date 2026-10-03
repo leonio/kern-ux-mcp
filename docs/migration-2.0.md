@@ -21,7 +21,7 @@ Pre-releases go out under the npm dist-tag `alpha`. "Next alpha" means landed on
 | Text in labels, hints, errors, values and option text is escaped | next alpha | Don't pass markup in these strings |
 | `get_index` is gone | next alpha | Nothing: it rendered a placeholder for an internal SCSS file, not a KERN component |
 | `get_section`, `get_card`, `get_card_group`, `get_grid`, `get_disclosure` and `get_fieldset` take only `text`, `html`, `badge` and `field` blocks | next alpha | Build nested layouts (cards in a section, a grid in a disclosure, buttons in a card's body) with `render_composition` or `render_page`; put card actions in `footer` |
-| `get_component_docs` returns `canonicalHtml` only for `details`, `search`, `layers` and `pattern` | next alpha | Call the component's own tool for its markup |
+| `get_component_docs` returns KERN's guidance in new fields (`summary`, `whenToUse`, `dos`, `docs`, …); `excerpt`, `sections` and `files` are gone, and `canonicalHtml` comes only for `details`, `search`, `layers` and `pattern` | next alpha | Read the new fields; call the component's `tool` for its markup |
 
 ## Protocol and errors (2.0.0-alpha.69)
 
@@ -141,12 +141,21 @@ KERN's facts and text now come from a knowledge bundle built from KERN's three s
 - **Statuses follow KERN.**
   - KERN deprecates the container grid, so `get_grid`'s HTML starts with the deprecation banner.
   - KERN marks lists experimental, so `get_lists`'s HTML starts with the experimental banner.
-- **`get_component_docs`:**
-  - `excerpt` is the English summary of the component's kern-ux.de page, for every component. It was a German excerpt from `COMPONENTS.MD`, for 15 of 44 components.
-  - `sections` are the page's sections: `source` is the section's URL, `heading` the German heading, and `content` an English summary.
-  - `status` can be `docs-only`. Five components KERN documents but doesn't implement (Tabs, Nav, Header, Notification Banner, Bildwortmarke) are documented, without a tool.
-  - `canonicalHtml` is returned only where the component's tool returns it: `details`, `search`, `layers` and `pattern`. For the others, call the component's tool.
-  - `files` lists the `kern-ux-plain` sources the bundle names.
+- **`get_component_docs` returns KERN's guidance**, from the bundle, for every component. Its output is new:
+  - **Identity:** `componentId`, `kernId` and `title`; `status`, which can be `docs-only`; and `tool`, the tool that renders the component.
+  - **Guidance:**
+    - `summary`, `whenToUse`, `whenNotToUse` (each with the component and tool to use instead), `dos`, `donts`, `contentGuidelines`
+    - `similar`, with each component's tool, or the `name` of one KERN doesn't have
+  - **`accessibility`:** only the WCAG criteria KERN's docs leave to the implementation. Those are what the author has to take care of.
+  - **`docs`:** the kern-ux.de page, with its URL, summary and sections. Each section has its German heading, a link and an English summary.
+  - **Docs-only components** (Tabs, Nav, Header, Notification Banner, Bildwortmarke) get a `note` that KERN doesn't implement them, so there's no tool and no `kern-*` markup.
+  - **Kept:** `reviewedGuidance` (the notes about our tools) and `relatedTools`. `relatedTools` now names the tools of similar components, not `get_grid` and `validate_html` for every interactive component.
+  - **Gone:**
+    - `excerpt`, a German excerpt from `COMPONENTS.MD` for 15 of 44 components
+    - `sections`, replaced by `docs.sections`
+    - `files`
+  - **`canonicalHtml`** is returned only where the component's tool returns it: `details`, `search`, `layers` and `pattern`. For the others, call `tool`.
+  - **IDs:** `componentId` takes our IDs (`inputtext`), KERN's (`input-text`, `checkboxes`) and other spellings of either (`InputText`). An unknown ID's error says which IDs it takes.
 - **Fallback tools:** `get_details`, `get_search`, `get_layers` and `get_pattern` return KERN's example markup from the bundle.
   - It's on one line.
   - `get_pattern` no longer includes the story's inline toggle script.

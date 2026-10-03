@@ -48,9 +48,9 @@ The `toolInputSchemaToJsonSchema` function in [packages/core/src/ux/json-schema.
 ### Step 4 — For ID failures: look up canonical IDs
 
 Component IDs in [packages/core/src/ux/registry.json](../../../../packages/core/src/ux/registry.json) follow a strict convention:
-- Squashed lowercase, no hyphens, no underscores
-- `inputtext` not `input-text`; `inputemail` not `input-email`
-- Tool name is always `get_<id>` (e.g. `get_inputtext`)
+- Squashed lowercase, no hyphens, no underscores: KERN's ID without its hyphens ([knowledge-map.ts](../../../../packages/core/src/ux/knowledge-map.ts)), apart from `checkbox`, `radio` and `lists` (KERN: `checkboxes`, `radios`, `list`)
+- Tool name is always `get_<id>` (e.g. `get_inputtext`); tool names never take KERN's hyphenated form
+- `get_component_docs` is forgiving: it takes our ID, KERN's (`input-text`, `checkboxes`) and other spellings (`InputText`), and its error names the IDs it takes. It's the only tool with a `componentId`; `get_<id>` names must match exactly.
 - `form-input` is not a valid ID — use specific input type IDs (`inputtext`, `inputnumber`, etc.)
 
 Call `list_components_by_category` (no arguments) to get the full current list at runtime.

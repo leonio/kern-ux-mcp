@@ -101,17 +101,17 @@
     {
       "name": "get_component_docs",
       "title": "KERN Component Docs",
-      "description": "KERN UX: The documentation of one component: an excerpt, sections, its canonical HTML, and notes where our tool differs from KERN. Valid IDs come from list_components_by_category; call it first if you don't know the ID.",
+      "description": "KERN UX: KERN's guidance for one component, from kern-ux.de: summary, when to use it and when not, do's and don'ts, similar components, the WCAG criteria left to the implementation, and the docs page by section; plus notes where our tool differs from KERN. Also covers what KERN documents but doesn't implement (tabs, nav, header, notificationbanner). Valid IDs come from list_components_by_category.",
       "inputSchema": {
         "$schema": "http://json-schema.org/draft-07/schema#",
         "type": "object",
         "properties": {
           "componentId": {
             "type": "string",
-            "description": "Component ID from list_components_by_category, e.g. 'button', 'inputtext', 'select', 'checkbox'. IDs are lowercase without hyphens: 'inputtext', not 'input-text'; there is no 'form-input'. If unsure, call list_components_by_category first."
+            "description": "Component ID from list_components_by_category, e.g. 'button', 'inputtext', 'select', 'checkbox'. KERN's own IDs work too: 'input-text', 'checkboxes'."
           },
           "locale": {
-            "description": "Language of the reviewed notes (default: de).",
+            "description": "Language of the notes about our tool (default: de).",
             "type": "string",
             "enum": [
               "de",
@@ -130,6 +130,12 @@
           "componentId": {
             "type": "string"
           },
+          "kernId": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
           "status": {
             "type": "string",
             "enum": [
@@ -139,42 +145,163 @@
               "docs-only"
             ]
           },
-          "files": {
+          "tool": {
+            "description": "The tool that renders the component.",
+            "type": "string"
+          },
+          "note": {
+            "type": "string"
+          },
+          "summary": {
+            "type": "string"
+          },
+          "whenToUse": {
             "type": "array",
             "items": {
               "type": "string"
             }
           },
-          "excerpt": {
-            "type": "string"
-          },
-          "canonicalHtml": {
-            "type": "string"
-          },
-          "sections": {
+          "whenNotToUse": {
             "type": "array",
             "items": {
               "type": "object",
               "properties": {
-                "source": {
+                "text": {
                   "type": "string"
                 },
-                "heading": {
+                "useInstead": {
                   "type": "string"
                 },
-                "content": {
+                "tool": {
                   "type": "string"
                 }
               },
               "required": [
-                "source",
-                "heading",
-                "content"
+                "text"
               ],
               "additionalProperties": false
             }
           },
+          "dos": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "donts": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "contentGuidelines": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "similar": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "componentId": {
+                  "type": "string"
+                },
+                "name": {
+                  "description": "A component KERN doesn't have, e.g. Tooltip.",
+                  "type": "string"
+                },
+                "tool": {
+                  "type": "string"
+                },
+                "difference": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "accessibility": {
+            "description": "The WCAG criteria KERN's docs leave to the implementation: what the author has to take care of.",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "criterion": {
+                  "type": "string"
+                },
+                "slug": {
+                  "type": "string"
+                },
+                "level": {
+                  "type": "string",
+                  "enum": [
+                    "A",
+                    "AA",
+                    "AAA"
+                  ]
+                },
+                "status": {
+                  "type": "string",
+                  "enum": [
+                    "implementation-dependent",
+                    "failed",
+                    "unknown"
+                  ]
+                }
+              },
+              "required": [
+                "slug",
+                "status"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "docs": {
+            "description": "The component's page on kern-ux.de, section by section.",
+            "type": "object",
+            "properties": {
+              "url": {
+                "type": "string"
+              },
+              "summary": {
+                "type": "string"
+              },
+              "sections": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "heading": {
+                      "type": "string"
+                    },
+                    "url": {
+                      "type": "string"
+                    },
+                    "summary": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "heading",
+                    "url"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            },
+            "required": [
+              "url",
+              "sections"
+            ],
+            "additionalProperties": false
+          },
+          "canonicalHtml": {
+            "type": "string"
+          },
           "reviewedGuidance": {
+            "description": "Where our tool deliberately differs from KERN.",
             "type": "object",
             "properties": {
               "status": {
@@ -685,9 +812,8 @@
         },
         "required": [
           "componentId",
-          "status",
-          "files",
-          "excerpt"
+          "title",
+          "status"
         ],
         "additionalProperties": false
       },

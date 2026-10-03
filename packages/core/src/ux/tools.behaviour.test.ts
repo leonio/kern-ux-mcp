@@ -8,20 +8,6 @@ import {
 import { createTools, VALIDATE_HTML_MAX_LENGTH } from "./tools.js";
 import { type ComponentInfo, VALID_ICON_NAMES } from "./types.js";
 
-type DocsToolResult = {
-	excerpt: string;
-	files?: string[];
-	relatedTools?: string[];
-	sections?: Array<{ content: string }>;
-	reviewedGuidance?: {
-		status: string;
-		summary: {
-			text: string;
-			evidence: Array<{ source: string; note?: string }>;
-		};
-	};
-};
-
 describe("tool behaviour", () => {
 	it("formats deprecated warning with object-style get_component_docs args", async () => {
 		const registry = createRegistry([
@@ -79,106 +65,6 @@ describe("tool behaviour", () => {
 			issues: [],
 		});
 	});
-
-	it("get_component_docs returns extracted docs plus the locale-selected notes about our tool", async () => {
-		const registry = createRegistry([
-			{
-				id: "kopfzeile",
-				title: "Kopfzeile",
-				status: "stable",
-				docs: {
-					url: "https://www.kern-ux.de/komponenten/kopfzeile",
-					summary: "The docs page in short",
-					sections: [
-						{
-							heading: "Kurzbeschreibung",
-							url: "https://www.kern-ux.de/komponenten/kopfzeile#kurzbeschreibung",
-							summary: "The first section in short",
-						},
-						{
-							heading: "Weitere Hinweise",
-							url: "https://www.kern-ux.de/komponenten/kopfzeile#weitere-hinweise",
-						},
-					],
-				},
-			},
-			{
-				id: "loader",
-				title: "Loader",
-				status: "stable",
-				summary: "Shows that something is loading.",
-			},
-			{ id: "body", title: "Body", status: "stable" },
-		]);
-
-		const tools = createTools(registry);
-		const docsTool = tools.getTool("get_component_docs");
-
-		expect(docsTool).toBeDefined();
-
-		const result = await callHandler<DocsToolResult>(docsTool, {
-			componentId: "kopfzeile",
-			locale: "de",
-		});
-		expect(result.excerpt).toBe("The docs page in short");
-		expect(result.sections).toEqual([
-			{
-				source: "https://www.kern-ux.de/komponenten/kopfzeile#kurzbeschreibung",
-				heading: "Kurzbeschreibung",
-				content: "The first section in short",
-			},
-		]);
-		expect(result.reviewedGuidance?.status).toBe("reviewed");
-		expect(result.reviewedGuidance?.summary.text).toContain(
-			"Die Kopfzeile ist die schmale Leiste mit Bundesflagge",
-		);
-		expect(result.reviewedGuidance?.summary.evidence[0].source).toBe(
-			"kern-ux-plain/stories/Kopfzeile/Kopfzeile.stories.js",
-		);
-
-		const resultEn = await callHandler<DocsToolResult>(docsTool, {
-			componentId: "kopfzeile",
-			locale: "en",
-		});
-		expect(resultEn.reviewedGuidance?.summary.text).toContain(
-			"The tool renders the CSS variant of the upstream component",
-		);
-
-		const resultWithSummaryOnly = await callHandler<DocsToolResult>(docsTool, {
-			componentId: "loader",
-		});
-		expect(resultWithSummaryOnly.excerpt).toBe(
-			"Shows that something is loading.",
-		);
-
-		const resultWithoutDocs = await callHandler<DocsToolResult>(docsTool, {
-			componentId: "body",
-		});
-		expect(resultWithoutDocs.excerpt).toContain(
-			"No packaged component documentation available",
-		);
-		expect(resultWithoutDocs.reviewedGuidance).toBeUndefined();
-	});
-
-	it.each([
-		["inputdate", "single browser-native date field"],
-		["dropdown", "details/summary"],
-	])(
-		"get_component_docs serves the notes about the %s tool",
-		async (componentId, phrase) => {
-			const tools = createTools(
-				createRegistry([
-					{ id: componentId, title: componentId, status: "stable" },
-				]),
-			);
-			const result = await callHandler<DocsToolResult>(
-				tools.getTool("get_component_docs"),
-				{ componentId, locale: "en" },
-			);
-
-			expect(result.reviewedGuidance?.summary.text).toContain(phrase);
-		},
-	);
 
 	it("get_utility_reference returns surface section with background custom properties", async () => {
 		const tools = createTools(createRegistry([]));
@@ -280,72 +166,6 @@ describe("tool behaviour", () => {
 
 				expect(components.map((c) => c.id)).toEqual(expectedIds);
 			});
-		});
-
-		describe("get_component_docs", () => {
-			it("throws for an unknown componentId", async () => {
-				const tools = createTools(createRegistry());
-
-				await expect(
-					tools.getTool("get_component_docs")?.handler({ componentId: "nope" }),
-				).rejects.toThrow("Unknown componentId: nope");
-			});
-
-			it("lists the registry file plus the kern-ux-plain sources", async () => {
-				const tools = createTools(
-					createRegistry([
-						{
-							...component("heading"),
-							sources: ["heading.scss", "Heading.stories.js"],
-						},
-					]),
-				);
-				const result = await callHandler<DocsToolResult>(
-					tools.getTool("get_component_docs"),
-					{ componentId: "heading" },
-				);
-
-				expect(result.files).toEqual([
-					"registry.json",
-					"heading.scss",
-					"Heading.stories.js",
-				]);
-			});
-
-			it.each([
-				{
-					entry: component("button"),
-					expected: ["get_grid", "validate_html", "get_icon", "list_icons"],
-				},
-				{
-					entry: component("dialog"),
-					expected: ["get_grid", "validate_html", "get_button"],
-				},
-				{
-					entry: component("card"),
-					expected: [
-						"get_grid",
-						"validate_html",
-						"get_button",
-						"get_card_group",
-					],
-				},
-				{
-					entry: component("heading"),
-					expected: undefined,
-				},
-			])(
-				"suggests related tools for $entry.id",
-				async ({ entry, expected }) => {
-					const tools = createTools(createRegistry([entry]));
-					const result = await callHandler<DocsToolResult>(
-						tools.getTool("get_component_docs"),
-						{ componentId: entry.id },
-					);
-
-					expect(result.relatedTools).toEqual(expected);
-				},
-			);
 		});
 	});
 

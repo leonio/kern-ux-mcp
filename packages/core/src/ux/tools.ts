@@ -22,6 +22,7 @@ import { STACK_CLASSES } from "./templates/form.js";
 import { buildPage } from "./templates/page.js";
 import { buildSection } from "./templates/section.js";
 import { buildUtilityReference } from "./templates/utility-reference.js";
+import { buildComponentDocsTool } from "./tool-builders/component-docs.js";
 import {
 	type ComponentToolStrategy,
 	getComponentToolCategory,
@@ -41,13 +42,7 @@ import {
 	type ToolDef,
 } from "./tool-builders/shared.js";
 import { buildTypographyTool } from "./tool-builders/typography.js";
-import { getToolNotes } from "./tool-notes.js";
-import type {
-	ComponentInfo,
-	Locale,
-	Registry,
-	ReviewedGuidanceStatement,
-} from "./types.js";
+import type { ComponentInfo, Locale, Registry } from "./types.js";
 import { VALID_ICON_NAMES } from "./types.js";
 import { validateHtmlStrict } from "./validate.js";
 import { ValidationResultSchema } from "./validate.schema.js";
@@ -147,178 +142,6 @@ function buildValidateHtmlTool(): ToolDef {
 		// Messages are returned in both languages, so the locale input doesn't change the result.
 		handler: async (args: { html: string }) => {
 			return validateHtmlStrict(args.html);
-		},
-	};
-}
-
-function buildDocsTool(registry: Registry): ToolDef {
-	const name = "get_component_docs";
-
-	const reviewedGuidanceEvidenceSchema = z.object({
-		kind: z.enum([
-			"docs-snapshot",
-			"story",
-			"scss",
-			"schema",
-			"template",
-			"test",
-			"manual-review",
-			"other",
-		]),
-		source: z.string(),
-		locator: z.string().optional(),
-		note: z.string().optional(),
-	});
-
-	const reviewedGuidanceStatementSchema = z.object({
-		text: z.string(),
-		confidence: z.enum(["high", "medium", "low"]),
-		evidence: z.array(reviewedGuidanceEvidenceSchema),
-	});
-
-	const inputSchema = z.object({
-		componentId: z
-			.string()
-			.describe(
-				"Component ID from list_components_by_category, e.g. 'button', 'inputtext', 'select', 'checkbox'. IDs are lowercase without hyphens: 'inputtext', not 'input-text'; there is no 'form-input'. If unsure, call list_components_by_category first.",
-			),
-		locale: z
-			.enum(["de", "en"])
-			.optional()
-			.describe("Language of the reviewed notes (default: de)."),
-	});
-
-	const outputSchema = z.object({
-		componentId: z.string(),
-		status: z.enum(["stable", "experimental", "deprecated", "docs-only"]),
-		files: z.array(z.string()),
-		excerpt: z.string(),
-		canonicalHtml: z.string().optional(),
-		sections: z
-			.array(
-				z.object({
-					source: z.string(),
-					heading: z.string(),
-					content: z.string(),
-				}),
-			)
-			.optional(),
-		reviewedGuidance: z
-			.object({
-				status: z.enum(["draft", "reviewed", "approved"]),
-				summary: reviewedGuidanceStatementSchema,
-				primaryUseCases: z.array(reviewedGuidanceStatementSchema),
-				antiUseCases: z.array(reviewedGuidanceStatementSchema),
-				requiredA11yPractices: z.array(reviewedGuidanceStatementSchema),
-				semanticInvariants: z.array(reviewedGuidanceStatementSchema),
-				compositionPatterns: z.array(reviewedGuidanceStatementSchema),
-				authoringNotes: z.array(reviewedGuidanceStatementSchema),
-				migrationNotes: z.array(reviewedGuidanceStatementSchema),
-			})
-			.optional(),
-		relatedTools: z.array(z.string()).optional(),
-	});
-
-	return {
-		name,
-		title: "KERN Component Docs",
-		description:
-			"KERN UX: The documentation of one component: an excerpt, sections, its canonical HTML, and notes where our tool differs from KERN. " +
-			"Valid IDs come from list_components_by_category; call it first if you don't know the ID.",
-		inputSchema,
-		outputSchema,
-		handler: async (args: { componentId: string; locale?: Locale }) => {
-			const component = registry.byId.get(args.componentId);
-			if (!component) {
-				throw new Error(`Unknown componentId: ${args.componentId}`);
-			}
-
-			const locale = pickLocale(args.locale);
-
-			const excerpt =
-				component.docs?.summary ??
-				component.summary ??
-				`No packaged component documentation available for '${component.id}'.`;
-
-			// The registry, then the kern-ux-plain sources the bundle names.
-			const files = ["registry.json", ...(component.sources ?? [])];
-
-			// The docs page's sections that have an English summary, linked.
-			const sections = (component.docs?.sections ?? []).flatMap((section) =>
-				section.summary
-					? [
-							{
-								source: section.url,
-								heading: section.heading,
-								content: section.summary,
-							},
-						]
-					: [],
-			);
-
-			// Reviewed notes about our tool come from code (tool-notes.ts), not the registry.
-			const notes = getToolNotes(component.id);
-
-			const mapEvidence = (
-				entry: ReviewedGuidanceStatement["evidence"][number],
-			) => ({
-				kind: entry.kind,
-				source: entry.source,
-				locator: entry.locator,
-				note: entry.note
-					? locale === "en"
-						? entry.note.en
-						: entry.note.de
-					: undefined,
-			});
-
-			const mapStatement = (statement: ReviewedGuidanceStatement) => ({
-				text: locale === "en" ? statement.text.en : statement.text.de,
-				confidence: statement.confidence,
-				evidence: statement.evidence.map(mapEvidence),
-			});
-
-			const reviewedGuidance = notes
-				? {
-						status: notes.status,
-						summary: mapStatement(notes.summary),
-						primaryUseCases: notes.primaryUseCases.map(mapStatement),
-						antiUseCases: notes.antiUseCases.map(mapStatement),
-						requiredA11yPractices:
-							notes.requiredA11yPractices.map(mapStatement),
-						semanticInvariants: notes.semanticInvariants.map(mapStatement),
-						compositionPatterns: notes.compositionPatterns.map(mapStatement),
-						authoringNotes: notes.authoringNotes.map(mapStatement),
-						migrationNotes: notes.migrationNotes.map(mapStatement),
-					}
-				: undefined;
-
-			// Suggest related tools based on component type
-			const relatedTools: string[] = [];
-			const strategy = getComponentToolStrategy(component.id);
-			if (strategy && getComponentToolCategory(strategy) === "interactive") {
-				relatedTools.push("get_grid", "validate_html");
-			}
-			if (component.id === "button") {
-				relatedTools.push("get_icon", "list_icons");
-			}
-			if (component.id === "dialog") {
-				relatedTools.push("get_button");
-			}
-			if (component.id === "card") {
-				relatedTools.push("get_button", "get_card_group");
-			}
-
-			return {
-				componentId: component.id,
-				status: component.status,
-				files,
-				excerpt,
-				canonicalHtml: component.htmlCanonical,
-				sections: sections.length > 0 ? sections : undefined,
-				reviewedGuidance,
-				relatedTools: relatedTools.length > 0 ? relatedTools : undefined,
-			};
 		},
 	};
 }
@@ -678,7 +501,7 @@ export function createTools(registry: Registry): ToolRegistry {
 	const toolDefs: ToolDef[] = [];
 
 	toolDefs.push(buildValidateHtmlTool());
-	toolDefs.push(buildDocsTool(registry));
+	toolDefs.push(buildComponentDocsTool(registry));
 	toolDefs.push(buildGetTokensTool(registry));
 	toolDefs.push(buildListIconsTool());
 	toolDefs.push(buildListComponentsByCategoryTool(registry));
