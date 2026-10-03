@@ -6,8 +6,10 @@ import {
 	diffKnowledgeBundles,
 	findBundleExample,
 	formatKnowledgeImport,
+	staleToolHints,
 } from "./knowledge-import.js";
 import { COMPONENT_TOOL_IDS } from "./tool-builders/component-tools.js";
+import { TOOL_HINTS } from "./tool-hints.js";
 
 /** KERN IDs for a few of our components, so the fixture exercises the map. */
 const KERN_IDS: Record<string, string> = {
@@ -402,5 +404,40 @@ describe("formatKnowledgeImport", () => {
 				'    status: "stable" -> "deprecated"',
 			].join("\n"),
 		);
+	});
+});
+
+describe("staleToolHints", () => {
+	/** Every hint's source, with the hash its hint recorded. */
+	const sources = () =>
+		new Map<string, unknown>(
+			Object.values(TOOL_HINTS).map((hint) => [
+				hint.source,
+				{ provenance: { "knowledge.summary": { inputHash: hint.inputHash } } },
+			]),
+		);
+
+	it("finds nothing when every source still has its hash", () => {
+		expect(staleToolHints(sources())).toEqual([]);
+	});
+
+	it("names a hint whose source text changed", () => {
+		const files = sources();
+		files.set(TOOL_HINTS.get_preline.source, {
+			provenance: { "knowledge.summary": { inputHash: "sha256:changed" } },
+		});
+
+		expect(staleToolHints(files)).toEqual([
+			`get_preline: the text in ${TOOL_HINTS.get_preline.source} changed since its hint was written.`,
+		]);
+	});
+
+	it("names a hint whose source is gone", () => {
+		const files = sources();
+		files.delete(TOOL_HINTS.get_layers.source);
+
+		expect(staleToolHints(files)).toEqual([
+			`get_layers: its source ${TOOL_HINTS.get_layers.source} isn't in the bundle.`,
+		]);
 	});
 });

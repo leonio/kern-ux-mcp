@@ -2,7 +2,10 @@ import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 
-import { checkKnowledgeBundle } from "../../packages/core/src/ux/knowledge-import.js";
+import {
+	checkKnowledgeBundle,
+	staleToolHints,
+} from "../../packages/core/src/ux/knowledge-import.js";
 import { projectRegistry } from "../../packages/core/src/ux/knowledge-projection.js";
 import {
 	checkAgainstPackerSchema,
@@ -47,6 +50,10 @@ describe("the checked-in knowledge/", async () => {
 
 	it("passes the checks this repo makes", () => {
 		expect(checkKnowledgeBundle(json)).toEqual([]);
+	});
+
+	it("still has the text every tool hint was written from (the tool-hints skill)", () => {
+		expect(staleToolHints(json)).toEqual([]);
 	});
 
 	it("is what registry.json was generated from (npm run knowledge:import)", () => {

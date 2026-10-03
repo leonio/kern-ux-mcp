@@ -42,6 +42,7 @@ import {
 	type ToolDef,
 } from "./tool-builders/shared.js";
 import { buildTypographyTool } from "./tool-builders/typography.js";
+import { withToolHint } from "./tool-hints.js";
 import type { ComponentInfo, Locale, Registry } from "./types.js";
 import { VALID_ICON_NAMES } from "./types.js";
 import { validateHtmlStrict } from "./validate.js";
@@ -523,6 +524,11 @@ export function createTools(registry: Registry): ToolRegistry {
 			...COMPONENT_TOOL_BUILDERS[strategy](component),
 			title: getComponentToolTitle(component),
 		});
+	}
+
+	// KERN guidance in one line, where it changes a choice (tool-hints.ts).
+	for (const tool of toolDefs) {
+		tool.description = withToolHint(tool.name, tool.description);
 	}
 
 	const untitled = toolDefs.filter((tool) => !tool.title?.trim());

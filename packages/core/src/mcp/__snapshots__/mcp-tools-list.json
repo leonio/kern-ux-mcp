@@ -4474,7 +4474,7 @@
     {
       "name": "get_accordion",
       "title": "KERN Accordion",
-      "description": "KERN UX: HTML for accordions, built on <details> and <summary>. mode 'single' (default) takes title and content; mode 'group' takes items, each with title and content. Sending items without content selects group.",
+      "description": "KERN UX: HTML for accordions, built on <details> and <summary>. mode 'single' (default) takes title and content; mode 'group' takes items, each with title and content. Sending items without content selects group. Several collapsible topics under headings; for a single one, get_disclosure.",
       "inputSchema": {
         "$schema": "http://json-schema.org/draft-07/schema#",
         "type": "object",
@@ -5110,7 +5110,7 @@
     {
       "name": "get_button",
       "title": "KERN Button",
-      "description": "KERN UX: HTML for a button. Required: label. variant primary (default), secondary or tertiary; five sizes; an optional icon. labelVisibility 'sr-only' makes an icon-only button that keeps an accessible name.",
+      "description": "KERN UX: HTML for a button. Required: label. variant primary (default), secondary or tertiary; five sizes; an optional icon. labelVisibility 'sr-only' makes an icon-only button that keeps an accessible name. For actions; to navigate to another page, use get_link.",
       "inputSchema": {
         "$schema": "http://json-schema.org/draft-07/schema#",
         "type": "object",
@@ -5716,7 +5716,7 @@
     {
       "name": "get_checkbox",
       "title": "KERN Input Checkboxes",
-      "description": "KERN UX: HTML for checkboxes. mode 'single' (default): one checkbox, e.g. a consent. mode 'list': a fieldset of independent options under a legend.",
+      "description": "KERN UX: HTML for checkboxes. mode 'single' (default): one checkbox, e.g. a consent. mode 'list': a fieldset of independent options under a legend. Several independent choices; for exactly one, use get_radio.",
       "inputSchema": {
         "$schema": "http://json-schema.org/draft-07/schema#",
         "type": "object",
@@ -5993,7 +5993,7 @@
     {
       "name": "get_descriptionlist",
       "title": "KERN Description List",
-      "description": "KERN UX: HTML for a description list (dl): term and value pairs as dt and dd, values as plain text.",
+      "description": "KERN UX: HTML for a description list (dl): term and value pairs as dt and dd, values as plain text. Terms with descriptions; to review form entries, use get_summary.",
       "inputSchema": {
         "$schema": "http://json-schema.org/draft-07/schema#",
         "type": "object",
@@ -6138,7 +6138,7 @@
     {
       "name": "get_details",
       "title": "KERN Details",
-      "description": "KERN UX: KERN's example HTML for Details, as is. No parameters besides locale and strict.",
+      "description": "KERN UX: KERN's example HTML for Details, as is. No parameters besides locale and strict. One region of extra info shown on demand; for your own content, get_disclosure.",
       "inputSchema": {
         "$schema": "http://json-schema.org/draft-07/schema#",
         "type": "object",
@@ -7432,7 +7432,7 @@
     {
       "name": "get_heading",
       "title": "KERN Heading",
-      "description": "KERN UX: HTML for a heading, h1 to h6. Every level gets kern-heading-medium; KERN's other heading sizes aren't offered.",
+      "description": "KERN UX: HTML for a heading, h1 to h6. Every level gets kern-heading-medium; KERN's other heading sizes aren't offered. Page and section headings; inside cards, dialogs or forms, use get_title.",
       "inputSchema": {
         "$schema": "http://json-schema.org/draft-07/schema#",
         "type": "object",
@@ -8316,7 +8316,7 @@
     {
       "name": "get_inputnumber",
       "title": "KERN Input Number",
-      "description": "KERN UX: HTML for a number input with label, optional hint and error. Required: name, label. Like KERN, it renders type=\"text\" with inputmode=\"numeric\" and pattern=\"[0-9]*\", not type=\"number\".",
+      "description": "KERN UX: HTML for a number input with label, optional hint and error. Required: name, label. Like KERN, it renders type=\"text\" with inputmode=\"numeric\" and pattern=\"[0-9]*\", not type=\"number\". Numbers like a postcode; for phone numbers, get_inputtel; dates, get_inputdate.",
       "inputSchema": {
         "$schema": "http://json-schema.org/draft-07/schema#",
         "type": "object",
@@ -8785,7 +8785,7 @@
     {
       "name": "get_inputtext",
       "title": "KERN Input Text",
-      "description": "KERN UX: HTML for a text input with label, optional hint and error. Required: name, label. Name the expected format in hint.",
+      "description": "KERN UX: HTML for a text input with label, optional hint and error. Required: name, label. Name the expected format in hint. Single-line free text; for known options, use get_radio or get_checkbox.",
       "inputSchema": {
         "$schema": "http://json-schema.org/draft-07/schema#",
         "type": "object",
@@ -9346,7 +9346,7 @@
     {
       "name": "get_layers",
       "title": "KERN Layers",
-      "description": "KERN UX: KERN's example HTML for Layers, as is. No parameters besides locale and strict.",
+      "description": "KERN UX: KERN's example HTML for Layers, as is. No parameters besides locale and strict. Surfaces by level (kern-layer, kern-level-*); components adapt to their level.",
       "inputSchema": {
         "$schema": "http://json-schema.org/draft-07/schema#",
         "type": "object",
@@ -9454,7 +9454,7 @@
     {
       "name": "get_link",
       "title": "KERN Link",
-      "description": "KERN UX: HTML for a text link, <a class=\"kern-link\">. Not the icon link, small link or link button.",
+      "description": "KERN UX: HTML for a text link, <a class=\"kern-link\">. Not the icon link, small link or link button. For navigation only; for an action that changes data, use get_button.",
       "inputSchema": {
         "$schema": "http://json-schema.org/draft-07/schema#",
         "type": "object",
@@ -9690,7 +9690,7 @@
     {
       "name": "get_loader",
       "title": "KERN Loader",
-      "description": "KERN UX: HTML for a loading spinner with role=\"status\" and hidden screen-reader text.",
+      "description": "KERN UX: HTML for a loading spinner with role=\"status\" and hidden screen-reader text. An unknown wait over a second; for steps of a process, use get_progress.",
       "inputSchema": {
         "$schema": "http://json-schema.org/draft-07/schema#",
         "type": "object",
@@ -9915,7 +9915,7 @@
     {
       "name": "get_preline",
       "title": "KERN Preline",
-      "description": "KERN UX: HTML for a preline (kern-preline), default size only.",
+      "description": "KERN UX: HTML for a preline (kern-preline), default size only. Short text above a title or heading; never on its own.",
       "inputSchema": {
         "$schema": "http://json-schema.org/draft-07/schema#",
         "type": "object",
@@ -10028,7 +10028,7 @@
     {
       "name": "get_progress",
       "title": "KERN Progress",
-      "description": "KERN UX: HTML for a progress bar: a native <progress> in kern-progress, with an optional linked label.",
+      "description": "KERN UX: HTML for a progress bar: a native <progress> in kern-progress, with an optional linked label. Steps of a fixed process, never loading; for a wait, use get_loader.",
       "inputSchema": {
         "$schema": "http://json-schema.org/draft-07/schema#",
         "type": "object",
@@ -10163,7 +10163,7 @@
     {
       "name": "get_radio",
       "title": "KERN Input Radios",
-      "description": "KERN UX: HTML for radio buttons. mode 'list': a fieldset of options under a legend, one of which can be selected, with optional hint and error. mode 'single': one radio button on its own.",
+      "description": "KERN UX: HTML for radio buttons. mode 'list': a fieldset of options under a legend, one of which can be selected, with optional hint and error. mode 'single': one radio button on its own. Exactly one of a few options; for several, get_checkbox; 5 to 15, get_select.",
       "inputSchema": {
         "$schema": "http://json-schema.org/draft-07/schema#",
         "type": "object",
@@ -10508,7 +10508,7 @@
     {
       "name": "get_select",
       "title": "KERN Input Select",
-      "description": "KERN UX: HTML for a select with label, optional hint and error, inside the kern-form-input__select-wrapper KERN requires. Required: name, label and options, each { value, text }; an option can be selected or disabled.",
+      "description": "KERN UX: HTML for a select with label, optional hint and error, inside the kern-form-input__select-wrapper KERN requires. Required: name, label and options, each { value, text }; an option can be selected or disabled. One of 5 to 15 options; for fewer, prefer get_radio. Never for navigation.",
       "inputSchema": {
         "$schema": "http://json-schema.org/draft-07/schema#",
         "type": "object",
@@ -10680,7 +10680,7 @@
     {
       "name": "get_subline",
       "title": "KERN Subline",
-      "description": "KERN UX: HTML for a subline (kern-subline), default size only.",
+      "description": "KERN UX: HTML for a subline (kern-subline), default size only. Short text below a title or heading; never on its own.",
       "inputSchema": {
         "$schema": "http://json-schema.org/draft-07/schema#",
         "type": "object",
@@ -11498,7 +11498,7 @@
     {
       "name": "get_textarea",
       "title": "KERN Input Textarea",
-      "description": "KERN UX: HTML for a multi-line text field (textarea) with label, optional hint and error. Required: name, label.",
+      "description": "KERN UX: HTML for a multi-line text field (textarea) with label, optional hint and error. Required: name, label. Only for multi-line text; for a single line, use get_inputtext.",
       "inputSchema": {
         "$schema": "http://json-schema.org/draft-07/schema#",
         "type": "object",
@@ -11660,7 +11660,7 @@
     {
       "name": "get_title",
       "title": "KERN Title",
-      "description": "KERN UX: HTML for a title: always an <h2> with kern-title and the size modifier.",
+      "description": "KERN UX: HTML for a title: always an <h2> with kern-title and the size modifier. Headings inside cards, dialogs or forms; for page sections, use get_heading.",
       "inputSchema": {
         "$schema": "http://json-schema.org/draft-07/schema#",
         "type": "object",

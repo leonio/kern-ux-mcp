@@ -156,6 +156,11 @@ KERN's facts and text now come from a knowledge bundle built from KERN's three s
     - `files`
   - **`canonicalHtml`** is returned only where the component's tool returns it: `details`, `search`, `layers` and `pattern`. For the others, call `tool`.
   - **IDs:** `componentId` takes our IDs (`inputtext`), KERN's (`input-text`, `checkboxes`) and other spellings of either (`InputText`). An unknown ID's error says which IDs it takes.
+- **Eighteen tool descriptions end with one line of KERN's guidance.** It's there only where the line changes which tool fits:
+  - names that don't say what the component is: preline, subline, details, layers
+  - look-alikes: button and link; checkbox, radio and select; heading and title; text field and textarea; number field; loader and progress; accordion; description list
+
+  For example, `get_button` adds "For actions; to navigate to another page, use get_link." The listing grows by about 1.3K characters.
 - **Fallback tools:** `get_details`, `get_search`, `get_layers` and `get_pattern` return KERN's example markup from the bundle.
   - It's on one line.
   - `get_pattern` no longer includes the story's inline toggle script.

@@ -48,6 +48,7 @@ The repo is an npm workspace:
 - [packages/core/src/ux/registry.json](../packages/core/src/ux/registry.json): the generated runtime data, projected from the knowledge bundle. Don't edit it by hand.
 - [packages/core/src/ux/registry.ts](../packages/core/src/ux/registry.ts): loads it; [registry.schema.ts](../packages/core/src/ux/registry.schema.ts) is its contract.
 - [packages/core/src/ux/knowledge-map.ts](../packages/core/src/ux/knowledge-map.ts): the code-owned map from KERN's IDs to ours, and the example each fallback tool returns.
+- [packages/core/src/ux/tool-hints.ts](../packages/core/src/ux/tool-hints.ts): the one-line hints from KERN's guidance that some tool descriptions carry, written by the [tool-hints skill](../.github/skills/tool-hints/SKILL.md) with their source's hash.
 - [packages/core/src/ux/knowledge-import.ts](../packages/core/src/ux/knowledge-import.ts) and [knowledge-projection.ts](../packages/core/src/ux/knowledge-projection.ts): the import's checks and diff, and the projection to `registry.json`. Build-time only.
 - [packages/core/src/ux/validate.ts](../packages/core/src/ux/validate.ts): strict HTML validation rules used by tools.
 - [knowledge](../knowledge): the KERN knowledge bundle as imported, checked in so upstream changes arrive as diffs. Never shipped; never edited by hand.

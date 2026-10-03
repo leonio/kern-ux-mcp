@@ -14,6 +14,7 @@ import {
 	TOOLS_WITHOUT_BUNDLE_COMPONENT,
 } from "./knowledge-map.js";
 import { COMPONENT_TOOL_IDS } from "./tool-builders/component-tools.js";
+import { TOOL_HINTS } from "./tool-hints.js";
 
 /**
  * A bundle as read from disk: each JSON file by its path relative to the bundle
@@ -112,6 +113,28 @@ export function checkKnowledgeBundle(files: KnowledgeBundleFiles): string[] {
 	}
 
 	return problems;
+}
+
+/**
+ * The tool hints whose source text changed since they were written, or whose
+ * source is gone. Each needs the tool-hints skill: rewrite the line, record
+ * the new hash, or remove it.
+ */
+export function staleToolHints(files: KnowledgeBundleFiles): string[] {
+	return Object.entries(TOOL_HINTS).flatMap(([tool, hint]) => {
+		const document = files.get(hint.source) as
+			| { provenance?: Record<string, { inputHash?: string }> }
+			| undefined;
+		if (!document) {
+			return [`${tool}: its source ${hint.source} isn't in the bundle.`];
+		}
+		const inputHash = document.provenance?.["knowledge.summary"]?.inputHash;
+		return inputHash === hint.inputHash
+			? []
+			: [
+					`${tool}: the text in ${hint.source} changed since its hint was written.`,
+				];
+	});
 }
 
 /**

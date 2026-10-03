@@ -16,6 +16,7 @@ import { fileURLToPath } from "node:url";
 import {
 	checkKnowledgeBundle,
 	formatKnowledgeImport,
+	staleToolHints,
 } from "../../packages/core/src/ux/knowledge-import.js";
 import { projectRegistry } from "../../packages/core/src/ux/knowledge-projection.js";
 import type { RegistryManifest } from "../../packages/core/src/ux/registry.schema.js";
@@ -56,6 +57,15 @@ if (problems.length > 0) {
 	console.error("\nNot imported.");
 	process.exit(1);
 }
+
+// Not a reason to stop: the skill handles them after the import.
+const stale = staleToolHints(next.json);
+if (stale.length > 0) {
+	console.log(
+		`\nStale tool hints (run the tool-hints skill):\n${stale.map((line) => `  ${line}`).join("\n")}`,
+	);
+}
+
 if (dryRun) {
 	console.log("\nDry run: knowledge/ and registry.json are unchanged.");
 	process.exit(0);
