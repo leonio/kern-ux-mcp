@@ -161,6 +161,7 @@ KERN's facts and text now come from a knowledge bundle built from KERN's three s
   - look-alikes: button and link; checkbox, radio and select; heading and title; text field and textarea; number field; loader and progress; accordion; description list
 
   For example, `get_button` adds "For actions; to navigate to another page, use get_link." The listing grows by about 1.3K characters.
+- **Icons come from the bundle.** `list_icons` returns all 42 of KERN's icon names, adding `account-circle`, `dehaze` and `language`. Icon inputs accept the same 42.
 - **Fallback tools:** `get_details`, `get_search`, `get_layers` and `get_pattern` return KERN's example markup from the bundle.
   - It's on one line.
   - `get_pattern` no longer includes the story's inline toggle script.

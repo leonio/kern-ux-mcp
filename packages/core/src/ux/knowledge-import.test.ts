@@ -57,6 +57,10 @@ function bundle(): Map<string, unknown> {
 		component: "search",
 		examples: [example("search-with-label")],
 	});
+	files.set("foundations/icons.json", {
+		id: "icons",
+		icons: [{ name: "add", class: "kern-icon--add" }],
+	});
 	files.set("foundations/utilities.json", {
 		id: "utilities",
 		examples: [example("stack")],
@@ -196,6 +200,16 @@ describe("checkKnowledgeBundle", () => {
 
 		expect(checkKnowledgeBundle(files)).toEqual([
 			"get_details returns the example details, which isn't in components/details.json.",
+		]);
+	});
+
+	it("needs the icons", () => {
+		const files = bundleWith((files) => {
+			files.delete("foundations/icons.json");
+		});
+
+		expect(checkKnowledgeBundle(files)).toEqual([
+			"foundations/icons.json is missing: list_icons and the icon checks read it.",
 		]);
 	});
 

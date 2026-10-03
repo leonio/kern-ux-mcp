@@ -12,7 +12,7 @@ const CommonParams = McpCommonSchema.shape;
 export const iconSchema = z
 	.object({
 		...CommonParams,
-		/** Icon name from VALID_ICON_NAMES */
+		/** Icon name from VALID_ICON_NAMES (icons.ts) */
 		name: IconRefSchema.shape.name,
 		/** Icon size variant */
 		size: z

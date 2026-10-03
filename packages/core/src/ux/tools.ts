@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { pickLocale } from "./i18n.js";
+import { VALID_ICON_NAMES } from "./icons.js";
 import {
 	getToolInputJsonSchema,
 	getToolOutputJsonSchema,
@@ -44,7 +45,6 @@ import {
 import { buildTypographyTool } from "./tool-builders/typography.js";
 import { withToolHint } from "./tool-hints.js";
 import type { ComponentInfo, Locale, Registry } from "./types.js";
-import { VALID_ICON_NAMES } from "./types.js";
 import { validateHtmlStrict } from "./validate.js";
 import { ValidationResultSchema } from "./validate.schema.js";
 

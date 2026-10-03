@@ -5,8 +5,9 @@ import {
 	createRegistry,
 	type RenderedToolResult,
 } from "../test-support/tools.js";
+import { VALID_ICON_NAMES } from "./icons.js";
 import { createTools, VALIDATE_HTML_MAX_LENGTH } from "./tools.js";
-import { type ComponentInfo, VALID_ICON_NAMES } from "./types.js";
+import type { ComponentInfo } from "./types.js";
 
 describe("tool behaviour", () => {
 	it("formats deprecated warning with object-style get_component_docs args", async () => {

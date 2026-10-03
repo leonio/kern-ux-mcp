@@ -41,6 +41,10 @@ function bundle(input: Record<string, unknown> = {}): Map<string, unknown> {
 		...(files.get("components/search.json") as object),
 		examples: [example("search-with-label")],
 	});
+	files.set("foundations/icons.json", {
+		id: "icons",
+		icons: [{ name: "add", class: "kern-icon--add" }],
+	});
 	files.set("foundations/utilities.json", {
 		id: "utilities",
 		examples: [example("stack", "stories/Layers/Layers.stories.js")],
@@ -97,6 +101,7 @@ describe("projectRegistry", () => {
 			bundleVersion: "0.2.0",
 		});
 		expect(registry.tokens).toBe(TOKENS);
+		expect(registry.icons).toEqual(["add"]);
 	});
 
 	it("gives every component tool an entry, under our IDs, sorted", () => {

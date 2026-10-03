@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { iconNameHint, isValidIconName } from "../types.js";
+import { iconNameHint, isValidIconName } from "../icons.js";
 
 export const McpCommonSchema = z.object({
 	locale: z

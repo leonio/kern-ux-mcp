@@ -1,6 +1,7 @@
 import type {
 	BundleAccessibilityCriterion,
 	BundleComponent,
+	BundleIcons,
 	BundleIndex,
 	BundleKnowledge,
 } from "./knowledge-bundle.js";
@@ -27,7 +28,7 @@ export const REGISTRY_MANIFEST_VERSION = "2.0.0";
 /**
  * registry.json from a checked bundle (checkKnowledgeBundle) and the code-owned
  * map: our component IDs, the bundle's English text as it is, accessibility per
- * criterion, and the picked example for each fallback tool. It selects; it
+ * criterion, the picked example for each fallback tool, and the icon names. It selects; it
  * doesn't rewrite. The tokens are carried over from the current registry until
  * the bundle has them. Build-time only.
  */
@@ -67,6 +68,9 @@ export function projectRegistry(
 			bundleVersion: index.bundleVersion,
 		}),
 		tokens,
+		icons: (files.get("foundations/icons.json") as BundleIcons).icons.map(
+			(icon) => icon.name,
+		),
 		components: components.sort((a, b) => a.id.localeCompare(b.id)),
 	};
 }

@@ -18,6 +18,7 @@ const manifest = (
 		bundleVersion: "0.2.0",
 	},
 	tokens: { colors: [], spacing: [], rawVariables: [] },
+	icons: ["add", "arrow-down"],
 	components: [
 		{ id: "button", kernId: "button", title: "Button", status: "stable" },
 		{

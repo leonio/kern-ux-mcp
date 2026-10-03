@@ -104,6 +104,12 @@ export function checkKnowledgeBundle(files: KnowledgeBundleFiles): string[] {
 		}
 	}
 
+	if (!files.has("foundations/icons.json")) {
+		problems.push(
+			"foundations/icons.json is missing: list_icons and the icon checks read it.",
+		);
+	}
+
 	for (const [toolId, pick] of Object.entries(FALLBACK_EXAMPLES)) {
 		if (!findBundleExample(files, pick)) {
 			problems.push(

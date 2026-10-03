@@ -165,6 +165,10 @@ export const RegistryManifestSchema = z
 		tokens: TokenSnapshotSchema.describe(
 			"Carried over from the previous registry until the bundle has tokens.",
 		),
+		icons: z
+			.array(z.string().regex(/^[a-z0-9-]+$/))
+			.min(1)
+			.describe("KERN's icon names, from the bundle's foundations/icons.json."),
 		components: z.array(ComponentInfoSchema),
 	})
 	.superRefine((manifest, ctx) => {
