@@ -9,6 +9,26 @@ We work through it progressively, one step at a time. Each step is one PR or a s
 
 Discovery date: 2026-09-27. Line numbers refer to the code at that point and will drift.
 
+## Closing out the alpha
+
+Re-planned 2026-10-03. R0 to R5.1 are done apart from R0's client check. What's left before 2.0.0, in order:
+
+1. **R6: the knowledge bundle, layout and resources** ([r6-kickoff.md](r6-kickoff.md)):
+   - **A.** Import the bundle and generate `registry.json` from it.
+   - **B.** Put the bundle on the tool path: the docs tool, hint lines, icons, unknown classes.
+   - **C.** Move layout to the CSS Grid utilities.
+   - **D.** The component cards and the forms, layout and accessibility guides.
+2. **R7: three prompts:**
+   - `create_page_layout`
+   - `create_input_form`, which builds a wizard when given steps
+   - `review_kern_html`
+3. **Release 2.0.0:**
+   - the client check (from R0)
+   - the docs
+   - merge `feat/v2-alpha` into `main`
+
+**Out of the alpha:** the `defineTool()` migration, R4b's last inventories and the K2 conformance work move to [After 2.0.0](#after-200). None of them changes what a client sees.
+
 ## Status tracker
 
 ### R0: SDK v2 spike
@@ -29,6 +49,8 @@ Discovery date: 2026-09-27. Line numbers refer to the code at that point and wil
 - [x] Check that TS 7 compiles against the v2 `.d.ts` files, that JSON-import emit works, and that `tsc -b` works.
 - [ ] Check that Claude Desktop runs an MCPB bundle on Node 24, built-in or through the system Node setting. The bundle runs on Node 24.21.0 under the Inspector; the Desktop run is still open.
 - [ ] Write the results into [findings.md](findings.md) item 17. The automated results are in; the client matrix is still to add.
+
+**The open boxes move to [Release 2.0.0](#release-200)** (2026-10-03), as its client check.
 
 ### R1: Prerequisites (safe to cherry-pick to `main`)
 
@@ -105,7 +127,7 @@ In progress: [r4b-kickoff.md](r4b-kickoff.md) has the plan and progress. Can sta
 - [x] Export it as JSON Schema, replacing `docs/registry.schema.json`, for the generator to validate against.
 - [x] Validate `registry.json` in a test and in `registry:import`. **Not at startup:** the file is bundled, so the server runs exactly the file CI checked (decided 2026-10-02).
 - [x] `npm run registry:import -- <path>`: validate, copy, and print the component and field diff.
-**The boxes below wait on the first knowledge bundle** and get re-planned then as phases K1–K4 of [knowledge-bundle.md](knowledge-bundle.md) (`knowledge:import` replaces `registry:import`). **Re-planned 2026-10-03:** R6 groups A and B do most of them ([r6-kickoff.md](r6-kickoff.md)): the import and `registry.json` from the bundle (A), `list_icons` from the bundle (C11), and hint lines only in the descriptions that need one (B6). The unknown-class rule, tokens from the bundle and `get_utility_reference` from the bundle stay open.
+**The boxes below wait on the first knowledge bundle** and get re-planned then as phases K1–K4 of [knowledge-bundle.md](knowledge-bundle.md) (`knowledge:import` replaces `registry:import`). **Re-planned 2026-10-03:** R6 groups A and B do most of them ([r6-kickoff.md](r6-kickoff.md)): the import and `registry.json` from the bundle (A), hint lines only in the descriptions that need one (B6), `list_icons` from the bundle (B7) and the unknown-class warning (B8). Tokens and `get_utility_reference` from the bundle move to [After 2.0.0](#after-200).
 
 - [ ] Optional knowledge fields and inventories from [registry-requirements.md](registry-requirements.md) section 3 (summary, synonyms, similar, when to use, examples, classes, accessibility, anatomy; icons, utilities, all `kern-*` classes, tokens with values; `docsOnly`), with size limits and the corpus version in `upstream`.
 - [ ] Consume the inventories: `list_icons`, `get_utility_reference` and `get_tokens` read the registry instead of hand-coded lists, and `validate_html` warns on unknown `kern-*` classes.
@@ -139,34 +161,56 @@ These change what tools return, so they wait until R5's before/after measurement
 - [x] The typography templates and `get_link`'s `href` escape the model's text (found in R5).
 - [x] `get_button` with `sr-only` keeps `kern-label`, as KERN's markup does (found in R5).
 
-### R6: Resources
+### R6: The knowledge bundle, layout and resources
 
-Planned: [r6-kickoff.md](r6-kickoff.md), re-planned 2026-10-03 after reviewing the bundle. It starts by importing the knowledge bundle and generating `registry.json` from it (K1a and K1b, group A). Next, the bundle's English text goes onto the tool path (group B). Only then come the resources (group C), and only where something uses them.
+Planned: [r6-kickoff.md](r6-kickoff.md), re-planned 2026-10-03 after reviewing the bundle with its English text. It has four groups:
+- **A** imports the knowledge bundle and generates `registry.json` from it (K1a and K1b).
+- **B** puts the bundle's English text on the tool path.
+- **C** moves layout to KERN's CSS Grid utilities, since the container grid is deprecated upstream.
+- **D** builds resources, only where something uses them.
 
-- [ ] Import the bundle into `knowledge/` and generate `registry.json` from it; retire the in-repo generator.
-- [ ] `get_component_docs` from the bundle, and one-line hints in the tool descriptions that need one.
-- [ ] Resource registration, cache hints and a snapshot test harness.
-- [ ] The `kern://components/{id}` cards with completion. (`/schema` dropped 2026-10-02: `tools/list` already carries every input schema. The `kern://components` index dropped 2026-10-03: resource listing and `list_components_by_category` cover it.)
-- [ ] Guides: forms, layout, accessibility. (The composition guide dropped 2026-10-03: the cheat sheet is in the descriptions.)
-- [ ] `list_icons` from the bundle. (`kern://tokens`, `kern://utilities`, `kern://icons` and `kern://templates/page-shell` dropped 2026-10-03: each duplicates a tool.)
-- [ ] Add `resource_link`s from `get_component_docs`.
+- [ ] A: Import the bundle into `knowledge/`, generate `registry.json` from it, and retire the in-repo generator.
+- [ ] B: `get_component_docs` from the bundle, hint lines in the descriptions that need one, `list_icons` from the bundle, and a warning for unknown `kern-*` classes.
+- [ ] C: `get_grid`, card groups, sections and the page shell on the CSS Grid utilities (`kern-grid`).
+- [ ] D: Resource registration, cache hints, a snapshot test harness, and the `kern://components/{id}` cards with completion. (`/schema` dropped 2026-10-02: `tools/list` already carries every input schema. The `kern://components` index dropped 2026-10-03: resource listing and `list_components_by_category` cover it.)
+- [ ] D: Guides: forms, layout, accessibility. (Dropped 2026-10-03, because each duplicates a tool or the cheat sheet: the composition guide and the `kern://tokens`, `kern://utilities`, `kern://icons` and `kern://templates/page-shell` resources.)
+- [ ] D: `resource_link`s from `get_component_docs`.
 
-### R7: Prompts, then 2.0.0 GA
+### R7: Prompts
 
-- [ ] `create_page_layout`
-- [ ] `create_input_form`
-- [ ] `create_wizard_form`
-- [ ] `review_kern_html` and `explain_component`
-- [ ] Prompt snapshots, plus a scenario e2e test: every prompt's example output passes `validate_html`.
+Re-planned 2026-10-03: three prompts instead of five.
+- `create_wizard_form` becomes a `steps` argument of `create_input_form`.
+- `explain_component` is dropped: attaching the component's card does the same.
+
+- [ ] `create_page_layout`: the `render_page` workflow, then `validate_html`.
+- [ ] `create_input_form`: fields to input types, fieldsets, and the `form` block with its error summary, then `validate_html` with `strict`. Given `steps`, it builds a wizard with `formFlow` instead.
+- [ ] `review_kern_html`: `validate_html`, the accessibility guide, a fix list, then re-render with the tools.
+- [ ] Each prompt embeds the guides it relies on, links the cards it uses, and asks for the final HTML verbatim. That settles R5.1's open question on long results.
+- [ ] Prompt snapshots; every tool name and resource URI in a prompt resolves; an eval scenario per prompt.
+
+### Release 2.0.0
+
+- [ ] **The client check** (R0's open boxes), narrowed to VS Code Copilot and Claude:
+  - in VS Code Copilot, Claude Code and Claude Desktop
+  - over stdio and HTTP, on both protocol versions
+  - tools, resources and prompts appear and work
+  - the MCPB bundle runs on Desktop with Node 24
+
+  Results go in [findings.md](findings.md) item 17.
+- [ ] Docs: [migration-2.0.md](../migration-2.0.md) complete, the README, the release notes.
 - [ ] Merge `feat/v2-alpha` into `main` and release 2.0.0.
 
-### Ongoing from R2: progressive `defineTool()` migration
+### After 2.0.0
 
-- [ ] `defineTool()` with `examples`, co-located `normalize`/`errorHint`, and the golden-example test (items 2, 8). R5 lands the `examples` table and the golden test first; `defineTool()` then takes them over.
-- [ ] Utility tools.
-- [ ] Typography and layout tools.
-- [ ] Interactive tools as a declarative table, with routing declared once and the component ID on the definition (items 6, 7, 11).
-- [ ] Composition tools through a generic HTML tool builder (item 5).
+Moved out of the alpha on 2026-10-03. These are either internal refactoring or work that waits on the packer.
+
+- [ ] **The progressive `defineTool()` migration** (from R2):
+  - `defineTool()` with `examples`, co-located `normalize`/`errorHint` and the golden-example test (items 2, 8)
+  - then the utility tools, the typography and layout tools, the interactive tools as a declarative table (items 6, 7, 11), and the composition tools through a generic HTML tool builder (item 5)
+- [ ] `get_tokens` from the bundle, once the packer writes `foundations/tokens.json`.
+- [ ] `get_utility_reference` from the bundle's utilities. Today's curated text works.
+- [ ] K2: the parameter map, conformance tests against the bundle's tagged examples, and the coverage matrix ([knowledge-bundle.md](knowledge-bundle.md) section 7).
+- [ ] K5: React bindings and JSX output.
 
 ---
 
@@ -471,16 +515,15 @@ Each prompt returns:
 - a user message holding the workflow (which tools, in what order, which rules)
 - the embedded relevant guide(s)
 - `resource_link`s to the component cards it relies on
+- an instruction to return the final HTML verbatim, not a description of it
 
-`locale` and `componentId` offer completion via `completable()`.
+`locale` offers completion via `completable()`. Three prompts since 2026-10-03: the wizard is a `steps` argument of `create_input_form`, and `explain_component` is dropped, since attaching the component card does the same.
 
 | Prompt | Args (strings) | Workflow it encodes |
 |---|---|---|
 | `create_page_layout` | `purpose`, `sections?`, `locale?` | `render_page`: header pattern, sections/grid/cards, footer, then `validate_html` |
-| `create_input_form` | `purpose`, `fields` (free text, e.g. "Vorname, Nachname, E-Mail, Geburtsdatum"), `locale?` | Map fields to input types, `form` block with fieldsets, error-summary pattern, `validate_html` with `strict` |
-| `create_wizard_form` | `purpose`, `steps`, `locale?` | `formFlow` per step (or `renderAllSteps`), tasklist and progress, review step via `get_summary`, submit on the last step |
+| `create_input_form` | `purpose`, `fields` (free text, e.g. "Vorname, Nachname, E-Mail, Geburtsdatum"), `steps?`, `locale?` | Map fields to input types, `form` block with fieldsets, error-summary pattern, `validate_html` with `strict`. With `steps`: `formFlow` per step (or `renderAllSteps`), tasklist and progress, review step via `get_summary`, submit on the last step |
 | `review_kern_html` | `html` | `validate_html`, the accessibility guide, a fix list, re-render with the correct tools |
-| `explain_component` | `componentId` | Embed the card and suggest the matching tool call |
 
 ## Verification
 
