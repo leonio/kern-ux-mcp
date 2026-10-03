@@ -144,6 +144,12 @@ export type BundleIcons = {
 	knowledge?: BundleKnowledge;
 };
 
+/** foundations/classes.json: every kern-* class kern-ux-plain's SCSS defines. */
+export type BundleClasses = {
+	id: "classes";
+	classes: Array<{ class: string; kind: string; owner: string }>;
+};
+
 export type BundleUtilities = {
 	id: "utilities";
 	kernVersion: string;

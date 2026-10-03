@@ -185,7 +185,7 @@ describe("buildFormFlow", () => {
 	it("omits navigation section entirely when navigation is undefined", () => {
 		const result = buildFormFlow({ currentStep: 1, steps: FOUR_STEPS }, "de");
 
-		expect(result.html).not.toContain("kern-form-flow__navigation");
+		expect(result.html).not.toContain("data-step-navigation");
 	});
 
 	it("uses English labels when locale is en", () => {
@@ -234,14 +234,14 @@ describe("buildFormFlow: form, buttons, headings, all steps", () => {
 			},
 			"de",
 		).html;
-		const flow = parse(html).querySelector(".kern-form-flow");
+		const flow = parse(html).querySelector("[data-form-flow]");
 		const form = flow?.querySelector("form");
 
 		expect(form?.getAttribute("action")).toBe("/antrag");
 		expect(form?.getAttribute("method")).toBe("post");
 		expect(form?.hasAttribute("novalidate")).toBe(true);
-		expect(form?.querySelector(".kern-form-flow__step")).not.toBeNull();
-		expect(form?.querySelector(".kern-form-flow__navigation")).not.toBeNull();
+		expect(form?.querySelector("[data-step]")).not.toBeNull();
+		expect(form?.querySelector("[data-step-navigation]")).not.toBeNull();
 		expect(form?.querySelector(".kern-task-list")).toBeNull();
 		expect(form?.querySelector("progress")).toBeNull();
 		expect(flow?.querySelector(".kern-task-list")).not.toBeNull();
@@ -302,7 +302,7 @@ describe("buildFormFlow: form, buttons, headings, all steps", () => {
 			},
 			"de",
 		).html;
-		const steps = parse(html).querySelectorAll(".kern-form-flow__step");
+		const steps = parse(html).querySelectorAll("[data-step]");
 
 		expect(steps.map((step) => step.getAttribute("data-step"))).toEqual([
 			"1",
@@ -328,7 +328,7 @@ describe("buildFormFlow: form, buttons, headings, all steps", () => {
 		expect(parse(html).querySelectorAll("form")).toHaveLength(1);
 		// A flex class on the step itself would override hidden; the stack is inside.
 		expect(steps.map((step) => step.getAttribute("class"))).toEqual(
-			Array(4).fill("kern-form-flow__step"),
+			Array(4).fill(undefined),
 		);
 		expect(steps[0]?.firstElementChild?.getAttribute("class")).toBe(
 			"kern-flex kern-flex-col kern-gap-lg",
@@ -410,7 +410,7 @@ describe("formFlow via render_composition", () => {
 			],
 		});
 
-		expect(result.html).toContain("kern-form-flow");
+		expect(result.html).toContain("data-form-flow");
 		expect(result.html).toContain("kern-task-list");
 		expect(result.html).toContain("Erster Inhalt");
 		expect(result.html).not.toContain("Zweiter Inhalt");

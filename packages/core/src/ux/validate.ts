@@ -1,4 +1,5 @@
 import { parse } from "node-html-parser";
+import { isKnownKernClass } from "./kern-classes.js";
 import type { ValidationIssue, ValidationResult } from "./validate.schema.js";
 
 export type { ValidationResult } from "./validate.schema.js";
@@ -297,6 +298,34 @@ export function validateHtmlStrict(html: string): ValidationResult {
 				),
 			);
 		}
+	}
+
+	// kern-* classes KERN doesn't know: a typo, or an invented class that styles nothing.
+	const unknownClasses = new Set<string>();
+	for (const el of root.querySelectorAll("[class]")) {
+		for (const name of (el.getAttribute("class") ?? "").split(/\s+/)) {
+			if (name.startsWith("kern-") && !isKnownKernClass(name)) {
+				unknownClasses.add(name);
+			}
+		}
+	}
+	if (unknownClasses.size > 0) {
+		const names = [...unknownClasses].sort();
+		const shown =
+			names.length > 8
+				? `${names.slice(0, 8).join(", ")} (+${names.length - 8})`
+				: names.join(", ");
+		issues.push(
+			issue(
+				"class.unknown",
+				"warning",
+				{
+					en: `KERN doesn't define these classes: ${shown}. Check the spelling; get_utility_reference lists the utility classes.`,
+					de: `Diese Klassen gibt es in KERN nicht: ${shown}. Schreibweise prüfen; get_utility_reference listet die Hilfsklassen.`,
+				},
+				`.${names[0]}`,
+			),
+		);
 	}
 
 	const ok = !issues.some((i) => i.severity === "error");

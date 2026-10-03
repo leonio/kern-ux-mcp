@@ -1,6 +1,8 @@
 import type {
 	BundleAccessibilityCriterion,
+	BundleClasses,
 	BundleComponent,
+	BundleExample,
 	BundleIcons,
 	BundleIndex,
 	BundleKnowledge,
@@ -28,8 +30,8 @@ export const REGISTRY_MANIFEST_VERSION = "2.0.0";
 /**
  * registry.json from a checked bundle (checkKnowledgeBundle) and the code-owned
  * map: our component IDs, the bundle's English text as it is, accessibility per
- * criterion, the picked example for each fallback tool, and the icon names. It selects; it
- * doesn't rewrite. The tokens are carried over from the current registry until
+ * criterion, the picked example for each fallback tool, the icon names and the
+ * known kern-* classes. It selects; it doesn't rewrite. The tokens are carried over from the current registry until
  * the bundle has them. Build-time only.
  */
 export function projectRegistry(
@@ -71,8 +73,51 @@ export function projectRegistry(
 		icons: (files.get("foundations/icons.json") as BundleIcons).icons.map(
 			(icon) => icon.name,
 		),
+		classes: projectClasses(files),
 		components: components.sort((a, b) => a.id.localeCompare(b.id)),
 	};
+}
+
+const BREAKPOINTS = ["sm", "md", "lg", "xl", "xxl"] as const;
+
+/**
+ * The kern-* classes validate_html knows: those kern-ux-plain's SCSS defines,
+ * plus those KERN's own examples use (some aren't in the SCSS, such as
+ * kern-accordion-group). A base with all five breakpoint variants is listed
+ * once under responsive instead of six times, which keeps the list a third of
+ * its size without accepting invented variants.
+ */
+function projectClasses(files: KnowledgeBundleFiles): {
+	exact: string[];
+	responsive: string[];
+} {
+	const known = new Set(
+		(files.get("foundations/classes.json") as BundleClasses).classes.map(
+			(entry) => entry.class,
+		),
+	);
+	for (const document of files.values()) {
+		const examples = (document as { examples?: BundleExample[] }).examples;
+		for (const example of Array.isArray(examples) ? examples : []) {
+			for (const [, value] of example.html.markup.matchAll(
+				/class="([^"]*)"/g,
+			)) {
+				for (const name of value.split(/\s+/)) {
+					if (name.startsWith("kern-")) known.add(name);
+				}
+			}
+		}
+	}
+
+	const responsive = [...known].filter((base) =>
+		BREAKPOINTS.every((breakpoint) => known.has(`${base}-${breakpoint}`)),
+	);
+	const bases = new Set(responsive);
+	const exact = [...known].filter((name) => {
+		const match = /^(.*)-(?:sm|md|lg|xl|xxl)$/.exec(name);
+		return !match || !bases.has(match[1]);
+	});
+	return { exact: exact.sort(), responsive: responsive.sort() };
 }
 
 function projectComponent(component: BundleComponent): ComponentInfo {

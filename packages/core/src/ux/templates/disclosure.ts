@@ -37,14 +37,14 @@ export function buildDisclosure(
 			: `<p class="kern-body">${escapeHtml(content)}</p>`;
 	}
 
-	const html = `<details class="kern-accordion__item"${openAttr}>
-    <summary class="kern-title">
-        <span>${escapeHtml(triggerLabel)}</span>
-        <span class="kern-icon kern-icon--chevron-right" aria-hidden="true"></span>
-    </summary>
-    <div class="kern-accordion__body">
-        ${bodyContent}
-    </div>
+	// KERN's accordion markup, as get_accordion renders a single one.
+	const html = `<details class="kern-accordion"${openAttr}>
+  <summary class="kern-accordion__header">
+    <span class="kern-title">${escapeHtml(triggerLabel)}</span>
+  </summary>
+  <section class="kern-accordion__body">
+    ${bodyContent}
+  </section>
 </details>`;
 
 	return { html, warnings };

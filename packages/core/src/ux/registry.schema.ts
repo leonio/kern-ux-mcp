@@ -169,6 +169,18 @@ export const RegistryManifestSchema = z
 			.array(z.string().regex(/^[a-z0-9-]+$/))
 			.min(1)
 			.describe("KERN's icon names, from the bundle's foundations/icons.json."),
+		classes: z
+			.object({
+				exact: z.array(z.string()),
+				responsive: z
+					.array(z.string())
+					.describe(
+						"Bases whose -sm, -md, -lg, -xl and -xxl variants are all known.",
+					),
+			})
+			.describe(
+				"The kern-* classes validate_html knows: defined in KERN's SCSS or used in KERN's own examples.",
+			),
 		components: z.array(ComponentInfoSchema),
 	})
 	.superRefine((manifest, ctx) => {

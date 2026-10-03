@@ -36,10 +36,16 @@ describe("TOOL_EXAMPLES (golden)", () => {
 			// invokeTool runs the whole pipeline: normalize, input schema, handler
 			// (which throws in strict mode on validation errors), output schema.
 			const result = (await invokeTool(tool, { ...input, strict: true })) as {
-				validation: { ok: boolean };
+				validation: { ok: boolean; issues: Array<{ ruleId: string }> };
 			};
 
 			expect(result.validation.ok).toBe(true);
+			// Our markup uses only classes KERN knows.
+			expect(
+				result.validation.issues.filter(
+					(issue) => issue.ruleId === "class.unknown",
+				),
+			).toEqual([]);
 		},
 	);
 });

@@ -129,11 +129,12 @@ export function formButton(
 export function buttonRow(
 	buttons: ReadonlyArray<string | undefined>,
 	className = "",
+	attribute = "",
 ): string {
 	const classes = ["kern-flex", "kern-flex-wrap", "kern-gap-md", className]
 		.filter(Boolean)
 		.join(" ");
-	return `<div class="${classes}">
+	return `<div class="${classes}"${attribute ? ` ${attribute}` : ""}>
     ${buttons.filter(Boolean).join("\n    ")}
   </div>`;
 }

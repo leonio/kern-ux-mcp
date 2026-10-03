@@ -57,6 +57,10 @@ function bundle(): Map<string, unknown> {
 		component: "search",
 		examples: [example("search-with-label")],
 	});
+	files.set("foundations/classes.json", {
+		id: "classes",
+		classes: [{ class: "kern-btn", kind: "component", owner: "button" }],
+	});
 	files.set("foundations/icons.json", {
 		id: "icons",
 		icons: [{ name: "add", class: "kern-icon--add" }],

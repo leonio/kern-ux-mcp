@@ -120,10 +120,14 @@ Pre-releases go out under the npm dist-tag `alpha`. "Next alpha" means landed on
 - A form's error summary lists a fieldset's group error too, before the errors of its fields, linked to the group's first input (a radio group's first option).
 - No default format hints. `get_inputtext`, `get_inputnumber`, `get_inputemail`, `get_inputtel`, `get_inputurl`, `get_inputdate`, `get_inputpassword` and `get_inputfile` render a hint only when one is given, like `field` blocks. The defaults were generic ("Pflichtformat: vollstaendigen Namen angeben"), and the file input's named a 10 MB limit nobody had set.
 - Grids no longer warn "KERN UX has two layout systems…" on every call. Columns that don't divide 12 are rejected, and that error's hint names the CSS Grid utilities (`kern-grid kern-grid-cols-5`).
+- **No invented `kern-*` classes.**
+  - `get_disclosure` and disclosure blocks render KERN's accordion markup, as `get_accordion` does for one item: `details.kern-accordion`, `summary.kern-accordion__header` around a `kern-title`, and `section.kern-accordion__body`. They used an undefined `kern-accordion__item` class and a chevron icon.
+  - `formFlow` marks its parts with data attributes instead of classes KERN doesn't define: the wrapper with `data-form-flow`, each step with `data-step`, the step navigation with `data-step-navigation`.
 
 ## Validation (next alpha)
 
 - `form.error_id` and `form.error_describedby` check `.kern-error`, the class KERN and the templates use. In 1.x they looked for classes that don't exist and never fired. HTML that passed before can now get these warnings. They are warnings, so strict mode isn't affected.
+- A new warning, `class.unknown`, lists the `kern-*` classes KERN doesn't know, such as typos and invented classes like `kern-bg-subtle` or `kern-tabs`. "Known" means defined in kern-ux-plain's SCSS or used in KERN's own examples, from the knowledge bundle. It's one warning per document, and strict mode isn't affected.
 
 ## KERN knowledge from the knowledge bundle (next alpha)
 

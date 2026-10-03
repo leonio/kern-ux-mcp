@@ -358,3 +358,47 @@ describe("validateHtmlStrict: form error wiring", () => {
 		);
 	});
 });
+
+describe("class.unknown", () => {
+	const unknownClassIssues = (html: string) =>
+		validateHtmlStrict(html).issues.filter(
+			(entry) => entry.ruleId === "class.unknown",
+		);
+
+	it("warns once about every kern-* class KERN doesn't know, without failing", () => {
+		const html =
+			'<div class="kern-bg-subtle kern-flex"><p class="kern-tabs kern-body">x</p><span class="kern-bg-subtle"></span></div>';
+
+		expect(validateHtmlStrict(html).ok).toBe(true);
+		expect(unknownClassIssues(html)).toEqual([
+			{
+				ruleId: "class.unknown",
+				severity: "warning",
+				message: {
+					en: "KERN doesn't define these classes: kern-bg-subtle, kern-tabs. Check the spelling; get_utility_reference lists the utility classes.",
+					de: "Diese Klassen gibt es in KERN nicht: kern-bg-subtle, kern-tabs. Schreibweise prüfen; get_utility_reference listet die Hilfsklassen.",
+				},
+				selectorHint: ".kern-bg-subtle",
+			},
+		]);
+	});
+
+	it("leaves known classes, KERN's example-only classes and other prefixes alone", () => {
+		expect(
+			unknownClassIssues(
+				'<div class="kern-accordion-group my-app kern"><button class="kern-btn kern-btn--primary kern-flex-row-md">x</button></div>',
+			),
+		).toEqual([]);
+	});
+
+	it("names eight classes and counts the rest", () => {
+		const classes = Array.from({ length: 10 }, (_, i) => `kern-nope-${i}`);
+		const [warning] = unknownClassIssues(
+			`<div class="${classes.join(" ")}"></div>`,
+		);
+
+		expect(warning?.message.en).toContain(
+			"kern-nope-0, kern-nope-1, kern-nope-2, kern-nope-3, kern-nope-4, kern-nope-5, kern-nope-6, kern-nope-7 (+2).",
+		);
+	});
+});

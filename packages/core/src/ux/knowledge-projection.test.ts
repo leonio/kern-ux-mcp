@@ -41,6 +41,10 @@ function bundle(input: Record<string, unknown> = {}): Map<string, unknown> {
 		...(files.get("components/search.json") as object),
 		examples: [example("search-with-label")],
 	});
+	files.set("foundations/classes.json", {
+		id: "classes",
+		classes: [{ class: "kern-btn", kind: "component", owner: "button" }],
+	});
 	files.set("foundations/icons.json", {
 		id: "icons",
 		icons: [{ name: "add", class: "kern-icon--add" }],
@@ -306,6 +310,56 @@ describe("projectRegistry", () => {
 				.filter((component) => component.htmlCanonical)
 				.map((component) => component.id),
 		).toEqual(["details", "layers", "pattern", "search"]);
+	});
+
+	it("knows the classes the SCSS defines and KERN's examples use, with breakpoint variants collapsed", () => {
+		const responsive = ["", "-sm", "-md", "-lg", "-xl", "-xxl"].map(
+			(suffix) => ({
+				class: `kern-flex-row${suffix}`,
+				kind: "utility",
+				owner: "",
+			}),
+		);
+		const registry = project({
+			"foundations/classes.json": {
+				id: "classes",
+				classes: [
+					{ class: "kern-btn", kind: "component", owner: "button" },
+					{ class: "kern-gap-lg", kind: "utility", owner: "" },
+					{ class: "kern-gap-lg-md", kind: "utility", owner: "" },
+					...responsive,
+				],
+			},
+			"patterns/header.json": {
+				id: "header",
+				examples: [
+					{
+						...example("flex-header"),
+						html: {
+							markup: '<div class="kern-brand  kern-btn my-app"></div>',
+							source: {
+								repo: "kern-ux-plain",
+								path: "stories/Pattern/Header.stories.js",
+							},
+						},
+					},
+				],
+			},
+		});
+
+		expect(registry.classes).toEqual({
+			exact: [
+				"kern-brand",
+				"kern-btn",
+				"kern-details",
+				"kern-flex-row",
+				"kern-gap-lg",
+				"kern-gap-lg-md",
+				"kern-search-with-label",
+				"kern-stack",
+			],
+			responsive: ["kern-flex-row"],
+		});
 	});
 
 	it("needs a checked bundle", () => {

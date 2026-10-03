@@ -15,8 +15,9 @@ describe("buildDisclosure", () => {
 		expect(result.html).toContain("<summary");
 		expect(result.html).toContain("Mehr erfahren");
 		expect(result.html).toContain("Hier steht der versteckte Inhalt.");
-		expect(result.html).toContain("kern-accordion__item");
-		expect(result.html).toContain("kern-accordion__body");
+		expect(result.html).toContain('<details class="kern-accordion">');
+		expect(result.html).toContain('<summary class="kern-accordion__header">');
+		expect(result.html).toContain('<section class="kern-accordion__body">');
 	});
 
 	it("wraps text content in kern-body paragraph", () => {
@@ -55,9 +56,7 @@ describe("buildDisclosure", () => {
 			"de",
 		);
 
-		expect(result.html).toContain(
-			'<details class="kern-accordion__item" open>',
-		);
+		expect(result.html).toContain('<details class="kern-accordion" open>');
 	});
 
 	it("omits open attribute by default", () => {
@@ -72,17 +71,14 @@ describe("buildDisclosure", () => {
 		expect(result.html).not.toContain(" open");
 	});
 
-	it("includes chevron icon in summary", () => {
+	it("renders KERN's accordion markup, as get_accordion does for one item", () => {
 		const result = buildDisclosure(
-			{
-				triggerLabel: "Toggle",
-				content: "Content.",
-			},
+			{ triggerLabel: "Toggle", content: "Content." },
 			"de",
 		);
 
-		expect(result.html).toContain("kern-icon--chevron-right");
-		expect(result.html).toContain('aria-hidden="true"');
+		expect(result.html).toContain('<span class="kern-title">Toggle</span>');
+		expect(result.html).not.toContain("kern-icon");
 	});
 
 	it("escapes HTML in trigger label", () => {

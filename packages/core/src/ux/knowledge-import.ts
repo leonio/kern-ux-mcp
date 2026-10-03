@@ -109,6 +109,11 @@ export function checkKnowledgeBundle(files: KnowledgeBundleFiles): string[] {
 			"foundations/icons.json is missing: list_icons and the icon checks read it.",
 		);
 	}
+	if (!files.has("foundations/classes.json")) {
+		problems.push(
+			"foundations/classes.json is missing: validate_html's class check reads it.",
+		);
+	}
 
 	for (const [toolId, pick] of Object.entries(FALLBACK_EXAMPLES)) {
 		if (!findBundleExample(files, pick)) {

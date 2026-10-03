@@ -19,6 +19,7 @@ const manifest = (
 	},
 	tokens: { colors: [], spacing: [], rawVariables: [] },
 	icons: ["add", "arrow-down"],
+	classes: { exact: ["kern-btn", "kern-flex"], responsive: ["kern-flex"] },
 	components: [
 		{ id: "button", kernId: "button", title: "Button", status: "stable" },
 		{

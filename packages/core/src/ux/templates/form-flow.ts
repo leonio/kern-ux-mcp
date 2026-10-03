@@ -141,7 +141,7 @@ export function buildFormFlow(
 
 			const hidden = isActive ? "" : " hidden";
 			// The stack is an inner element: a flex class would override the hidden attribute.
-			return `<div class="kern-form-flow__step" data-step="${index + 1}"${hidden}>
+			return `<div data-step="${index + 1}"${hidden}>
       <div class="${STACK_CLASSES}">
         ${parts.join("\n        ")}
       </div>
@@ -160,7 +160,8 @@ export function buildFormFlow(
 	const parts = [headingHtml, tasklistHtml, progressHtml, formHtml].filter(
 		Boolean,
 	);
-	const html = `<div class="kern-form-flow">\n  ${parts.join("\n  ")}\n</div>`;
+	// KERN has no form-flow classes; data attributes mark the parts instead.
+	const html = `<div data-form-flow>\n  ${parts.join("\n  ")}\n</div>`;
 
 	return { html, warnings };
 
@@ -191,6 +192,6 @@ export function buildFormFlow(
 		if (!buttons.some(Boolean)) {
 			return "";
 		}
-		return buttonRow(buttons, "kern-form-flow__navigation");
+		return buttonRow(buttons, "", "data-step-navigation");
 	}
 }
