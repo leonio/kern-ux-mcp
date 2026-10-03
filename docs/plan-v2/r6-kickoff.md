@@ -177,6 +177,17 @@ From 2026-10-03:
 
 Run the base and nested suites after A (titles and status banners), after B (the docs tool and hints), after C (new layout markup) and in D16. Compare against `r51-b` and `nested-r51-b`. The checks are substring checks: a change in a check means a transcript to read, and C will need its layout checks updated from `kern-row` to `kern-grid`.
 
+## Where group A ended
+
+- **Evals** against `r51-b` and `nested-r51-b`:
+  - base 96/96 checks, as before, 30/30 strict-valid
+  - nested 105/105, up from 103/105
+  - No run called a tool A changed (`get_component_docs`, `get_grid`, `get_lists`). The extra calls (`get_button`, `get_badge`, `render_page`) are run-to-run variance.
+- **`get_grid`'s deprecation banner** sends the model to `get_component_docs` for migration guidance, which the grid's docs don't have. Group C settles it: once `get_grid` renders `kern-grid`, its status shouldn't come from the deprecated container grid.
+- **`get_pattern` fails validation, as it did before:** KERN's header story has an `<img>` without `alt`. It's upstream markup.
+- **The fallback markup is on one line** until the packer keeps the stories' formatting.
+- **The stdio bundle** grew from 351 KB to 494 KB with the richer registry.
+
 ## Asks for the packer (none blocks R6)
 
 - a canonical example marker (one `canonical:` line per component in `components.yaml`)
@@ -191,10 +202,11 @@ Run the base and nested suites after A (titles and status banners), after B (the
 
 ## Progress
 
-- [ ] A1 Bundle types, the ID map and the import checks
-- [ ] A2 `knowledge:import` and the checked-in `knowledge/`
-- [ ] A3 `registry.json` from `knowledge/`
-- [ ] A4 Retire the old registry path
+- [x] A1 `745eaaf`: bundle types, the ID map and the import checks. The 2026-10-03 bundle passes them all.
+- [x] A2 `dff3d1c`: `knowledge:import` and the checked-in `knowledge/` (bundle 0.2.0, 87 files, 1.8 MB). A rerun shows "No changes."
+- [x] A3 `0dcf484`: the old registry path retired. A3 and A4 swapped places: the old generator imported the registry types, so it had to go before the contract changed.
+- [x] A4 `a72a4dd`: `registry.json` from `knowledge/` (contract major 2, 48 components), with the contributor docs and the component-update skill describing the import.
+- [x] Evals after A: [r5-eval/r6-a.json](r5-eval/r6-a.json), [r5-eval/nested-r6-a.json](r5-eval/nested-r6-a.json)
 - [ ] B5 `get_component_docs` from the bundle
 - [ ] B6 The hint-lines skill and the description lines
 - [ ] B7 `list_icons` from the bundle
