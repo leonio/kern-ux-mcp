@@ -1,0 +1,531 @@
+{
+  "id": "textarea",
+  "title": {
+    "en": "Input Textarea",
+    "de": "Input Textarea"
+  },
+  "status": "stable",
+  "group": "form",
+  "synonyms": {
+    "de": [
+      "Textfeld",
+      "Textarea",
+      "multi-line text input",
+      "mehrzeiliges Eingabefeld"
+    ]
+  },
+  "links": {
+    "docs": "https://www.kern-ux.de/komponenten/form-inputs/textarea",
+    "figma": "https://www.figma.com/community/file/1624024563231427311",
+    "source": "https://gitlab.opencode.de/kern-ux/kern-ux-plain/-/tree/v2.8.2/src/scss/core/components/_input.scss"
+  },
+  "docs": {
+    "url": "https://www.kern-ux.de/komponenten/form-inputs/textarea",
+    "summary": {
+      "en": "Textarea lets users enter long, multi-line text. Its height can be set freely but is always greater than a single-line field, and its width can be adapted; users can resize it by dragging the bottom-right corner, and a vertical scrollbar appears once the content exceeds the height. The label should be short and precise, and a hint can explain format, meaning or background. Errors appear below the field, and all Input states apply."
+    },
+    "sections": [
+      {
+        "id": "kurzbeschreibung",
+        "heading": "Kurzbeschreibung",
+        "url": "https://www.kern-ux.de/komponenten/form-inputs/textarea#kurzbeschreibung",
+        "summary": {
+          "en": "Lets users enter long text content."
+        }
+      },
+      {
+        "id": "disabled",
+        "heading": "Disabled",
+        "url": "https://www.kern-ux.de/komponenten/form-inputs/textarea#disabled",
+        "summary": {
+          "en": "Avoid the disabled state, because it limits accessibility."
+        }
+      },
+      {
+        "id": "beschreibung",
+        "heading": "Beschreibung",
+        "url": "https://www.kern-ux.de/komponenten/form-inputs/textarea#beschreibung",
+        "summary": {
+          "en": "A field for multi-line text. Its height can be set freely but is always larger than a single-line input. Users can resize it by dragging the bottom-right corner, and a scrollbar appears when the text outgrows the height. Errors appear below the field."
+        }
+      },
+      {
+        "id": "verwendungsregeln",
+        "heading": "Verwendungsregeln",
+        "url": "https://www.kern-ux.de/komponenten/form-inputs/textarea#verwendungsregeln",
+        "summary": {
+          "en": "Use Textarea only when users must enter multi-line text or paragraphs; otherwise use Input Text, and set the height in proportion to the expected text. Open questions are often hard, so check whether a complex question can be split into simple answers, such as radios."
+        }
+      },
+      {
+        "id": "dos-und-donts",
+        "heading": "Dos und Don’ts",
+        "url": "https://www.kern-ux.de/komponenten/form-inputs/textarea#dos-und-donts",
+        "summary": {
+          "en": "Allow copy and paste, and let users enlarge the field when long text entries are expected. See also the general Dos and Don'ts for Input."
+        }
+      }
+    ]
+  },
+  "knowledge": {
+    "summary": {
+      "en": "Multi-line text input; use it only for paragraphs, otherwise use Input Text."
+    },
+    "whenToUse": [
+      {
+        "en": "When users must enter multi-line text or paragraphs."
+      }
+    ],
+    "dos": [
+      {
+        "en": "Allow the copy and paste function."
+      },
+      {
+        "en": "Let users enlarge the field when long text entries are expected."
+      }
+    ],
+    "donts": [
+      {
+        "en": "Avoid the disabled state, because it limits accessibility."
+      }
+    ],
+    "similar": [
+      {
+        "id": "input-text"
+      },
+      {
+        "id": "input-date"
+      },
+      {
+        "id": "input-email"
+      },
+      {
+        "id": "input-password"
+      }
+    ]
+  },
+  "states": [
+    {
+      "id": "disabled",
+      "origin": "derived",
+      "html": {
+        "binding": "attribute",
+        "attribute": "disabled",
+        "alternatives": [
+          {
+            "binding": "attribute",
+            "attribute": "disabled",
+            "partClass": "kern-form-input__input"
+          },
+          {
+            "binding": "attribute",
+            "attribute": "aria-disabled",
+            "value": "true",
+            "partClass": "kern-form-input__input"
+          }
+        ]
+      }
+    },
+    {
+      "id": "error",
+      "origin": "derived",
+      "html": {
+        "binding": "modifier",
+        "class": "kern-form-input--error",
+        "alternatives": [
+          {
+            "binding": "modifier",
+            "class": "kern-form-input__input--error",
+            "partClass": "kern-form-input__input"
+          }
+        ]
+      }
+    },
+    {
+      "id": "focus",
+      "origin": "derived",
+      "html": {
+        "binding": "pseudo",
+        "selector": ":focus",
+        "partClass": "kern-form-input__input"
+      }
+    },
+    {
+      "id": "hover",
+      "origin": "derived",
+      "html": {
+        "binding": "pseudo",
+        "selector": ":hover",
+        "partClass": "kern-form-input__input"
+      }
+    },
+    {
+      "id": "readonly",
+      "origin": "derived",
+      "html": {
+        "binding": "attribute",
+        "attribute": "readonly",
+        "partClass": "kern-form-input__input"
+      }
+    }
+  ],
+  "accessibility": [
+    {
+      "id": "info-and-relationships",
+      "criterion": "1.3.1",
+      "slug": "info-and-relationships",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "reflow",
+      "criterion": "1.4.10",
+      "slug": "reflow",
+      "level": "AA",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "use-of-color",
+      "criterion": "1.4.1",
+      "slug": "use-of-color",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "contrast-enhanced",
+      "criterion": "1.4.6",
+      "slug": "contrast-enhanced",
+      "level": "AAA",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "non-text-contrast",
+      "criterion": "1.4.11",
+      "slug": "non-text-contrast",
+      "level": "AA",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "labels-or-instructions",
+      "criterion": "3.3.2",
+      "slug": "labels-or-instructions",
+      "level": "A",
+      "status": "implementation-dependent",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "keyboard",
+      "criterion": "2.1.1",
+      "slug": "keyboard",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "focus-appearance",
+      "criterion": "2.4.13",
+      "slug": "focus-appearance",
+      "level": "AAA",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "focus-order",
+      "criterion": "2.4.3",
+      "slug": "focus-order",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "error-identification",
+      "criterion": "3.3.1",
+      "slug": "error-identification",
+      "level": "A",
+      "status": "implementation-dependent",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "info-and-relationships-2",
+      "criterion": "1.3.1",
+      "slug": "info-and-relationships",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-10-23"
+    },
+    {
+      "id": "status-messages",
+      "criterion": "4.1.3",
+      "slug": "status-messages",
+      "level": "AA",
+      "status": "implementation-dependent",
+      "lastChecked": "2025-10-23"
+    },
+    {
+      "id": "identify-input-purpose",
+      "criterion": "1.3.5",
+      "slug": "identify-input-purpose",
+      "level": "AA",
+      "status": "implementation-dependent",
+      "lastChecked": "2025-10-23"
+    }
+  ],
+  "examples": [
+    {
+      "id": "textarea",
+      "html": {
+        "markup": "<div class=\"kern-form-input\"><label class=\"kern-label\" for=\"textarea\">Beschreibung</label><textarea class=\"kern-form-input__input\" id=\"textarea\" name=\"textarea\"></textarea></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Textarea/Textarea.stories.js",
+          "export": "Textarea"
+        }
+      }
+    },
+    {
+      "id": "textarea-hover",
+      "states": [
+        "hover"
+      ],
+      "html": {
+        "markup": "<div class=\"kern-form-input\"><label class=\"kern-label\" for=\"textarea1\">Beschreibung</label><textarea class=\"kern-form-input__input\" id=\"textarea1\" name=\"textarea\"></textarea></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Textarea/Textarea.stories.js",
+          "export": "TextareaHover"
+        }
+      }
+    },
+    {
+      "id": "textarea-focus",
+      "states": [
+        "focus"
+      ],
+      "html": {
+        "markup": "<div class=\"kern-form-input\"><label class=\"kern-label\" for=\"textarea2\">Beschreibung</label><textarea class=\"kern-form-input__input\" id=\"textarea2\" name=\"textarea\"></textarea></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Textarea/Textarea.stories.js",
+          "export": "TextareaFocus"
+        }
+      }
+    },
+    {
+      "id": "textarea-read-only",
+      "states": [
+        "readonly"
+      ],
+      "html": {
+        "markup": "<div class=\"kern-form-input\"><label class=\"kern-label\" for=\"textarea3\">Beschreibung</label><textarea class=\"kern-form-input__input\" id=\"textarea3\" name=\"textarea\" readonly>Text</textarea></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Textarea/Textarea.stories.js",
+          "export": "TextareaReadOnly"
+        }
+      }
+    },
+    {
+      "id": "textarea-disabled",
+      "states": [
+        "disabled"
+      ],
+      "html": {
+        "markup": "<div class=\"kern-form-input\"><label class=\"kern-label\" for=\"textarea4\">Beschreibung</label><textarea class=\"kern-form-input__input\" id=\"textarea4\" name=\"textarea\" disabled></textarea></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Textarea/Textarea.stories.js",
+          "export": "TextareaDisabled"
+        }
+      }
+    },
+    {
+      "id": "textarea-hint",
+      "html": {
+        "markup": "<div class=\"kern-form-input\"><label class=\"kern-label\" for=\"textarea5\">Beschreibung</label><div class=\"kern-hint\" id=\"textarea-hint\">Hinweistext</div><textarea class=\"kern-form-input__input\" id=\"textarea5\" name=\"textarea\" aria-describedby=\"textarea-hint\"></textarea></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Textarea/Textarea.stories.js",
+          "export": "TextareaHint"
+        }
+      }
+    },
+    {
+      "id": "textarea-optional",
+      "html": {
+        "markup": "<div class=\"kern-form-input\"><label class=\"kern-label\" for=\"textarea7\">Beschreibung <span class=\"kern-label__optional\">- Optional</span></label><div class=\"kern-hint\" id=\"textarea-hint\">Hinweistext</div><textarea class=\"kern-form-input__input\" id=\"textarea7\" name=\"textarea\" aria-describedby=\"textarea-hint\"></textarea></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Textarea/Textarea.stories.js",
+          "export": "TextareaOptional"
+        }
+      }
+    },
+    {
+      "id": "textarea-hint-error",
+      "states": [
+        "error"
+      ],
+      "html": {
+        "markup": "<div class=\"kern-form-input kern-form-input--error\"><label class=\"kern-label\" for=\"textarea6\">Beschreibung</label><div class=\"kern-hint\" id=\"textarea-hint\">Hinweistext</div><textarea class=\"kern-form-input__input kern-form-input__input--error\" id=\"textarea6\" name=\"textarea\" aria-describedby=\"textarea-hint textarea-error\" aria-invalid=\"true\"></textarea><p class=\"kern-error\" id=\"textarea-error\"><span class=\"kern-icon kern-icon--danger\" aria-hidden=\"true\"></span><span class=\"kern-body\">Dieses Feld darf nicht leer sein</span></p></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Textarea/Textarea.stories.js",
+          "export": "TextareaHintError"
+        }
+      }
+    }
+  ],
+  "implementations": {
+    "html": {
+      "package": "@kern-ux/native",
+      "version": "2.8.2",
+      "classes": {
+        "roots": [
+          "kern-form-input"
+        ],
+        "elements": [
+          "kern-form-input__input",
+          "kern-form-input__select-wrapper"
+        ],
+        "modifiers": [
+          "kern-form-input--error",
+          "kern-form-input__input--error",
+          "kern-form-input__input--width-2",
+          "kern-form-input__input--width-4"
+        ]
+      },
+      "sources": [
+        "src/scss/core/components/_input.scss",
+        "stories/Textarea/Textarea.stories.js"
+      ]
+    },
+    "react": {
+      "package": "@publicplan/kern-react-kit",
+      "version": "1.3.5",
+      "import": "import from '@publicplan/kern-react-kit'",
+      "components": [],
+      "sources": [
+        "src/components/Input"
+      ]
+    }
+  },
+  "drift": [
+    {
+      "kind": "unknown-class",
+      "en": "Docs examples use classes that kern-ux-plain doesn't define.",
+      "sources": [
+        "technische-dokumentation",
+        "kern-ux-plain"
+      ],
+      "items": [
+        "kern-icon--md"
+      ]
+    },
+    {
+      "kind": "example-coverage",
+      "en": "Modifiers defined in SCSS that no story or docs example shows.",
+      "sources": [
+        "kern-ux-plain"
+      ],
+      "items": [
+        "kern-form-input__input--width-2",
+        "kern-form-input__input--width-4"
+      ]
+    }
+  ],
+  "provenance": {
+    "docs.sections.beschreibung.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/textarea.mdx#beschreibung"
+      ],
+      "inputHash": "sha256:9b5b22e105c720621c7b9b29193aac48f3bfc9b7bb6aee504fd5b9a5f8c05597"
+    },
+    "docs.sections.disabled.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/textarea.mdx#disabled"
+      ],
+      "inputHash": "sha256:9b5b22e105c720621c7b9b29193aac48f3bfc9b7bb6aee504fd5b9a5f8c05597"
+    },
+    "docs.sections.dos-und-donts.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/textarea.mdx#dos-und-donts"
+      ],
+      "inputHash": "sha256:9b5b22e105c720621c7b9b29193aac48f3bfc9b7bb6aee504fd5b9a5f8c05597"
+    },
+    "docs.sections.kurzbeschreibung.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/textarea.mdx#kurzbeschreibung"
+      ],
+      "inputHash": "sha256:9b5b22e105c720621c7b9b29193aac48f3bfc9b7bb6aee504fd5b9a5f8c05597"
+    },
+    "docs.sections.verwendungsregeln.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/textarea.mdx#verwendungsregeln"
+      ],
+      "inputHash": "sha256:9b5b22e105c720621c7b9b29193aac48f3bfc9b7bb6aee504fd5b9a5f8c05597"
+    },
+    "docs.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/textarea.mdx"
+      ],
+      "inputHash": "sha256:9b5b22e105c720621c7b9b29193aac48f3bfc9b7bb6aee504fd5b9a5f8c05597"
+    },
+    "knowledge.donts.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/textarea.mdx"
+      ],
+      "inputHash": "sha256:e0141b592a67e7be4e32ff98a437749af6b336fe123726f815228697c592c907"
+    },
+    "knowledge.dos.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/textarea.mdx"
+      ],
+      "inputHash": "sha256:e0141b592a67e7be4e32ff98a437749af6b336fe123726f815228697c592c907"
+    },
+    "knowledge.dos.1": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/textarea.mdx"
+      ],
+      "inputHash": "sha256:e0141b592a67e7be4e32ff98a437749af6b336fe123726f815228697c592c907"
+    },
+    "knowledge.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/textarea.mdx"
+      ],
+      "inputHash": "sha256:e0141b592a67e7be4e32ff98a437749af6b336fe123726f815228697c592c907"
+    },
+    "knowledge.whenToUse.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/textarea.mdx"
+      ],
+      "inputHash": "sha256:e0141b592a67e7be4e32ff98a437749af6b336fe123726f815228697c592c907"
+    }
+  }
+}

@@ -1,0 +1,362 @@
+{
+  "id": "form-inputs-overview",
+  "title": {
+    "en": "Form inputs",
+    "de": "Form Inputs"
+  },
+  "group": "Komponenten",
+  "status": "documented",
+  "links": {
+    "docs": "https://www.kern-ux.de/komponenten/form-inputs/index"
+  },
+  "docs": {
+    "url": "https://www.kern-ux.de/komponenten/form-inputs/index",
+    "summary": {
+      "en": "Overview page for every KERN input field type (checkboxes, date, e-mail, file, input group, number, password, radios, select, tel, text, textarea, url) plus the rules that apply to all of them: available states, label and legend, marking required fields with aria-required=true, marking optional fields, hint texts, error messages, field width and height, inputs outside forms, and why the disabled attribute should be avoided."
+    },
+    "sections": [
+      {
+        "id": "beschreibung",
+        "heading": "Beschreibung",
+        "url": "https://www.kern-ux.de/komponenten/form-inputs/index#beschreibung",
+        "summary": {
+          "en": "An input field lets users enter data such as text or numbers into the system. This page collects general information on all input types; the individual variants (checkboxes, date, e-mail, file, input group, number, password, radios, select, tel, text, textarea, url) have their own subpages."
+        }
+      },
+      {
+        "id": "states",
+        "heading": "States",
+        "url": "https://www.kern-ux.de/komponenten/form-inputs/index#states",
+        "summary": {
+          "en": "Inputs can take the states default (normal entry), hover, focus, readonly (display stored values that cannot be changed), disabled, and error in combination with default, focus or hover. Not every field uses every state; each input type lists the states it supports."
+        }
+      },
+      {
+        "id": "label-und-legende",
+        "heading": "Label und Legende",
+        "url": "https://www.kern-ux.de/komponenten/form-inputs/index#label-und-legende",
+        "summary": {
+          "en": "The label or legend of an input should always describe the required entry as briefly and precisely as possible."
+        }
+      },
+      {
+        "id": "required-auszeichnung",
+        "heading": "Required-Auszeichnung",
+        "url": "https://www.kern-ux.de/komponenten/form-inputs/index#required-auszeichnung",
+        "summary": {
+          "en": "Mark required fields with aria-required=true rather than the native required attribute, which triggers inconsistent browser validation. aria-required=true is recognised by assistive technology while validation stays under JavaScript and CSS control. Forms should be mostly required fields."
+        }
+      },
+      {
+        "id": "optional-label",
+        "heading": "Optional-Label",
+        "url": "https://www.kern-ux.de/komponenten/form-inputs/index#optional-label",
+        "summary": {
+          "en": "Mark optional inputs clearly and consider carefully whether the information is really needed, so the form does not become overloaded. Ideally a form is mostly required fields with only a few optional ones."
+        }
+      },
+      {
+        "id": "hint",
+        "heading": "Hint",
+        "url": "https://www.kern-ux.de/komponenten/form-inputs/index#hint",
+        "summary": {
+          "en": "A hint gives supporting information and extra context, for example the expected data format. It should not carry long explanations, lists or paragraphs, and should only repeat information that helps many users and is not already stated elsewhere in the form."
+        }
+      },
+      {
+        "id": "fehlermeldungen",
+        "heading": "Fehlermeldungen",
+        "url": "https://www.kern-ux.de/komponenten/form-inputs/index#fehlermeldungen",
+        "summary": {
+          "en": "Write a specific message for every recognisable error state and keep it constructive without blaming the user, understandable and free of jargon, concise with a single cause and active language, and friendly and supportive rather than discouraging. Based on the German UPA guide."
+        }
+      },
+      {
+        "id": "breite-und-höhe-der-eingabefelder",
+        "heading": "Breite und Höhe der Eingabefelder",
+        "url": "https://www.kern-ux.de/komponenten/form-inputs/index#breite-und-höhe-der-eingabefelder",
+        "summary": {
+          "en": "Applies to text and number inputs, not to checkboxes or radios. Height stays fixed however much text is entered; width is flexible but should not be too wide and should hint at the length of the expected value. Use a consistent width for similar information and test on different screen sizes."
+        }
+      },
+      {
+        "id": "eingabefelder-außerhalb-von-formularen",
+        "heading": "Eingabefelder außerhalb von Formularen",
+        "url": "https://www.kern-ux.de/komponenten/form-inputs/index#eingabefelder-außerhalb-von-formularen",
+        "summary": {
+          "en": "A text or number input may exceptionally sit on a light grey background (layout/background/hued) outside classic forms, for example in a short input mask that should stand apart from the rest of the page. The field background must then be light (layout/background-inverted)."
+        }
+      },
+      {
+        "id": "dos-und-donts",
+        "heading": "Dos und Don’ts",
+        "url": "https://www.kern-ux.de/komponenten/form-inputs/index#dos-und-donts",
+        "summary": {
+          "en": "Keep label text short, on one line, with no trailing colon. Place at most two closely related fields side by side. Write error messages concisely with an action and no blame. Do not put links in hint text, and write hints as complete sentences. Mark the few optional fields, not the many required."
+        }
+      },
+      {
+        "id": "weitere-hinweise",
+        "heading": "Weitere Hinweise",
+        "url": "https://www.kern-ux.de/komponenten/form-inputs/index#weitere-hinweise",
+        "summary": {
+          "en": "Allow copying and pasting content and the use of autocomplete in input fields. A guide to good error messages is available from the German UPA."
+        }
+      },
+      {
+        "id": "disabled-attribut",
+        "heading": "disabled Attribut",
+        "url": "https://www.kern-ux.de/komponenten/form-inputs/index#disabled-attribut",
+        "summary": {
+          "en": "disabled prevents interaction and makes an input unreachable for keyboard users: it cannot be focused with the tab key or read by screen readers. Prefer hiding the input and showing it later. If deactivation is unavoidable, prefer aria-disabled=true and disable interaction in JavaScript."
+        }
+      }
+    ]
+  },
+  "knowledge": {
+    "summary": {
+      "en": "Shared rules for all KERN input fields: states, labels, aria-required marking, hints, error messages, sizing and avoiding the disabled attribute."
+    },
+    "whenToUse": [
+      {
+        "en": "Use the readonly state only when showing stored information again is valuable to the user."
+      },
+      {
+        "en": "Use the error states after submit validation, for example when a required field was left empty."
+      },
+      {
+        "en": "Use aria-disabled=true when an input must look disabled but stay reachable by keyboard and readable by screen readers."
+      }
+    ],
+    "dos": [
+      {
+        "en": "Prefer aria-required=true over the native required attribute to keep validation, styling and error messages under control."
+      },
+      {
+        "en": "Keep label text short and on one line, with no trailing colon."
+      },
+      {
+        "en": "Place at most two closely related text fields side by side and prefer stacking fields."
+      },
+      {
+        "en": "Write error messages concisely, name a single cause and always give an action, without blaming the user."
+      },
+      {
+        "en": "Write hint texts as a complete sentence with a full stop."
+      }
+    ],
+    "donts": [
+      {
+        "en": "Do not put links in hint text; screen readers do not detect them as links."
+      },
+      {
+        "en": "Do not label the many required fields; label the few optional ones instead."
+      },
+      {
+        "en": "Do not use the disabled attribute; hide the input or use aria-disabled=true with JavaScript instead."
+      }
+    ]
+  },
+  "provenance": {
+    "docs.sections.beschreibung.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/index.mdx#beschreibung"
+      ],
+      "inputHash": "sha256:4912440e403e8f3f7647d0dad63413897a0044d70020ae75abb13257a4ccbcd7"
+    },
+    "docs.sections.breite-und-höhe-der-eingabefelder.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/index.mdx#breite-und-höhe-der-eingabefelder"
+      ],
+      "inputHash": "sha256:4912440e403e8f3f7647d0dad63413897a0044d70020ae75abb13257a4ccbcd7"
+    },
+    "docs.sections.disabled-attribut.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/index.mdx#disabled-attribut"
+      ],
+      "inputHash": "sha256:4912440e403e8f3f7647d0dad63413897a0044d70020ae75abb13257a4ccbcd7"
+    },
+    "docs.sections.dos-und-donts.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/index.mdx#dos-und-donts"
+      ],
+      "inputHash": "sha256:4912440e403e8f3f7647d0dad63413897a0044d70020ae75abb13257a4ccbcd7"
+    },
+    "docs.sections.eingabefelder-außerhalb-von-formularen.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/index.mdx#eingabefelder-außerhalb-von-formularen"
+      ],
+      "inputHash": "sha256:4912440e403e8f3f7647d0dad63413897a0044d70020ae75abb13257a4ccbcd7"
+    },
+    "docs.sections.fehlermeldungen.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/index.mdx#fehlermeldungen"
+      ],
+      "inputHash": "sha256:4912440e403e8f3f7647d0dad63413897a0044d70020ae75abb13257a4ccbcd7"
+    },
+    "docs.sections.hint.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/index.mdx#hint"
+      ],
+      "inputHash": "sha256:4912440e403e8f3f7647d0dad63413897a0044d70020ae75abb13257a4ccbcd7"
+    },
+    "docs.sections.label-und-legende.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/index.mdx#label-und-legende"
+      ],
+      "inputHash": "sha256:4912440e403e8f3f7647d0dad63413897a0044d70020ae75abb13257a4ccbcd7"
+    },
+    "docs.sections.optional-label.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/index.mdx#optional-label"
+      ],
+      "inputHash": "sha256:4912440e403e8f3f7647d0dad63413897a0044d70020ae75abb13257a4ccbcd7"
+    },
+    "docs.sections.required-auszeichnung.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/index.mdx#required-auszeichnung"
+      ],
+      "inputHash": "sha256:4912440e403e8f3f7647d0dad63413897a0044d70020ae75abb13257a4ccbcd7"
+    },
+    "docs.sections.states.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/index.mdx#states"
+      ],
+      "inputHash": "sha256:4912440e403e8f3f7647d0dad63413897a0044d70020ae75abb13257a4ccbcd7"
+    },
+    "docs.sections.weitere-hinweise.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/index.mdx#weitere-hinweise"
+      ],
+      "inputHash": "sha256:4912440e403e8f3f7647d0dad63413897a0044d70020ae75abb13257a4ccbcd7"
+    },
+    "docs.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/index.mdx"
+      ],
+      "inputHash": "sha256:4912440e403e8f3f7647d0dad63413897a0044d70020ae75abb13257a4ccbcd7"
+    },
+    "knowledge.donts.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/index.mdx"
+      ],
+      "inputHash": "sha256:970739b8bce22d5038b2ad9af4fb4f988364eeed3e6e600cec453ef205a5818e"
+    },
+    "knowledge.donts.1": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/index.mdx"
+      ],
+      "inputHash": "sha256:970739b8bce22d5038b2ad9af4fb4f988364eeed3e6e600cec453ef205a5818e"
+    },
+    "knowledge.donts.2": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/index.mdx"
+      ],
+      "inputHash": "sha256:970739b8bce22d5038b2ad9af4fb4f988364eeed3e6e600cec453ef205a5818e"
+    },
+    "knowledge.dos.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/index.mdx"
+      ],
+      "inputHash": "sha256:970739b8bce22d5038b2ad9af4fb4f988364eeed3e6e600cec453ef205a5818e"
+    },
+    "knowledge.dos.1": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/index.mdx"
+      ],
+      "inputHash": "sha256:970739b8bce22d5038b2ad9af4fb4f988364eeed3e6e600cec453ef205a5818e"
+    },
+    "knowledge.dos.2": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/index.mdx"
+      ],
+      "inputHash": "sha256:970739b8bce22d5038b2ad9af4fb4f988364eeed3e6e600cec453ef205a5818e"
+    },
+    "knowledge.dos.3": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/index.mdx"
+      ],
+      "inputHash": "sha256:970739b8bce22d5038b2ad9af4fb4f988364eeed3e6e600cec453ef205a5818e"
+    },
+    "knowledge.dos.4": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/index.mdx"
+      ],
+      "inputHash": "sha256:970739b8bce22d5038b2ad9af4fb4f988364eeed3e6e600cec453ef205a5818e"
+    },
+    "knowledge.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/index.mdx"
+      ],
+      "inputHash": "sha256:970739b8bce22d5038b2ad9af4fb4f988364eeed3e6e600cec453ef205a5818e"
+    },
+    "knowledge.whenToUse.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/index.mdx"
+      ],
+      "inputHash": "sha256:970739b8bce22d5038b2ad9af4fb4f988364eeed3e6e600cec453ef205a5818e"
+    },
+    "knowledge.whenToUse.1": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/index.mdx"
+      ],
+      "inputHash": "sha256:970739b8bce22d5038b2ad9af4fb4f988364eeed3e6e600cec453ef205a5818e"
+    },
+    "knowledge.whenToUse.2": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/index.mdx"
+      ],
+      "inputHash": "sha256:970739b8bce22d5038b2ad9af4fb4f988364eeed3e6e600cec453ef205a5818e"
+    }
+  }
+}

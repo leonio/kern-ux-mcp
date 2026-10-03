@@ -1,0 +1,187 @@
+{
+  "id": "layout-overview",
+  "title": {
+    "en": "Layout components",
+    "de": "Layout"
+  },
+  "group": "Komponenten",
+  "status": "documented",
+  "links": {
+    "docs": "https://www.kern-ux.de/komponenten/layout/index"
+  },
+  "docs": {
+    "url": "https://www.kern-ux.de/komponenten/layout/index",
+    "summary": {
+      "en": "The Layout area covers a 12-column Bootstrap-style grid, whose rows act as flexbox wrappers, and the layout utility classes for flexbox, CSS Grid, spacing, stack and visibility. For new projects and active layout work CSS Grid is preferred for its two-dimensional control; otherwise use the grid for the outer shell, the flex grid for content flow and flex helpers for fine alignment inside components."
+    },
+    "sections": [
+      {
+        "id": "kurzbeschreibung",
+        "heading": "Kurzbeschreibung",
+        "url": "https://www.kern-ux.de/komponenten/layout/index#kurzbeschreibung",
+        "summary": {
+          "en": "The Layout area documents the grid and layout helper classes: a 12-column grid system based on Bootstrap, where rows act as flexbox wrappers, and utilities for flexbox, CSS Grid, spacing, stacking and visibility."
+        }
+      },
+      {
+        "id": "was-verwende-ich-wann",
+        "heading": "Was verwende ich wann?",
+        "url": "https://www.kern-ux.de/komponenten/layout/index#was-verwende-ich-wann",
+        "summary": {
+          "en": "For new projects and actively developed layouts, CSS Grid is the preferred choice: it offers more precise two-dimensional control and a more modern code standard."
+        }
+      },
+      {
+        "id": "css-grid-hilfsklassen-2d",
+        "heading": "CSS Grid Hilfsklassen (2D)",
+        "url": "https://www.kern-ux.de/komponenten/layout/index#css-grid-hilfsklassen-2d",
+        "summary": {
+          "en": "For the global page layout and complex two-dimensional structures, such as pages with header, sidebar, main and footer, or tile grids with variable heights and widths. Layout-first: you define the grid and the content follows. Gives full control over rows and columns at once."
+        }
+      },
+      {
+        "id": "grid-system-bootstrap-stil-1d",
+        "heading": "Grid System / Bootstrap-Stil (1D)",
+        "url": "https://www.kern-ux.de/komponenten/layout/index#grid-system-bootstrap-stil-1d",
+        "summary": {
+          "en": "For standardised, responsive column layouts, such as typical content areas that wrap on mobile. Row-first: you think in horizontal rows divided into (usually 12) columns. Fast to build and highly predictable."
+        }
+      },
+      {
+        "id": "css-flex-hilfsklassen-1d",
+        "heading": "CSS-Flex Hilfsklassen (1D)",
+        "url": "https://www.kern-ux.de/komponenten/layout/index#css-flex-hilfsklassen-1d",
+        "summary": {
+          "en": "For fine alignment inside components, such as centring icons, distributing navigation links or aligning buttons in cards. Content-first: the size of the content drives the distribution. Point-wise control, for example with kern-justify-content-between, without a fixed column system."
+        }
+      },
+      {
+        "id": "quick-check-was-nehme-ich-wann",
+        "heading": "Quick-Check: Was nehme ich wann?",
+        "url": "https://www.kern-ux.de/komponenten/layout/index#quick-check-was-nehme-ich-wann",
+        "summary": {
+          "en": "Golden rule: use the grid for the outer shell, the flex grid for content flow and the flex helper classes for details inside components."
+        }
+      }
+    ]
+  },
+  "knowledge": {
+    "summary": {
+      "en": "Layout helpers: a Bootstrap-style 12-column grid, CSS Grid utilities, flex classes, spacing, stack and visibility helpers."
+    },
+    "whenToUse": [
+      {
+        "en": "Use the CSS Grid utilities for page layouts and complex two-dimensional structures such as header, sidebar, main and footer."
+      },
+      {
+        "en": "Use the Bootstrap-style grid for standard responsive column layouts such as three-column content areas."
+      },
+      {
+        "en": "Use the flex helper classes for fine alignment inside components, for example centring icons or aligning buttons in cards."
+      }
+    ],
+    "dos": [
+      {
+        "en": "Use Grid for the outer shell, the Flex Grid for content flow and flex helpers for details inside components."
+      }
+    ]
+  },
+  "provenance": {
+    "docs.sections.css-flex-hilfsklassen-1d.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/layout/index.mdx#css-flex-hilfsklassen-1d"
+      ],
+      "inputHash": "sha256:3b32db401b56ed7081936dbe2846c09f10a70746c912c6c5f1292b69f0c7ff83"
+    },
+    "docs.sections.css-grid-hilfsklassen-2d.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/layout/index.mdx#css-grid-hilfsklassen-2d"
+      ],
+      "inputHash": "sha256:3b32db401b56ed7081936dbe2846c09f10a70746c912c6c5f1292b69f0c7ff83"
+    },
+    "docs.sections.grid-system-bootstrap-stil-1d.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/layout/index.mdx#grid-system-bootstrap-stil-1d"
+      ],
+      "inputHash": "sha256:3b32db401b56ed7081936dbe2846c09f10a70746c912c6c5f1292b69f0c7ff83"
+    },
+    "docs.sections.kurzbeschreibung.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/layout/index.mdx#kurzbeschreibung"
+      ],
+      "inputHash": "sha256:3b32db401b56ed7081936dbe2846c09f10a70746c912c6c5f1292b69f0c7ff83"
+    },
+    "docs.sections.quick-check-was-nehme-ich-wann.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/layout/index.mdx#quick-check-was-nehme-ich-wann"
+      ],
+      "inputHash": "sha256:3b32db401b56ed7081936dbe2846c09f10a70746c912c6c5f1292b69f0c7ff83"
+    },
+    "docs.sections.was-verwende-ich-wann.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/layout/index.mdx#was-verwende-ich-wann"
+      ],
+      "inputHash": "sha256:3b32db401b56ed7081936dbe2846c09f10a70746c912c6c5f1292b69f0c7ff83"
+    },
+    "docs.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/layout/index.mdx"
+      ],
+      "inputHash": "sha256:3b32db401b56ed7081936dbe2846c09f10a70746c912c6c5f1292b69f0c7ff83"
+    },
+    "knowledge.dos.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/layout/index.mdx"
+      ],
+      "inputHash": "sha256:43602acf254c4ea38252bf5271d2443cc531f72855839dc2ed2a66b9efecc109"
+    },
+    "knowledge.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/layout/index.mdx"
+      ],
+      "inputHash": "sha256:43602acf254c4ea38252bf5271d2443cc531f72855839dc2ed2a66b9efecc109"
+    },
+    "knowledge.whenToUse.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/layout/index.mdx"
+      ],
+      "inputHash": "sha256:43602acf254c4ea38252bf5271d2443cc531f72855839dc2ed2a66b9efecc109"
+    },
+    "knowledge.whenToUse.1": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/layout/index.mdx"
+      ],
+      "inputHash": "sha256:43602acf254c4ea38252bf5271d2443cc531f72855839dc2ed2a66b9efecc109"
+    },
+    "knowledge.whenToUse.2": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/layout/index.mdx"
+      ],
+      "inputHash": "sha256:43602acf254c4ea38252bf5271d2443cc531f72855839dc2ed2a66b9efecc109"
+    }
+  }
+}

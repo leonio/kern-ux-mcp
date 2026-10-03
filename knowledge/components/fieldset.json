@@ -1,0 +1,425 @@
+{
+  "id": "fieldset",
+  "title": {
+    "en": "Fieldset",
+    "de": "Fieldset"
+  },
+  "status": "stable",
+  "group": "form",
+  "synonyms": {
+    "de": [
+      "Formulargruppe",
+      "Eingabebereich",
+      "Formularabschnitt"
+    ]
+  },
+  "links": {
+    "docs": "https://www.kern-ux.de/komponenten/fieldset",
+    "figma": "https://www.figma.com/community/file/1624024563231427311",
+    "source": "https://gitlab.opencode.de/kern-ux/kern-ux-plain/-/tree/v2.8.2/src/scss/core/components/_fieldset.scss"
+  },
+  "docs": {
+    "url": "https://www.kern-ux.de/komponenten/fieldset",
+    "summary": {
+      "en": "Fieldset groups related form fields and can build hierarchy, using a legend plus a group of elements. The page covers the kern-label classes and kern-label--large, hint text above and group errors below, vertical or horizontal arrangement via .kern-fieldset__body--horizontal, and when a Fieldset is required."
+    },
+    "sections": [
+      {
+        "id": "kurzbeschreibung",
+        "heading": "Kurzbeschreibung",
+        "url": "https://www.kern-ux.de/komponenten/fieldset#kurzbeschreibung",
+        "summary": {
+          "en": "A fieldset groups related form fields visually and semantically and can build hierarchy."
+        }
+      },
+      {
+        "id": "beschreibung",
+        "heading": "Beschreibung",
+        "url": "https://www.kern-ux.de/komponenten/fieldset#beschreibung",
+        "summary": {
+          "en": "A fieldset pairs a legend with a group of related form elements. The legend names the group concisely and aids orientation, especially for assistive technology; it uses kern-label, enlargeable with kern-label--large. Hints sit above the group, group errors below, and elements can be horizontal."
+        }
+      },
+      {
+        "id": "verwendungsregeln",
+        "heading": "Verwendungsregeln",
+        "url": "https://www.kern-ux.de/komponenten/fieldset#verwendungsregeln",
+        "summary": {
+          "en": "Group related form elements logically, whatever the input type, to improve structure and screen-reader support. It suits multi-part entries such as addresses or dates, and checkbox or radio groups answering one question. Group errors belong inside the fieldset, linked via aria-describedby."
+        }
+      },
+      {
+        "id": "dos-und-donts",
+        "heading": "Dos und Don’ts",
+        "url": "https://www.kern-ux.de/komponenten/fieldset#dos-und-donts",
+        "summary": {
+          "en": "Use fieldsets only for related elements; they are mandatory for checkbox lists and radios, but not for a single checkbox such as a privacy consent. Use one only when a shared legend, error and hint make sense, label the legend clearly, never leave it empty, and never nest field groups."
+        }
+      }
+    ]
+  },
+  "knowledge": {
+    "summary": {
+      "en": "Groups related form fields with a legend and shared hint or error; required for checkbox and radio groups."
+    },
+    "whenToUse": [
+      {
+        "en": "For multi-part entries such as addresses or date fields, and for checkbox or radio groups that relate to one question."
+      }
+    ],
+    "dos": [
+      {
+        "en": "Use fieldsets only for elements that belong together in content."
+      },
+      {
+        "en": "Use a Fieldset for checkbox lists and radio groups; it is mandatory there."
+      },
+      {
+        "en": "Give the legend a clear and concise label and never leave it empty."
+      },
+      {
+        "en": "Link group-level error messages inside the fieldset via aria-describedby."
+      }
+    ],
+    "donts": [
+      {
+        "en": "Do not use a Fieldset for a single checkbox, e.g. accepting a privacy policy."
+      },
+      {
+        "en": "Do not nest form field groups inside one another."
+      }
+    ]
+  },
+  "options": [
+    {
+      "id": "orientation",
+      "kind": "enum",
+      "origin": "curated",
+      "values": [
+        {
+          "id": "vertical",
+          "default": true
+        },
+        {
+          "id": "horizontal"
+        }
+      ],
+      "html": {
+        "binding": "part-class",
+        "pattern": "kern-fieldset__body--{value}",
+        "part": "body",
+        "partClass": "kern-fieldset__body",
+        "omit": [
+          "vertical"
+        ]
+      }
+    }
+  ],
+  "states": [
+    {
+      "id": "error",
+      "origin": "derived",
+      "html": {
+        "binding": "modifier",
+        "class": "kern-fieldset--error"
+      }
+    }
+  ],
+  "accessibility": [
+    {
+      "id": "info-and-relationships",
+      "criterion": "1.3.1",
+      "slug": "info-and-relationships",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-10-21"
+    },
+    {
+      "id": "headings-and-labels",
+      "criterion": "2.4.6",
+      "slug": "headings-and-labels",
+      "level": "AA",
+      "status": "implementation-dependent",
+      "lastChecked": "2025-10-21"
+    },
+    {
+      "id": "labels-or-instructions",
+      "criterion": "3.3.2",
+      "slug": "labels-or-instructions",
+      "level": "A",
+      "status": "implementation-dependent",
+      "lastChecked": "2025-10-21"
+    },
+    {
+      "id": "contrast-enhanced",
+      "criterion": "1.4.6",
+      "slug": "contrast-enhanced",
+      "level": "AAA",
+      "status": "passed",
+      "lastChecked": "2025-10-21"
+    },
+    {
+      "id": "keyboard",
+      "criterion": "2.1.1",
+      "slug": "keyboard",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-10-21"
+    },
+    {
+      "id": "focus-order",
+      "criterion": "2.4.3",
+      "slug": "focus-order",
+      "level": "A",
+      "status": "implementation-dependent",
+      "lastChecked": "2025-10-21"
+    },
+    {
+      "id": "error-identification",
+      "criterion": "3.3.1",
+      "slug": "error-identification",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-10-21"
+    },
+    {
+      "id": "parsing",
+      "criterion": "4.1.1",
+      "slug": "parsing",
+      "status": "passed",
+      "lastChecked": "2025-10-21"
+    }
+  ],
+  "examples": [
+    {
+      "id": "fieldset",
+      "options": {
+        "orientation": "vertical"
+      },
+      "html": {
+        "markup": "<fieldset class=\"kern-fieldset\"><legend class=\"kern-label\"> Fieldset </legend><div class=\"kern-fieldset__body\"><p class=\"kern-body\">Hier kommen gruppierte Formelemente...</p></div></fieldset>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Fieldset/Fieldset.stories.js",
+          "export": "Fieldset"
+        }
+      }
+    },
+    {
+      "id": "fieldset-content",
+      "options": {
+        "orientation": "vertical"
+      },
+      "html": {
+        "markup": "<fieldset class=\"kern-fieldset\"><legend class=\"kern-label kern-label--large\"> Ansprechpartner </legend><div class=\"kern-fieldset__body\"><div class=\"kern-form-input\"><label class=\"kern-label\" for=\"content-vorname\">Vorname</label><input class=\"kern-form-input__input\" id=\"content-vorname\" name=\"vorname\" type=\"text\"></div><div class=\"kern-form-input\"><label class=\"kern-label\" for=\"content-name\">Name</label><input class=\"kern-form-input__input\" id=\"content-name\" name=\"name\" type=\"text\"></div></div></fieldset>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Fieldset/Fieldset.stories.js",
+          "export": "FieldsetContent"
+        }
+      }
+    },
+    {
+      "id": "fieldset-optional",
+      "options": {
+        "orientation": "vertical"
+      },
+      "html": {
+        "markup": "<fieldset class=\"kern-fieldset\"><legend class=\"kern-label kern-label--large\"> Ansprechpartner <span class=\"kern-label__optional\">- Optional</span></legend><div class=\"kern-fieldset__body\"><div class=\"kern-form-input\"><label class=\"kern-label\" for=\"optional-vorname\">Vorname</label><input class=\"kern-form-input__input\" id=\"optional-vorname\" name=\"vorname\" type=\"text\"></div><div class=\"kern-form-input\"><label class=\"kern-label\" for=\"optional-name\">Name</label><input class=\"kern-form-input__input\" id=\"optional-name\" name=\"name\" type=\"text\"></div></div></fieldset>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Fieldset/Fieldset.stories.js",
+          "export": "FieldsetOptional"
+        }
+      }
+    },
+    {
+      "id": "fieldset-hint",
+      "options": {
+        "orientation": "vertical"
+      },
+      "html": {
+        "markup": "<fieldset class=\"kern-fieldset\" aria-describedby=\"hint-text-hint\"><legend class=\"kern-label kern-label--large\"> Ansprechpartner </legend><div class=\"kern-hint\" id=\"hint-text-hint\">Hint Text</div><div class=\"kern-fieldset__body\"><div class=\"kern-form-check\"><input class=\"kern-form-check__checkbox\" id=\"hint-herr\" name=\"geschlecht\" type=\"checkbox\"><label class=\"kern-label\" for=\"hint-herr\">Herr</label></div><div class=\"kern-form-check\"><input class=\"kern-form-check__checkbox\" id=\"hint-frau\" name=\"geschlecht\" type=\"checkbox\"><label class=\"kern-label\" for=\"hint-frau\">Frau</label></div><div class=\"kern-form-check\"><input class=\"kern-form-check__checkbox\" id=\"hint-divers\" name=\"geschlecht\" type=\"checkbox\"><label class=\"kern-label\" for=\"hint-divers\">Divers</label></div><div class=\"kern-form-input\"><label class=\"kern-label\" for=\"hint-vorname\">Vorname</label><input class=\"kern-form-input__input\" id=\"hint-vorname\" name=\"vorname\" type=\"text\"></div><div class=\"kern-form-input\"><label class=\"kern-label\" for=\"hint-name\">Name</label><input class=\"kern-form-input__input\" id=\"hint-name\" name=\"name\" type=\"text\"></div></div></fieldset>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Fieldset/Fieldset.stories.js",
+          "export": "FieldsetHint"
+        }
+      }
+    },
+    {
+      "id": "fieldset-error",
+      "options": {
+        "orientation": "vertical"
+      },
+      "states": [
+        "error"
+      ],
+      "html": {
+        "markup": "<fieldset class=\"kern-fieldset kern-fieldset--error\" aria-describedby=\"error-message error-hint-text\"><legend class=\"kern-label kern-label--large\"> Ansprechpartner </legend><div class=\"kern-hint\" id=\"error-hint-text\">Hint Text</div><div class=\"kern-fieldset__body\"><div class=\"kern-form-input\"><label class=\"kern-label\" for=\"error-vorname\">Vorname</label><input class=\"kern-form-input__input kern-form-input__input--error\" id=\"error-vorname\" name=\"vorname\" type=\"text\" aria-invalid=\"true\"></div><div class=\"kern-form-input\"><label class=\"kern-label\" for=\"error-name\">Name</label><input class=\"kern-form-input__input kern-form-input__input--error\" id=\"error-name\" name=\"name\" type=\"text\" aria-invalid=\"true\"></div></div><p class=\"kern-error\" id=\"error-message\"><span class=\"kern-icon kern-icon--danger\" aria-hidden=\"true\"></span><span class=\"kern-body\">Der Name darf nicht leer sein</span></p></fieldset>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Fieldset/Fieldset.stories.js",
+          "export": "FieldsetError"
+        }
+      }
+    },
+    {
+      "id": "fieldset-horizontal",
+      "options": {
+        "orientation": "horizontal"
+      },
+      "html": {
+        "markup": "<fieldset class=\"kern-fieldset\"><legend class=\"kern-label kern-label--large\"> Ansprechpartner </legend><div class=\"kern-fieldset__body kern-fieldset__body--horizontal\"><div class=\"kern-form-input\"><label class=\"kern-label\" for=\"horizontal-vorname\">Vorname</label><input class=\"kern-form-input__input\" id=\"horizontal-vorname\" name=\"vorname\" type=\"text\"></div><div class=\"kern-form-input\"><label class=\"kern-label\" for=\"horizontal-name\">Name</label><input class=\"kern-form-input__input\" id=\"horizontal-name\" name=\"name\" type=\"text\"></div></div></fieldset>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Fieldset/Fieldset.stories.js",
+          "export": "FieldsetHorizontal"
+        }
+      }
+    }
+  ],
+  "implementations": {
+    "html": {
+      "package": "@kern-ux/native",
+      "version": "2.8.2",
+      "classes": {
+        "roots": [
+          "kern-fieldset"
+        ],
+        "elements": [
+          "kern-fieldset__body"
+        ],
+        "modifiers": [
+          "kern-fieldset--error",
+          "kern-fieldset__body--horizontal"
+        ]
+      },
+      "sources": [
+        "src/scss/core/components/_fieldset.scss",
+        "stories/Fieldset/Fieldset.stories.js"
+      ]
+    },
+    "react": {
+      "package": "@publicplan/kern-react-kit",
+      "version": "1.3.5",
+      "import": "import { FieldsetContent } from '@publicplan/kern-react-kit'",
+      "components": [
+        "FieldsetContent",
+        "FieldsetError",
+        "FieldsetHint",
+        "FieldsetLegend",
+        "FieldsetRoot"
+      ],
+      "sources": [
+        "src/components/Fieldset"
+      ]
+    }
+  },
+  "provenance": {
+    "docs.sections.beschreibung.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/fieldset.mdx#beschreibung"
+      ],
+      "inputHash": "sha256:98f59a7b45f52ee0117bb0fbe405d72cc739d43163cb6b118c2af036ddde575c"
+    },
+    "docs.sections.dos-und-donts.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/fieldset.mdx#dos-und-donts"
+      ],
+      "inputHash": "sha256:98f59a7b45f52ee0117bb0fbe405d72cc739d43163cb6b118c2af036ddde575c"
+    },
+    "docs.sections.kurzbeschreibung.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/fieldset.mdx#kurzbeschreibung"
+      ],
+      "inputHash": "sha256:98f59a7b45f52ee0117bb0fbe405d72cc739d43163cb6b118c2af036ddde575c"
+    },
+    "docs.sections.verwendungsregeln.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/fieldset.mdx#verwendungsregeln"
+      ],
+      "inputHash": "sha256:98f59a7b45f52ee0117bb0fbe405d72cc739d43163cb6b118c2af036ddde575c"
+    },
+    "docs.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/fieldset.mdx"
+      ],
+      "inputHash": "sha256:98f59a7b45f52ee0117bb0fbe405d72cc739d43163cb6b118c2af036ddde575c"
+    },
+    "knowledge.donts.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/fieldset.mdx"
+      ],
+      "inputHash": "sha256:df3277bba2066d20a2aead3f208f992e56bb683bf86a8181a13573791727475b"
+    },
+    "knowledge.donts.1": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/fieldset.mdx"
+      ],
+      "inputHash": "sha256:df3277bba2066d20a2aead3f208f992e56bb683bf86a8181a13573791727475b"
+    },
+    "knowledge.dos.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/fieldset.mdx"
+      ],
+      "inputHash": "sha256:df3277bba2066d20a2aead3f208f992e56bb683bf86a8181a13573791727475b"
+    },
+    "knowledge.dos.1": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/fieldset.mdx"
+      ],
+      "inputHash": "sha256:df3277bba2066d20a2aead3f208f992e56bb683bf86a8181a13573791727475b"
+    },
+    "knowledge.dos.2": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/fieldset.mdx"
+      ],
+      "inputHash": "sha256:df3277bba2066d20a2aead3f208f992e56bb683bf86a8181a13573791727475b"
+    },
+    "knowledge.dos.3": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/fieldset.mdx"
+      ],
+      "inputHash": "sha256:df3277bba2066d20a2aead3f208f992e56bb683bf86a8181a13573791727475b"
+    },
+    "knowledge.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/fieldset.mdx"
+      ],
+      "inputHash": "sha256:df3277bba2066d20a2aead3f208f992e56bb683bf86a8181a13573791727475b"
+    },
+    "knowledge.whenToUse.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/fieldset.mdx"
+      ],
+      "inputHash": "sha256:df3277bba2066d20a2aead3f208f992e56bb683bf86a8181a13573791727475b"
+    }
+  }
+}

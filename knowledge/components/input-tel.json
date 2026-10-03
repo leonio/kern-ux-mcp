@@ -1,0 +1,585 @@
+{
+  "id": "input-tel",
+  "title": {
+    "en": "Input Tel",
+    "de": "Input Tel"
+  },
+  "status": "stable",
+  "group": "form",
+  "synonyms": {
+    "de": [
+      "Rufnummer-Eingabe",
+      "Telefonisches Kontaktfeld",
+      "Mobilnummer-Eingabe"
+    ]
+  },
+  "links": {
+    "docs": "https://www.kern-ux.de/komponenten/form-inputs/tel",
+    "figma": "https://www.figma.com/community/file/1624024563231427311",
+    "source": "https://gitlab.opencode.de/kern-ux/kern-ux-plain/-/tree/v2.8.2/src/scss/core/components/_input.scss"
+  },
+  "docs": {
+    "url": "https://www.kern-ux.de/komponenten/form-inputs/tel",
+    "summary": {
+      "en": "Input Tel takes a phone number. The field uses type=\"tel\", so mobile users get a numeric keypad, and it allows characters such as + for a country code. The label should state that a phone number is expected; if a particular format is required, the hint must explain the allowed characters. Validation errors appear below the field."
+    },
+    "sections": [
+      {
+        "id": "kurzbeschreibung",
+        "heading": "Kurzbeschreibung",
+        "url": "https://www.kern-ux.de/komponenten/form-inputs/tel#kurzbeschreibung",
+        "summary": {
+          "en": "Input Tel helps users enter a phone number."
+        }
+      },
+      {
+        "id": "disabled",
+        "heading": "Disabled",
+        "url": "https://www.kern-ux.de/komponenten/form-inputs/tel#disabled",
+        "summary": {
+          "en": "Avoid disabled, since it restricts accessibility."
+        }
+      },
+      {
+        "id": "beschreibung",
+        "heading": "Beschreibung",
+        "url": "https://www.kern-ux.de/komponenten/form-inputs/tel#beschreibung",
+        "summary": {
+          "en": "The general input properties apply. type=\"tel\" gives mobile users a numeric keypad, and characters such as + for a country code are allowed. Keep the label clear about the expected value, optionally marked as optional, and use a hint for the format. Validation reports problems below the field."
+        }
+      },
+      {
+        "id": "verwendungsregeln",
+        "heading": "Verwendungsregeln",
+        "url": "https://www.kern-ux.de/komponenten/form-inputs/tel#verwendungsregeln",
+        "summary": {
+          "en": "Used in forms to enter a phone number; for general numbers Input Number fits better. The label should make clear that a phone number is expected, for example a mobile or landline number. If that is not obvious, the hint must explain the allowed characters and format."
+        }
+      },
+      {
+        "id": "dos-und-donts",
+        "heading": "Dos und Don’ts",
+        "url": "https://www.kern-ux.de/komponenten/form-inputs/tel#dos-und-donts",
+        "summary": {
+          "en": "Use Input Tel only for phone numbers; for numbers in general Input Number is the better choice. Point users to the expected format. The general Input Dos and Don'ts also apply."
+        }
+      }
+    ]
+  },
+  "knowledge": {
+    "summary": {
+      "en": "Input Tel takes a phone number with type=\"tel\" and allows digits plus characters such as +."
+    },
+    "whenToUse": [
+      {
+        "en": "Use Input Tel for phone numbers, such as a landline or mobile number, including international prefixes."
+      }
+    ],
+    "dos": [
+      {
+        "en": "Use type=\"tel\" so mobile users get a numeric keypad."
+      },
+      {
+        "en": "Tell users the expected format in the hint text."
+      },
+      {
+        "en": "Make the label show that a phone number is expected, for example a mobile number."
+      }
+    ],
+    "donts": [
+      {
+        "en": "Don't use Input Tel for general numbers; Input Number fits better."
+      },
+      {
+        "en": "Don't use disabled, because it restricts accessibility."
+      }
+    ],
+    "similar": [
+      {
+        "id": "input-number"
+      },
+      {
+        "id": "input-text"
+      },
+      {
+        "id": "input-date"
+      }
+    ]
+  },
+  "options": [
+    {
+      "id": "width",
+      "kind": "enum",
+      "origin": "curated",
+      "values": [
+        {
+          "id": "full",
+          "default": true
+        },
+        {
+          "id": "width-2"
+        },
+        {
+          "id": "width-4"
+        }
+      ],
+      "html": {
+        "binding": "part-class",
+        "pattern": "kern-form-input__input--{value}",
+        "part": "input",
+        "partClass": "kern-form-input__input",
+        "omit": [
+          "full"
+        ]
+      }
+    }
+  ],
+  "states": [
+    {
+      "id": "disabled",
+      "origin": "derived",
+      "html": {
+        "binding": "attribute",
+        "attribute": "disabled",
+        "alternatives": [
+          {
+            "binding": "attribute",
+            "attribute": "disabled",
+            "partClass": "kern-form-input__input"
+          },
+          {
+            "binding": "attribute",
+            "attribute": "aria-disabled",
+            "value": "true",
+            "partClass": "kern-form-input__input"
+          }
+        ]
+      }
+    },
+    {
+      "id": "error",
+      "origin": "derived",
+      "html": {
+        "binding": "modifier",
+        "class": "kern-form-input--error",
+        "alternatives": [
+          {
+            "binding": "modifier",
+            "class": "kern-form-input__input--error",
+            "partClass": "kern-form-input__input"
+          }
+        ]
+      }
+    },
+    {
+      "id": "focus",
+      "origin": "derived",
+      "html": {
+        "binding": "pseudo",
+        "selector": ":focus",
+        "partClass": "kern-form-input__input"
+      }
+    },
+    {
+      "id": "hover",
+      "origin": "derived",
+      "html": {
+        "binding": "pseudo",
+        "selector": ":hover",
+        "partClass": "kern-form-input__input"
+      }
+    },
+    {
+      "id": "readonly",
+      "origin": "derived",
+      "html": {
+        "binding": "attribute",
+        "attribute": "readonly",
+        "partClass": "kern-form-input__input"
+      }
+    }
+  ],
+  "accessibility": [
+    {
+      "id": "info-and-relationships",
+      "criterion": "1.3.1",
+      "slug": "info-and-relationships",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "use-of-color",
+      "criterion": "1.4.1",
+      "slug": "use-of-color",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "contrast-enhanced",
+      "criterion": "1.4.6",
+      "slug": "contrast-enhanced",
+      "level": "AAA",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "non-text-contrast",
+      "criterion": "1.4.11",
+      "slug": "non-text-contrast",
+      "level": "AA",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "labels-or-instructions",
+      "criterion": "3.3.2",
+      "slug": "labels-or-instructions",
+      "level": "A",
+      "status": "implementation-dependent",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "keyboard",
+      "criterion": "2.1.1",
+      "slug": "keyboard",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "focus-appearance",
+      "criterion": "2.4.13",
+      "slug": "focus-appearance",
+      "level": "AAA",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "error-identification",
+      "criterion": "3.3.1",
+      "slug": "error-identification",
+      "level": "A",
+      "status": "implementation-dependent",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "info-and-relationships-2",
+      "criterion": "1.3.1",
+      "slug": "info-and-relationships",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-10-23"
+    },
+    {
+      "id": "status-messages",
+      "criterion": "4.1.3",
+      "slug": "status-messages",
+      "level": "AA",
+      "status": "implementation-dependent",
+      "lastChecked": "2025-10-23"
+    },
+    {
+      "id": "identify-input-purpose",
+      "criterion": "1.3.5",
+      "slug": "identify-input-purpose",
+      "level": "AA",
+      "status": "implementation-dependent",
+      "lastChecked": "2025-10-23"
+    }
+  ],
+  "examples": [
+    {
+      "id": "input-tel",
+      "options": {
+        "width": "full"
+      },
+      "html": {
+        "markup": "<div class=\"kern-form-input\"><label class=\"kern-label\" for=\"tel\">Tel</label><input class=\"kern-form-input__input\" id=\"tel\" name=\"tel\" type=\"tel\" autocomplete=\"tel\"></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/InputTel/InputTel.stories.js",
+          "export": "InputTel"
+        }
+      }
+    },
+    {
+      "id": "input-tel-hover",
+      "options": {
+        "width": "full"
+      },
+      "states": [
+        "hover"
+      ],
+      "html": {
+        "markup": "<div class=\"kern-form-input\"><label class=\"kern-label\" for=\"tel1\">Tel</label><input class=\"kern-form-input__input\" id=\"tel1\" name=\"tel1\" type=\"tel\" autocomplete=\"tel\"></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/InputTel/InputTel.stories.js",
+          "export": "InputTelHover"
+        }
+      }
+    },
+    {
+      "id": "input-tel-focus",
+      "options": {
+        "width": "full"
+      },
+      "states": [
+        "focus"
+      ],
+      "html": {
+        "markup": "<div class=\"kern-form-input\"><label class=\"kern-label\" for=\"tel2\">Tel</label><input class=\"kern-form-input__input\" id=\"tel2\" name=\"tel2\" type=\"tel\" autocomplete=\"tel\"></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/InputTel/InputTel.stories.js",
+          "export": "InputTelFocus"
+        }
+      }
+    },
+    {
+      "id": "input-tel-read-only",
+      "options": {
+        "width": "full"
+      },
+      "states": [
+        "readonly"
+      ],
+      "html": {
+        "markup": "<div class=\"kern-form-input\"><label class=\"kern-label\" for=\"tel3\">Tel</label><input class=\"kern-form-input__input\" id=\"tel3\" name=\"tel3\" type=\"tel\" autocomplete=\"tel\" readonly></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/InputTel/InputTel.stories.js",
+          "export": "InputTelReadOnly"
+        }
+      }
+    },
+    {
+      "id": "input-tel-disabled",
+      "options": {
+        "width": "full"
+      },
+      "states": [
+        "disabled"
+      ],
+      "html": {
+        "markup": "<div class=\"kern-form-input\"><label class=\"kern-label\" for=\"tel4\">Tel</label><input class=\"kern-form-input__input\" id=\"tel4\" name=\"tel4\" type=\"tel\" autocomplete=\"tel\" disabled></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/InputTel/InputTel.stories.js",
+          "export": "InputTelDisabled"
+        }
+      }
+    },
+    {
+      "id": "input-tel-hint",
+      "options": {
+        "width": "full"
+      },
+      "html": {
+        "markup": "<div class=\"kern-form-input\"><label class=\"kern-label\" for=\"tel5\">Tel</label><div class=\"kern-hint\" id=\"tel-hint\">Hint Tel</div><input class=\"kern-form-input__input\" id=\"tel5\" name=\"tel5\" type=\"tel\" autocomplete=\"tel\" aria-describedby=\"tel-hint\"></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/InputTel/InputTel.stories.js",
+          "export": "InputTelHint"
+        }
+      }
+    },
+    {
+      "id": "input-tel-optional",
+      "options": {
+        "width": "full"
+      },
+      "html": {
+        "markup": "<div class=\"kern-form-input\"><label class=\"kern-label\" for=\"tel7\">Tel <span class=\"kern-label__optional\">- Optional</span></label><div class=\"kern-hint\" id=\"tel-hint\">Hint Tel</div><input class=\"kern-form-input__input\" id=\"tel7\" name=\"tel7\" type=\"tel\" autocomplete=\"tel\" aria-describedby=\"tel-hint\"></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/InputTel/InputTel.stories.js",
+          "export": "InputTelOptional"
+        }
+      }
+    },
+    {
+      "id": "input-tel-hint-error",
+      "options": {
+        "width": "full"
+      },
+      "states": [
+        "error"
+      ],
+      "html": {
+        "markup": "<div class=\"kern-form-input kern-form-input--error\"><label class=\"kern-label\" for=\"tel6\">Tel</label><div class=\"kern-hint\" id=\"tel-hint\">Hint Tel</div><input class=\"kern-form-input__input kern-form-input__input--error\" id=\"tel6\" name=\"tel6\" type=\"tel\" autocomplete=\"tel\" aria-describedby=\"tel-hint kern-input-error\" aria-invalid=\"true\"><p class=\"kern-error\" id=\"kern-input-error\"><span class=\"kern-icon kern-icon--danger\" aria-hidden=\"true\"></span><span class=\"kern-body\">Die Telefonnummer darf nicht leer sein</span></p></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/InputTel/InputTel.stories.js",
+          "export": "InputTelHintError"
+        }
+      }
+    }
+  ],
+  "implementations": {
+    "html": {
+      "package": "@kern-ux/native",
+      "version": "2.8.2",
+      "classes": {
+        "roots": [
+          "kern-form-input"
+        ],
+        "elements": [
+          "kern-form-input__input",
+          "kern-form-input__select-wrapper"
+        ],
+        "modifiers": [
+          "kern-form-input--error",
+          "kern-form-input__input--error",
+          "kern-form-input__input--width-2",
+          "kern-form-input__input--width-4"
+        ]
+      },
+      "sources": [
+        "src/scss/core/components/_input.scss",
+        "stories/InputTel/InputTel.stories.js"
+      ]
+    },
+    "react": {
+      "package": "@publicplan/kern-react-kit",
+      "version": "1.3.5",
+      "import": "import from '@publicplan/kern-react-kit'",
+      "components": [],
+      "sources": [
+        "src/components/Input"
+      ]
+    }
+  },
+  "drift": [
+    {
+      "kind": "unknown-class",
+      "en": "Docs examples use classes that kern-ux-plain doesn't define.",
+      "sources": [
+        "technische-dokumentation",
+        "kern-ux-plain"
+      ],
+      "items": [
+        "kern-icon--md"
+      ]
+    },
+    {
+      "kind": "example-coverage",
+      "en": "Modifiers defined in SCSS that no story or docs example shows.",
+      "sources": [
+        "kern-ux-plain"
+      ],
+      "items": [
+        "kern-form-input__input--width-2",
+        "kern-form-input__input--width-4"
+      ]
+    }
+  ],
+  "provenance": {
+    "docs.sections.beschreibung.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/tel.mdx#beschreibung"
+      ],
+      "inputHash": "sha256:baee6f31f54eb54ba45282e1728a6a30a03a58d5ce514ab339703f50d1e742a4"
+    },
+    "docs.sections.disabled.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/tel.mdx#disabled"
+      ],
+      "inputHash": "sha256:baee6f31f54eb54ba45282e1728a6a30a03a58d5ce514ab339703f50d1e742a4"
+    },
+    "docs.sections.dos-und-donts.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/tel.mdx#dos-und-donts"
+      ],
+      "inputHash": "sha256:baee6f31f54eb54ba45282e1728a6a30a03a58d5ce514ab339703f50d1e742a4"
+    },
+    "docs.sections.kurzbeschreibung.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/tel.mdx#kurzbeschreibung"
+      ],
+      "inputHash": "sha256:baee6f31f54eb54ba45282e1728a6a30a03a58d5ce514ab339703f50d1e742a4"
+    },
+    "docs.sections.verwendungsregeln.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/tel.mdx#verwendungsregeln"
+      ],
+      "inputHash": "sha256:baee6f31f54eb54ba45282e1728a6a30a03a58d5ce514ab339703f50d1e742a4"
+    },
+    "docs.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/tel.mdx"
+      ],
+      "inputHash": "sha256:baee6f31f54eb54ba45282e1728a6a30a03a58d5ce514ab339703f50d1e742a4"
+    },
+    "knowledge.donts.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/tel.mdx"
+      ],
+      "inputHash": "sha256:ca788c84c93e31ef453f20f782ef39c5bacb5a5e4ace64e846dec022d9526f54"
+    },
+    "knowledge.donts.1": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/tel.mdx"
+      ],
+      "inputHash": "sha256:ca788c84c93e31ef453f20f782ef39c5bacb5a5e4ace64e846dec022d9526f54"
+    },
+    "knowledge.dos.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/tel.mdx"
+      ],
+      "inputHash": "sha256:ca788c84c93e31ef453f20f782ef39c5bacb5a5e4ace64e846dec022d9526f54"
+    },
+    "knowledge.dos.1": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/tel.mdx"
+      ],
+      "inputHash": "sha256:ca788c84c93e31ef453f20f782ef39c5bacb5a5e4ace64e846dec022d9526f54"
+    },
+    "knowledge.dos.2": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/tel.mdx"
+      ],
+      "inputHash": "sha256:ca788c84c93e31ef453f20f782ef39c5bacb5a5e4ace64e846dec022d9526f54"
+    },
+    "knowledge.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/tel.mdx"
+      ],
+      "inputHash": "sha256:ca788c84c93e31ef453f20f782ef39c5bacb5a5e4ace64e846dec022d9526f54"
+    },
+    "knowledge.whenToUse.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/tel.mdx"
+      ],
+      "inputHash": "sha256:ca788c84c93e31ef453f20f782ef39c5bacb5a5e4ace64e846dec022d9526f54"
+    }
+  }
+}

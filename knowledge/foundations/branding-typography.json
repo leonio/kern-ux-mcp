@@ -1,0 +1,155 @@
+{
+  "id": "branding-typography",
+  "title": {
+    "en": "Brand typography",
+    "de": "Typographie"
+  },
+  "group": "Branding",
+  "status": "documented",
+  "links": {
+    "docs": "https://www.kern-ux.de/design-system/branding/typografie"
+  },
+  "docs": {
+    "url": "https://www.kern-ux.de/design-system/branding/typografie",
+    "summary": {
+      "en": "Explains why KERN uses Fira Sans. It was designed for digital surfaces, proved itself over years in Firefox, stays readable on screens of any size and in long text, and keeps easily confused characters apart. The selection criteria follow the Understanding Accessibility guidance; Fira Sans meets DIN 91379 and offers monospaced figures."
+    },
+    "sections": [
+      {
+        "id": "auswahlkriterien-der-fira-sans",
+        "heading": "Auswahlkriterien der Fira Sans",
+        "url": "https://www.kern-ux.de/design-system/branding/typografie#auswahlkriterien-der-fira-sans",
+        "summary": {
+          "en": "The selection criteria for the typeface follow the Understanding Accessibility guidance."
+        }
+      },
+      {
+        "id": "allgemeine-aspekte",
+        "heading": "Allgemeine Aspekte",
+        "url": "https://www.kern-ux.de/design-system/branding/typografie#allgemeine-aspekte",
+        "summary": {
+          "en": "Fira Sans was made for digital interfaces and proved reliable through years of use in Firefox. Its strength is on-screen legibility at any size and in navigation, interfaces and long text, and its many cuts keep complex content clear."
+        }
+      },
+      {
+        "id": "imposter",
+        "heading": "Imposter",
+        "url": "https://www.kern-ux.de/design-system/branding/typografie#imposter",
+        "summary": {
+          "en": "Imposter are confusable letter combinations that harm legibility; writing Illustrate tests distinguishability. The main traps are capitals and similar ascenders, especially l and I, and digits that resemble letters, which matters for example in file reference numbers."
+        }
+      },
+      {
+        "id": "unterscheidbare-großbuchstaben",
+        "heading": "Unterscheidbare Großbuchstaben",
+        "url": "https://www.kern-ux.de/design-system/branding/typografie#unterscheidbare-großbuchstaben",
+        "summary": {
+          "en": "Confusable capitals are another risk: if the C is not open enough, people with low vision struggle to tell it apart from an O."
+        }
+      },
+      {
+        "id": "unterscheidbare-kleinbuchstaben",
+        "heading": "Unterscheidbare Kleinbuchstaben",
+        "url": "https://www.kern-ux.de/design-system/branding/typografie#unterscheidbare-kleinbuchstaben",
+        "summary": {
+          "en": "Lowercase letters are often built alike, so a, e, o and c can look similar; open forms keep a and e apart. Mirroring (q, p, d, b) is critical for early readers and people with learning difficulties. Fira Sans also offers monospaced figures, a slashed zero and a clear 1."
+        }
+      },
+      {
+        "id": "normative-aspekte",
+        "heading": "Normative Aspekte",
+        "url": "https://www.kern-ux.de/design-system/branding/typografie#normative-aspekte",
+        "summary": {
+          "en": "Fira Sans meets DIN 91379."
+        }
+      },
+      {
+        "id": "kulturell-aspekte",
+        "heading": "Kulturell Aspekte",
+        "url": "https://www.kern-ux.de/design-system/branding/typografie#kulturell-aspekte",
+        "summary": {
+          "en": "The choice also has a German cultural link: Erik Spiekermann, one of the fathers of Fira Sans, stands for functional, clear public communication, which supports using the typeface for digital administration."
+        }
+      }
+    ]
+  },
+  "knowledge": {
+    "summary": {
+      "en": "KERN uses Fira Sans: made for digital surfaces, readable at any size, with letterforms that keep confusable characters distinct; it meets DIN 91379."
+    }
+  },
+  "provenance": {
+    "docs.sections.allgemeine-aspekte.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/branding/typografie.mdx#allgemeine-aspekte"
+      ],
+      "inputHash": "sha256:8f090b58d4f6d523daa1de60c9ff3ed05e60b7d10f753abc8a254b34b0009fa2"
+    },
+    "docs.sections.auswahlkriterien-der-fira-sans.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/branding/typografie.mdx#auswahlkriterien-der-fira-sans"
+      ],
+      "inputHash": "sha256:8f090b58d4f6d523daa1de60c9ff3ed05e60b7d10f753abc8a254b34b0009fa2"
+    },
+    "docs.sections.imposter.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/branding/typografie.mdx#imposter"
+      ],
+      "inputHash": "sha256:8f090b58d4f6d523daa1de60c9ff3ed05e60b7d10f753abc8a254b34b0009fa2"
+    },
+    "docs.sections.kulturell-aspekte.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/branding/typografie.mdx#kulturell-aspekte"
+      ],
+      "inputHash": "sha256:8f090b58d4f6d523daa1de60c9ff3ed05e60b7d10f753abc8a254b34b0009fa2"
+    },
+    "docs.sections.normative-aspekte.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/branding/typografie.mdx#normative-aspekte"
+      ],
+      "inputHash": "sha256:8f090b58d4f6d523daa1de60c9ff3ed05e60b7d10f753abc8a254b34b0009fa2"
+    },
+    "docs.sections.unterscheidbare-großbuchstaben.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/branding/typografie.mdx#unterscheidbare-großbuchstaben"
+      ],
+      "inputHash": "sha256:8f090b58d4f6d523daa1de60c9ff3ed05e60b7d10f753abc8a254b34b0009fa2"
+    },
+    "docs.sections.unterscheidbare-kleinbuchstaben.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/branding/typografie.mdx#unterscheidbare-kleinbuchstaben"
+      ],
+      "inputHash": "sha256:8f090b58d4f6d523daa1de60c9ff3ed05e60b7d10f753abc8a254b34b0009fa2"
+    },
+    "docs.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/branding/typografie.mdx"
+      ],
+      "inputHash": "sha256:8f090b58d4f6d523daa1de60c9ff3ed05e60b7d10f753abc8a254b34b0009fa2"
+    },
+    "knowledge.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/branding/typografie.mdx"
+      ],
+      "inputHash": "sha256:e4c5c6ace31b823748a5c7e4f394864c1e17cc8e28164c3ac344bedcabae2fdd"
+    }
+  }
+}

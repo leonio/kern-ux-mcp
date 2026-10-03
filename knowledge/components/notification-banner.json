@@ -1,0 +1,47 @@
+{
+  "id": "notification-banner",
+  "title": {
+    "en": "Notification Banner",
+    "de": "Notification Banner"
+  },
+  "status": "docs-only",
+  "group": "feedback",
+  "synonyms": {
+    "de": []
+  },
+  "links": {
+    "docs": "https://www.kern-ux.de/komponenten/notificationbanner",
+    "figma": "https://www.figma.com/community/file/1624024563231427311"
+  },
+  "docs": {
+    "url": "https://www.kern-ux.de/komponenten/notificationbanner",
+    "summary": {
+      "en": "Notification Banner provides a way to display content within a website or application."
+    },
+    "sections": []
+  },
+  "knowledge": {
+    "summary": {
+      "en": "Provides a way to display content within a website or application."
+    }
+  },
+  "implementations": {},
+  "provenance": {
+    "docs.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/notificationbanner.mdx"
+      ],
+      "inputHash": "sha256:a60c93c966a11d5949f0dda790331d3ab4d84ada23d421b82a75b37dda41dd23"
+    },
+    "knowledge.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/notificationbanner.mdx"
+      ],
+      "inputHash": "sha256:639867ff1a232b6a4537ad7523d72b032143e5af20fcd4eeb06dd74c1185a8d8"
+    }
+  }
+}

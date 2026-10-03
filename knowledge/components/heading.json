@@ -1,0 +1,494 @@
+{
+  "id": "heading",
+  "title": {
+    "en": "Heading",
+    "de": "Heading"
+  },
+  "status": "stable",
+  "group": "text",
+  "synonyms": {
+    "de": [
+      "Überschrift",
+      "Seitentitel"
+    ]
+  },
+  "links": {
+    "docs": "https://www.kern-ux.de/komponenten/text/heading",
+    "figma": "https://www.figma.com/community/file/1624024563231427311",
+    "source": "https://gitlab.opencode.de/kern-ux/kern-ux-plain/-/tree/v2.8.2/src/scss/core/typography/_heading.scss"
+  },
+  "docs": {
+    "url": "https://www.kern-ux.de/komponenten/text/heading",
+    "summary": {
+      "en": "Headings label and structure a page and its sections. Mark each one with the matching HTML heading tag so browsers, search engines and assistive technology read the outline correctly, and add the KERN class for consistent styling. One h1 per page, a strict hierarchy underneath, short sentence-case wording."
+    },
+    "sections": [
+      {
+        "id": "kurzbeschreibung",
+        "heading": "Kurzbeschreibung",
+        "url": "https://www.kern-ux.de/komponenten/text/heading#kurzbeschreibung",
+        "summary": {
+          "en": "A Heading structures and describes content sections so that users and assistive technology can orient themselves quickly."
+        }
+      },
+      {
+        "id": "beschreibung",
+        "heading": "Beschreibung",
+        "url": "https://www.kern-ux.de/komponenten/text/heading#beschreibung",
+        "summary": {
+          "en": "Headings divide a page into clear sections and summarise the text below them. They are part of the semantic document structure, so correct markup is what lets content be captured, found and read accessibly."
+        }
+      },
+      {
+        "id": "verwendungsregeln",
+        "heading": "Verwendungsregeln",
+        "url": "https://www.kern-ux.de/komponenten/text/heading#verwendungsregeln",
+        "summary": {
+          "en": "Always mark headings with the proper HTML tag such as h1 or h2 to keep the page's semantic structure, and add a matching CSS class so they stay visually consistent. Use headings for the page and for every section."
+        }
+      },
+      {
+        "id": "übersicht-rolle-und-verwendung-von-überschriftenelementen",
+        "heading": "Übersicht: Rolle und Verwendung von Überschriftenelementen",
+        "url": "https://www.kern-ux.de/komponenten/text/heading#übersicht-rolle-und-verwendung-von-überschriftenelementen",
+        "summary": {
+          "en": "Explains the role of each element: the title tag sets the browser tab and search result title, h1 is the one visible main heading per page, h2 marks each top-level section, and h3 and h4 divide an h2 section further."
+        }
+      },
+      {
+        "id": "anwendung-der-visuellen-und-semantischen-hierarchie",
+        "heading": "Anwendung der visuellen und semantischen Hierarchie",
+        "url": "https://www.kern-ux.de/komponenten/text/heading#anwendung-der-visuellen-und-semantischen-hierarchie",
+        "summary": {
+          "en": "Pick the visual size from the number of hierarchy levels on the page, so the outline stays clear even on more complex pages."
+        }
+      },
+      {
+        "id": "seiten-mit-vier-und-mehr-ebenen",
+        "heading": "Seiten mit vier und mehr Ebenen",
+        "url": "https://www.kern-ux.de/komponenten/text/heading#seiten-mit-vier-und-mehr-ebenen",
+        "summary": {
+          "en": "On pages with four or more levels the usual visual hierarchy may be departed from in special cases, such as the Alert component. Make sure the page stays accessible, especially for screen reader users."
+        }
+      },
+      {
+        "id": "display-überschrift",
+        "heading": "Display-Überschrift",
+        "url": "https://www.kern-ux.de/komponenten/text/heading#display-überschrift",
+        "summary": {
+          "en": "Heading Display is a very large heading for standout statements, not for structuring content. Use it only in exceptions, for example a landing page opening line, a personal greeting or the framing of a special area. Mark it up semantically and check how it renders on small devices."
+        }
+      },
+      {
+        "id": "dos-und-donts",
+        "heading": "Dos und Don’ts",
+        "url": "https://www.kern-ux.de/komponenten/text/heading#dos-und-donts",
+        "summary": {
+          "en": "One h1 per page, never fake a heading with bold text or font sizes because search engines and screen readers will not recognise it, no h3 or h4 before an h2, and write headings in regular sentence case rather than capitals."
+        }
+      },
+      {
+        "id": "weitere-hinweise",
+        "heading": "Weitere Hinweise",
+        "url": "https://www.kern-ux.de/komponenten/text/heading#weitere-hinweise",
+        "summary": {
+          "en": "Keep headings short, use them to structure the content, consider splitting very long pages into several, and avoid manually inserted line breaks inside a heading."
+        }
+      }
+    ]
+  },
+  "knowledge": {
+    "summary": {
+      "en": "Headings label and structure a page and its sections; mark them up with h1-h6 and keep the outline in order."
+    },
+    "whenToUse": [
+      {
+        "en": "Use headings for the page title and for every section, so the page stays scannable for people and machines."
+      },
+      {
+        "en": "Choose the visual size from the depth of the outline on the page."
+      }
+    ],
+    "dos": [
+      {
+        "en": "Mark every heading with the matching HTML tag such as h1 or h2."
+      },
+      {
+        "en": "Keep exactly one h1 per page."
+      },
+      {
+        "en": "Keep the hierarchy in order: never place an h3 or h4 before an h2."
+      },
+      {
+        "en": "Write headings in regular sentence case, not in capitals."
+      },
+      {
+        "en": "Keep headings short and free of manual line breaks."
+      },
+      {
+        "en": "Add the matching CSS class so headings stay visually consistent."
+      }
+    ],
+    "donts": [
+      {
+        "en": "Don't build headings with manual bold or font-size formatting; search engines and screen readers will not recognise them."
+      },
+      {
+        "en": "Don't use Heading Display to structure content; it is only for standout statements."
+      }
+    ],
+    "similar": [
+      {
+        "id": "title"
+      },
+      {
+        "id": "preline"
+      },
+      {
+        "id": "subline"
+      }
+    ]
+  },
+  "options": [
+    {
+      "id": "size",
+      "kind": "enum",
+      "origin": "curated",
+      "values": [
+        {
+          "id": "display"
+        },
+        {
+          "id": "x-large"
+        },
+        {
+          "id": "large"
+        },
+        {
+          "id": "medium"
+        },
+        {
+          "id": "small"
+        }
+      ],
+      "html": {
+        "binding": "modifier",
+        "pattern": "kern-heading-{value}"
+      }
+    }
+  ],
+  "accessibility": [
+    {
+      "id": "contrast-enhanced",
+      "criterion": "1.4.6",
+      "slug": "contrast-enhanced",
+      "level": "AAA",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "text-spacing",
+      "criterion": "1.4.12",
+      "slug": "text-spacing",
+      "level": "AA",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "images-of-text",
+      "criterion": "1.4.5",
+      "slug": "images-of-text",
+      "level": "AA",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "reflow",
+      "criterion": "1.4.10",
+      "slug": "reflow",
+      "level": "AA",
+      "status": "implementation-dependent",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "resize-text",
+      "criterion": "1.4.4",
+      "slug": "resize-text",
+      "level": "AA",
+      "status": "implementation-dependent",
+      "lastChecked": "2025-10-22"
+    }
+  ],
+  "examples": [
+    {
+      "id": "heading-display",
+      "options": {
+        "size": "display"
+      },
+      "html": {
+        "markup": "<h1 class=\"kern-heading-display\">kern-heading-display</h1>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Heading/Heading.stories.js",
+          "export": "HeadingDisplay"
+        }
+      }
+    },
+    {
+      "id": "heading-x-large",
+      "options": {
+        "size": "x-large"
+      },
+      "html": {
+        "markup": "<h1 class=\"kern-heading-x-large\">kern-heading-x-large</h1>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Heading/Heading.stories.js",
+          "export": "HeadingXLarge"
+        }
+      }
+    },
+    {
+      "id": "heading-large",
+      "options": {
+        "size": "large"
+      },
+      "html": {
+        "markup": "<h2 class=\"kern-heading-large\">kern-heading-large</h2>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Heading/Heading.stories.js",
+          "export": "HeadingLarge"
+        }
+      }
+    },
+    {
+      "id": "heading-medium",
+      "options": {
+        "size": "medium"
+      },
+      "html": {
+        "markup": "<h3 class=\"kern-heading-medium\">kern-heading-medium</h3>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Heading/Heading.stories.js",
+          "export": "HeadingMedium"
+        }
+      }
+    },
+    {
+      "id": "heading-small",
+      "options": {
+        "size": "small"
+      },
+      "html": {
+        "markup": "<h4 class=\"kern-heading-small\">kern-heading-small</h4>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Heading/Heading.stories.js",
+          "export": "HeadingSmall"
+        }
+      }
+    }
+  ],
+  "implementations": {
+    "html": {
+      "package": "@kern-ux/native",
+      "version": "2.8.2",
+      "classes": {
+        "roots": [
+          "kern-heading-display",
+          "kern-heading-x-large",
+          "kern-heading-large",
+          "kern-heading-medium",
+          "kern-heading-small"
+        ]
+      },
+      "sources": [
+        "src/scss/core/typography/_heading.scss",
+        "stories/Heading/Heading.stories.js"
+      ]
+    },
+    "react": {
+      "package": "@publicplan/kern-react-kit",
+      "version": "1.3.5",
+      "import": "import { Heading } from '@publicplan/kern-react-kit'",
+      "components": [
+        "Heading"
+      ],
+      "sources": [
+        "src/components/Heading"
+      ]
+    }
+  },
+  "provenance": {
+    "docs.sections.anwendung-der-visuellen-und-semantischen-hierarchie.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/text/heading.mdx#anwendung-der-visuellen-und-semantischen-hierarchie"
+      ],
+      "inputHash": "sha256:3b025f3e7336a5df16f4989d429609a6ea8b8e8d290310ec3a8b05679099e05e"
+    },
+    "docs.sections.beschreibung.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/text/heading.mdx#beschreibung"
+      ],
+      "inputHash": "sha256:3b025f3e7336a5df16f4989d429609a6ea8b8e8d290310ec3a8b05679099e05e"
+    },
+    "docs.sections.display-überschrift.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/text/heading.mdx#display-überschrift"
+      ],
+      "inputHash": "sha256:3b025f3e7336a5df16f4989d429609a6ea8b8e8d290310ec3a8b05679099e05e"
+    },
+    "docs.sections.dos-und-donts.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/text/heading.mdx#dos-und-donts"
+      ],
+      "inputHash": "sha256:3b025f3e7336a5df16f4989d429609a6ea8b8e8d290310ec3a8b05679099e05e"
+    },
+    "docs.sections.kurzbeschreibung.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/text/heading.mdx#kurzbeschreibung"
+      ],
+      "inputHash": "sha256:3b025f3e7336a5df16f4989d429609a6ea8b8e8d290310ec3a8b05679099e05e"
+    },
+    "docs.sections.seiten-mit-vier-und-mehr-ebenen.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/text/heading.mdx#seiten-mit-vier-und-mehr-ebenen"
+      ],
+      "inputHash": "sha256:3b025f3e7336a5df16f4989d429609a6ea8b8e8d290310ec3a8b05679099e05e"
+    },
+    "docs.sections.verwendungsregeln.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/text/heading.mdx#verwendungsregeln"
+      ],
+      "inputHash": "sha256:3b025f3e7336a5df16f4989d429609a6ea8b8e8d290310ec3a8b05679099e05e"
+    },
+    "docs.sections.weitere-hinweise.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/text/heading.mdx#weitere-hinweise"
+      ],
+      "inputHash": "sha256:3b025f3e7336a5df16f4989d429609a6ea8b8e8d290310ec3a8b05679099e05e"
+    },
+    "docs.sections.übersicht-rolle-und-verwendung-von-überschriftenelementen.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/text/heading.mdx#übersicht-rolle-und-verwendung-von-überschriftenelementen"
+      ],
+      "inputHash": "sha256:3b025f3e7336a5df16f4989d429609a6ea8b8e8d290310ec3a8b05679099e05e"
+    },
+    "docs.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/text/heading.mdx"
+      ],
+      "inputHash": "sha256:3b025f3e7336a5df16f4989d429609a6ea8b8e8d290310ec3a8b05679099e05e"
+    },
+    "knowledge.donts.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/text/heading.mdx"
+      ],
+      "inputHash": "sha256:5f6080b15f7475909c28ba6eab3f271a39d219ca416cee95cfd20d6f47084374"
+    },
+    "knowledge.donts.1": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/text/heading.mdx"
+      ],
+      "inputHash": "sha256:5f6080b15f7475909c28ba6eab3f271a39d219ca416cee95cfd20d6f47084374"
+    },
+    "knowledge.dos.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/text/heading.mdx"
+      ],
+      "inputHash": "sha256:5f6080b15f7475909c28ba6eab3f271a39d219ca416cee95cfd20d6f47084374"
+    },
+    "knowledge.dos.1": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/text/heading.mdx"
+      ],
+      "inputHash": "sha256:5f6080b15f7475909c28ba6eab3f271a39d219ca416cee95cfd20d6f47084374"
+    },
+    "knowledge.dos.2": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/text/heading.mdx"
+      ],
+      "inputHash": "sha256:5f6080b15f7475909c28ba6eab3f271a39d219ca416cee95cfd20d6f47084374"
+    },
+    "knowledge.dos.3": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/text/heading.mdx"
+      ],
+      "inputHash": "sha256:5f6080b15f7475909c28ba6eab3f271a39d219ca416cee95cfd20d6f47084374"
+    },
+    "knowledge.dos.4": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/text/heading.mdx"
+      ],
+      "inputHash": "sha256:5f6080b15f7475909c28ba6eab3f271a39d219ca416cee95cfd20d6f47084374"
+    },
+    "knowledge.dos.5": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/text/heading.mdx"
+      ],
+      "inputHash": "sha256:5f6080b15f7475909c28ba6eab3f271a39d219ca416cee95cfd20d6f47084374"
+    },
+    "knowledge.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/text/heading.mdx"
+      ],
+      "inputHash": "sha256:5f6080b15f7475909c28ba6eab3f271a39d219ca416cee95cfd20d6f47084374"
+    },
+    "knowledge.whenToUse.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/text/heading.mdx"
+      ],
+      "inputHash": "sha256:5f6080b15f7475909c28ba6eab3f271a39d219ca416cee95cfd20d6f47084374"
+    },
+    "knowledge.whenToUse.1": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/text/heading.mdx"
+      ],
+      "inputHash": "sha256:5f6080b15f7475909c28ba6eab3f271a39d219ca416cee95cfd20d6f47084374"
+    }
+  }
+}

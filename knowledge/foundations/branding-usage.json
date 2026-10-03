@@ -1,0 +1,173 @@
+{
+  "id": "branding-usage",
+  "title": {
+    "en": "Applying KERN branding",
+    "de": "Wie du deine Marke mit KERN verbinden kannst"
+  },
+  "group": "Branding",
+  "status": "documented",
+  "links": {
+    "docs": "https://www.kern-ux.de/design-system/branding/anwendung"
+  },
+  "docs": {
+    "url": "https://www.kern-ux.de/design-system/branding/anwendung",
+    "summary": {
+      "en": "Shows how organisations apply KERN alongside their own brand. Example pages pair an original design with the same page rebuilt in KERN and the Dachmarke. Typography, spacing and colour are the functional, shared layer and should stay as they are; backgrounds, shapes, masks, decorative brand colours, illustrations, imagery, tone and wording are free."
+    },
+    "sections": [
+      {
+        "id": "beispiele",
+        "heading": "Beispiele",
+        "url": "https://www.kern-ux.de/design-system/branding/anwendung#beispiele",
+        "summary": {
+          "en": "Example figures place an original page on the left and a KERN plus Dachmarke version on the right. They illustrate the brand effect only and are not official examples, so their content may differ."
+        }
+      },
+      {
+        "id": "agentur-für-arbeit",
+        "heading": "Agentur für Arbeit",
+        "url": "https://www.kern-ux.de/design-system/branding/anwendung#agentur-für-arbeit",
+        "summary": {
+          "en": "Example page showing the Agentur für Arbeit identity with KERN."
+        }
+      },
+      {
+        "id": "ludwigslust",
+        "heading": "Ludwigslust",
+        "url": "https://www.kern-ux.de/design-system/branding/anwendung#ludwigslust",
+        "summary": {
+          "en": "Example page showing the Ludwigslust identity with KERN."
+        }
+      },
+      {
+        "id": "deutsche-rentenversicherung",
+        "heading": "Deutsche Rentenversicherung",
+        "url": "https://www.kern-ux.de/design-system/branding/anwendung#deutsche-rentenversicherung",
+        "summary": {
+          "en": "Example for the Deutsche Rentenversicherung, used with the others to show that brands stay distinguishable while KERN carries the Dachmarke: accessible typography, spacing logic and high-contrast colours, with backgrounds, shapes, decoration and imagery left free."
+        }
+      },
+      {
+        "id": "eigene-markenidentität",
+        "heading": "Eigene Markenidentität",
+        "url": "https://www.kern-ux.de/design-system/branding/anwendung#eigene-markenidentität",
+        "summary": {
+          "en": "A fictitious example shows a brand identity built with few means, such as illustrations and one shape element. The brand gains KERN's functional base and familiar patterns; KERN's typography, colours and spacing should stay, with the brand expressed through decorative elements."
+        }
+      }
+    ]
+  },
+  "knowledge": {
+    "summary": {
+      "en": "KERN is the functional layer (typography, spacing, colour) that stays fixed; brands add their own decorative identity through ornament and backgrounds."
+    },
+    "whenToUse": [
+      {
+        "en": "Use KERN as the functional base and layer your brand on top through backgrounds, shapes, accent colours and imagery."
+      }
+    ],
+    "dos": [
+      {
+        "en": "Keep KERN's typography, colours and spacing as they are, and express your brand through decorative elements."
+      },
+      {
+        "en": "Keep functional elements consistent across all public services so users can rely on familiar patterns."
+      }
+    ],
+    "donts": [
+      {
+        "en": "Don't change the typeface: it is chosen for accessibility, and changing it would also force adjustments to the spacing logic."
+      }
+    ]
+  },
+  "provenance": {
+    "docs.sections.agentur-für-arbeit.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/branding/anwendung.mdx#agentur-für-arbeit"
+      ],
+      "inputHash": "sha256:21f5beb3e7adb23c3a3a4648906a21322d1a8bd8543e1969203eacd574b0a4ac"
+    },
+    "docs.sections.beispiele.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/branding/anwendung.mdx#beispiele"
+      ],
+      "inputHash": "sha256:21f5beb3e7adb23c3a3a4648906a21322d1a8bd8543e1969203eacd574b0a4ac"
+    },
+    "docs.sections.deutsche-rentenversicherung.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/branding/anwendung.mdx#deutsche-rentenversicherung"
+      ],
+      "inputHash": "sha256:21f5beb3e7adb23c3a3a4648906a21322d1a8bd8543e1969203eacd574b0a4ac"
+    },
+    "docs.sections.eigene-markenidentität.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/branding/anwendung.mdx#eigene-markenidentität"
+      ],
+      "inputHash": "sha256:21f5beb3e7adb23c3a3a4648906a21322d1a8bd8543e1969203eacd574b0a4ac"
+    },
+    "docs.sections.ludwigslust.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/branding/anwendung.mdx#ludwigslust"
+      ],
+      "inputHash": "sha256:21f5beb3e7adb23c3a3a4648906a21322d1a8bd8543e1969203eacd574b0a4ac"
+    },
+    "docs.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/branding/anwendung.mdx"
+      ],
+      "inputHash": "sha256:21f5beb3e7adb23c3a3a4648906a21322d1a8bd8543e1969203eacd574b0a4ac"
+    },
+    "knowledge.donts.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/branding/anwendung.mdx"
+      ],
+      "inputHash": "sha256:9ce2b87886deb82934376ff8f3eef9b3c58ecb069a5530a7e29aa2491af98c37"
+    },
+    "knowledge.dos.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/branding/anwendung.mdx"
+      ],
+      "inputHash": "sha256:9ce2b87886deb82934376ff8f3eef9b3c58ecb069a5530a7e29aa2491af98c37"
+    },
+    "knowledge.dos.1": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/branding/anwendung.mdx"
+      ],
+      "inputHash": "sha256:9ce2b87886deb82934376ff8f3eef9b3c58ecb069a5530a7e29aa2491af98c37"
+    },
+    "knowledge.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/branding/anwendung.mdx"
+      ],
+      "inputHash": "sha256:9ce2b87886deb82934376ff8f3eef9b3c58ecb069a5530a7e29aa2491af98c37"
+    },
+    "knowledge.whenToUse.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/branding/anwendung.mdx"
+      ],
+      "inputHash": "sha256:9ce2b87886deb82934376ff8f3eef9b3c58ecb069a5530a7e29aa2491af98c37"
+    }
+  }
+}

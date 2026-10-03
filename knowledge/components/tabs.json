@@ -1,0 +1,47 @@
+{
+  "id": "tabs",
+  "title": {
+    "en": "Tabs",
+    "de": "Tabs"
+  },
+  "status": "docs-only",
+  "group": "navigation",
+  "synonyms": {
+    "de": []
+  },
+  "links": {
+    "docs": "https://www.kern-ux.de/komponenten/tabs",
+    "figma": "https://www.figma.com/community/file/1624024563231427311"
+  },
+  "docs": {
+    "url": "https://www.kern-ux.de/komponenten/tabs",
+    "summary": {
+      "en": "Tabs let users show content elements in a structured way and switch between them."
+    },
+    "sections": []
+  },
+  "knowledge": {
+    "summary": {
+      "en": "Lets users show content elements in a structured way and switch between them."
+    }
+  },
+  "implementations": {},
+  "provenance": {
+    "docs.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/tabs.mdx"
+      ],
+      "inputHash": "sha256:7474e7c51672a8e4196d01370de409ed9b49710e84b764805780e60a8b332836"
+    },
+    "knowledge.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/tabs.mdx"
+      ],
+      "inputHash": "sha256:eb4962cec8761a221c80382d43c7196f597d859ad1bb5d7dc3aa35a04bc69b2a"
+    }
+  }
+}

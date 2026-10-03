@@ -1,6 +1,12 @@
 import { describe, expect, it } from "vitest";
 
-import { checkKnowledgeBundle, findBundleExample } from "./knowledge-import.js";
+import {
+	checkKnowledgeBundle,
+	describeKnowledgeBundle,
+	diffKnowledgeBundles,
+	findBundleExample,
+	formatKnowledgeImport,
+} from "./knowledge-import.js";
 import { COMPONENT_TOOL_IDS } from "./tool-builders/component-tools.js";
 
 /** KERN IDs for a few of our components, so the fixture exercises the map. */
@@ -216,5 +222,170 @@ describe("findBundleExample", () => {
 				example: "nope",
 			}),
 		).toBeUndefined();
+	});
+});
+
+describe("diffKnowledgeBundles", () => {
+	const files = (entries: Record<string, unknown>) =>
+		new Map(Object.entries(entries));
+
+	it("names added and removed files", () => {
+		const diff = diffKnowledgeBundles(
+			files({ "components/a.json": {}, "components/b.json": {} }),
+			files({ "components/b.json": {}, "components/c.json": {} }),
+		);
+
+		expect(diff).toEqual({
+			added: ["components/c.json"],
+			removed: ["components/a.json"],
+			changed: [],
+		});
+	});
+
+	it("describes changes two levels deep", () => {
+		const diff = diffKnowledgeBundles(
+			files({
+				"components/grid.json": {
+					status: "stable",
+					title: { en: "Grid", de: "Grid" },
+					knowledge: { dos: [{ en: "a" }], donts: [{ en: "b" }] },
+					examples: [{ id: "x" }],
+					docs: { sections: [{ id: "s", summary: { en: "old" } }] },
+				},
+			}),
+			files({
+				"components/grid.json": {
+					status: "deprecated",
+					title: { en: "Grid System", de: "Grid" },
+					knowledge: {
+						dos: [{ en: "a" }, { en: "c" }],
+						donts: [{ en: "b2" }],
+						whenToUse: [{ en: "d" }],
+					},
+					examples: [{ id: "x" }],
+					docs: { sections: [{ id: "s", summary: { en: "new" } }] },
+				},
+			}),
+		);
+
+		expect(diff.changed).toEqual([
+			{
+				file: "components/grid.json",
+				changes: [
+					"docs.sections",
+					"knowledge.donts",
+					"knowledge.dos (1 -> 2 items)",
+					"knowledge.whenToUse (new)",
+					'status: "stable" -> "deprecated"',
+					'title.en: "Grid" -> "Grid System"',
+				],
+			},
+		]);
+	});
+
+	it("ignores key order and the index's generatedAt", () => {
+		const diff = diffKnowledgeBundles(
+			files({
+				"index.json": {
+					bundleVersion: "0.2.0",
+					generatedAt: "2026-10-03T08:00:00Z",
+				},
+				"components/a.json": { id: "a", status: "stable" },
+			}),
+			files({
+				"index.json": {
+					generatedAt: "2026-10-04T09:00:00Z",
+					bundleVersion: "0.2.0",
+				},
+				"components/a.json": { status: "stable", id: "a" },
+			}),
+		);
+
+		expect(diff.changed).toEqual([]);
+	});
+
+	it("reports a key that's gone", () => {
+		const diff = diffKnowledgeBundles(
+			files({ "components/a.json": { id: "a", group: "form" } }),
+			files({ "components/a.json": { id: "a" } }),
+		);
+
+		expect(diff.changed).toEqual([
+			{ file: "components/a.json", changes: ["group (gone)"] },
+		]);
+	});
+});
+
+describe("describeKnowledgeBundle", () => {
+	it("summarises the index and the packer's report", () => {
+		const files = bundle();
+		Object.assign(files.get("index.json") as object, { kernVersion: "2.8.2" });
+		files.set("report.json", {
+			text: { reviewed: 929, stale: null, missing: ["a", "b"], problems: null },
+			drift: [{}, {}, {}],
+		});
+
+		expect(describeKnowledgeBundle(files)).toEqual([
+			`Bundle 0.2.0 (KERN 2.8.2): ${COMPONENT_TOOL_IDS.length - 2} components, 1 foundations, 1 patterns.`,
+			"Text: 929 reviewed, 0 stale, 2 missing, 0 problems. Drift: 3 items.",
+		]);
+	});
+
+	it("says nothing without an index", () => {
+		expect(describeKnowledgeBundle(new Map())).toEqual([]);
+	});
+});
+
+describe("formatKnowledgeImport", () => {
+	const header = (files: Map<string, unknown>) =>
+		describeKnowledgeBundle(files).join("\n");
+
+	it("lists the problems that stop an import", () => {
+		const files = bundle();
+
+		expect(formatKnowledgeImport(files, undefined, ["one", "two"])).toBe(
+			[
+				header(files),
+				"",
+				"The bundle can't be imported (2 problems):",
+				"  one",
+				"  two",
+			].join("\n"),
+		);
+	});
+
+	it("counts the files of a first import", () => {
+		const files = bundle();
+
+		expect(formatKnowledgeImport(files, undefined, [])).toBe(
+			[header(files), "", `First import: ${files.size} files.`].join("\n"),
+		);
+	});
+
+	it("says when nothing changed", () => {
+		expect(formatKnowledgeImport(bundle(), bundle(), [])).toBe(
+			[header(bundle()), "", "No changes."].join("\n"),
+		);
+	});
+
+	it("lists what changed, file by file", () => {
+		const previous = bundle();
+		const next = bundleWith((files) => {
+			files.set("components/badge.json", { id: "badge", status: "deprecated" });
+			files.set("components/new.json", { id: "new", status: "docs-only" });
+			files.delete("components/search.examples.json");
+		});
+
+		expect(formatKnowledgeImport(next, previous, [])).toBe(
+			[
+				header(next),
+				"",
+				"Added: components/new.json",
+				"Removed: components/search.examples.json",
+				"Changed:",
+				"  components/badge.json",
+				'    status: "stable" -> "deprecated"',
+			].join("\n"),
+		);
 	});
 });

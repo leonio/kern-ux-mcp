@@ -1,0 +1,383 @@
+{
+  "id": "accordion",
+  "title": {
+    "en": "Accordion",
+    "de": "Accordion"
+  },
+  "status": "stable",
+  "group": "disclosure",
+  "synonyms": {
+    "de": [
+      "Expansion Panel",
+      "Collapse",
+      "Akkordeon"
+    ]
+  },
+  "links": {
+    "docs": "https://www.kern-ux.de/komponenten/accordion",
+    "figma": "https://www.figma.com/community/file/1624024563231427311",
+    "source": "https://gitlab.opencode.de/kern-ux/kern-ux-plain/-/tree/v2.8.2/src/scss/core/components/_accordion.scss"
+  },
+  "docs": {
+    "url": "https://www.kern-ux.de/komponenten/accordion",
+    "summary": {
+      "en": "Accordion groups information under headings and lets users show or hide the related content. The page explains when accordions help - structure on content-heavy pages, saving space on mobile and giving users control - the heading and icon that signal state, the print caveat and layout advice such as 60-90 characters per line."
+    },
+    "sections": [
+      {
+        "id": "kurzbeschreibung",
+        "heading": "Kurzbeschreibung",
+        "url": "https://www.kern-ux.de/komponenten/accordion#kurzbeschreibung",
+        "summary": {
+          "en": "An accordion groups information under headings and lets users expand or collapse the related content."
+        }
+      },
+      {
+        "id": "beschreibung",
+        "heading": "Beschreibung",
+        "url": "https://www.kern-ux.de/komponenten/accordion#beschreibung",
+        "summary": {
+          "en": "Clicking or tapping the heading shows or hides the content beneath it. The title summarises what is inside, and an icon indicates whether the section is expanded or collapsed."
+        }
+      },
+      {
+        "id": "verwendungsregeln",
+        "heading": "Verwendungsregeln",
+        "url": "https://www.kern-ux.de/komponenten/accordion#verwendungsregeln",
+        "summary": {
+          "en": "Accordions structure pages with many topics, save space on mobile and give users control over what they read. Expanding pushes content down, which can disorient; printing is often poor, so offer an expand-all control or expand on print."
+        }
+      },
+      {
+        "id": "dos-und-donts",
+        "heading": "Dos und Don’ts",
+        "url": "https://www.kern-ux.de/komponenten/accordion#dos-und-donts",
+        "summary": {
+          "en": "Give every accordion a clear, precise heading that describes the information it contains. Do not nest accordions for complex content - it confuses users and makes navigation harder."
+        }
+      },
+      {
+        "id": "weitere-hinweise",
+        "heading": "Weitere Hinweise",
+        "url": "https://www.kern-ux.de/komponenten/accordion#weitere-hinweise",
+        "summary": {
+          "en": "Use accordions to compress content on mobile. Keep them 60-90 characters wide and consistent, avoid auto-collapsing, and skip them on sparse pages or where uninterrupted reading is needed."
+        }
+      }
+    ]
+  },
+  "knowledge": {
+    "summary": {
+      "en": "Groups related content under a heading that users expand or collapse; the heading names the hidden content."
+    },
+    "whenToUse": [
+      {
+        "en": "When a page covers many topics and needs clear structure, when space is tight, especially on mobile, or when users should choose which content to read."
+      }
+    ],
+    "dos": [
+      {
+        "en": "Give each accordion a clear, precise heading that describes the information it contains."
+      }
+    ],
+    "donts": [
+      {
+        "en": "Do not nest accordions for complex content; it confuses users and makes navigation harder."
+      }
+    ],
+    "similar": [
+      {
+        "id": "tabs"
+      }
+    ]
+  },
+  "states": [
+    {
+      "id": "focus",
+      "origin": "derived",
+      "html": {
+        "binding": "pseudo",
+        "selector": ":focus-visible",
+        "partClass": "kern-accordion__header"
+      }
+    },
+    {
+      "id": "hover",
+      "origin": "derived",
+      "html": {
+        "binding": "pseudo",
+        "selector": ":hover",
+        "partClass": "kern-accordion__header"
+      }
+    },
+    {
+      "id": "open",
+      "origin": "derived",
+      "html": {
+        "binding": "attribute",
+        "attribute": "open"
+      }
+    }
+  ],
+  "accessibility": [
+    {
+      "id": "info-and-relationships",
+      "criterion": "1.3.1",
+      "slug": "info-and-relationships",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-10-10"
+    },
+    {
+      "id": "use-of-color",
+      "criterion": "1.4.1",
+      "slug": "use-of-color",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-10-10"
+    },
+    {
+      "id": "contrast-enhanced",
+      "criterion": "1.4.6",
+      "slug": "contrast-enhanced",
+      "level": "AAA",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "non-text-contrast",
+      "criterion": "1.4.11",
+      "slug": "non-text-contrast",
+      "level": "AA",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "labels-or-instructions",
+      "criterion": "3.3.2",
+      "slug": "labels-or-instructions",
+      "level": "A",
+      "status": "implementation-dependent",
+      "lastChecked": "2025-10-10"
+    },
+    {
+      "id": "keyboard",
+      "criterion": "2.1.1",
+      "slug": "keyboard",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-10-10"
+    },
+    {
+      "id": "focus-appearance",
+      "criterion": "2.4.13",
+      "slug": "focus-appearance",
+      "level": "AAA",
+      "status": "passed",
+      "lastChecked": "2025-10-10"
+    },
+    {
+      "id": "focus-order",
+      "criterion": "2.4.3",
+      "slug": "focus-order",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-10-10"
+    }
+  ],
+  "examples": [
+    {
+      "id": "accordion",
+      "html": {
+        "markup": "<details class=\"kern-accordion\"><summary class=\"kern-accordion__header\"><span class=\"kern-title\">Accordion 1</span></summary><section class=\"kern-accordion__body\"><p class=\"kern-body\">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p></section></details>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Accordion/Accordion.stories.js",
+          "export": "Accordion"
+        },
+        "alsoIn": [
+          {
+            "repo": "kern-ux-plain",
+            "path": "stories/Accordion/Accordion.stories.js",
+            "export": "AccordionHover",
+            "states": [
+              "hover"
+            ]
+          },
+          {
+            "repo": "kern-ux-plain",
+            "path": "stories/Accordion/Accordion.stories.js",
+            "export": "AccordionFocus",
+            "states": [
+              "focus"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "accordion-open",
+      "states": [
+        "open"
+      ],
+      "html": {
+        "markup": "<details class=\"kern-accordion\" open><summary class=\"kern-accordion__header\"><span class=\"kern-title\">Accordion 1</span></summary><section class=\"kern-accordion__body\"><p class=\"kern-body\">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p></section></details>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Accordion/Accordion.stories.js",
+          "export": "AccordionOpen"
+        }
+      }
+    },
+    {
+      "id": "accordion-group",
+      "instances": 3,
+      "html": {
+        "markup": "<div class=\"kern-accordion-group\"><details class=\"kern-accordion\"><summary class=\"kern-accordion__header\"><span class=\"kern-title\">Accordion 1</span></summary><section class=\"kern-accordion__body\"><p class=\"kern-body\">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p></section></details><details class=\"kern-accordion\"><summary class=\"kern-accordion__header\"><span class=\"kern-title\">Accordion 2</span></summary><section class=\"kern-accordion__body\"><p class=\"kern-body\">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p></section></details><details class=\"kern-accordion\"><summary class=\"kern-accordion__header\"><span class=\"kern-title\">Accordion 3</span></summary><section class=\"kern-accordion__body\"><p class=\"kern-body\">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p></section></details></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Accordion/Accordion.stories.js",
+          "export": "AccordionGroup"
+        }
+      }
+    }
+  ],
+  "implementations": {
+    "html": {
+      "package": "@kern-ux/native",
+      "version": "2.8.2",
+      "classes": {
+        "roots": [
+          "kern-accordion"
+        ],
+        "elements": [
+          "kern-accordion__body",
+          "kern-accordion__header"
+        ]
+      },
+      "sources": [
+        "src/scss/core/components/_accordion.scss",
+        "stories/Accordion/Accordion.stories.js"
+      ]
+    },
+    "react": {
+      "package": "@publicplan/kern-react-kit",
+      "version": "1.3.5",
+      "import": "import { AccordionContent } from '@publicplan/kern-react-kit'",
+      "components": [
+        "AccordionContent",
+        "AccordionGroup",
+        "AccordionRoot",
+        "AccordionSummary"
+      ],
+      "sources": [
+        "src/components/Accordion"
+      ]
+    }
+  },
+  "drift": [
+    {
+      "kind": "unknown-class",
+      "en": "Stories use classes that kern-ux-plain's SCSS doesn't define.",
+      "sources": [
+        "kern-ux-plain"
+      ],
+      "items": [
+        "kern-accordion-group"
+      ]
+    },
+    {
+      "kind": "unknown-class",
+      "en": "Docs examples use classes that kern-ux-plain doesn't define.",
+      "sources": [
+        "technische-dokumentation",
+        "kern-ux-plain"
+      ],
+      "items": [
+        "kern-accordion-group"
+      ]
+    }
+  ],
+  "provenance": {
+    "docs.sections.beschreibung.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/accordion.mdx#beschreibung"
+      ],
+      "inputHash": "sha256:5f54911391b02c73562dccb40658fe45a5694eb59736083952cf3e72aa13f09e"
+    },
+    "docs.sections.dos-und-donts.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/accordion.mdx#dos-und-donts"
+      ],
+      "inputHash": "sha256:5f54911391b02c73562dccb40658fe45a5694eb59736083952cf3e72aa13f09e"
+    },
+    "docs.sections.kurzbeschreibung.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/accordion.mdx#kurzbeschreibung"
+      ],
+      "inputHash": "sha256:5f54911391b02c73562dccb40658fe45a5694eb59736083952cf3e72aa13f09e"
+    },
+    "docs.sections.verwendungsregeln.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/accordion.mdx#verwendungsregeln"
+      ],
+      "inputHash": "sha256:5f54911391b02c73562dccb40658fe45a5694eb59736083952cf3e72aa13f09e"
+    },
+    "docs.sections.weitere-hinweise.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/accordion.mdx#weitere-hinweise"
+      ],
+      "inputHash": "sha256:5f54911391b02c73562dccb40658fe45a5694eb59736083952cf3e72aa13f09e"
+    },
+    "docs.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/accordion.mdx"
+      ],
+      "inputHash": "sha256:5f54911391b02c73562dccb40658fe45a5694eb59736083952cf3e72aa13f09e"
+    },
+    "knowledge.donts.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/accordion.mdx"
+      ],
+      "inputHash": "sha256:816f423ef0832fb258b8a765d77a575ae9196ed567b8c1effb8a8920eafd7dea"
+    },
+    "knowledge.dos.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/accordion.mdx"
+      ],
+      "inputHash": "sha256:816f423ef0832fb258b8a765d77a575ae9196ed567b8c1effb8a8920eafd7dea"
+    },
+    "knowledge.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/accordion.mdx"
+      ],
+      "inputHash": "sha256:816f423ef0832fb258b8a765d77a575ae9196ed567b8c1effb8a8920eafd7dea"
+    },
+    "knowledge.whenToUse.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/accordion.mdx"
+      ],
+      "inputHash": "sha256:816f423ef0832fb258b8a765d77a575ae9196ed567b8c1effb8a8920eafd7dea"
+    }
+  }
+}

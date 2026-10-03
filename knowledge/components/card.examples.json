@@ -1,0 +1,99 @@
+{
+  "component": "card",
+  "examples": [
+    {
+      "id": "card",
+      "options": {
+        "size": "default"
+      },
+      "html": {
+        "markup": "<article class=\"kern-card\" style=\"max-width: 320px;\"><div class=\"kern-card__media\"><img src=\"https://placehold.co/600x400?text=MEDIA\" alt=\"ALT Text\"></div><div class=\"kern-card__container\"><header class=\"kern-card__header\"><hgroup class=\"kern-hgroup\"><h2 class=\"kern-title\" id=\"card-title-1\">Default</h2><p class=\"kern-preline\">Vorzeile</p><p class=\"kern-subline\">Unterzeile</p></hgroup></header><section class=\"kern-card__body\"><p class=\"kern-body\">Hier werden soviele Informationen zur Verfügung gestellt, wie benötigt und nicht mehr. Ein Maximum von 150 characters empfohlen.</p></section><footer class=\"kern-card__footer\"><button class=\"kern-btn kern-btn--primary\" aria-describedby=\"card-title-1\"><span class=\"kern-label\">Primäraktion</span></button><button class=\"kern-btn kern-btn--secondary\" aria-describedby=\"card-title-1\"><span class=\"kern-label\">Aktion</span></button></footer></div></article>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Card/Card.stories.js",
+          "export": "Card"
+        }
+      }
+    },
+    {
+      "id": "card-multiple",
+      "options": {
+        "size": "default"
+      },
+      "instances": 3,
+      "html": {
+        "markup": "<div class=\"kern-container\"><div class=\"kern-row\"><div class=\"kern-col\"><article class=\"kern-card\"><div class=\"kern-card__media\"><img src=\"https://placehold.co/600x400?text=MEDIA\" alt=\"ALT Text\"></div><div class=\"kern-card__container\"><header class=\"kern-card__header\"><hgroup class=\"kern-hgroup\"><h2 class=\"kern-title\" id=\"card-title-2\">Default</h2><p class=\"kern-preline\">Vorzeile</p><p class=\"kern-subline\">Unterzeile</p></hgroup></header><section class=\"kern-card__body\"><p class=\"kern-body\">Hier werden soviele Informationen zur Verfügung gestellt, wie benötigt und nicht mehr. Ein Maximum von 150 characters empfohlen.</p></section><footer class=\"kern-card__footer\"><button class=\"kern-btn kern-btn--primary\" aria-describedby=\"card-title-2\"><span class=\"kern-label\">Primäraktion</span></button><button class=\"kern-btn kern-btn--secondary\" aria-describedby=\"card-title-2\"><span class=\"kern-label\">Aktion</span></button></footer></div></article></div><div class=\"kern-col\"><article class=\"kern-card kern\"><div class=\"kern-card__media\"><img src=\"https://placehold.co/600x400?text=MEDIA\" alt=\"ALT Text\"></div><div class=\"kern-card__container\"><header class=\"kern-card__header\"><hgroup class=\"kern-hgroup\"><h2 class=\"kern-title\" id=\"card-title-3\">Default</h2><p class=\"kern-preline\">Vorzeile</p><p class=\"kern-subline\">Unterzeile</p></hgroup></header><section class=\"kern-card__body\"><p class=\"kern-body\">Hier werden soviele Informationen zur Verfügung gestellt, wie benötigt und nicht mehr. Ein Maximum von 150 characters empfohlen.</p><p class=\"kern-body\">Hier werden soviele Informationen zur Verfügung gestellt, wie benötigt und nicht mehr. Ein Maximum von 150 characters empfohlen.</p></section><footer class=\"kern-card__footer\"><button class=\"kern-btn kern-btn--primary\" aria-describedby=\"card-title-3\"><span class=\"kern-label\">Primäraktion</span></button><button class=\"kern-btn kern-btn--secondary\" aria-describedby=\"card-title-3\"><span class=\"kern-label\">Aktion</span></button></footer></div></article></div><div class=\"kern-col\"><article class=\"kern-card\"><div class=\"kern-card__container\"><header class=\"kern-card__header\"><hgroup class=\"kern-hgroup\"><h2 class=\"kern-title\" id=\"card-title-4\">Default</h2><p class=\"kern-preline\">Vorzeile</p><p class=\"kern-subline\">Unterzeile</p></hgroup></header><section class=\"kern-card__body\"><p class=\"kern-body\">Hier werden soviele Informationen zur Verfügung gestellt, wie benötigt und nicht mehr. Ein Maximum von 150 characters empfohlen.</p><p class=\"kern-body\">Hier werden soviele Informationen zur Verfügung gestellt, wie benötigt und nicht mehr. Ein Maximum von 150 characters empfohlen.</p></section><footer class=\"kern-card__footer\"><button class=\"kern-btn kern-btn--primary\" aria-describedby=\"card-title-4\"><span class=\"kern-label\">Primäraktion</span></button><button class=\"kern-btn kern-btn--secondary\" aria-describedby=\"card-title-4\"><span class=\"kern-label\">Aktion</span></button></footer></div></article></div></div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Card/Card.stories.js",
+          "export": "CardMultiple"
+        }
+      }
+    },
+    {
+      "id": "card-interactive",
+      "options": {
+        "interactive": true
+      },
+      "variesOver": [
+        "size"
+      ],
+      "instances": 3,
+      "html": {
+        "markup": "<div class=\"kern-container\"><div class=\"kern-row\"><div class=\"kern-col\"><article class=\"kern-card kern-card--interactive\" style=\"max-width: 320px;\"><div class=\"kern-card__media\"><img src=\"https://placehold.co/600x400?text=MEDIA\" alt=\"ALT Text\"></div><div class=\"kern-card__container\"><header class=\"kern-card__header\"><hgroup class=\"kern-hgroup\"><h2 class=\"kern-title\"><a href=\"#\" class=\"kern-link--stretched\">Card Größe Default</a></h2><p class=\"kern-preline\">Vorzeile</p><p class=\"kern-subline\">Unterzeile</p></hgroup></header><section class=\"kern-card__body\"><p class=\"kern-body\">Hier werden soviele Informationen zur Verfügung gestellt, wie benötigt und nicht mehr. Ein Maximum von 150 characters empfohlen.</p></section></div></article></div><div class=\"kern-col\"><article class=\"kern-card kern-card--interactive kern-card--small\" style=\"max-width: 320px;\"><div class=\"kern-card__media\"><img src=\"https://placehold.co/600x400?text=MEDIA\" alt=\"ALT Text\"></div><div class=\"kern-card__container\"><header class=\"kern-card__header\"><hgroup class=\"kern-hgroup\"><h2 class=\"kern-title\"><a href=\"#\" class=\"kern-link--stretched\">Card Größe small</a></h2><p class=\"kern-preline\">Vorzeile</p><p class=\"kern-subline\">Unterzeile</p></hgroup></header><section class=\"kern-card__body\"><p class=\"kern-body\">Hier werden soviele Informationen zur Verfügung gestellt, wie benötigt und nicht mehr. Ein Maximum von 150 characters empfohlen.</p></section></div></article></div><div class=\"kern-col\"><article class=\"kern-card kern-card--interactive kern-card--large\" style=\"max-width: 320px;\"><div class=\"kern-card__media\"><img src=\"https://placehold.co/600x400?text=MEDIA\" alt=\"ALT Text\"></div><div class=\"kern-card__container\"><header class=\"kern-card__header\"><hgroup class=\"kern-hgroup\"><h2 class=\"kern-title\"><a href=\"#\" class=\"kern-link--stretched\">Card Größe large</a></h2><p class=\"kern-preline\">Vorzeile</p><p class=\"kern-subline\">Unterzeile</p></hgroup></header><section class=\"kern-card__body\"><p class=\"kern-body\">Hier werden soviele Informationen zur Verfügung gestellt, wie benötigt und nicht mehr. Ein Maximum von 150 characters empfohlen.</p></section></div></article></div></div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Card/Card.stories.js",
+          "export": "CardInteractive"
+        }
+      }
+    },
+    {
+      "id": "card-surface",
+      "options": {
+        "interactive": true,
+        "surface": true
+      },
+      "variesOver": [
+        "size"
+      ],
+      "instances": 6,
+      "html": {
+        "markup": "<div class=\"kern-container\"><div class=\"kern-row\"><h4 class=\"kern-heading-medium\">Layer Level-0</h4><div class=\"kern-col\"><article class=\"kern-card kern-card--interactive kern-card--surface\" style=\"max-width: 320px;\"><div class=\"kern-card__media\"><img src=\"https://placehold.co/600x400?text=MEDIA\" alt=\"ALT Text\"></div><div class=\"kern-card__container\"><header class=\"kern-card__header\"><hgroup class=\"kern-hgroup\"><h2 class=\"kern-title\"><a href=\"#\" class=\"kern-link--stretched\">Card Größe Default</a></h2><p class=\"kern-preline\">Vorzeile</p><p class=\"kern-subline\">Unterzeile</p></hgroup></header><section class=\"kern-card__body\"><p class=\"kern-body\">Hier werden soviele Informationen zur Verfügung gestellt, wie benötigt und nicht mehr. Ein Maximum von 150 characters empfohlen.</p></section></div></article></div><div class=\"kern-col\"><article class=\"kern-card kern-card--interactive kern-card--small kern-card--surface\" style=\"max-width: 320px;\"><div class=\"kern-card__media\"><img src=\"https://placehold.co/600x400?text=MEDIA\" alt=\"ALT Text\"></div><div class=\"kern-card__container\"><header class=\"kern-card__header\"><hgroup class=\"kern-hgroup\"><h2 class=\"kern-title\"><a href=\"#\" class=\"kern-link--stretched\">Card Größe small</a></h2><p class=\"kern-preline\">Vorzeile</p><p class=\"kern-subline\">Unterzeile</p></hgroup></header><section class=\"kern-card__body\"><p class=\"kern-body\">Hier werden soviele Informationen zur Verfügung gestellt, wie benötigt und nicht mehr. Ein Maximum von 150 characters empfohlen.</p></section></div></article></div><div class=\"kern-col\"><article class=\"kern-card kern-card--interactive kern-card--large kern-card--surface\" style=\"max-width: 320px;\"><div class=\"kern-card__media\"><img src=\"https://placehold.co/600x400?text=MEDIA\" alt=\"ALT Text\"></div><div class=\"kern-card__container\"><header class=\"kern-card__header\"><hgroup class=\"kern-hgroup\"><h2 class=\"kern-title\"><a href=\"#\" class=\"kern-link--stretched\">Card Größe large</a></h2><p class=\"kern-preline\">Vorzeile</p><p class=\"kern-subline\">Unterzeile</p></hgroup></header><section class=\"kern-card__body\"><p class=\"kern-body\">Hier werden soviele Informationen zur Verfügung gestellt, wie benötigt und nicht mehr. Ein Maximum von 150 characters empfohlen.</p></section></div></article></div></div><div class=\"kern-row kern-layer kern-level-1\"><h4 class=\"kern-heading-medium\">Layer Level-1</h4><div class=\"kern-col\"><article class=\"kern-card kern-card--interactive kern-card--surface\" style=\"max-width: 320px;\"><div class=\"kern-card__media\"><img src=\"https://placehold.co/600x400?text=MEDIA\" alt=\"ALT Text\"></div><div class=\"kern-card__container\"><header class=\"kern-card__header\"><hgroup class=\"kern-hgroup\"><h2 class=\"kern-title\"><a href=\"#\" class=\"kern-link--stretched\">Card Größe Default</a></h2><p class=\"kern-preline\">Vorzeile</p><p class=\"kern-subline\">Unterzeile</p></hgroup></header><section class=\"kern-card__body\"><p class=\"kern-body\">Hier werden soviele Informationen zur Verfügung gestellt, wie benötigt und nicht mehr. Ein Maximum von 150 characters empfohlen.</p></section></div></article></div><div class=\"kern-col\"><article class=\"kern-card kern-card--interactive kern-card--small kern-card--surface\" style=\"max-width: 320px;\"><div class=\"kern-card__media\"><img src=\"https://placehold.co/600x400?text=MEDIA\" alt=\"ALT Text\"></div><div class=\"kern-card__container\"><header class=\"kern-card__header\"><hgroup class=\"kern-hgroup\"><h2 class=\"kern-title\"><a href=\"#\" class=\"kern-link--stretched\">Card Größe small</a></h2><p class=\"kern-preline\">Vorzeile</p><p class=\"kern-subline\">Unterzeile</p></hgroup></header><section class=\"kern-card__body\"><p class=\"kern-body\">Hier werden soviele Informationen zur Verfügung gestellt, wie benötigt und nicht mehr. Ein Maximum von 150 characters empfohlen.</p></section></div></article></div><div class=\"kern-col\"><article class=\"kern-card kern-card--interactive kern-card--large kern-card--surface\" style=\"max-width: 320px;\"><div class=\"kern-card__media\"><img src=\"https://placehold.co/600x400?text=MEDIA\" alt=\"ALT Text\"></div><div class=\"kern-card__container\"><header class=\"kern-card__header\"><hgroup class=\"kern-hgroup\"><h2 class=\"kern-title\"><a href=\"#\" class=\"kern-link--stretched\">Card Größe large</a></h2><p class=\"kern-preline\">Vorzeile</p><p class=\"kern-subline\">Unterzeile</p></hgroup></header><section class=\"kern-card__body\"><p class=\"kern-body\">Hier werden soviele Informationen zur Verfügung gestellt, wie benötigt und nicht mehr. Ein Maximum von 150 characters empfohlen.</p></section></div></article></div></div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Card/Card.stories.js",
+          "export": "CardSurface"
+        }
+      }
+    },
+    {
+      "id": "card-small",
+      "options": {
+        "size": "small"
+      },
+      "html": {
+        "markup": "<article class=\"kern-card kern-card--small\" style=\"max-width: 320px;\"><div class=\"kern-card__media\"><img src=\"https://placehold.co/600x400?text=MEDIA\" alt=\"ALT Text\"></div><div class=\"kern-card__container\"><header class=\"kern-card__header\"><hgroup class=\"kern-hgroup\"><h2 class=\"kern-title\" id=\"card-title-11\">Card Größe small</h2><p class=\"kern-preline\">Vorzeile</p><p class=\"kern-subline\">Unterzeile</p></hgroup></header><section class=\"kern-card__body\"><p class=\"kern-body\">Hier werden soviele Informationen zur Verfügung gestellt, wie benötigt und nicht mehr. Ein Maximum von 150 characters empfohlen.</p></section><footer class=\"kern-card__footer\"><button class=\"kern-btn kern-btn--primary\" aria-describedby=\"card-title-11\"><span class=\"kern-label\">Primäraktion</span></button><button class=\"kern-btn kern-btn--secondary\" aria-describedby=\"card-title-11\"><span class=\"kern-label\">Aktion</span></button></footer></div></article>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Card/Card.stories.js",
+          "export": "CardSmall"
+        }
+      }
+    },
+    {
+      "id": "card-large",
+      "options": {
+        "size": "large"
+      },
+      "html": {
+        "markup": "<article class=\"kern-card kern-card--large\" style=\"max-width: 320px;\"><div class=\"kern-card__media\"><img src=\"https://placehold.co/600x400?text=MEDIA\" alt=\"ALT Text\"></div><div class=\"kern-card__container\"><header class=\"kern-card__header\"><hgroup class=\"kern-hgroup\"><h2 class=\"kern-title\" id=\"card-title-12\">Card Größe large</h2><p class=\"kern-preline\">Vorzeile</p><p class=\"kern-subline\">Unterzeile</p></hgroup></header><section class=\"kern-card__body\"><p class=\"kern-body\">Hier werden soviele Informationen zur Verfügung gestellt, wie benötigt und nicht mehr. Ein Maximum von 150 characters empfohlen.</p></section><footer class=\"kern-card__footer\"><button class=\"kern-btn kern-btn--primary\" aria-describedby=\"card-title-12\"><span class=\"kern-label\">Primäraktion</span></button><button class=\"kern-btn kern-btn--secondary\" aria-describedby=\"card-title-12\"><span class=\"kern-label\">Aktion</span></button></footer></div></article>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Card/Card.stories.js",
+          "export": "CardLarge"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,517 @@
+{
+  "id": "input-group",
+  "title": {
+    "en": "Input Group",
+    "de": "Input Group"
+  },
+  "status": "stable",
+  "group": "form",
+  "synonyms": {
+    "de": [
+      "Input mit Präfix / Suffix",
+      "Eingabefeld mit Zusatz",
+      "Input-Gruppe",
+      "Kombiniertes Eingabefeld"
+    ]
+  },
+  "links": {
+    "docs": "https://www.kern-ux.de/komponenten/form-inputs/input-group",
+    "figma": "https://www.figma.com/community/file/1624024563231427311",
+    "source": "https://gitlab.opencode.de/kern-ux/kern-ux-plain/-/tree/v2.8.2/src/scss/core/components/_input-group.scss"
+  },
+  "docs": {
+    "url": "https://www.kern-ux.de/komponenten/form-inputs/input-group",
+    "summary": {
+      "en": "Input Group adds a prefix, suffix or action to a single field, for example a unit, a currency or a button. These parts are not part of the value and assistive technology does not read them, so the label or supporting text must carry their meaning. Focus and validation behave as for one input, with errors below the group."
+    },
+    "sections": [
+      {
+        "id": "kurzbeschreibung",
+        "heading": "Kurzbeschreibung",
+        "url": "https://www.kern-ux.de/komponenten/form-inputs/input-group#kurzbeschreibung",
+        "summary": {
+          "en": "An Input Group extends a field with a prefix, a suffix or an action to make the expected value clearer or to process it directly."
+        }
+      },
+      {
+        "id": "disabled",
+        "heading": "Disabled",
+        "url": "https://www.kern-ux.de/komponenten/form-inputs/input-group#disabled",
+        "summary": {
+          "en": "Avoid disabled, because it restricts accessibility."
+        }
+      },
+      {
+        "id": "beschreibung",
+        "heading": "Beschreibung",
+        "url": "https://www.kern-ux.de/komponenten/form-inputs/input-group#beschreibung",
+        "summary": {
+          "en": "The general input properties apply. Text or interactive parts sit before or after the field and clarify the context; they are not part of the value. Focus and validation apply to the input, and errors appear below the group. The label must carry the meaning for assistive technology."
+        }
+      },
+      {
+        "id": "verwendungsregeln",
+        "heading": "Verwendungsregeln",
+        "url": "https://www.kern-ux.de/komponenten/form-inputs/input-group#verwendungsregeln",
+        "summary": {
+          "en": "Use Input Groups deliberately and for the context in hand: for units such as euro, percent or kilogram, for URL prefixes, or for an action tied to the entry, such as showing and hiding a password. They suit standardised input where part of the value is fixed."
+        }
+      },
+      {
+        "id": "dos-und-donts",
+        "heading": "Dos und Don’ts",
+        "url": "https://www.kern-ux.de/komponenten/form-inputs/input-group#dos-und-donts",
+        "summary": {
+          "en": "Write the label so the context is clear, for example costs in euro rather than just costs, and keep it outside the group. Still handle values with a manually typed prefix. Skip the group when the field is self-explanatory, prefer signs such as %, and use prefixes sparingly."
+        }
+      }
+    ]
+  },
+  "knowledge": {
+    "summary": {
+      "en": "Input Group adds a visual prefix, suffix or action to one field; it is not part of the value and must be explained in the label."
+    },
+    "whenToUse": [
+      {
+        "en": "Use Input Group when a fixed part of the value, a unit or a related action should sit directly on the field."
+      },
+      {
+        "en": "Use it for standardised entries, such as a URL prefix, where part of the value is already given."
+      }
+    ],
+    "dos": [
+      {
+        "en": "Write the label so the context is unambiguous, for example costs in euro."
+      },
+      {
+        "en": "Keep the label outside the input group."
+      },
+      {
+        "en": "Use universally understood prefixes and suffixes such as %."
+      },
+      {
+        "en": "Still process values that contain a manually typed prefix or suffix."
+      }
+    ],
+    "donts": [
+      {
+        "en": "Don't use an input group when the field is self-explanatory."
+      },
+      {
+        "en": "Don't use ambiguous abbreviations or long, complex prefix and suffix content."
+      },
+      {
+        "en": "Don't let prefixes and suffixes distract from the actual input."
+      },
+      {
+        "en": "Don't use disabled, because it restricts accessibility."
+      }
+    ],
+    "similar": [
+      {
+        "id": "input-text"
+      },
+      {
+        "id": "search"
+      },
+      {
+        "id": "input-password"
+      }
+    ]
+  },
+  "states": [
+    {
+      "id": "error",
+      "origin": "derived",
+      "html": {
+        "binding": "modifier",
+        "class": "kern-form-input--error",
+        "alternatives": [
+          {
+            "binding": "modifier",
+            "class": "kern-form-input__input--error",
+            "partClass": "kern-form-input__input"
+          }
+        ]
+      }
+    }
+  ],
+  "accessibility": [
+    {
+      "id": "info-and-relationships",
+      "criterion": "1.3.1",
+      "slug": "info-and-relationships",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2026-05-06"
+    },
+    {
+      "id": "labels-or-instructions",
+      "criterion": "3.3.2",
+      "slug": "labels-or-instructions",
+      "level": "A",
+      "status": "implementation-dependent",
+      "lastChecked": "2026-05-06"
+    },
+    {
+      "id": "name-role-value",
+      "criterion": "4.1.2",
+      "slug": "name-role-value",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2026-05-06"
+    },
+    {
+      "id": "use-of-color",
+      "criterion": "1.4.1",
+      "slug": "use-of-color",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2026-05-06"
+    },
+    {
+      "id": "contrast-enhanced",
+      "criterion": "1.4.6",
+      "slug": "contrast-enhanced",
+      "level": "AAA",
+      "status": "passed",
+      "lastChecked": "2026-05-06"
+    },
+    {
+      "id": "non-text-contrast",
+      "criterion": "1.4.11",
+      "slug": "non-text-contrast",
+      "level": "AA",
+      "status": "passed",
+      "lastChecked": "2026-05-06"
+    },
+    {
+      "id": "keyboard",
+      "criterion": "2.1.1",
+      "slug": "keyboard",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2026-05-06"
+    },
+    {
+      "id": "focus-appearance",
+      "criterion": "2.4.13",
+      "slug": "focus-appearance",
+      "level": "AAA",
+      "status": "passed",
+      "lastChecked": "2026-05-06"
+    },
+    {
+      "id": "error-identification",
+      "criterion": "3.3.1",
+      "slug": "error-identification",
+      "level": "A",
+      "status": "implementation-dependent",
+      "lastChecked": "2026-05-06"
+    },
+    {
+      "id": "info-and-relationships-2",
+      "criterion": "1.3.1",
+      "slug": "info-and-relationships",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2026-05-06"
+    },
+    {
+      "id": "status-messages",
+      "criterion": "4.1.3",
+      "slug": "status-messages",
+      "level": "AA",
+      "status": "implementation-dependent",
+      "lastChecked": "2026-05-06"
+    },
+    {
+      "id": "identify-input-purpose",
+      "criterion": "1.3.5",
+      "slug": "identify-input-purpose",
+      "level": "AA",
+      "status": "implementation-dependent",
+      "lastChecked": "2026-05-06"
+    },
+    {
+      "id": "name-role-value-2",
+      "criterion": "4.1.2",
+      "slug": "name-role-value",
+      "level": "A",
+      "status": "implementation-dependent",
+      "lastChecked": "2026-05-06"
+    }
+  ],
+  "examples": [
+    {
+      "id": "group",
+      "html": {
+        "markup": "<div class=\"kern-input-group\"><span class=\"kern-input-group-text\">Prefix</span><input class=\"kern-form-input__input\" id=\"group-text\" name=\"group-text\" type=\"text\" /><span class=\"kern-input-group-text\">Suffix</span></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/InputGroup/InputGroup.stories.js",
+          "export": "Group"
+        }
+      }
+    },
+    {
+      "id": "group-with-label",
+      "html": {
+        "markup": "<div class=\"kern-form-input\"><label class=\"kern-label\" for=\"group-with-label-text\">Name</label><div class=\"kern-input-group\"><span class=\"kern-input-group-text\">Prefix</span><input class=\"kern-form-input__input\" id=\"group-with-label-text\" name=\"group-with-label-text\" type=\"text\" /><span class=\"kern-input-group-text\">Suffix</span></div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/InputGroup/InputGroup.stories.js",
+          "export": "GroupWithLabel"
+        }
+      }
+    },
+    {
+      "id": "group-with-button",
+      "html": {
+        "markup": "<div class=\"kern-form-input\"><label class=\"kern-label\" for=\"group-with-button-text\">Suche</label><div class=\"kern-input-group\"><input class=\"kern-form-input__input\" id=\"group-with-button-text\" name=\"group-with-button-text\" type=\"text\" /><button class=\"kern-btn kern-btn--primary\"><span class=\"kern-icon kern-icon--search\" aria-hidden=\"true\"></span><span class=\"kern-label\">Suchen</span></button></div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/InputGroup/InputGroup.stories.js",
+          "export": "GroupWithButton"
+        }
+      }
+    },
+    {
+      "id": "group-with-icon-only-button",
+      "html": {
+        "markup": "<div class=\"kern-form-input\"><label class=\"kern-label\" for=\"group-with-icon-text\">Geben Sie ein Stichwort ein</label><div class=\"kern-input-group\"><input class=\"kern-form-input__input\" id=\"group-with-icon-text\" name=\"group-with-icon-text\" type=\"text\" /><button class=\"kern-btn kern-btn--secondary\"><span class=\"kern-icon kern-icon--visibility-off\" aria-hidden=\"true\"></span><span class=\"kern-label kern-sr-only\">Bearbeiten</span></button></div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/InputGroup/InputGroup.stories.js",
+          "export": "GroupWithIconOnlyButton"
+        }
+      }
+    },
+    {
+      "id": "group-with-error",
+      "states": [
+        "error"
+      ],
+      "html": {
+        "markup": "<div class=\"kern-form-input kern-form-input--error\"><label class=\"kern-label\" for=\"group-error-text\">Wie hoch ist die Miete, in Euro pro Monat?</label><div class=\"kern-input-group\"><span class=\"kern-input-group-text\">€</span><input class=\"kern-form-input__input kern-form-input__input--error\" id=\"group-error-text\" name=\"group-error-text\" type=\"text\" inputmode=\"numeric\" aria-describedby=\"group-error-message\" aria-invalid=\"true\" /><span class=\"kern-input-group-text\">pro Monat</span></div><p class=\"kern-error\" id=\"group-error-message\"><span class=\"kern-icon kern-icon--danger\" aria-hidden=\"true\"></span><span class=\"kern-body\">Die Miete muss größer als 0 sein</span></p></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/InputGroup/InputGroup.stories.js",
+          "export": "GroupWithError"
+        }
+      }
+    },
+    {
+      "id": "read-only",
+      "html": {
+        "markup": "<div class=\"kern-form-input\"><label class=\"kern-label\" for=\"group-readonly-text\">Name</label><div class=\"kern-input-group\"><span class=\"kern-input-group-text kern-input-group-text--readonly\">Prefix</span><input class=\"kern-form-input__input\" id=\"group-readonly-text\" name=\"group-readonly-text\" type=\"text\" readonly value=\"Text\" /><span class=\"kern-input-group-text kern-input-group-text--readonly\">Suffix</span></div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/InputGroup/InputGroup.stories.js",
+          "export": "ReadOnly"
+        }
+      }
+    },
+    {
+      "id": "disabled",
+      "html": {
+        "markup": "<div class=\"kern-form-input\"><label class=\"kern-label\" for=\"group-disabled-text\">Name</label><div class=\"kern-input-group\"><span class=\"kern-input-group-text kern-input-group-text--disabled\">Prefix</span><input class=\"kern-form-input__input\" id=\"group-disabled-text\" name=\"group-disabled-text\" type=\"text\" disabled /><span class=\"kern-input-group-text kern-input-group-text--disabled\">Suffix</span></div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/InputGroup/InputGroup.stories.js",
+          "export": "Disabled"
+        }
+      }
+    }
+  ],
+  "implementations": {
+    "html": {
+      "package": "@kern-ux/native",
+      "version": "2.8.2",
+      "classes": {
+        "roots": [
+          "kern-form-input"
+        ],
+        "blocks": [
+          "kern-input-group",
+          "kern-input-group-text"
+        ],
+        "elements": [
+          "kern-form-input__input",
+          "kern-form-input__select-wrapper"
+        ],
+        "modifiers": [
+          "kern-form-input--error",
+          "kern-form-input__input--error",
+          "kern-form-input__input--width-2",
+          "kern-form-input__input--width-4",
+          "kern-input-group-text--disabled",
+          "kern-input-group-text--readonly"
+        ]
+      },
+      "sources": [
+        "src/scss/core/components/_input-group.scss",
+        "stories/InputGroup/InputGroup.stories.js"
+      ]
+    }
+  },
+  "drift": [
+    {
+      "kind": "example-coverage",
+      "en": "Modifiers defined in SCSS that no story or docs example shows.",
+      "sources": [
+        "kern-ux-plain"
+      ],
+      "items": [
+        "kern-form-input__input--width-2",
+        "kern-form-input__input--width-4"
+      ]
+    },
+    {
+      "kind": "missing-implementation",
+      "en": "kern-react-kit has no component for this.",
+      "sources": [
+        "kern-react-kit",
+        "kern-ux-plain"
+      ]
+    }
+  ],
+  "provenance": {
+    "docs.sections.beschreibung.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/input-group.mdx#beschreibung"
+      ],
+      "inputHash": "sha256:e2ef816dd79de8727a84c8a524ba8e5e539d6f71ea7b05509aa1a23ff358eb04"
+    },
+    "docs.sections.disabled.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/input-group.mdx#disabled"
+      ],
+      "inputHash": "sha256:e2ef816dd79de8727a84c8a524ba8e5e539d6f71ea7b05509aa1a23ff358eb04"
+    },
+    "docs.sections.dos-und-donts.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/input-group.mdx#dos-und-donts"
+      ],
+      "inputHash": "sha256:e2ef816dd79de8727a84c8a524ba8e5e539d6f71ea7b05509aa1a23ff358eb04"
+    },
+    "docs.sections.kurzbeschreibung.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/input-group.mdx#kurzbeschreibung"
+      ],
+      "inputHash": "sha256:e2ef816dd79de8727a84c8a524ba8e5e539d6f71ea7b05509aa1a23ff358eb04"
+    },
+    "docs.sections.verwendungsregeln.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/input-group.mdx#verwendungsregeln"
+      ],
+      "inputHash": "sha256:e2ef816dd79de8727a84c8a524ba8e5e539d6f71ea7b05509aa1a23ff358eb04"
+    },
+    "docs.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/input-group.mdx"
+      ],
+      "inputHash": "sha256:e2ef816dd79de8727a84c8a524ba8e5e539d6f71ea7b05509aa1a23ff358eb04"
+    },
+    "knowledge.donts.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/input-group.mdx"
+      ],
+      "inputHash": "sha256:8219da55c728620146700f59c094609b068663f052f05581915ec871ba953901"
+    },
+    "knowledge.donts.1": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/input-group.mdx"
+      ],
+      "inputHash": "sha256:8219da55c728620146700f59c094609b068663f052f05581915ec871ba953901"
+    },
+    "knowledge.donts.2": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/input-group.mdx"
+      ],
+      "inputHash": "sha256:8219da55c728620146700f59c094609b068663f052f05581915ec871ba953901"
+    },
+    "knowledge.donts.3": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/input-group.mdx"
+      ],
+      "inputHash": "sha256:8219da55c728620146700f59c094609b068663f052f05581915ec871ba953901"
+    },
+    "knowledge.dos.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/input-group.mdx"
+      ],
+      "inputHash": "sha256:8219da55c728620146700f59c094609b068663f052f05581915ec871ba953901"
+    },
+    "knowledge.dos.1": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/input-group.mdx"
+      ],
+      "inputHash": "sha256:8219da55c728620146700f59c094609b068663f052f05581915ec871ba953901"
+    },
+    "knowledge.dos.2": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/input-group.mdx"
+      ],
+      "inputHash": "sha256:8219da55c728620146700f59c094609b068663f052f05581915ec871ba953901"
+    },
+    "knowledge.dos.3": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/input-group.mdx"
+      ],
+      "inputHash": "sha256:8219da55c728620146700f59c094609b068663f052f05581915ec871ba953901"
+    },
+    "knowledge.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/input-group.mdx"
+      ],
+      "inputHash": "sha256:8219da55c728620146700f59c094609b068663f052f05581915ec871ba953901"
+    },
+    "knowledge.whenToUse.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/input-group.mdx"
+      ],
+      "inputHash": "sha256:8219da55c728620146700f59c094609b068663f052f05581915ec871ba953901"
+    },
+    "knowledge.whenToUse.1": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/input-group.mdx"
+      ],
+      "inputHash": "sha256:8219da55c728620146700f59c094609b068663f052f05581915ec871ba953901"
+    }
+  }
+}

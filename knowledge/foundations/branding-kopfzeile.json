@@ -1,0 +1,59 @@
+{
+  "id": "branding-kopfzeile",
+  "title": {
+    "en": "Brand header",
+    "de": "Kopfzeile"
+  },
+  "group": "Branding",
+  "status": "documented",
+  "links": {
+    "docs": "https://www.kern-ux.de/design-system/kopfzeile"
+  },
+  "docs": {
+    "url": "https://www.kern-ux.de/design-system/kopfzeile",
+    "summary": {
+      "en": "Documents the Kopfzeile, the header element of the Dachmarke, the modular labelling system of the Digitale Dachmarke. The page is a short foundation reference for that header."
+    },
+    "sections": [
+      {
+        "id": "kurzbeschreibung",
+        "heading": "Kurzbeschreibung",
+        "url": "https://www.kern-ux.de/design-system/kopfzeile#kurzbeschreibung",
+        "summary": {
+          "en": "The Kopfzeile is the header of the Dachmarke."
+        }
+      }
+    ]
+  },
+  "knowledge": {
+    "summary": {
+      "en": "The Kopfzeile is the header of the Dachmarke, the modular labelling system of the Digitale Dachmarke."
+    }
+  },
+  "provenance": {
+    "docs.sections.kurzbeschreibung.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/kopfzeile.mdx#kurzbeschreibung"
+      ],
+      "inputHash": "sha256:d97c116e26b039e213cef05835bde3991e0a23b7bc5048e74832be324a03fa5b"
+    },
+    "docs.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/kopfzeile.mdx"
+      ],
+      "inputHash": "sha256:d97c116e26b039e213cef05835bde3991e0a23b7bc5048e74832be324a03fa5b"
+    },
+    "knowledge.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/kopfzeile.mdx"
+      ],
+      "inputHash": "sha256:112ab2730e5e0cfeec9807e7407ac362c53287dad05c863a71c3708087a31254"
+    }
+  }
+}

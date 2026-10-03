@@ -1,0 +1,227 @@
+{
+  "id": "sizes-and-spacing",
+  "title": {
+    "en": "Sizes and spacing",
+    "de": "Größen und Abstände"
+  },
+  "group": "Foundations",
+  "status": "documented",
+  "links": {
+    "docs": "https://www.kern-ux.de/design-system/foundations/groesse-und-abstaende"
+  },
+  "docs": {
+    "url": "https://www.kern-ux.de/design-system/foundations/groesse-und-abstaende",
+    "summary": {
+      "en": "Sizes and spacing use a small set of combinable metric tokens covering every needed border width, radius, container size, padding, gap and margin. They form three groups, each with a default step: border tokens, dimension tokens for container sizes, and space tokens for padding, gap and margin. Larger whitespace comes from combining space steps through containers. Stacking guidance closes the page: spacing follows text size, close elements stay close and groups get more horizontal room."
+    },
+    "sections": [
+      {
+        "id": "übersicht",
+        "heading": "Übersicht",
+        "url": "https://www.kern-ux.de/design-system/foundations/groesse-und-abstaende#übersicht",
+        "summary": {
+          "en": "Spacing and sizes are defined simply and accessibly with only a few tokens that can be combined, enough to express every required value. KERN offers four groups, each with a default size, and large whitespace comes from combining several spaces through a container and its padding."
+        }
+      },
+      {
+        "id": "border-token",
+        "heading": "Border-Token",
+        "url": "https://www.kern-ux.de/design-system/foundations/groesse-und-abstaende#border-token",
+        "summary": {
+          "en": "Lists the border width tokens (none 0, light 1px, default 2px, bold 4px, heavy 8px) and the border radius tokens (none 0, small 2px, default 4px, large 8px, full 9999px) with their values."
+        }
+      },
+      {
+        "id": "dimension-token-feste-container-größen",
+        "heading": "Dimension-Token (feste Container-Größen)",
+        "url": "https://www.kern-ux.de/design-system/foundations/groesse-und-abstaende#dimension-token-feste-container-größen",
+        "summary": {
+          "en": "Lists the dimension tokens for fixed container sizes, running from --kern-metric-dimension-2x-small at 8px through --kern-metric-dimension-default at 24px up to --kern-metric-dimension-7x-large at 144px."
+        }
+      },
+      {
+        "id": "space-token-padding-gap-margin",
+        "heading": "Space-Token (Padding / Gap / Margin)",
+        "url": "https://www.kern-ux.de/design-system/foundations/groesse-und-abstaende#space-token-padding-gap-margin",
+        "summary": {
+          "en": "Lists the space tokens used for padding, gap and margin, from --kern-metric-space-none at 0 through --kern-metric-space-default at 16px up to --kern-metric-space-11x-large at 192px."
+        }
+      },
+      {
+        "id": "umgang-mit-weißraum",
+        "heading": "Umgang mit Weißraum",
+        "url": "https://www.kern-ux.de/design-system/foundations/groesse-und-abstaende#umgang-mit-weißraum",
+        "summary": {
+          "en": "Whitespace signals how strongly elements belong together: the closer they are, the stronger the relation, and the wider the gap, the more clearly groups and patterns become visible. Larger dimensions are built by combining smaller ones through auto-layout in Figma or padding in CSS."
+        }
+      },
+      {
+        "id": "stacking",
+        "heading": "Stacking",
+        "url": "https://www.kern-ux.de/design-system/foundations/groesse-und-abstaende#stacking",
+        "summary": {
+          "en": "Body and Heading components stack directly. When further elements such as a button or a card follow, group them with whitespace: spacing scales with text size, so Heading-Large pairs with --kern-metric-space-large, while text and a following button use --kern-metric-space-default."
+        }
+      },
+      {
+        "id": "space-kombination-beim-stacking",
+        "heading": "Space Kombination beim Stacking",
+        "url": "https://www.kern-ux.de/design-system/foundations/groesse-und-abstaende#space-kombination-beim-stacking",
+        "summary": {
+          "en": "Stacking starts from the text: a Title-Default combines with --kern-metric-space-default and a Title-Small with --kern-metric-space-small. Within a group, vertical spacing is smaller than horizontal, for example --kern-metric-space-default vertically and --kern-metric-space-large horizontally."
+        }
+      }
+    ]
+  },
+  "knowledge": {
+    "summary": {
+      "en": "A few combinable metric tokens cover all border, size and space values; build larger whitespace by combining space steps."
+    },
+    "whenToUse": [
+      {
+        "en": "Use the border, dimension and space token groups for border widths and radii, fixed container sizes, padding, gaps and margins."
+      }
+    ],
+    "dos": [
+      {
+        "en": "Combine several space tokens to create larger whitespace instead of introducing new values."
+      },
+      {
+        "en": "Keep elements that belong together close and separate unrelated groups with more whitespace."
+      },
+      {
+        "en": "Scale stacking space to the text size, for example --kern-metric-space-large next to Heading-Large."
+      },
+      {
+        "en": "Give grouped elements more space horizontally than vertically, for example --kern-metric-space-large across and --kern-metric-space-default down."
+      }
+    ],
+    "donts": [
+      {
+        "en": "Do not place a large gap between text and a following button; keep them together with --kern-metric-space-default so the law of proximity still holds."
+      }
+    ]
+  },
+  "provenance": {
+    "docs.sections.border-token.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/groesse-und-abstaende.mdx#border-token"
+      ],
+      "inputHash": "sha256:0a8ee07ba6e9ddac1a5e2dd829b6b3e5b93b940fa18187b60b1f176a12b8ef97"
+    },
+    "docs.sections.dimension-token-feste-container-größen.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/groesse-und-abstaende.mdx#dimension-token-feste-container-größen"
+      ],
+      "inputHash": "sha256:0a8ee07ba6e9ddac1a5e2dd829b6b3e5b93b940fa18187b60b1f176a12b8ef97"
+    },
+    "docs.sections.space-kombination-beim-stacking.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/groesse-und-abstaende.mdx#space-kombination-beim-stacking"
+      ],
+      "inputHash": "sha256:0a8ee07ba6e9ddac1a5e2dd829b6b3e5b93b940fa18187b60b1f176a12b8ef97"
+    },
+    "docs.sections.space-token-padding-gap-margin.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/groesse-und-abstaende.mdx#space-token-padding-gap-margin"
+      ],
+      "inputHash": "sha256:0a8ee07ba6e9ddac1a5e2dd829b6b3e5b93b940fa18187b60b1f176a12b8ef97"
+    },
+    "docs.sections.stacking.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/groesse-und-abstaende.mdx#stacking"
+      ],
+      "inputHash": "sha256:0a8ee07ba6e9ddac1a5e2dd829b6b3e5b93b940fa18187b60b1f176a12b8ef97"
+    },
+    "docs.sections.umgang-mit-weißraum.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/groesse-und-abstaende.mdx#umgang-mit-weißraum"
+      ],
+      "inputHash": "sha256:0a8ee07ba6e9ddac1a5e2dd829b6b3e5b93b940fa18187b60b1f176a12b8ef97"
+    },
+    "docs.sections.übersicht.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/groesse-und-abstaende.mdx#übersicht"
+      ],
+      "inputHash": "sha256:0a8ee07ba6e9ddac1a5e2dd829b6b3e5b93b940fa18187b60b1f176a12b8ef97"
+    },
+    "docs.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/groesse-und-abstaende.mdx"
+      ],
+      "inputHash": "sha256:0a8ee07ba6e9ddac1a5e2dd829b6b3e5b93b940fa18187b60b1f176a12b8ef97"
+    },
+    "knowledge.donts.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/groesse-und-abstaende.mdx"
+      ],
+      "inputHash": "sha256:5550c1e5fd5a2dbdc4dc2aa5cd5b1010388e608f776652d0f94880c37dad966c"
+    },
+    "knowledge.dos.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/groesse-und-abstaende.mdx"
+      ],
+      "inputHash": "sha256:5550c1e5fd5a2dbdc4dc2aa5cd5b1010388e608f776652d0f94880c37dad966c"
+    },
+    "knowledge.dos.1": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/groesse-und-abstaende.mdx"
+      ],
+      "inputHash": "sha256:5550c1e5fd5a2dbdc4dc2aa5cd5b1010388e608f776652d0f94880c37dad966c"
+    },
+    "knowledge.dos.2": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/groesse-und-abstaende.mdx"
+      ],
+      "inputHash": "sha256:5550c1e5fd5a2dbdc4dc2aa5cd5b1010388e608f776652d0f94880c37dad966c"
+    },
+    "knowledge.dos.3": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/groesse-und-abstaende.mdx"
+      ],
+      "inputHash": "sha256:5550c1e5fd5a2dbdc4dc2aa5cd5b1010388e608f776652d0f94880c37dad966c"
+    },
+    "knowledge.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/groesse-und-abstaende.mdx"
+      ],
+      "inputHash": "sha256:5550c1e5fd5a2dbdc4dc2aa5cd5b1010388e608f776652d0f94880c37dad966c"
+    },
+    "knowledge.whenToUse.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/groesse-und-abstaende.mdx"
+      ],
+      "inputHash": "sha256:5550c1e5fd5a2dbdc4dc2aa5cd5b1010388e608f776652d0f94880c37dad966c"
+    }
+  }
+}

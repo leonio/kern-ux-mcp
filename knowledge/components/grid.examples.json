@@ -1,0 +1,71 @@
+{
+  "component": "grid",
+  "examples": [
+    {
+      "id": "container-col-md-3-9",
+      "html": {
+        "markup": "<div class=\"kern-container\"><div class=\"kern-row\"><div class=\"kern-col-md-3\"><div class=\"kern-form-input\"><label class=\"kern-label\" for=\"name-14\">Name</label><input class=\"kern-form-input__input\" id=\"name-14\" name=\"name\" type=\"text\"></div></div><div class=\"kern-col-md-9\"><div class=\"kern-form-input\"><label class=\"kern-label\" for=\"vorname-15\">Vorname</label><input class=\"kern-form-input__input\" id=\"vorname-15\" name=\"vorname\" type=\"text\"></div></div></div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Grid/Grid.stories.js",
+          "export": "ContainerCol_MD_3_9"
+        }
+      }
+    },
+    {
+      "id": "container-col-9-offset-3",
+      "html": {
+        "markup": "<div class=\"kern-container\"><div class=\"kern-row\"><div class=\"kern-col-12 kern-col-md-9 kern-col-md-offset-3\"><div class=\"kern-form-input\"><label class=\"kern-label\" for=\"text-16\">Name</label><input class=\"kern-form-input__input\" id=\"text-16\" name=\"text\" type=\"text\"></div></div></div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Grid/Grid.stories.js",
+          "export": "ContainerCol_9_Offset_3"
+        }
+      }
+    },
+    {
+      "id": "alignment-items-top",
+      "html": {
+        "markup": "<div class=\"kern-container\"><div class=\"kern-row kern-align-items-start\" style=\"min-height: 10rem; background-color: var(--core-color-neutral-tint-90);\"><div class=\"kern-col\"><div class=\"kern-form-input\"><label class=\"kern-label\" for=\"text-17\">Name</label><input class=\"kern-form-input__input\" id=\"text-17\" name=\"text\" type=\"text\"></div></div><div class=\"kern-col\"><div class=\"kern-form-input\"><label class=\"kern-label\" for=\"vorname-18\">Vorname</label><input class=\"kern-form-input__input\" id=\"vorname-18\" name=\"vorname\" type=\"text\"></div></div><div class=\"kern-col\"><div class=\"kern-form-input\"><label class=\"kern-label\" for=\"alter-19\">Alter</label><input class=\"kern-form-input__input\" id=\"alter-19\" name=\"alter\" type=\"text\"></div></div></div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Grid/Grid.stories.js",
+          "export": "AlignmentItemsTop"
+        }
+      }
+    },
+    {
+      "id": "alignment-items-center",
+      "html": {
+        "markup": "<div class=\"kern-container\"><div class=\"kern-row kern-align-items-center\" style=\"min-height: 10rem; background-color: var(--core-color-neutral-tint-90);\"><div class=\"kern-col\"><div class=\"kern-form-input\"><label class=\"kern-label\" for=\"text-20\">Name</label><input class=\"kern-form-input__input\" id=\"text-20\" name=\"text\" type=\"text\"></div></div><div class=\"kern-col\"><div class=\"kern-form-input\"><label class=\"kern-label\" for=\"vorname-21\">Vorname</label><input class=\"kern-form-input__input\" id=\"vorname-21\" name=\"vorname\" type=\"text\"></div></div><div class=\"kern-col\"><div class=\"kern-form-input\"><label class=\"kern-label\" for=\"alter-22\">Alter</label><input class=\"kern-form-input__input\" id=\"alter-22\" name=\"alter\" type=\"text\"></div></div></div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Grid/Grid.stories.js",
+          "export": "AlignmentItemsCenter"
+        }
+      }
+    },
+    {
+      "id": "alignment-items-end",
+      "html": {
+        "markup": "<div class=\"kern-container\"><div class=\"kern-row kern-align-items-end\" style=\"min-height: 10rem; background-color: var(--core-color-neutral-tint-90);\"><div class=\"kern-col\"><div class=\"kern-form-input\"><label class=\"kern-label\" for=\"text-23\">Name</label><input class=\"kern-form-input__input\" id=\"text-23\" name=\"text\" type=\"text\"></div></div><div class=\"kern-col\"><div class=\"kern-form-input\"><label class=\"kern-label\" for=\"vorname-24\">Vorname</label><input class=\"kern-form-input__input\" id=\"vorname-24\" name=\"vorname\" type=\"text\"></div></div><div class=\"kern-col\"><div class=\"kern-form-input\"><label class=\"kern-label\" for=\"alter-25\">Alter</label><input class=\"kern-form-input__input\" id=\"alter-25\" name=\"alter\" type=\"text\"></div></div></div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Grid/Grid.stories.js",
+          "export": "AlignmentItemsEnd"
+        }
+      }
+    },
+    {
+      "id": "alignment-item-self",
+      "html": {
+        "markup": "<div class=\"kern-container\"><div class=\"kern-row\" style=\"min-height: 10rem; background-color: var(--core-color-neutral-tint-90);\"><div class=\"kern-col kern-align-self-start\"><div class=\"kern-form-input\"><label class=\"kern-label\" for=\"text-26\">Name</label><input class=\"kern-form-input__input\" id=\"text-26\" name=\"text\" type=\"text\"></div></div><div class=\"kern-col kern-align-self-center\"><div class=\"kern-form-input\"><label class=\"kern-label\" for=\"vorname-27\">Vorname</label><input class=\"kern-form-input__input\" id=\"vorname-27\" name=\"vorname\" type=\"text\"></div></div><div class=\"kern-col kern-align-self-end\"><div class=\"kern-form-input\"><label class=\"kern-label\" for=\"alter-28\">Alter</label><input class=\"kern-form-input__input\" id=\"alter-28\" name=\"alter\" type=\"text\"></div></div></div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Grid/Grid.stories.js",
+          "export": "AlignmentItemSelf"
+        }
+      }
+    }
+  ]
+}

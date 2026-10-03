@@ -1,0 +1,552 @@
+{
+  "id": "select",
+  "title": {
+    "en": "Input Select",
+    "de": "Input Select"
+  },
+  "status": "stable",
+  "group": "form",
+  "synonyms": {
+    "de": [
+      "Listenfeld",
+      "Mehrzeilige Auswahlliste",
+      "Listbox",
+      "Ausklappliste",
+      "Klappliste"
+    ]
+  },
+  "links": {
+    "docs": "https://www.kern-ux.de/komponenten/form-inputs/select",
+    "figma": "https://www.figma.com/community/file/1624024563231427311",
+    "source": "https://gitlab.opencode.de/kern-ux/kern-ux-plain/-/tree/v2.8.2/src/scss/core/components/_select.scss"
+  },
+  "docs": {
+    "url": "https://www.kern-ux.de/komponenten/form-inputs/select",
+    "summary": {
+      "en": "Select lets users choose one option from a drop-down list. Users open the list by clicking or focusing with the keyboard; the current value is highlighted in the open list and shown on the closed element, and text cannot be typed directly. The label should be short and precise, and a hint can explain the options. Errors appear below the field and the width can be adapted. All Input states apply except readonly. Use it for 5 to 15 options, never to trigger actions or as navigation."
+    },
+    "sections": [
+      {
+        "id": "kurzbeschreibung",
+        "heading": "Kurzbeschreibung",
+        "url": "https://www.kern-ux.de/komponenten/form-inputs/select#kurzbeschreibung",
+        "summary": {
+          "en": "Lets users choose one option from a drop-down list of options."
+        }
+      },
+      {
+        "id": "disabled",
+        "heading": "Disabled",
+        "url": "https://www.kern-ux.de/komponenten/form-inputs/select#disabled",
+        "summary": {
+          "en": "Avoid the disabled state, because it limits accessibility."
+        }
+      },
+      {
+        "id": "beschreibung",
+        "heading": "Beschreibung",
+        "url": "https://www.kern-ux.de/komponenten/form-inputs/select#beschreibung",
+        "summary": {
+          "en": "Select allows exactly one option from a predefined list, opened by click or keyboard focus. The current value is highlighted in the open list and shown when closed, and free text cannot be entered. Errors appear below the field, and all Input states apply except readonly."
+        }
+      },
+      {
+        "id": "verwendungsregeln",
+        "heading": "Verwendungsregeln",
+        "url": "https://www.kern-ux.de/komponenten/form-inputs/select#verwendungsregeln",
+        "summary": {
+          "en": "Use a select to choose options in forms, not to reach actions or as navigation, with 5 to 15 options and one selectable value. Selects are hard to use, so prefer asking for information with Input Radios or Input Checkboxes; keep a select for tight space or to avoid input errors."
+        }
+      },
+      {
+        "id": "dos-und-donts",
+        "heading": "Dos und Don’ts",
+        "url": "https://www.kern-ux.de/komponenten/form-inputs/select#dos-und-donts",
+        "summary": {
+          "en": "Keep the labels of the values in the list as short as possible."
+        }
+      },
+      {
+        "id": "weitere-hinweise",
+        "heading": "Weitere Hinweise",
+        "url": "https://www.kern-ux.de/komponenten/form-inputs/select#weitere-hinweise",
+        "summary": {
+          "en": "Use at most 15 values in the list; more makes it hard to find the right option, so prefer radios where possible. Preselect a value only for a setting that is already active, otherwise the preselection can sway users or hide the need to choose."
+        }
+      }
+    ]
+  },
+  "knowledge": {
+    "summary": {
+      "en": "Single-choice drop-down list; use it for 5 to 15 options and favour radios where possible."
+    },
+    "whenToUse": [
+      {
+        "en": "Forms where users pick exactly one of 5 to 15 predefined options."
+      },
+      {
+        "en": "When space is tight or input errors must be avoided."
+      }
+    ],
+    "dos": [
+      {
+        "en": "Keep the labels of the values in the list as short as possible."
+      }
+    ],
+    "donts": [
+      {
+        "en": "Avoid the disabled state, because it limits accessibility."
+      },
+      {
+        "en": "Do not use a select as a way to trigger actions or as navigation."
+      },
+      {
+        "en": "Do not use more than 15 values in the selection list; the right option becomes hard to find."
+      }
+    ],
+    "similar": [
+      {
+        "id": "radios"
+      },
+      {
+        "id": "checkboxes"
+      }
+    ]
+  },
+  "states": [
+    {
+      "id": "disabled",
+      "origin": "derived",
+      "html": {
+        "binding": "attribute",
+        "attribute": "disabled",
+        "partClass": "kern-form-input__select",
+        "alternatives": [
+          {
+            "binding": "attribute",
+            "attribute": "aria-disabled",
+            "value": "true",
+            "partClass": "kern-form-input__select"
+          }
+        ]
+      }
+    },
+    {
+      "id": "error",
+      "origin": "derived",
+      "html": {
+        "binding": "modifier",
+        "class": "kern-form-input--error",
+        "alternatives": [
+          {
+            "binding": "modifier",
+            "class": "kern-form-input__input--error",
+            "partClass": "kern-form-input__input"
+          },
+          {
+            "binding": "modifier",
+            "class": "kern-form-input__select--error",
+            "partClass": "kern-form-input__select"
+          }
+        ]
+      }
+    },
+    {
+      "id": "focus",
+      "origin": "derived",
+      "html": {
+        "binding": "pseudo",
+        "selector": ":focus",
+        "partClass": "kern-form-input__select"
+      }
+    },
+    {
+      "id": "hover",
+      "origin": "derived",
+      "html": {
+        "binding": "pseudo",
+        "selector": ":hover",
+        "partClass": "kern-form-input__select-wrapper"
+      }
+    }
+  ],
+  "accessibility": [
+    {
+      "id": "info-and-relationships",
+      "criterion": "1.3.1",
+      "slug": "info-and-relationships",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "labels-or-instructions",
+      "criterion": "3.3.2",
+      "slug": "labels-or-instructions",
+      "level": "A",
+      "status": "implementation-dependent",
+      "lastChecked": "2025-10-21"
+    },
+    {
+      "id": "use-of-color",
+      "criterion": "1.4.1",
+      "slug": "use-of-color",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-10-21"
+    },
+    {
+      "id": "contrast-enhanced",
+      "criterion": "1.4.6",
+      "slug": "contrast-enhanced",
+      "level": "AAA",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "non-text-contrast",
+      "criterion": "1.4.11",
+      "slug": "non-text-contrast",
+      "level": "AA",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "keyboard",
+      "criterion": "2.1.1",
+      "slug": "keyboard",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-10-21"
+    },
+    {
+      "id": "focus-appearance",
+      "criterion": "2.4.13",
+      "slug": "focus-appearance",
+      "level": "AAA",
+      "status": "passed",
+      "lastChecked": "2025-10-21"
+    },
+    {
+      "id": "name-role-value",
+      "criterion": "4.1.2",
+      "slug": "name-role-value",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-10-21"
+    },
+    {
+      "id": "error-identification",
+      "criterion": "3.3.1",
+      "slug": "error-identification",
+      "level": "A",
+      "status": "implementation-dependent",
+      "lastChecked": "2025-10-21"
+    },
+    {
+      "id": "info-and-relationships-2",
+      "criterion": "1.3.1",
+      "slug": "info-and-relationships",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-10-23"
+    },
+    {
+      "id": "status-messages",
+      "criterion": "4.1.3",
+      "slug": "status-messages",
+      "level": "AA",
+      "status": "implementation-dependent",
+      "lastChecked": "2025-10-23"
+    },
+    {
+      "id": "identify-input-purpose",
+      "criterion": "1.3.5",
+      "slug": "identify-input-purpose",
+      "level": "AA",
+      "status": "implementation-dependent",
+      "lastChecked": "2025-10-23"
+    }
+  ],
+  "examples": [
+    {
+      "id": "select",
+      "html": {
+        "markup": "<div class=\"kern-form-input\"><label class=\"kern-label\" for=\"select\">Auswählen</label><div class=\"kern-form-input__select-wrapper\"><select class=\"kern-form-input__select\" name=\"select\" id=\"select\"><option>Option 1</option><option>Option 2</option><option>Option 3</option></select></div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Select/Select.stories.js",
+          "export": "Select"
+        }
+      }
+    },
+    {
+      "id": "select-hover",
+      "states": [
+        "hover"
+      ],
+      "html": {
+        "markup": "<div class=\"kern-form-input\"><label class=\"kern-label\" for=\"select1\">Auswählen</label><div class=\"kern-form-input__select-wrapper\"><select class=\"kern-form-input__select\" name=\"select1\" id=\"select1\"><option>Option 1</option><option>Option 2</option><option>Option 3</option></select></div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Select/Select.stories.js",
+          "export": "SelectHover"
+        }
+      }
+    },
+    {
+      "id": "select-focus",
+      "states": [
+        "focus"
+      ],
+      "html": {
+        "markup": "<div class=\"kern-form-input\"><label class=\"kern-label\" for=\"select2\">Auswählen</label><div class=\"kern-form-input__select-wrapper\"><select class=\"kern-form-input__select\" name=\"select2\" id=\"select2\"><option>Option 1</option><option>Option 2</option><option>Option 3</option></select></div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Select/Select.stories.js",
+          "export": "SelectFocus"
+        }
+      }
+    },
+    {
+      "id": "select-disabled",
+      "states": [
+        "disabled"
+      ],
+      "html": {
+        "markup": "<div class=\"kern-form-input\"><label class=\"kern-label\" for=\"select3\">Auswählen</label><div class=\"kern-form-input__select-wrapper\"><select class=\"kern-form-input__select\" name=\"select3\" id=\"select3\" disabled><option>Option 1</option><option>Option 2</option><option>Option 3</option></select></div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Select/Select.stories.js",
+          "export": "SelectDisabled"
+        }
+      }
+    },
+    {
+      "id": "select-hint",
+      "html": {
+        "markup": "<div class=\"kern-form-input\"><label class=\"kern-label\" for=\"select4\">Auswählen</label><div class=\"kern-hint\" id=\"select-hint4\">Hint Select</div><div class=\"kern-form-input__select-wrapper\"><select class=\"kern-form-input__select\" name=\"select4\" id=\"select4\" aria-describedby=\"select-hint4\"><option>Option 1</option><option>Option 2</option><option>Option 3</option></select></div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Select/Select.stories.js",
+          "export": "SelectHint"
+        }
+      }
+    },
+    {
+      "id": "select-optional",
+      "html": {
+        "markup": "<div class=\"kern-form-input\"><label class=\"kern-label\" for=\"select6\">Auswählen <span class=\"kern-label__optional\">- Optional</span></label><div class=\"kern-hint\" id=\"select-hint6\">Hint Select</div><div class=\"kern-form-input__select-wrapper\"><select class=\"kern-form-input__select\" name=\"select6\" id=\"select6\" aria-describedby=\"select-hint6\"><option>Option 1</option><option>Option 2</option><option>Option 3</option></select></div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Select/Select.stories.js",
+          "export": "SelectOptional"
+        }
+      }
+    },
+    {
+      "id": "select-hint-error",
+      "states": [
+        "error"
+      ],
+      "html": {
+        "markup": "<div class=\"kern-form-input kern-form-input--error\"><label class=\"kern-label\" for=\"select5\">Auswählen</label><div class=\"kern-hint\" id=\"select-hint5\">Hint Select</div><div class=\"kern-form-input__select-wrapper\"><select class=\"kern-form-input__select kern-form-input__select--error\" name=\"select5\" id=\"select5\" aria-describedby=\"select-hint5 kern-input-error\" aria-invalid=\"true\"><option>Option 1</option><option>Option 2</option><option>Option 3</option></select></div><p class=\"kern-error\" id=\"kern-input-error\"><span class=\"kern-icon kern-icon--danger\" aria-hidden=\"true\"></span><span class=\"kern-body\">Option darf nicht gewählt werden.</span></p></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Select/Select.stories.js",
+          "export": "SelectHintError"
+        }
+      }
+    },
+    {
+      "id": "select-inside-fieldset-error",
+      "states": [
+        "error"
+      ],
+      "instances": 2,
+      "html": {
+        "markup": "<fieldset class=\"kern-fieldset kern-fieldset--error\" aria-describedby=\"kern-fieldset-error-msg\"><legend class=\"kern-label\"> Ansprechpartner </legend><div class=\"kern-fieldset__body\"><div class=\"kern-form-input\"><label class=\"kern-label\" for=\"select-fieldset-error\">Auswählen</label><div class=\"kern-form-input__select-wrapper\"><select class=\"kern-form-input__select kern-form-input__select--error\" name=\"select-fieldset-error\" id=\"select-fieldset-error\" aria-describedby=\"kern-fieldset-error-msg\" aria-invalid=\"true\"><option>Option 1</option><option>Option 2</option><option>Option 3</option></select></div></div><div class=\"kern-form-input\"><label class=\"kern-label\" for=\"text-fieldset-error\">Name <span class=\"kern-label__optional\">- Optional</span></label><input class=\"kern-form-input__input\" id=\"text-fieldset-error\" name=\"text-fieldset-error\" type=\"text\"></div></div><p class=\"kern-error\" id=\"kern-fieldset-error-msg\"><span class=\"kern-icon kern-icon--danger\" aria-hidden=\"true\"></span><span class=\"kern-body\">Der Name darf nicht leer sein</span></p></fieldset>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Select/Select.stories.js",
+          "export": "SelectInsideFieldsetError"
+        }
+      }
+    }
+  ],
+  "implementations": {
+    "html": {
+      "package": "@kern-ux/native",
+      "version": "2.8.2",
+      "classes": {
+        "roots": [
+          "kern-form-input"
+        ],
+        "elements": [
+          "kern-form-input__input",
+          "kern-form-input__select",
+          "kern-form-input__select-wrapper"
+        ],
+        "modifiers": [
+          "kern-form-input--error",
+          "kern-form-input__input--error",
+          "kern-form-input__input--width-2",
+          "kern-form-input__input--width-4",
+          "kern-form-input__select--error"
+        ]
+      },
+      "sources": [
+        "src/scss/core/components/_select.scss",
+        "stories/Select/Select.stories.js"
+      ]
+    },
+    "react": {
+      "package": "@publicplan/kern-react-kit",
+      "version": "1.3.5",
+      "import": "import from '@publicplan/kern-react-kit'",
+      "components": [],
+      "sources": [
+        "src/components/Input"
+      ]
+    }
+  },
+  "drift": [
+    {
+      "kind": "unknown-class",
+      "en": "Docs examples use classes that kern-ux-plain doesn't define.",
+      "sources": [
+        "technische-dokumentation",
+        "kern-ux-plain"
+      ],
+      "items": [
+        "kern-icon--md"
+      ]
+    },
+    {
+      "kind": "example-coverage",
+      "en": "Modifiers defined in SCSS that no story or docs example shows.",
+      "sources": [
+        "kern-ux-plain"
+      ],
+      "items": [
+        "kern-form-input__input--error",
+        "kern-form-input__input--width-2",
+        "kern-form-input__input--width-4"
+      ]
+    }
+  ],
+  "provenance": {
+    "docs.sections.beschreibung.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/select.mdx#beschreibung"
+      ],
+      "inputHash": "sha256:d0c4de5aca6b54835aaa06a7a63898a98edf9d8f0340b6ea78bb7b8e7ce0ae61"
+    },
+    "docs.sections.disabled.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/select.mdx#disabled"
+      ],
+      "inputHash": "sha256:d0c4de5aca6b54835aaa06a7a63898a98edf9d8f0340b6ea78bb7b8e7ce0ae61"
+    },
+    "docs.sections.dos-und-donts.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/select.mdx#dos-und-donts"
+      ],
+      "inputHash": "sha256:d0c4de5aca6b54835aaa06a7a63898a98edf9d8f0340b6ea78bb7b8e7ce0ae61"
+    },
+    "docs.sections.kurzbeschreibung.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/select.mdx#kurzbeschreibung"
+      ],
+      "inputHash": "sha256:d0c4de5aca6b54835aaa06a7a63898a98edf9d8f0340b6ea78bb7b8e7ce0ae61"
+    },
+    "docs.sections.verwendungsregeln.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/select.mdx#verwendungsregeln"
+      ],
+      "inputHash": "sha256:d0c4de5aca6b54835aaa06a7a63898a98edf9d8f0340b6ea78bb7b8e7ce0ae61"
+    },
+    "docs.sections.weitere-hinweise.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/select.mdx#weitere-hinweise"
+      ],
+      "inputHash": "sha256:d0c4de5aca6b54835aaa06a7a63898a98edf9d8f0340b6ea78bb7b8e7ce0ae61"
+    },
+    "docs.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/select.mdx"
+      ],
+      "inputHash": "sha256:d0c4de5aca6b54835aaa06a7a63898a98edf9d8f0340b6ea78bb7b8e7ce0ae61"
+    },
+    "knowledge.donts.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/select.mdx"
+      ],
+      "inputHash": "sha256:248f0f4a9e476845d978959a91ffb8d51427602b5fff82f7b596ad29d221e12d"
+    },
+    "knowledge.donts.1": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/select.mdx"
+      ],
+      "inputHash": "sha256:248f0f4a9e476845d978959a91ffb8d51427602b5fff82f7b596ad29d221e12d"
+    },
+    "knowledge.donts.2": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/select.mdx"
+      ],
+      "inputHash": "sha256:248f0f4a9e476845d978959a91ffb8d51427602b5fff82f7b596ad29d221e12d"
+    },
+    "knowledge.dos.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/select.mdx"
+      ],
+      "inputHash": "sha256:248f0f4a9e476845d978959a91ffb8d51427602b5fff82f7b596ad29d221e12d"
+    },
+    "knowledge.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/select.mdx"
+      ],
+      "inputHash": "sha256:248f0f4a9e476845d978959a91ffb8d51427602b5fff82f7b596ad29d221e12d"
+    },
+    "knowledge.whenToUse.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/select.mdx"
+      ],
+      "inputHash": "sha256:248f0f4a9e476845d978959a91ffb8d51427602b5fff82f7b596ad29d221e12d"
+    },
+    "knowledge.whenToUse.1": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/select.mdx"
+      ],
+      "inputHash": "sha256:248f0f4a9e476845d978959a91ffb8d51427602b5fff82f7b596ad29d221e12d"
+    }
+  }
+}

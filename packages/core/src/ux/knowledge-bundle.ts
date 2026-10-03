@@ -163,6 +163,17 @@ export type BundlePattern = {
 	knowledge?: BundleKnowledge;
 };
 
+/** report.json: what the packer couldn't account for. Only printed at import. */
+export type BundleReport = {
+	text: {
+		reviewed?: number;
+		stale?: unknown[] | null;
+		missing?: unknown[] | null;
+		problems?: unknown[] | null;
+	};
+	drift: unknown[];
+};
+
 export type BundleIndexEntry = {
 	id: string;
 	title: string;

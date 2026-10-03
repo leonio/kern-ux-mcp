@@ -1,0 +1,320 @@
+{
+  "id": "summary",
+  "title": {
+    "en": "Summary",
+    "de": "Summary"
+  },
+  "status": "stable",
+  "group": "content",
+  "synonyms": {
+    "de": [
+      "Zusammenfassung",
+      "Ergebnisliste"
+    ]
+  },
+  "links": {
+    "docs": "https://www.kern-ux.de/komponenten/summary",
+    "figma": "https://www.figma.com/community/file/1624024563231427311",
+    "source": "https://gitlab.opencode.de/kern-ux/kern-ux-plain/-/tree/v2.8.2/src/scss/core/components/_summary.scss"
+  },
+  "docs": {
+    "url": "https://www.kern-ux.de/komponenten/summary",
+    "summary": {
+      "en": "Summary collects the information users entered in earlier forms and lets them edit it. It consists of a heading, a Description List and a link to edit, and several summaries form a summary group. The heading describes the preceding task, optionally numbered. Each Description List entry pairs the information asked for with the user's entry. Use it after users entered information via a Task List or Task List group, so they can review everything before continuing."
+    },
+    "sections": [
+      {
+        "id": "kurzbeschreibung",
+        "heading": "Kurzbeschreibung",
+        "url": "https://www.kern-ux.de/komponenten/summary#kurzbeschreibung",
+        "summary": {
+          "en": "Collects all information users entered in earlier forms, which they can edit if needed."
+        }
+      },
+      {
+        "id": "beschreibung",
+        "heading": "Beschreibung",
+        "url": "https://www.kern-ux.de/komponenten/summary#beschreibung",
+        "summary": {
+          "en": "A Summary has a heading, a Description List and a link to edit; several summaries form a summary group. The heading describes the preceding task, optionally with a number. Each Description List entry pairs the term (the information asked for) with the description (what the user entered)."
+        }
+      },
+      {
+        "id": "verwendungsregeln",
+        "heading": "Verwendungsregeln",
+        "url": "https://www.kern-ux.de/komponenten/summary#verwendungsregeln",
+        "summary": {
+          "en": "Use Summary or a summary group when users entered information via a Task List or Task List group, so they can review all entries before continuing; it is only complete once every entry is made. Showing part of the information is fine to avoid overload, but only when users need not check everything."
+        }
+      },
+      {
+        "id": "dos-und-donts",
+        "heading": "Dos und Don’ts",
+        "url": "https://www.kern-ux.de/komponenten/summary#dos-und-donts",
+        "summary": {
+          "en": "Use the same wording as the related Task List or Task List group for the same tasks and groups. Do not hide essential information, so users know where to change entries, show the information in the order it was entered, and do not add other buttons or actions inside the Summary."
+        }
+      }
+    ]
+  },
+  "knowledge": {
+    "summary": {
+      "en": "Shows earlier form entries as term and value pairs so users can review and edit them."
+    },
+    "whenToUse": [
+      {
+        "en": "After users entered information through a Task List or Task List group and need to review it before continuing."
+      },
+      {
+        "en": "Before sending a form, so entries can be checked calmly."
+      }
+    ],
+    "dos": [
+      {
+        "en": "Use the same wording for the same tasks and groups as in the related Task List or Task List group."
+      },
+      {
+        "en": "Show the information in the same order in which it was entered."
+      }
+    ],
+    "donts": [
+      {
+        "en": "Do not hide essential information; users must be able to see where to change their entries."
+      },
+      {
+        "en": "Do not use other buttons or actions inside the Summary."
+      }
+    ],
+    "similar": [
+      {
+        "id": "task-list"
+      },
+      {
+        "id": "description-list"
+      }
+    ]
+  },
+  "accessibility": [
+    {
+      "id": "name-role-value",
+      "criterion": "4.1.2",
+      "slug": "name-role-value",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "contrast-enhanced",
+      "criterion": "1.4.6",
+      "slug": "contrast-enhanced",
+      "level": "AAA",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "non-text-contrast",
+      "criterion": "1.4.11",
+      "slug": "non-text-contrast",
+      "level": "AA",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "labels-or-instructions",
+      "criterion": "3.3.2",
+      "slug": "labels-or-instructions",
+      "level": "A",
+      "status": "implementation-dependent",
+      "lastChecked": "2025-10-22"
+    }
+  ],
+  "examples": [
+    {
+      "id": "summary",
+      "html": {
+        "markup": "<div class=\"kern-summary\"><div class=\"kern-summary__header\"><h3 class=\"kern-title kern-title--small kern-summary__title-wrapper\" id=\"title\"><span class=\"kern-number\">1</span><span>Aufgabe</span></h3></div><div class=\"kern-summary__body\"><dl class=\"kern-description-list\"><div class=\"kern-description-list-item\"><dt class=\"kern-description-list-item__key\">Name</dt><dd class=\"kern-description-list-item__value\">Max</dd></div><div class=\"kern-description-list-item\"><dt class=\"kern-description-list-item__key\">Vorname</dt><dd class=\"kern-description-list-item__value\">Mustermann</dd></div><div class=\"kern-description-list-item\"><dt class=\"kern-description-list-item__key\">E-Mail</dt><dd class=\"kern-description-list-item__value\">dasisteinesehrlangeemailadressevonmaxmustermann@unternehmen.xy</dd></div><div class=\"kern-description-list-item\"><dt class=\"kern-description-list-item__key\">Sachkundigen vor Ort</dt><dd class=\"kern-description-list-item__value\"><ul><li>Berger Ernst</li><li>Müller, Hans</li><li>Sagmeister, Petra</li><li>Pan, Peter</li></ul></dd></div></dl><div class=\"kern-summary__actions\"><a href=\"#\" class=\"kern-link\" aria-describedby=\"title\"><span class=\"kern-icon kern-icon--edit\" aria-hidden=\"true\"></span> Bearbeiten </a></div></div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Summary/Summary.stories.js",
+          "export": "Summary"
+        }
+      }
+    },
+    {
+      "id": "summary-group",
+      "instances": 3,
+      "html": {
+        "markup": "<div class=\"kern-summary-group\"><div class=\"kern-summary-group__header\"><h2 class=\"kern-heading-medium\">Aufgabengruppe</h2></div><div class=\"kern-summary\"><div class=\"kern-summary__header\"><h3 class=\"kern-title kern-title--small kern-summary__title-wrapper\" id=\"title2\"><span class=\"kern-number\">1</span><span>Aufgabe</span></h3></div><div class=\"kern-summary__body\"><dl class=\"kern-description-list\"><div class=\"kern-description-list-item\"><dt class=\"kern-description-list-item__key\">Name</dt><dd class=\"kern-description-list-item__value\">Max</dd></div><div class=\"kern-description-list-item\"><dt class=\"kern-description-list-item__key\">Vorname</dt><dd class=\"kern-description-list-item__value\">Mustermann</dd></div><div class=\"kern-description-list-item\"><dt class=\"kern-description-list-item__key\">E-Mail</dt><dd class=\"kern-description-list-item__value\">dasisteinesehrlangeemailadressevonmaxmustermann@unternehmen.xy</dd></div><div class=\"kern-description-list-item\"><dt class=\"kern-description-list-item__key\">Sachkundigen vor Ort</dt><dd class=\"kern-description-list-item__value\"><ul><li>Berger Ernst</li><li>Müller, Hans</li><li>Sagmeister, Petra</li><li>Pan, Peter</li></ul></dd></div></dl><div class=\"kern-summary__actions\"><a href=\"#\" class=\"kern-link\" aria-describedby=\"title2\"><span class=\"kern-icon kern-icon--edit\" aria-hidden=\"true\"></span> Bearbeiten </a></div></div></div><div class=\"kern-summary\"><div class=\"kern-summary__header\"><h3 class=\"kern-title kern-title--small kern-summary__title-wrapper\" id=\"title3\"><span class=\"kern-number\">2</span><span>Aufgabe</span></h3></div><div class=\"kern-summary__body\"><dl class=\"kern-description-list\"><div class=\"kern-description-list-item\"><dt class=\"kern-description-list-item__key\">Name</dt><dd class=\"kern-description-list-item__value\">Max</dd></div><div class=\"kern-description-list-item\"><dt class=\"kern-description-list-item__key\">Vorname</dt><dd class=\"kern-description-list-item__value\">Mustermann</dd></div><div class=\"kern-description-list-item\"><dt class=\"kern-description-list-item__key\">E-Mail</dt><dd class=\"kern-description-list-item__value\">dasisteinesehrlangeemailadressevonmaxmustermann@unternehmen.xy</dd></div><div class=\"kern-description-list-item\"><dt class=\"kern-description-list-item__key\">Sachkundigen vor Ort</dt><dd class=\"kern-description-list-item__value\"><ul><li>Berger Ernst</li><li>Müller, Hans</li><li>Sagmeister, Petra</li><li>Pan, Peter</li></ul></dd></div></dl><div class=\"kern-summary__actions\"><a href=\"#\" class=\"kern-link\" aria-describedby=\"title3\"><span class=\"kern-icon kern-icon--edit\" aria-hidden=\"true\"></span> Bearbeiten </a></div></div></div><div class=\"kern-summary\"><div class=\"kern-summary__header\"><h3 class=\"kern-title kern-title--small kern-summary__title-wrapper\" id=\"title4\"><span class=\"kern-number\">3</span><span>Aufgabe</span></h3></div><div class=\"kern-summary__body\"><dl class=\"kern-description-list\"><div class=\"kern-description-list-item\"><dt class=\"kern-description-list-item__key\">Name</dt><dd class=\"kern-description-list-item__value\">Max</dd></div><div class=\"kern-description-list-item\"><dt class=\"kern-description-list-item__key\">Vorname</dt><dd class=\"kern-description-list-item__value\">Mustermann</dd></div><div class=\"kern-description-list-item\"><dt class=\"kern-description-list-item__key\">E-Mail</dt><dd class=\"kern-description-list-item__value\">dasisteinesehrlangeemailadressevonmaxmustermann@unternehmen.xy</dd></div><div class=\"kern-description-list-item\"><dt class=\"kern-description-list-item__key\">Sachkundigen vor Ort</dt><dd class=\"kern-description-list-item__value\"><ul><li>Berger Ernst</li><li>Müller, Hans</li><li>Sagmeister, Petra</li><li>Pan, Peter</li></ul></dd></div></dl><div class=\"kern-summary__actions\"><a href=\"#\" class=\"kern-link\" aria-describedby=\"title4\"><span class=\"kern-icon kern-icon--edit\" aria-hidden=\"true\"></span> Bearbeiten </a></div></div></div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Summary/Summary.stories.js",
+          "export": "SummaryGroup"
+        }
+      }
+    },
+    {
+      "id": "summary-deprecated",
+      "html": {
+        "markup": "<div class=\"kern-summary\"><div class=\"kern-summary__header\"><span class=\"kern-number\">1</span><h3 class=\"kern-title kern-title--small\" id=\"title-dep\">Aufgabe</h3></div><div class=\"kern-summary__body\"><dl class=\"kern-description-list\"><div class=\"kern-description-list-item\"><dt class=\"kern-description-list-item__key\">Name</dt><dd class=\"kern-description-list-item__value\">Max</dd></div><div class=\"kern-description-list-item\"><dt class=\"kern-description-list-item__key\">Vorname</dt><dd class=\"kern-description-list-item__value\">Mustermann</dd></div></dl><div class=\"kern-summary__actions\"><a href=\"#\" class=\"kern-link\" aria-describedby=\"title-dep\"><span class=\"kern-icon kern-icon--edit\" aria-hidden=\"true\"></span> Bearbeiten </a></div></div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Summary/Summary.stories.js",
+          "export": "SummaryDeprecated"
+        }
+      }
+    }
+  ],
+  "implementations": {
+    "html": {
+      "package": "@kern-ux/native",
+      "version": "2.8.2",
+      "classes": {
+        "roots": [
+          "kern-summary"
+        ],
+        "elements": [
+          "kern-summary-group__header",
+          "kern-summary__body",
+          "kern-summary__header",
+          "kern-summary__title-wrapper"
+        ]
+      },
+      "sources": [
+        "src/scss/core/components/_summary.scss",
+        "stories/Summary/Summary.stories.js"
+      ]
+    },
+    "react": {
+      "package": "@publicplan/kern-react-kit",
+      "version": "1.3.5",
+      "import": "import from '@publicplan/kern-react-kit'",
+      "components": [],
+      "sources": [
+        "src/components/Summary"
+      ]
+    }
+  },
+  "drift": [
+    {
+      "kind": "unknown-class",
+      "en": "Stories use classes that kern-ux-plain's SCSS doesn't define.",
+      "sources": [
+        "kern-ux-plain"
+      ],
+      "items": [
+        "kern-summary-group",
+        "kern-summary__actions"
+      ]
+    },
+    {
+      "kind": "unknown-class",
+      "en": "Docs examples use classes that kern-ux-plain doesn't define.",
+      "sources": [
+        "technische-dokumentation",
+        "kern-ux-plain"
+      ],
+      "items": [
+        "kern-summary-group",
+        "kern-summary__actions"
+      ]
+    }
+  ],
+  "provenance": {
+    "docs.sections.beschreibung.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/summary.mdx#beschreibung"
+      ],
+      "inputHash": "sha256:e929d2c58275c7fd1ae338eb38891be8c2f891422495d7c27b277f58e5a61b40"
+    },
+    "docs.sections.dos-und-donts.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/summary.mdx#dos-und-donts"
+      ],
+      "inputHash": "sha256:e929d2c58275c7fd1ae338eb38891be8c2f891422495d7c27b277f58e5a61b40"
+    },
+    "docs.sections.kurzbeschreibung.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/summary.mdx#kurzbeschreibung"
+      ],
+      "inputHash": "sha256:e929d2c58275c7fd1ae338eb38891be8c2f891422495d7c27b277f58e5a61b40"
+    },
+    "docs.sections.verwendungsregeln.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/summary.mdx#verwendungsregeln"
+      ],
+      "inputHash": "sha256:e929d2c58275c7fd1ae338eb38891be8c2f891422495d7c27b277f58e5a61b40"
+    },
+    "docs.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/summary.mdx"
+      ],
+      "inputHash": "sha256:e929d2c58275c7fd1ae338eb38891be8c2f891422495d7c27b277f58e5a61b40"
+    },
+    "knowledge.donts.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/summary.mdx"
+      ],
+      "inputHash": "sha256:f2ab982e450fe874431b3bfd8b81f8275781c9bc3ed2b7cb60bf15de9f57f620"
+    },
+    "knowledge.donts.1": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/summary.mdx"
+      ],
+      "inputHash": "sha256:f2ab982e450fe874431b3bfd8b81f8275781c9bc3ed2b7cb60bf15de9f57f620"
+    },
+    "knowledge.dos.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/summary.mdx"
+      ],
+      "inputHash": "sha256:f2ab982e450fe874431b3bfd8b81f8275781c9bc3ed2b7cb60bf15de9f57f620"
+    },
+    "knowledge.dos.1": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/summary.mdx"
+      ],
+      "inputHash": "sha256:f2ab982e450fe874431b3bfd8b81f8275781c9bc3ed2b7cb60bf15de9f57f620"
+    },
+    "knowledge.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/summary.mdx"
+      ],
+      "inputHash": "sha256:f2ab982e450fe874431b3bfd8b81f8275781c9bc3ed2b7cb60bf15de9f57f620"
+    },
+    "knowledge.whenToUse.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/summary.mdx"
+      ],
+      "inputHash": "sha256:f2ab982e450fe874431b3bfd8b81f8275781c9bc3ed2b7cb60bf15de9f57f620"
+    },
+    "knowledge.whenToUse.1": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/summary.mdx"
+      ],
+      "inputHash": "sha256:f2ab982e450fe874431b3bfd8b81f8275781c9bc3ed2b7cb60bf15de9f57f620"
+    }
+  }
+}

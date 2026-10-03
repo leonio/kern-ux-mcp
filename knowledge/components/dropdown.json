@@ -1,0 +1,94 @@
+{
+  "id": "dropdown",
+  "title": {
+    "en": "Dropdown",
+    "de": "Dropdown"
+  },
+  "status": "experimental",
+  "group": "actions",
+  "synonyms": {
+    "de": []
+  },
+  "links": {
+    "docs": "https://www.kern-ux.de/komponenten/dropdown",
+    "figma": "https://www.figma.com/community/file/1624024563231427311",
+    "source": "https://gitlab.opencode.de/kern-ux/kern-ux-plain/-/tree/v2.8.2/src/scss/core/components/_dropdown.scss"
+  },
+  "docs": {
+    "url": "https://www.kern-ux.de/komponenten/dropdown",
+    "summary": {
+      "en": "Dropdown bundles actions or links in a menu that expands from a trigger, so secondary actions do not clutter the main flow."
+    },
+    "sections": []
+  },
+  "knowledge": {
+    "summary": {
+      "en": "Collapsible menu that bundles actions or links for a parent element."
+    }
+  },
+  "states": [
+    {
+      "id": "hover",
+      "origin": "derived",
+      "html": {
+        "binding": "pseudo",
+        "selector": ":hover",
+        "partClass": "kern-dropdown__header"
+      }
+    },
+    {
+      "id": "open",
+      "origin": "derived",
+      "html": {
+        "binding": "attribute",
+        "attribute": "open"
+      }
+    }
+  ],
+  "implementations": {
+    "html": {
+      "package": "@kern-ux/native",
+      "version": "2.8.2",
+      "classes": {
+        "roots": [
+          "kern-dropdown"
+        ],
+        "elements": [
+          "kern-dropdown__body",
+          "kern-dropdown__header"
+        ]
+      },
+      "sources": [
+        "src/scss/core/components/_dropdown.scss"
+      ]
+    }
+  },
+  "drift": [
+    {
+      "kind": "missing-implementation",
+      "en": "kern-react-kit has no component for this.",
+      "sources": [
+        "kern-react-kit",
+        "kern-ux-plain"
+      ]
+    }
+  ],
+  "provenance": {
+    "docs.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/dropdown.mdx"
+      ],
+      "inputHash": "sha256:582793f9b89895c29aaaac3d46ee42c5488ae52918668c7dcb9d191ca0908e28"
+    },
+    "knowledge.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/dropdown.mdx"
+      ],
+      "inputHash": "sha256:801882bc42c6d1f05de3c93703b5e0ccc3a7db1fe5fb44ba0efc1ea051631306"
+    }
+  }
+}

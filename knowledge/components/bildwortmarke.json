@@ -1,0 +1,241 @@
+{
+  "id": "bildwortmarke",
+  "title": {
+    "en": "Bildwortmarke",
+    "de": "Bildwortmarke"
+  },
+  "status": "docs-only",
+  "group": "branding",
+  "synonyms": {
+    "de": [
+      "Bildzeichen"
+    ]
+  },
+  "links": {
+    "docs": "https://www.kern-ux.de/komponenten/bildwortmarke"
+  },
+  "docs": {
+    "url": "https://www.kern-ux.de/komponenten/bildwortmarke",
+    "summary": {
+      "en": "The Bildwortmarke is the umbrella mark that identifies cross-level services of Bund, Länder and Kommunen. The page describes it - a federal eagle image plus the wordmark \"Bund Länder Kommunen\" - where it may be placed, the mandatory clear space, the Do's and Don'ts, and how to obtain the graphics and style guide, which KERN supplies separately and without EUPL licence."
+    },
+    "sections": [
+      {
+        "id": "kurzbeschreibung",
+        "heading": "Kurzbeschreibung",
+        "url": "https://www.kern-ux.de/komponenten/bildwortmarke#kurzbeschreibung",
+        "summary": {
+          "en": "The Bildwortmarke marks administrative services of Bund, Länder and Kommunen and works as a recognisable sender mark, like a quality seal."
+        }
+      },
+      {
+        "id": "beschreibung",
+        "heading": "Beschreibung",
+        "url": "https://www.kern-ux.de/komponenten/bildwortmarke#beschreibung",
+        "summary": {
+          "en": "A modern interpretation of the federal eagle in the national colours black, red and gold, built from 16 elements, with the wordmark \"Bund Länder Kommunen\" to its right in a fixed typeface. A lightened colour variant exists for dark themes."
+        }
+      },
+      {
+        "id": "verwendungsregeln",
+        "heading": "Verwendungsregeln",
+        "url": "https://www.kern-ux.de/komponenten/bildwortmarke#verwendungsregeln",
+        "summary": {
+          "en": "Voluntary mark that supplements, never replaces, Länder and Kommunen marks; only one sender per header. Place it top left for cross-level offers, or in the footer with the prescribed descriptor. Keep its clear space empty; custom wordmarks go through beantragen@dachmarke.gov.de."
+        }
+      },
+      {
+        "id": "dos",
+        "heading": "Do's",
+        "url": "https://www.kern-ux.de/komponenten/bildwortmarke#dos",
+        "summary": {
+          "en": "Follow the style guide and terms of use. Only public bodies may use the mark. Keep the clear space free. Use the image alone without the wordmark only in compact formats such as favicons or app icons."
+        }
+      },
+      {
+        "id": "donts",
+        "heading": "Don'ts",
+        "url": "https://www.kern-ux.de/komponenten/bildwortmarke#donts",
+        "summary": {
+          "en": "Do not change size, colour, typeface or wordmark position; do not distort, squash, crop, alter, flip or rotate it; do not place it on coloured backgrounds or images without the white carrier surface."
+        }
+      },
+      {
+        "id": "bereitstellung",
+        "heading": "Bereitstellung",
+        "url": "https://www.kern-ux.de/komponenten/bildwortmarke#bereitstellung",
+        "summary": {
+          "en": "It is an official state mark, so KERN provides neither EUPL licence nor source code. Graphics and the full style guide come as a password-protected ZIP; request the password and usage rights from beantragen@dachmarke.gov.de."
+        }
+      }
+    ]
+  },
+  "knowledge": {
+    "summary": {
+      "en": "Official umbrella mark that identifies Bund, Länder and Kommunen offers; supplied as protected graphics, not as code."
+    },
+    "dos": [
+      {
+        "en": "Follow the style guide and the terms of use."
+      },
+      {
+        "en": "Use the mark only as a public body, to identify Bund, Länder and Kommunen offers."
+      },
+      {
+        "en": "Keep the clear space around the mark free of other elements."
+      },
+      {
+        "en": "Use the image alone without the wordmark only in compact formats such as favicons or app icons."
+      }
+    ],
+    "donts": [
+      {
+        "en": "Do not change the mark's size, colour, typeface or wordmark position."
+      },
+      {
+        "en": "Do not distort, squash, crop, alter, flip or rotate the mark."
+      },
+      {
+        "en": "Do not place the mark on coloured backgrounds or images without the white carrier surface."
+      }
+    ],
+    "similar": [
+      {
+        "id": "kopfzeile"
+      }
+    ]
+  },
+  "accessibility": [
+    {
+      "id": "non-text-content",
+      "criterion": "1.1.1",
+      "slug": "non-text-content",
+      "level": "A",
+      "status": "implementation-dependent",
+      "lastChecked": "2025-11-25"
+    }
+  ],
+  "implementations": {},
+  "provenance": {
+    "docs.sections.bereitstellung.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/bildwortmarke.mdx#bereitstellung"
+      ],
+      "inputHash": "sha256:0e836b9616492d9a9e1137ded2be4da406ddd58b35e085c89f744a184a69c0ae"
+    },
+    "docs.sections.beschreibung.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/bildwortmarke.mdx#beschreibung"
+      ],
+      "inputHash": "sha256:0e836b9616492d9a9e1137ded2be4da406ddd58b35e085c89f744a184a69c0ae"
+    },
+    "docs.sections.donts.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/bildwortmarke.mdx#donts"
+      ],
+      "inputHash": "sha256:0e836b9616492d9a9e1137ded2be4da406ddd58b35e085c89f744a184a69c0ae"
+    },
+    "docs.sections.dos.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/bildwortmarke.mdx#dos"
+      ],
+      "inputHash": "sha256:0e836b9616492d9a9e1137ded2be4da406ddd58b35e085c89f744a184a69c0ae"
+    },
+    "docs.sections.kurzbeschreibung.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/bildwortmarke.mdx#kurzbeschreibung"
+      ],
+      "inputHash": "sha256:0e836b9616492d9a9e1137ded2be4da406ddd58b35e085c89f744a184a69c0ae"
+    },
+    "docs.sections.verwendungsregeln.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/bildwortmarke.mdx#verwendungsregeln"
+      ],
+      "inputHash": "sha256:0e836b9616492d9a9e1137ded2be4da406ddd58b35e085c89f744a184a69c0ae"
+    },
+    "docs.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/bildwortmarke.mdx"
+      ],
+      "inputHash": "sha256:0e836b9616492d9a9e1137ded2be4da406ddd58b35e085c89f744a184a69c0ae"
+    },
+    "knowledge.donts.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/bildwortmarke.mdx"
+      ],
+      "inputHash": "sha256:09777b9663f3c2409560a2e327a11e6dadd849358d6a7f1679d48741c62e1cdd"
+    },
+    "knowledge.donts.1": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/bildwortmarke.mdx"
+      ],
+      "inputHash": "sha256:09777b9663f3c2409560a2e327a11e6dadd849358d6a7f1679d48741c62e1cdd"
+    },
+    "knowledge.donts.2": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/bildwortmarke.mdx"
+      ],
+      "inputHash": "sha256:09777b9663f3c2409560a2e327a11e6dadd849358d6a7f1679d48741c62e1cdd"
+    },
+    "knowledge.dos.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/bildwortmarke.mdx"
+      ],
+      "inputHash": "sha256:09777b9663f3c2409560a2e327a11e6dadd849358d6a7f1679d48741c62e1cdd"
+    },
+    "knowledge.dos.1": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/bildwortmarke.mdx"
+      ],
+      "inputHash": "sha256:09777b9663f3c2409560a2e327a11e6dadd849358d6a7f1679d48741c62e1cdd"
+    },
+    "knowledge.dos.2": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/bildwortmarke.mdx"
+      ],
+      "inputHash": "sha256:09777b9663f3c2409560a2e327a11e6dadd849358d6a7f1679d48741c62e1cdd"
+    },
+    "knowledge.dos.3": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/bildwortmarke.mdx"
+      ],
+      "inputHash": "sha256:09777b9663f3c2409560a2e327a11e6dadd849358d6a7f1679d48741c62e1cdd"
+    },
+    "knowledge.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/bildwortmarke.mdx"
+      ],
+      "inputHash": "sha256:09777b9663f3c2409560a2e327a11e6dadd849358d6a7f1679d48741c62e1cdd"
+    }
+  }
+}

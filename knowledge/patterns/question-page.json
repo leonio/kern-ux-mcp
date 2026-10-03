@@ -1,0 +1,41 @@
+{
+  "id": "question-page",
+  "title": {
+    "en": "Frageseite",
+    "de": "Frageseite"
+  },
+  "status": "stub",
+  "links": {
+    "docs": "https://www.kern-ux.de/patterns/templates/frageseite"
+  },
+  "docs": {
+    "url": "https://www.kern-ux.de/patterns/templates/frageseite",
+    "summary": {
+      "en": "Presents a single question per page and guides users step by step through a process."
+    },
+    "sections": []
+  },
+  "knowledge": {
+    "summary": {
+      "en": "Use the question page pattern to ask one question per page and lead users step by step through a process."
+    }
+  },
+  "provenance": {
+    "docs.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:patterns/templates/frageseite.mdx"
+      ],
+      "inputHash": "sha256:63fe90489637532abc21375757a6c5751c013997df08bc33f05005547f599dea"
+    },
+    "knowledge.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:patterns/templates/frageseite.mdx"
+      ],
+      "inputHash": "sha256:faac06e2285544db70595f9d2e10350af760ff89404d209e6a773111a0db85f2"
+    }
+  }
+}

@@ -4,6 +4,7 @@ import {
 	type BundleExample,
 	type BundleExamplesFile,
 	type BundleIndex,
+	type BundleReport,
 	KNOWLEDGE_BUNDLE_MAJOR,
 } from "./knowledge-bundle.js";
 import {
@@ -133,4 +134,174 @@ export function findBundleExample(
 		examples.push(...(more?.examples ?? []));
 	}
 	return examples.find((example) => example.id === ref.example);
+}
+
+/** What changed between the checked-in bundle and a new one. */
+export type KnowledgeBundleDiff = {
+	added: string[];
+	removed: string[];
+	/** Per changed file, what changed in it, down to two levels of keys. */
+	changed: Array<{ file: string; changes: string[] }>;
+};
+
+/** Keys that change on every run, so a change in them says nothing. */
+const IGNORED_KEYS: Readonly<Record<string, readonly string[]>> = {
+	"index.json": ["generatedAt"],
+};
+
+export function diffKnowledgeBundles(
+	previous: KnowledgeBundleFiles,
+	next: KnowledgeBundleFiles,
+): KnowledgeBundleDiff {
+	const added = [...next.keys()].filter((file) => !previous.has(file)).sort();
+	const removed = [...previous.keys()].filter((file) => !next.has(file)).sort();
+	const changed = [...next.keys()]
+		.filter((file) => previous.has(file))
+		.sort()
+		.flatMap((file) => {
+			const ignored = IGNORED_KEYS[file] ?? [];
+			const changes = describeChanges(
+				withoutKeys(previous.get(file), ignored),
+				withoutKeys(next.get(file), ignored),
+				"",
+				2,
+			);
+			return changes.length > 0 ? [{ file, changes }] : [];
+		});
+	return { added, removed, changed };
+}
+
+/** Two lines about the bundle: its version and size, and the packer's report. */
+export function describeKnowledgeBundle(files: KnowledgeBundleFiles): string[] {
+	const index = files.get("index.json") as BundleIndex | undefined;
+	if (!index) return [];
+
+	const lines = [
+		`Bundle ${index.bundleVersion} (KERN ${index.kernVersion}): ${index.components.length} components, ${index.foundations.length} foundations, ${index.patterns.length} patterns.`,
+	];
+	const report = files.get("report.json") as BundleReport | undefined;
+	if (report) {
+		const count = (items: unknown[] | null | undefined) => items?.length ?? 0;
+		lines.push(
+			`Text: ${report.text.reviewed ?? 0} reviewed, ${count(report.text.stale)} stale, ${count(report.text.missing)} missing, ${count(report.text.problems)} problems. Drift: ${report.drift.length} items.`,
+		);
+	}
+	return lines;
+}
+
+/**
+ * What knowledge:import prints: the bundle, then either the problems that stop
+ * the import or what changes compared with the checked-in bundle (`previous`,
+ * undefined on the first import).
+ */
+export function formatKnowledgeImport(
+	next: KnowledgeBundleFiles,
+	previous: KnowledgeBundleFiles | undefined,
+	problems: readonly string[],
+): string {
+	const lines = describeKnowledgeBundle(next);
+
+	if (problems.length > 0) {
+		lines.push(
+			"",
+			`The bundle can't be imported (${problems.length} ${problems.length === 1 ? "problem" : "problems"}):`,
+			...problems.map((problem) => `  ${problem}`),
+		);
+		return lines.join("\n");
+	}
+
+	if (!previous) {
+		lines.push("", `First import: ${next.size} files.`);
+		return lines.join("\n");
+	}
+
+	const diff = diffKnowledgeBundles(previous, next);
+	if (
+		diff.added.length === 0 &&
+		diff.removed.length === 0 &&
+		diff.changed.length === 0
+	) {
+		lines.push("", "No changes.");
+		return lines.join("\n");
+	}
+
+	lines.push("");
+	if (diff.added.length > 0) lines.push(`Added: ${diff.added.join(", ")}`);
+	if (diff.removed.length > 0) {
+		lines.push(`Removed: ${diff.removed.join(", ")}`);
+	}
+	if (diff.changed.length > 0) {
+		lines.push("Changed:");
+		for (const { file, changes } of diff.changed) {
+			lines.push(`  ${file}`, ...changes.map((change) => `    ${change}`));
+		}
+	}
+	return lines.join("\n");
+}
+
+/**
+ * Where two values differ, as key paths: "status: \"stable\" -> \"deprecated\""
+ * for a scalar, "examples (8 -> 10 items)" for a list that grew, and the path
+ * alone otherwise. Goes `depth` levels into objects.
+ */
+function describeChanges(
+	before: unknown,
+	after: unknown,
+	path: string,
+	depth: number,
+): string[] {
+	if (stableJson(before) === stableJson(after)) return [];
+	if (before === undefined) return [`${path} (new)`];
+	if (after === undefined) return [`${path} (gone)`];
+
+	if (isRecord(before) && isRecord(after) && depth > 0) {
+		const keys = [
+			...new Set([...Object.keys(before), ...Object.keys(after)]),
+		].sort();
+		return keys.flatMap((key) =>
+			describeChanges(
+				before[key],
+				after[key],
+				path ? `${path}.${key}` : key,
+				depth - 1,
+			),
+		);
+	}
+	if (Array.isArray(before) && Array.isArray(after)) {
+		return [
+			before.length === after.length
+				? path
+				: `${path} (${before.length} -> ${after.length} items)`,
+		];
+	}
+	if (!isObject(before) && !isObject(after)) {
+		return [`${path}: ${JSON.stringify(before)} -> ${JSON.stringify(after)}`];
+	}
+	return [path];
+}
+
+function withoutKeys(value: unknown, keys: readonly string[]): unknown {
+	if (keys.length === 0 || !isRecord(value)) return value;
+	return Object.fromEntries(
+		Object.entries(value).filter(([key]) => !keys.includes(key)),
+	);
+}
+
+/** JSON with object keys sorted, so key order alone isn't a change. */
+function stableJson(value: unknown): string {
+	return JSON.stringify(value, (_key, item: unknown) =>
+		isRecord(item)
+			? Object.fromEntries(
+					Object.entries(item).sort(([a], [b]) => a.localeCompare(b)),
+				)
+			: item,
+	);
+}
+
+function isObject(value: unknown): value is object {
+	return typeof value === "object" && value !== null;
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+	return isObject(value) && !Array.isArray(value);
 }

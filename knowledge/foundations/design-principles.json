@@ -1,0 +1,225 @@
+{
+  "id": "design-principles",
+  "title": {
+    "en": "Design principles",
+    "de": "Gestaltungsprinzipien"
+  },
+  "group": "Design system",
+  "status": "documented",
+  "links": {
+    "docs": "https://www.kern-ux.de/design-system/gestaltungsprinzipien"
+  },
+  "docs": {
+    "url": "https://www.kern-ux.de/design-system/gestaltungsprinzipien",
+    "summary": {
+      "en": "Four design principles derived from KERN's values: evolve instead of rebuilding, be needs-oriented and inclusive, be brave and learn, stay transparent. They guide design organisations, product teams and UX professionals in the public sector. In practice they mean: reuse proven components and patterns and diverge only when the context demands it; design for diversity and decide from research rather than assumptions; start small and iterate on feedback; communicate status and next steps openly."
+    },
+    "sections": [
+      {
+        "id": "grundlagen-für-die-gestaltung-mit-kern-verstehen",
+        "heading": "Grundlagen für die Gestaltung mit KERN verstehen",
+        "url": "https://www.kern-ux.de/design-system/gestaltungsprinzipien#grundlagen-für-die-gestaltung-mit-kern-verstehen",
+        "summary": {
+          "en": "Design principles are the ground rules and guardrails of a design system, derived from the values of an organisation, product or service. KERN's four principles come from the KERN values and spell out what those values mean for people using the system and for the KERN team itself."
+        }
+      },
+      {
+        "id": "wer-nutzt-die-gestaltungsprinzipien-und-warum",
+        "heading": "Wer nutzt die Gestaltungsprinzipien und warum?",
+        "url": "https://www.kern-ux.de/design-system/gestaltungsprinzipien#wer-nutzt-die-gestaltungsprinzipien-und-warum",
+        "summary": {
+          "en": "Design organisations, product teams and individual UX professionals creating public-sector services need orientation. Designers in particular apply the KERN principles when conceiving processes and applications."
+        }
+      },
+      {
+        "id": "1-weiterentwickeln-statt-neubauen",
+        "heading": "1. Weiterentwickeln statt Neubauen",
+        "url": "https://www.kern-ux.de/design-system/gestaltungsprinzipien#1-weiterentwickeln-statt-neubauen",
+        "summary": {
+          "en": "Start from proven components and patterns and work with the standard; adapt or build something new only when the application context requires it. Researching other variants is welcome on one condition: the result must be something others can access and build on."
+        }
+      },
+      {
+        "id": "anregungen-wie-wir-dieses-prinzip-leben-können",
+        "heading": "Anregungen, wie wir dieses Prinzip leben können",
+        "url": "https://www.kern-ux.de/design-system/gestaltungsprinzipien#anregungen-wie-wir-dieses-prinzip-leben-können",
+        "summary": {
+          "en": "A block of linked teasers to further material: the KERN 2 design kit in Figma, joining the KERN community, the roadmap, the accessibility and language guidelines, research methods for understanding actors and ecosystems, and workshop offers."
+        }
+      },
+      {
+        "id": "2-bedürfnisorientiert-und-inklusiv",
+        "heading": "2. Bedürfnisorientiert und inklusiv",
+        "url": "https://www.kern-ux.de/design-system/gestaltungsprinzipien#2-bedürfnisorientiert-und-inklusiv",
+        "summary": {
+          "en": "Design user-centred, intuitive concepts that account for human diversity and support what people need to do. Mind accessibility and tone, and base decisions on qualitative and quantitative feedback rather than on assumptions."
+        }
+      },
+      {
+        "id": "3-mutig-sein-und-lernen",
+        "heading": "3. Mutig sein und lernen",
+        "url": "https://www.kern-ux.de/design-system/gestaltungsprinzipien#3-mutig-sein-und-lernen",
+        "summary": {
+          "en": "Start small, reduce to the essentials and iterate on feedback, aiming for valuable insight as early as possible. Concepts that fail to meet user needs are adjusted or dropped without hesitation."
+        }
+      },
+      {
+        "id": "4-transparent",
+        "heading": "4. Transparent",
+        "url": "https://www.kern-ux.de/design-system/gestaltungsprinzipien#4-transparent",
+        "summary": {
+          "en": "Transparency in design and communication builds trust and reliability. State openly where a process stands, which points are still open and what comes next, make an offer without pushing it, let users choose how much information they take, and share findings openly as an open-source project."
+        }
+      }
+    ]
+  },
+  "knowledge": {
+    "summary": {
+      "en": "KERN's four design principles: evolve instead of rebuilding, be needs-oriented and inclusive, be brave and learn, and stay transparent."
+    },
+    "dos": [
+      {
+        "en": "Start from the standard KERN component or pattern and adapt or rebuild only when the application context requires it."
+      },
+      {
+        "en": "Base design and content decisions on qualitative and quantitative feedback instead of assumptions."
+      },
+      {
+        "en": "Start small, reduce to the essentials and iterate early with users; adjust or drop concepts that do not fit."
+      },
+      {
+        "en": "Communicate the current status, open points and next steps openly and let users decide how much detail they take."
+      }
+    ],
+    "donts": [
+      {
+        "en": "Don't create a new component or variant unless no proven pattern fits and the result can be reused by others."
+      },
+      {
+        "en": "Don't design from assumptions or push information at users instead of offering it."
+      }
+    ]
+  },
+  "provenance": {
+    "docs.sections.1-weiterentwickeln-statt-neubauen.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/gestaltungsprinzipien.mdx#1-weiterentwickeln-statt-neubauen"
+      ],
+      "inputHash": "sha256:66da73e2145c3ca86978377ba83bac3ce3883fe5bc6c7cb6e83520983700f138"
+    },
+    "docs.sections.2-bedürfnisorientiert-und-inklusiv.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/gestaltungsprinzipien.mdx#2-bedürfnisorientiert-und-inklusiv"
+      ],
+      "inputHash": "sha256:66da73e2145c3ca86978377ba83bac3ce3883fe5bc6c7cb6e83520983700f138"
+    },
+    "docs.sections.3-mutig-sein-und-lernen.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/gestaltungsprinzipien.mdx#3-mutig-sein-und-lernen"
+      ],
+      "inputHash": "sha256:66da73e2145c3ca86978377ba83bac3ce3883fe5bc6c7cb6e83520983700f138"
+    },
+    "docs.sections.4-transparent.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/gestaltungsprinzipien.mdx#4-transparent"
+      ],
+      "inputHash": "sha256:66da73e2145c3ca86978377ba83bac3ce3883fe5bc6c7cb6e83520983700f138"
+    },
+    "docs.sections.anregungen-wie-wir-dieses-prinzip-leben-können.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/gestaltungsprinzipien.mdx#anregungen-wie-wir-dieses-prinzip-leben-können"
+      ],
+      "inputHash": "sha256:66da73e2145c3ca86978377ba83bac3ce3883fe5bc6c7cb6e83520983700f138"
+    },
+    "docs.sections.grundlagen-für-die-gestaltung-mit-kern-verstehen.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/gestaltungsprinzipien.mdx#grundlagen-für-die-gestaltung-mit-kern-verstehen"
+      ],
+      "inputHash": "sha256:66da73e2145c3ca86978377ba83bac3ce3883fe5bc6c7cb6e83520983700f138"
+    },
+    "docs.sections.wer-nutzt-die-gestaltungsprinzipien-und-warum.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/gestaltungsprinzipien.mdx#wer-nutzt-die-gestaltungsprinzipien-und-warum"
+      ],
+      "inputHash": "sha256:66da73e2145c3ca86978377ba83bac3ce3883fe5bc6c7cb6e83520983700f138"
+    },
+    "docs.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/gestaltungsprinzipien.mdx"
+      ],
+      "inputHash": "sha256:66da73e2145c3ca86978377ba83bac3ce3883fe5bc6c7cb6e83520983700f138"
+    },
+    "knowledge.donts.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/gestaltungsprinzipien.mdx"
+      ],
+      "inputHash": "sha256:278eb23f9049ae5f7e9bf68ad7f19409e5b9f804c228726c678215b6e5bddabe"
+    },
+    "knowledge.donts.1": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/gestaltungsprinzipien.mdx"
+      ],
+      "inputHash": "sha256:278eb23f9049ae5f7e9bf68ad7f19409e5b9f804c228726c678215b6e5bddabe"
+    },
+    "knowledge.dos.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/gestaltungsprinzipien.mdx"
+      ],
+      "inputHash": "sha256:278eb23f9049ae5f7e9bf68ad7f19409e5b9f804c228726c678215b6e5bddabe"
+    },
+    "knowledge.dos.1": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/gestaltungsprinzipien.mdx"
+      ],
+      "inputHash": "sha256:278eb23f9049ae5f7e9bf68ad7f19409e5b9f804c228726c678215b6e5bddabe"
+    },
+    "knowledge.dos.2": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/gestaltungsprinzipien.mdx"
+      ],
+      "inputHash": "sha256:278eb23f9049ae5f7e9bf68ad7f19409e5b9f804c228726c678215b6e5bddabe"
+    },
+    "knowledge.dos.3": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/gestaltungsprinzipien.mdx"
+      ],
+      "inputHash": "sha256:278eb23f9049ae5f7e9bf68ad7f19409e5b9f804c228726c678215b6e5bddabe"
+    },
+    "knowledge.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/gestaltungsprinzipien.mdx"
+      ],
+      "inputHash": "sha256:278eb23f9049ae5f7e9bf68ad7f19409e5b9f804c228726c678215b6e5bddabe"
+    }
+  }
+}

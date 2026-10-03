@@ -1,0 +1,337 @@
+{
+  "id": "title",
+  "title": {
+    "en": "Title",
+    "de": "Title"
+  },
+  "status": "stable",
+  "group": "text",
+  "synonyms": {
+    "de": [
+      "Komponententitel",
+      "Abschnittstitel"
+    ]
+  },
+  "links": {
+    "docs": "https://www.kern-ux.de/komponenten/text/title",
+    "figma": "https://www.figma.com/community/file/1624024563231427311",
+    "source": "https://gitlab.opencode.de/kern-ux/kern-ux-plain/-/tree/v2.8.2/src/scss/core/typography/_title.scss"
+  },
+  "docs": {
+    "url": "https://www.kern-ux.de/komponenten/text/title",
+    "summary": {
+      "en": "Title is used for headings inside components, such as Cards, Dialogs or form sections, in three sizes: small, default and large. It gives visual structure inside UI elements and helps users orient themselves quickly; it usually holds a short, concise text placed above the content it refers to. Visual structure is also content structure, so a Title must be marked up with a matching HTML heading element, as WCAG and BITV require."
+    },
+    "sections": [
+      {
+        "id": "kurzbeschreibung",
+        "heading": "Kurzbeschreibung",
+        "url": "https://www.kern-ux.de/komponenten/text/title#kurzbeschreibung",
+        "summary": {
+          "en": "Used for headings inside components."
+        }
+      },
+      {
+        "id": "beschreibung",
+        "heading": "Beschreibung",
+        "url": "https://www.kern-ux.de/komponenten/text/title#beschreibung",
+        "summary": {
+          "en": "Suited to headings inside components such as Cards, Dialogs or form sections, and available in three sizes: small, default and large. It provides visual structure inside UI elements and helps users orient themselves, usually holding a short, concise text placed above the content it refers to."
+        }
+      },
+      {
+        "id": "verwendungsregeln",
+        "heading": "Verwendungsregeln",
+        "url": "https://www.kern-ux.de/komponenten/text/title#verwendungsregeln",
+        "summary": {
+          "en": "Use Title to name components concisely, such as Dialogs, form groups or Cards. Mark it up with a matching HTML heading element, as WCAG and BITV require. Use large for prominent titles, default for form sections and small for compact layouts."
+        }
+      },
+      {
+        "id": "dos-und-donts",
+        "heading": "Dos und Don’ts",
+        "url": "https://www.kern-ux.de/komponenten/text/title#dos-und-donts",
+        "summary": {
+          "en": "Use Title to name a section inside a component clearly, and pick the size by available space and visual hierarchy. Do not add extra formatting such as bold, do not use Title for longer explanations, and do not make it the only cue for a section's function."
+        }
+      }
+    ]
+  },
+  "knowledge": {
+    "summary": {
+      "en": "Heading for components such as Cards, Dialogs or form sections; needs a matching HTML heading level."
+    },
+    "whenToUse": [
+      {
+        "en": "To name a section inside a component clearly, such as in Dialogs, form groups or Cards."
+      }
+    ],
+    "dos": [
+      {
+        "en": "Mark up a Title with a matching HTML heading level so the visual structure is also semantic."
+      },
+      {
+        "en": "Choose the size (large, default, small) by available space and visual hierarchy."
+      }
+    ],
+    "donts": [
+      {
+        "en": "Do not add extra formatting such as bold inside a Title; the style already highlights it."
+      },
+      {
+        "en": "Do not use Title for longer texts or explanatory content; use the Body component."
+      },
+      {
+        "en": "Do not rely on Title alone to convey a section's function; add semantic structure for accessible use."
+      }
+    ],
+    "similar": [
+      {
+        "id": "heading"
+      },
+      {
+        "id": "subline"
+      }
+    ]
+  },
+  "options": [
+    {
+      "id": "size",
+      "kind": "enum",
+      "origin": "curated",
+      "values": [
+        {
+          "id": "small"
+        },
+        {
+          "id": "default",
+          "default": true
+        },
+        {
+          "id": "large"
+        }
+      ],
+      "html": {
+        "binding": "modifier",
+        "pattern": "kern-title--{value}",
+        "omit": [
+          "default"
+        ]
+      }
+    }
+  ],
+  "accessibility": [
+    {
+      "id": "contrast-enhanced",
+      "criterion": "1.4.6",
+      "slug": "contrast-enhanced",
+      "level": "AAA",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "text-spacing",
+      "criterion": "1.4.12",
+      "slug": "text-spacing",
+      "level": "AA",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "images-of-text",
+      "criterion": "1.4.5",
+      "slug": "images-of-text",
+      "level": "AA",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "reflow",
+      "criterion": "1.4.10",
+      "slug": "reflow",
+      "level": "AA",
+      "status": "implementation-dependent",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "resize-text",
+      "criterion": "1.4.4",
+      "slug": "resize-text",
+      "level": "AA",
+      "status": "implementation-dependent",
+      "lastChecked": "2025-10-22"
+    }
+  ],
+  "examples": [
+    {
+      "id": "title",
+      "options": {
+        "size": "default"
+      },
+      "html": {
+        "markup": "<p class=\"kern-title\">Title Text (default)</p>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Title/Title.stories.js",
+          "export": "Title"
+        }
+      }
+    },
+    {
+      "id": "title-small",
+      "options": {
+        "size": "small"
+      },
+      "html": {
+        "markup": "<p class=\"kern-title kern-title--small\">Title Text small</p>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Title/Title.stories.js",
+          "export": "TitleSmall"
+        }
+      }
+    },
+    {
+      "id": "title-large",
+      "options": {
+        "size": "large"
+      },
+      "html": {
+        "markup": "<p class=\"kern-title kern-title--large\">Title Text large</p>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Title/Title.stories.js",
+          "export": "TitleLarge"
+        }
+      }
+    }
+  ],
+  "implementations": {
+    "html": {
+      "package": "@kern-ux/native",
+      "version": "2.8.2",
+      "classes": {
+        "roots": [
+          "kern-title"
+        ],
+        "modifiers": [
+          "kern-title--large",
+          "kern-title--small"
+        ]
+      },
+      "sources": [
+        "src/scss/core/typography/_title.scss",
+        "stories/Title/Title.stories.js"
+      ]
+    },
+    "react": {
+      "package": "@publicplan/kern-react-kit",
+      "version": "1.3.5",
+      "import": "import { Title } from '@publicplan/kern-react-kit'",
+      "components": [
+        "Title"
+      ],
+      "sources": [
+        "src/components/Title"
+      ]
+    }
+  },
+  "provenance": {
+    "docs.sections.beschreibung.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/text/title.mdx#beschreibung"
+      ],
+      "inputHash": "sha256:3b661ed3a6e96cca750fcd38487be103495c96c8f04ce77acff718055d91a05f"
+    },
+    "docs.sections.dos-und-donts.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/text/title.mdx#dos-und-donts"
+      ],
+      "inputHash": "sha256:3b661ed3a6e96cca750fcd38487be103495c96c8f04ce77acff718055d91a05f"
+    },
+    "docs.sections.kurzbeschreibung.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/text/title.mdx#kurzbeschreibung"
+      ],
+      "inputHash": "sha256:3b661ed3a6e96cca750fcd38487be103495c96c8f04ce77acff718055d91a05f"
+    },
+    "docs.sections.verwendungsregeln.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/text/title.mdx#verwendungsregeln"
+      ],
+      "inputHash": "sha256:3b661ed3a6e96cca750fcd38487be103495c96c8f04ce77acff718055d91a05f"
+    },
+    "docs.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/text/title.mdx"
+      ],
+      "inputHash": "sha256:3b661ed3a6e96cca750fcd38487be103495c96c8f04ce77acff718055d91a05f"
+    },
+    "knowledge.donts.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/text/title.mdx"
+      ],
+      "inputHash": "sha256:ae2ac7f618e6585087e302ff2a57b10663b5f62300ec9796f23fbeada44d6411"
+    },
+    "knowledge.donts.1": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/text/title.mdx"
+      ],
+      "inputHash": "sha256:ae2ac7f618e6585087e302ff2a57b10663b5f62300ec9796f23fbeada44d6411"
+    },
+    "knowledge.donts.2": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/text/title.mdx"
+      ],
+      "inputHash": "sha256:ae2ac7f618e6585087e302ff2a57b10663b5f62300ec9796f23fbeada44d6411"
+    },
+    "knowledge.dos.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/text/title.mdx"
+      ],
+      "inputHash": "sha256:ae2ac7f618e6585087e302ff2a57b10663b5f62300ec9796f23fbeada44d6411"
+    },
+    "knowledge.dos.1": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/text/title.mdx"
+      ],
+      "inputHash": "sha256:ae2ac7f618e6585087e302ff2a57b10663b5f62300ec9796f23fbeada44d6411"
+    },
+    "knowledge.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/text/title.mdx"
+      ],
+      "inputHash": "sha256:ae2ac7f618e6585087e302ff2a57b10663b5f62300ec9796f23fbeada44d6411"
+    },
+    "knowledge.whenToUse.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/text/title.mdx"
+      ],
+      "inputHash": "sha256:ae2ac7f618e6585087e302ff2a57b10663b5f62300ec9796f23fbeada44d6411"
+    }
+  }
+}

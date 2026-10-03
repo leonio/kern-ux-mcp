@@ -1,0 +1,562 @@
+{
+  "id": "radios",
+  "title": {
+    "en": "Input Radios",
+    "de": "Input Radios"
+  },
+  "status": "stable",
+  "group": "form",
+  "synonyms": {
+    "de": [
+      "Optionsfelder",
+      "Auswahlschalter",
+      "Radiobuttongruppe",
+      "Radiobuttons",
+      "Radio Buttons",
+      "Radio Group"
+    ]
+  },
+  "links": {
+    "docs": "https://www.kern-ux.de/komponenten/form-inputs/radios",
+    "figma": "https://www.figma.com/community/file/1624024563231427311",
+    "source": "https://gitlab.opencode.de/kern-ux/kern-ux-plain/-/tree/v2.8.2/src/scss/core/components/_radio.scss"
+  },
+  "docs": {
+    "url": "https://www.kern-ux.de/komponenten/form-inputs/radios",
+    "summary": {
+      "en": "Radios let users pick exactly one option from a set of mutually exclusive options. A radio group always has a label making clear what the choice refers to, and it can be marked optional; each radio is labelled as briefly as possible. A hint can add detail, help can be offered for longer explanations, and error messages are shown below the group. All Input states apply except readonly. Two options sit horizontally, more stack vertically. Preselect only for settings, not for a question."
+    },
+    "sections": [
+      {
+        "id": "kurzbeschreibung",
+        "heading": "Kurzbeschreibung",
+        "url": "https://www.kern-ux.de/komponenten/form-inputs/radios#kurzbeschreibung",
+        "summary": {
+          "en": "Let users pick only one option from mutually exclusive options."
+        }
+      },
+      {
+        "id": "beschreibung",
+        "heading": "Beschreibung",
+        "url": "https://www.kern-ux.de/komponenten/form-inputs/radios#beschreibung",
+        "summary": {
+          "en": "A radio group lets users choose which option applies, always one and never several. The group always has a label, individual radios are labelled as briefly as possible, a hint or help can add detail, error messages appear below the group, and all Input states apply except readonly."
+        }
+      },
+      {
+        "id": "verwendungsregeln",
+        "heading": "Verwendungsregeln",
+        "url": "https://www.kern-ux.de/komponenten/form-inputs/radios#verwendungsregeln",
+        "summary": {
+          "en": "Use radios in forms when users must choose one of several options, for example how they want to identify themselves. Two radios are shown horizontally; more than two stack vertically. Preselect an option only for settings; when the choice answers a question, none should be selected up front."
+        }
+      },
+      {
+        "id": "dos-und-donts",
+        "heading": "Dos und Don’ts",
+        "url": "https://www.kern-ux.de/komponenten/form-inputs/radios#dos-und-donts",
+        "summary": {
+          "en": "Never allow more than one option of a radio group to be selected. Write a radio label as a statement rather than a question where possible, and keep it short so it is easy to take in."
+        }
+      },
+      {
+        "id": "weitere-hinweise",
+        "heading": "Weitere Hinweise",
+        "url": "https://www.kern-ux.de/komponenten/form-inputs/radios#weitere-hinweise",
+        "summary": {
+          "en": "Phrase a radio label positively where possible, avoiding constructions such as '... not ...' or '... no ...'."
+        }
+      }
+    ]
+  },
+  "knowledge": {
+    "summary": {
+      "en": "Lets users select exactly one option from a mutually exclusive group."
+    },
+    "whenToUse": [
+      {
+        "en": "Forms where users must choose exactly one of several mutually exclusive options."
+      }
+    ],
+    "dos": [
+      {
+        "en": "Write each radio label as a statement rather than a question where possible."
+      },
+      {
+        "en": "Keep radio labels short so they can be grasped quickly."
+      },
+      {
+        "en": "Phrase radio labels positively where possible, avoiding '... not ...' or '... no ...'."
+      },
+      {
+        "en": "Preselect an option only for settings; when the choice answers a question, leave all options unselected."
+      }
+    ],
+    "donts": [
+      {
+        "en": "Never allow more than one option of a radio group to be selected."
+      },
+      {
+        "en": "Do not use the readonly state; radios accept all other Input states."
+      }
+    ],
+    "similar": [
+      {
+        "id": "checkboxes"
+      }
+    ]
+  },
+  "states": [
+    {
+      "id": "checked",
+      "origin": "derived",
+      "html": {
+        "binding": "attribute",
+        "attribute": "checked",
+        "partClass": "kern-form-check__radio"
+      }
+    },
+    {
+      "id": "error",
+      "origin": "derived",
+      "html": {
+        "binding": "modifier",
+        "class": "kern-form-check--error",
+        "alternatives": [
+          {
+            "binding": "modifier",
+            "class": "kern-form-check__checkbox--error",
+            "partClass": "kern-form-check__checkbox"
+          },
+          {
+            "binding": "modifier",
+            "class": "kern-form-check__radio--error",
+            "partClass": "kern-form-check__radio"
+          }
+        ]
+      }
+    }
+  ],
+  "accessibility": [
+    {
+      "id": "info-and-relationships",
+      "criterion": "1.3.1",
+      "slug": "info-and-relationships",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "info-and-relationships-2",
+      "criterion": "1.3.1",
+      "slug": "info-and-relationships",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-10-23"
+    },
+    {
+      "id": "labels-or-instructions",
+      "criterion": "3.3.2",
+      "slug": "labels-or-instructions",
+      "level": "A",
+      "status": "implementation-dependent",
+      "lastChecked": "2025-10-21"
+    },
+    {
+      "id": "use-of-color",
+      "criterion": "1.4.1",
+      "slug": "use-of-color",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-10-21"
+    },
+    {
+      "id": "contrast-enhanced",
+      "criterion": "1.4.6",
+      "slug": "contrast-enhanced",
+      "level": "AAA",
+      "status": "passed",
+      "lastChecked": "2025-10-21"
+    },
+    {
+      "id": "non-text-contrast",
+      "criterion": "1.4.11",
+      "slug": "non-text-contrast",
+      "level": "AA",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "keyboard",
+      "criterion": "2.1.1",
+      "slug": "keyboard",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-10-21"
+    },
+    {
+      "id": "focus-appearance",
+      "criterion": "2.4.13",
+      "slug": "focus-appearance",
+      "level": "AAA",
+      "status": "passed",
+      "lastChecked": "2025-10-21"
+    },
+    {
+      "id": "name-role-value",
+      "criterion": "4.1.2",
+      "slug": "name-role-value",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-10-21"
+    },
+    {
+      "id": "target-size-minimum",
+      "criterion": "2.5.8",
+      "slug": "target-size-minimum",
+      "level": "AA",
+      "status": "passed",
+      "lastChecked": "2025-10-21"
+    },
+    {
+      "id": "info-and-relationships-3",
+      "criterion": "1.3.1",
+      "slug": "info-and-relationships",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-10-23"
+    },
+    {
+      "id": "status-messages",
+      "criterion": "4.1.3",
+      "slug": "status-messages",
+      "level": "AA",
+      "status": "implementation-dependent",
+      "lastChecked": "2025-10-23"
+    }
+  ],
+  "examples": [
+    {
+      "id": "radio",
+      "html": {
+        "markup": "<div class=\"kern-form-check\"><input class=\"kern-form-check__radio\" id=\"radio-herr1\" name=\"geschlecht1\" type=\"radio\"><label class=\"kern-label\" for=\"radio-herr1\">Herr</label></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Radio/Radio.stories.js",
+          "export": "Radio"
+        }
+      }
+    },
+    {
+      "id": "radio-hover",
+      "states": [
+        "hover"
+      ],
+      "html": {
+        "markup": "<div class=\"kern-form-check\"><input class=\"kern-form-check__radio\" id=\"radio-herr11\" name=\"geschlecht11\" type=\"radio\"><label class=\"kern-label\" for=\"radio-herr11\">Herr</label></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Radio/Radio.stories.js",
+          "export": "RadioHover"
+        }
+      }
+    },
+    {
+      "id": "radio-focus",
+      "states": [
+        "focus"
+      ],
+      "html": {
+        "markup": "<div class=\"kern-form-check\"><input class=\"kern-form-check__radio\" id=\"radio-herr111\" name=\"geschlecht111\" type=\"radio\"><label class=\"kern-label\" for=\"radio-herr111\">Herr</label></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Radio/Radio.stories.js",
+          "export": "RadioFocus"
+        }
+      }
+    },
+    {
+      "id": "radio-checked",
+      "states": [
+        "checked"
+      ],
+      "html": {
+        "markup": "<div class=\"kern-form-check\"><input class=\"kern-form-check__radio\" id=\"radio-herr2\" name=\"geschlecht2\" type=\"radio\" checked><label class=\"kern-label\" for=\"radio-herr2\">Herr</label></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Radio/Radio.stories.js",
+          "export": "RadioChecked"
+        }
+      }
+    },
+    {
+      "id": "radio-checked-hover",
+      "states": [
+        "checked",
+        "hover"
+      ],
+      "html": {
+        "markup": "<div class=\"kern-form-check\"><input class=\"kern-form-check__radio\" id=\"radio-herr21\" name=\"geschlecht21\" type=\"radio\" checked><label class=\"kern-label\" for=\"radio-herr21\">Herr</label></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Radio/Radio.stories.js",
+          "export": "RadioCheckedHover"
+        }
+      }
+    },
+    {
+      "id": "radio-checked-focus",
+      "states": [
+        "checked",
+        "focus"
+      ],
+      "html": {
+        "markup": "<div class=\"kern-form-check\"><input class=\"kern-form-check__radio\" id=\"radio-herr211\" name=\"geschlecht211\" type=\"radio\" checked><label class=\"kern-label\" for=\"radio-herr211\">Herr</label></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Radio/Radio.stories.js",
+          "export": "RadioCheckedFocus"
+        }
+      }
+    },
+    {
+      "id": "radio-disabled",
+      "html": {
+        "markup": "<div class=\"kern-form-check\"><input class=\"kern-form-check__radio\" id=\"radio-herr3\" name=\"geschlecht3\" type=\"radio\" disabled><label class=\"kern-label\" for=\"radio-herr3\">Herr</label></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Radio/Radio.stories.js",
+          "export": "RadioDisabled"
+        }
+      }
+    },
+    {
+      "id": "radio-disabled-checked",
+      "states": [
+        "checked"
+      ],
+      "html": {
+        "markup": "<div class=\"kern-form-check\"><input class=\"kern-form-check__radio\" id=\"radio-herr4\" name=\"geschlecht4\" type=\"radio\" disabled checked><label class=\"kern-label\" for=\"radio-herr4\">Herr</label></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Radio/Radio.stories.js",
+          "export": "RadioDisabledChecked"
+        }
+      }
+    },
+    {
+      "id": "radios",
+      "instances": 3,
+      "html": {
+        "markup": "<fieldset class=\"kern-fieldset\"><legend class=\"kern-label\"> Ansprechpartner </legend><div class=\"kern-fieldset__body\"><div class=\"kern-form-check\"><input class=\"kern-form-check__radio\" id=\"radio-herr\" name=\"geschlecht\" type=\"radio\"><label class=\"kern-label\" for=\"radio-herr\">Herr</label></div><div class=\"kern-form-check\"><input class=\"kern-form-check__radio\" id=\"frau\" name=\"geschlecht\" type=\"radio\"><label class=\"kern-label\" for=\"frau\">Frau</label></div><div class=\"kern-form-check\"><input class=\"kern-form-check__radio\" id=\"divers\" name=\"geschlecht\" type=\"radio\"><label class=\"kern-label\" for=\"divers\">Divers</label></div></div></fieldset>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Radio/Radio.stories.js",
+          "export": "Radios"
+        }
+      }
+    },
+    {
+      "id": "radios-disabled",
+      "instances": 3,
+      "html": {
+        "markup": "<fieldset class=\"kern-fieldset\"><legend class=\"kern-label\"> Ansprechpartner </legend><div class=\"kern-fieldset__body\"><div class=\"kern-form-check\"><input class=\"kern-form-check__radio\" id=\"radio-herr6\" name=\"geschlecht6\" type=\"radio\"><label class=\"kern-label\" for=\"radio-herr6\">Herr</label></div><div class=\"kern-form-check\"><input class=\"kern-form-check__radio\" id=\"frau6\" name=\"geschlecht6\" type=\"radio\"><label class=\"kern-label\" for=\"frau6\">Frau</label></div><div class=\"kern-form-check\"><input class=\"kern-form-check__radio\" id=\"divers6\" name=\"geschlecht6\" type=\"radio\" disabled><label class=\"kern-label\" for=\"divers6\">Divers</label></div></div></fieldset>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Radio/Radio.stories.js",
+          "export": "RadiosDisabled"
+        }
+      }
+    },
+    {
+      "id": "radios-hint-error",
+      "states": [
+        "error"
+      ],
+      "instances": 3,
+      "html": {
+        "markup": "<fieldset class=\"kern-fieldset kern-fieldset--error\" aria-describedby=\"hint-text kern-input-error\"><legend class=\"kern-label\"> Ansprechpartner </legend><div class=\"kern-hint\" id=\"hint-text\">Hint</div><div class=\"kern-fieldset__body\"><div class=\"kern-form-check\"><input class=\"kern-form-check__radio kern-form-check__radio--error\" id=\"radio-herr7\" name=\"geschlecht7\" type=\"radio\" aria-invalid=\"true\"><label class=\"kern-label\" for=\"radio-herr7\">Herr</label></div><div class=\"kern-form-check\"><input class=\"kern-form-check__radio kern-form-check__radio--error\" id=\"frau7\" name=\"geschlecht7\" type=\"radio\" aria-invalid=\"true\"><label class=\"kern-label\" for=\"frau7\">Frau</label></div><div class=\"kern-form-check\"><input class=\"kern-form-check__radio kern-form-check__radio--error\" id=\"divers7\" name=\"geschlecht7\" type=\"radio\" aria-invalid=\"true\"><label class=\"kern-label\" for=\"divers7\">Divers</label></div></div><p class=\"kern-error\" id=\"kern-input-error\"><span class=\"kern-icon kern-icon--danger\" aria-hidden=\"true\"></span><span class=\"kern-body\">Eine Auswahl muss getroffen werden</span></p></fieldset>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Radio/Radio.stories.js",
+          "export": "RadiosHintError"
+        }
+      }
+    }
+  ],
+  "moreExamples": {
+    "file": "radios.examples.json",
+    "count": 3
+  },
+  "implementations": {
+    "html": {
+      "package": "@kern-ux/native",
+      "version": "2.8.2",
+      "classes": {
+        "roots": [
+          "kern-form-check"
+        ],
+        "elements": [
+          "kern-form-check__checkbox",
+          "kern-form-check__radio"
+        ],
+        "modifiers": [
+          "kern-form-check--error",
+          "kern-form-check__checkbox--error",
+          "kern-form-check__radio--error"
+        ]
+      },
+      "sources": [
+        "src/scss/core/components/_radio.scss",
+        "stories/Radio/Radio.stories.js"
+      ]
+    },
+    "react": {
+      "package": "@publicplan/kern-react-kit",
+      "version": "1.3.5",
+      "import": "import from '@publicplan/kern-react-kit'",
+      "components": [],
+      "sources": [
+        "src/components/Input"
+      ]
+    }
+  },
+  "drift": [
+    {
+      "kind": "unknown-class",
+      "en": "Docs examples use classes that kern-ux-plain doesn't define.",
+      "sources": [
+        "technische-dokumentation",
+        "kern-ux-plain"
+      ],
+      "items": [
+        "kern-icon--md"
+      ]
+    },
+    {
+      "kind": "example-coverage",
+      "en": "Modifiers defined in SCSS that no story or docs example shows.",
+      "sources": [
+        "kern-ux-plain"
+      ],
+      "items": [
+        "kern-form-check--error",
+        "kern-form-check__checkbox--error"
+      ]
+    }
+  ],
+  "provenance": {
+    "docs.sections.beschreibung.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/radios.mdx#beschreibung"
+      ],
+      "inputHash": "sha256:ed6e5d9099e8f37aaae9fa3cb773eaabb55025159dc7aceaeff6bb89ca07b854"
+    },
+    "docs.sections.dos-und-donts.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/radios.mdx#dos-und-donts"
+      ],
+      "inputHash": "sha256:ed6e5d9099e8f37aaae9fa3cb773eaabb55025159dc7aceaeff6bb89ca07b854"
+    },
+    "docs.sections.kurzbeschreibung.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/radios.mdx#kurzbeschreibung"
+      ],
+      "inputHash": "sha256:ed6e5d9099e8f37aaae9fa3cb773eaabb55025159dc7aceaeff6bb89ca07b854"
+    },
+    "docs.sections.verwendungsregeln.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/radios.mdx#verwendungsregeln"
+      ],
+      "inputHash": "sha256:ed6e5d9099e8f37aaae9fa3cb773eaabb55025159dc7aceaeff6bb89ca07b854"
+    },
+    "docs.sections.weitere-hinweise.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/radios.mdx#weitere-hinweise"
+      ],
+      "inputHash": "sha256:ed6e5d9099e8f37aaae9fa3cb773eaabb55025159dc7aceaeff6bb89ca07b854"
+    },
+    "docs.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/radios.mdx"
+      ],
+      "inputHash": "sha256:ed6e5d9099e8f37aaae9fa3cb773eaabb55025159dc7aceaeff6bb89ca07b854"
+    },
+    "knowledge.donts.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/radios.mdx"
+      ],
+      "inputHash": "sha256:61ffa8b60de0a77a8ed826c2d103892359ef333be4cf5b0338318e88dfc86a27"
+    },
+    "knowledge.donts.1": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/radios.mdx"
+      ],
+      "inputHash": "sha256:61ffa8b60de0a77a8ed826c2d103892359ef333be4cf5b0338318e88dfc86a27"
+    },
+    "knowledge.dos.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/radios.mdx"
+      ],
+      "inputHash": "sha256:61ffa8b60de0a77a8ed826c2d103892359ef333be4cf5b0338318e88dfc86a27"
+    },
+    "knowledge.dos.1": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/radios.mdx"
+      ],
+      "inputHash": "sha256:61ffa8b60de0a77a8ed826c2d103892359ef333be4cf5b0338318e88dfc86a27"
+    },
+    "knowledge.dos.2": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/radios.mdx"
+      ],
+      "inputHash": "sha256:61ffa8b60de0a77a8ed826c2d103892359ef333be4cf5b0338318e88dfc86a27"
+    },
+    "knowledge.dos.3": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/radios.mdx"
+      ],
+      "inputHash": "sha256:61ffa8b60de0a77a8ed826c2d103892359ef333be4cf5b0338318e88dfc86a27"
+    },
+    "knowledge.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/radios.mdx"
+      ],
+      "inputHash": "sha256:61ffa8b60de0a77a8ed826c2d103892359ef333be4cf5b0338318e88dfc86a27"
+    },
+    "knowledge.whenToUse.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/radios.mdx"
+      ],
+      "inputHash": "sha256:61ffa8b60de0a77a8ed826c2d103892359ef333be4cf5b0338318e88dfc86a27"
+    }
+  }
+}

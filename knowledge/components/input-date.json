@@ -1,0 +1,566 @@
+{
+  "id": "input-date",
+  "title": {
+    "en": "Input Date",
+    "de": "Input Date"
+  },
+  "status": "stable",
+  "group": "form",
+  "synonyms": {
+    "de": [
+      "Date",
+      "Datum-Eingabefeld"
+    ]
+  },
+  "links": {
+    "docs": "https://www.kern-ux.de/komponenten/form-inputs/date",
+    "figma": "https://www.figma.com/community/file/1624024563231427311",
+    "source": "https://gitlab.opencode.de/kern-ux/kern-ux-plain/-/tree/v2.8.2/src/scss/core/components/_input.scss"
+  },
+  "docs": {
+    "url": "https://www.kern-ux.de/komponenten/form-inputs/date",
+    "summary": {
+      "en": "Input Date helps users enter a date. It splits the value into separate day, month and year fields, grouped and labelled as one unit with a hint that shows the order, for example 14 4 2014. Keep the field sizes as delivered, and choose examples that make the day and month order unambiguous."
+    },
+    "sections": [
+      {
+        "id": "kurzbeschreibung",
+        "heading": "Kurzbeschreibung",
+        "url": "https://www.kern-ux.de/komponenten/form-inputs/date#kurzbeschreibung",
+        "summary": {
+          "en": "Input Date helps users enter a date."
+        }
+      },
+      {
+        "id": "disabled",
+        "heading": "Disabled",
+        "url": "https://www.kern-ux.de/komponenten/form-inputs/date#disabled",
+        "summary": {
+          "en": "Avoid disabled, because it restricts accessibility."
+        }
+      },
+      {
+        "id": "beschreibung",
+        "heading": "Beschreibung",
+        "url": "https://www.kern-ux.de/komponenten/form-inputs/date#beschreibung",
+        "summary": {
+          "en": "The general input properties apply. Three separate fields take day, month and year, grouped under one shared label, with a hint below giving the format, for example 14 4 2014. The fields read as one unit, and their size should stay unchanged so the layout stays stable."
+        }
+      },
+      {
+        "id": "verwendungsregeln",
+        "heading": "Verwendungsregeln",
+        "url": "https://www.kern-ux.de/komponenten/form-inputs/date#verwendungsregeln",
+        "summary": {
+          "en": "Used in forms to enter a date; the design follows the kind of date, for example a birth date or an expiry date copied from a document, whose format the fields should mirror. Choose examples that make the day and month order obvious, like 14 4 2014. Leading zeros are not required."
+        }
+      },
+      {
+        "id": "dos-und-donts",
+        "heading": "Dos und Don’ts",
+        "url": "https://www.kern-ux.de/komponenten/form-inputs/date#dos-und-donts",
+        "summary": {
+          "en": "The general Input Dos and Don'ts apply, plus keeping the day, month and year fields at their default size so the layout stays stable."
+        }
+      }
+    ]
+  },
+  "knowledge": {
+    "summary": {
+      "en": "Input Date splits a date into day, month and year fields, grouped under one label that states the expected order."
+    },
+    "whenToUse": [
+      {
+        "en": "Use Input Date when a form needs a date, such as a birth date or the expiry date of a document."
+      }
+    ],
+    "dos": [
+      {
+        "en": "Give the group a clear shared label and a hint that states the format."
+      },
+      {
+        "en": "Use examples such as 14 4 2014 so the day and month order is unambiguous."
+      },
+      {
+        "en": "Mirror the source document's format when the date is copied from a passport or a card."
+      },
+      {
+        "en": "Keep the three fields at their default size."
+      }
+    ],
+    "donts": [
+      {
+        "en": "Don't use disabled, because it restricts accessibility."
+      },
+      {
+        "en": "Don't require leading zeros."
+      },
+      {
+        "en": "Don't change the size of the day, month and year fields."
+      }
+    ],
+    "similar": [
+      {
+        "id": "input-text"
+      },
+      {
+        "id": "input-password"
+      },
+      {
+        "id": "input-email"
+      }
+    ]
+  },
+  "options": [
+    {
+      "id": "width",
+      "kind": "enum",
+      "origin": "curated",
+      "values": [
+        {
+          "id": "full",
+          "default": true
+        },
+        {
+          "id": "width-2"
+        },
+        {
+          "id": "width-4"
+        }
+      ],
+      "html": {
+        "binding": "part-class",
+        "pattern": "kern-form-input__input--{value}",
+        "part": "input",
+        "partClass": "kern-form-input__input",
+        "omit": [
+          "full"
+        ]
+      }
+    }
+  ],
+  "states": [
+    {
+      "id": "disabled",
+      "origin": "derived",
+      "html": {
+        "binding": "attribute",
+        "attribute": "disabled",
+        "alternatives": [
+          {
+            "binding": "attribute",
+            "attribute": "disabled",
+            "partClass": "kern-form-input__input"
+          },
+          {
+            "binding": "attribute",
+            "attribute": "aria-disabled",
+            "value": "true",
+            "partClass": "kern-form-input__input"
+          }
+        ]
+      }
+    },
+    {
+      "id": "error",
+      "origin": "derived",
+      "html": {
+        "binding": "modifier",
+        "class": "kern-fieldset--error",
+        "alternatives": [
+          {
+            "binding": "modifier",
+            "class": "kern-form-input--error"
+          },
+          {
+            "binding": "modifier",
+            "class": "kern-form-input__input--error",
+            "partClass": "kern-form-input__input"
+          }
+        ]
+      }
+    },
+    {
+      "id": "focus",
+      "origin": "derived",
+      "html": {
+        "binding": "pseudo",
+        "selector": ":focus",
+        "partClass": "kern-form-input__input"
+      }
+    },
+    {
+      "id": "hover",
+      "origin": "derived",
+      "html": {
+        "binding": "pseudo",
+        "selector": ":hover",
+        "partClass": "kern-form-input__input"
+      }
+    },
+    {
+      "id": "readonly",
+      "origin": "derived",
+      "html": {
+        "binding": "attribute",
+        "attribute": "readonly",
+        "partClass": "kern-form-input__input"
+      }
+    }
+  ],
+  "accessibility": [
+    {
+      "id": "info-and-relationships",
+      "criterion": "1.3.1",
+      "slug": "info-and-relationships",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "use-of-color",
+      "criterion": "1.4.1",
+      "slug": "use-of-color",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "contrast-enhanced",
+      "criterion": "1.4.6",
+      "slug": "contrast-enhanced",
+      "level": "AAA",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "non-text-contrast",
+      "criterion": "1.4.11",
+      "slug": "non-text-contrast",
+      "level": "AA",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "labels-or-instructions",
+      "criterion": "3.3.2",
+      "slug": "labels-or-instructions",
+      "level": "A",
+      "status": "implementation-dependent",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "keyboard",
+      "criterion": "2.1.1",
+      "slug": "keyboard",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "focus-appearance",
+      "criterion": "2.4.13",
+      "slug": "focus-appearance",
+      "level": "AAA",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "focus-order",
+      "criterion": "2.4.3",
+      "slug": "focus-order",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "error-identification",
+      "criterion": "3.3.1",
+      "slug": "error-identification",
+      "level": "A",
+      "status": "implementation-dependent",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "info-and-relationships-2",
+      "criterion": "1.3.1",
+      "slug": "info-and-relationships",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-10-23"
+    },
+    {
+      "id": "status-messages",
+      "criterion": "4.1.3",
+      "slug": "status-messages",
+      "level": "AA",
+      "status": "implementation-dependent",
+      "lastChecked": "2025-10-23"
+    },
+    {
+      "id": "identify-input-purpose",
+      "criterion": "1.3.5",
+      "slug": "identify-input-purpose",
+      "level": "AA",
+      "status": "implementation-dependent",
+      "lastChecked": "2025-10-23"
+    }
+  ],
+  "examples": [
+    {
+      "id": "input-date-hover",
+      "options": {
+        "width": "width-2"
+      },
+      "states": [
+        "hover"
+      ],
+      "html": {
+        "markup": "<fieldset class=\"kern-fieldset\" aria-describedby=\"hint-text2\"><legend class=\"kern-label\"> Wann wurde der Ausweis ausgestellt? </legend><div class=\"kern-hint\" id=\"hint-text2\">Beispielsweise: 17 3 2015</div><div class=\"kern-fieldset__body kern-fieldset__body--horizontal\"><div class=\"kern-form-input\"><label class=\"kern-label\" for=\"tag1\">Tag</label><input class=\"kern-form-input__input kern-form-input__input--width-2\" id=\"tag1\" name=\"tag1\" type=\"text\" inputmode=\"numeric\"></div><div class=\"kern-form-input\"><label class=\"kern-label\" for=\"monat1\">Monat</label><input class=\"kern-form-input__input kern-form-input__input--width-2\" id=\"monat1\" name=\"monat1\" type=\"text\" inputmode=\"numeric\"></div><div class=\"kern-form-input\"><label class=\"kern-label\" for=\"jahr1\">Jahr</label><input class=\"kern-form-input__input kern-form-input__input--width-4\" id=\"jahr1\" name=\"jahr1\" type=\"text\" inputmode=\"numeric\"></div><div></fieldset>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/InputDate/InputDate.stories.js",
+          "export": "InputDateHover"
+        }
+      }
+    },
+    {
+      "id": "input-date-focus",
+      "options": {
+        "width": "width-2"
+      },
+      "states": [
+        "focus"
+      ],
+      "html": {
+        "markup": "<fieldset class=\"kern-fieldset\" aria-describedby=\"hint-text3\"><legend class=\"kern-label\"> Wann wurde der Ausweis ausgestellt? </legend><div class=\"kern-hint\" id=\"hint-text3\">Beispielsweise: 17 3 2015</div><div class=\"kern-fieldset__body kern-fieldset__body--horizontal\"><div class=\"kern-form-input\"><label class=\"kern-label\" for=\"tag2\">Tag</label><input class=\"kern-form-input__input kern-form-input__input--width-2\" id=\"tag2\" name=\"tag2\" type=\"text\" inputmode=\"numeric\"></div><div class=\"kern-form-input\"><label class=\"kern-label\" for=\"monat2\">Monat</label><input class=\"kern-form-input__input kern-form-input__input--width-2\" id=\"monat2\" name=\"monat2\" type=\"text\" inputmode=\"numeric\"></div><div class=\"kern-form-input\"><label class=\"kern-label\" for=\"jahr2\">Jahr</label><input class=\"kern-form-input__input kern-form-input__input--width-4\" id=\"jahr2\" name=\"jahr2\" type=\"text\" inputmode=\"numeric\"></div><div></fieldset>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/InputDate/InputDate.stories.js",
+          "export": "InputDateFocus"
+        }
+      }
+    },
+    {
+      "id": "input-date-read-only",
+      "options": {
+        "width": "width-2"
+      },
+      "states": [
+        "readonly"
+      ],
+      "html": {
+        "markup": "<fieldset class=\"kern-fieldset\" aria-describedby=\"hint-text4\"><legend class=\"kern-label\"> Wann wurde der Ausweis ausgestellt? </legend><div class=\"kern-hint\" id=\"hint-text4\">Beispielsweise: 17 3 2015</div><div class=\"kern-fieldset__body kern-fieldset__body--horizontal\"><div class=\"kern-form-input\"><label class=\"kern-label\" for=\"tag3\">Tag</label><input class=\"kern-form-input__input kern-form-input__input--width-2\" id=\"tag3\" name=\"tag3\" type=\"text\" inputmode=\"numeric\" value=\"17\" readonly></div><div class=\"kern-form-input\"><label class=\"kern-label\" for=\"monat3\">Monat</label><input class=\"kern-form-input__input kern-form-input__input--width-2\" id=\"monat3\" name=\"monat3\" type=\"text\" inputmode=\"numeric\" value=\"03\" readonly></div><div class=\"kern-form-input\"><label class=\"kern-label\" for=\"jahr3\">Jahr</label><input class=\"kern-form-input__input kern-form-input__input--width-4\" id=\"jahr3\" name=\"jahr3\" type=\"text\" inputmode=\"numeric\" value=\"2019\" readonly></div><div></fieldset>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/InputDate/InputDate.stories.js",
+          "export": "InputDateReadOnly"
+        }
+      }
+    },
+    {
+      "id": "input-date-disabled",
+      "options": {
+        "width": "width-2"
+      },
+      "states": [
+        "disabled"
+      ],
+      "html": {
+        "markup": "<fieldset class=\"kern-fieldset\" aria-describedby=\"hint-text5\"><legend class=\"kern-label\"> Wann wurde der Ausweis ausgestellt? </legend><div class=\"kern-hint\" id=\"hint-text5\">Beispielsweise: 17 3 2015</div><div class=\"kern-fieldset__body kern-fieldset__body--horizontal\"><div class=\"kern-form-input\"><label class=\"kern-label\" for=\"tag4\">Tag</label><input class=\"kern-form-input__input kern-form-input__input--width-2\" id=\"tag4\" name=\"tag4\" type=\"text\" inputmode=\"numeric\" disabled></div><div class=\"kern-form-input\"><label class=\"kern-label\" for=\"monat4\">Monat</label><input class=\"kern-form-input__input kern-form-input__input--width-2\" id=\"monat4\" name=\"monat4\" type=\"text\" inputmode=\"numeric\" disabled></div><div class=\"kern-form-input\"><label class=\"kern-label\" for=\"jahr4\">Jahr</label><input class=\"kern-form-input__input kern-form-input__input--width-4\" id=\"jahr4\" name=\"jahr4\" type=\"text\" inputmode=\"numeric\" disabled></div><div></fieldset>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/InputDate/InputDate.stories.js",
+          "export": "InputDateDisabled"
+        }
+      }
+    }
+  ],
+  "moreExamples": {
+    "file": "input-date.examples.json",
+    "count": 3
+  },
+  "implementations": {
+    "html": {
+      "package": "@kern-ux/native",
+      "version": "2.8.2",
+      "classes": {
+        "roots": [
+          "kern-fieldset",
+          "kern-form-input"
+        ],
+        "elements": [
+          "kern-fieldset__body",
+          "kern-form-input__input",
+          "kern-form-input__select-wrapper"
+        ],
+        "modifiers": [
+          "kern-fieldset--error",
+          "kern-fieldset__body--horizontal",
+          "kern-form-input--error",
+          "kern-form-input__input--error",
+          "kern-form-input__input--width-2",
+          "kern-form-input__input--width-4"
+        ]
+      },
+      "sources": [
+        "src/scss/core/components/_input.scss",
+        "stories/InputDate/InputDate.stories.js"
+      ]
+    },
+    "react": {
+      "package": "@publicplan/kern-react-kit",
+      "version": "1.3.5",
+      "import": "import from '@publicplan/kern-react-kit'",
+      "components": [],
+      "sources": [
+        "src/components/Input"
+      ]
+    }
+  },
+  "drift": [
+    {
+      "kind": "example-coverage",
+      "en": "Modifiers defined in SCSS that no story or docs example shows.",
+      "sources": [
+        "kern-ux-plain"
+      ],
+      "items": [
+        "kern-form-input--error"
+      ]
+    },
+    {
+      "kind": "binding-gap",
+      "en": "kern-react-kit's source never emits these kern-ux-plain modifiers, so its components can't express them.",
+      "sources": [
+        "kern-react-kit",
+        "kern-ux-plain"
+      ],
+      "items": [
+        "kern-fieldset__body--horizontal"
+      ]
+    }
+  ],
+  "provenance": {
+    "docs.sections.beschreibung.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/date.mdx#beschreibung"
+      ],
+      "inputHash": "sha256:8f644f3781a5a1f0e0cba568572a6f07cdc781c2d551c287f4e40e18f0fd20d9"
+    },
+    "docs.sections.disabled.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/date.mdx#disabled"
+      ],
+      "inputHash": "sha256:8f644f3781a5a1f0e0cba568572a6f07cdc781c2d551c287f4e40e18f0fd20d9"
+    },
+    "docs.sections.dos-und-donts.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/date.mdx#dos-und-donts"
+      ],
+      "inputHash": "sha256:8f644f3781a5a1f0e0cba568572a6f07cdc781c2d551c287f4e40e18f0fd20d9"
+    },
+    "docs.sections.kurzbeschreibung.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/date.mdx#kurzbeschreibung"
+      ],
+      "inputHash": "sha256:8f644f3781a5a1f0e0cba568572a6f07cdc781c2d551c287f4e40e18f0fd20d9"
+    },
+    "docs.sections.verwendungsregeln.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/date.mdx#verwendungsregeln"
+      ],
+      "inputHash": "sha256:8f644f3781a5a1f0e0cba568572a6f07cdc781c2d551c287f4e40e18f0fd20d9"
+    },
+    "docs.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/date.mdx"
+      ],
+      "inputHash": "sha256:8f644f3781a5a1f0e0cba568572a6f07cdc781c2d551c287f4e40e18f0fd20d9"
+    },
+    "knowledge.donts.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/date.mdx"
+      ],
+      "inputHash": "sha256:1dee06c033f99c327c9a8bdfbf6b9a525f6c47cc94a6fa6303a8c2f08d36962e"
+    },
+    "knowledge.donts.1": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/date.mdx"
+      ],
+      "inputHash": "sha256:1dee06c033f99c327c9a8bdfbf6b9a525f6c47cc94a6fa6303a8c2f08d36962e"
+    },
+    "knowledge.donts.2": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/date.mdx"
+      ],
+      "inputHash": "sha256:1dee06c033f99c327c9a8bdfbf6b9a525f6c47cc94a6fa6303a8c2f08d36962e"
+    },
+    "knowledge.dos.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/date.mdx"
+      ],
+      "inputHash": "sha256:1dee06c033f99c327c9a8bdfbf6b9a525f6c47cc94a6fa6303a8c2f08d36962e"
+    },
+    "knowledge.dos.1": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/date.mdx"
+      ],
+      "inputHash": "sha256:1dee06c033f99c327c9a8bdfbf6b9a525f6c47cc94a6fa6303a8c2f08d36962e"
+    },
+    "knowledge.dos.2": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/date.mdx"
+      ],
+      "inputHash": "sha256:1dee06c033f99c327c9a8bdfbf6b9a525f6c47cc94a6fa6303a8c2f08d36962e"
+    },
+    "knowledge.dos.3": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/date.mdx"
+      ],
+      "inputHash": "sha256:1dee06c033f99c327c9a8bdfbf6b9a525f6c47cc94a6fa6303a8c2f08d36962e"
+    },
+    "knowledge.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/date.mdx"
+      ],
+      "inputHash": "sha256:1dee06c033f99c327c9a8bdfbf6b9a525f6c47cc94a6fa6303a8c2f08d36962e"
+    },
+    "knowledge.whenToUse.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/date.mdx"
+      ],
+      "inputHash": "sha256:1dee06c033f99c327c9a8bdfbf6b9a525f6c47cc94a6fa6303a8c2f08d36962e"
+    }
+  }
+}

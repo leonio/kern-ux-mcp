@@ -1,0 +1,494 @@
+{
+  "id": "accessibility",
+  "title": {
+    "en": "Accessibility",
+    "de": "Barrierefreiheit"
+  },
+  "group": "Design system",
+  "status": "documented",
+  "links": {
+    "docs": "https://www.kern-ux.de/design-system/barrierefreiheit"
+  },
+  "docs": {
+    "url": "https://www.kern-ux.de/design-system/barrierefreiheit",
+    "summary": {
+      "en": "Explains why accessibility matters and what KERN contributes: accessible components built on best practice, guidance on colour, contrast and type sizes - none of which replaces an individual audit or full WCAG conformance for an assembled service. The page outlines the legal background, notes that the KERN code base meets at least BITV 2.0 level AA, treats accessibility as a shared team task, lists testing options and gives the main rules on contrast, alt text, scaling, keyboard use and video."
+    },
+    "sections": [
+      {
+        "id": "barrierefreiheit-mit-kern",
+        "heading": "Barrierefreiheit mit KERN",
+        "url": "https://www.kern-ux.de/design-system/barrierefreiheit#barrierefreiheit-mit-kern",
+        "summary": {
+          "en": "Accessibility is essential for an inclusive digital experience. KERN helps product owners, designers and developers build accessible applications efficiently and to standard, but it does not replace an individual review or guarantee full WCAG conformance: tests with users remain essential."
+        }
+      },
+      {
+        "id": "was-das-kern-design-system-bietet",
+        "heading": "Was das KERN Design-System bietet",
+        "url": "https://www.kern-ux.de/design-system/barrierefreiheit#was-das-kern-design-system-bietet",
+        "summary": {
+          "en": "Accessible UI components designed with accessibility best practice from the start, clear guidance on colours, contrast and font sizes, and semantically correct code that supports assistive technologies."
+        }
+      },
+      {
+        "id": "was-das-kern-design-system-nicht-leistet",
+        "heading": "Was das KERN Design-System nicht leistet",
+        "url": "https://www.kern-ux.de/design-system/barrierefreiheit#was-das-kern-design-system-nicht-leistet",
+        "summary": {
+          "en": "It does not replace an individual accessibility review, does not by itself guarantee full WCAG or BITV conformance for a component in its overall context, and does not cover every specific accessibility requirement, so additional measures are often needed."
+        }
+      },
+      {
+        "id": "was-bedeutet-barrierefreiheit",
+        "heading": "Was bedeutet Barrierefreiheit?",
+        "url": "https://www.kern-ux.de/design-system/barrierefreiheit#was-bedeutet-barrierefreiheit",
+        "summary": {
+          "en": "In the digital context, accessibility means a service is usable by everyone regardless of individual abilities. Beyond permanent disabilities it also covers temporary ones such as injuries and situational ones, so ignoring the standards leaves out far more people than we assume."
+        }
+      },
+      {
+        "id": "wie-sieht-die-gesetzliche-landschaft-aus",
+        "heading": "Wie sieht die gesetzliche Landschaft aus?",
+        "url": "https://www.kern-ux.de/design-system/barrierefreiheit#wie-sieht-die-gesetzliche-landschaft-aus",
+        "summary": {
+          "en": "EU Directive 2016/2102 requires public-sector websites and mobile applications to be accessible, transposed into national law by each member state. In Germany rules apply at federal and state level. The BFIT publishes guidance that closes gaps in DIN EN ISO 9241-161, EN 301 549 v3.2.1 and the WCAG."
+        }
+      },
+      {
+        "id": "welche-standards-erfüllt-kern",
+        "heading": "Welche Standards erfüllt KERN?",
+        "url": "https://www.kern-ux.de/design-system/barrierefreiheit#welche-standards-erfüllt-kern",
+        "summary": {
+          "en": "The KERN code base behind the components meets at least level AA of BITV 2.0. A service built with them is not automatically accessible: conformance must be developed and verified in the overall context, and that responsibility lies with the implementing teams, not with KERN."
+        }
+      },
+      {
+        "id": "wer-ist-verantwortlich-für-barrierefreiheit",
+        "heading": "Wer ist verantwortlich für Barrierefreiheit?",
+        "url": "https://www.kern-ux.de/design-system/barrierefreiheit#wer-ist-verantwortlich-für-barrierefreiheit",
+        "summary": {
+          "en": "Accessibility is a team task. One person may hold particular expertise, but every role contributes: researchers include people with disabilities in interviews and surveys, designers watch contrast and usability, and project managers plan time for accessibility work."
+        }
+      },
+      {
+        "id": "testarten",
+        "heading": "Testarten",
+        "url": "https://www.kern-ux.de/design-system/barrierefreiheit#testarten",
+        "summary": {
+          "en": "Auditing every page is impractical: pick representative pages that together cover the likely barriers. Options: the BITV self-test, useful early but no substitute for an expert test; user testing with people with disabilities; and a detailed conformance audit by a qualified provider."
+        }
+      },
+      {
+        "id": "erklärung-zur-barrierefreiheit",
+        "heading": "Erklärung zur Barrierefreiheit",
+        "url": "https://www.kern-ux.de/design-system/barrierefreiheit#erklärung-zur-barrierefreiheit",
+        "summary": {
+          "en": "The accessibility statement required by section 12b of the German disability equality act must be published in an accessible, machine-readable format and be reachable from the home page and every page. For mobile applications publish it where the app is downloaded or on the public body's website."
+        }
+      },
+      {
+        "id": "leichte-sprache-und-deutsche-gebärdensprache",
+        "heading": "Leichte Sprache und deutsche Gebärdensprache",
+        "url": "https://www.kern-ux.de/design-system/barrierefreiheit#leichte-sprache-und-deutsche-gebärdensprache",
+        "summary": {
+          "en": "Under section 4 BITV 2.0, the information on a website's home page must also be provided in plain-language form and in German Sign Language. The BITV 2.0 ordinance holds the details."
+        }
+      },
+      {
+        "id": "allgemeine-richtlinien",
+        "heading": "Allgemeine Richtlinien",
+        "url": "https://www.kern-ux.de/design-system/barrierefreiheit#allgemeine-richtlinien",
+        "summary": {
+          "en": "A rough list of the most important accessibility rules; the BFIT guidance and EN 301 549 carry the detailed requirements."
+        }
+      },
+      {
+        "id": "wahrnehmbarkeit-von-farbkontrasten",
+        "heading": "Wahrnehmbarkeit von Farbkontrasten",
+        "url": "https://www.kern-ux.de/design-system/barrierefreiheit#wahrnehmbarkeit-von-farbkontrasten",
+        "summary": {
+          "en": "Text above 24px needs a contrast ratio of 3:1; text at 24px or smaller needs 4.5:1. Graphics and graphical controls need 3:1, and at least 3:1 must hold when they receive focus."
+        }
+      },
+      {
+        "id": "alternativtexte",
+        "heading": "Alternativtexte",
+        "url": "https://www.kern-ux.de/design-system/barrierefreiheit#alternativtexte",
+        "summary": {
+          "en": "For linked graphics, state the purpose and target of the link. Describe informative graphics in text, and leave the alt attribute empty for decorative ones. Alternative texts also support SEO."
+        }
+      },
+      {
+        "id": "skalierbarkeit",
+        "heading": "Skalierbarkeit",
+        "url": "https://www.kern-ux.de/design-system/barrierefreiheit#skalierbarkeit",
+        "summary": {
+          "en": "Pages must reflow down to 320px in portrait and landscape. Text must be resizable up to 200% without loss of content or functionality, except for captions and images of text. Content that cannot scale, such as tables and images, may scroll horizontally."
+        }
+      },
+      {
+        "id": "tastaturbedienbarkeit",
+        "heading": "Tastaturbedienbarkeit",
+        "url": "https://www.kern-ux.de/design-system/barrierefreiheit#tastaturbedienbarkeit",
+        "summary": {
+          "en": "Make online services operable with a keyboard, including mobile apps. Shortcuts must be switchable off or remappable and no keyboard trap may exist: a trap is when focus can enter a region but cannot leave it again with the usual keys."
+        }
+      },
+      {
+        "id": "bewegte-inhalte",
+        "heading": "Bewegte Inhalte",
+        "url": "https://www.kern-ux.de/design-system/barrierefreiheit#bewegte-inhalte",
+        "summary": {
+          "en": "Moving content distracts. Avoid sliders and other moving elements, limit them to 5 seconds or make them switchable off; the BFIT guidance on animation has more."
+        }
+      },
+      {
+        "id": "robustheit",
+        "heading": "Robustheit",
+        "url": "https://www.kern-ux.de/design-system/barrierefreiheit#robustheit",
+        "summary": {
+          "en": "Ensure compatibility with assistive technology: HTML semantics must be correct, IDs must not be duplicated (check with the W3C markup validation service), and status indicators such as loading messages must be detectable by screen readers."
+        }
+      },
+      {
+        "id": "videos",
+        "heading": "Videos",
+        "url": "https://www.kern-ux.de/design-system/barrierefreiheit#videos",
+        "summary": {
+          "en": "A video with sound needs subtitles or a media alternative, and the tools support captioning including live captions. Information shown visually in a video must also be conveyed another way, as a description of what is seen or as a full text alternative."
+        }
+      },
+      {
+        "id": "redaktionelle-inhalte",
+        "heading": "Redaktionelle Inhalte",
+        "url": "https://www.kern-ux.de/design-system/barrierefreiheit#redaktionelle-inhalte",
+        "summary": {
+          "en": "Editorial content such as podcasts, PDFs and Office documents should be accessible too. The SHUFFLE project of HdM Stuttgart published three extended checklists in German with explainer videos covering Word, Excel and PowerPoint, and offers training on accessible office documents."
+        }
+      }
+    ]
+  },
+  "knowledge": {
+    "summary": {
+      "en": "KERN ships accessible components and rules, but teams remain responsible for building and verifying accessibility in their own service context."
+    },
+    "dos": [
+      {
+        "en": "Check contrast: 3:1 for text above 24px, 4.5:1 at 24px or smaller, and 3:1 for graphics and controls, including when focused."
+      },
+      {
+        "en": "Describe informative graphics in text, give linked graphics an alt text naming purpose and target, and leave alt empty for decorative images."
+      },
+      {
+        "en": "Keep services operable by keyboard without traps and let shortcuts be switched off or remapped."
+      },
+      {
+        "en": "Limit moving content to 5 seconds or make it switchable off."
+      },
+      {
+        "en": "Publish an accessibility statement in an accessible, machine-readable format reachable from the home page and every page."
+      },
+      {
+        "en": "Test representative pages that together cover the likely barriers, using self-tests, user testing and expert conformance audits."
+      },
+      {
+        "en": "Use valid HTML semantics, avoid duplicate IDs and make status messages detectable by screen readers."
+      },
+      {
+        "en": "Subtitle videos that carry sound or offer a media alternative, and convey on-screen information in text as well."
+      }
+    ],
+    "donts": [
+      {
+        "en": "Don't treat KERN components as a guarantee of WCAG or BITV conformance for the assembled service."
+      },
+      {
+        "en": "Don't assume accessibility is one person's job: research, design and project management all share it."
+      },
+      {
+        "en": "Don't rely on a self-audit as a substitute for an expert conformance test."
+      },
+      {
+        "en": "Don't use sliders and other moving elements without limiting or being able to switch off the motion."
+      },
+      {
+        "en": "Don't let content or functionality break when text is enlarged to 200% or the page narrows to 320px."
+      }
+    ]
+  },
+  "provenance": {
+    "docs.sections.allgemeine-richtlinien.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/barrierefreiheit.mdx#allgemeine-richtlinien"
+      ],
+      "inputHash": "sha256:648ca10928e884dcac8f7651c121818df03b66ee7284df1ca0469431008319c1"
+    },
+    "docs.sections.alternativtexte.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/barrierefreiheit.mdx#alternativtexte"
+      ],
+      "inputHash": "sha256:648ca10928e884dcac8f7651c121818df03b66ee7284df1ca0469431008319c1"
+    },
+    "docs.sections.barrierefreiheit-mit-kern.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/barrierefreiheit.mdx#barrierefreiheit-mit-kern"
+      ],
+      "inputHash": "sha256:648ca10928e884dcac8f7651c121818df03b66ee7284df1ca0469431008319c1"
+    },
+    "docs.sections.bewegte-inhalte.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/barrierefreiheit.mdx#bewegte-inhalte"
+      ],
+      "inputHash": "sha256:648ca10928e884dcac8f7651c121818df03b66ee7284df1ca0469431008319c1"
+    },
+    "docs.sections.erklärung-zur-barrierefreiheit.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/barrierefreiheit.mdx#erklärung-zur-barrierefreiheit"
+      ],
+      "inputHash": "sha256:648ca10928e884dcac8f7651c121818df03b66ee7284df1ca0469431008319c1"
+    },
+    "docs.sections.leichte-sprache-und-deutsche-gebärdensprache.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/barrierefreiheit.mdx#leichte-sprache-und-deutsche-gebärdensprache"
+      ],
+      "inputHash": "sha256:648ca10928e884dcac8f7651c121818df03b66ee7284df1ca0469431008319c1"
+    },
+    "docs.sections.redaktionelle-inhalte.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/barrierefreiheit.mdx#redaktionelle-inhalte"
+      ],
+      "inputHash": "sha256:648ca10928e884dcac8f7651c121818df03b66ee7284df1ca0469431008319c1"
+    },
+    "docs.sections.robustheit.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/barrierefreiheit.mdx#robustheit"
+      ],
+      "inputHash": "sha256:648ca10928e884dcac8f7651c121818df03b66ee7284df1ca0469431008319c1"
+    },
+    "docs.sections.skalierbarkeit.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/barrierefreiheit.mdx#skalierbarkeit"
+      ],
+      "inputHash": "sha256:648ca10928e884dcac8f7651c121818df03b66ee7284df1ca0469431008319c1"
+    },
+    "docs.sections.tastaturbedienbarkeit.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/barrierefreiheit.mdx#tastaturbedienbarkeit"
+      ],
+      "inputHash": "sha256:648ca10928e884dcac8f7651c121818df03b66ee7284df1ca0469431008319c1"
+    },
+    "docs.sections.testarten.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/barrierefreiheit.mdx#testarten"
+      ],
+      "inputHash": "sha256:648ca10928e884dcac8f7651c121818df03b66ee7284df1ca0469431008319c1"
+    },
+    "docs.sections.videos.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/barrierefreiheit.mdx#videos"
+      ],
+      "inputHash": "sha256:648ca10928e884dcac8f7651c121818df03b66ee7284df1ca0469431008319c1"
+    },
+    "docs.sections.wahrnehmbarkeit-von-farbkontrasten.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/barrierefreiheit.mdx#wahrnehmbarkeit-von-farbkontrasten"
+      ],
+      "inputHash": "sha256:648ca10928e884dcac8f7651c121818df03b66ee7284df1ca0469431008319c1"
+    },
+    "docs.sections.was-bedeutet-barrierefreiheit.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/barrierefreiheit.mdx#was-bedeutet-barrierefreiheit"
+      ],
+      "inputHash": "sha256:648ca10928e884dcac8f7651c121818df03b66ee7284df1ca0469431008319c1"
+    },
+    "docs.sections.was-das-kern-design-system-bietet.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/barrierefreiheit.mdx#was-das-kern-design-system-bietet"
+      ],
+      "inputHash": "sha256:648ca10928e884dcac8f7651c121818df03b66ee7284df1ca0469431008319c1"
+    },
+    "docs.sections.was-das-kern-design-system-nicht-leistet.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/barrierefreiheit.mdx#was-das-kern-design-system-nicht-leistet"
+      ],
+      "inputHash": "sha256:648ca10928e884dcac8f7651c121818df03b66ee7284df1ca0469431008319c1"
+    },
+    "docs.sections.welche-standards-erfüllt-kern.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/barrierefreiheit.mdx#welche-standards-erfüllt-kern"
+      ],
+      "inputHash": "sha256:648ca10928e884dcac8f7651c121818df03b66ee7284df1ca0469431008319c1"
+    },
+    "docs.sections.wer-ist-verantwortlich-für-barrierefreiheit.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/barrierefreiheit.mdx#wer-ist-verantwortlich-für-barrierefreiheit"
+      ],
+      "inputHash": "sha256:648ca10928e884dcac8f7651c121818df03b66ee7284df1ca0469431008319c1"
+    },
+    "docs.sections.wie-sieht-die-gesetzliche-landschaft-aus.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/barrierefreiheit.mdx#wie-sieht-die-gesetzliche-landschaft-aus"
+      ],
+      "inputHash": "sha256:648ca10928e884dcac8f7651c121818df03b66ee7284df1ca0469431008319c1"
+    },
+    "docs.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/barrierefreiheit.mdx"
+      ],
+      "inputHash": "sha256:648ca10928e884dcac8f7651c121818df03b66ee7284df1ca0469431008319c1"
+    },
+    "knowledge.donts.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/barrierefreiheit.mdx"
+      ],
+      "inputHash": "sha256:f948c70ce43cc33865b2d91f154f613cf7fd8ac491e154b48b2d57f2246f3f2a"
+    },
+    "knowledge.donts.1": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/barrierefreiheit.mdx"
+      ],
+      "inputHash": "sha256:f948c70ce43cc33865b2d91f154f613cf7fd8ac491e154b48b2d57f2246f3f2a"
+    },
+    "knowledge.donts.2": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/barrierefreiheit.mdx"
+      ],
+      "inputHash": "sha256:f948c70ce43cc33865b2d91f154f613cf7fd8ac491e154b48b2d57f2246f3f2a"
+    },
+    "knowledge.donts.3": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/barrierefreiheit.mdx"
+      ],
+      "inputHash": "sha256:f948c70ce43cc33865b2d91f154f613cf7fd8ac491e154b48b2d57f2246f3f2a"
+    },
+    "knowledge.donts.4": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/barrierefreiheit.mdx"
+      ],
+      "inputHash": "sha256:f948c70ce43cc33865b2d91f154f613cf7fd8ac491e154b48b2d57f2246f3f2a"
+    },
+    "knowledge.dos.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/barrierefreiheit.mdx"
+      ],
+      "inputHash": "sha256:f948c70ce43cc33865b2d91f154f613cf7fd8ac491e154b48b2d57f2246f3f2a"
+    },
+    "knowledge.dos.1": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/barrierefreiheit.mdx"
+      ],
+      "inputHash": "sha256:f948c70ce43cc33865b2d91f154f613cf7fd8ac491e154b48b2d57f2246f3f2a"
+    },
+    "knowledge.dos.2": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/barrierefreiheit.mdx"
+      ],
+      "inputHash": "sha256:f948c70ce43cc33865b2d91f154f613cf7fd8ac491e154b48b2d57f2246f3f2a"
+    },
+    "knowledge.dos.3": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/barrierefreiheit.mdx"
+      ],
+      "inputHash": "sha256:f948c70ce43cc33865b2d91f154f613cf7fd8ac491e154b48b2d57f2246f3f2a"
+    },
+    "knowledge.dos.4": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/barrierefreiheit.mdx"
+      ],
+      "inputHash": "sha256:f948c70ce43cc33865b2d91f154f613cf7fd8ac491e154b48b2d57f2246f3f2a"
+    },
+    "knowledge.dos.5": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/barrierefreiheit.mdx"
+      ],
+      "inputHash": "sha256:f948c70ce43cc33865b2d91f154f613cf7fd8ac491e154b48b2d57f2246f3f2a"
+    },
+    "knowledge.dos.6": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/barrierefreiheit.mdx"
+      ],
+      "inputHash": "sha256:f948c70ce43cc33865b2d91f154f613cf7fd8ac491e154b48b2d57f2246f3f2a"
+    },
+    "knowledge.dos.7": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/barrierefreiheit.mdx"
+      ],
+      "inputHash": "sha256:f948c70ce43cc33865b2d91f154f613cf7fd8ac491e154b48b2d57f2246f3f2a"
+    },
+    "knowledge.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/barrierefreiheit.mdx"
+      ],
+      "inputHash": "sha256:f948c70ce43cc33865b2d91f154f613cf7fd8ac491e154b48b2d57f2246f3f2a"
+    }
+  }
+}

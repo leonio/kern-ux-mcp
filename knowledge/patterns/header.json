@@ -1,0 +1,75 @@
+{
+  "id": "header",
+  "title": {
+    "en": "Header",
+    "de": "Header"
+  },
+  "status": "stub",
+  "links": {
+    "docs": "https://www.kern-ux.de/patterns/templates/header"
+  },
+  "components": [
+    "button",
+    "icon",
+    "input-email",
+    "label",
+    "link",
+    "list"
+  ],
+  "examples": [
+    {
+      "id": "flex-header",
+      "html": {
+        "markup": "<header class=\"kern-flex kern-flex-col\"><div class=\"kern-flex kern-justify-content-between kern-gap-x-xl kern-p-md\"><div class=\"kern-brand\"><img src=\"/logo.svg\"></div><div class=\"kern-flex kern-flex-nowrap kern-hidden-lg\"><button class=\"kern-btn kern-btn--tertiary kern-align-self-center\" id=\"search-trigger-flex\"><span class=\"kern-icon kern-icon--search\" aria-hidden=\"true\"></span><span class=\"kern-label kern-sr-only\">Kopieren</span></button><button class=\"kern-btn kern-btn--tertiary kern-align-self-center\" id=\"navi-trigger-flex\"><span class=\"kern-icon kern-icon--dehaze\" aria-hidden=\"true\"></span><span class=\"kern-label kern-sr-only\">Kopieren</span></button></div><div class=\"kern-hidden kern-flex-lg kern-flex-col kern-gap-lg\"><nav class=\"kern-align-self-end\" aria-label=\"Hilfsnavigation\" id=\"hilfsnavigation-flex\"><ul class=\"kern-list kern-flex-row-lg kern-gap-md kern-pt-none\"><li><a class=\"kern-link kern-link--small\" href=\"#\"><span class=\"kern-icon kern-icon--easy-language\" aria-hidden=\"true\"></span> Leichte Sprache </a></li><li><a class=\"kern-link kern-link--small\" href=\"#\"><span class=\"kern-icon kern-icon--sign-language\" aria-hidden=\"true\"></span> Gebärdensprache </a></li><li><a class=\"kern-link kern-link--small\" href=\"#\"><span class=\"kern-icon kern-icon--language\" aria-hidden=\"true\"></span> Deutsch </a></li><li><a class=\"kern-link kern-link--small\" href=\"#\"><span class=\"kern-icon kern-icon--account-circle\" aria-hidden=\"true\"></span> Mein Konto </a></li></ul></nav><div class=\"kern-align-self-end\"><form role=\"search\" class=\"kern-flex kern-gap-xs\"><input class=\"kern-form-input__input\" id=\"search\" name=\"search\" type=\"search\" autocomplete=\"search\" aria-label=\"Suche\"><button class=\"kern-btn kern-btn--primary\" type=\"submit\"><span class=\"kern-icon kern-icon--search\" aria-hidden=\"true\"></span><span class=\"kern-label\">Suchen</span></button></form></div></div></div><div class=\"kern-hidden kern-hidden-lg kern-p-md\" id=\"search-mobile\"><form role=\"search\" class=\"kern-flex kern-gap-xs\"><input class=\"kern-form-input__input\" id=\"search-m\" name=\"search\" type=\"search\" autocomplete=\"search\" aria-label=\"Suche\"><button class=\"kern-btn kern-btn--primary\" type=\"submit\"><span class=\"kern-icon kern-icon--search\" aria-hidden=\"true\"></span><span class=\"kern-label kern-sr-only-mobile\">Suchen</span></button></form></div><nav class=\"kern-hidden kern-flex-lg\" aria-label=\"Hauptnavigation\" id=\"navi-flex\"><ul class=\"kern-list kern-flex-row-lg kern-gap-x-xl kern-gap-y-lg kern-p-md kern-pt-none-lg\"><li><a class=\"kern-link\" href=\"#\">Dienstleistungen</a></li><li><a class=\"kern-link\" href=\"#\">Standorte</a></li><li><a class=\"kern-link\" href=\"#\">Terminvereinbarung</a></li><li><a class=\"kern-link\" href=\"#\">Themen</a></li><li><a class=\"kern-link\" href=\"#\">Service</a></li></ul><ul class=\"kern-list kern-gap-y-lg kern-p-md kern-hidden-lg kern-pt-none\" style=\"background: var(--kern-color-form-input-background, #F7F7F9);\"><li><a class=\"kern-link kern-link--small\" href=\"#\"><span class=\"kern-icon kern-icon--easy-language\" aria-hidden=\"true\"></span> Leichte Sprache </a></li><li><a class=\"kern-link kern-link--small\" href=\"#\"><span class=\"kern-icon kern-icon--sign-language\" aria-hidden=\"true\"></span> Gebärdensprache </a></li><li><a class=\"kern-link kern-link--small\" href=\"#\"><span class=\"kern-icon kern-icon--language\" aria-hidden=\"true\"></span> Deutsch </a></li><li><a class=\"kern-link kern-link--small\" href=\"#\"><span class=\"kern-icon kern-icon--account-circle\" aria-hidden=\"true\"></span> Mein Konto </a></li></ul></nav></header>",
+        "hasScript": true,
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Pattern/Header/FlexHeader.stories.js",
+          "export": "FlexHeader"
+        }
+      }
+    },
+    {
+      "id": "grid-header",
+      "html": {
+        "markup": "<header class=\"kern-grid kern-grid-cols-12 kern-gap-y-xl kern-gap-md-lg kern-p-md\"><div class=\"kern-col-6 kern-col-4-lg kern-row-2-lg\"><a href=\"/\" aria-label=\"Zur Startseite\"><img src=\"/logo.svg\" alt=\"Logo der Behörde\"></a></div><div class=\"kern-col-6 kern-hidden-lg kern-justify-self-end kern-flex kern-gap-xs\"><button class=\"kern-btn kern-btn--tertiary kern-align-self-center\" id=\"search-trigger\" aria-expanded=\"false\" aria-controls=\"search-bar\"><span class=\"kern-icon kern-icon--search\" aria-hidden=\"true\"></span><span class=\"kern-label kern-sr-only\">Suche öffnen</span></button><button class=\"kern-btn kern-btn--tertiary kern-align-self-center\" id=\"navi-trigger\" aria-expanded=\"false\" aria-controls=\"hauptnavigation hilfsnavigation\"><span class=\"kern-icon kern-icon--dehaze\" aria-hidden=\"true\"></span><span class=\"kern-label kern-sr-only\">Menü öffnen</span></button></div><div class=\"kern-col-12 kern-col-8-lg kern-hidden kern-block-lg kern-order-2-lg\" id=\"search-bar\"><form role=\"search\" class=\"kern-flex kern-gap-xs kern-justify-self-end-lg\"><label for=\"search\" class=\"kern-sr-only\">Suche</label><input class=\"kern-form-input__input\" id=\"search\" name=\"search\" type=\"search\"><button class=\"kern-btn kern-btn--primary\" type=\"submit\"><span class=\"kern-icon kern-icon--search\" aria-hidden=\"true\"></span><span class=\"kern-label kern-sr-only-mobile\">Suchen</span></button></form></div><nav class=\"kern-col-12 kern-hidden kern-block-lg kern-order-3-lg\" id=\"hauptnavigation\" aria-label=\"Hauptnavigation\"><ul class=\"kern-list kern-flex-row-lg kern-gap-x-xl kern-gap-y-lg kern-pt-none\"><li><a class=\"kern-link\" href=\"#\">Dienstleistungen</a></li><li><a class=\"kern-link\" href=\"#\">Standorte</a></li><li><a class=\"kern-link\" href=\"#\">Terminvereinbarung</a></li><li><a class=\"kern-link\" href=\"#\">Themen</a></li><li><a class=\"kern-link\" href=\"#\">Service</a></li></ul></nav><nav class=\"kern-col-12 kern-col-8-lg kern-hidden kern-block-lg kern-order-1-lg kern-mb-sm-md\" id=\"hilfsnavigation\" aria-label=\"Hilfsnavigation\"><ul class=\"colored kern-list kern-flex-row-lg kern-gap-x-md kern-gap-y-md kern-gap-y-sm-lg kern-justify-content-end-md kern-flex-wrap kern-pt-none\"><li><a class=\"kern-link kern-link--small\" href=\"#\"><span class=\"kern-icon kern-icon--easy-language\" aria-hidden=\"true\"></span>Leichte Sprache</a></li><li><a class=\"kern-link kern-link--small\" href=\"#\"><span class=\"kern-icon kern-icon--sign-language\" aria-hidden=\"true\"></span>Gebärdensprache</a></li><li><a class=\"kern-link kern-link--small\" href=\"#\"><span class=\"kern-icon kern-icon--language\" aria-hidden=\"true\"></span>Deutsch</a></li><li><a class=\"kern-link kern-link--small\" href=\"#\"><span class=\"kern-icon kern-icon--account-circle\" aria-hidden=\"true\"></span>Mein Konto</a></li></ul></nav></header><style> @media (max-width: 991px) { .colored { background: #F7F7F9; margin: -16px; padding: 16px; } } </style>",
+        "hasScript": true,
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Pattern/Header/GrodHeader.stories.js",
+          "export": "GridHeader"
+        }
+      }
+    }
+  ],
+  "docs": {
+    "url": "https://www.kern-ux.de/patterns/templates/header",
+    "summary": {
+      "en": "The Header pattern describes the page header that holds the central navigation elements: logo, main menu and important actions."
+    },
+    "sections": []
+  },
+  "knowledge": {
+    "summary": {
+      "en": "Use the Header pattern for the central navigation of a page: logo, main menu and important actions."
+    }
+  },
+  "provenance": {
+    "docs.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:patterns/templates/header.mdx"
+      ],
+      "inputHash": "sha256:e0a47a10b177b7afee0fb0bdf997a5019e912a23bdaab0827550c9f4fa5b222f"
+    },
+    "knowledge.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:patterns/templates/header.mdx"
+      ],
+      "inputHash": "sha256:a5575f7b1067beb82f13b741083262e4683d6a126b6abf44bacfee800699ab2d"
+    }
+  }
+}

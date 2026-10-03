@@ -1,0 +1,20 @@
+{
+  "component": "checkboxes",
+  "examples": [
+    {
+      "id": "checkboxes-list-error",
+      "states": [
+        "error"
+      ],
+      "instances": 3,
+      "html": {
+        "markup": "<fieldset class=\"kern-fieldset kern-fieldset--error\" aria-describedby=\"hint-text kern-input-error\"><legend class=\"kern-label\"> Ansprechpartner </legend><div class=\"kern-hint\" id=\"hint-text\">Hint Text</div><div class=\"kern-fieldset__body\"><div class=\"kern-form-check\"><input class=\"kern-form-check__checkbox kern-form-check__checkbox--error\" id=\"herr2\" name=\"geschlecht2\" type=\"checkbox\" aria-invalid=\"true\"><label class=\"kern-label\" for=\"herr2\">Herr</label></div><div class=\"kern-form-check\"><input class=\"kern-form-check__checkbox kern-form-check__checkbox--error\" id=\"frau2\" name=\"geschlecht2\" type=\"checkbox\" aria-invalid=\"true\"><label class=\"kern-label\" for=\"frau2\">Frau</label></div><div class=\"kern-form-check\"><input class=\"kern-form-check__checkbox kern-form-check__checkbox--error\" id=\"divers2\" name=\"geschlecht2\" type=\"checkbox\" aria-invalid=\"true\"><label class=\"kern-label\" for=\"divers2\">Divers</label></div></div><p class=\"kern-error\" id=\"kern-input-error\"><span class=\"kern-icon kern-icon--danger\" aria-hidden=\"true\"></span><span class=\"kern-body\">Eine Auswahl muss getroffen werden</span></p></fieldset>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/CheckboxList/CheckboxList.stories.js",
+          "export": "CheckboxesListError"
+        }
+      }
+    }
+  ]
+}

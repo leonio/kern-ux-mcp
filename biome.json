@@ -9,6 +9,7 @@
 		"includes": [
 			"**",
 			"!packages/core/src/ux/registry.json",
+			"!knowledge",
 			"!docs/registry.schema.json",
 			"!docs/plan-v2/r5-eval",
 			"!samples/basic-layout/assets",

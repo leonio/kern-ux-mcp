@@ -1,0 +1,47 @@
+{
+  "id": "nav",
+  "title": {
+    "en": "Nav",
+    "de": "Nav"
+  },
+  "status": "docs-only",
+  "group": "navigation",
+  "synonyms": {
+    "de": []
+  },
+  "links": {
+    "docs": "https://www.kern-ux.de/komponenten/nav",
+    "figma": "https://www.figma.com/community/file/1624024563231427311"
+  },
+  "docs": {
+    "url": "https://www.kern-ux.de/komponenten/nav",
+    "summary": {
+      "en": "Nav gives users orientation and lets them switch between different content and areas of a site or application. It is the component that carries navigation between the parts of an interface."
+    },
+    "sections": []
+  },
+  "knowledge": {
+    "summary": {
+      "en": "Lets users orient themselves and switch between different content and areas of a site."
+    }
+  },
+  "implementations": {},
+  "provenance": {
+    "docs.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/nav.mdx"
+      ],
+      "inputHash": "sha256:d77063c39026ef74c1a88eceb8e7984d435af384d7798291c054f360bfa5c39d"
+    },
+    "knowledge.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/nav.mdx"
+      ],
+      "inputHash": "sha256:9d3dac3c15a8758174636d77e0f683bbf104c2032a5ac40acae6195f6bd00f44"
+    }
+  }
+}

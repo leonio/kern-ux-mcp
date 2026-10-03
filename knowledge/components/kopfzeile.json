@@ -1,0 +1,567 @@
+{
+  "id": "kopfzeile",
+  "title": {
+    "en": "Kopfzeile",
+    "de": "Kopfzeile"
+  },
+  "status": "stable",
+  "group": "branding",
+  "synonyms": {
+    "de": [
+      "Banner",
+      "Site Banner",
+      "Identifier"
+    ]
+  },
+  "links": {
+    "docs": "https://www.kern-ux.de/komponenten/kopfzeile",
+    "figma": "https://www.figma.com/community/file/1624024563231427311",
+    "source": "https://gitlab.opencode.de/kern-ux/kern-ux-plain/-/tree/v2.8.2/src/scss/core/components/_kopfzeile.scss"
+  },
+  "docs": {
+    "url": "https://www.kern-ux.de/komponenten/kopfzeile",
+    "summary": {
+      "en": "The Kopfzeile is one of the four elements of the digital umbrella brand and marks a website as an official public administration presence. It is a narrow coloured banner at the very top, with the German flag and the official wording beside it. Its parts are tested and must not be changed; it scrolls with the page and is never sticky."
+    },
+    "sections": [
+      {
+        "id": "kurzbeschreibung",
+        "heading": "Kurzbeschreibung",
+        "url": "https://www.kern-ux.de/komponenten/kopfzeile#kurzbeschreibung",
+        "summary": {
+          "en": "The Kopfzeile marks digital presences of public administration, such as authorities, online services and service portals."
+        }
+      },
+      {
+        "id": "container-kopfzeile",
+        "heading": "Container Kopfzeile",
+        "url": "https://www.kern-ux.de/komponenten/kopfzeile#container-kopfzeile",
+        "summary": {
+          "en": "Shows the markup for the container variant, where the bar spans the full browser width and the content aligns with the page container."
+        }
+      },
+      {
+        "id": "fluid-kopfzeile",
+        "heading": "Fluid Kopfzeile",
+        "url": "https://www.kern-ux.de/komponenten/kopfzeile#fluid-kopfzeile",
+        "summary": {
+          "en": "Shows the markup for the fluid variant, which has no side margin."
+        }
+      },
+      {
+        "id": "webkomponente",
+        "heading": "Webkomponente",
+        "url": "https://www.kern-ux.de/komponenten/kopfzeile#webkomponente",
+        "summary": {
+          "en": "Most KERN components are plain HTML and CSS for flexibility; the Kopfzeile is also shipped as a web component so it stays consistent and can be updated centrally instead of editing every page."
+        }
+      },
+      {
+        "id": "via-script-datei",
+        "heading": "Via Script-Datei:",
+        "url": "https://www.kern-ux.de/komponenten/kopfzeile#via-script-datei",
+        "summary": {
+          "en": "Shows how to load the web component from a script file or the CDN."
+        }
+      },
+      {
+        "id": "oder-via-npm-paket",
+        "heading": "Oder via NPM-Paket:",
+        "url": "https://www.kern-ux.de/komponenten/kopfzeile#oder-via-npm-paket",
+        "summary": {
+          "en": "Shows how to load the web component from the npm package."
+        }
+      },
+      {
+        "id": "standard",
+        "heading": "Standard:",
+        "url": "https://www.kern-ux.de/komponenten/kopfzeile#standard",
+        "summary": {
+          "en": "Shows the default markup of the Kopfzeile."
+        }
+      },
+      {
+        "id": "mit-eigenem-label-z-b-für-mandanten",
+        "heading": "Mit eigenem Label (z. B. für Mandanten):",
+        "url": "https://www.kern-ux.de/komponenten/kopfzeile#mit-eigenem-label-z-b-für-mandanten",
+        "summary": {
+          "en": "Shows the markup with a custom label, for example for a tenant."
+        }
+      },
+      {
+        "id": "mit-benutzerdefinierten-breakpoints",
+        "heading": "Mit benutzerdefinierten Breakpoints:",
+        "url": "https://www.kern-ux.de/komponenten/kopfzeile#mit-benutzerdefinierten-breakpoints",
+        "summary": {
+          "en": "Shows the markup with custom breakpoints."
+        }
+      },
+      {
+        "id": "mit-explizitem-theme",
+        "heading": "Mit explizitem Theme:",
+        "url": "https://www.kern-ux.de/komponenten/kopfzeile#mit-explizitem-theme",
+        "summary": {
+          "en": "Shows the markup with an explicitly set light or dark theme; by default the theme follows the user's system setting (prefers-color-scheme)."
+        }
+      },
+      {
+        "id": "inhalt-children",
+        "heading": "Inhalt (Children)",
+        "url": "https://www.kern-ux.de/komponenten/kopfzeile#inhalt-children",
+        "summary": {
+          "en": "The content between the tags can be a custom label; the default is the standard official wording."
+        }
+      },
+      {
+        "id": "beschreibung",
+        "heading": "Beschreibung",
+        "url": "https://www.kern-ux.de/komponenten/kopfzeile#beschreibung",
+        "summary": {
+          "en": "One of four elements of the digital umbrella brand, used voluntarily. The narrow top banner is a trust anchor: the German flag with the official wording to its right, on a full-width coloured background. The container variant aligns content left with the page grid, at most 1536 pixels wide."
+        }
+      },
+      {
+        "id": "verwendungsregeln",
+        "heading": "Verwendungsregeln",
+        "url": "https://www.kern-ux.de/komponenten/kopfzeile#verwendungsregeln",
+        "summary": {
+          "en": "Used on digital presences of authorities, online services and service portals; the placement at the very top lets users identify an official government offer immediately."
+        }
+      },
+      {
+        "id": "nutzen-der-kopfzeile",
+        "heading": "Nutzen der Kopfzeile",
+        "url": "https://www.kern-ux.de/komponenten/kopfzeile#nutzen-der-kopfzeile",
+        "summary": {
+          "en": "Three benefits: quick recognition, simple and inexpensive implementation, and a trust anchor."
+        }
+      },
+      {
+        "id": "beispiele",
+        "heading": "Beispiele",
+        "url": "https://www.kern-ux.de/komponenten/kopfzeile#beispiele",
+        "summary": {
+          "en": "Lists examples: Service Justiz, GOVDATA, the national feedback component and the Bundesportal."
+        }
+      },
+      {
+        "id": "dos-and-donts",
+        "heading": "Dos and Don’ts",
+        "url": "https://www.kern-ux.de/komponenten/kopfzeile#dos-and-donts",
+        "summary": {
+          "en": "Only public bodies may use it, aligned left with the main content area, usually done manually in code. Nothing may change in size, colour, font, content or position, and it belongs at the very top, never between content blocks or at the bottom. It scrolls with the content and is never sticky."
+        }
+      }
+    ]
+  },
+  "knowledge": {
+    "summary": {
+      "en": "Kopfzeile is the fixed top banner that marks a public administration site; none of its parts may be changed."
+    },
+    "whenToUse": [
+      {
+        "en": "Use it on authorities' sites, online services and service portals to identify an official government offer."
+      },
+      {
+        "en": "Use it to make an offer recognisable and trustworthy; using the umbrella brand elements is voluntary."
+      }
+    ],
+    "dos": [
+      {
+        "en": "Use the Kopfzeile only for digital presences of public bodies."
+      },
+      {
+        "en": "Place it at the very top and let it scroll with the content."
+      },
+      {
+        "en": "Align its content left with the main content area, usually done manually in code."
+      },
+      {
+        "en": "Leave size, colour, font, content and position exactly as delivered."
+      },
+      {
+        "en": "Use the container variant when the content should follow the page grid."
+      }
+    ],
+    "donts": [
+      {
+        "en": "Don't change any part of the banner: size, colour, font, content or position."
+      },
+      {
+        "en": "Don't place it between content blocks or at the bottom of the page."
+      },
+      {
+        "en": "Don't make the banner sticky."
+      },
+      {
+        "en": "Don't publish a custom design without agreement from the umbrella brand coordination group."
+      }
+    ]
+  },
+  "accessibility": [
+    {
+      "id": "contrast-enhanced",
+      "criterion": "1.4.6",
+      "slug": "contrast-enhanced",
+      "level": "AAA",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "non-text-contrast",
+      "criterion": "1.4.11",
+      "slug": "non-text-contrast",
+      "level": "AA",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    }
+  ],
+  "examples": [
+    {
+      "id": "kopfzeile-fluid",
+      "html": {
+        "markup": "<div class=\"kern-kopfzeile\"><div class=\"kern-container-fluid\"><div class=\"kern-kopfzeile__content\"><span class=\"kern-kopfzeile__flagge\" aria-hidden=\"true\"><svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 24 16\" style=\"max-width:24px\"><path fill=\"#000\" d=\"M0 .5h24v5.333H0z\" /><path fill=\"red\" d=\"M0 5.833h24v5.333H0z\" /><path fill=\"#FACA2C\" d=\"M0 11.167h24V16.5H0z\" /></svg></span><span class=\"kern-kopfzeile__label\"> Offizielle Website – Bundesrepublik Deutschland </span></div></div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Kopfzeile/Kopfzeile.stories.js",
+          "export": "KopfzeileFluid"
+        }
+      }
+    },
+    {
+      "id": "kopfzeile-container",
+      "html": {
+        "markup": "<div class=\"kern-kopfzeile\"><div class=\"kern-container\"><div class=\"kern-kopfzeile__content\"><span class=\"kern-kopfzeile__flagge\" aria-hidden=\"true\"><svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 24 16\" style=\"max-width:24px\"><path fill=\"#000\" d=\"M0 .5h24v5.333H0z\" /><path fill=\"red\" d=\"M0 5.833h24v5.333H0z\" /><path fill=\"#FACA2C\" d=\"M0 11.167h24V16.5H0z\" /></svg></span><span class=\"kern-kopfzeile__label\"> Offizielle Website – Bundesrepublik Deutschland </span></div></div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Kopfzeile/Kopfzeile.stories.js",
+          "export": "KopfzeileContainer"
+        }
+      }
+    },
+    {
+      "id": "kopfzeile-web-component",
+      "html": {
+        "markup": "<kern-kopfzeile></kern-kopfzeile>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Kopfzeile/Kopfzeile.stories.js",
+          "export": "KopfzeileWebComponent"
+        }
+      }
+    },
+    {
+      "id": "kopfzeile-web-component-fluid",
+      "html": {
+        "markup": "<kern-kopfzeile fluid></kern-kopfzeile>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Kopfzeile/Kopfzeile.stories.js",
+          "export": "KopfzeileWebComponentFluid"
+        }
+      }
+    },
+    {
+      "id": "kopfzeile-web-component-custom-label",
+      "html": {
+        "markup": "<kern-kopfzeile>Custom Label</kern-kopfzeile>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Kopfzeile/Kopfzeile.stories.js",
+          "export": "KopfzeileWebComponentCustomLabel"
+        }
+      }
+    },
+    {
+      "id": "kopfzeile-web-component-custom-brealpoints",
+      "html": {
+        "markup": "<kern-kopfzeile breakpoints=\"768px:720px, 1200px:1140px\"> Custom Breakpoints: 768px:720px, 1200px:1140px </kern-kopfzeile>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Kopfzeile/Kopfzeile.stories.js",
+          "export": "KopfzeileWebComponentCustomBrealpoints"
+        }
+      }
+    },
+    {
+      "id": "kopfzeile-web-component-dark",
+      "html": {
+        "markup": "<kern-kopfzeile theme=\"dark\">Dark Theme (Web Component)</kern-kopfzeile>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Kopfzeile/Kopfzeile.stories.js",
+          "export": "KopfzeileWebComponentDark"
+        }
+      }
+    }
+  ],
+  "moreExamples": {
+    "file": "kopfzeile.examples.json",
+    "count": 1
+  },
+  "implementations": {
+    "html": {
+      "package": "@kern-ux/native",
+      "version": "2.8.2",
+      "classes": {
+        "roots": [
+          "kern-kopfzeile"
+        ],
+        "elements": [
+          "kern-kopfzeile__content",
+          "kern-kopfzeile__flagge",
+          "kern-kopfzeile__label"
+        ]
+      },
+      "sources": [
+        "src/scss/core/components/_kopfzeile.scss",
+        "stories/Kopfzeile/Kopfzeile.stories.js"
+      ]
+    },
+    "react": {
+      "package": "@publicplan/kern-react-kit",
+      "version": "1.3.5",
+      "import": "import { Kopfzeile } from '@publicplan/kern-react-kit'",
+      "components": [
+        "Kopfzeile"
+      ],
+      "sources": [
+        "src/components/Kopfzeile"
+      ]
+    }
+  },
+  "provenance": {
+    "docs.sections.beispiele.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/kopfzeile.mdx#beispiele"
+      ],
+      "inputHash": "sha256:4b64b139c6169037ded2d74ec0be0b45e50f77496d62bc071f82194bceab6a7b"
+    },
+    "docs.sections.beschreibung.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/kopfzeile.mdx#beschreibung"
+      ],
+      "inputHash": "sha256:4b64b139c6169037ded2d74ec0be0b45e50f77496d62bc071f82194bceab6a7b"
+    },
+    "docs.sections.container-kopfzeile.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/kopfzeile.mdx#container-kopfzeile"
+      ],
+      "inputHash": "sha256:4b64b139c6169037ded2d74ec0be0b45e50f77496d62bc071f82194bceab6a7b"
+    },
+    "docs.sections.dos-and-donts.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/kopfzeile.mdx#dos-and-donts"
+      ],
+      "inputHash": "sha256:4b64b139c6169037ded2d74ec0be0b45e50f77496d62bc071f82194bceab6a7b"
+    },
+    "docs.sections.fluid-kopfzeile.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/kopfzeile.mdx#fluid-kopfzeile"
+      ],
+      "inputHash": "sha256:4b64b139c6169037ded2d74ec0be0b45e50f77496d62bc071f82194bceab6a7b"
+    },
+    "docs.sections.inhalt-children.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/kopfzeile.mdx#inhalt-children"
+      ],
+      "inputHash": "sha256:4b64b139c6169037ded2d74ec0be0b45e50f77496d62bc071f82194bceab6a7b"
+    },
+    "docs.sections.kurzbeschreibung.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/kopfzeile.mdx#kurzbeschreibung"
+      ],
+      "inputHash": "sha256:4b64b139c6169037ded2d74ec0be0b45e50f77496d62bc071f82194bceab6a7b"
+    },
+    "docs.sections.mit-benutzerdefinierten-breakpoints.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/kopfzeile.mdx#mit-benutzerdefinierten-breakpoints"
+      ],
+      "inputHash": "sha256:4b64b139c6169037ded2d74ec0be0b45e50f77496d62bc071f82194bceab6a7b"
+    },
+    "docs.sections.mit-eigenem-label-z-b-für-mandanten.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/kopfzeile.mdx#mit-eigenem-label-z-b-für-mandanten"
+      ],
+      "inputHash": "sha256:4b64b139c6169037ded2d74ec0be0b45e50f77496d62bc071f82194bceab6a7b"
+    },
+    "docs.sections.mit-explizitem-theme.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/kopfzeile.mdx#mit-explizitem-theme"
+      ],
+      "inputHash": "sha256:4b64b139c6169037ded2d74ec0be0b45e50f77496d62bc071f82194bceab6a7b"
+    },
+    "docs.sections.nutzen-der-kopfzeile.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/kopfzeile.mdx#nutzen-der-kopfzeile"
+      ],
+      "inputHash": "sha256:4b64b139c6169037ded2d74ec0be0b45e50f77496d62bc071f82194bceab6a7b"
+    },
+    "docs.sections.oder-via-npm-paket.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/kopfzeile.mdx#oder-via-npm-paket"
+      ],
+      "inputHash": "sha256:4b64b139c6169037ded2d74ec0be0b45e50f77496d62bc071f82194bceab6a7b"
+    },
+    "docs.sections.standard.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/kopfzeile.mdx#standard"
+      ],
+      "inputHash": "sha256:4b64b139c6169037ded2d74ec0be0b45e50f77496d62bc071f82194bceab6a7b"
+    },
+    "docs.sections.verwendungsregeln.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/kopfzeile.mdx#verwendungsregeln"
+      ],
+      "inputHash": "sha256:4b64b139c6169037ded2d74ec0be0b45e50f77496d62bc071f82194bceab6a7b"
+    },
+    "docs.sections.via-script-datei.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/kopfzeile.mdx#via-script-datei"
+      ],
+      "inputHash": "sha256:4b64b139c6169037ded2d74ec0be0b45e50f77496d62bc071f82194bceab6a7b"
+    },
+    "docs.sections.webkomponente.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/kopfzeile.mdx#webkomponente"
+      ],
+      "inputHash": "sha256:4b64b139c6169037ded2d74ec0be0b45e50f77496d62bc071f82194bceab6a7b"
+    },
+    "docs.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/kopfzeile.mdx"
+      ],
+      "inputHash": "sha256:4b64b139c6169037ded2d74ec0be0b45e50f77496d62bc071f82194bceab6a7b"
+    },
+    "knowledge.donts.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/kopfzeile.mdx"
+      ],
+      "inputHash": "sha256:b4c2636a14332284d5d4b70f05ae95ab814ce675f931fcdb58ebbfa5a469f718"
+    },
+    "knowledge.donts.1": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/kopfzeile.mdx"
+      ],
+      "inputHash": "sha256:b4c2636a14332284d5d4b70f05ae95ab814ce675f931fcdb58ebbfa5a469f718"
+    },
+    "knowledge.donts.2": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/kopfzeile.mdx"
+      ],
+      "inputHash": "sha256:b4c2636a14332284d5d4b70f05ae95ab814ce675f931fcdb58ebbfa5a469f718"
+    },
+    "knowledge.donts.3": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/kopfzeile.mdx"
+      ],
+      "inputHash": "sha256:b4c2636a14332284d5d4b70f05ae95ab814ce675f931fcdb58ebbfa5a469f718"
+    },
+    "knowledge.dos.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/kopfzeile.mdx"
+      ],
+      "inputHash": "sha256:b4c2636a14332284d5d4b70f05ae95ab814ce675f931fcdb58ebbfa5a469f718"
+    },
+    "knowledge.dos.1": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/kopfzeile.mdx"
+      ],
+      "inputHash": "sha256:b4c2636a14332284d5d4b70f05ae95ab814ce675f931fcdb58ebbfa5a469f718"
+    },
+    "knowledge.dos.2": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/kopfzeile.mdx"
+      ],
+      "inputHash": "sha256:b4c2636a14332284d5d4b70f05ae95ab814ce675f931fcdb58ebbfa5a469f718"
+    },
+    "knowledge.dos.3": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/kopfzeile.mdx"
+      ],
+      "inputHash": "sha256:b4c2636a14332284d5d4b70f05ae95ab814ce675f931fcdb58ebbfa5a469f718"
+    },
+    "knowledge.dos.4": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/kopfzeile.mdx"
+      ],
+      "inputHash": "sha256:b4c2636a14332284d5d4b70f05ae95ab814ce675f931fcdb58ebbfa5a469f718"
+    },
+    "knowledge.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/kopfzeile.mdx"
+      ],
+      "inputHash": "sha256:b4c2636a14332284d5d4b70f05ae95ab814ce675f931fcdb58ebbfa5a469f718"
+    },
+    "knowledge.whenToUse.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/kopfzeile.mdx"
+      ],
+      "inputHash": "sha256:b4c2636a14332284d5d4b70f05ae95ab814ce675f931fcdb58ebbfa5a469f718"
+    },
+    "knowledge.whenToUse.1": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/kopfzeile.mdx"
+      ],
+      "inputHash": "sha256:b4c2636a14332284d5d4b70f05ae95ab814ce675f931fcdb58ebbfa5a469f718"
+    }
+  }
+}

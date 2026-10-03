@@ -1,0 +1,441 @@
+{
+  "id": "list",
+  "title": {
+    "en": "List",
+    "de": "List"
+  },
+  "status": "experimental",
+  "group": "text",
+  "synonyms": {
+    "de": [
+      "Liste",
+      "Aufzählung",
+      "Auflistung"
+    ]
+  },
+  "links": {
+    "docs": "https://www.kern-ux.de/komponenten/text/list",
+    "figma": "https://www.figma.com/community/file/1624024563231427311",
+    "source": "https://gitlab.opencode.de/kern-ux/kern-ux-plain/-/tree/v2.8.2/src/scss/core/typography/_list.scss"
+  },
+  "docs": {
+    "url": "https://www.kern-ux.de/komponenten/text/list",
+    "summary": {
+      "en": "List structures related content into ordered, unordered or description lists, which makes the content easier to scan and compare. It offers the marker styles none, bullet and number, three sizes, and a horizontal layout. The usage rules and Dos and Don'ts for the component are not published yet."
+    },
+    "sections": [
+      {
+        "id": "kurzbeschreibung",
+        "heading": "Kurzbeschreibung",
+        "url": "https://www.kern-ux.de/komponenten/text/list#kurzbeschreibung",
+        "summary": {
+          "en": "Lists structure related content into ordered, unordered or description lists for better readability and clarity."
+        }
+      },
+      {
+        "id": "beschreibung",
+        "heading": "Beschreibung",
+        "url": "https://www.kern-ux.de/komponenten/text/list#beschreibung",
+        "summary": {
+          "en": "Lists are a fundamental element for structuring content; they present related information clearly and improve readability."
+        }
+      },
+      {
+        "id": "verwendungsregeln",
+        "heading": "Verwendungsregeln",
+        "url": "https://www.kern-ux.de/komponenten/text/list#verwendungsregeln",
+        "summary": {
+          "en": "The usage rules for List are not published in the documentation yet; the section is a placeholder."
+        }
+      },
+      {
+        "id": "dos-and-donts",
+        "heading": "Do's and Don'ts",
+        "url": "https://www.kern-ux.de/komponenten/text/list#dos-and-donts",
+        "summary": {
+          "en": "The Dos and Don'ts for List are not published in the documentation yet; the section is a placeholder."
+        }
+      }
+    ]
+  },
+  "knowledge": {
+    "summary": {
+      "en": "List groups related items as a bulleted, numbered or plain list, in three sizes or a horizontal layout."
+    },
+    "similar": [
+      {
+        "id": "table"
+      },
+      {
+        "id": "accordion"
+      }
+    ]
+  },
+  "options": [
+    {
+      "id": "marker",
+      "kind": "enum",
+      "origin": "curated",
+      "values": [
+        {
+          "id": "none",
+          "default": true
+        },
+        {
+          "id": "bullet"
+        },
+        {
+          "id": "number"
+        }
+      ],
+      "html": {
+        "binding": "modifier",
+        "pattern": "kern-list--{value}",
+        "omit": [
+          "none"
+        ]
+      }
+    },
+    {
+      "id": "size",
+      "kind": "enum",
+      "origin": "curated",
+      "values": [
+        {
+          "id": "small"
+        },
+        {
+          "id": "default",
+          "default": true
+        },
+        {
+          "id": "large"
+        }
+      ],
+      "html": {
+        "binding": "modifier",
+        "pattern": "kern-list--{value}",
+        "omit": [
+          "default"
+        ]
+      }
+    },
+    {
+      "id": "horizontal",
+      "kind": "boolean",
+      "origin": "curated",
+      "html": {
+        "binding": "modifier",
+        "class": "kern-list--horizontal"
+      }
+    }
+  ],
+  "accessibility": [
+    {
+      "id": "info-and-relationships",
+      "criterion": "1.3.1",
+      "slug": "info-and-relationships",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-11-21"
+    },
+    {
+      "id": "info-and-relationships-2",
+      "criterion": "1.3.1",
+      "slug": "info-and-relationships",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-11-21"
+    },
+    {
+      "id": "non-text-content",
+      "criterion": "1.1.1",
+      "slug": "non-text-content",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-11-21"
+    },
+    {
+      "id": "contrast-enhanced",
+      "criterion": "1.4.6",
+      "slug": "contrast-enhanced",
+      "level": "AAA",
+      "status": "passed",
+      "lastChecked": "2025-11-21"
+    },
+    {
+      "id": "keyboard",
+      "criterion": "2.1.1",
+      "slug": "keyboard",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-11-21"
+    },
+    {
+      "id": "focus-order",
+      "criterion": "2.4.3",
+      "slug": "focus-order",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-11-21"
+    },
+    {
+      "id": "target-size-enhanced",
+      "criterion": "2.5.5",
+      "slug": "target-size-enhanced",
+      "level": "AAA",
+      "status": "passed",
+      "lastChecked": "2025-11-21"
+    },
+    {
+      "id": "labels-or-instructions",
+      "criterion": "3.3.2",
+      "slug": "labels-or-instructions",
+      "level": "A",
+      "status": "implementation-dependent",
+      "lastChecked": "2025-11-21"
+    },
+    {
+      "id": "use-of-color",
+      "criterion": "1.4.1",
+      "slug": "use-of-color",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-11-21"
+    },
+    {
+      "id": "focus-appearance",
+      "criterion": "2.4.13",
+      "slug": "focus-appearance",
+      "level": "AAA",
+      "status": "passed",
+      "lastChecked": "2025-11-21"
+    },
+    {
+      "id": "parsing",
+      "criterion": "4.1.1",
+      "slug": "parsing",
+      "status": "passed",
+      "lastChecked": "2025-11-21"
+    }
+  ],
+  "examples": [
+    {
+      "id": "list",
+      "options": {
+        "marker": "none",
+        "size": "default"
+      },
+      "html": {
+        "markup": "<ul class=\"kern-list\"><li><a class=\"kern-link\" href=\"#\"><span class=\"kern-icon kern-icon--arrow-forward\" aria-hidden=\"true\"></span> Ein weitere Link </a></li><li><a class=\"kern-link\" href=\"#\"><span class=\"kern-icon kern-icon--arrow-forward\" aria-hidden=\"true\"></span> Dataport Homepage </a></li><li><a class=\"kern-link\" href=\"#\"><span class=\"kern-icon kern-icon--arrow-forward\" aria-hidden=\"true\"></span> Link zu Dokumentation </a></li><li><a class=\"kern-link\" href=\"#\"><span class=\"kern-icon kern-icon--arrow-forward\" aria-hidden=\"true\"></span> More </a></li></ul>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Lists/Lists.stories.js",
+          "export": "List"
+        }
+      }
+    },
+    {
+      "id": "list-small",
+      "options": {
+        "marker": "none",
+        "size": "small"
+      },
+      "html": {
+        "markup": "<ul class=\"kern-list kern-list--small\"><li><a class=\"kern-link\" href=\"#\"><span class=\"kern-icon kern-icon--arrow-forward\" aria-hidden=\"true\"></span> Ein weitere Link </a></li><li><a class=\"kern-link\" href=\"#\"><span class=\"kern-icon kern-icon--arrow-forward\" aria-hidden=\"true\"></span> Dataport Homepage </a></li><li><a class=\"kern-link\" href=\"#\"><span class=\"kern-icon kern-icon--arrow-forward\" aria-hidden=\"true\"></span> Link zu Dokumentation </a></li><li><a class=\"kern-link\" href=\"#\"><span class=\"kern-icon kern-icon--arrow-forward\" aria-hidden=\"true\"></span> More </a></li></ul>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Lists/Lists.stories.js",
+          "export": "ListSmall"
+        }
+      }
+    },
+    {
+      "id": "list-horizontal",
+      "options": {
+        "horizontal": true,
+        "marker": "none",
+        "size": "default"
+      },
+      "html": {
+        "markup": "<ul class=\"kern-list kern-list--horizontal\"><li><a class=\"kern-link\" href=\"#\"><span class=\"kern-icon kern-icon--arrow-forward\" aria-hidden=\"true\"></span> Ein weitere Link </a></li><li><a class=\"kern-link\" href=\"#\"><span class=\"kern-icon kern-icon--arrow-forward\" aria-hidden=\"true\"></span> Dataport Homepage </a></li><li><a class=\"kern-link\" href=\"#\"><span class=\"kern-icon kern-icon--arrow-forward\" aria-hidden=\"true\"></span> Link zu Dokumentation </a></li><li><a class=\"kern-link\" href=\"#\"><span class=\"kern-icon kern-icon--arrow-forward\" aria-hidden=\"true\"></span> More </a></li></ul>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Lists/Lists.stories.js",
+          "export": "ListHorizontal"
+        }
+      }
+    },
+    {
+      "id": "bullet-list",
+      "options": {
+        "marker": "bullet",
+        "size": "default"
+      },
+      "html": {
+        "markup": "<p class=\"kern-body kern-body--bold\">Was wollen wie erreichen:</p><ul class=\"kern-list kern-list--bullet\"><li>Wir wollen den digital zugänglichen Staat: barrierefrei, transparent und intuitiv nutzbar für alle Bürger:innen, Institutionen und Unternehmen im Land</li><li>Darum arbeiten wir länderübergreifend an einem technologisch unabhängigen Open Source Design System für Kommunal- bis Bundesebene</li><li>So befähigen wir Umsetzende, effizient digitale Verwaltungslösungen zu entwickeln, die durch die Qualität und Vereinheitlichung auf das Serviceerlebnis und Vertrauen der Nutzer:innen einzahlen</li></ul>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Lists/Lists.stories.js",
+          "export": "BulletList"
+        }
+      }
+    },
+    {
+      "id": "bullet-list-small",
+      "options": {
+        "marker": "bullet",
+        "size": "small"
+      },
+      "html": {
+        "markup": "<ul class=\"kern-list kern-list--bullet kern-list--small\"><li>Wir wollen den digital zugänglichen Staat: barrierefrei, transparent und intuitiv nutzbar für alle Bürger:innen, Institutionen und Unternehmen im Land</li><li>Darum arbeiten wir länderübergreifend an einem technologisch unabhängigen Open Source Design System für Kommunal- bis Bundesebene</li><li>So befähigen wir Umsetzende, effizient digitale Verwaltungslösungen zu entwickeln, die durch die Qualität und Vereinheitlichung auf das Serviceerlebnis und Vertrauen der Nutzer:innen einzahlen</li></ul>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Lists/Lists.stories.js",
+          "export": "BulletListSmall"
+        }
+      }
+    },
+    {
+      "id": "bullet-list-large",
+      "options": {
+        "marker": "bullet",
+        "size": "large"
+      },
+      "html": {
+        "markup": "<ul class=\"kern-list kern-list--bullet kern-list--large\"><li>Wir wollen den digital zugänglichen Staat: barrierefrei, transparent und intuitiv nutzbar für alle Bürger:innen, Institutionen und Unternehmen im Land</li><li>Darum arbeiten wir länderübergreifend an einem technologisch unabhängigen Open Source Design System für Kommunal- bis Bundesebene</li><li>So befähigen wir Umsetzende, effizient digitale Verwaltungslösungen zu entwickeln, die durch die Qualität und Vereinheitlichung auf das Serviceerlebnis und Vertrauen der Nutzer:innen einzahlen</li></ul>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Lists/Lists.stories.js",
+          "export": "BulletListLarge"
+        }
+      }
+    },
+    {
+      "id": "number-lists",
+      "options": {
+        "marker": "number",
+        "size": "default"
+      },
+      "html": {
+        "markup": "<ol class=\"kern-list kern-list--number\"><li>Wir wollen den digital zugänglichen Staat: barrierefrei, transparent und intuitiv nutzbar für alle Bürger:innen, Institutionen und Unternehmen im Land.</li><li>Darum arbeiten wir länderübergreifend an einem technologisch unabhängigen Open Source Design System für Kommunal- bis Bundesebene.</li><li>So befähigen wir Umsetzende, effizient digitale Verwaltungslösungen zu entwickeln, die durch die Qualität und Vereinheitlichung auf das Serviceerlebnis und Vertrauen der Nutzer:innen einzahlen.</li></ol>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Lists/Lists.stories.js",
+          "export": "NumberLists"
+        }
+      }
+    },
+    {
+      "id": "number-lists-small",
+      "options": {
+        "marker": "number",
+        "size": "small"
+      },
+      "html": {
+        "markup": "<ol class=\"kern-list kern-list--number kern-list--small\"><li>Wir wollen den digital zugänglichen Staat: barrierefrei, transparent und intuitiv nutzbar für alle Bürger:innen, Institutionen und Unternehmen im Land.</li><li>Darum arbeiten wir länderübergreifend an einem technologisch unabhängigen Open Source Design System für Kommunal- bis Bundesebene.</li><li>So befähigen wir Umsetzende, effizient digitale Verwaltungslösungen zu entwickeln, die durch die Qualität und Vereinheitlichung auf das Serviceerlebnis und Vertrauen der Nutzer:innen einzahlen.</li></ol>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Lists/Lists.stories.js",
+          "export": "NumberListsSmall"
+        }
+      }
+    },
+    {
+      "id": "number-lists-large",
+      "options": {
+        "marker": "number",
+        "size": "large"
+      },
+      "html": {
+        "markup": "<ol class=\"kern-list kern-list--number kern-list--large\"><li>Wir wollen den digital zugänglichen Staat: barrierefrei, transparent und intuitiv nutzbar für alle Bürger:innen, Institutionen und Unternehmen im Land.</li><li>Darum arbeiten wir länderübergreifend an einem technologisch unabhängigen Open Source Design System für Kommunal- bis Bundesebene.</li><li>So befähigen wir Umsetzende, effizient digitale Verwaltungslösungen zu entwickeln, die durch die Qualität und Vereinheitlichung auf das Serviceerlebnis und Vertrauen der Nutzer:innen einzahlen.</li></ol>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Lists/Lists.stories.js",
+          "export": "NumberListsLarge"
+        }
+      }
+    }
+  ],
+  "implementations": {
+    "html": {
+      "package": "@kern-ux/native",
+      "version": "2.8.2",
+      "classes": {
+        "roots": [
+          "kern-list"
+        ],
+        "modifiers": [
+          "kern-list--bullet",
+          "kern-list--horizontal",
+          "kern-list--large",
+          "kern-list--number",
+          "kern-list--small"
+        ]
+      },
+      "sources": [
+        "src/scss/core/typography/_list.scss",
+        "stories/Lists/Lists.stories.js"
+      ]
+    },
+    "react": {
+      "package": "@publicplan/kern-react-kit",
+      "version": "1.3.5",
+      "import": "import from '@publicplan/kern-react-kit'",
+      "components": [],
+      "sources": [
+        "src/components/Lists"
+      ]
+    }
+  },
+  "provenance": {
+    "docs.sections.beschreibung.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/text/list.mdx#beschreibung"
+      ],
+      "inputHash": "sha256:3f9f5e87a562df0e71a7b82ba2ea3f848cfec028b24f6c805cf143640b043938"
+    },
+    "docs.sections.dos-and-donts.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/text/list.mdx#dos-and-donts"
+      ],
+      "inputHash": "sha256:3f9f5e87a562df0e71a7b82ba2ea3f848cfec028b24f6c805cf143640b043938"
+    },
+    "docs.sections.kurzbeschreibung.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/text/list.mdx#kurzbeschreibung"
+      ],
+      "inputHash": "sha256:3f9f5e87a562df0e71a7b82ba2ea3f848cfec028b24f6c805cf143640b043938"
+    },
+    "docs.sections.verwendungsregeln.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/text/list.mdx#verwendungsregeln"
+      ],
+      "inputHash": "sha256:3f9f5e87a562df0e71a7b82ba2ea3f848cfec028b24f6c805cf143640b043938"
+    },
+    "docs.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/text/list.mdx"
+      ],
+      "inputHash": "sha256:3f9f5e87a562df0e71a7b82ba2ea3f848cfec028b24f6c805cf143640b043938"
+    },
+    "knowledge.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/text/list.mdx"
+      ],
+      "inputHash": "sha256:c18cf1ec741308d845ce689b8b36e1be75cde0b00eae6980957db059e817c812"
+    }
+  }
+}

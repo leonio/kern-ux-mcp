@@ -1,0 +1,201 @@
+{
+  "id": "typography",
+  "title": {
+    "en": "Typography",
+    "de": "Typografie"
+  },
+  "group": "Foundations",
+  "status": "documented",
+  "links": {
+    "docs": "https://www.kern-ux.de/design-system/foundations/typografie"
+  },
+  "docs": {
+    "url": "https://www.kern-ux.de/design-system/foundations/typografie",
+    "summary": {
+      "en": "KERN typography uses semantic tokens, not fixed values. The scale covers headings and body text and is set in rem so text scales accessibly. Fira Sans is the only typeface, chosen for legibility and language coverage. Sizes and line heights are named per mobile and desktop, each size paired with a line height, and line heights are multiples of 8px. Weights are 400, 500 and 600. Composite tokens bundle these values into the text roles Heading, Title, Preline, Subline, Label and Body."
+    },
+    "sections": [
+      {
+        "id": "typografieskala",
+        "heading": "Typografieskala",
+        "url": "https://www.kern-ux.de/design-system/foundations/typografie#typografieskala",
+        "summary": {
+          "en": "The type scale is the basis for consistent font sizes across headings, body text and other elements and keeps typography consistent in responsive applications. The frontend uses the relative unit rem so sizes and line heights scale accessibly; pixel values are shown for readability."
+        }
+      },
+      {
+        "id": "semantische-token",
+        "heading": "Semantische Token",
+        "url": "https://www.kern-ux.de/design-system/foundations/typografie#semantische-token",
+        "summary": {
+          "en": "Semantic tokens keep typography consistent and accessible across the system. They describe the functional purpose of a text style as well as concrete values such as font size or line height, independent of output medium, and follow the general naming principle from the design-token section."
+        }
+      },
+      {
+        "id": "schriftfamilie",
+        "heading": "Schriftfamilie",
+        "url": "https://www.kern-ux.de/design-system/foundations/typografie#schriftfamilie",
+        "summary": {
+          "en": "Fira Sans is the typeface. It suits accessible design because it is easy to read, covers all characters and languages, is freely available and is hosted by Google through Google Fonts."
+        }
+      },
+      {
+        "id": "schriftgrößen",
+        "heading": "Schriftgrößen",
+        "url": "https://www.kern-ux.de/design-system/foundations/typografie#schriftgrößen",
+        "summary": {
+          "en": "Font sizes are semantically named for smaller and larger screens, each paired with a line height. Adaptive tokens scale with the viewport: 2x-large 48px to 72px, x-large 32px to 48px, large 26px to 32px, medium 21px to 24px. Static tokens stay fixed: large 21px, medium 18px, small 16px."
+        }
+      },
+      {
+        "id": "zeilenabstände",
+        "heading": "Zeilenabstände",
+        "url": "https://www.kern-ux.de/design-system/foundations/typografie#zeilenabstände",
+        "summary": {
+          "en": "Line height is the vertical space between two text lines and drives readability, rhythm and visual balance. All values are multiples of 8px and fit the 8-point grid. Tokens run from --kern-typography-line-height-adaptive-2x-large (56px mobile, 80px desktop) down to static-medium at 24px."
+        }
+      },
+      {
+        "id": "schriftschnitte",
+        "heading": "Schriftschnitte",
+        "url": "https://www.kern-ux.de/design-system/foundations/typografie#schriftschnitte",
+        "summary": {
+          "en": "The font weight sets how thick the type is and shapes both visual hierarchy and readability, so weights can emphasise content or structure sections. All weights are based on Fira Sans and stay legible at small sizes: regular 400, medium 500 and semi-bold 600."
+        }
+      },
+      {
+        "id": "composite-token",
+        "heading": "Composite Token",
+        "url": "https://www.kern-ux.de/design-system/foundations/typografie#composite-token",
+        "summary": {
+          "en": "A composite token bundles values such as family, size, line height and weight into one text style. Styles run from heading-display to label steps; baseline tokens align text components within a size step and put spacing on the 8-point grid. Roles: Heading, Title, Preline, Subline, Label, Body."
+        }
+      }
+    ]
+  },
+  "knowledge": {
+    "summary": {
+      "en": "Typography uses Fira Sans with semantic size, line-height and weight tokens; sizes scale between mobile and desktop and line heights are multiples of 8px."
+    },
+    "dos": [
+      {
+        "en": "Use the relative unit rem for font sizes and line heights so text scales accessibly."
+      },
+      {
+        "en": "Apply composite tokens as complete text styles, since their values are meant to be used together."
+      },
+      {
+        "en": "Keep line-height values on multiples of 8px so they fit the 8-point grid."
+      },
+      {
+        "en": "Use the baseline tokens so text components in the same size step line up directly."
+      }
+    ]
+  },
+  "provenance": {
+    "docs.sections.composite-token.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/typografie.mdx#composite-token"
+      ],
+      "inputHash": "sha256:829c6c97a7f1cbe163c53afcd967324b60aa32ef5d3b5d7112f4fedc3aeb545d"
+    },
+    "docs.sections.schriftfamilie.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/typografie.mdx#schriftfamilie"
+      ],
+      "inputHash": "sha256:829c6c97a7f1cbe163c53afcd967324b60aa32ef5d3b5d7112f4fedc3aeb545d"
+    },
+    "docs.sections.schriftgrößen.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/typografie.mdx#schriftgrößen"
+      ],
+      "inputHash": "sha256:829c6c97a7f1cbe163c53afcd967324b60aa32ef5d3b5d7112f4fedc3aeb545d"
+    },
+    "docs.sections.schriftschnitte.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/typografie.mdx#schriftschnitte"
+      ],
+      "inputHash": "sha256:829c6c97a7f1cbe163c53afcd967324b60aa32ef5d3b5d7112f4fedc3aeb545d"
+    },
+    "docs.sections.semantische-token.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/typografie.mdx#semantische-token"
+      ],
+      "inputHash": "sha256:829c6c97a7f1cbe163c53afcd967324b60aa32ef5d3b5d7112f4fedc3aeb545d"
+    },
+    "docs.sections.typografieskala.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/typografie.mdx#typografieskala"
+      ],
+      "inputHash": "sha256:829c6c97a7f1cbe163c53afcd967324b60aa32ef5d3b5d7112f4fedc3aeb545d"
+    },
+    "docs.sections.zeilenabstände.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/typografie.mdx#zeilenabstände"
+      ],
+      "inputHash": "sha256:829c6c97a7f1cbe163c53afcd967324b60aa32ef5d3b5d7112f4fedc3aeb545d"
+    },
+    "docs.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/typografie.mdx"
+      ],
+      "inputHash": "sha256:829c6c97a7f1cbe163c53afcd967324b60aa32ef5d3b5d7112f4fedc3aeb545d"
+    },
+    "knowledge.dos.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/typografie.mdx"
+      ],
+      "inputHash": "sha256:7054f17e04b4cfba0a22863c7abdb6b09ddace7df821e8f07d004574e66e8954"
+    },
+    "knowledge.dos.1": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/typografie.mdx"
+      ],
+      "inputHash": "sha256:7054f17e04b4cfba0a22863c7abdb6b09ddace7df821e8f07d004574e66e8954"
+    },
+    "knowledge.dos.2": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/typografie.mdx"
+      ],
+      "inputHash": "sha256:7054f17e04b4cfba0a22863c7abdb6b09ddace7df821e8f07d004574e66e8954"
+    },
+    "knowledge.dos.3": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/typografie.mdx"
+      ],
+      "inputHash": "sha256:7054f17e04b4cfba0a22863c7abdb6b09ddace7df821e8f07d004574e66e8954"
+    },
+    "knowledge.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/typografie.mdx"
+      ],
+      "inputHash": "sha256:7054f17e04b4cfba0a22863c7abdb6b09ddace7df821e8f07d004574e66e8954"
+    }
+  }
+}

@@ -1,0 +1,107 @@
+{
+  "id": "interaction",
+  "title": {
+    "en": "Interaction",
+    "de": "Interaktion"
+  },
+  "group": "Foundations",
+  "status": "documented",
+  "links": {
+    "docs": "https://www.kern-ux.de/design-system/foundations/interaktion"
+  },
+  "docs": {
+    "url": "https://www.kern-ux.de/design-system/foundations/interaktion",
+    "summary": {
+      "en": "KERN splits interactive elements into controls, which trigger an action immediately, and inputs, which collect data and usually need separate confirmation. The split shows up in the styling: controls use the action colour tokens, inputs the form-input tokens, so users can tell at a glance whether a screen asks them to act or to enter something."
+    },
+    "sections": [
+      {
+        "id": "auszeichnung-von-interaktiven-elementen",
+        "heading": "Auszeichnung von interaktiven Elementen",
+        "url": "https://www.kern-ux.de/design-system/foundations/interaktion#auszeichnung-von-interaktiven-elementen",
+        "summary": {
+          "en": "Interactive elements fall into two groups, controls and inputs. The distinction is functional and is mirrored in the visual design with dedicated tokens, which keeps user guidance clear."
+        }
+      },
+      {
+        "id": "steuerungs-elemente",
+        "heading": "Steuerungs-Elemente",
+        "url": "https://www.kern-ux.de/design-system/foundations/interaktion#steuerungs-elemente",
+        "summary": {
+          "en": "Controls trigger an action straight away, such as buttons and links that confirm, open, move or filter. They use --kern-color-action-* tokens for background and text; how much of the action colour is applied signals priority, from filled primary to outlined secondary to text-only tertiary."
+        }
+      },
+      {
+        "id": "eingabe-elemente",
+        "heading": "Eingabe-Elemente",
+        "url": "https://www.kern-ux.de/design-system/foundations/interaktion#eingabe-elemente",
+        "summary": {
+          "en": "Inputs collect data from users, including text fields, checkboxes and radios. They usually are not tied to an action and need separate confirmation such as a \"Continue\" button. They use the --kern-color-form-input-* tokens, with text following the general layout text tokens."
+        }
+      },
+      {
+        "id": "beispiel-für-die-anwendung-der-verschiedenen-token",
+        "heading": "Beispiel für die Anwendung der verschiedenen Token",
+        "url": "https://www.kern-ux.de/design-system/foundations/interaktion#beispiel-für-die-anwendung-der-verschiedenen-token",
+        "summary": {
+          "en": "Input File shows both kinds at once: its field and label are inputs and use the form-input tokens, while the button that opens the file browser is a control using the action tokens, since it acts immediately. KERN asks authors to keep this token logic so users can tell an action from data entry."
+        }
+      }
+    ]
+  },
+  "knowledge": {
+    "summary": {
+      "en": "Controls trigger actions and use the action tokens; inputs collect data, need confirmation, and use the form-input tokens."
+    }
+  },
+  "provenance": {
+    "docs.sections.auszeichnung-von-interaktiven-elementen.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/interaktion.mdx#auszeichnung-von-interaktiven-elementen"
+      ],
+      "inputHash": "sha256:45cc636bd159d554d37245e741db6f463bc55d09088aaff540c3454e420be514"
+    },
+    "docs.sections.beispiel-für-die-anwendung-der-verschiedenen-token.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/interaktion.mdx#beispiel-für-die-anwendung-der-verschiedenen-token"
+      ],
+      "inputHash": "sha256:45cc636bd159d554d37245e741db6f463bc55d09088aaff540c3454e420be514"
+    },
+    "docs.sections.eingabe-elemente.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/interaktion.mdx#eingabe-elemente"
+      ],
+      "inputHash": "sha256:45cc636bd159d554d37245e741db6f463bc55d09088aaff540c3454e420be514"
+    },
+    "docs.sections.steuerungs-elemente.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/interaktion.mdx#steuerungs-elemente"
+      ],
+      "inputHash": "sha256:45cc636bd159d554d37245e741db6f463bc55d09088aaff540c3454e420be514"
+    },
+    "docs.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/interaktion.mdx"
+      ],
+      "inputHash": "sha256:45cc636bd159d554d37245e741db6f463bc55d09088aaff540c3454e420be514"
+    },
+    "knowledge.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/interaktion.mdx"
+      ],
+      "inputHash": "sha256:ae099bcc4921bcf53be599e8e9d074d3b692735aa8a9b05d1219a02f8dc86752"
+    }
+  }
+}

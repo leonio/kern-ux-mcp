@@ -1,0 +1,216 @@
+{
+  "id": "layout",
+  "title": {
+    "en": "Layout",
+    "de": "Layout"
+  },
+  "group": "Foundations",
+  "status": "documented",
+  "links": {
+    "docs": "https://www.kern-ux.de/design-system/foundations/layout"
+  },
+  "docs": {
+    "url": "https://www.kern-ux.de/design-system/foundations/layout",
+    "summary": {
+      "en": "The layout foundation is a mobile-first 12-column grid of containers, rows, columns and fixed gutters. Fixed containers keep a controlled width that suits reading; fluid containers span the full viewport for headers, footers and media-heavy areas. Breakpoints change grid behaviour at 576, 768, 992, 1200 and 1600px. Twelve columns divide in many ways, so even, asymmetric and single-column layouts are possible; keep text lines at roughly 60 to 80 characters, since they grow wide on large screens."
+    },
+    "sections": [
+      {
+        "id": "grid-struktur",
+        "heading": "Grid Struktur",
+        "url": "https://www.kern-ux.de/design-system/foundations/layout#grid-struktur",
+        "summary": {
+          "en": "The grid follows the classic structure of container, row, column and gutter. The container centres content within a breakpoint-dependent width, rows group columns horizontally, columns carry content, and the fixed gutter comes from the horizontal padding of the column elements."
+        }
+      },
+      {
+        "id": "fluid-vs-fixe-layouts",
+        "heading": "Fluid vs. Fixe Layouts",
+        "url": "https://www.kern-ux.de/design-system/foundations/layout#fluid-vs-fixe-layouts",
+        "summary": {
+          "en": "Two container variants exist. Fixed containers use defined maximum widths tied to the breakpoints and suit content areas that need a controlled width, while fluid containers stretch across the whole viewport and fit headers, footers or media-heavy areas."
+        }
+      },
+      {
+        "id": "breakpoints",
+        "heading": "Breakpoints",
+        "url": "https://www.kern-ux.de/design-system/foundations/layout#breakpoints",
+        "summary": {
+          "en": "The grid is mobile-first, so layouts are designed from small to large viewports and behaviour can change at defined thresholds. The column prefixes run from --kern-col-* below 576px through --kern-col-sm-*, -md-* (768px), -lg-* (992px), -xl-* (1200px) to --kern-col-xxl-* from 1600px."
+        }
+      },
+      {
+        "id": "layoutaufteilungen",
+        "heading": "Layoutaufteilungen",
+        "url": "https://www.kern-ux.de/design-system/foundations/layout#layoutaufteilungen",
+        "summary": {
+          "en": "The grid supports many layout variants, from simple single-column pages to complex multi-column structures, and the 12-column base makes widely different divisions easy to realise."
+        }
+      },
+      {
+        "id": "gleichmäßige-spaltenlayouts",
+        "heading": "gleichmäßige Spaltenlayouts",
+        "url": "https://www.kern-ux.de/design-system/foundations/layout#gleichmäßige-spaltenlayouts",
+        "summary": {
+          "en": "Shows even column layouts, where the 12-column base is divided into equal parts."
+        }
+      },
+      {
+        "id": "asymmetrische-aufteilungen",
+        "heading": "asymmetrische Aufteilungen",
+        "url": "https://www.kern-ux.de/design-system/foundations/layout#asymmetrische-aufteilungen",
+        "summary": {
+          "en": "Shows asymmetric column layouts, where the 12-column base is divided into unequal parts."
+        }
+      },
+      {
+        "id": "einspaltige-layouts",
+        "heading": "einspaltige Layouts",
+        "url": "https://www.kern-ux.de/design-system/foundations/layout#einspaltige-layouts",
+        "summary": {
+          "en": "Single-column layouts can produce very wide text blocks on larger screens, so keep line length in a comfortable range, ideally about 60 to 80 characters, and watch this at every breakpoint. Offsets let you create narrower columns and clearer reading structures on any device."
+        }
+      }
+    ]
+  },
+  "knowledge": {
+    "summary": {
+      "en": "A mobile-first 12-column grid with container, row, column and fixed gutters; fixed containers limit reading width, fluid ones fill the viewport."
+    },
+    "whenToUse": [
+      {
+        "en": "Use fixed containers where a controlled width helps readability, and fluid containers for headers, footers or media-heavy areas."
+      }
+    ],
+    "dos": [
+      {
+        "en": "Think layouts mobile-first, from small to large viewports, and let the grid change behaviour only at the defined breakpoints."
+      },
+      {
+        "en": "Keep the line length of text-heavy content at roughly 60 to 80 characters at every breakpoint."
+      },
+      {
+        "en": "Use column offsets when you need narrower columns and clearer reading structures."
+      }
+    ],
+    "donts": [
+      {
+        "en": "Do not let single-column layouts stretch text into overly wide blocks on large screens."
+      }
+    ]
+  },
+  "provenance": {
+    "docs.sections.asymmetrische-aufteilungen.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/layout.mdx#asymmetrische-aufteilungen"
+      ],
+      "inputHash": "sha256:8a6e9186fbd08a8c1001cf268134d17135b8b5e26177fea04cfdf20a9dd1db3d"
+    },
+    "docs.sections.breakpoints.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/layout.mdx#breakpoints"
+      ],
+      "inputHash": "sha256:8a6e9186fbd08a8c1001cf268134d17135b8b5e26177fea04cfdf20a9dd1db3d"
+    },
+    "docs.sections.einspaltige-layouts.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/layout.mdx#einspaltige-layouts"
+      ],
+      "inputHash": "sha256:8a6e9186fbd08a8c1001cf268134d17135b8b5e26177fea04cfdf20a9dd1db3d"
+    },
+    "docs.sections.fluid-vs-fixe-layouts.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/layout.mdx#fluid-vs-fixe-layouts"
+      ],
+      "inputHash": "sha256:8a6e9186fbd08a8c1001cf268134d17135b8b5e26177fea04cfdf20a9dd1db3d"
+    },
+    "docs.sections.gleichmäßige-spaltenlayouts.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/layout.mdx#gleichmäßige-spaltenlayouts"
+      ],
+      "inputHash": "sha256:8a6e9186fbd08a8c1001cf268134d17135b8b5e26177fea04cfdf20a9dd1db3d"
+    },
+    "docs.sections.grid-struktur.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/layout.mdx#grid-struktur"
+      ],
+      "inputHash": "sha256:8a6e9186fbd08a8c1001cf268134d17135b8b5e26177fea04cfdf20a9dd1db3d"
+    },
+    "docs.sections.layoutaufteilungen.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/layout.mdx#layoutaufteilungen"
+      ],
+      "inputHash": "sha256:8a6e9186fbd08a8c1001cf268134d17135b8b5e26177fea04cfdf20a9dd1db3d"
+    },
+    "docs.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/layout.mdx"
+      ],
+      "inputHash": "sha256:8a6e9186fbd08a8c1001cf268134d17135b8b5e26177fea04cfdf20a9dd1db3d"
+    },
+    "knowledge.donts.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/layout.mdx"
+      ],
+      "inputHash": "sha256:77a0a0043a01cf269c251977730d082613acab90d97256eb7976ebe0d5af6e21"
+    },
+    "knowledge.dos.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/layout.mdx"
+      ],
+      "inputHash": "sha256:77a0a0043a01cf269c251977730d082613acab90d97256eb7976ebe0d5af6e21"
+    },
+    "knowledge.dos.1": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/layout.mdx"
+      ],
+      "inputHash": "sha256:77a0a0043a01cf269c251977730d082613acab90d97256eb7976ebe0d5af6e21"
+    },
+    "knowledge.dos.2": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/layout.mdx"
+      ],
+      "inputHash": "sha256:77a0a0043a01cf269c251977730d082613acab90d97256eb7976ebe0d5af6e21"
+    },
+    "knowledge.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/layout.mdx"
+      ],
+      "inputHash": "sha256:77a0a0043a01cf269c251977730d082613acab90d97256eb7976ebe0d5af6e21"
+    },
+    "knowledge.whenToUse.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/layout.mdx"
+      ],
+      "inputHash": "sha256:77a0a0043a01cf269c251977730d082613acab90d97256eb7976ebe0d5af6e21"
+    }
+  }
+}

@@ -1,0 +1,192 @@
+{
+  "id": "colour-systematic",
+  "title": {
+    "en": "Colour: systematic",
+    "de": "Systematik"
+  },
+  "group": "Farbe",
+  "status": "documented",
+  "links": {
+    "docs": "https://www.kern-ux.de/design-system/foundations/farbe/systematik"
+  },
+  "docs": {
+    "url": "https://www.kern-ux.de/design-system/foundations/farbe/systematik",
+    "summary": {
+      "en": "Explains the logic behind KERN's colour system. The palette follows Kevin Muldoon's Universal Color Palette but uses OKLCH instead of CIELAB and fixes WCAG contrast ratios rather than sorting by lightness. Value 500 meets 4.5:1 on both white and black, light- and dark-mode values mirror each other, and the table is split into five groups."
+    },
+    "sections": [
+      {
+        "id": "die-kern-farbpalette",
+        "heading": "Die KERN Farbpalette",
+        "url": "https://www.kern-ux.de/design-system/foundations/farbe/systematik#die-kern-farbpalette",
+        "summary": {
+          "en": "KERN builds on Kevin Muldoon's Universal Color Palette to get accessible contrasts for UI elements, but uses the OKLCH colour space rather than CIELAB and differs slightly in its contrast values."
+        }
+      },
+      {
+        "id": "warum-oklch",
+        "heading": "Warum OKLCH?",
+        "url": "https://www.kern-ux.de/design-system/foundations/farbe/systematik#warum-oklch",
+        "summary": {
+          "en": "CIELAB shifts hue for some colours, including the Dachmarke blue, so KERN uses OKLCH, the cylindrical lightness/chroma/hue form of OKLab. It is perceptually even, suits equal-contrast palettes and prepares for APCA in WCAG 3."
+        }
+      },
+      {
+        "id": "der-effekt-der-oklch-farbtabelle-barrierefreie-kontraste",
+        "heading": "Der Effekt der OKLCH Farbtabelle: Barrierefreie Kontraste",
+        "url": "https://www.kern-ux.de/design-system/foundations/farbe/systematik#der-effekt-der-oklch-farbtabelle-barrierefreie-kontraste",
+        "summary": {
+          "en": "With all values desaturated, the colours still contrast evenly: darkblue-700 matches yellow-700, so semantic colours can be swapped freely. The desaturated alert variants meet the same WCAG values, which also shows that colour alone should not carry meaning."
+        }
+      },
+      {
+        "id": "genereller-aufbau",
+        "heading": "Genereller Aufbau",
+        "url": "https://www.kern-ux.de/design-system/foundations/farbe/systematik#genereller-aufbau",
+        "summary": {
+          "en": "Instead of sorting by lightness, KERN fixes contrast ratios to WCAG. Lighter values contrast more, and dark values were adjusted to appear lighter and more distinct. Naming and count per family stay as in Muldoon's palette, and value 500 meets 4.5:1 on white and black."
+        }
+      },
+      {
+        "id": "die-generischen-farbgruppen",
+        "heading": "Die generischen Farbgruppen",
+        "url": "https://www.kern-ux.de/design-system/foundations/farbe/systematik#die-generischen-farbgruppen",
+        "summary": {
+          "en": "The colour table is divided into five groups, each helping derive WCAG-conformant colours for a particular kind of UI element."
+        }
+      },
+      {
+        "id": "die-definierten-kontraste",
+        "heading": "Die definierten Kontraste",
+        "url": "https://www.kern-ux.de/design-system/foundations/farbe/systematik#die-definierten-kontraste",
+        "summary": {
+          "en": "Lists the contrast ratios that are enforced for each colour value."
+        }
+      },
+      {
+        "id": "nützliche-tools",
+        "heading": "Nützliche Tools",
+        "url": "https://www.kern-ux.de/design-system/foundations/farbe/systematik#nützliche-tools",
+        "summary": {
+          "en": "To build your own table with this system, use the KERN tool Farben für Alle or, as before, the Leonardo generator."
+        }
+      }
+    ]
+  },
+  "knowledge": {
+    "summary": {
+      "en": "KERN's colour system follows Muldoon's palette with OKLCH and fixed WCAG contrast ratios; value 500 meets 4.5:1 on white and black."
+    },
+    "whenToUse": [
+      {
+        "en": "Use the KERN tool Farben für Alle, or the Leonardo generator, to build your own colour table on this system."
+      }
+    ],
+    "dos": [
+      {
+        "en": "Never rely on colour alone to mark important content: add icons, symbols or text so the meaning survives without colour."
+      },
+      {
+        "en": "Fine-tune the colour steps slightly for dark mode, because contrast behaves a little differently there."
+      }
+    ]
+  },
+  "provenance": {
+    "docs.sections.der-effekt-der-oklch-farbtabelle-barrierefreie-kontraste.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/farbe/systematik.mdx#der-effekt-der-oklch-farbtabelle-barrierefreie-kontraste"
+      ],
+      "inputHash": "sha256:ae10f02b1783ac00e6246764fa09aa6fac736d7d1fe455a59addb9c7b1c05d22"
+    },
+    "docs.sections.die-definierten-kontraste.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/farbe/systematik.mdx#die-definierten-kontraste"
+      ],
+      "inputHash": "sha256:ae10f02b1783ac00e6246764fa09aa6fac736d7d1fe455a59addb9c7b1c05d22"
+    },
+    "docs.sections.die-generischen-farbgruppen.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/farbe/systematik.mdx#die-generischen-farbgruppen"
+      ],
+      "inputHash": "sha256:ae10f02b1783ac00e6246764fa09aa6fac736d7d1fe455a59addb9c7b1c05d22"
+    },
+    "docs.sections.die-kern-farbpalette.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/farbe/systematik.mdx#die-kern-farbpalette"
+      ],
+      "inputHash": "sha256:ae10f02b1783ac00e6246764fa09aa6fac736d7d1fe455a59addb9c7b1c05d22"
+    },
+    "docs.sections.genereller-aufbau.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/farbe/systematik.mdx#genereller-aufbau"
+      ],
+      "inputHash": "sha256:ae10f02b1783ac00e6246764fa09aa6fac736d7d1fe455a59addb9c7b1c05d22"
+    },
+    "docs.sections.nützliche-tools.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/farbe/systematik.mdx#nützliche-tools"
+      ],
+      "inputHash": "sha256:ae10f02b1783ac00e6246764fa09aa6fac736d7d1fe455a59addb9c7b1c05d22"
+    },
+    "docs.sections.warum-oklch.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/farbe/systematik.mdx#warum-oklch"
+      ],
+      "inputHash": "sha256:ae10f02b1783ac00e6246764fa09aa6fac736d7d1fe455a59addb9c7b1c05d22"
+    },
+    "docs.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/farbe/systematik.mdx"
+      ],
+      "inputHash": "sha256:ae10f02b1783ac00e6246764fa09aa6fac736d7d1fe455a59addb9c7b1c05d22"
+    },
+    "knowledge.dos.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/farbe/systematik.mdx"
+      ],
+      "inputHash": "sha256:6ba6394f78e8e0ced22c9787d4908937c659702b7ee4321437044a1e3d20dcef"
+    },
+    "knowledge.dos.1": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/farbe/systematik.mdx"
+      ],
+      "inputHash": "sha256:6ba6394f78e8e0ced22c9787d4908937c659702b7ee4321437044a1e3d20dcef"
+    },
+    "knowledge.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/farbe/systematik.mdx"
+      ],
+      "inputHash": "sha256:6ba6394f78e8e0ced22c9787d4908937c659702b7ee4321437044a1e3d20dcef"
+    },
+    "knowledge.whenToUse.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/farbe/systematik.mdx"
+      ],
+      "inputHash": "sha256:6ba6394f78e8e0ced22c9787d4908937c659702b7ee4321437044a1e3d20dcef"
+    }
+  }
+}

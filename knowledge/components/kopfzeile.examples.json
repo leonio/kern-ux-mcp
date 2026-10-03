@@ -1,0 +1,16 @@
+{
+  "component": "kopfzeile",
+  "examples": [
+    {
+      "id": "kopfzeile-web-component-light",
+      "html": {
+        "markup": "<kern-kopfzeile theme=\"light\">Light Theme (Web Component)</kern-kopfzeile>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Kopfzeile/Kopfzeile.stories.js",
+          "export": "KopfzeileWebComponentLight"
+        }
+      }
+    }
+  ]
+}

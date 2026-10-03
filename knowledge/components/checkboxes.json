@@ -1,0 +1,576 @@
+{
+  "id": "checkboxes",
+  "title": {
+    "en": "Input Checkboxes",
+    "de": "Input Checkboxes"
+  },
+  "status": "stable",
+  "group": "form",
+  "synonyms": {
+    "de": [
+      "Kontrollkästchen",
+      "Kontrollfeld",
+      "Auswahlkästchen"
+    ]
+  },
+  "links": {
+    "docs": "https://www.kern-ux.de/komponenten/form-inputs/checkboxes",
+    "figma": "https://www.figma.com/community/file/1624024563231427311",
+    "source": "https://gitlab.opencode.de/kern-ux/kern-ux-plain/-/tree/v2.8.2/src/scss/core/components/_check.scss"
+  },
+  "docs": {
+    "url": "https://www.kern-ux.de/komponenten/form-inputs/checkboxes",
+    "summary": {
+      "en": "Checkbox lets users select one or more options independently. The page covers labelling each box, the group legend and optional hint, group-level error display, the states shared with Input except readonly, single use for binary decisions and list use, and switching to Radios when only one option may be chosen."
+    },
+    "sections": [
+      {
+        "id": "kurzbeschreibung",
+        "heading": "Kurzbeschreibung",
+        "url": "https://www.kern-ux.de/komponenten/form-inputs/checkboxes#kurzbeschreibung",
+        "summary": {
+          "en": "A checkbox selects one or more options."
+        }
+      },
+      {
+        "id": "beschreibung",
+        "heading": "Beschreibung",
+        "url": "https://www.kern-ux.de/komponenten/form-inputs/checkboxes#beschreibung",
+        "summary": {
+          "en": "A checkbox decides whether an option applies; several can be selected independently. Each has a short label; a check mark shows selection. A group needs an unambiguous legend, optionally marked \"optional\", and may have a hint. Group errors show below; all Input states apply except readonly."
+        }
+      },
+      {
+        "id": "verwendungsregeln",
+        "heading": "Verwendungsregeln",
+        "url": "https://www.kern-ux.de/komponenten/form-inputs/checkboxes#verwendungsregeln",
+        "summary": {
+          "en": "Use a single checkbox for binary decisions such as accepting privacy terms, or several for selection lists. Add a clear legend when the group's purpose is not clear from the preceding text. The selection is saved only on a confirming button. To allow just one option, use Radios."
+        }
+      },
+      {
+        "id": "dos-und-donts",
+        "heading": "Dos und Don’ts",
+        "url": "https://www.kern-ux.de/komponenten/form-inputs/checkboxes#dos-und-donts",
+        "summary": {
+          "en": "Write labels as statements rather than questions, prefer positive wording without negations, and keep labels short enough to fit one line. Use a checkbox for simple decisions; a Select may fit complex choices. Avoid too many checkboxes."
+        }
+      }
+    ]
+  },
+  "knowledge": {
+    "summary": {
+      "en": "Lets users select one or more independent options; use Radios when only one option may be chosen."
+    },
+    "whenToUse": [
+      {
+        "en": "For binary decisions such as accepting terms, or for lists in which several options may be selected independently."
+      }
+    ],
+    "dos": [
+      {
+        "en": "Write the checkbox label as a statement rather than a question."
+      },
+      {
+        "en": "Prefer positive wording and avoid negations in labels."
+      },
+      {
+        "en": "Keep the label short enough to fit on one line."
+      }
+    ],
+    "donts": [
+      {
+        "en": "Do not use so many checkboxes that the interface becomes cluttered and unclear."
+      },
+      {
+        "en": "Do not use checkboxes when only one option may be chosen; use Radios instead."
+      }
+    ],
+    "similar": [
+      {
+        "id": "radios"
+      }
+    ]
+  },
+  "states": [
+    {
+      "id": "checked",
+      "origin": "derived",
+      "html": {
+        "binding": "attribute",
+        "attribute": "checked",
+        "partClass": "kern-form-check__checkbox"
+      }
+    },
+    {
+      "id": "disabled",
+      "origin": "derived",
+      "html": {
+        "binding": "attribute",
+        "attribute": "disabled",
+        "partClass": "kern-form-check__checkbox",
+        "alternatives": [
+          {
+            "binding": "attribute",
+            "attribute": "aria-disabled",
+            "value": "true",
+            "partClass": "kern-form-check__checkbox"
+          }
+        ]
+      }
+    },
+    {
+      "id": "error",
+      "origin": "derived",
+      "html": {
+        "binding": "modifier",
+        "class": "kern-form-check--error",
+        "alternatives": [
+          {
+            "binding": "modifier",
+            "class": "kern-form-check__checkbox--error",
+            "partClass": "kern-form-check__checkbox"
+          }
+        ]
+      }
+    },
+    {
+      "id": "focus",
+      "origin": "derived",
+      "html": {
+        "binding": "pseudo",
+        "selector": ":focus-visible",
+        "partClass": "kern-form-check__checkbox",
+        "alternatives": [
+          {
+            "binding": "pseudo",
+            "selector": ":focus",
+            "partClass": "kern-form-check__checkbox"
+          }
+        ]
+      }
+    },
+    {
+      "id": "hover",
+      "origin": "derived",
+      "html": {
+        "binding": "pseudo",
+        "selector": ":hover",
+        "partClass": "kern-form-check__checkbox"
+      }
+    }
+  ],
+  "accessibility": [
+    {
+      "id": "info-and-relationships",
+      "criterion": "1.3.1",
+      "slug": "info-and-relationships",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-10-21"
+    },
+    {
+      "id": "info-and-relationships-2",
+      "criterion": "1.3.1",
+      "slug": "info-and-relationships",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-10-23"
+    },
+    {
+      "id": "labels-or-instructions",
+      "criterion": "3.3.2",
+      "slug": "labels-or-instructions",
+      "level": "A",
+      "status": "implementation-dependent",
+      "lastChecked": "2025-10-21"
+    },
+    {
+      "id": "use-of-color",
+      "criterion": "1.4.1",
+      "slug": "use-of-color",
+      "level": "A",
+      "status": "implementation-dependent",
+      "lastChecked": "2025-10-21"
+    },
+    {
+      "id": "contrast-enhanced",
+      "criterion": "1.4.6",
+      "slug": "contrast-enhanced",
+      "level": "AAA",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "non-text-contrast",
+      "criterion": "1.4.11",
+      "slug": "non-text-contrast",
+      "level": "AA",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "keyboard",
+      "criterion": "2.1.1",
+      "slug": "keyboard",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-10-21"
+    },
+    {
+      "id": "focus-appearance",
+      "criterion": "2.4.13",
+      "slug": "focus-appearance",
+      "level": "AAA",
+      "status": "implementation-dependent",
+      "lastChecked": "2025-10-21"
+    },
+    {
+      "id": "name-role-value",
+      "criterion": "4.1.2",
+      "slug": "name-role-value",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-10-21"
+    },
+    {
+      "id": "target-size-minimum",
+      "criterion": "2.5.8",
+      "slug": "target-size-minimum",
+      "level": "AA",
+      "status": "passed",
+      "lastChecked": "2025-10-21"
+    },
+    {
+      "id": "info-and-relationships-3",
+      "criterion": "1.3.1",
+      "slug": "info-and-relationships",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-10-23"
+    },
+    {
+      "id": "status-messages",
+      "criterion": "4.1.3",
+      "slug": "status-messages",
+      "level": "AA",
+      "status": "implementation-dependent",
+      "lastChecked": "2025-10-23"
+    }
+  ],
+  "examples": [
+    {
+      "id": "checkbox",
+      "html": {
+        "markup": "<div class=\"kern-form-check\"><input class=\"kern-form-check__checkbox\" id=\"dsgvo1\" name=\"geschlecht1\" type=\"checkbox\"><label class=\"kern-label\" for=\"dsgvo1\">Ich akzeptiere die Datenschutzerklärung</label></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Checkbox/Checkbox.stories.js",
+          "export": "Checkbox"
+        }
+      }
+    },
+    {
+      "id": "checkbox-hover",
+      "states": [
+        "hover"
+      ],
+      "html": {
+        "markup": "<div class=\"kern-form-check\"><input class=\"kern-form-check__checkbox\" id=\"dsgvo11\" name=\"geschlecht11\" type=\"checkbox\"><label class=\"kern-label\" for=\"dsgvo11\">Ich akzeptiere die Datenschutzerklärung</label></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Checkbox/Checkbox.stories.js",
+          "export": "CheckboxHover"
+        }
+      }
+    },
+    {
+      "id": "checkbox-focus",
+      "states": [
+        "focus"
+      ],
+      "html": {
+        "markup": "<div class=\"kern-form-check\"><input class=\"kern-form-check__checkbox\" id=\"dsgvo111\" name=\"geschlecht111\" type=\"checkbox\"><label class=\"kern-label\" for=\"dsgvo111\">Ich akzeptiere die Datenschutzerklärung</label></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Checkbox/Checkbox.stories.js",
+          "export": "CheckboxFocus"
+        }
+      }
+    },
+    {
+      "id": "checkbox-checked",
+      "states": [
+        "checked"
+      ],
+      "html": {
+        "markup": "<div class=\"kern-form-check\"><input class=\"kern-form-check__checkbox\" id=\"dsgvo2\" name=\"geschlecht2\" type=\"checkbox\" checked><label class=\"kern-label\" for=\"dsgvo2\">Ich akzeptiere die Datenschutzerklärung</label></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Checkbox/Checkbox.stories.js",
+          "export": "CheckboxChecked"
+        }
+      }
+    },
+    {
+      "id": "checkbox-checked-hover",
+      "states": [
+        "checked",
+        "hover"
+      ],
+      "html": {
+        "markup": "<div class=\"kern-form-check\"><input class=\"kern-form-check__checkbox\" id=\"dsgvo21\" name=\"geschlecht21\" type=\"checkbox\" checked><label class=\"kern-label\" for=\"dsgvo21\">Ich akzeptiere die Datenschutzerklärung</label></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Checkbox/Checkbox.stories.js",
+          "export": "CheckboxCheckedHover"
+        }
+      }
+    },
+    {
+      "id": "checkbox-checked-focus",
+      "states": [
+        "checked",
+        "focus"
+      ],
+      "html": {
+        "markup": "<div class=\"kern-form-check\"><input class=\"kern-form-check__checkbox\" id=\"dsgvo211\" name=\"geschlecht211\" type=\"checkbox\" checked><label class=\"kern-label\" for=\"dsgvo211\">Ich akzeptiere die Datenschutzerklärung</label></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Checkbox/Checkbox.stories.js",
+          "export": "CheckboxCheckedFocus"
+        }
+      }
+    },
+    {
+      "id": "checkbox-disabled",
+      "states": [
+        "disabled"
+      ],
+      "html": {
+        "markup": "<div class=\"kern-form-check\"><input class=\"kern-form-check__checkbox\" id=\"dsgvo3\" name=\"geschlecht3\" type=\"checkbox\" disabled><label class=\"kern-label\" for=\"dsgvo3\">Ich akzeptiere die Datenschutzerklärung</label></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Checkbox/Checkbox.stories.js",
+          "export": "CheckboxDisabled"
+        }
+      }
+    },
+    {
+      "id": "checkbox-disabled-checked",
+      "states": [
+        "checked",
+        "disabled"
+      ],
+      "html": {
+        "markup": "<div class=\"kern-form-check\"><input class=\"kern-form-check__checkbox\" id=\"dsgvo4\" name=\"geschlecht4\" type=\"checkbox\" disabled checked><label class=\"kern-label\" for=\"dsgvo4\">Ich akzeptiere die Datenschutzerklärung</label></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Checkbox/Checkbox.stories.js",
+          "export": "CheckboxDisabledChecked"
+        }
+      }
+    },
+    {
+      "id": "checkbox-error",
+      "states": [
+        "error"
+      ],
+      "html": {
+        "markup": "<div class=\"kern-form-check kern-form-check--error\"><input class=\"kern-form-check__checkbox kern-form-check__checkbox--error\" id=\"dsgvo5\" name=\"geschlecht5\" type=\"checkbox\" aria-describedby=\"input-error\" aria-invalid=\"true\"><label class=\"kern-label\" for=\"dsgvo5\">Ich akzeptiere die Datenschutzerklärung</label><p class=\"kern-error\" id=\"input-error\"><span class=\"kern-icon kern-icon--danger\" aria-hidden=\"true\"></span><span class=\"kern-body\">Die Datenschutzerklärung muss akzeptiert werden.</span></p></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Checkbox/Checkbox.stories.js",
+          "export": "CheckboxError"
+        }
+      }
+    },
+    {
+      "id": "checkboxes-list",
+      "instances": 3,
+      "html": {
+        "markup": "<fieldset class=\"kern-fieldset\"><legend class=\"kern-label\"> Ansprechpartner </legend><div class=\"kern-fieldset__body\"><div class=\"kern-form-check\"><input class=\"kern-form-check__checkbox\" id=\"herr\" name=\"geschlecht\" type=\"checkbox\"><label class=\"kern-label\" for=\"herr\">Herr</label></div><div class=\"kern-form-check\"><input class=\"kern-form-check__checkbox\" id=\"frau\" name=\"geschlecht\" type=\"checkbox\"><label class=\"kern-label\" for=\"frau\">Frau</label></div><div class=\"kern-form-check\"><input class=\"kern-form-check__checkbox\" id=\"divers\" name=\"geschlecht\" type=\"checkbox\"><label class=\"kern-label\" for=\"divers\">Divers</label></div></div></fieldset>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/CheckboxList/CheckboxList.stories.js",
+          "export": "CheckboxesList"
+        }
+      }
+    },
+    {
+      "id": "checkboxes-list-disabled",
+      "states": [
+        "disabled"
+      ],
+      "instances": 3,
+      "html": {
+        "markup": "<fieldset class=\"kern-fieldset\"><legend class=\"kern-label\"> Ansprechpartner </legend><div class=\"kern-fieldset__body\"><div class=\"kern-form-check\"><input class=\"kern-form-check__checkbox\" id=\"herr6\" name=\"geschlecht6\" type=\"checkbox\"><label class=\"kern-label\" for=\"herr6\">Herr</label></div><div class=\"kern-form-check\"><input class=\"kern-form-check__checkbox\" id=\"frau6\" name=\"geschlecht6\" type=\"checkbox\"><label class=\"kern-label\" for=\"frau6\">Frau</label></div><div class=\"kern-form-check\"><input class=\"kern-form-check__checkbox\" id=\"divers6\" name=\"geschlecht6\" type=\"checkbox\" disabled><label class=\"kern-label\" for=\"divers6\">Divers</label></div></div></fieldset>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/CheckboxList/CheckboxList.stories.js",
+          "export": "CheckboxesListDisabled"
+        }
+      }
+    },
+    {
+      "id": "checkboxes-list-optional",
+      "instances": 3,
+      "html": {
+        "markup": "<fieldset class=\"kern-fieldset\"><legend class=\"kern-label\"> Ansprechpartner <span class=\"kern-label__optional\">- Optional</span></legend><div class=\"kern-fieldset__body\"><div class=\"kern-form-check\"><input class=\"kern-form-check__checkbox\" id=\"herr3\" name=\"geschlecht3\" type=\"checkbox\"><label class=\"kern-label\" for=\"herr3\">Herr</label></div><div class=\"kern-form-check\"><input class=\"kern-form-check__checkbox\" id=\"frau3\" name=\"geschlecht3\" type=\"checkbox\"><label class=\"kern-label\" for=\"frau3\">Frau</label></div><div class=\"kern-form-check\"><input class=\"kern-form-check__checkbox\" id=\"divers3\" name=\"geschlecht3\" type=\"checkbox\"><label class=\"kern-label\" for=\"divers3\">Divers</label></div></div></fieldset>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/CheckboxList/CheckboxList.stories.js",
+          "export": "CheckboxesListOptional"
+        }
+      }
+    }
+  ],
+  "moreExamples": {
+    "file": "checkboxes.examples.json",
+    "count": 1
+  },
+  "implementations": {
+    "html": {
+      "package": "@kern-ux/native",
+      "version": "2.8.2",
+      "classes": {
+        "roots": [
+          "kern-form-check"
+        ],
+        "elements": [
+          "kern-form-check__checkbox"
+        ],
+        "modifiers": [
+          "kern-form-check--error",
+          "kern-form-check__checkbox--error"
+        ]
+      },
+      "sources": [
+        "src/scss/core/components/_check.scss",
+        "src/scss/core/components/_checkbox.scss",
+        "stories/Checkbox/Checkbox.stories.js",
+        "stories/CheckboxList/CheckboxList.stories.js"
+      ]
+    },
+    "react": {
+      "package": "@publicplan/kern-react-kit",
+      "version": "1.3.5",
+      "import": "import from '@publicplan/kern-react-kit'",
+      "components": [],
+      "sources": [
+        "src/components/Input"
+      ]
+    }
+  },
+  "drift": [
+    {
+      "kind": "unknown-class",
+      "en": "Docs examples use classes that kern-ux-plain doesn't define.",
+      "sources": [
+        "technische-dokumentation",
+        "kern-ux-plain"
+      ],
+      "items": [
+        "kern-icon--md"
+      ]
+    }
+  ],
+  "provenance": {
+    "docs.sections.beschreibung.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/checkboxes.mdx#beschreibung"
+      ],
+      "inputHash": "sha256:f8333f8a1bb81ad3830d88f88c4511eaed54177331a2987f8f593d0b15d35ee6"
+    },
+    "docs.sections.dos-und-donts.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/checkboxes.mdx#dos-und-donts"
+      ],
+      "inputHash": "sha256:f8333f8a1bb81ad3830d88f88c4511eaed54177331a2987f8f593d0b15d35ee6"
+    },
+    "docs.sections.kurzbeschreibung.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/checkboxes.mdx#kurzbeschreibung"
+      ],
+      "inputHash": "sha256:f8333f8a1bb81ad3830d88f88c4511eaed54177331a2987f8f593d0b15d35ee6"
+    },
+    "docs.sections.verwendungsregeln.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/checkboxes.mdx#verwendungsregeln"
+      ],
+      "inputHash": "sha256:f8333f8a1bb81ad3830d88f88c4511eaed54177331a2987f8f593d0b15d35ee6"
+    },
+    "docs.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/checkboxes.mdx"
+      ],
+      "inputHash": "sha256:f8333f8a1bb81ad3830d88f88c4511eaed54177331a2987f8f593d0b15d35ee6"
+    },
+    "knowledge.donts.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/checkboxes.mdx"
+      ],
+      "inputHash": "sha256:0989095df40f0cfbda14e5d18fd9610b3b9ee009d2f23519dc850921386ff534"
+    },
+    "knowledge.donts.1": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/checkboxes.mdx"
+      ],
+      "inputHash": "sha256:0989095df40f0cfbda14e5d18fd9610b3b9ee009d2f23519dc850921386ff534"
+    },
+    "knowledge.dos.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/checkboxes.mdx"
+      ],
+      "inputHash": "sha256:0989095df40f0cfbda14e5d18fd9610b3b9ee009d2f23519dc850921386ff534"
+    },
+    "knowledge.dos.1": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/checkboxes.mdx"
+      ],
+      "inputHash": "sha256:0989095df40f0cfbda14e5d18fd9610b3b9ee009d2f23519dc850921386ff534"
+    },
+    "knowledge.dos.2": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/checkboxes.mdx"
+      ],
+      "inputHash": "sha256:0989095df40f0cfbda14e5d18fd9610b3b9ee009d2f23519dc850921386ff534"
+    },
+    "knowledge.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/checkboxes.mdx"
+      ],
+      "inputHash": "sha256:0989095df40f0cfbda14e5d18fd9610b3b9ee009d2f23519dc850921386ff534"
+    },
+    "knowledge.whenToUse.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/checkboxes.mdx"
+      ],
+      "inputHash": "sha256:0989095df40f0cfbda14e5d18fd9610b3b9ee009d2f23519dc850921386ff534"
+    }
+  }
+}

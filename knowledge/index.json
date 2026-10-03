@@ -1,0 +1,545 @@
+{
+  "bundleVersion": "0.2.0",
+  "generatedAt": "2026-10-03T09:09:48Z",
+  "generator": {
+    "name": "kern-ux-knowledge-packer kernux bundle",
+    "version": "0.2.0"
+  },
+  "kernVersion": "2.8.2",
+  "sources": [
+    {
+      "id": "kern-ux-plain",
+      "package": "@kern-ux/native",
+      "version": "2.8.2",
+      "license": "EUPL-1.2",
+      "repository": "https://gitlab.opencode.de/kern-ux/kern-ux-plain",
+      "commit": "c098170a2a9657bc08d5adc1f8f9ae175aee1a64",
+      "commitStatus": "checkout",
+      "contentHash": "sha256:95c254e905dd849bdf7e87403771a0415db4fb79c1014773941fabdabaa5db0c"
+    },
+    {
+      "id": "technische-dokumentation",
+      "package": "@kern-ux/technische-dokumentation",
+      "version": "2.8.2",
+      "license": "EUPL-1.2",
+      "repository": "https://gitlab.opencode.de/kern-ux/technische-dokumentation",
+      "commit": "e75b1a7228655485f5d8f1f73227150802188bba",
+      "commitStatus": "checkout",
+      "contentHash": "sha256:a8c00f8ee50ef31b65fda97836b28ccacf4335fd154567e2022a39f0d97a71ea"
+    },
+    {
+      "id": "kern-react-kit",
+      "package": "@publicplan/kern-react-kit",
+      "version": "1.3.5",
+      "license": "EUPL-1.2",
+      "repository": "https://gitlab.opencode.de/kern-ux/kern-react-kit",
+      "commit": "ec1b4847ecb65440d3a575340ec5ba99758d21d2",
+      "commitStatus": "checkout",
+      "contentHash": "sha256:2ae8092bdc5e1063eb71f6b15e19fade8cb131e2ced845f60fe8f248b7b233a6"
+    }
+  ],
+  "components": [
+    {
+      "id": "accordion",
+      "title": "Accordion",
+      "status": "stable",
+      "group": "disclosure",
+      "file": "components/accordion.json"
+    },
+    {
+      "id": "alert",
+      "title": "Alert",
+      "status": "stable",
+      "group": "feedback",
+      "file": "components/alert.json"
+    },
+    {
+      "id": "badge",
+      "title": "Badge",
+      "status": "stable",
+      "group": "feedback",
+      "file": "components/badge.json"
+    },
+    {
+      "id": "bildwortmarke",
+      "title": "Bildwortmarke",
+      "status": "docs-only",
+      "group": "branding",
+      "file": "components/bildwortmarke.json"
+    },
+    {
+      "id": "body",
+      "title": "Body",
+      "status": "stable",
+      "group": "text",
+      "file": "components/body.json"
+    },
+    {
+      "id": "button",
+      "title": "Button",
+      "status": "stable",
+      "group": "actions",
+      "file": "components/button.json"
+    },
+    {
+      "id": "card",
+      "title": "Card",
+      "status": "stable",
+      "group": "containers",
+      "file": "components/card.json"
+    },
+    {
+      "id": "checkboxes",
+      "title": "Input Checkboxes",
+      "status": "stable",
+      "group": "form",
+      "file": "components/checkboxes.json"
+    },
+    {
+      "id": "description-list",
+      "title": "Description List",
+      "status": "stable",
+      "group": "content",
+      "file": "components/description-list.json"
+    },
+    {
+      "id": "details",
+      "title": "Details",
+      "status": "stable",
+      "group": "disclosure",
+      "file": "components/details.json"
+    },
+    {
+      "id": "dialog",
+      "title": "Dialog",
+      "status": "stable",
+      "group": "containers",
+      "file": "components/dialog.json"
+    },
+    {
+      "id": "divider",
+      "title": "Divider",
+      "status": "stable",
+      "group": "content",
+      "file": "components/divider.json"
+    },
+    {
+      "id": "dropdown",
+      "title": "Dropdown",
+      "status": "experimental",
+      "group": "actions",
+      "file": "components/dropdown.json"
+    },
+    {
+      "id": "fieldset",
+      "title": "Fieldset",
+      "status": "stable",
+      "group": "form",
+      "file": "components/fieldset.json"
+    },
+    {
+      "id": "grid",
+      "title": "Grid System",
+      "status": "deprecated",
+      "group": "layout",
+      "file": "components/grid.json"
+    },
+    {
+      "id": "header",
+      "title": "Header",
+      "status": "docs-only",
+      "group": "navigation",
+      "file": "components/header.json"
+    },
+    {
+      "id": "heading",
+      "title": "Heading",
+      "status": "stable",
+      "group": "text",
+      "file": "components/heading.json"
+    },
+    {
+      "id": "icon",
+      "title": "Icon",
+      "status": "stable",
+      "group": "media",
+      "file": "components/icon.json"
+    },
+    {
+      "id": "input-date",
+      "title": "Input Date",
+      "status": "stable",
+      "group": "form",
+      "file": "components/input-date.json"
+    },
+    {
+      "id": "input-email",
+      "title": "Input E-Mail",
+      "status": "stable",
+      "group": "form",
+      "file": "components/input-email.json"
+    },
+    {
+      "id": "input-file",
+      "title": "Input File",
+      "status": "stable",
+      "group": "form",
+      "file": "components/input-file.json"
+    },
+    {
+      "id": "input-group",
+      "title": "Input Group",
+      "status": "stable",
+      "group": "form",
+      "file": "components/input-group.json"
+    },
+    {
+      "id": "input-number",
+      "title": "Input Number",
+      "status": "stable",
+      "group": "form",
+      "file": "components/input-number.json"
+    },
+    {
+      "id": "input-password",
+      "title": "Input Password",
+      "status": "stable",
+      "group": "form",
+      "file": "components/input-password.json"
+    },
+    {
+      "id": "input-tel",
+      "title": "Input Tel",
+      "status": "stable",
+      "group": "form",
+      "file": "components/input-tel.json"
+    },
+    {
+      "id": "input-text",
+      "title": "Input Text",
+      "status": "stable",
+      "group": "form",
+      "file": "components/input-text.json"
+    },
+    {
+      "id": "input-url",
+      "title": "Input Url",
+      "status": "stable",
+      "group": "form",
+      "file": "components/input-url.json"
+    },
+    {
+      "id": "kopfzeile",
+      "title": "Kopfzeile",
+      "status": "stable",
+      "group": "branding",
+      "file": "components/kopfzeile.json"
+    },
+    {
+      "id": "label",
+      "title": "Label",
+      "status": "stable",
+      "group": "text",
+      "file": "components/label.json"
+    },
+    {
+      "id": "link",
+      "title": "Link",
+      "status": "stable",
+      "group": "actions",
+      "file": "components/link.json"
+    },
+    {
+      "id": "list",
+      "title": "List",
+      "status": "experimental",
+      "group": "text",
+      "file": "components/list.json"
+    },
+    {
+      "id": "loader",
+      "title": "Loader",
+      "status": "stable",
+      "group": "feedback",
+      "file": "components/loader.json"
+    },
+    {
+      "id": "nav",
+      "title": "Nav",
+      "status": "docs-only",
+      "group": "navigation",
+      "file": "components/nav.json"
+    },
+    {
+      "id": "notification-banner",
+      "title": "Notification Banner",
+      "status": "docs-only",
+      "group": "feedback",
+      "file": "components/notification-banner.json"
+    },
+    {
+      "id": "preline",
+      "title": "Preline",
+      "status": "stable",
+      "group": "text",
+      "file": "components/preline.json"
+    },
+    {
+      "id": "progress",
+      "title": "Progress",
+      "status": "stable",
+      "group": "feedback",
+      "file": "components/progress.json"
+    },
+    {
+      "id": "radios",
+      "title": "Input Radios",
+      "status": "stable",
+      "group": "form",
+      "file": "components/radios.json"
+    },
+    {
+      "id": "search",
+      "title": "Search",
+      "status": "stable",
+      "group": "form",
+      "file": "components/search.json"
+    },
+    {
+      "id": "select",
+      "title": "Input Select",
+      "status": "stable",
+      "group": "form",
+      "file": "components/select.json"
+    },
+    {
+      "id": "subline",
+      "title": "Subline",
+      "status": "stable",
+      "group": "text",
+      "file": "components/subline.json"
+    },
+    {
+      "id": "summary",
+      "title": "Summary",
+      "status": "stable",
+      "group": "content",
+      "file": "components/summary.json"
+    },
+    {
+      "id": "table",
+      "title": "Table",
+      "status": "stable",
+      "group": "content",
+      "file": "components/table.json"
+    },
+    {
+      "id": "tabs",
+      "title": "Tabs",
+      "status": "docs-only",
+      "group": "navigation",
+      "file": "components/tabs.json"
+    },
+    {
+      "id": "task-list",
+      "title": "Task List",
+      "status": "stable",
+      "group": "content",
+      "file": "components/task-list.json"
+    },
+    {
+      "id": "textarea",
+      "title": "Input Textarea",
+      "status": "stable",
+      "group": "form",
+      "file": "components/textarea.json"
+    },
+    {
+      "id": "title",
+      "title": "Title",
+      "status": "stable",
+      "group": "text",
+      "file": "components/title.json"
+    }
+  ],
+  "patterns": [
+    {
+      "id": "address",
+      "title": "Adresse",
+      "status": "stub",
+      "file": "patterns/address.json"
+    },
+    {
+      "id": "header",
+      "title": "Header",
+      "status": "stub",
+      "file": "patterns/header.json"
+    },
+    {
+      "id": "question-page",
+      "title": "Frageseite",
+      "status": "stub",
+      "file": "patterns/question-page.json"
+    }
+  ],
+  "foundations": [
+    {
+      "id": "accessibility",
+      "title": "Accessibility",
+      "group": "Design system",
+      "file": "foundations/accessibility.json"
+    },
+    {
+      "id": "branding-glossary",
+      "title": "Branding glossary",
+      "group": "Branding",
+      "file": "foundations/branding-glossary.json"
+    },
+    {
+      "id": "branding-kopfzeile",
+      "title": "Brand header",
+      "group": "Branding",
+      "file": "foundations/branding-kopfzeile.json"
+    },
+    {
+      "id": "branding-typography",
+      "title": "Brand typography",
+      "group": "Branding",
+      "file": "foundations/branding-typography.json"
+    },
+    {
+      "id": "branding-usage",
+      "title": "Applying KERN branding",
+      "group": "Branding",
+      "file": "foundations/branding-usage.json"
+    },
+    {
+      "id": "classes",
+      "title": "Classes",
+      "file": "foundations/classes.json"
+    },
+    {
+      "id": "colour-contextual",
+      "title": "Colour: contextual",
+      "group": "Farbe",
+      "file": "foundations/colour-contextual.json"
+    },
+    {
+      "id": "colour-generic",
+      "title": "Colour: generic",
+      "group": "Farbe",
+      "file": "foundations/colour-generic.json"
+    },
+    {
+      "id": "colour-semantic",
+      "title": "Colour: semantic",
+      "group": "Farbe",
+      "file": "foundations/colour-semantic.json"
+    },
+    {
+      "id": "colour-systematic",
+      "title": "Colour: systematic",
+      "group": "Farbe",
+      "file": "foundations/colour-systematic.json"
+    },
+    {
+      "id": "design-principles",
+      "title": "Design principles",
+      "group": "Design system",
+      "file": "foundations/design-principles.json"
+    },
+    {
+      "id": "design-system-overview",
+      "title": "What a design system covers",
+      "group": "Design system",
+      "file": "foundations/design-system-overview.json"
+    },
+    {
+      "id": "design-tokens",
+      "title": "Design tokens",
+      "group": "Foundations",
+      "file": "foundations/design-tokens.json"
+    },
+    {
+      "id": "form-inputs-overview",
+      "title": "Form inputs",
+      "group": "Komponenten",
+      "file": "foundations/form-inputs-overview.json"
+    },
+    {
+      "id": "icons",
+      "title": "Icons",
+      "file": "foundations/icons.json"
+    },
+    {
+      "id": "interaction",
+      "title": "Interaction",
+      "group": "Foundations",
+      "file": "foundations/interaction.json"
+    },
+    {
+      "id": "language-and-tone",
+      "title": "Language and tone",
+      "group": "Design system",
+      "file": "foundations/language-and-tone.json"
+    },
+    {
+      "id": "layering",
+      "title": "Layering",
+      "group": "Foundations",
+      "file": "foundations/layering.json"
+    },
+    {
+      "id": "layout",
+      "title": "Layout",
+      "group": "Foundations",
+      "file": "foundations/layout.json"
+    },
+    {
+      "id": "layout-overview",
+      "title": "Layout components",
+      "group": "Komponenten",
+      "file": "foundations/layout-overview.json"
+    },
+    {
+      "id": "sizes-and-spacing",
+      "title": "Sizes and spacing",
+      "group": "Foundations",
+      "file": "foundations/sizes-and-spacing.json"
+    },
+    {
+      "id": "text-overview",
+      "title": "Text components",
+      "group": "Komponenten",
+      "file": "foundations/text-overview.json"
+    },
+    {
+      "id": "typography",
+      "title": "Typography",
+      "group": "Foundations",
+      "file": "foundations/typography.json"
+    },
+    {
+      "id": "utilities",
+      "title": "Utilities",
+      "file": "foundations/utilities.json"
+    }
+  ],
+  "licenses": [
+    {
+      "applies": "examples[].html.markup, implementations, classes, icons",
+      "license": "EUPL-1.2",
+      "source": "kern-ux-plain"
+    },
+    {
+      "applies": "facts taken from the docs (names, synonyms, criteria, sizes); no docs prose is included",
+      "license": "CC BY-NC-SA 4.0 (texts) / EUPL-1.2 (code)",
+      "source": "technische-dokumentation"
+    },
+    {
+      "applies": "implementations.react",
+      "license": "EUPL-1.2",
+      "source": "kern-react-kit"
+    }
+  ]
+}

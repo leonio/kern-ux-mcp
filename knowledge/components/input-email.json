@@ -1,0 +1,590 @@
+{
+  "id": "input-email",
+  "title": {
+    "en": "Input E-Mail",
+    "de": "Input E-Mail"
+  },
+  "status": "stable",
+  "group": "form",
+  "synonyms": {
+    "de": [
+      "E-Mail-Eingabefeld",
+      "E-mail input field",
+      "Email input field"
+    ]
+  },
+  "links": {
+    "docs": "https://www.kern-ux.de/komponenten/form-inputs/e-mail",
+    "figma": "https://www.figma.com/community/file/1624024563231427311",
+    "source": "https://gitlab.opencode.de/kern-ux/kern-ux-plain/-/tree/v2.8.2/src/scss/core/components/_input.scss"
+  },
+  "docs": {
+    "url": "https://www.kern-ux.de/komponenten/form-inputs/e-mail",
+    "summary": {
+      "en": "Input E-Mail takes a single email address and checks the format automatically, for example name@domain.tld, showing an error below the field when the entry is invalid. Use it only for email addresses, describe the expected format in the hint, and allow autocomplete so a previously typed address can be completed."
+    },
+    "sections": [
+      {
+        "id": "kurzbeschreibung",
+        "heading": "Kurzbeschreibung",
+        "url": "https://www.kern-ux.de/komponenten/form-inputs/e-mail#kurzbeschreibung",
+        "summary": {
+          "en": "Input E-Mail helps users enter an email address."
+        }
+      },
+      {
+        "id": "disabled",
+        "heading": "Disabled",
+        "url": "https://www.kern-ux.de/komponenten/form-inputs/e-mail#disabled",
+        "summary": {
+          "en": "Avoid disabled, since it restricts accessibility."
+        }
+      },
+      {
+        "id": "beschreibung",
+        "heading": "Beschreibung",
+        "url": "https://www.kern-ux.de/komponenten/form-inputs/e-mail#beschreibung",
+        "summary": {
+          "en": "The general input properties apply. The field takes an email address and automatically checks that it follows the basic structure, for example username@domain.tld, and shows an error message for invalid input. It supports all the input states."
+        }
+      },
+      {
+        "id": "verwendungsregeln",
+        "heading": "Verwendungsregeln",
+        "url": "https://www.kern-ux.de/komponenten/form-inputs/e-mail#verwendungsregeln",
+        "summary": {
+          "en": "Use Input E-Mail only to enter email addresses, and give help with the expected format."
+        }
+      },
+      {
+        "id": "dos-und-donts",
+        "heading": "Dos und Don’ts",
+        "url": "https://www.kern-ux.de/komponenten/form-inputs/e-mail#dos-und-donts",
+        "summary": {
+          "en": "Allow the autocomplete function so the email address is completed when the user has entered it before."
+        }
+      },
+      {
+        "id": "weitere-hinweise",
+        "heading": "Weitere Hinweise",
+        "url": "https://www.kern-ux.de/komponenten/form-inputs/e-mail#weitere-hinweise",
+        "summary": {
+          "en": "Refers to the general Dos and Don'ts for Input."
+        }
+      }
+    ]
+  },
+  "knowledge": {
+    "summary": {
+      "en": "Input E-Mail accepts one email address, validates its format and reports invalid entries below the field."
+    },
+    "whenToUse": [
+      {
+        "en": "Use Input E-Mail wherever a form needs an email address, for example registration or contact details."
+      }
+    ],
+    "dos": [
+      {
+        "en": "Allow autocomplete so an address the user entered before can be completed."
+      },
+      {
+        "en": "Explain the expected format in the hint text."
+      }
+    ],
+    "donts": [
+      {
+        "en": "Don't use the field for anything other than email addresses."
+      },
+      {
+        "en": "Don't use disabled, because it restricts accessibility."
+      }
+    ],
+    "similar": [
+      {
+        "id": "input-date"
+      },
+      {
+        "id": "input-password"
+      },
+      {
+        "id": "input-text"
+      }
+    ]
+  },
+  "options": [
+    {
+      "id": "width",
+      "kind": "enum",
+      "origin": "curated",
+      "values": [
+        {
+          "id": "full",
+          "default": true
+        },
+        {
+          "id": "width-2"
+        },
+        {
+          "id": "width-4"
+        }
+      ],
+      "html": {
+        "binding": "part-class",
+        "pattern": "kern-form-input__input--{value}",
+        "part": "input",
+        "partClass": "kern-form-input__input",
+        "omit": [
+          "full"
+        ]
+      }
+    }
+  ],
+  "states": [
+    {
+      "id": "disabled",
+      "origin": "derived",
+      "html": {
+        "binding": "attribute",
+        "attribute": "disabled",
+        "alternatives": [
+          {
+            "binding": "attribute",
+            "attribute": "disabled",
+            "partClass": "kern-form-input__input"
+          },
+          {
+            "binding": "attribute",
+            "attribute": "aria-disabled",
+            "value": "true",
+            "partClass": "kern-form-input__input"
+          }
+        ]
+      }
+    },
+    {
+      "id": "error",
+      "origin": "derived",
+      "html": {
+        "binding": "modifier",
+        "class": "kern-form-input--error",
+        "alternatives": [
+          {
+            "binding": "modifier",
+            "class": "kern-form-input__input--error",
+            "partClass": "kern-form-input__input"
+          }
+        ]
+      }
+    },
+    {
+      "id": "focus",
+      "origin": "derived",
+      "html": {
+        "binding": "pseudo",
+        "selector": ":focus",
+        "partClass": "kern-form-input__input"
+      }
+    },
+    {
+      "id": "hover",
+      "origin": "derived",
+      "html": {
+        "binding": "pseudo",
+        "selector": ":hover",
+        "partClass": "kern-form-input__input"
+      }
+    },
+    {
+      "id": "readonly",
+      "origin": "derived",
+      "html": {
+        "binding": "attribute",
+        "attribute": "readonly",
+        "partClass": "kern-form-input__input"
+      }
+    }
+  ],
+  "accessibility": [
+    {
+      "id": "info-and-relationships",
+      "criterion": "1.3.1",
+      "slug": "info-and-relationships",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "labels-or-instructions",
+      "criterion": "3.3.2",
+      "slug": "labels-or-instructions",
+      "level": "A",
+      "status": "implementation-dependent",
+      "lastChecked": "2025-10-21"
+    },
+    {
+      "id": "contrast-enhanced",
+      "criterion": "1.4.6",
+      "slug": "contrast-enhanced",
+      "level": "AAA",
+      "status": "passed",
+      "lastChecked": "2025-10-21"
+    },
+    {
+      "id": "non-text-contrast",
+      "criterion": "1.4.11",
+      "slug": "non-text-contrast",
+      "level": "AA",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "keyboard",
+      "criterion": "2.1.1",
+      "slug": "keyboard",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-10-21"
+    },
+    {
+      "id": "focus-appearance",
+      "criterion": "2.4.13",
+      "slug": "focus-appearance",
+      "level": "AAA",
+      "status": "passed",
+      "lastChecked": "2025-10-21"
+    },
+    {
+      "id": "error-identification",
+      "criterion": "3.3.1",
+      "slug": "error-identification",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-10-21"
+    },
+    {
+      "id": "identify-input-purpose",
+      "criterion": "1.3.5",
+      "slug": "identify-input-purpose",
+      "level": "AA",
+      "status": "passed",
+      "lastChecked": "2025-10-21"
+    },
+    {
+      "id": "info-and-relationships-2",
+      "criterion": "1.3.1",
+      "slug": "info-and-relationships",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-10-23"
+    },
+    {
+      "id": "status-messages",
+      "criterion": "4.1.3",
+      "slug": "status-messages",
+      "level": "AA",
+      "status": "implementation-dependent",
+      "lastChecked": "2025-10-23"
+    },
+    {
+      "id": "identify-input-purpose-2",
+      "criterion": "1.3.5",
+      "slug": "identify-input-purpose",
+      "level": "AA",
+      "status": "implementation-dependent",
+      "lastChecked": "2025-10-23"
+    }
+  ],
+  "examples": [
+    {
+      "id": "input-email",
+      "options": {
+        "width": "full"
+      },
+      "html": {
+        "markup": "<div class=\"kern-form-input\"><label class=\"kern-label\" for=\"email\">Email</label><input class=\"kern-form-input__input\" id=\"email\" name=\"email\" type=\"email\" autocomplete=\"email\"></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/InputEmail/InputEmail.stories.js",
+          "export": "InputEmail"
+        }
+      }
+    },
+    {
+      "id": "input-email-hover",
+      "options": {
+        "width": "full"
+      },
+      "states": [
+        "hover"
+      ],
+      "html": {
+        "markup": "<div class=\"kern-form-input\"><label class=\"kern-label\" for=\"email1\">Email</label><input class=\"kern-form-input__input\" id=\"email1\" name=\"email1\" type=\"email\" autocomplete=\"email\"></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/InputEmail/InputEmail.stories.js",
+          "export": "InputEmailHover"
+        }
+      }
+    },
+    {
+      "id": "input-email-focus",
+      "options": {
+        "width": "full"
+      },
+      "states": [
+        "focus"
+      ],
+      "html": {
+        "markup": "<div class=\"kern-form-input\"><label class=\"kern-label\" for=\"email2\">Email</label><input class=\"kern-form-input__input\" id=\"email2\" name=\"email2\" type=\"email\" autocomplete=\"email\"></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/InputEmail/InputEmail.stories.js",
+          "export": "InputEmailFocus"
+        }
+      }
+    },
+    {
+      "id": "input-email-read-only",
+      "options": {
+        "width": "full"
+      },
+      "states": [
+        "readonly"
+      ],
+      "html": {
+        "markup": "<div class=\"kern-form-input\"><label class=\"kern-label\" for=\"email3\">Email</label><input class=\"kern-form-input__input\" id=\"email3\" name=\"email3\" type=\"email\" autocomplete=\"email\" value=\"mail@mee.me\" readonly></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/InputEmail/InputEmail.stories.js",
+          "export": "InputEmailReadOnly"
+        }
+      }
+    },
+    {
+      "id": "input-email-disabled",
+      "options": {
+        "width": "full"
+      },
+      "states": [
+        "disabled"
+      ],
+      "html": {
+        "markup": "<div class=\"kern-form-input\"><label class=\"kern-label\" for=\"email4\">Email</label><input class=\"kern-form-input__input\" id=\"email4\" name=\"email4\" type=\"email\" autocomplete=\"email\" value=\"mail@mee.me\" disabled></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/InputEmail/InputEmail.stories.js",
+          "export": "InputEmailDisabled"
+        }
+      }
+    },
+    {
+      "id": "input-email-hint",
+      "options": {
+        "width": "full"
+      },
+      "html": {
+        "markup": "<div class=\"kern-form-input\"><label class=\"kern-label\" for=\"email5\">Email</label><div class=\"kern-hint\" id=\"email-hint\">Hint Email</div><input class=\"kern-form-input__input\" id=\"email5\" name=\"email5\" type=\"email\" autocomplete=\"email\" aria-describedby=\"email-hint\"></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/InputEmail/InputEmail.stories.js",
+          "export": "InputEmailHint"
+        }
+      }
+    },
+    {
+      "id": "input-email-optional",
+      "options": {
+        "width": "full"
+      },
+      "html": {
+        "markup": "<div class=\"kern-form-input\"><label class=\"kern-label\" for=\"email6\">Email <span class=\"kern-label__optional\">- Optional</span></label><div class=\"kern-hint\" id=\"email-hint\">Hint Email</div><input class=\"kern-form-input__input\" id=\"email6\" name=\"email6\" type=\"email\" autocomplete=\"email\" aria-describedby=\"email-hint\"></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/InputEmail/InputEmail.stories.js",
+          "export": "InputEmailOptional"
+        }
+      }
+    },
+    {
+      "id": "input-email-hint-error",
+      "options": {
+        "width": "full"
+      },
+      "states": [
+        "error"
+      ],
+      "html": {
+        "markup": "<div class=\"kern-form-input kern-form-input--error\"><label class=\"kern-label\" for=\"email7\">Email</label><div class=\"kern-hint\" id=\"email-hint\">Hint Email</div><input class=\"kern-form-input__input kern-form-input__input--error\" id=\"email7\" name=\"email7\" type=\"email\" autocomplete=\"email\" aria-describedby=\"email-hint kern-input-error\" aria-invalid=\"true\"><p class=\"kern-error\" id=\"kern-input-error\"><span class=\"kern-icon kern-icon--danger\" aria-hidden=\"true\"></span><span class=\"kern-body\">Die Email darf nicht leer sein</span></p></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/InputEmail/InputEmail.stories.js",
+          "export": "InputEmailHintError"
+        }
+      }
+    }
+  ],
+  "implementations": {
+    "html": {
+      "package": "@kern-ux/native",
+      "version": "2.8.2",
+      "classes": {
+        "roots": [
+          "kern-form-input"
+        ],
+        "elements": [
+          "kern-form-input__input",
+          "kern-form-input__select-wrapper"
+        ],
+        "modifiers": [
+          "kern-form-input--error",
+          "kern-form-input__input--error",
+          "kern-form-input__input--width-2",
+          "kern-form-input__input--width-4"
+        ]
+      },
+      "sources": [
+        "src/scss/core/components/_input.scss",
+        "stories/InputEmail/InputEmail.stories.js"
+      ]
+    },
+    "react": {
+      "package": "@publicplan/kern-react-kit",
+      "version": "1.3.5",
+      "import": "import from '@publicplan/kern-react-kit'",
+      "components": [],
+      "sources": [
+        "src/components/Input"
+      ]
+    }
+  },
+  "drift": [
+    {
+      "kind": "unknown-class",
+      "en": "Docs examples use classes that kern-ux-plain doesn't define.",
+      "sources": [
+        "technische-dokumentation",
+        "kern-ux-plain"
+      ],
+      "items": [
+        "kern-icon--md"
+      ]
+    },
+    {
+      "kind": "example-coverage",
+      "en": "Modifiers defined in SCSS that no story or docs example shows.",
+      "sources": [
+        "kern-ux-plain"
+      ],
+      "items": [
+        "kern-form-input__input--width-2",
+        "kern-form-input__input--width-4"
+      ]
+    }
+  ],
+  "provenance": {
+    "docs.sections.beschreibung.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/e-mail.mdx#beschreibung"
+      ],
+      "inputHash": "sha256:c7d73551b7803b268f255b73cf583ec81716ee476c7d61e4c346e582d378deca"
+    },
+    "docs.sections.disabled.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/e-mail.mdx#disabled"
+      ],
+      "inputHash": "sha256:c7d73551b7803b268f255b73cf583ec81716ee476c7d61e4c346e582d378deca"
+    },
+    "docs.sections.dos-und-donts.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/e-mail.mdx#dos-und-donts"
+      ],
+      "inputHash": "sha256:c7d73551b7803b268f255b73cf583ec81716ee476c7d61e4c346e582d378deca"
+    },
+    "docs.sections.kurzbeschreibung.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/e-mail.mdx#kurzbeschreibung"
+      ],
+      "inputHash": "sha256:c7d73551b7803b268f255b73cf583ec81716ee476c7d61e4c346e582d378deca"
+    },
+    "docs.sections.verwendungsregeln.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/e-mail.mdx#verwendungsregeln"
+      ],
+      "inputHash": "sha256:c7d73551b7803b268f255b73cf583ec81716ee476c7d61e4c346e582d378deca"
+    },
+    "docs.sections.weitere-hinweise.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/e-mail.mdx#weitere-hinweise"
+      ],
+      "inputHash": "sha256:c7d73551b7803b268f255b73cf583ec81716ee476c7d61e4c346e582d378deca"
+    },
+    "docs.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/e-mail.mdx"
+      ],
+      "inputHash": "sha256:c7d73551b7803b268f255b73cf583ec81716ee476c7d61e4c346e582d378deca"
+    },
+    "knowledge.donts.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/e-mail.mdx"
+      ],
+      "inputHash": "sha256:cad0729dab897f0b9987bc26095f2ff8612f880bc36fa231e404e2e12a8621b6"
+    },
+    "knowledge.donts.1": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/e-mail.mdx"
+      ],
+      "inputHash": "sha256:cad0729dab897f0b9987bc26095f2ff8612f880bc36fa231e404e2e12a8621b6"
+    },
+    "knowledge.dos.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/e-mail.mdx"
+      ],
+      "inputHash": "sha256:cad0729dab897f0b9987bc26095f2ff8612f880bc36fa231e404e2e12a8621b6"
+    },
+    "knowledge.dos.1": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/e-mail.mdx"
+      ],
+      "inputHash": "sha256:cad0729dab897f0b9987bc26095f2ff8612f880bc36fa231e404e2e12a8621b6"
+    },
+    "knowledge.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/e-mail.mdx"
+      ],
+      "inputHash": "sha256:cad0729dab897f0b9987bc26095f2ff8612f880bc36fa231e404e2e12a8621b6"
+    },
+    "knowledge.whenToUse.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/e-mail.mdx"
+      ],
+      "inputHash": "sha256:cad0729dab897f0b9987bc26095f2ff8612f880bc36fa231e404e2e12a8621b6"
+    }
+  }
+}

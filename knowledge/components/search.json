@@ -1,0 +1,376 @@
+{
+  "id": "search",
+  "title": {
+    "en": "Search",
+    "de": "Search"
+  },
+  "status": "stable",
+  "group": "form",
+  "synonyms": {
+    "de": [
+      "Suche",
+      "Suchfeld",
+      "Search Field",
+      "Search Input",
+      "Search Box",
+      "Suchbox"
+    ]
+  },
+  "links": {
+    "docs": "https://www.kern-ux.de/komponenten/search",
+    "figma": "https://www.figma.com/community/file/1624024563231427311",
+    "source": "https://gitlab.opencode.de/kern-ux/kern-ux-plain/-/tree/v2.8.2/stories/Search/Search.stories.js"
+  },
+  "docs": {
+    "url": "https://www.kern-ux.de/komponenten/search",
+    "summary": {
+      "en": "Search lets users find content and information quickly with a search term. It combines a search field and a search button and is built on the Input Group; some browsers add a native clear function. It comes in standard and block variants, several sizes and different button styles. Search is dynamic and iterative: users try several terms and refine them. Keep it in the same place throughout, with a global search expected top right, and never use a placeholder instead of a visible label."
+    },
+    "sections": [
+      {
+        "id": "kurzbeschreibung",
+        "heading": "Kurzbeschreibung",
+        "url": "https://www.kern-ux.de/komponenten/search#kurzbeschreibung",
+        "summary": {
+          "en": "Lets users find content and information, such as administrative services, quickly with a search term."
+        }
+      },
+      {
+        "id": "search-mit-label-und-icon-only-button",
+        "heading": "Search mit Label und Icon-Only Button",
+        "url": "https://www.kern-ux.de/komponenten/search#search-mit-label-und-icon-only-button",
+        "summary": {
+          "en": "If the search button uses only an icon, a label is mandatory for accessibility reasons."
+        }
+      },
+      {
+        "id": "search-ohne-label",
+        "heading": "Search ohne Label",
+        "url": "https://www.kern-ux.de/komponenten/search#search-ohne-label",
+        "summary": {
+          "en": "Use a search without a visible label only in justified exceptions, such as in the header. Otherwise the search needs a visible label, and without one its purpose must be named programmatically, for example via aria-label."
+        }
+      },
+      {
+        "id": "beschreibung",
+        "heading": "Beschreibung",
+        "url": "https://www.kern-ux.de/komponenten/search#beschreibung",
+        "summary": {
+          "en": "Search consists of a search field and a search button and is based on the Input Group, combining an input with an action that triggers the search. Some browsers add a native clear function. The component comes as a standard or block variant, with several sizes and different button styles."
+        }
+      },
+      {
+        "id": "verwendungsregeln",
+        "heading": "Verwendungsregeln",
+        "url": "https://www.kern-ux.de/komponenten/search#verwendungsregeln",
+        "summary": {
+          "en": "Use Search when users should target content or data. Unlike classic form input, it is dynamic and iterative, so keep its position consistent. Never use a placeholder instead of a visible label, and make the button primary only when search is the key action on the page."
+        }
+      },
+      {
+        "id": "dos-und-donts",
+        "heading": "Dos und Don'ts",
+        "url": "https://www.kern-ux.de/komponenten/search#dos-und-donts",
+        "summary": {
+          "en": "Place search consistently, make the term easy to reset, and keep the term in the field after submitting so users can refine it. Do not use placeholder text instead of a visible label, reduce search to a magnifier icon on desktop, or hide central search behind several steps on mobile."
+        }
+      }
+    ]
+  },
+  "knowledge": {
+    "summary": {
+      "en": "Search field plus button, built on Input Group, for finding content with a search term."
+    },
+    "whenToUse": [
+      {
+        "en": "When users should search content, documents or data, such as administrative services."
+      },
+      {
+        "en": "For dynamic, iterative lookups where users try and refine several search terms."
+      }
+    ],
+    "dos": [
+      {
+        "en": "Place the search in the same position on every page."
+      },
+      {
+        "en": "Make sure the search term can be reset via a clear function or the browser's native behaviour."
+      },
+      {
+        "en": "Keep the search term in the field after submitting so users can refine it."
+      },
+      {
+        "en": "Use the variant without a visible label only in justified exceptions, such as the header."
+      },
+      {
+        "en": "If the search button shows only an icon, always provide a label for accessibility."
+      }
+    ],
+    "donts": [
+      {
+        "en": "Do not use placeholder text instead of a visible label; placeholders disappear while typing."
+      },
+      {
+        "en": "Do not reduce search to a magnifier icon on desktop when it is relevant to task success."
+      },
+      {
+        "en": "Do not hide a central search behind several steps on mobile devices."
+      }
+    ],
+    "similar": [
+      {
+        "id": "input-text"
+      },
+      {
+        "id": "button"
+      },
+      {
+        "id": "input-group"
+      }
+    ]
+  },
+  "states": [
+    {
+      "id": "error",
+      "origin": "derived",
+      "html": {
+        "binding": "modifier",
+        "class": "kern-form-input--error",
+        "alternatives": [
+          {
+            "binding": "modifier",
+            "class": "kern-form-input__input--error",
+            "partClass": "kern-form-input__input"
+          }
+        ]
+      }
+    }
+  ],
+  "accessibility": [
+    {
+      "id": "keyboard",
+      "criterion": "2.1.1",
+      "slug": "keyboard",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2026-07-02"
+    }
+  ],
+  "examples": [
+    {
+      "id": "search-with-label",
+      "html": {
+        "markup": "<search class=\"kern-form-input\"><label class=\"kern-label\" for=\"search-input-with-label\">Suche</label><div class=\"kern-input-group\"><input class=\"kern-form-input__input\" id=\"search-input-with-label\" name=\"search\" type=\"search\" /><button class=\"kern-btn kern-btn--primary\"><span class=\"kern-icon kern-icon--search\" aria-hidden=\"true\"></span><span class=\"kern-label\">Suchen</span></button></div></search>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Search/Search.stories.js",
+          "export": "SearchWithLabel"
+        }
+      }
+    },
+    {
+      "id": "search-without-label",
+      "html": {
+        "markup": "<search class=\"kern-input-group\"><input class=\"kern-form-input__input\" id=\"search-input-without-label\" name=\"search\" type=\"search\" aria-label=\"Suche\" /><button class=\"kern-btn kern-btn--primary\"><span class=\"kern-icon kern-icon--search\" aria-hidden=\"true\"></span><span class=\"kern-label\">Suchen</span></button></search>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Search/Search.stories.js",
+          "export": "SearchWithoutLabel"
+        }
+      }
+    }
+  ],
+  "implementations": {
+    "html": {
+      "package": "@kern-ux/native",
+      "version": "2.8.2",
+      "classes": {
+        "roots": [
+          "kern-form-input"
+        ],
+        "elements": [
+          "kern-form-input__input",
+          "kern-form-input__select-wrapper"
+        ],
+        "modifiers": [
+          "kern-form-input--error",
+          "kern-form-input__input--error",
+          "kern-form-input__input--width-2",
+          "kern-form-input__input--width-4"
+        ]
+      },
+      "sources": [
+        "stories/Search/Search.stories.js"
+      ]
+    }
+  },
+  "drift": [
+    {
+      "kind": "example-coverage",
+      "en": "Modifiers defined in SCSS that no story or docs example shows.",
+      "sources": [
+        "kern-ux-plain"
+      ],
+      "items": [
+        "kern-form-input--error",
+        "kern-form-input__input--error",
+        "kern-form-input__input--width-2",
+        "kern-form-input__input--width-4"
+      ]
+    },
+    {
+      "kind": "missing-implementation",
+      "en": "kern-react-kit has no component for this.",
+      "sources": [
+        "kern-react-kit",
+        "kern-ux-plain"
+      ]
+    }
+  ],
+  "provenance": {
+    "docs.sections.beschreibung.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/search.mdx#beschreibung"
+      ],
+      "inputHash": "sha256:e9ed6a8e9564abc6ce3bc8de6638c91e70ebbedde62e72baabc50131c77281e8"
+    },
+    "docs.sections.dos-und-donts.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/search.mdx#dos-und-donts"
+      ],
+      "inputHash": "sha256:e9ed6a8e9564abc6ce3bc8de6638c91e70ebbedde62e72baabc50131c77281e8"
+    },
+    "docs.sections.kurzbeschreibung.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/search.mdx#kurzbeschreibung"
+      ],
+      "inputHash": "sha256:e9ed6a8e9564abc6ce3bc8de6638c91e70ebbedde62e72baabc50131c77281e8"
+    },
+    "docs.sections.search-mit-label-und-icon-only-button.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/search.mdx#search-mit-label-und-icon-only-button"
+      ],
+      "inputHash": "sha256:e9ed6a8e9564abc6ce3bc8de6638c91e70ebbedde62e72baabc50131c77281e8"
+    },
+    "docs.sections.search-ohne-label.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/search.mdx#search-ohne-label"
+      ],
+      "inputHash": "sha256:e9ed6a8e9564abc6ce3bc8de6638c91e70ebbedde62e72baabc50131c77281e8"
+    },
+    "docs.sections.verwendungsregeln.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/search.mdx#verwendungsregeln"
+      ],
+      "inputHash": "sha256:e9ed6a8e9564abc6ce3bc8de6638c91e70ebbedde62e72baabc50131c77281e8"
+    },
+    "docs.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/search.mdx"
+      ],
+      "inputHash": "sha256:e9ed6a8e9564abc6ce3bc8de6638c91e70ebbedde62e72baabc50131c77281e8"
+    },
+    "knowledge.donts.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/search.mdx"
+      ],
+      "inputHash": "sha256:d189c4fd9b3c5a2456ea02e355357e56d7ec7651ae718f62978a95a0fc225e67"
+    },
+    "knowledge.donts.1": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/search.mdx"
+      ],
+      "inputHash": "sha256:d189c4fd9b3c5a2456ea02e355357e56d7ec7651ae718f62978a95a0fc225e67"
+    },
+    "knowledge.donts.2": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/search.mdx"
+      ],
+      "inputHash": "sha256:d189c4fd9b3c5a2456ea02e355357e56d7ec7651ae718f62978a95a0fc225e67"
+    },
+    "knowledge.dos.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/search.mdx"
+      ],
+      "inputHash": "sha256:d189c4fd9b3c5a2456ea02e355357e56d7ec7651ae718f62978a95a0fc225e67"
+    },
+    "knowledge.dos.1": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/search.mdx"
+      ],
+      "inputHash": "sha256:d189c4fd9b3c5a2456ea02e355357e56d7ec7651ae718f62978a95a0fc225e67"
+    },
+    "knowledge.dos.2": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/search.mdx"
+      ],
+      "inputHash": "sha256:d189c4fd9b3c5a2456ea02e355357e56d7ec7651ae718f62978a95a0fc225e67"
+    },
+    "knowledge.dos.3": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/search.mdx"
+      ],
+      "inputHash": "sha256:d189c4fd9b3c5a2456ea02e355357e56d7ec7651ae718f62978a95a0fc225e67"
+    },
+    "knowledge.dos.4": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/search.mdx"
+      ],
+      "inputHash": "sha256:d189c4fd9b3c5a2456ea02e355357e56d7ec7651ae718f62978a95a0fc225e67"
+    },
+    "knowledge.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/search.mdx"
+      ],
+      "inputHash": "sha256:d189c4fd9b3c5a2456ea02e355357e56d7ec7651ae718f62978a95a0fc225e67"
+    },
+    "knowledge.whenToUse.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/search.mdx"
+      ],
+      "inputHash": "sha256:d189c4fd9b3c5a2456ea02e355357e56d7ec7651ae718f62978a95a0fc225e67"
+    },
+    "knowledge.whenToUse.1": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/search.mdx"
+      ],
+      "inputHash": "sha256:d189c4fd9b3c5a2456ea02e355357e56d7ec7651ae718f62978a95a0fc225e67"
+    }
+  }
+}

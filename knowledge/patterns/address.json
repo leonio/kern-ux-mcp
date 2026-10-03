@@ -1,0 +1,41 @@
+{
+  "id": "address",
+  "title": {
+    "en": "Adresse",
+    "de": "Adresse"
+  },
+  "status": "stub",
+  "links": {
+    "docs": "https://www.kern-ux.de/patterns/formulare/adresse"
+  },
+  "docs": {
+    "url": "https://www.kern-ux.de/patterns/formulare/adresse",
+    "summary": {
+      "en": "A standardised KERN pattern for capturing national and international address data without errors and accessibly."
+    },
+    "sections": []
+  },
+  "knowledge": {
+    "summary": {
+      "en": "Use the address pattern for accessible, consistent entry of national and international address data."
+    }
+  },
+  "provenance": {
+    "docs.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:patterns/formulare/adresse.md"
+      ],
+      "inputHash": "sha256:75a7e83901a5418ccf879bc959b7441bc6c04045acb1682802573c57459ef7de"
+    },
+    "knowledge.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:patterns/formulare/adresse.md"
+      ],
+      "inputHash": "sha256:3abd021bbb152ed34480228754c21452364c63e14bda08ffbf464ca287254407"
+    }
+  }
+}

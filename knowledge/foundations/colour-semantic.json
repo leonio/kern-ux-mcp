@@ -1,0 +1,136 @@
+{
+  "id": "colour-semantic",
+  "title": {
+    "en": "Colour: semantic",
+    "de": "Semantische Farben"
+  },
+  "group": "Farbe",
+  "status": "documented",
+  "links": {
+    "docs": "https://www.kern-ux.de/design-system/foundations/farbe/semantisch"
+  },
+  "docs": {
+    "url": "https://www.kern-ux.de/design-system/foundations/farbe/semantisch",
+    "summary": {
+      "en": "Documents KERN's semantic colour tokens, which map the base palette to fixed, contrast-checked values for concrete UI roles. The page groups them into layout, action, form input, feedback and decorative tokens; layout and action also define numbered levels and state opacities."
+    },
+    "sections": [
+      {
+        "id": "layout-token",
+        "heading": "Layout-Token",
+        "url": "https://www.kern-ux.de/design-system/foundations/farbe/semantisch#layout-token",
+        "summary": {
+          "en": "Semantic layout tokens are the fixed page defaults: accessible border and text colours (default, muted, inverse), plus backgrounds for the default, level 1 and level 2 layers with matching surfaces."
+        }
+      },
+      {
+        "id": "action-token",
+        "heading": "Action-Token",
+        "url": "https://www.kern-ux.de/design-system/foundations/farbe/semantisch#action-token",
+        "summary": {
+          "en": "Semantic action tokens define interactive elements such as links and buttons: primary, on-primary, visited and focus colours, state indicator shades, and opacities for hover, active, pressed, selected, disabled and overlay."
+        }
+      },
+      {
+        "id": "token-für-form-inputs",
+        "heading": "Token für Form Inputs",
+        "url": "https://www.kern-ux.de/design-system/foundations/farbe/semantisch#token-für-form-inputs",
+        "summary": {
+          "en": "Semantic tokens for form inputs define the colours specific to form fields, here the accessible border colour."
+        }
+      },
+      {
+        "id": "feedback-token",
+        "heading": "Feedback-Token",
+        "url": "https://www.kern-ux.de/design-system/foundations/farbe/semantisch#feedback-token",
+        "summary": {
+          "en": "Semantic feedback tokens define status message colours: a neutral default plus info, success, warning and danger, each with a matching background."
+        }
+      },
+      {
+        "id": "token-für-dekorative-elemente",
+        "heading": "Token für dekorative Elemente",
+        "url": "https://www.kern-ux.de/design-system/foundations/farbe/semantisch#token-für-dekorative-elemente",
+        "summary": {
+          "en": "Decorative values are for ornament only and need not meet contrast requirements. They cover the brand colour for ornament and decorative borders at the default, level 1 and level 2."
+        }
+      }
+    ]
+  },
+  "knowledge": {
+    "summary": {
+      "en": "Semantic colour tokens map the base palette to fixed values for UI roles such as layout, action, form input, feedback and decoration."
+    },
+    "donts": [
+      {
+        "en": "Don't use the decorative colour values for content-bearing or functional elements: they are meant for ornament only and need not meet contrast requirements."
+      }
+    ]
+  },
+  "provenance": {
+    "docs.sections.action-token.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/farbe/semantisch.mdx#action-token"
+      ],
+      "inputHash": "sha256:7b757254e2cb557b96ffe22e001450ac98e289df2f86a5809260802e7d8b4fff"
+    },
+    "docs.sections.feedback-token.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/farbe/semantisch.mdx#feedback-token"
+      ],
+      "inputHash": "sha256:7b757254e2cb557b96ffe22e001450ac98e289df2f86a5809260802e7d8b4fff"
+    },
+    "docs.sections.layout-token.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/farbe/semantisch.mdx#layout-token"
+      ],
+      "inputHash": "sha256:7b757254e2cb557b96ffe22e001450ac98e289df2f86a5809260802e7d8b4fff"
+    },
+    "docs.sections.token-für-dekorative-elemente.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/farbe/semantisch.mdx#token-für-dekorative-elemente"
+      ],
+      "inputHash": "sha256:7b757254e2cb557b96ffe22e001450ac98e289df2f86a5809260802e7d8b4fff"
+    },
+    "docs.sections.token-für-form-inputs.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/farbe/semantisch.mdx#token-für-form-inputs"
+      ],
+      "inputHash": "sha256:7b757254e2cb557b96ffe22e001450ac98e289df2f86a5809260802e7d8b4fff"
+    },
+    "docs.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/farbe/semantisch.mdx"
+      ],
+      "inputHash": "sha256:7b757254e2cb557b96ffe22e001450ac98e289df2f86a5809260802e7d8b4fff"
+    },
+    "knowledge.donts.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/farbe/semantisch.mdx"
+      ],
+      "inputHash": "sha256:718b7075b84b90aaf6a9749a696ea0e69cb613f08a3ab1ddd907bc446a4679f2"
+    },
+    "knowledge.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/farbe/semantisch.mdx"
+      ],
+      "inputHash": "sha256:718b7075b84b90aaf6a9749a696ea0e69cb613f08a3ab1ddd907bc446a4679f2"
+    }
+  }
+}

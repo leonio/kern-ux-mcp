@@ -1,0 +1,595 @@
+{
+  "id": "badge",
+  "title": {
+    "en": "Badge",
+    "de": "Badge"
+  },
+  "status": "stable",
+  "group": "feedback",
+  "synonyms": {
+    "de": [
+      "Hinweis",
+      "Plakette",
+      "Kennzeichen"
+    ]
+  },
+  "links": {
+    "docs": "https://www.kern-ux.de/komponenten/badge",
+    "figma": "https://www.figma.com/community/file/1624024563231427311",
+    "source": "https://gitlab.opencode.de/kern-ux/kern-ux-plain/-/tree/v2.8.2/src/scss/core/components/_badge.scss"
+  },
+  "docs": {
+    "url": "https://www.kern-ux.de/komponenten/badge",
+    "summary": {
+      "en": "Badge gives a very short status hint on a parent element, built from an icon and a short label. The page covers the 8px grid sizing, the four fixed tones and their uses, how the icon is hidden from or exposed to screen readers, the layout rules, and how to shrink a badge when space is tight."
+    },
+    "sections": [
+      {
+        "id": "kurzbeschreibung",
+        "heading": "Kurzbeschreibung",
+        "url": "https://www.kern-ux.de/komponenten/badge#kurzbeschreibung",
+        "summary": {
+          "en": "A badge gives a short status hint about a parent element."
+        }
+      },
+      {
+        "id": "badge-dimensionen",
+        "heading": "Badge-Dimensionen",
+        "url": "https://www.kern-ux.de/komponenten/badge#badge-dimensionen",
+        "summary": {
+          "en": "Badge scaling follows the system-wide 8px grid."
+        }
+      },
+      {
+        "id": "beschreibung",
+        "heading": "Beschreibung",
+        "url": "https://www.kern-ux.de/komponenten/badge#beschreibung",
+        "summary": {
+          "en": "A badge is a compact, non-interactive status hint on a parent element, e.g. whether a request was transmitted, is in progress or hit a problem. It pairs an icon with a short, precise label; drop the icon when space is tight if the meaning survives. Use Alert for immediate feedback on an action."
+        }
+      },
+      {
+        "id": "verwendungsregeln",
+        "heading": "Verwendungsregeln",
+        "url": "https://www.kern-ux.de/komponenten/badge#verwendungsregeln",
+        "summary": {
+          "en": "Badges give a very short status for orientation, mainly in overviews, and signal whether the user must act. Info: stable, no action. Success: done or ready. Warning: open, needs attention or action. Danger: user action required, so link to detail."
+        }
+      },
+      {
+        "id": "badge-mit-icon",
+        "heading": "Badge mit Icon",
+        "url": "https://www.kern-ux.de/komponenten/badge#badge-mit-icon",
+        "summary": {
+          "en": "The component sets aria-hidden=\"true\" on the icon by default, because the label usually carries the meaning. To expose the icon to screen readers, set aria-hidden to false and add an aria-label."
+        }
+      },
+      {
+        "id": "dos-und-donts",
+        "heading": "Dos und Don’ts",
+        "url": "https://www.kern-ux.de/komponenten/badge#dos-und-donts",
+        "summary": {
+          "en": "Make sure badges do not cover other elements, do not change the colour scheme, and do not give one object several statuses."
+        }
+      },
+      {
+        "id": "weitere-hinweise",
+        "heading": "Weitere Hinweise",
+        "url": "https://www.kern-ux.de/komponenten/badge#weitere-hinweise",
+        "summary": {
+          "en": "When space is tight, reduce the badge to its label or icon if the meaning survives. More complex status messages are better communicated with Alert, Notification or Toast."
+        }
+      }
+    ]
+  },
+  "knowledge": {
+    "summary": {
+      "en": "Compact, non-interactive status hint on a parent element: an icon plus a short label in one of four tones."
+    },
+    "whenToUse": [
+      {
+        "en": "When the status of an element must be shown compactly at a glance, especially in overviews and lists."
+      }
+    ],
+    "dos": [
+      {
+        "en": "Make sure badges do not cover other elements."
+      },
+      {
+        "en": "When space is tight, reduce the badge to its label or icon if the meaning survives."
+      }
+    ],
+    "donts": [
+      {
+        "en": "Do not change the badge colour scheme."
+      },
+      {
+        "en": "Do not give one object several statuses."
+      },
+      {
+        "en": "Do not use badges for complex status information; use Alert, Notification or Toast instead."
+      }
+    ],
+    "similar": [
+      {
+        "id": "alert"
+      },
+      {
+        "name": "Chips"
+      },
+      {
+        "name": "Toast"
+      }
+    ]
+  },
+  "options": [
+    {
+      "id": "tone",
+      "kind": "enum",
+      "origin": "curated",
+      "values": [
+        {
+          "id": "info"
+        },
+        {
+          "id": "success"
+        },
+        {
+          "id": "warning"
+        },
+        {
+          "id": "danger"
+        }
+      ],
+      "html": {
+        "binding": "modifier",
+        "pattern": "kern-badge--{value}"
+      }
+    },
+    {
+      "id": "size",
+      "kind": "enum",
+      "origin": "curated",
+      "values": [
+        {
+          "id": "default",
+          "default": true
+        },
+        {
+          "id": "small"
+        }
+      ],
+      "html": {
+        "binding": "modifier",
+        "pattern": "kern-badge--{value}",
+        "omit": [
+          "default"
+        ]
+      }
+    }
+  ],
+  "accessibility": [
+    {
+      "id": "non-text-content",
+      "criterion": "1.1.1",
+      "slug": "non-text-content",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-10-08"
+    },
+    {
+      "id": "non-text-content-2",
+      "criterion": "1.1.1",
+      "slug": "non-text-content",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-10-08"
+    },
+    {
+      "id": "info-and-relationships",
+      "criterion": "1.3.1",
+      "slug": "info-and-relationships",
+      "level": "A",
+      "status": "implementation-dependent",
+      "lastChecked": "2025-10-08"
+    },
+    {
+      "id": "sensory-characteristics",
+      "criterion": "1.3.3",
+      "slug": "sensory-characteristics",
+      "level": "A",
+      "status": "implementation-dependent",
+      "lastChecked": "2025-10-08"
+    },
+    {
+      "id": "contrast-enhanced",
+      "criterion": "1.4.6",
+      "slug": "contrast-enhanced",
+      "level": "AAA",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "non-text-contrast",
+      "criterion": "1.4.11",
+      "slug": "non-text-contrast",
+      "level": "AA",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "consistent-identification",
+      "criterion": "3.2.4",
+      "slug": "consistent-identification",
+      "level": "AA",
+      "status": "implementation-dependent",
+      "lastChecked": "2025-10-08"
+    },
+    {
+      "id": "labels-or-instructions",
+      "criterion": "3.3.2",
+      "slug": "labels-or-instructions",
+      "level": "A",
+      "status": "implementation-dependent",
+      "lastChecked": "2025-10-08"
+    },
+    {
+      "id": "status-messages",
+      "criterion": "4.1.3",
+      "slug": "status-messages",
+      "level": "AA",
+      "status": "implementation-dependent",
+      "lastChecked": "2025-10-08"
+    }
+  ],
+  "examples": [
+    {
+      "id": "badges",
+      "options": {
+        "size": "default"
+      },
+      "variesOver": [
+        "tone"
+      ],
+      "instances": 4,
+      "html": {
+        "markup": "<span class=\"kern-badge kern-badge--info\"><span class=\"kern-label\">Info</span></span><span class=\"kern-badge kern-badge--success\"><span class=\"kern-label\">Success</span></span><span class=\"kern-badge kern-badge--warning\"><span class=\"kern-label\">Warning</span></span><span class=\"kern-badge kern-badge--danger\"><span class=\"kern-label\">Danger</span></span>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Badge/Badge.stories.js",
+          "export": "Badges"
+        }
+      }
+    },
+    {
+      "id": "badge-info",
+      "options": {
+        "size": "default",
+        "tone": "info"
+      },
+      "html": {
+        "markup": "<span class=\"kern-badge kern-badge--info\"><span class=\"kern-label\">Info</span></span>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Badge/Badge.stories.js",
+          "export": "BadgeInfo"
+        }
+      }
+    },
+    {
+      "id": "badge-success",
+      "options": {
+        "size": "default",
+        "tone": "success"
+      },
+      "html": {
+        "markup": "<span class=\"kern-badge kern-badge--success\"><span class=\"kern-label\">Success</span></span>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Badge/Badge.stories.js",
+          "export": "BadgeSuccess"
+        }
+      }
+    },
+    {
+      "id": "badge-warning",
+      "options": {
+        "size": "default",
+        "tone": "warning"
+      },
+      "html": {
+        "markup": "<span class=\"kern-badge kern-badge--warning\"><span class=\"kern-label\">Warning</span></span>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Badge/Badge.stories.js",
+          "export": "BadgeWarning"
+        }
+      }
+    },
+    {
+      "id": "badge-danger",
+      "options": {
+        "size": "default",
+        "tone": "danger"
+      },
+      "html": {
+        "markup": "<span class=\"kern-badge kern-badge--danger\"><span class=\"kern-label\">Danger</span></span>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Badge/Badge.stories.js",
+          "export": "BadgeDanger"
+        }
+      }
+    },
+    {
+      "id": "badge-small",
+      "options": {
+        "size": "small"
+      },
+      "variesOver": [
+        "tone"
+      ],
+      "instances": 4,
+      "html": {
+        "markup": "<span class=\"kern-badge kern-badge--info kern-badge--small\"><span class=\"kern-label\">Info</span></span><span class=\"kern-badge kern-badge--success kern-badge--small\"><span class=\"kern-label\">Success</span></span><span class=\"kern-badge kern-badge--warning kern-badge--small\"><span class=\"kern-label\">Warning</span></span><span class=\"kern-badge kern-badge--danger kern-badge--small\"><span class=\"kern-label\">Danger</span></span>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Badge/Badge.stories.js",
+          "export": "BadgeSmall"
+        }
+      }
+    },
+    {
+      "id": "badges-badge-icon",
+      "options": {
+        "size": "default"
+      },
+      "variesOver": [
+        "tone"
+      ],
+      "instances": 4,
+      "html": {
+        "markup": "<span class=\"kern-badge kern-badge--success\"><span class=\"kern-icon kern-icon--success\" aria-hidden=\"true\"></span><span class=\"kern-label\">Success</span></span><span class=\"kern-badge kern-badge--info\"><span class=\"kern-icon kern-icon--info\" aria-hidden=\"true\"></span><span class=\"kern-label\">Info</span></span><span class=\"kern-badge kern-badge--warning\"><span class=\"kern-icon kern-icon--warning\" aria-hidden=\"true\"></span><span class=\"kern-label\">Warning</span></span><span class=\"kern-badge kern-badge--danger\"><span class=\"kern-icon kern-icon--danger\" aria-hidden=\"true\"></span><span class=\"kern-label\">Danger</span></span>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Badge/BadgeIcon.stories.js",
+          "export": "Badges"
+        }
+      }
+    },
+    {
+      "id": "badge-success-badge-icon",
+      "options": {
+        "size": "default",
+        "tone": "success"
+      },
+      "html": {
+        "markup": "<span class=\"kern-badge kern-badge--success\"><span class=\"kern-icon kern-icon--success\" aria-hidden=\"true\"></span><span class=\"kern-label\">Success</span></span>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Badge/BadgeIcon.stories.js",
+          "export": "BadgeSuccess"
+        }
+      }
+    },
+    {
+      "id": "badge-info-badge-icon",
+      "options": {
+        "size": "default",
+        "tone": "info"
+      },
+      "html": {
+        "markup": "<span class=\"kern-badge kern-badge--info\"><span class=\"kern-icon kern-icon--info\" aria-hidden=\"true\"></span><span class=\"kern-label\">Info</span></span>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Badge/BadgeIcon.stories.js",
+          "export": "BadgeInfo"
+        }
+      }
+    },
+    {
+      "id": "badge-warning-badge-icon",
+      "options": {
+        "size": "default",
+        "tone": "warning"
+      },
+      "html": {
+        "markup": "<span class=\"kern-badge kern-badge--warning\"><span class=\"kern-icon kern-icon--warning\" aria-hidden=\"true\"></span><span class=\"kern-label\">Warning</span></span>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Badge/BadgeIcon.stories.js",
+          "export": "BadgeWarning"
+        }
+      }
+    },
+    {
+      "id": "badge-danger-badge-icon",
+      "options": {
+        "size": "default",
+        "tone": "danger"
+      },
+      "html": {
+        "markup": "<span class=\"kern-badge kern-badge--danger\"><span class=\"kern-icon kern-icon--danger\" aria-hidden=\"true\"></span><span class=\"kern-label\">Danger</span></span>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Badge/BadgeIcon.stories.js",
+          "export": "BadgeDanger"
+        }
+      }
+    },
+    {
+      "id": "badge-small-badge-icon",
+      "options": {
+        "size": "small"
+      },
+      "variesOver": [
+        "tone"
+      ],
+      "instances": 4,
+      "html": {
+        "markup": "<span class=\"kern-badge kern-badge--success kern-badge--small\"><span class=\"kern-icon kern-icon--success\" aria-hidden=\"true\"></span><span class=\"kern-label\">Success</span></span><span class=\"kern-badge kern-badge--info kern-badge--small\"><span class=\"kern-icon kern-icon--info\" aria-hidden=\"true\"></span><span class=\"kern-label\">Info</span></span><span class=\"kern-badge kern-badge--warning kern-badge--small\"><span class=\"kern-icon kern-icon--warning\" aria-hidden=\"true\"></span><span class=\"kern-label\">Warning</span></span><span class=\"kern-badge kern-badge--danger kern-badge--small\"><span class=\"kern-icon kern-icon--danger\" aria-hidden=\"true\"></span><span class=\"kern-label\">Danger</span></span>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Badge/BadgeIcon.stories.js",
+          "export": "BadgeSmall"
+        }
+      }
+    }
+  ],
+  "implementations": {
+    "html": {
+      "package": "@kern-ux/native",
+      "version": "2.8.2",
+      "classes": {
+        "roots": [
+          "kern-badge"
+        ],
+        "modifiers": [
+          "kern-badge--danger",
+          "kern-badge--info",
+          "kern-badge--small",
+          "kern-badge--success",
+          "kern-badge--warning"
+        ]
+      },
+      "sources": [
+        "src/scss/core/components/_badge.scss",
+        "stories/Badge/Badge.stories.js",
+        "stories/Badge/BadgeIcon.stories.js"
+      ]
+    },
+    "react": {
+      "package": "@publicplan/kern-react-kit",
+      "version": "1.3.5",
+      "import": "import { Badge } from '@publicplan/kern-react-kit'",
+      "components": [
+        "Badge"
+      ],
+      "sources": [
+        "src/components/Badge"
+      ]
+    }
+  },
+  "provenance": {
+    "docs.sections.badge-dimensionen.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/badge.mdx#badge-dimensionen"
+      ],
+      "inputHash": "sha256:489ff2215d0157aa63b4e88eb89131fd81c4d9939498f986b1328f03fd0faeab"
+    },
+    "docs.sections.badge-mit-icon.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/badge.mdx#badge-mit-icon"
+      ],
+      "inputHash": "sha256:489ff2215d0157aa63b4e88eb89131fd81c4d9939498f986b1328f03fd0faeab"
+    },
+    "docs.sections.beschreibung.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/badge.mdx#beschreibung"
+      ],
+      "inputHash": "sha256:489ff2215d0157aa63b4e88eb89131fd81c4d9939498f986b1328f03fd0faeab"
+    },
+    "docs.sections.dos-und-donts.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/badge.mdx#dos-und-donts"
+      ],
+      "inputHash": "sha256:489ff2215d0157aa63b4e88eb89131fd81c4d9939498f986b1328f03fd0faeab"
+    },
+    "docs.sections.kurzbeschreibung.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/badge.mdx#kurzbeschreibung"
+      ],
+      "inputHash": "sha256:489ff2215d0157aa63b4e88eb89131fd81c4d9939498f986b1328f03fd0faeab"
+    },
+    "docs.sections.verwendungsregeln.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/badge.mdx#verwendungsregeln"
+      ],
+      "inputHash": "sha256:489ff2215d0157aa63b4e88eb89131fd81c4d9939498f986b1328f03fd0faeab"
+    },
+    "docs.sections.weitere-hinweise.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/badge.mdx#weitere-hinweise"
+      ],
+      "inputHash": "sha256:489ff2215d0157aa63b4e88eb89131fd81c4d9939498f986b1328f03fd0faeab"
+    },
+    "docs.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/badge.mdx"
+      ],
+      "inputHash": "sha256:489ff2215d0157aa63b4e88eb89131fd81c4d9939498f986b1328f03fd0faeab"
+    },
+    "knowledge.donts.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/badge.mdx"
+      ],
+      "inputHash": "sha256:c130f1a0ef2cfb4a255b7b624402b1f5c63129f553c4ab1c0d152aab09bacf00"
+    },
+    "knowledge.donts.1": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/badge.mdx"
+      ],
+      "inputHash": "sha256:c130f1a0ef2cfb4a255b7b624402b1f5c63129f553c4ab1c0d152aab09bacf00"
+    },
+    "knowledge.donts.2": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/badge.mdx"
+      ],
+      "inputHash": "sha256:c130f1a0ef2cfb4a255b7b624402b1f5c63129f553c4ab1c0d152aab09bacf00"
+    },
+    "knowledge.dos.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/badge.mdx"
+      ],
+      "inputHash": "sha256:c130f1a0ef2cfb4a255b7b624402b1f5c63129f553c4ab1c0d152aab09bacf00"
+    },
+    "knowledge.dos.1": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/badge.mdx"
+      ],
+      "inputHash": "sha256:c130f1a0ef2cfb4a255b7b624402b1f5c63129f553c4ab1c0d152aab09bacf00"
+    },
+    "knowledge.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/badge.mdx"
+      ],
+      "inputHash": "sha256:c130f1a0ef2cfb4a255b7b624402b1f5c63129f553c4ab1c0d152aab09bacf00"
+    },
+    "knowledge.whenToUse.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/badge.mdx"
+      ],
+      "inputHash": "sha256:c130f1a0ef2cfb4a255b7b624402b1f5c63129f553c4ab1c0d152aab09bacf00"
+    }
+  }
+}

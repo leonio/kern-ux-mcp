@@ -1,0 +1,328 @@
+{
+  "id": "description-list",
+  "title": {
+    "en": "Description List",
+    "de": "Description List"
+  },
+  "status": "stable",
+  "group": "content",
+  "synonyms": {
+    "de": [
+      "Definitionsliste",
+      "Begriffsliste",
+      "Beschreibungsliste"
+    ]
+  },
+  "links": {
+    "docs": "https://www.kern-ux.de/komponenten/descriptionlist",
+    "figma": "https://www.figma.com/community/file/1624024563231427311",
+    "source": "https://gitlab.opencode.de/kern-ux/kern-ux-plain/-/tree/v2.8.2/src/scss/core/components/_description-list.scss"
+  },
+  "docs": {
+    "url": "https://www.kern-ux.de/komponenten/descriptionlist",
+    "summary": {
+      "en": "Description List pairs terms with their descriptions to give a clear, accessible information hierarchy, for example for form entries, technical specifications or glossaries. The page covers the row and column layouts and their responsive behaviour, when to use Accordion instead, and guidance on term length and list width."
+    },
+    "sections": [
+      {
+        "id": "kurzbeschreibung",
+        "heading": "Kurzbeschreibung",
+        "url": "https://www.kern-ux.de/komponenten/descriptionlist#kurzbeschreibung",
+        "summary": {
+          "en": "Structures the presentation of terms and their definitions."
+        }
+      },
+      {
+        "id": "beschreibung",
+        "heading": "Beschreibung",
+        "url": "https://www.kern-ux.de/komponenten/descriptionlist#beschreibung",
+        "summary": {
+          "en": "A Description List has a term and its description, giving a good overview and a clear, accessible information hierarchy. It suits summarising form entries, technical specifications or glossaries. On wide screens the term can sit left of or above the description; on mobile it always sits above."
+        }
+      },
+      {
+        "id": "verwendungsregeln",
+        "heading": "Verwendungsregeln",
+        "url": "https://www.kern-ux.de/komponenten/descriptionlist#verwendungsregeln",
+        "summary": {
+          "en": "With much content, terms and definitions can be stacked directly. Use the list when everything should be visible at once; otherwise use Accordion. Keep terms short and precise, choose the vertical variant for mostly long terms, and do not make the list too wide."
+        }
+      },
+      {
+        "id": "dos-und-donts",
+        "heading": "Dos und Don’ts",
+        "url": "https://www.kern-ux.de/komponenten/descriptionlist#dos-und-donts",
+        "summary": {
+          "en": "Do not use a Description List for pure enumerations, and do not overload terms and descriptions with too much content."
+        }
+      }
+    ]
+  },
+  "knowledge": {
+    "summary": {
+      "en": "Pairs short terms with their descriptions in a row or column layout for a clear information hierarchy."
+    },
+    "whenToUse": [
+      {
+        "en": "When terms and definitions need a clear, accessible information hierarchy."
+      },
+      {
+        "en": "When all terms and definitions should be visible at a glance, e.g. summaries of form entries, specifications or glossaries."
+      }
+    ],
+    "donts": [
+      {
+        "en": "Do not use a Description List for pure enumerations."
+      },
+      {
+        "en": "Do not overload terms and descriptions with too much content."
+      }
+    ],
+    "similar": [
+      {
+        "id": "accordion"
+      }
+    ]
+  },
+  "options": [
+    {
+      "id": "layout",
+      "kind": "enum",
+      "origin": "curated",
+      "values": [
+        {
+          "id": "row",
+          "default": true
+        },
+        {
+          "id": "col"
+        }
+      ],
+      "html": {
+        "binding": "modifier",
+        "pattern": "kern-description-list--{value}",
+        "omit": [
+          "row"
+        ]
+      }
+    }
+  ],
+  "accessibility": [
+    {
+      "id": "info-and-relationships",
+      "criterion": "1.3.1",
+      "slug": "info-and-relationships",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "use-of-color",
+      "criterion": "1.4.1",
+      "slug": "use-of-color",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "contrast-enhanced",
+      "criterion": "1.4.6",
+      "slug": "contrast-enhanced",
+      "level": "AAA",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "non-text-contrast",
+      "criterion": "1.4.11",
+      "slug": "non-text-contrast",
+      "level": "AA",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "labels-or-instructions",
+      "criterion": "3.3.2",
+      "slug": "labels-or-instructions",
+      "level": "A",
+      "status": "implementation-dependent",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "keyboard",
+      "criterion": "2.1.1",
+      "slug": "keyboard",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "focus-appearance",
+      "criterion": "2.4.13",
+      "slug": "focus-appearance",
+      "level": "AAA",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "focus-order",
+      "criterion": "2.4.3",
+      "slug": "focus-order",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    }
+  ],
+  "examples": [
+    {
+      "id": "description-list",
+      "options": {
+        "layout": "row"
+      },
+      "html": {
+        "markup": "<dl class=\"kern-description-list\"><div class=\"kern-description-list-item\"><dt class=\"kern-description-list-item__key\">Name</dt><dd class=\"kern-description-list-item__value\">Max</dd></div><div class=\"kern-description-list-item\"><dt class=\"kern-description-list-item__key\">Vorname</dt><dd class=\"kern-description-list-item__value\">Mustermann</dd></div><div class=\"kern-description-list-item\"><dt class=\"kern-description-list-item__key\">E-Mail</dt><dd class=\"kern-description-list-item__value\">dasisteinesehrlangeemailadressevonmaxmustermann@unternehmen.xy</dd></div><div class=\"kern-description-list-item\"><dt class=\"kern-description-list-item__key\">Sachkundigen vor Ort</dt><dd class=\"kern-description-list-item__value\"><ul><li>Berger Ernst</li><li>Müller, Hans</li><li>Sagmeister, Petra</li><li>Pan, Peter</li></ul></dd></div></dl>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/DescriptionList/DescriptionList.stories.js",
+          "export": "DescriptionList"
+        }
+      }
+    },
+    {
+      "id": "description-list-col",
+      "options": {
+        "layout": "col"
+      },
+      "html": {
+        "markup": "<dl class=\"kern-description-list kern-description-list--col\"><div class=\"kern-description-list-item\"><dt class=\"kern-description-list-item__key\">Warum kann die Tätigkeit nur an einem Sonntag oder Feiertag durchgeführt werden</dt><dd class=\"kern-description-list-item__value\">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam fringilla fringilla lobortis.</dd></div><div class=\"kern-description-list-item\"><dt class=\"kern-description-list-item__key\">Welche Tätigkeiten werden am Sonntag oder Feiertag durchgeführt</dt><dd class=\"kern-description-list-item__value\">Ut finibus felis consectetur ullamcorper consectetur. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</dd></div><div class=\"kern-description-list-item\"><dt class=\"kern-description-list-item__key\">Welchen wirtschaftlichen Schaden entsteht, sollten die Arbeiten am gewünschten Sonn- oder Feiertag nicht stattfinden.</dt><dd class=\"kern-description-list-item__value\">Cras lacus purus, molestie et quam eget, condimentum finibus enim.</dd></div></dl>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/DescriptionList/DescriptionList.stories.js",
+          "export": "DescriptionListCol"
+        }
+      }
+    }
+  ],
+  "implementations": {
+    "html": {
+      "package": "@kern-ux/native",
+      "version": "2.8.2",
+      "classes": {
+        "roots": [
+          "kern-description-list"
+        ],
+        "blocks": [
+          "kern-description-list-item"
+        ],
+        "elements": [
+          "kern-description-list-item__key",
+          "kern-description-list-item__value"
+        ],
+        "modifiers": [
+          "kern-description-list--col"
+        ]
+      },
+      "sources": [
+        "src/scss/core/components/_description-list.scss",
+        "stories/DescriptionList/DescriptionList.stories.js"
+      ]
+    },
+    "react": {
+      "package": "@publicplan/kern-react-kit",
+      "version": "1.3.5",
+      "import": "import { DescriptionListHeading } from '@publicplan/kern-react-kit'",
+      "components": [
+        "DescriptionListHeading",
+        "DescriptionListItem",
+        "DescriptionListKey",
+        "DescriptionListRoot",
+        "DescriptionListValue"
+      ],
+      "sources": [
+        "src/components/DescriptionList"
+      ]
+    }
+  },
+  "provenance": {
+    "docs.sections.beschreibung.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/descriptionlist.mdx#beschreibung"
+      ],
+      "inputHash": "sha256:c44a84b640e3937908ab130dadd9d96a31b5f5ec1968e836571f23ca1b564ce0"
+    },
+    "docs.sections.dos-und-donts.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/descriptionlist.mdx#dos-und-donts"
+      ],
+      "inputHash": "sha256:c44a84b640e3937908ab130dadd9d96a31b5f5ec1968e836571f23ca1b564ce0"
+    },
+    "docs.sections.kurzbeschreibung.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/descriptionlist.mdx#kurzbeschreibung"
+      ],
+      "inputHash": "sha256:c44a84b640e3937908ab130dadd9d96a31b5f5ec1968e836571f23ca1b564ce0"
+    },
+    "docs.sections.verwendungsregeln.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/descriptionlist.mdx#verwendungsregeln"
+      ],
+      "inputHash": "sha256:c44a84b640e3937908ab130dadd9d96a31b5f5ec1968e836571f23ca1b564ce0"
+    },
+    "docs.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/descriptionlist.mdx"
+      ],
+      "inputHash": "sha256:c44a84b640e3937908ab130dadd9d96a31b5f5ec1968e836571f23ca1b564ce0"
+    },
+    "knowledge.donts.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/descriptionlist.mdx"
+      ],
+      "inputHash": "sha256:a82ff91634b3ce37b631b59bc4b37a62130f72252a9f258a95a67d06febeb5d6"
+    },
+    "knowledge.donts.1": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/descriptionlist.mdx"
+      ],
+      "inputHash": "sha256:a82ff91634b3ce37b631b59bc4b37a62130f72252a9f258a95a67d06febeb5d6"
+    },
+    "knowledge.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/descriptionlist.mdx"
+      ],
+      "inputHash": "sha256:a82ff91634b3ce37b631b59bc4b37a62130f72252a9f258a95a67d06febeb5d6"
+    },
+    "knowledge.whenToUse.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/descriptionlist.mdx"
+      ],
+      "inputHash": "sha256:a82ff91634b3ce37b631b59bc4b37a62130f72252a9f258a95a67d06febeb5d6"
+    },
+    "knowledge.whenToUse.1": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/descriptionlist.mdx"
+      ],
+      "inputHash": "sha256:a82ff91634b3ce37b631b59bc4b37a62130f72252a9f258a95a67d06febeb5d6"
+    }
+  }
+}

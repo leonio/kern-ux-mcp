@@ -1,0 +1,526 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/leonio/kern-ux-knowledge-packer/schema/knowledge-bundle.schema.json",
+  "title": "KERN knowledge bundle (provisional)",
+  "description": "Provisional contract written by kern-ux-knowledge-packer from kern-ux-mcp docs/plan-v2/knowledge-bundle.md. Replace with the schema kern-ux-mcp exports once it publishes one (kernux bundle -schema <file>). Each file of the bundle validates against one $defs entry: index.json -> index, components/*.json -> component, patterns/*.json -> pattern, foundations/icons.json -> icons, foundations/classes.json -> classes, foundations/utilities.json -> utilities, report.json -> report.",
+  "$defs": {
+    "id": { "type": "string", "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$" },
+    "optionId": { "type": "string", "pattern": "^[a-z][A-Za-z0-9]*$" },
+    "kernClass": { "type": "string", "pattern": "^kern-[A-Za-z0-9_-]+$" },
+    "semver": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+(-[0-9A-Za-z.-]+)?$" },
+    "url": { "type": "string", "pattern": "^https://" },
+    "summary": {
+      "type": "object",
+      "properties": { "en": { "type": "string", "minLength": 1, "maxLength": 160 } },
+      "required": ["en"],
+      "additionalProperties": false
+    },
+    "text": {
+      "type": "object",
+      "properties": { "en": { "type": "string", "minLength": 1, "maxLength": 200 } },
+      "required": ["en"],
+      "additionalProperties": false
+    },
+    "localized": {
+      "type": "object",
+      "properties": { "en": { "type": "string", "minLength": 1 }, "de": { "type": "string" } },
+      "required": ["en", "de"],
+      "additionalProperties": false
+    },
+    "links": {
+      "type": "object",
+      "properties": {
+        "docs": { "$ref": "#/$defs/url" },
+        "figma": { "$ref": "#/$defs/url" },
+        "source": { "$ref": "#/$defs/url" }
+      },
+      "additionalProperties": false
+    },
+    "docsDigest": {
+      "description": "English digest of the component's docs page. Summaries are model-written from the German sections; the German prose itself is not included.",
+      "type": "object",
+      "properties": {
+        "url": { "$ref": "#/$defs/url" },
+        "summary": {
+          "type": "object",
+          "properties": { "en": { "type": "string", "minLength": 1, "maxLength": 500 } },
+          "required": ["en"],
+          "additionalProperties": false
+        },
+        "sections": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "string", "minLength": 1 },
+              "heading": { "type": "string", "minLength": 1 },
+              "url": { "$ref": "#/$defs/url" },
+              "summary": {
+                "type": "object",
+                "properties": { "en": { "type": "string", "minLength": 1, "maxLength": 300 } },
+                "required": ["en"],
+                "additionalProperties": false
+              }
+            },
+            "required": ["id", "heading", "url"],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": ["url", "sections"],
+      "additionalProperties": false
+    },
+    "sourcePin": {
+      "type": "object",
+      "properties": {
+        "id": { "enum": ["kern-ux-plain", "technische-dokumentation", "kern-react-kit"] },
+        "package": { "type": "string" },
+        "version": { "$ref": "#/$defs/semver" },
+        "license": { "type": "string" },
+        "repository": { "$ref": "#/$defs/url" },
+        "commit": { "type": "string", "pattern": "^[0-9a-f]{7,40}$" },
+        "commitStatus": { "enum": ["checkout", "modified", "gitlink"] },
+        "contentHash": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" }
+      },
+      "required": ["id", "package", "version", "license", "contentHash"],
+      "additionalProperties": false
+    },
+    "indexEntry": {
+      "type": "object",
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "title": { "type": "string" },
+        "status": { "type": "string" },
+        "group": { "type": "string" },
+        "file": { "type": "string" }
+      },
+      "required": ["id", "title", "file"],
+      "additionalProperties": false
+    },
+    "index": {
+      "type": "object",
+      "properties": {
+        "bundleVersion": { "$ref": "#/$defs/semver" },
+        "generatedAt": { "type": "string", "format": "date-time" },
+        "generator": {
+          "type": "object",
+          "properties": { "name": { "type": "string" }, "version": { "$ref": "#/$defs/semver" }, "model": { "type": "string" } },
+          "required": ["name", "version"],
+          "additionalProperties": false
+        },
+        "kernVersion": { "$ref": "#/$defs/semver" },
+        "sources": { "type": "array", "items": { "$ref": "#/$defs/sourcePin" }, "minItems": 3, "maxItems": 3 },
+        "components": { "type": "array", "items": { "$ref": "#/$defs/indexEntry" } },
+        "patterns": { "type": "array", "items": { "$ref": "#/$defs/indexEntry" } },
+        "foundations": { "type": "array", "items": { "$ref": "#/$defs/indexEntry" } },
+        "licenses": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": { "applies": { "type": "string" }, "license": { "type": "string" }, "source": { "type": "string" } },
+            "required": ["applies", "license", "source"],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": ["bundleVersion", "generatedAt", "generator", "kernVersion", "sources", "components", "patterns", "foundations", "licenses"],
+      "additionalProperties": false
+    },
+    "binding": {
+      "type": "object",
+      "properties": {
+        "binding": { "enum": ["modifier", "part-class", "attribute", "pseudo"] },
+        "pattern": { "type": "string", "pattern": "\\{value\\}" },
+        "class": { "$ref": "#/$defs/kernClass" },
+        "attribute": { "type": "string" },
+        "value": { "type": "string" },
+        "selector": { "type": "string" },
+        "part": { "type": "string" },
+        "partClass": { "$ref": "#/$defs/kernClass" },
+        "omit": { "type": "array", "items": { "type": "string" } },
+        "alternatives": { "type": "array", "items": { "$ref": "#/$defs/binding" } }
+      },
+      "required": ["binding"],
+      "additionalProperties": false,
+      "allOf": [
+        { "if": { "properties": { "binding": { "const": "attribute" } } }, "then": { "required": ["attribute"] } },
+        { "if": { "properties": { "binding": { "const": "pseudo" } } }, "then": { "required": ["selector"] } },
+        { "if": { "properties": { "binding": { "const": "part-class" } } }, "then": { "required": ["part", "partClass"] } }
+      ]
+    },
+    "provenance": {
+      "type": "object",
+      "properties": {
+        "origin": { "enum": ["generated", "reviewed", "pending"] },
+        "reviewed": { "type": "boolean" },
+        "stale": { "type": "boolean" },
+        "from": { "type": "array", "items": { "type": "string" } },
+        "inputHash": { "type": "string" },
+        "model": { "type": "string" }
+      },
+      "required": ["origin", "reviewed", "from", "inputHash"],
+      "additionalProperties": false
+    },
+    "sourceRef": {
+      "type": "object",
+      "properties": {
+        "repo": { "enum": ["kern-ux-plain", "technische-dokumentation", "kern-react-kit"] },
+        "path": { "type": "string" },
+        "export": { "type": "string" },
+        "section": { "type": "string" },
+        "states": { "type": "array", "items": { "type": "string" } }
+      },
+      "required": ["repo", "path"],
+      "additionalProperties": false
+    },
+    "example": {
+      "type": "object",
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "options": { "type": "object", "propertyNames": { "$ref": "#/$defs/optionId" }, "additionalProperties": { "type": ["string", "boolean"] } },
+        "variesOver": { "type": "array", "items": { "$ref": "#/$defs/optionId" } },
+        "states": { "type": "array", "items": { "type": "string" } },
+        "instances": { "type": "integer", "minimum": 2 },
+        "html": {
+          "type": "object",
+          "properties": {
+            "markup": { "type": "string", "minLength": 1 },
+            "hasScript": { "type": "boolean" },
+            "source": { "$ref": "#/$defs/sourceRef" },
+            "alsoIn": { "type": "array", "items": { "$ref": "#/$defs/sourceRef" } }
+          },
+          "required": ["markup", "source"],
+          "additionalProperties": false
+        }
+      },
+      "required": ["id", "html"],
+      "additionalProperties": false
+    },
+    "drift": {
+      "type": "object",
+      "properties": {
+        "kind": { "enum": ["unknown-class", "example-coverage", "binding-gap", "docs-only", "missing-implementation"] },
+        "en": { "type": "string", "maxLength": 200 },
+        "sources": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+        "items": { "type": "array", "items": { "type": "string" } }
+      },
+      "required": ["kind", "en", "sources"],
+      "additionalProperties": false
+    },
+    "knowledge": {
+      "type": "object",
+      "properties": {
+        "summary": { "$ref": "#/$defs/summary" },
+        "whenToUse": { "type": "array", "items": { "$ref": "#/$defs/text" } },
+        "whenNotToUse": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": { "en": { "type": "string", "minLength": 1, "maxLength": 200 }, "useInstead": { "$ref": "#/$defs/id" } },
+            "required": ["en"],
+            "additionalProperties": false
+          }
+        },
+        "dos": { "type": "array", "items": { "$ref": "#/$defs/text" } },
+        "donts": { "type": "array", "items": { "$ref": "#/$defs/text" } },
+        "contentGuidelines": { "type": "array", "items": { "$ref": "#/$defs/text" } },
+        "similar": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": { "id": { "$ref": "#/$defs/id" }, "name": { "type": "string" }, "difference": { "$ref": "#/$defs/text" } },
+            "oneOf": [{ "required": ["id"] }, { "required": ["name"] }],
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "guide": {
+      "type": "object",
+      "properties": {
+        "docs": { "$ref": "#/$defs/docsDigest" },
+        "knowledge": { "$ref": "#/$defs/knowledge" },
+        "provenance": { "type": "object", "additionalProperties": { "$ref": "#/$defs/provenance" } }
+      },
+      "additionalProperties": false
+    },
+    "component": {
+      "type": "object",
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "title": { "$ref": "#/$defs/localized" },
+        "status": { "enum": ["stable", "experimental", "deprecated", "docs-only"] },
+        "group": { "type": "string" },
+        "synonyms": {
+          "type": "object",
+          "properties": {
+            "de": { "type": "array", "items": { "type": "string" } },
+            "en": { "type": "array", "items": { "type": "string" } }
+          },
+          "required": ["de"],
+          "additionalProperties": false
+        },
+        "links": { "allOf": [{ "$ref": "#/$defs/links" }, { "required": ["docs"] }] },
+        "docs": { "$ref": "#/$defs/docsDigest" },
+        "knowledge": { "$ref": "#/$defs/knowledge" },
+        "options": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": { "$ref": "#/$defs/optionId" },
+              "kind": { "enum": ["enum", "boolean"] },
+              "origin": { "enum": ["curated", "derived"] },
+              "summary": { "$ref": "#/$defs/text" },
+              "values": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": { "type": "string", "minLength": 1 },
+                    "default": { "type": "boolean" },
+                    "summary": { "$ref": "#/$defs/text" },
+                    "facts": { "type": "object" }
+                  },
+                  "required": ["id"],
+                  "additionalProperties": false
+                }
+              },
+              "html": { "$ref": "#/$defs/binding" },
+              "react": { "type": ["object", "null"], "properties": { "prop": { "type": "string" } }, "required": ["prop"] },
+              "constraints": { "type": "array", "items": { "$ref": "#/$defs/text" } }
+            },
+            "required": ["id", "kind", "origin", "html"],
+            "additionalProperties": false,
+            "if": { "properties": { "kind": { "const": "enum" } } },
+            "then": { "required": ["values"], "properties": { "values": { "minItems": 1 } } }
+          }
+        },
+        "states": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": { "$ref": "#/$defs/id" },
+              "origin": { "enum": ["curated", "derived"] },
+              "html": { "$ref": "#/$defs/binding" },
+              "guidance": { "$ref": "#/$defs/text" }
+            },
+            "required": ["id", "origin", "html"],
+            "additionalProperties": false
+          }
+        },
+        "accessibility": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+              "criterion": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+              "slug": { "type": "string" },
+              "level": { "enum": ["A", "AA", "AAA", ""] },
+              "status": { "enum": ["passed", "implementation-dependent", "failed", "unknown"] },
+              "lastChecked": { "type": "string", "format": "date" },
+              "obligation": { "$ref": "#/$defs/text" },
+              "check": { "type": "object" }
+            },
+            "required": ["id", "slug", "status"],
+            "additionalProperties": false
+          }
+        },
+        "examples": { "type": "array", "items": { "$ref": "#/$defs/example" } },
+        "moreExamples": {
+          "description": "Examples that didn't fit the component document's size budget, in components/<file>.",
+          "type": "object",
+          "properties": { "file": { "type": "string", "pattern": "^[a-z0-9-]+\\.examples\\.json$" }, "count": { "type": "integer", "minimum": 1 } },
+          "required": ["file", "count"],
+          "additionalProperties": false
+        },
+        "relations": { "type": "object" },
+        "anatomy": { "type": "object" },
+        "implementations": {
+          "type": "object",
+          "properties": {
+            "html": {
+              "type": "object",
+              "properties": {
+                "package": { "type": "string" },
+                "version": { "$ref": "#/$defs/semver" },
+                "classes": {
+                  "type": "object",
+                  "properties": {
+                    "roots": { "type": "array", "items": { "$ref": "#/$defs/kernClass" } },
+                    "blocks": { "type": "array", "items": { "$ref": "#/$defs/kernClass" } },
+                    "elements": { "type": "array", "items": { "$ref": "#/$defs/kernClass" } },
+                    "modifiers": { "type": "array", "items": { "$ref": "#/$defs/kernClass" } }
+                  },
+                  "required": ["roots"],
+                  "additionalProperties": false
+                },
+                "sources": { "type": "array", "items": { "type": "string" } }
+              },
+              "required": ["package", "version", "classes", "sources"],
+              "additionalProperties": false
+            },
+            "react": {
+              "type": "object",
+              "properties": {
+                "package": { "type": "string" },
+                "version": { "$ref": "#/$defs/semver" },
+                "import": { "type": "string" },
+                "components": { "type": "array", "items": { "type": "string" } },
+                "sources": { "type": "array", "items": { "type": "string" } },
+                "props": { "type": "array" }
+              },
+              "required": ["package", "version", "components", "sources"],
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        },
+        "drift": { "type": "array", "items": { "$ref": "#/$defs/drift" } },
+        "provenance": { "type": "object", "additionalProperties": { "$ref": "#/$defs/provenance" } }
+      },
+      "required": ["id", "title", "status", "group", "synonyms", "links", "implementations"],
+      "additionalProperties": false
+    },
+    "examplesFile": {
+      "type": "object",
+      "properties": {
+        "component": { "$ref": "#/$defs/id" },
+        "examples": { "type": "array", "items": { "$ref": "#/$defs/example" }, "minItems": 1 }
+      },
+      "required": ["component", "examples"],
+      "additionalProperties": false
+    },
+    "pattern": {
+      "type": "object",
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "title": { "$ref": "#/$defs/localized" },
+        "status": { "enum": ["stub", "documented"] },
+        "links": { "$ref": "#/$defs/links" },
+        "components": { "type": "array", "items": { "$ref": "#/$defs/id" } },
+        "examples": { "type": "array", "items": { "$ref": "#/$defs/example" } },
+        "docs": { "$ref": "#/$defs/docsDigest" },
+        "knowledge": { "$ref": "#/$defs/knowledge" },
+        "provenance": { "type": "object", "additionalProperties": { "$ref": "#/$defs/provenance" } }
+      },
+      "required": ["id", "title", "status", "links"],
+      "additionalProperties": false
+    },
+    "foundation": {
+      "type": "object",
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "title": { "$ref": "#/$defs/localized" },
+        "group": { "type": "string" },
+        "status": { "enum": ["documented", "missing"] },
+        "links": { "allOf": [{ "$ref": "#/$defs/links" }, { "required": ["docs"] }] },
+        "docs": { "$ref": "#/$defs/docsDigest" },
+        "knowledge": { "$ref": "#/$defs/knowledge" },
+        "provenance": { "type": "object", "additionalProperties": { "$ref": "#/$defs/provenance" } }
+      },
+      "required": ["id", "title", "status", "links"],
+      "additionalProperties": false
+    },
+    "icons": {
+      "type": "object",
+      "properties": {
+        "id": { "const": "icons" },
+        "kernVersion": { "$ref": "#/$defs/semver" },
+        "class": { "$ref": "#/$defs/kernClass" },
+        "pattern": { "type": "string" },
+        "source": { "type": "string" },
+        "sizes": { "type": "array", "items": { "$ref": "#/$defs/icon" } },
+        "icons": { "type": "array", "items": { "$ref": "#/$defs/icon" }, "minItems": 1 },
+        "docs": { "$ref": "#/$defs/docsDigest" },
+        "knowledge": { "$ref": "#/$defs/knowledge" },
+        "provenance": { "type": "object", "additionalProperties": { "$ref": "#/$defs/provenance" } }
+      },
+      "required": ["id", "kernVersion", "class", "pattern", "icons"],
+      "additionalProperties": false
+    },
+    "icon": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+        "class": { "$ref": "#/$defs/kernClass" },
+        "keywords": { "type": "array", "items": { "type": "string" } },
+        "materialSymbol": { "type": "string" }
+      },
+      "required": ["name", "class"],
+      "additionalProperties": false
+    },
+    "classes": {
+      "type": "object",
+      "properties": {
+        "id": { "const": "classes" },
+        "kernVersion": { "$ref": "#/$defs/semver" },
+        "count": { "type": "integer" },
+        "classes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "class": { "$ref": "#/$defs/kernClass" },
+              "kind": { "enum": ["component", "utility", "global", "layer", "theme", "shared"] },
+              "owner": { "type": "string" },
+              "sharedWith": { "type": "array", "items": { "$ref": "#/$defs/id" } },
+              "entries": { "type": "array", "items": { "enum": ["kern.css", "kern-grid.css", "kern-utilities.css"] } }
+            },
+            "required": ["class", "kind", "owner", "entries"],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": ["id", "kernVersion", "count", "classes"],
+      "additionalProperties": false
+    },
+    "utilities": {
+      "type": "object",
+      "properties": {
+        "id": { "const": "utilities" },
+        "kernVersion": { "$ref": "#/$defs/semver" },
+        "links": { "$ref": "#/$defs/links" },
+        "families": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "string" },
+              "source": { "type": "string" },
+              "count": { "type": "integer" },
+              "samples": { "type": "array", "items": { "$ref": "#/$defs/kernClass" } }
+            },
+            "required": ["id", "source", "count", "samples"],
+            "additionalProperties": false
+          }
+        },
+        "examples": { "type": "array", "items": { "$ref": "#/$defs/example" } },
+        "docs": { "$ref": "#/$defs/docsDigest" },
+        "knowledge": { "$ref": "#/$defs/knowledge" },
+        "provenance": { "type": "object", "additionalProperties": { "$ref": "#/$defs/provenance" } }
+      },
+      "required": ["id", "kernVersion", "families", "examples"],
+      "additionalProperties": false
+    },
+    "report": {
+      "type": "object",
+      "properties": {
+        "bundleVersion": { "$ref": "#/$defs/semver" },
+        "kernVersion": { "$ref": "#/$defs/semver" },
+        "sources": { "type": "object" },
+        "coverage": { "type": "object" },
+        "drift": { "type": "array" },
+        "text": { "type": "object" },
+        "examples": { "type": "object" },
+        "uncuratedModifiers": { "type": ["array", "null"] },
+        "oversize": { "type": ["array", "null"] },
+        "problems": { "type": ["array", "null"], "items": { "type": "string" } }
+      },
+      "required": ["bundleVersion", "kernVersion", "sources", "coverage", "drift", "text", "examples"]
+    }
+  }
+}

@@ -1,0 +1,483 @@
+{
+  "id": "alert",
+  "title": {
+    "en": "Alert",
+    "de": "Alert"
+  },
+  "status": "stable",
+  "group": "feedback",
+  "synonyms": {
+    "de": [
+      "Hinweis",
+      "Meldung",
+      "Warnung",
+      "Information",
+      "Mitteilung",
+      "Rückmeldung"
+    ]
+  },
+  "links": {
+    "docs": "https://www.kern-ux.de/komponenten/alert",
+    "figma": "https://www.figma.com/community/file/1624024563231427311",
+    "source": "https://gitlab.opencode.de/kern-ux/kern-ux-plain/-/tree/v2.8.2/src/scss/core/components/_alert.scss"
+  },
+  "docs": {
+    "url": "https://www.kern-ux.de/komponenten/alert",
+    "summary": {
+      "en": "Alert flags important information or a change with a short notice. It has a header with an icon and descriptive title, an optional body text and an optional link, and four fixed colour-coded tones: info (blue), success (green), warning (yellow) and danger (red). The page explains effective use, the meaning of each tone and when not to use an alert."
+    },
+    "sections": [
+      {
+        "id": "kurzbeschreibung",
+        "heading": "Kurzbeschreibung",
+        "url": "https://www.kern-ux.de/komponenten/alert#kurzbeschreibung",
+        "summary": {
+          "en": "An alert flags important information with a short explanation and an optional link."
+        }
+      },
+      {
+        "id": "beschreibung",
+        "heading": "Beschreibung",
+        "url": "https://www.kern-ux.de/komponenten/alert#beschreibung",
+        "summary": {
+          "en": "An alert has a header of icon plus descriptive title and an optional content area with a short text and an optional link to more information or related actions. Four fixed tones: info (blue), success (green), warning (yellow), danger (red)."
+        }
+      },
+      {
+        "id": "effektiver-einsatz",
+        "heading": "Effektiver Einsatz",
+        "url": "https://www.kern-ux.de/komponenten/alert#effektiver-einsatz",
+        "summary": {
+          "en": "Keep the message clear and unambiguous, show alerts only when they are relevant for the user, communicate urgency appropriately, and let users react to the message directly."
+        }
+      },
+      {
+        "id": "verwendungsregeln",
+        "heading": "Verwendungsregeln",
+        "url": "https://www.kern-ux.de/komponenten/alert#verwendungsregeln",
+        "summary": {
+          "en": "Info (blue) for uncritical status without action; success (green) for a completed action; warning (yellow) for attention without criticality, stating whether an action is required; danger (red) for a critical state that blocks progress, naming or linking the needed action."
+        }
+      },
+      {
+        "id": "dos-und-donts",
+        "heading": "Dos und Don’ts",
+        "url": "https://www.kern-ux.de/komponenten/alert#dos-und-donts",
+        "summary": {
+          "en": "Use alerts sparingly - a plain text paragraph can carry the information. Describe the reason briefly and precisely, name or link any required user action, and never leave users alone with a message without solutions."
+        }
+      }
+    ]
+  },
+  "knowledge": {
+    "summary": {
+      "en": "Shows a short, colour-coded notice about important information, with optional description and link."
+    },
+    "whenToUse": [
+      {
+        "en": "When important information or a change must reach the user and a short notice with an optional link is enough."
+      }
+    ],
+    "dos": [
+      {
+        "en": "Use alerts sparingly; information can also be conveyed in a paragraph of text."
+      },
+      {
+        "en": "Describe the reason for the alert in a brief and precise explanation."
+      },
+      {
+        "en": "If user action is required, name and/or link that action."
+      }
+    ],
+    "donts": [
+      {
+        "en": "Do not leave users alone with a message; point out solutions."
+      }
+    ],
+    "similar": [
+      {
+        "id": "badge"
+      }
+    ]
+  },
+  "options": [
+    {
+      "id": "tone",
+      "kind": "enum",
+      "origin": "curated",
+      "values": [
+        {
+          "id": "info"
+        },
+        {
+          "id": "success"
+        },
+        {
+          "id": "warning"
+        },
+        {
+          "id": "danger"
+        }
+      ],
+      "html": {
+        "binding": "modifier",
+        "pattern": "kern-alert--{value}"
+      }
+    }
+  ],
+  "accessibility": [
+    {
+      "id": "non-text-content",
+      "criterion": "1.1.1",
+      "slug": "non-text-content",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-10-21"
+    },
+    {
+      "id": "info-and-relationships",
+      "criterion": "1.3.1",
+      "slug": "info-and-relationships",
+      "level": "A",
+      "status": "implementation-dependent",
+      "lastChecked": "2025-10-21"
+    },
+    {
+      "id": "info-and-relationships-2",
+      "criterion": "1.3.1",
+      "slug": "info-and-relationships",
+      "level": "A",
+      "status": "implementation-dependent",
+      "lastChecked": "2026-06-11"
+    },
+    {
+      "id": "use-of-color",
+      "criterion": "1.4.1",
+      "slug": "use-of-color",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-10-21"
+    },
+    {
+      "id": "contrast-enhanced",
+      "criterion": "1.4.6",
+      "slug": "contrast-enhanced",
+      "level": "AAA",
+      "status": "passed",
+      "lastChecked": "2025-10-21"
+    },
+    {
+      "id": "non-text-contrast",
+      "criterion": "1.4.11",
+      "slug": "non-text-contrast",
+      "level": "AA",
+      "status": "passed",
+      "lastChecked": "2025-10-21"
+    },
+    {
+      "id": "labels-or-instructions",
+      "criterion": "3.3.2",
+      "slug": "labels-or-instructions",
+      "level": "A",
+      "status": "implementation-dependent",
+      "lastChecked": "2025-10-21"
+    },
+    {
+      "id": "keyboard",
+      "criterion": "2.1.1",
+      "slug": "keyboard",
+      "level": "A",
+      "status": "implementation-dependent",
+      "lastChecked": "2025-10-21"
+    },
+    {
+      "id": "focus-appearance",
+      "criterion": "2.4.13",
+      "slug": "focus-appearance",
+      "level": "AAA",
+      "status": "implementation-dependent",
+      "lastChecked": "2025-10-21"
+    }
+  ],
+  "examples": [
+    {
+      "id": "alert",
+      "variesOver": [
+        "tone"
+      ],
+      "instances": 4,
+      "html": {
+        "markup": "<div class=\"kern-alert kern-alert--info\" role=\"alert\"><div class=\"kern-alert__header\"><span class=\"kern-icon kern-icon--info\" aria-hidden=\"true\"></span><h2 class=\"kern-title\">Hinweis</h2></div></div><br><div class=\"kern-alert kern-alert--success\" role=\"alert\"><div class=\"kern-alert__header\"><span class=\"kern-icon kern-icon--success\" aria-hidden=\"true\"></span><h2 class=\"kern-title\">Erfolg</h2></div></div><br><div class=\"kern-alert kern-alert--warning\" role=\"alert\"><div class=\"kern-alert__header\"><span class=\"kern-icon kern-icon--warning\" aria-hidden=\"true\"></span><h2 class=\"kern-title\">Warnung</h2></div></div><br><div class=\"kern-alert kern-alert--danger\" role=\"alert\"><div class=\"kern-alert__header\"><span class=\"kern-icon kern-icon--danger\" aria-hidden=\"true\"></span><h2 class=\"kern-title\">Fehler</h2></div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Alert/Alert.stories.js",
+          "export": "Alert"
+        }
+      }
+    },
+    {
+      "id": "alert-info",
+      "options": {
+        "tone": "info"
+      },
+      "html": {
+        "markup": "<div class=\"kern-alert kern-alert--info\" role=\"alert\"><div class=\"kern-alert__header\"><span class=\"kern-icon kern-icon--info\" aria-hidden=\"true\"></span><h2 class=\"kern-title\">Hinweis</h2></div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Alert/Alert.stories.js",
+          "export": "AlertInfo"
+        }
+      }
+    },
+    {
+      "id": "alert-success",
+      "options": {
+        "tone": "success"
+      },
+      "html": {
+        "markup": "<div class=\"kern-alert kern-alert--success\" role=\"alert\"><div class=\"kern-alert__header\"><span class=\"kern-icon kern-icon--success\" aria-hidden=\"true\"></span><h2 class=\"kern-title\">Erfolg</h2></div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Alert/Alert.stories.js",
+          "export": "AlertSuccess"
+        }
+      }
+    },
+    {
+      "id": "alert-warning",
+      "options": {
+        "tone": "warning"
+      },
+      "html": {
+        "markup": "<div class=\"kern-alert kern-alert--warning\" role=\"alert\"><div class=\"kern-alert__header\"><span class=\"kern-icon kern-icon--warning\" aria-hidden=\"true\"></span><h2 class=\"kern-title\">Warnung</h2></div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Alert/Alert.stories.js",
+          "export": "AlertWarning"
+        }
+      }
+    },
+    {
+      "id": "alert-danger",
+      "options": {
+        "tone": "danger"
+      },
+      "html": {
+        "markup": "<div class=\"kern-alert kern-alert--danger\" role=\"alert\"><div class=\"kern-alert__header\"><span class=\"kern-icon kern-icon--danger\" aria-hidden=\"true\"></span><h2 class=\"kern-title\">Fehler</h2></div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Alert/Alert.stories.js",
+          "export": "AlertDanger"
+        }
+      }
+    },
+    {
+      "id": "alert-content",
+      "variesOver": [
+        "tone"
+      ],
+      "instances": 4,
+      "html": {
+        "markup": "<div class=\"kern-alert kern-alert--info\" role=\"alert\"><div class=\"kern-alert__header\"><span class=\"kern-icon kern-icon--info\" aria-hidden=\"true\"></span><h2 class=\"kern-title\">Hinweis</h2></div><div class=\"kern-alert__body\"><p class=\"kern-body\">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod.</p><a href=\"#\" class=\"kern-link\"><span class=\"kern-icon kern-icon--arrow-forward\" aria-hidden=\"true\"></span> Linktext </a></div></div><br><div class=\"kern-alert kern-alert--success\" role=\"alert\"><div class=\"kern-alert__header\"><span class=\"kern-icon kern-icon--success\" aria-hidden=\"true\"></span><h2 class=\"kern-title\">Erfolg</h2></div><div class=\"kern-alert__body\"><p class=\"kern-body\">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod.</p><a href=\"#\" class=\"kern-link\"><span class=\"kern-icon kern-icon--arrow-forward\" aria-hidden=\"true\"></span> Linktext </a></div></div><br><div class=\"kern-alert kern-alert--warning\" role=\"alert\"><div class=\"kern-alert__header\"><span class=\"kern-icon kern-icon--warning\" aria-hidden=\"true\"></span><h2 class=\"kern-title\">Warnung</h2></div><div class=\"kern-alert__body\"><ul class=\"kern-list\"><li><a class=\"kern-link\" href=\"#\"><span class=\"kern-icon kern-icon--arrow-forward\" aria-hidden=\"true\"></span> Ein weitere Link </a></li><li><a class=\"kern-link\" href=\"#\"><span class=\"kern-icon kern-icon--arrow-forward\" aria-hidden=\"true\"></span> Dataport Homepage </a></li><li><a class=\"kern-link\" href=\"#\"><span class=\"kern-icon kern-icon--arrow-forward\" aria-hidden=\"true\"></span> Link zu Dokumentation </a></li><li><a class=\"kern-link\" href=\"#\"><span class=\"kern-icon kern-icon--arrow-forward\" aria-hidden=\"true\"></span> More </a></li></ul></div></div><br><div class=\"kern-alert kern-alert--danger\" role=\"alert\"><div class=\"kern-alert__header\"><span class=\"kern-icon kern-icon--danger\" aria-hidden=\"true\"></span><h2 class=\"kern-title\">Fehler</h2></div><div class=\"kern-alert__body\"><p class=\"kern-body\">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod.</p><ul class=\"kern-list kern-list--bullet\"><li>Wir wollen den digital zugänglichen Staat: barrierefrei, transparent und intuitiv nutzbar für alle Bürger:innen, Institutionen und Unternehmen im Land</li><li>Darum arbeiten wir länderübergreifend an einem technologisch unabhängigen Open Source Design System für Kommunal- bis Bundesebene</li><li>So befähigen wir Umsetzende, effizient digitale Verwaltungslösungen zu entwickeln, die durch die Qualität und Vereinheitlichung auf das Serviceerlebnis und Vertrauen der Nutzer:innen einzahlen</li></ul></div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Alert/AlertContent.stories.js",
+          "export": "AlertContent"
+        }
+      }
+    },
+    {
+      "id": "alert-info-content",
+      "options": {
+        "tone": "info"
+      },
+      "html": {
+        "markup": "<div class=\"kern-alert kern-alert--info\" role=\"alert\"><div class=\"kern-alert__header\"><span class=\"kern-icon kern-icon--info\" aria-hidden=\"true\"></span><h2 class=\"kern-title\">Hinweis</h2></div><div class=\"kern-alert__body\"><p class=\"kern-body\">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod.</p></div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Alert/AlertContent.stories.js",
+          "export": "AlertInfoContent"
+        }
+      }
+    },
+    {
+      "id": "alert-success-content",
+      "options": {
+        "tone": "success"
+      },
+      "html": {
+        "markup": "<div class=\"kern-alert kern-alert--success\" role=\"alert\"><div class=\"kern-alert__header\"><span class=\"kern-icon kern-icon--success\" aria-hidden=\"true\"></span><h2 class=\"kern-title\">Erfolg</h2></div><div class=\"kern-alert__body\"><p class=\"kern-body\">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod.</p></div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Alert/AlertContent.stories.js",
+          "export": "AlertSuccessContent"
+        }
+      }
+    },
+    {
+      "id": "alert-warning-content",
+      "options": {
+        "tone": "warning"
+      },
+      "html": {
+        "markup": "<div class=\"kern-alert kern-alert--warning\" role=\"alert\"><div class=\"kern-alert__header\"><span class=\"kern-icon kern-icon--warning\" aria-hidden=\"true\"></span><h2 class=\"kern-title\">Warnung</h2></div><div class=\"kern-alert__body\"><p class=\"kern-body\">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod.</p></div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Alert/AlertContent.stories.js",
+          "export": "AlertWarningContent"
+        }
+      }
+    },
+    {
+      "id": "alert-danger-content",
+      "options": {
+        "tone": "danger"
+      },
+      "html": {
+        "markup": "<div class=\"kern-alert kern-alert--danger\" role=\"alert\"><div class=\"kern-alert__header\"><span class=\"kern-icon kern-icon--danger\" aria-hidden=\"true\"></span><h2 class=\"kern-title\">Fehler</h2></div><div class=\"kern-alert__body\"><p class=\"kern-body\">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod.</p></div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Alert/AlertContent.stories.js",
+          "export": "AlertDangerContent"
+        }
+      }
+    }
+  ],
+  "implementations": {
+    "html": {
+      "package": "@kern-ux/native",
+      "version": "2.8.2",
+      "classes": {
+        "roots": [
+          "kern-alert"
+        ],
+        "elements": [
+          "kern-alert__body",
+          "kern-alert__header"
+        ],
+        "modifiers": [
+          "kern-alert--danger",
+          "kern-alert--info",
+          "kern-alert--success",
+          "kern-alert--warning"
+        ]
+      },
+      "sources": [
+        "src/scss/core/components/_alert.scss",
+        "stories/Alert/Alert.stories.js",
+        "stories/Alert/AlertContent.stories.js"
+      ]
+    },
+    "react": {
+      "package": "@publicplan/kern-react-kit",
+      "version": "1.3.5",
+      "import": "import { AlertBody } from '@publicplan/kern-react-kit'",
+      "components": [
+        "AlertBody",
+        "AlertHeader",
+        "AlertRoot"
+      ],
+      "sources": [
+        "src/components/Alert"
+      ]
+    }
+  },
+  "provenance": {
+    "docs.sections.beschreibung.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/alert.mdx#beschreibung"
+      ],
+      "inputHash": "sha256:81b23957cb7704170cac916e63f27f47f7800dcb7069880fa63ff0b1e2adf242"
+    },
+    "docs.sections.dos-und-donts.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/alert.mdx#dos-und-donts"
+      ],
+      "inputHash": "sha256:81b23957cb7704170cac916e63f27f47f7800dcb7069880fa63ff0b1e2adf242"
+    },
+    "docs.sections.effektiver-einsatz.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/alert.mdx#effektiver-einsatz"
+      ],
+      "inputHash": "sha256:81b23957cb7704170cac916e63f27f47f7800dcb7069880fa63ff0b1e2adf242"
+    },
+    "docs.sections.kurzbeschreibung.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/alert.mdx#kurzbeschreibung"
+      ],
+      "inputHash": "sha256:81b23957cb7704170cac916e63f27f47f7800dcb7069880fa63ff0b1e2adf242"
+    },
+    "docs.sections.verwendungsregeln.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/alert.mdx#verwendungsregeln"
+      ],
+      "inputHash": "sha256:81b23957cb7704170cac916e63f27f47f7800dcb7069880fa63ff0b1e2adf242"
+    },
+    "docs.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/alert.mdx"
+      ],
+      "inputHash": "sha256:81b23957cb7704170cac916e63f27f47f7800dcb7069880fa63ff0b1e2adf242"
+    },
+    "knowledge.donts.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/alert.mdx"
+      ],
+      "inputHash": "sha256:1299d8ceeca5834e318f1c2dce4c7e29f33d61e32f07b54e02d718bb5d98412c"
+    },
+    "knowledge.dos.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/alert.mdx"
+      ],
+      "inputHash": "sha256:1299d8ceeca5834e318f1c2dce4c7e29f33d61e32f07b54e02d718bb5d98412c"
+    },
+    "knowledge.dos.1": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/alert.mdx"
+      ],
+      "inputHash": "sha256:1299d8ceeca5834e318f1c2dce4c7e29f33d61e32f07b54e02d718bb5d98412c"
+    },
+    "knowledge.dos.2": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/alert.mdx"
+      ],
+      "inputHash": "sha256:1299d8ceeca5834e318f1c2dce4c7e29f33d61e32f07b54e02d718bb5d98412c"
+    },
+    "knowledge.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/alert.mdx"
+      ],
+      "inputHash": "sha256:1299d8ceeca5834e318f1c2dce4c7e29f33d61e32f07b54e02d718bb5d98412c"
+    },
+    "knowledge.whenToUse.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/alert.mdx"
+      ],
+      "inputHash": "sha256:1299d8ceeca5834e318f1c2dce4c7e29f33d61e32f07b54e02d718bb5d98412c"
+    }
+  }
+}

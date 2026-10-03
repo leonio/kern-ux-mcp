@@ -1,0 +1,59 @@
+{
+  "id": "colour-generic",
+  "title": {
+    "en": "Colour: generic",
+    "de": "Generische Farben"
+  },
+  "group": "Farbe",
+  "status": "documented",
+  "links": {
+    "docs": "https://www.kern-ux.de/design-system/foundations/farbe/generisch"
+  },
+  "docs": {
+    "url": "https://www.kern-ux.de/design-system/foundations/farbe/generisch",
+    "summary": {
+      "en": "Covers KERN's generic colours, the base palette the semantic layer draws on. The page presents that base colour table, and notes that white and black are not listed in it but are still used in the semantics."
+    },
+    "sections": [
+      {
+        "id": "weitere-farben",
+        "heading": "Weitere Farben",
+        "url": "https://www.kern-ux.de/design-system/foundations/farbe/generisch#weitere-farben",
+        "summary": {
+          "en": "White and black are missing from the base colour table above, yet the semantic layer still uses them."
+        }
+      }
+    ]
+  },
+  "knowledge": {
+    "summary": {
+      "en": "Generic colours are KERN's base palette; white and black are also used by the semantic tokens even though the table omits them."
+    }
+  },
+  "provenance": {
+    "docs.sections.weitere-farben.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/farbe/generisch.mdx#weitere-farben"
+      ],
+      "inputHash": "sha256:0534ba22343699662021625c8260928a62446010a31fae6a6493f7275e3ac53e"
+    },
+    "docs.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/farbe/generisch.mdx"
+      ],
+      "inputHash": "sha256:0534ba22343699662021625c8260928a62446010a31fae6a6493f7275e3ac53e"
+    },
+    "knowledge.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/farbe/generisch.mdx"
+      ],
+      "inputHash": "sha256:69b9fd6e7cc1272cf69ba3e540ec858e3e86073a060a2c9970b0d8d4cdcf87f0"
+    }
+  }
+}

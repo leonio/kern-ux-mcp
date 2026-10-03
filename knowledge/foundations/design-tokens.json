@@ -1,0 +1,333 @@
+{
+  "id": "design-tokens",
+  "title": {
+    "en": "Design tokens",
+    "de": "Design-Token"
+  },
+  "group": "Foundations",
+  "status": "documented",
+  "links": {
+    "docs": "https://www.kern-ux.de/design-system/foundations/design-token"
+  },
+  "docs": {
+    "url": "https://www.kern-ux.de/design-system/foundations/design-token",
+    "summary": {
+      "en": "KERN gives design values names through design tokens, so design and development share one vocabulary instead of hard-coded values. Tokens derive with growing specificity across three levels: base values, core tokens, then semantic tokens, the ones layouts and components are built from. Names are hyphen-separated segments in a fixed order: system prefix, type, context and optional variant, property, modifier and behaviour. A final section lists the functional areas that apply tokens."
+    },
+    "sections": [
+      {
+        "id": "mit-design-token-vertraut-werden",
+        "heading": "Mit Design-Token vertraut werden",
+        "url": "https://www.kern-ux.de/design-system/foundations/design-token#mit-design-token-vertraut-werden",
+        "summary": {
+          "en": "Design tokens give values such as colours or sizes a name, so properties can be used without typing pixels and hex codes. The system builds a shared, consistent language between design and development and makes collaboration more efficient."
+        }
+      },
+      {
+        "id": "token-ebenen",
+        "heading": "Token-Ebenen",
+        "url": "https://www.kern-ux.de/design-system/foundations/design-token#token-ebenen",
+        "summary": {
+          "en": "The system derives every token along a chain that grows more specific, from a generic base value to a concrete use case. Three levels make up that chain: base, core tokens and semantic tokens."
+        }
+      },
+      {
+        "id": "grundwerte",
+        "heading": "Grundwerte",
+        "url": "https://www.kern-ux.de/design-system/foundations/design-token#grundwerte",
+        "summary": {
+          "en": "The bottom level holds raw values: plain numbers, units such as 24px, or colour data such as LCH lightness, chroma and hue. They are the raw material of the design system, and the page links to why colours are split into L, C and H."
+        }
+      },
+      {
+        "id": "core-token",
+        "heading": "Core Token",
+        "url": "https://www.kern-ux.de/design-system/foundations/design-token#core-token",
+        "summary": {
+          "en": "One abstraction step above the base values sit core tokens: system-wide, often style-defining constants such as --kern-color-turquoise-050-lightness. They are derived from base values and act as the starting point for semantic use."
+        }
+      },
+      {
+        "id": "semantische-token",
+        "heading": "Semantische Token",
+        "url": "https://www.kern-ux.de/design-system/foundations/design-token#semantische-token",
+        "summary": {
+          "en": "The top level holds semantic tokens, the ones used to build layouts and components. Their clear names reveal the context they apply in, for example --kern-color-feedback-success-background for a positive feedback background, bridging design and function."
+        }
+      },
+      {
+        "id": "namenskonvention-der-semantischen-token",
+        "heading": "Namenskonvention der semantischen Token",
+        "url": "https://www.kern-ux.de/design-system/foundations/design-token#namenskonvention-der-semantischen-token",
+        "summary": {
+          "en": "Names follow the rule of as short as possible, as long as needed. Hyphen-separated segments narrow the meaning from general to specific along the schema --systempräfix-typ-kontext-variante-eigenschaft-modifikator-verhalten."
+        }
+      },
+      {
+        "id": "1-systempräfix",
+        "heading": "1. Systempräfix:",
+        "url": "https://www.kern-ux.de/design-system/foundations/design-token#1-systempräfix",
+        "summary": {
+          "en": "Names the namespace of the design system, which is always kern."
+        }
+      },
+      {
+        "id": "2-typ",
+        "heading": "2. Typ:",
+        "url": "https://www.kern-ux.de/design-system/foundations/design-token#2-typ",
+        "summary": {
+          "en": "Classifies the general category of the token. KERN uses four types: color, metric, typography and component."
+        }
+      },
+      {
+        "id": "3-kontext",
+        "heading": "3. Kontext:",
+        "url": "https://www.kern-ux.de/design-system/foundations/design-token#3-kontext",
+        "summary": {
+          "en": "Names the next larger area the token is used in, such as space, layout, feedback or font-size."
+        }
+      },
+      {
+        "id": "4-variante-optional",
+        "heading": "4. Variante (optional):",
+        "url": "https://www.kern-ux.de/design-system/foundations/design-token#4-variante-optional",
+        "summary": {
+          "en": "Narrows the context further when needed; in the feedback context a variant distinguishes success, error and info. Variants are optional and only named when needed."
+        }
+      },
+      {
+        "id": "5-eigenschaft-optional",
+        "heading": "5. Eigenschaft (optional):",
+        "url": "https://www.kern-ux.de/design-system/foundations/design-token#5-eigenschaft-optional",
+        "summary": {
+          "en": "Corresponds to a CSS property, for example background, width or space. Properties are optional too and become relevant when the token's use would otherwise be ambiguous."
+        }
+      },
+      {
+        "id": "6-modifikator-optional",
+        "heading": "6. Modifikator (optional):",
+        "url": "https://www.kern-ux.de/design-system/foundations/design-token#6-modifikator-optional",
+        "summary": {
+          "en": "The most specific level, usually naming a concrete size such as small or x-large, or a state such as default or hover. Modifiers are also only named when needed."
+        }
+      },
+      {
+        "id": "7-verhalten-optional",
+        "heading": "7. Verhalten (optional):",
+        "url": "https://www.kern-ux.de/design-system/foundations/design-token#7-verhalten-optional",
+        "summary": {
+          "en": "Says how a token reacts to different contexts or breakpoints, for example contextual, static or adaptive. Not every token carries every segment, but the order stays fixed."
+        }
+      },
+      {
+        "id": "beispiele-zur-namenskonvention",
+        "heading": "Beispiele zur Namenskonvention",
+        "url": "https://www.kern-ux.de/design-system/foundations/design-token#beispiele-zur-namenskonvention",
+        "summary": {
+          "en": "Worked examples show how the segments combine: --kern-color-layout-border, --kern-color-feedback-success-background-contextual, --kern-metric-border-width, --kern-metric-dimension-2x-small and --kern-typography-line-height-2x-large-adaptive. Not every token needs every category."
+        }
+      },
+      {
+        "id": "design-token-nach-funktionsbereichen",
+        "heading": "Design-Token nach Funktionsbereichen",
+        "url": "https://www.kern-ux.de/design-system/foundations/design-token#design-token-nach-funktionsbereichen",
+        "summary": {
+          "en": "Lists the functional areas where token use is described in detail: colour, typography, sizes and spacing, interaction, layout and layering."
+        }
+      }
+    ]
+  },
+  "knowledge": {
+    "summary": {
+      "en": "Design tokens name colours, sizes and spacing in three derived levels; build layouts and components from the semantic tokens."
+    },
+    "whenToUse": [
+      {
+        "en": "Use semantic tokens when building layouts and components; their names state the context they belong to."
+      }
+    ],
+    "dos": [
+      {
+        "en": "Keep the segment order (system prefix, type, context, optional variant, property, modifier, behaviour) even when a token leaves segments out."
+      },
+      {
+        "en": "Name tokens as short as possible and as long as needed."
+      }
+    ],
+    "donts": [
+      {
+        "en": "Do not add variant, property, modifier or behaviour segments that are not needed; name them only when the token's use would otherwise be unclear."
+      }
+    ]
+  },
+  "provenance": {
+    "docs.sections.1-systempräfix.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/design-token.mdx#1-systempräfix"
+      ],
+      "inputHash": "sha256:06a4fd62857f5d7b876230c4301ddce91edca73013ef539277ee82ff258e7610"
+    },
+    "docs.sections.2-typ.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/design-token.mdx#2-typ"
+      ],
+      "inputHash": "sha256:06a4fd62857f5d7b876230c4301ddce91edca73013ef539277ee82ff258e7610"
+    },
+    "docs.sections.3-kontext.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/design-token.mdx#3-kontext"
+      ],
+      "inputHash": "sha256:06a4fd62857f5d7b876230c4301ddce91edca73013ef539277ee82ff258e7610"
+    },
+    "docs.sections.4-variante-optional.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/design-token.mdx#4-variante-optional"
+      ],
+      "inputHash": "sha256:06a4fd62857f5d7b876230c4301ddce91edca73013ef539277ee82ff258e7610"
+    },
+    "docs.sections.5-eigenschaft-optional.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/design-token.mdx#5-eigenschaft-optional"
+      ],
+      "inputHash": "sha256:06a4fd62857f5d7b876230c4301ddce91edca73013ef539277ee82ff258e7610"
+    },
+    "docs.sections.6-modifikator-optional.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/design-token.mdx#6-modifikator-optional"
+      ],
+      "inputHash": "sha256:06a4fd62857f5d7b876230c4301ddce91edca73013ef539277ee82ff258e7610"
+    },
+    "docs.sections.7-verhalten-optional.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/design-token.mdx#7-verhalten-optional"
+      ],
+      "inputHash": "sha256:06a4fd62857f5d7b876230c4301ddce91edca73013ef539277ee82ff258e7610"
+    },
+    "docs.sections.beispiele-zur-namenskonvention.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/design-token.mdx#beispiele-zur-namenskonvention"
+      ],
+      "inputHash": "sha256:06a4fd62857f5d7b876230c4301ddce91edca73013ef539277ee82ff258e7610"
+    },
+    "docs.sections.core-token.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/design-token.mdx#core-token"
+      ],
+      "inputHash": "sha256:06a4fd62857f5d7b876230c4301ddce91edca73013ef539277ee82ff258e7610"
+    },
+    "docs.sections.design-token-nach-funktionsbereichen.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/design-token.mdx#design-token-nach-funktionsbereichen"
+      ],
+      "inputHash": "sha256:06a4fd62857f5d7b876230c4301ddce91edca73013ef539277ee82ff258e7610"
+    },
+    "docs.sections.grundwerte.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/design-token.mdx#grundwerte"
+      ],
+      "inputHash": "sha256:06a4fd62857f5d7b876230c4301ddce91edca73013ef539277ee82ff258e7610"
+    },
+    "docs.sections.mit-design-token-vertraut-werden.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/design-token.mdx#mit-design-token-vertraut-werden"
+      ],
+      "inputHash": "sha256:06a4fd62857f5d7b876230c4301ddce91edca73013ef539277ee82ff258e7610"
+    },
+    "docs.sections.namenskonvention-der-semantischen-token.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/design-token.mdx#namenskonvention-der-semantischen-token"
+      ],
+      "inputHash": "sha256:06a4fd62857f5d7b876230c4301ddce91edca73013ef539277ee82ff258e7610"
+    },
+    "docs.sections.semantische-token.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/design-token.mdx#semantische-token"
+      ],
+      "inputHash": "sha256:06a4fd62857f5d7b876230c4301ddce91edca73013ef539277ee82ff258e7610"
+    },
+    "docs.sections.token-ebenen.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/design-token.mdx#token-ebenen"
+      ],
+      "inputHash": "sha256:06a4fd62857f5d7b876230c4301ddce91edca73013ef539277ee82ff258e7610"
+    },
+    "docs.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/design-token.mdx"
+      ],
+      "inputHash": "sha256:06a4fd62857f5d7b876230c4301ddce91edca73013ef539277ee82ff258e7610"
+    },
+    "knowledge.donts.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/design-token.mdx"
+      ],
+      "inputHash": "sha256:59cf738023f929e9c527a13e2fd373ed5d233d51313b560a4eaa6853ded5d666"
+    },
+    "knowledge.dos.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/design-token.mdx"
+      ],
+      "inputHash": "sha256:59cf738023f929e9c527a13e2fd373ed5d233d51313b560a4eaa6853ded5d666"
+    },
+    "knowledge.dos.1": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/design-token.mdx"
+      ],
+      "inputHash": "sha256:59cf738023f929e9c527a13e2fd373ed5d233d51313b560a4eaa6853ded5d666"
+    },
+    "knowledge.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/design-token.mdx"
+      ],
+      "inputHash": "sha256:59cf738023f929e9c527a13e2fd373ed5d233d51313b560a4eaa6853ded5d666"
+    },
+    "knowledge.whenToUse.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/design-token.mdx"
+      ],
+      "inputHash": "sha256:59cf738023f929e9c527a13e2fd373ed5d233d51313b560a4eaa6853ded5d666"
+    }
+  }
+}

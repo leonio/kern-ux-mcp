@@ -1,0 +1,380 @@
+{
+  "id": "details",
+  "title": {
+    "en": "Details",
+    "de": "Details"
+  },
+  "status": "stable",
+  "group": "disclosure",
+  "synonyms": {
+    "de": [
+      "Arrow toggle",
+      "Collapse",
+      "Collapsible",
+      "Disclosure",
+      "Expandable",
+      "Expander",
+      "Accordion"
+    ]
+  },
+  "links": {
+    "docs": "https://www.kern-ux.de/komponenten/details",
+    "figma": "https://www.figma.com/community/file/1624024563231427311",
+    "source": "https://gitlab.opencode.de/kern-ux/kern-ux-plain/-/tree/v2.8.2/src/scss/core/components/_details.scss"
+  },
+  "docs": {
+    "url": "https://www.kern-ux.de/komponenten/details",
+    "summary": {
+      "en": "Details reveals supplementary information that only some users need. The page covers the always-visible control and the collapsible region, suitable content such as explanations, help texts, background and legal notes, the rule to use it only when information is not required for the task, and where Accordion fits instead."
+    },
+    "sections": [
+      {
+        "id": "kurzbeschreibung",
+        "heading": "Kurzbeschreibung",
+        "url": "https://www.kern-ux.de/komponenten/details#kurzbeschreibung",
+        "summary": {
+          "en": "Reveals supplementary information that is relevant only to part of the users."
+        }
+      },
+      {
+        "id": "beschreibung",
+        "heading": "Beschreibung",
+        "url": "https://www.kern-ux.de/komponenten/details#beschreibung",
+        "summary": {
+          "en": "The component has a visible control for opening and closing and a collapsible content area. The control stays visible and describes the content; the expanded area can hold text, lists, links or further content."
+        }
+      },
+      {
+        "id": "verwendungsregeln",
+        "heading": "Verwendungsregeln",
+        "url": "https://www.kern-ux.de/komponenten/details#verwendungsregeln",
+        "summary": {
+          "en": "Show supplementary information only on demand: additional explanations, help texts, background information, legal notes or definitions. Reserve it for content relevant to only some users and not needed to understand or finish the task, and keep the summary short, clear and unambiguous."
+        }
+      },
+      {
+        "id": "dos-und-donts",
+        "heading": "Dos und Don’ts",
+        "url": "https://www.kern-ux.de/komponenten/details#dos-und-donts",
+        "summary": {
+          "en": "Use Details only for supplementary information not needed to understand or complete a task. Label the control briefly and clearly, next to the content it relates to. One region per Details; use Accordion for several. Never hide important notes, error messages or mandatory information."
+        }
+      }
+    ]
+  },
+  "knowledge": {
+    "summary": {
+      "en": "Reveals one region of supplementary information on demand; use Accordion for several independent regions."
+    },
+    "whenToUse": [
+      {
+        "en": "For supplementary content relevant to only some users, such as help texts, background, legal notes or definitions."
+      }
+    ],
+    "dos": [
+      {
+        "en": "Use Details only for supplementary information that is not required to understand or finish a task."
+      },
+      {
+        "en": "Label the control briefly, understandably and unambiguously."
+      },
+      {
+        "en": "Place Details next to the content it relates to."
+      },
+      {
+        "en": "Use Accordion when several related information regions should be expanded independently."
+      }
+    ],
+    "donts": [
+      {
+        "en": "Do not hide important notes, error messages or mandatory information inside Details."
+      },
+      {
+        "en": "Do not use general labels such as \"More\" or \"Details\" when they do not say what information appears."
+      },
+      {
+        "en": "Do not place essential input elements or primary actions only inside Details."
+      }
+    ],
+    "similar": [
+      {
+        "id": "accordion"
+      },
+      {
+        "name": "Tooltip"
+      },
+      {
+        "name": "Help"
+      },
+      {
+        "id": "dropdown"
+      }
+    ]
+  },
+  "states": [
+    {
+      "id": "focus",
+      "origin": "derived",
+      "html": {
+        "binding": "pseudo",
+        "selector": ":focus-visible",
+        "partClass": "kern-details__header"
+      }
+    },
+    {
+      "id": "hover",
+      "origin": "derived",
+      "html": {
+        "binding": "pseudo",
+        "selector": ":hover",
+        "partClass": "kern-details__header"
+      }
+    },
+    {
+      "id": "open",
+      "origin": "derived",
+      "html": {
+        "binding": "attribute",
+        "attribute": "open"
+      }
+    }
+  ],
+  "accessibility": [
+    {
+      "id": "headings-and-labels",
+      "criterion": "2.4.6",
+      "slug": "headings-and-labels",
+      "level": "AA",
+      "status": "implementation-dependent",
+      "lastChecked": "2026-09-08"
+    },
+    {
+      "id": "name-role-value",
+      "criterion": "4.1.2",
+      "slug": "name-role-value",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2026-09-08"
+    },
+    {
+      "id": "info-and-relationships",
+      "criterion": "1.3.1",
+      "slug": "info-and-relationships",
+      "level": "A",
+      "status": "implementation-dependent",
+      "lastChecked": "2026-09-08"
+    },
+    {
+      "id": "keyboard",
+      "criterion": "2.1.1",
+      "slug": "keyboard",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2026-09-08"
+    },
+    {
+      "id": "focus-visible",
+      "criterion": "2.4.7",
+      "slug": "focus-visible",
+      "level": "AA",
+      "status": "passed",
+      "lastChecked": "2026-09-08"
+    },
+    {
+      "id": "contrast-minimum",
+      "criterion": "1.4.3",
+      "slug": "contrast-minimum",
+      "level": "AA",
+      "status": "passed",
+      "lastChecked": "2026-09-09"
+    },
+    {
+      "id": "non-text-contrast",
+      "criterion": "1.4.11",
+      "slug": "non-text-contrast",
+      "level": "AA",
+      "status": "passed",
+      "lastChecked": "2026-09-09"
+    },
+    {
+      "id": "target-size-minimum",
+      "criterion": "2.5.8",
+      "slug": "target-size-minimum",
+      "level": "AA",
+      "status": "passed",
+      "lastChecked": "2026-09-09"
+    },
+    {
+      "id": "focus-order",
+      "criterion": "2.4.3",
+      "slug": "focus-order",
+      "level": "A",
+      "status": "implementation-dependent",
+      "lastChecked": "2026-09-09"
+    },
+    {
+      "id": "resize-text",
+      "criterion": "1.4.4",
+      "slug": "resize-text",
+      "level": "AA",
+      "status": "passed",
+      "lastChecked": "2026-09-09"
+    }
+  ],
+  "examples": [
+    {
+      "id": "details",
+      "html": {
+        "markup": "<details class=\"kern-details\"><summary class=\"kern-details__header\"><span class=\"kern-title kern-title--small\">Details zu Punkt XY</span></summary><div class=\"kern-details__body\"><p class=\"kern-body\"> Das ist ein Beispiel für die Nutzung von <code>&lt;details&gt;</code> und <code>&lt;summary&gt;</code> für die progressive Offenlegung von Inhalten im Textfluss. Es ist eine native HTML-Lösung, die ohne JavaScript auskommt und von aktuellen Browsern und Screenreadern nativ unterstützt wird. Der eingeblendete Inhalt schiebt nachfolgende Elemente auf der Seite nach unten (Layout-Shift). </p></div></details>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Details/Details.stories.js",
+          "export": "Details"
+        }
+      }
+    }
+  ],
+  "implementations": {
+    "html": {
+      "package": "@kern-ux/native",
+      "version": "2.8.2",
+      "classes": {
+        "roots": [
+          "kern-details"
+        ],
+        "elements": [
+          "kern-details__body",
+          "kern-details__header"
+        ]
+      },
+      "sources": [
+        "src/scss/core/components/_details.scss",
+        "stories/Details/Details.stories.js"
+      ]
+    }
+  },
+  "drift": [
+    {
+      "kind": "missing-implementation",
+      "en": "kern-react-kit has no component for this.",
+      "sources": [
+        "kern-react-kit",
+        "kern-ux-plain"
+      ]
+    }
+  ],
+  "provenance": {
+    "docs.sections.beschreibung.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/details.mdx#beschreibung"
+      ],
+      "inputHash": "sha256:b535d2d49a8c0753f115aa5802ce499bc8d04cc9af52d707d3a1fd35a99e9555"
+    },
+    "docs.sections.dos-und-donts.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/details.mdx#dos-und-donts"
+      ],
+      "inputHash": "sha256:b535d2d49a8c0753f115aa5802ce499bc8d04cc9af52d707d3a1fd35a99e9555"
+    },
+    "docs.sections.kurzbeschreibung.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/details.mdx#kurzbeschreibung"
+      ],
+      "inputHash": "sha256:b535d2d49a8c0753f115aa5802ce499bc8d04cc9af52d707d3a1fd35a99e9555"
+    },
+    "docs.sections.verwendungsregeln.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/details.mdx#verwendungsregeln"
+      ],
+      "inputHash": "sha256:b535d2d49a8c0753f115aa5802ce499bc8d04cc9af52d707d3a1fd35a99e9555"
+    },
+    "docs.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/details.mdx"
+      ],
+      "inputHash": "sha256:b535d2d49a8c0753f115aa5802ce499bc8d04cc9af52d707d3a1fd35a99e9555"
+    },
+    "knowledge.donts.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/details.mdx"
+      ],
+      "inputHash": "sha256:4840c7e7d3dbfa019e0d72bf466a1f69c07a16e02bbcb83ab8575b883ac037bb"
+    },
+    "knowledge.donts.1": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/details.mdx"
+      ],
+      "inputHash": "sha256:4840c7e7d3dbfa019e0d72bf466a1f69c07a16e02bbcb83ab8575b883ac037bb"
+    },
+    "knowledge.donts.2": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/details.mdx"
+      ],
+      "inputHash": "sha256:4840c7e7d3dbfa019e0d72bf466a1f69c07a16e02bbcb83ab8575b883ac037bb"
+    },
+    "knowledge.dos.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/details.mdx"
+      ],
+      "inputHash": "sha256:4840c7e7d3dbfa019e0d72bf466a1f69c07a16e02bbcb83ab8575b883ac037bb"
+    },
+    "knowledge.dos.1": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/details.mdx"
+      ],
+      "inputHash": "sha256:4840c7e7d3dbfa019e0d72bf466a1f69c07a16e02bbcb83ab8575b883ac037bb"
+    },
+    "knowledge.dos.2": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/details.mdx"
+      ],
+      "inputHash": "sha256:4840c7e7d3dbfa019e0d72bf466a1f69c07a16e02bbcb83ab8575b883ac037bb"
+    },
+    "knowledge.dos.3": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/details.mdx"
+      ],
+      "inputHash": "sha256:4840c7e7d3dbfa019e0d72bf466a1f69c07a16e02bbcb83ab8575b883ac037bb"
+    },
+    "knowledge.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/details.mdx"
+      ],
+      "inputHash": "sha256:4840c7e7d3dbfa019e0d72bf466a1f69c07a16e02bbcb83ab8575b883ac037bb"
+    },
+    "knowledge.whenToUse.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/details.mdx"
+      ],
+      "inputHash": "sha256:4840c7e7d3dbfa019e0d72bf466a1f69c07a16e02bbcb83ab8575b883ac037bb"
+    }
+  }
+}

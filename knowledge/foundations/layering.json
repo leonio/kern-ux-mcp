@@ -1,0 +1,155 @@
+{
+  "id": "layering",
+  "title": {
+    "en": "Layering",
+    "de": "Layering"
+  },
+  "group": "Foundations",
+  "status": "documented",
+  "links": {
+    "docs": "https://www.kern-ux.de/design-system/foundations/layering"
+  },
+  "docs": {
+    "url": "https://www.kern-ux.de/design-system/foundations/layering",
+    "summary": {
+      "en": "KERN separates two ideas for stacking content: levels order whole page regions by how close they are to the user, and surfaces give individual components a background that adapts to the level they sit on. Components use contextual tokens instead of fixed colours, so they work on any background without manual recolouring."
+    },
+    "sections": [
+      {
+        "id": "wofür-dient-das-layering-system",
+        "heading": "Wofür dient das Layering System?",
+        "url": "https://www.kern-ux.de/design-system/foundations/layering#wofür-dient-das-layering-system",
+        "summary": {
+          "en": "Sets out what the layering system is for: keeping visual hierarchy clear, holding contrasts correct automatically, letting components be reused in different contexts, easing maintenance, and keeping light and dark themes consistent."
+        }
+      },
+      {
+        "id": "die-ebenen-level",
+        "heading": "Die Ebenen (Level)",
+        "url": "https://www.kern-ux.de/design-system/foundations/layering#die-ebenen-level",
+        "summary": {
+          "en": "Levels order the larger regions of a page by hierarchy: the closer or more important a region is to the user, the higher its level. KERN offers three levels for layout."
+        }
+      },
+      {
+        "id": "level-0",
+        "heading": "Level 0:",
+        "url": "https://www.kern-ux.de/design-system/foundations/layering#level-0",
+        "summary": {
+          "en": "The base level of the page. It forms the background and carries the primary content."
+        }
+      },
+      {
+        "id": "level-1",
+        "heading": "Level 1:",
+        "url": "https://www.kern-ux.de/design-system/foundations/layering#level-1",
+        "summary": {
+          "en": "Raised containers or regions that stand out from the base level and bring important content forward."
+        }
+      },
+      {
+        "id": "level-2",
+        "heading": "Level 2:",
+        "url": "https://www.kern-ux.de/design-system/foundations/layering#level-2",
+        "summary": {
+          "en": "Elements inside a raised container that separate themselves further and should hold the user's attention."
+        }
+      },
+      {
+        "id": "komponenten-mit-oberfläche-surface",
+        "heading": "Komponenten mit Oberfläche (Surface)",
+        "url": "https://www.kern-ux.de/design-system/foundations/layering#komponenten-mit-oberfläche-surface",
+        "summary": {
+          "en": "Beyond levels, a component or an element inside one can be given a surface, as with Card, Task List and the input elements. Surface tokens set a component's appearance, such as its background colour, and follow the level the component sits on."
+        }
+      },
+      {
+        "id": "verhalten-von-inhalten-im-layering",
+        "heading": "Verhalten von Inhalten im Layering",
+        "url": "https://www.kern-ux.de/design-system/foundations/layering#verhalten-von-inhalten-im-layering",
+        "summary": {
+          "en": "Components adapt to their surroundings through contextual tokens such as layout-background-contextual or action-default-contextual rather than fixed colours; their values follow the level or surface the component sits on, so no manual recolouring is needed."
+        }
+      }
+    ]
+  },
+  "knowledge": {
+    "summary": {
+      "en": "Levels order page regions by proximity to the user; surfaces let components adapt their look to the level they sit on."
+    }
+  },
+  "provenance": {
+    "docs.sections.die-ebenen-level.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/layering.mdx#die-ebenen-level"
+      ],
+      "inputHash": "sha256:f8002784ac5ea748d8f71e8b525caa925ab1b3f40e2be517197b91fa7af81db6"
+    },
+    "docs.sections.komponenten-mit-oberfläche-surface.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/layering.mdx#komponenten-mit-oberfläche-surface"
+      ],
+      "inputHash": "sha256:f8002784ac5ea748d8f71e8b525caa925ab1b3f40e2be517197b91fa7af81db6"
+    },
+    "docs.sections.level-0.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/layering.mdx#level-0"
+      ],
+      "inputHash": "sha256:f8002784ac5ea748d8f71e8b525caa925ab1b3f40e2be517197b91fa7af81db6"
+    },
+    "docs.sections.level-1.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/layering.mdx#level-1"
+      ],
+      "inputHash": "sha256:f8002784ac5ea748d8f71e8b525caa925ab1b3f40e2be517197b91fa7af81db6"
+    },
+    "docs.sections.level-2.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/layering.mdx#level-2"
+      ],
+      "inputHash": "sha256:f8002784ac5ea748d8f71e8b525caa925ab1b3f40e2be517197b91fa7af81db6"
+    },
+    "docs.sections.verhalten-von-inhalten-im-layering.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/layering.mdx#verhalten-von-inhalten-im-layering"
+      ],
+      "inputHash": "sha256:f8002784ac5ea748d8f71e8b525caa925ab1b3f40e2be517197b91fa7af81db6"
+    },
+    "docs.sections.wofür-dient-das-layering-system.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/layering.mdx#wofür-dient-das-layering-system"
+      ],
+      "inputHash": "sha256:f8002784ac5ea748d8f71e8b525caa925ab1b3f40e2be517197b91fa7af81db6"
+    },
+    "docs.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/layering.mdx"
+      ],
+      "inputHash": "sha256:f8002784ac5ea748d8f71e8b525caa925ab1b3f40e2be517197b91fa7af81db6"
+    },
+    "knowledge.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/layering.mdx"
+      ],
+      "inputHash": "sha256:9ab40db3efa5c5fa9c8cf7fd05d3f8bfe1ea58be8e3cf1dcd43dce1466307274"
+    }
+  }
+}

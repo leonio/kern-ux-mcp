@@ -1,0 +1,541 @@
+{
+  "id": "input-file",
+  "title": {
+    "en": "Input File",
+    "de": "Input File"
+  },
+  "status": "stable",
+  "group": "form",
+  "synonyms": {
+    "de": [
+      "Upload",
+      "File input",
+      "File uploader",
+      "File upload"
+    ]
+  },
+  "links": {
+    "docs": "https://www.kern-ux.de/komponenten/form-inputs/file",
+    "figma": "https://www.figma.com/community/file/1624024563231427311",
+    "source": "https://gitlab.opencode.de/kern-ux/kern-ux-plain/-/tree/v2.8.2/src/scss/core/components/_input.scss"
+  },
+  "docs": {
+    "url": "https://www.kern-ux.de/komponenten/form-inputs/file",
+    "summary": {
+      "en": "Input File lets users upload one or more files, either by dragging them onto the drop area or with a button that opens the file browser. One file appears next to the button with its name and extension; several are summarised, for example \"4 files selected\". State the allowed formats and the maximum size in the hint."
+    },
+    "sections": [
+      {
+        "id": "kurzbeschreibung",
+        "heading": "Kurzbeschreibung",
+        "url": "https://www.kern-ux.de/komponenten/form-inputs/file#kurzbeschreibung",
+        "summary": {
+          "en": "Input File enables the upload of one or more files."
+        }
+      },
+      {
+        "id": "disabled",
+        "heading": "Disabled",
+        "url": "https://www.kern-ux.de/komponenten/form-inputs/file#disabled",
+        "summary": {
+          "en": "Avoid disabled, because it restricts accessibility."
+        }
+      },
+      {
+        "id": "beschreibung",
+        "heading": "Beschreibung",
+        "url": "https://www.kern-ux.de/komponenten/form-inputs/file#beschreibung",
+        "summary": {
+          "en": "Users drag files onto the drop area, which reacts while the pointer is over it, or open the file browser with a button. One file is shown by name and extension, several are summarised. Keep the label specific and put the allowed formats and the maximum size in the hint; read-only is not supported."
+        }
+      },
+      {
+        "id": "verwendungsregeln",
+        "heading": "Verwendungsregeln",
+        "url": "https://www.kern-ux.de/komponenten/form-inputs/file#verwendungsregeln",
+        "summary": {
+          "en": "Ask for an upload only when the service needs it, and check whether an API or the user's profile can supply the information instead. If you must ask, it should be something only the user can provide, such as a photo or a receipt. Allow several formats, validate automatically and describe errors."
+        }
+      },
+      {
+        "id": "dos-und-donts",
+        "heading": "Dos und Don’ts",
+        "url": "https://www.kern-ux.de/komponenten/form-inputs/file#dos-und-donts",
+        "summary": {
+          "en": "Always state the allowed file types and the maximum size precisely."
+        }
+      },
+      {
+        "id": "weitere-hinweise",
+        "heading": "Weitere Hinweise",
+        "url": "https://www.kern-ux.de/komponenten/form-inputs/file#weitere-hinweise",
+        "summary": {
+          "en": "Files uploaded together should belong together thematically; otherwise use several Input File components. The general Input Dos and Don'ts also apply."
+        }
+      }
+    ]
+  },
+  "knowledge": {
+    "summary": {
+      "en": "Input File uploads one or more files by drag and drop or a file picker, and requires allowed formats and a size limit."
+    },
+    "whenToUse": [
+      {
+        "en": "Use Input File when users must provide something only they can, such as their own photo or a receipt."
+      }
+    ],
+    "dos": [
+      {
+        "en": "Always state the allowed file types and the maximum size precisely."
+      },
+      {
+        "en": "Keep the label short and specific about what should be uploaded."
+      },
+      {
+        "en": "Validate uploads automatically and describe errors so users can fix them."
+      },
+      {
+        "en": "Allow a range of file formats."
+      }
+    ],
+    "donts": [
+      {
+        "en": "Don't ask for an upload unless the service really needs it."
+      },
+      {
+        "en": "Don't request data an API or the user's profile can already supply."
+      },
+      {
+        "en": "Don't group unrelated files in one Input File."
+      },
+      {
+        "en": "Don't use disabled, because it restricts accessibility."
+      }
+    ]
+  },
+  "states": [
+    {
+      "id": "disabled",
+      "origin": "derived",
+      "html": {
+        "binding": "attribute",
+        "attribute": "disabled",
+        "alternatives": [
+          {
+            "binding": "attribute",
+            "attribute": "disabled",
+            "partClass": "kern-form-input__input"
+          },
+          {
+            "binding": "attribute",
+            "attribute": "aria-disabled",
+            "value": "true",
+            "partClass": "kern-form-input__input"
+          }
+        ]
+      }
+    },
+    {
+      "id": "error",
+      "origin": "derived",
+      "html": {
+        "binding": "modifier",
+        "class": "kern-form-input--error",
+        "alternatives": [
+          {
+            "binding": "modifier",
+            "class": "kern-form-input__input--error",
+            "partClass": "kern-form-input__input"
+          }
+        ]
+      }
+    },
+    {
+      "id": "focus",
+      "origin": "derived",
+      "html": {
+        "binding": "pseudo",
+        "selector": ":focus",
+        "partClass": "kern-form-input__input"
+      }
+    },
+    {
+      "id": "hover",
+      "origin": "derived",
+      "html": {
+        "binding": "pseudo",
+        "selector": ":hover",
+        "partClass": "kern-form-input__input"
+      }
+    },
+    {
+      "id": "readonly",
+      "origin": "derived",
+      "html": {
+        "binding": "attribute",
+        "attribute": "readonly",
+        "partClass": "kern-form-input__input"
+      }
+    }
+  ],
+  "accessibility": [
+    {
+      "id": "info-and-relationships",
+      "criterion": "1.3.1",
+      "slug": "info-and-relationships",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "use-of-color",
+      "criterion": "1.4.1",
+      "slug": "use-of-color",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "contrast-enhanced",
+      "criterion": "1.4.6",
+      "slug": "contrast-enhanced",
+      "level": "AAA",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "non-text-contrast",
+      "criterion": "1.4.11",
+      "slug": "non-text-contrast",
+      "level": "AA",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "labels-or-instructions",
+      "criterion": "3.3.2",
+      "slug": "labels-or-instructions",
+      "level": "A",
+      "status": "implementation-dependent",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "keyboard",
+      "criterion": "2.1.1",
+      "slug": "keyboard",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "focus-appearance",
+      "criterion": "2.4.13",
+      "slug": "focus-appearance",
+      "level": "AAA",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "focus-order",
+      "criterion": "2.4.3",
+      "slug": "focus-order",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "error-identification",
+      "criterion": "3.3.1",
+      "slug": "error-identification",
+      "level": "A",
+      "status": "implementation-dependent",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "status-messages",
+      "criterion": "4.1.3",
+      "slug": "status-messages",
+      "level": "AA",
+      "status": "implementation-dependent",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "info-and-relationships-2",
+      "criterion": "1.3.1",
+      "slug": "info-and-relationships",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-10-23"
+    },
+    {
+      "id": "status-messages-2",
+      "criterion": "4.1.3",
+      "slug": "status-messages",
+      "level": "AA",
+      "status": "implementation-dependent",
+      "lastChecked": "2025-10-23"
+    }
+  ],
+  "examples": [
+    {
+      "id": "file",
+      "html": {
+        "markup": "<div class=\"kern-form-input\"><label class=\"kern-label\" for=\"input-file\">KERN Upload File</label><div class=\"kern-hint\" id=\"input-file-hint\">Erlaubte Formate: jpg, png, pdf</div><input class=\"kern-form-input__input\" id=\"input-file\" name=\"inputFile\" type=\"file\" aria-describedby=\"input-file-hint\"></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/InputFile/InputFile.stories.js",
+          "export": "File"
+        }
+      }
+    },
+    {
+      "id": "file-focus",
+      "states": [
+        "focus"
+      ],
+      "html": {
+        "markup": "<div class=\"kern-form-input\"><label class=\"kern-label\" for=\"input-file2\">KERN Upload File</label><div class=\"kern-hint\" id=\"input-file-hint2\">Erlaubte Formate: jpg, png, pdf</div><input class=\"kern-form-input__input\" id=\"input-file2\" name=\"inputFile\" type=\"file\" aria-describedby=\"input-file-hint2\"></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/InputFile/InputFile.stories.js",
+          "export": "FileFocus"
+        }
+      }
+    },
+    {
+      "id": "file-disabled",
+      "states": [
+        "disabled"
+      ],
+      "html": {
+        "markup": "<div class=\"kern-form-input\"><label class=\"kern-label\" for=\"input-file4\">KERN Upload File</label><div class=\"kern-hint\" id=\"input-file-hint4\">Erlaubte Formate: jpg, png, pdf</div><input class=\"kern-form-input__input\" id=\"input-file4\" name=\"inputFile\" type=\"file\" disabled aria-describedby=\"input-file-hint4\"></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/InputFile/InputFile.stories.js",
+          "export": "FileDisabled"
+        }
+      }
+    },
+    {
+      "id": "file-optional",
+      "html": {
+        "markup": "<div class=\"kern-form-input\"><label class=\"kern-label\" for=\"input-file6\">KERN Upload File <span class=\"kern-label__optional\">- Optional</span></label><div class=\"kern-hint\" id=\"input-file-hint6\">Erlaubte Formate: jpg, png, pdf</div><input class=\"kern-form-input__input\" id=\"input-file6\" name=\"inputFile6\" type=\"file\" aria-describedby=\"input-file-hint6\"></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/InputFile/InputFile.stories.js",
+          "export": "FileOptional"
+        }
+      }
+    },
+    {
+      "id": "file-hint-error",
+      "states": [
+        "error"
+      ],
+      "html": {
+        "markup": "<div class=\"kern-form-input kern-form-input--error\"><label class=\"kern-label\" for=\"input-file5\">KERN Upload File</label><div class=\"kern-hint\" id=\"input-file-hint5\">Erlaubte Formate: jpg, png, pdf</div><input class=\"kern-form-input__input kern-form-input__input--error\" id=\"input-file5\" name=\"inputFile\" type=\"file\" aria-describedby=\"input-file-hint5 file-input-error\" aria-invalid=\"true\"><p class=\"kern-error\" id=\"file-input-error\"><span class=\"kern-icon kern-icon--danger\" aria-hidden=\"true\"></span><span class=\"kern-body\">Das Dateiformat ist nicht erlaubt</span></p></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/InputFile/InputFile.stories.js",
+          "export": "FileHintError"
+        }
+      }
+    }
+  ],
+  "implementations": {
+    "html": {
+      "package": "@kern-ux/native",
+      "version": "2.8.2",
+      "classes": {
+        "roots": [
+          "kern-form-input"
+        ],
+        "elements": [
+          "kern-form-input__input",
+          "kern-form-input__select-wrapper"
+        ],
+        "modifiers": [
+          "kern-form-input--error",
+          "kern-form-input__input--error",
+          "kern-form-input__input--width-2",
+          "kern-form-input__input--width-4"
+        ]
+      },
+      "sources": [
+        "src/scss/core/components/_input.scss",
+        "stories/InputFile/InputFile.stories.js"
+      ]
+    },
+    "react": {
+      "package": "@publicplan/kern-react-kit",
+      "version": "1.3.5",
+      "import": "import from '@publicplan/kern-react-kit'",
+      "components": [],
+      "sources": [
+        "src/components/Input"
+      ]
+    }
+  },
+  "drift": [
+    {
+      "kind": "unknown-class",
+      "en": "Docs examples use classes that kern-ux-plain doesn't define.",
+      "sources": [
+        "technische-dokumentation",
+        "kern-ux-plain"
+      ],
+      "items": [
+        "kern-icon--md"
+      ]
+    },
+    {
+      "kind": "example-coverage",
+      "en": "Modifiers defined in SCSS that no story or docs example shows.",
+      "sources": [
+        "kern-ux-plain"
+      ],
+      "items": [
+        "kern-form-input__input--width-2",
+        "kern-form-input__input--width-4"
+      ]
+    }
+  ],
+  "provenance": {
+    "docs.sections.beschreibung.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/file.mdx#beschreibung"
+      ],
+      "inputHash": "sha256:bcd7ef03a93d0c0cd402dc0b9566e7ad44c172bfaebfd11d95e11e7fd06853b9"
+    },
+    "docs.sections.disabled.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/file.mdx#disabled"
+      ],
+      "inputHash": "sha256:bcd7ef03a93d0c0cd402dc0b9566e7ad44c172bfaebfd11d95e11e7fd06853b9"
+    },
+    "docs.sections.dos-und-donts.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/file.mdx#dos-und-donts"
+      ],
+      "inputHash": "sha256:bcd7ef03a93d0c0cd402dc0b9566e7ad44c172bfaebfd11d95e11e7fd06853b9"
+    },
+    "docs.sections.kurzbeschreibung.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/file.mdx#kurzbeschreibung"
+      ],
+      "inputHash": "sha256:bcd7ef03a93d0c0cd402dc0b9566e7ad44c172bfaebfd11d95e11e7fd06853b9"
+    },
+    "docs.sections.verwendungsregeln.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/file.mdx#verwendungsregeln"
+      ],
+      "inputHash": "sha256:bcd7ef03a93d0c0cd402dc0b9566e7ad44c172bfaebfd11d95e11e7fd06853b9"
+    },
+    "docs.sections.weitere-hinweise.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/file.mdx#weitere-hinweise"
+      ],
+      "inputHash": "sha256:bcd7ef03a93d0c0cd402dc0b9566e7ad44c172bfaebfd11d95e11e7fd06853b9"
+    },
+    "docs.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/file.mdx"
+      ],
+      "inputHash": "sha256:bcd7ef03a93d0c0cd402dc0b9566e7ad44c172bfaebfd11d95e11e7fd06853b9"
+    },
+    "knowledge.donts.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/file.mdx"
+      ],
+      "inputHash": "sha256:859853a9bc8803f6f8c5c8705cfda3b89bf3136af575f194c4679b08dd2cff0b"
+    },
+    "knowledge.donts.1": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/file.mdx"
+      ],
+      "inputHash": "sha256:859853a9bc8803f6f8c5c8705cfda3b89bf3136af575f194c4679b08dd2cff0b"
+    },
+    "knowledge.donts.2": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/file.mdx"
+      ],
+      "inputHash": "sha256:859853a9bc8803f6f8c5c8705cfda3b89bf3136af575f194c4679b08dd2cff0b"
+    },
+    "knowledge.donts.3": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/file.mdx"
+      ],
+      "inputHash": "sha256:859853a9bc8803f6f8c5c8705cfda3b89bf3136af575f194c4679b08dd2cff0b"
+    },
+    "knowledge.dos.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/file.mdx"
+      ],
+      "inputHash": "sha256:859853a9bc8803f6f8c5c8705cfda3b89bf3136af575f194c4679b08dd2cff0b"
+    },
+    "knowledge.dos.1": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/file.mdx"
+      ],
+      "inputHash": "sha256:859853a9bc8803f6f8c5c8705cfda3b89bf3136af575f194c4679b08dd2cff0b"
+    },
+    "knowledge.dos.2": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/file.mdx"
+      ],
+      "inputHash": "sha256:859853a9bc8803f6f8c5c8705cfda3b89bf3136af575f194c4679b08dd2cff0b"
+    },
+    "knowledge.dos.3": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/file.mdx"
+      ],
+      "inputHash": "sha256:859853a9bc8803f6f8c5c8705cfda3b89bf3136af575f194c4679b08dd2cff0b"
+    },
+    "knowledge.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/file.mdx"
+      ],
+      "inputHash": "sha256:859853a9bc8803f6f8c5c8705cfda3b89bf3136af575f194c4679b08dd2cff0b"
+    },
+    "knowledge.whenToUse.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/file.mdx"
+      ],
+      "inputHash": "sha256:859853a9bc8803f6f8c5c8705cfda3b89bf3136af575f194c4679b08dd2cff0b"
+    }
+  }
+}

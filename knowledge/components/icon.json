@@ -1,0 +1,596 @@
+{
+  "id": "icon",
+  "title": {
+    "en": "Icon",
+    "de": "Icon"
+  },
+  "status": "stable",
+  "group": "media",
+  "synonyms": {
+    "de": [
+      "Symbol",
+      "Piktogramm",
+      "Bildzeichen"
+    ]
+  },
+  "links": {
+    "docs": "https://www.kern-ux.de/komponenten/icon",
+    "figma": "https://www.figma.com/community/file/1624024563231427311",
+    "source": "https://gitlab.opencode.de/kern-ux/kern-ux-plain/-/tree/v2.8.2/src/scss/core/components/_icon.scss"
+  },
+  "docs": {
+    "url": "https://www.kern-ux.de/komponenten/icon",
+    "summary": {
+      "en": "Icons are the small symbols that mark actions, content and status. KERN draws them from Google Material Symbols in the rounded, filled style with weight 400, grade 0 and optical size 24, in four sizes. Use them sparingly, only where they add value, and keep one icon to one meaning."
+    },
+    "sections": [
+      {
+        "id": "kurzbeschreibung",
+        "heading": "Kurzbeschreibung",
+        "url": "https://www.kern-ux.de/komponenten/icon#kurzbeschreibung",
+        "summary": {
+          "en": "Icons are small graphic symbols that show or emphasise actions, content or status."
+        }
+      },
+      {
+        "id": "beschreibung",
+        "heading": "Beschreibung",
+        "url": "https://www.kern-ux.de/komponenten/icon#beschreibung",
+        "summary": {
+          "en": "KERN uses Google Material Symbols in the rounded style with the fill option and the typographic settings weight 400, grade 0 and optical size 24. The result is balanced and soft, and each icon can be used in one of four sizes."
+        }
+      },
+      {
+        "id": "verwendungsregeln",
+        "heading": "Verwendungsregeln",
+        "url": "https://www.kern-ux.de/komponenten/icon#verwendungsregeln",
+        "summary": {
+          "en": "Icons must be clear and intuitive and are best supported by text. Use them sparingly and only where they add value, for example to mark an action or a status. Give each icon a single function and keep it consistent across the interface: the magnifier means search and should not also mean zoom."
+        }
+      },
+      {
+        "id": "dos-und-donts",
+        "heading": "Dos und Don’ts",
+        "url": "https://www.kern-ux.de/komponenten/icon#dos-und-donts",
+        "summary": {
+          "en": "Balance the icon size against the text beside it, avoid unclear icons, do not overload the interface with icons, prefer familiar symbols, and use one icon for one purpose only."
+        }
+      }
+    ]
+  },
+  "knowledge": {
+    "summary": {
+      "en": "Icons are small Material Symbols that mark actions, content or status, used sparingly with one meaning per icon."
+    },
+    "whenToUse": [
+      {
+        "en": "Use an icon only where it adds value, for example to mark an action or a status."
+      }
+    ],
+    "dos": [
+      {
+        "en": "Use Material Symbols in the rounded style with fill, weight 400, grade 0 and optical size 24."
+      },
+      {
+        "en": "Match the icon size to the text next to it."
+      },
+      {
+        "en": "Prefer familiar, learned symbols for an action or status."
+      },
+      {
+        "en": "Use a given icon for exactly one purpose across the interface."
+      }
+    ],
+    "donts": [
+      {
+        "en": "Don't use icons whose meaning is unclear or ambiguous."
+      },
+      {
+        "en": "Don't overload the interface with icons."
+      },
+      {
+        "en": "Don't reuse an established symbol, such as the magnifier for search, for a different function."
+      }
+    ]
+  },
+  "options": [
+    {
+      "id": "name",
+      "kind": "enum",
+      "origin": "curated",
+      "values": [
+        {
+          "id": "account-circle"
+        },
+        {
+          "id": "add"
+        },
+        {
+          "id": "arrow-down"
+        },
+        {
+          "id": "arrow-up"
+        },
+        {
+          "id": "arrow-forward"
+        },
+        {
+          "id": "arrow-back"
+        },
+        {
+          "id": "autorenew"
+        },
+        {
+          "id": "calendar-today"
+        },
+        {
+          "id": "check"
+        },
+        {
+          "id": "checklist"
+        },
+        {
+          "id": "chevron-left"
+        },
+        {
+          "id": "chevron-right"
+        },
+        {
+          "id": "close"
+        },
+        {
+          "id": "content-copy"
+        },
+        {
+          "id": "danger"
+        },
+        {
+          "id": "dehaze"
+        },
+        {
+          "id": "delete"
+        },
+        {
+          "id": "download"
+        },
+        {
+          "id": "draft"
+        },
+        {
+          "id": "drive-folder-upload"
+        },
+        {
+          "id": "easy-language"
+        },
+        {
+          "id": "edit"
+        },
+        {
+          "id": "home"
+        },
+        {
+          "id": "help"
+        },
+        {
+          "id": "info"
+        },
+        {
+          "id": "keyboard-double-arrow-left"
+        },
+        {
+          "id": "keyboard-double-arrow-right"
+        },
+        {
+          "id": "logout"
+        },
+        {
+          "id": "language"
+        },
+        {
+          "id": "mail"
+        },
+        {
+          "id": "more-vert"
+        },
+        {
+          "id": "open-in-new"
+        },
+        {
+          "id": "question-mark"
+        },
+        {
+          "id": "search"
+        },
+        {
+          "id": "sign-language"
+        },
+        {
+          "id": "success"
+        },
+        {
+          "id": "visibility"
+        },
+        {
+          "id": "visibility-off"
+        },
+        {
+          "id": "warning"
+        },
+        {
+          "id": "brightness-medium"
+        },
+        {
+          "id": "light-mode"
+        },
+        {
+          "id": "dark-mode"
+        }
+      ],
+      "html": {
+        "binding": "modifier",
+        "pattern": "kern-icon--{value}"
+      }
+    },
+    {
+      "id": "size",
+      "kind": "enum",
+      "origin": "curated",
+      "values": [
+        {
+          "id": "small"
+        },
+        {
+          "id": "default",
+          "default": true
+        },
+        {
+          "id": "large"
+        },
+        {
+          "id": "x-large"
+        }
+      ],
+      "html": {
+        "binding": "modifier",
+        "pattern": "kern-icon--{value}"
+      }
+    }
+  ],
+  "accessibility": [
+    {
+      "id": "non-text-content",
+      "criterion": "1.1.1",
+      "slug": "non-text-content",
+      "level": "A",
+      "status": "implementation-dependent",
+      "lastChecked": "2025-10-21"
+    },
+    {
+      "id": "info-and-relationships",
+      "criterion": "1.3.1",
+      "slug": "info-and-relationships",
+      "level": "A",
+      "status": "implementation-dependent",
+      "lastChecked": "2025-10-21"
+    },
+    {
+      "id": "use-of-color",
+      "criterion": "1.4.1",
+      "slug": "use-of-color",
+      "level": "A",
+      "status": "implementation-dependent",
+      "lastChecked": "2025-10-21"
+    },
+    {
+      "id": "contrast-enhanced",
+      "criterion": "1.4.6",
+      "slug": "contrast-enhanced",
+      "level": "AAA",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "keyboard",
+      "criterion": "2.1.1",
+      "slug": "keyboard",
+      "level": "A",
+      "status": "implementation-dependent",
+      "lastChecked": "2025-10-21"
+    },
+    {
+      "id": "focus-appearance",
+      "criterion": "2.4.13",
+      "slug": "focus-appearance",
+      "level": "AAA",
+      "status": "implementation-dependent",
+      "lastChecked": "2025-10-21"
+    },
+    {
+      "id": "target-size-enhanced",
+      "criterion": "2.5.5",
+      "slug": "target-size-enhanced",
+      "level": "AAA",
+      "status": "implementation-dependent",
+      "lastChecked": "2025-10-21"
+    },
+    {
+      "id": "consistent-identification",
+      "criterion": "3.2.4",
+      "slug": "consistent-identification",
+      "level": "AA",
+      "status": "implementation-dependent",
+      "lastChecked": "2025-10-21"
+    }
+  ],
+  "examples": [
+    {
+      "id": "icon-default",
+      "variesOver": [
+        "name"
+      ],
+      "instances": 41,
+      "html": {
+        "markup": "<span class=\"kern-icon kern-icon--home\" aria-hidden=\"true\"></span><span class=\"kern-icon kern-icon--arrow-up\" aria-hidden=\"true\"></span><span class=\"kern-icon kern-icon--arrow-down\" aria-hidden=\"true\"></span><span class=\"kern-icon kern-icon--arrow-forward\" aria-hidden=\"true\"></span><span class=\"kern-icon kern-icon--arrow-back\" aria-hidden=\"true\"></span><span class=\"kern-icon kern-icon--info\" aria-hidden=\"true\"></span><span class=\"kern-icon kern-icon--success\" aria-hidden=\"true\"></span><span class=\"kern-icon kern-icon--calendar-today\" aria-hidden=\"true\"></span><span class=\"kern-icon kern-icon--warning\" aria-hidden=\"true\"></span><span class=\"kern-icon kern-icon--danger\" aria-hidden=\"true\"></span><span class=\"kern-icon kern-icon--open-in-new\" aria-hidden=\"true\"></span><span class=\"kern-icon kern-icon--download\" aria-hidden=\"true\"></span><span class=\"kern-icon kern-icon--account-circle\" aria-hidden=\"true\"></span><span class=\"kern-icon kern-icon--logout\" aria-hidden=\"true\"></span><span class=\"kern-icon kern-icon--checklist\" aria-hidden=\"true\"></span><span class=\"kern-icon kern-icon--mail\" aria-hidden=\"true\"></span><span class=\"kern-icon kern-icon--dehaze\" aria-hidden=\"true\"></span><span class=\"kern-icon kern-icon--edit\" aria-hidden=\"true\"></span><span class=\"kern-icon kern-icon--language\" aria-hidden=\"true\"></span><span class=\"kern-icon kern-icon--sign-language\" aria-hidden=\"true\"></span><span class=\"kern-icon kern-icon--easy-language\" aria-hidden=\"true\"></span><span class=\"kern-icon kern-icon--autorenew\" aria-hidden=\"true\"></span><span class=\"kern-icon kern-icon--add\" aria-hidden=\"true\"></span><span class=\"kern-icon kern-icon--close\" aria-hidden=\"true\"></span><span class=\"kern-icon kern-icon--delete\" aria-hidden=\"true\"></span><span class=\"kern-icon kern-icon--search\" aria-hidden=\"true\"></span><span class=\"kern-icon kern-icon--question-mark\" aria-hidden=\"true\"></span><span class=\"kern-icon kern-icon--more-vert\" aria-hidden=\"true\"></span><span class=\"kern-icon kern-icon--content-copy\" aria-hidden=\"true\"></span><span class=\"kern-icon kern-icon--visibility\" aria-hidden=\"true\"></span><span class=\"kern-icon kern-icon--visibility-off\" aria-hidden=\"true\"></span><span class=\"kern-icon kern-icon--check\" aria-hidden=\"true\"></span><span class=\"kern-icon kern-icon--drive-folder-upload\" aria-hidden=\"true\"></span><span class=\"kern-icon kern-icon--chevron-left\" aria-hidden=\"true\"></span><span class=\"kern-icon kern-icon--chevron-right\" aria-hidden=\"true\"></span><span class=\"kern-icon kern-icon--keyboard-double-arrow-left\" aria-hidden=\"true\"></span><span class=\"kern-icon kern-icon--keyboard-double-arrow-right\" aria-hidden=\"true\"></span><span class=\"kern-icon kern-icon--brightness-medium\" aria-hidden=\"true\"></span><span class=\"kern-icon kern-icon--light-mode\" aria-hidden=\"true\"></span><span class=\"kern-icon kern-icon--dark-mode\" aria-hidden=\"true\"></span><span class=\"kern-icon kern-icon--help\" aria-hidden=\"true\"></span>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Icon/Icon.stories.js",
+          "export": "IconDefault"
+        }
+      }
+    },
+    {
+      "id": "icon-small",
+      "options": {
+        "name": "home",
+        "size": "small"
+      },
+      "html": {
+        "markup": "<span class=\"kern-icon kern-icon--home kern-icon--small\" aria-hidden=\"true\"></span>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Icon/Icon.stories.js",
+          "export": "IconSmall"
+        }
+      }
+    },
+    {
+      "id": "icon-large",
+      "options": {
+        "name": "home",
+        "size": "large"
+      },
+      "html": {
+        "markup": "<span class=\"kern-icon kern-icon--home kern-icon--large\" aria-hidden=\"true\"></span>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Icon/Icon.stories.js",
+          "export": "IconLarge"
+        }
+      }
+    },
+    {
+      "id": "icon-x-large",
+      "options": {
+        "name": "home",
+        "size": "x-large"
+      },
+      "html": {
+        "markup": "<span class=\"kern-icon kern-icon--home kern-icon--x-large\" aria-hidden=\"true\"></span>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Icon/Icon.stories.js",
+          "export": "IconXLarge"
+        }
+      }
+    }
+  ],
+  "implementations": {
+    "html": {
+      "package": "@kern-ux/native",
+      "version": "2.8.2",
+      "classes": {
+        "roots": [
+          "kern-icon"
+        ],
+        "modifiers": [
+          "kern-icon--account-circle",
+          "kern-icon--add",
+          "kern-icon--arrow-back",
+          "kern-icon--arrow-down",
+          "kern-icon--arrow-forward",
+          "kern-icon--arrow-up",
+          "kern-icon--autorenew",
+          "kern-icon--brightness-medium",
+          "kern-icon--calendar-today",
+          "kern-icon--check",
+          "kern-icon--checklist",
+          "kern-icon--chevron-left",
+          "kern-icon--chevron-right",
+          "kern-icon--close",
+          "kern-icon--content-copy",
+          "kern-icon--danger",
+          "kern-icon--dark-mode",
+          "kern-icon--default",
+          "kern-icon--dehaze",
+          "kern-icon--delete",
+          "kern-icon--download",
+          "kern-icon--draft",
+          "kern-icon--drive-folder-upload",
+          "kern-icon--easy-language",
+          "kern-icon--edit",
+          "kern-icon--help",
+          "kern-icon--home",
+          "kern-icon--info",
+          "kern-icon--keyboard-double-arrow-left",
+          "kern-icon--keyboard-double-arrow-right",
+          "kern-icon--language",
+          "kern-icon--large",
+          "kern-icon--light-mode",
+          "kern-icon--logout",
+          "kern-icon--mail",
+          "kern-icon--more-vert",
+          "kern-icon--open-in-new",
+          "kern-icon--question-mark",
+          "kern-icon--search",
+          "kern-icon--sign-language",
+          "kern-icon--small",
+          "kern-icon--success",
+          "kern-icon--visibility",
+          "kern-icon--visibility-off",
+          "kern-icon--warning",
+          "kern-icon--x-large"
+        ]
+      },
+      "sources": [
+        "src/scss/core/components/_icon.scss",
+        "stories/Icon/Icon.stories.js"
+      ]
+    },
+    "react": {
+      "package": "@publicplan/kern-react-kit",
+      "version": "1.3.5",
+      "import": "import from '@publicplan/kern-react-kit'",
+      "components": [],
+      "sources": [
+        "src/components/Icon"
+      ]
+    }
+  },
+  "drift": [
+    {
+      "kind": "example-coverage",
+      "en": "Docs examples show modifiers that no kern-ux-plain story shows.",
+      "sources": [
+        "technische-dokumentation",
+        "kern-ux-plain"
+      ],
+      "items": [
+        "kern-icon--default"
+      ]
+    },
+    {
+      "kind": "example-coverage",
+      "en": "Modifiers defined in SCSS that no story or docs example shows.",
+      "sources": [
+        "kern-ux-plain"
+      ],
+      "items": [
+        "kern-icon--draft"
+      ]
+    }
+  ],
+  "provenance": {
+    "docs.sections.beschreibung.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/icon.mdx#beschreibung"
+      ],
+      "inputHash": "sha256:3cd0f0958dd5312181b8d37e990ea0e18f7cc7fd5128ad57af08275cc439056d"
+    },
+    "docs.sections.dos-und-donts.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/icon.mdx#dos-und-donts"
+      ],
+      "inputHash": "sha256:3cd0f0958dd5312181b8d37e990ea0e18f7cc7fd5128ad57af08275cc439056d"
+    },
+    "docs.sections.kurzbeschreibung.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/icon.mdx#kurzbeschreibung"
+      ],
+      "inputHash": "sha256:3cd0f0958dd5312181b8d37e990ea0e18f7cc7fd5128ad57af08275cc439056d"
+    },
+    "docs.sections.verwendungsregeln.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/icon.mdx#verwendungsregeln"
+      ],
+      "inputHash": "sha256:3cd0f0958dd5312181b8d37e990ea0e18f7cc7fd5128ad57af08275cc439056d"
+    },
+    "docs.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/icon.mdx"
+      ],
+      "inputHash": "sha256:3cd0f0958dd5312181b8d37e990ea0e18f7cc7fd5128ad57af08275cc439056d"
+    },
+    "knowledge.donts.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/icon.mdx"
+      ],
+      "inputHash": "sha256:d1da3e596b3a5d5c5975d6c73b00ea811c9540f9e9d5df855525a46af109d907"
+    },
+    "knowledge.donts.1": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/icon.mdx"
+      ],
+      "inputHash": "sha256:d1da3e596b3a5d5c5975d6c73b00ea811c9540f9e9d5df855525a46af109d907"
+    },
+    "knowledge.donts.2": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/icon.mdx"
+      ],
+      "inputHash": "sha256:d1da3e596b3a5d5c5975d6c73b00ea811c9540f9e9d5df855525a46af109d907"
+    },
+    "knowledge.dos.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/icon.mdx"
+      ],
+      "inputHash": "sha256:d1da3e596b3a5d5c5975d6c73b00ea811c9540f9e9d5df855525a46af109d907"
+    },
+    "knowledge.dos.1": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/icon.mdx"
+      ],
+      "inputHash": "sha256:d1da3e596b3a5d5c5975d6c73b00ea811c9540f9e9d5df855525a46af109d907"
+    },
+    "knowledge.dos.2": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/icon.mdx"
+      ],
+      "inputHash": "sha256:d1da3e596b3a5d5c5975d6c73b00ea811c9540f9e9d5df855525a46af109d907"
+    },
+    "knowledge.dos.3": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/icon.mdx"
+      ],
+      "inputHash": "sha256:d1da3e596b3a5d5c5975d6c73b00ea811c9540f9e9d5df855525a46af109d907"
+    },
+    "knowledge.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/icon.mdx"
+      ],
+      "inputHash": "sha256:d1da3e596b3a5d5c5975d6c73b00ea811c9540f9e9d5df855525a46af109d907"
+    },
+    "knowledge.whenToUse.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/icon.mdx"
+      ],
+      "inputHash": "sha256:d1da3e596b3a5d5c5975d6c73b00ea811c9540f9e9d5df855525a46af109d907"
+    }
+  }
+}

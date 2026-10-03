@@ -1,0 +1,591 @@
+{
+  "id": "input-url",
+  "title": {
+    "en": "Input Url",
+    "de": "Input Url"
+  },
+  "status": "stable",
+  "group": "form",
+  "synonyms": {
+    "de": [
+      "URL-Eingabefeld",
+      "Internetadresse",
+      "Link-Eingabefeld",
+      "Web-Adresse"
+    ]
+  },
+  "links": {
+    "docs": "https://www.kern-ux.de/komponenten/form-inputs/url",
+    "figma": "https://www.figma.com/community/file/1624024563231427311",
+    "source": "https://gitlab.opencode.de/kern-ux/kern-ux-plain/-/tree/v2.8.2/src/scss/core/components/_input.scss"
+  },
+  "docs": {
+    "url": "https://www.kern-ux.de/komponenten/form-inputs/url",
+    "summary": {
+      "en": "Input Url takes a web address through a type=\"url\" field and validates the format automatically. The label should make clear that only internet addresses belong here; if a particular format is expected, the hint must state the allowed characters. Errors appear below the field, and the width can be adjusted."
+    },
+    "sections": [
+      {
+        "id": "kurzbeschreibung",
+        "heading": "Kurzbeschreibung",
+        "url": "https://www.kern-ux.de/komponenten/form-inputs/url#kurzbeschreibung",
+        "summary": {
+          "en": "Input Url helps users enter an internet address (URL)."
+        }
+      },
+      {
+        "id": "disabled",
+        "heading": "Disabled",
+        "url": "https://www.kern-ux.de/komponenten/form-inputs/url#disabled",
+        "summary": {
+          "en": "Avoid disabled, because it restricts accessibility."
+        }
+      },
+      {
+        "id": "beschreibung",
+        "heading": "Beschreibung",
+        "url": "https://www.kern-ux.de/komponenten/form-inputs/url#beschreibung",
+        "summary": {
+          "en": "The general input properties apply. The field uses input type=\"url\" for web addresses, allowing alphanumeric characters and the special characters a URL permits, and validates the format. Errors appear below the field, the width can be adjusted and all input states are supported."
+        }
+      },
+      {
+        "id": "verwendungsregeln",
+        "heading": "Verwendungsregeln",
+        "url": "https://www.kern-ux.de/komponenten/form-inputs/url#verwendungsregeln",
+        "summary": {
+          "en": "Input Url is used in forms to enter an internet address. The label should make clear that only addresses may be entered; if that is not obvious, or a particular format is expected, the hint must explain the allowed characters and the format."
+        }
+      },
+      {
+        "id": "dos-and-donts",
+        "heading": "Dos and Don’ts",
+        "url": "https://www.kern-ux.de/komponenten/form-inputs/url#dos-and-donts",
+        "summary": {
+          "en": "Use Input Url only for internet addresses, and point users to the expected format. The general Input Dos and Don'ts also apply."
+        }
+      }
+    ]
+  },
+  "knowledge": {
+    "summary": {
+      "en": "Input Url takes a web address in a type=\"url\" field and validates its format."
+    },
+    "whenToUse": [
+      {
+        "en": "Use Input Url when a form needs an internet address, for example the address of a service."
+      }
+    ],
+    "dos": [
+      {
+        "en": "Use the field only for internet addresses."
+      },
+      {
+        "en": "Point users to the expected format in the hint text."
+      },
+      {
+        "en": "Make the label show that a web address is expected."
+      }
+    ],
+    "donts": [
+      {
+        "en": "Don't use disabled, because it restricts accessibility."
+      },
+      {
+        "en": "Don't leave the accepted format unstated; the label or hint must give it."
+      }
+    ],
+    "similar": [
+      {
+        "id": "input-text"
+      },
+      {
+        "id": "input-email"
+      }
+    ]
+  },
+  "options": [
+    {
+      "id": "width",
+      "kind": "enum",
+      "origin": "curated",
+      "values": [
+        {
+          "id": "full",
+          "default": true
+        },
+        {
+          "id": "width-2"
+        },
+        {
+          "id": "width-4"
+        }
+      ],
+      "html": {
+        "binding": "part-class",
+        "pattern": "kern-form-input__input--{value}",
+        "part": "input",
+        "partClass": "kern-form-input__input",
+        "omit": [
+          "full"
+        ]
+      }
+    }
+  ],
+  "states": [
+    {
+      "id": "disabled",
+      "origin": "derived",
+      "html": {
+        "binding": "attribute",
+        "attribute": "disabled",
+        "alternatives": [
+          {
+            "binding": "attribute",
+            "attribute": "disabled",
+            "partClass": "kern-form-input__input"
+          },
+          {
+            "binding": "attribute",
+            "attribute": "aria-disabled",
+            "value": "true",
+            "partClass": "kern-form-input__input"
+          }
+        ]
+      }
+    },
+    {
+      "id": "error",
+      "origin": "derived",
+      "html": {
+        "binding": "modifier",
+        "class": "kern-form-input--error",
+        "alternatives": [
+          {
+            "binding": "modifier",
+            "class": "kern-form-input__input--error",
+            "partClass": "kern-form-input__input"
+          }
+        ]
+      }
+    },
+    {
+      "id": "focus",
+      "origin": "derived",
+      "html": {
+        "binding": "pseudo",
+        "selector": ":focus",
+        "partClass": "kern-form-input__input"
+      }
+    },
+    {
+      "id": "hover",
+      "origin": "derived",
+      "html": {
+        "binding": "pseudo",
+        "selector": ":hover",
+        "partClass": "kern-form-input__input"
+      }
+    },
+    {
+      "id": "readonly",
+      "origin": "derived",
+      "html": {
+        "binding": "attribute",
+        "attribute": "readonly",
+        "partClass": "kern-form-input__input"
+      }
+    }
+  ],
+  "accessibility": [
+    {
+      "id": "info-and-relationships",
+      "criterion": "1.3.1",
+      "slug": "info-and-relationships",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "use-of-color",
+      "criterion": "1.4.1",
+      "slug": "use-of-color",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "contrast-enhanced",
+      "criterion": "1.4.6",
+      "slug": "contrast-enhanced",
+      "level": "AAA",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "non-text-contrast",
+      "criterion": "1.4.11",
+      "slug": "non-text-contrast",
+      "level": "AA",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "labels-or-instructions",
+      "criterion": "3.3.2",
+      "slug": "labels-or-instructions",
+      "level": "A",
+      "status": "implementation-dependent",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "keyboard",
+      "criterion": "2.1.1",
+      "slug": "keyboard",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "focus-appearance",
+      "criterion": "2.4.13",
+      "slug": "focus-appearance",
+      "level": "AAA",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "focus-order",
+      "criterion": "2.4.3",
+      "slug": "focus-order",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "error-identification",
+      "criterion": "3.3.1",
+      "slug": "error-identification",
+      "level": "A",
+      "status": "implementation-dependent",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "info-and-relationships-2",
+      "criterion": "1.3.1",
+      "slug": "info-and-relationships",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-10-23"
+    },
+    {
+      "id": "status-messages",
+      "criterion": "4.1.3",
+      "slug": "status-messages",
+      "level": "AA",
+      "status": "implementation-dependent",
+      "lastChecked": "2025-10-23"
+    },
+    {
+      "id": "identify-input-purpose",
+      "criterion": "1.3.5",
+      "slug": "identify-input-purpose",
+      "level": "AA",
+      "status": "implementation-dependent",
+      "lastChecked": "2025-10-23"
+    }
+  ],
+  "examples": [
+    {
+      "id": "input-url",
+      "options": {
+        "width": "full"
+      },
+      "html": {
+        "markup": "<div class=\"kern-form-input\"><label class=\"kern-label\" for=\"url\">Url</label><input class=\"kern-form-input__input\" id=\"url\" name=\"url\" type=\"url\"></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/InputUrl/InputUrl.stories.js",
+          "export": "InputUrl"
+        }
+      }
+    },
+    {
+      "id": "input-url-hover",
+      "options": {
+        "width": "full"
+      },
+      "states": [
+        "hover"
+      ],
+      "html": {
+        "markup": "<div class=\"kern-form-input\"><label class=\"kern-label\" for=\"url1\">Url</label><input class=\"kern-form-input__input\" id=\"url1\" name=\"url1\" type=\"url\"></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/InputUrl/InputUrl.stories.js",
+          "export": "InputUrlHover"
+        }
+      }
+    },
+    {
+      "id": "input-url-focus",
+      "options": {
+        "width": "full"
+      },
+      "states": [
+        "focus"
+      ],
+      "html": {
+        "markup": "<div class=\"kern-form-input\"><label class=\"kern-label\" for=\"url2\">Url</label><input class=\"kern-form-input__input\" id=\"url2\" name=\"url2\" type=\"url\"></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/InputUrl/InputUrl.stories.js",
+          "export": "InputUrlFocus"
+        }
+      }
+    },
+    {
+      "id": "input-url-read-only",
+      "options": {
+        "width": "full"
+      },
+      "states": [
+        "readonly"
+      ],
+      "html": {
+        "markup": "<div class=\"kern-form-input\"><label class=\"kern-label\" for=\"url3\">Url</label><input class=\"kern-form-input__input\" id=\"url3\" name=\"url3\" type=\"url\" readonly></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/InputUrl/InputUrl.stories.js",
+          "export": "InputUrlReadOnly"
+        }
+      }
+    },
+    {
+      "id": "input-url-disabled",
+      "options": {
+        "width": "full"
+      },
+      "states": [
+        "disabled"
+      ],
+      "html": {
+        "markup": "<div class=\"kern-form-input\"><label class=\"kern-label\" for=\"url4\">Url</label><input class=\"kern-form-input__input\" id=\"url4\" name=\"url4\" type=\"url\" disabled></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/InputUrl/InputUrl.stories.js",
+          "export": "InputUrlDisabled"
+        }
+      }
+    },
+    {
+      "id": "input-url-hint",
+      "options": {
+        "width": "full"
+      },
+      "html": {
+        "markup": "<div class=\"kern-form-input\"><label class=\"kern-label\" for=\"url5\">Url</label><div class=\"kern-hint\" id=\"url-hint\">Hint Url</div><input class=\"kern-form-input__input\" id=\"url5\" name=\"url5\" type=\"url\" aria-describedby=\"url-hint\"></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/InputUrl/InputUrl.stories.js",
+          "export": "InputUrlHint"
+        }
+      }
+    },
+    {
+      "id": "input-url-optional",
+      "options": {
+        "width": "full"
+      },
+      "html": {
+        "markup": "<div class=\"kern-form-input\"><label class=\"kern-label\" for=\"url7\">Url <span class=\"kern-label__optional\">- Optional</span></label><div class=\"kern-hint\" id=\"url-hint\">Hint Url</div><input class=\"kern-form-input__input\" id=\"url7\" name=\"url7\" type=\"url\" aria-describedby=\"url-hint\"></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/InputUrl/InputUrl.stories.js",
+          "export": "InputUrlOptional"
+        }
+      }
+    },
+    {
+      "id": "input-url-hint-error",
+      "options": {
+        "width": "full"
+      },
+      "states": [
+        "error"
+      ],
+      "html": {
+        "markup": "<div class=\"kern-form-input kern-form-input--error\"><label class=\"kern-label\" for=\"url6\">Url</label><div class=\"kern-hint\" id=\"url-hint\">Hint Url</div><input class=\"kern-form-input__input kern-form-input__input--error\" id=\"url6\" name=\"url6\" type=\"url\" aria-describedby=\"url-hint kern-input-error\" aria-invalid=\"true\"><p class=\"kern-error\" id=\"kern-input-error\"><span class=\"kern-icon kern-icon--danger\" aria-hidden=\"true\"></span><span class=\"kern-body\">Die Url darf nicht leer sein</span></p></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/InputUrl/InputUrl.stories.js",
+          "export": "InputUrlHintError"
+        }
+      }
+    }
+  ],
+  "implementations": {
+    "html": {
+      "package": "@kern-ux/native",
+      "version": "2.8.2",
+      "classes": {
+        "roots": [
+          "kern-form-input"
+        ],
+        "elements": [
+          "kern-form-input__input",
+          "kern-form-input__select-wrapper"
+        ],
+        "modifiers": [
+          "kern-form-input--error",
+          "kern-form-input__input--error",
+          "kern-form-input__input--width-2",
+          "kern-form-input__input--width-4"
+        ]
+      },
+      "sources": [
+        "src/scss/core/components/_input.scss",
+        "stories/InputUrl/InputUrl.stories.js"
+      ]
+    },
+    "react": {
+      "package": "@publicplan/kern-react-kit",
+      "version": "1.3.5",
+      "import": "import from '@publicplan/kern-react-kit'",
+      "components": [],
+      "sources": [
+        "src/components/Input"
+      ]
+    }
+  },
+  "drift": [
+    {
+      "kind": "unknown-class",
+      "en": "Docs examples use classes that kern-ux-plain doesn't define.",
+      "sources": [
+        "technische-dokumentation",
+        "kern-ux-plain"
+      ],
+      "items": [
+        "kern-icon--md"
+      ]
+    },
+    {
+      "kind": "example-coverage",
+      "en": "Modifiers defined in SCSS that no story or docs example shows.",
+      "sources": [
+        "kern-ux-plain"
+      ],
+      "items": [
+        "kern-form-input__input--width-2",
+        "kern-form-input__input--width-4"
+      ]
+    }
+  ],
+  "provenance": {
+    "docs.sections.beschreibung.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/url.mdx#beschreibung"
+      ],
+      "inputHash": "sha256:03a397cb37f0cd131a19a55281d7834b60309c95c80aaa57f8d0e9554e44c07d"
+    },
+    "docs.sections.disabled.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/url.mdx#disabled"
+      ],
+      "inputHash": "sha256:03a397cb37f0cd131a19a55281d7834b60309c95c80aaa57f8d0e9554e44c07d"
+    },
+    "docs.sections.dos-and-donts.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/url.mdx#dos-and-donts"
+      ],
+      "inputHash": "sha256:03a397cb37f0cd131a19a55281d7834b60309c95c80aaa57f8d0e9554e44c07d"
+    },
+    "docs.sections.kurzbeschreibung.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/url.mdx#kurzbeschreibung"
+      ],
+      "inputHash": "sha256:03a397cb37f0cd131a19a55281d7834b60309c95c80aaa57f8d0e9554e44c07d"
+    },
+    "docs.sections.verwendungsregeln.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/url.mdx#verwendungsregeln"
+      ],
+      "inputHash": "sha256:03a397cb37f0cd131a19a55281d7834b60309c95c80aaa57f8d0e9554e44c07d"
+    },
+    "docs.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/url.mdx"
+      ],
+      "inputHash": "sha256:03a397cb37f0cd131a19a55281d7834b60309c95c80aaa57f8d0e9554e44c07d"
+    },
+    "knowledge.donts.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/url.mdx"
+      ],
+      "inputHash": "sha256:b5870b65a8c4d76c25346f12b5abab2a7a199cd241e77fa52386812e6c928937"
+    },
+    "knowledge.donts.1": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/url.mdx"
+      ],
+      "inputHash": "sha256:b5870b65a8c4d76c25346f12b5abab2a7a199cd241e77fa52386812e6c928937"
+    },
+    "knowledge.dos.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/url.mdx"
+      ],
+      "inputHash": "sha256:b5870b65a8c4d76c25346f12b5abab2a7a199cd241e77fa52386812e6c928937"
+    },
+    "knowledge.dos.1": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/url.mdx"
+      ],
+      "inputHash": "sha256:b5870b65a8c4d76c25346f12b5abab2a7a199cd241e77fa52386812e6c928937"
+    },
+    "knowledge.dos.2": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/url.mdx"
+      ],
+      "inputHash": "sha256:b5870b65a8c4d76c25346f12b5abab2a7a199cd241e77fa52386812e6c928937"
+    },
+    "knowledge.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/url.mdx"
+      ],
+      "inputHash": "sha256:b5870b65a8c4d76c25346f12b5abab2a7a199cd241e77fa52386812e6c928937"
+    },
+    "knowledge.whenToUse.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/url.mdx"
+      ],
+      "inputHash": "sha256:b5870b65a8c4d76c25346f12b5abab2a7a199cd241e77fa52386812e6c928937"
+    }
+  }
+}

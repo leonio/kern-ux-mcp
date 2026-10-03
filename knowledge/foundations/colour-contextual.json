@@ -1,0 +1,136 @@
+{
+  "id": "colour-contextual",
+  "title": {
+    "en": "Colour: contextual",
+    "de": "Kontextuelle Farben"
+  },
+  "group": "Farbe",
+  "status": "documented",
+  "links": {
+    "docs": "https://www.kern-ux.de/design-system/foundations/farbe/kontextuell"
+  },
+  "docs": {
+    "url": "https://www.kern-ux.de/design-system/foundations/farbe/kontextuell",
+    "summary": {
+      "en": "Sets out KERN's contextual colour tokens. Their values are not fixed: they resolve from the visual context a component sits in, so the same component works on any level or surface. The page groups them into layout, action, form input, feedback and decorative tokens, all named with a contextual suffix."
+    },
+    "sections": [
+      {
+        "id": "layout-token",
+        "heading": "Layout-Token",
+        "url": "https://www.kern-ux.de/design-system/foundations/farbe/kontextuell#layout-token",
+        "summary": {
+          "en": "Contextual layout tokens cover backgrounds for large areas plus border and text colours: accessible border, default text (and accompanying icons), muted and inverse text, and default and surface backgrounds."
+        }
+      },
+      {
+        "id": "action-token",
+        "heading": "Action-Token",
+        "url": "https://www.kern-ux.de/design-system/foundations/farbe/kontextuell#action-token",
+        "summary": {
+          "en": "Contextual action tokens colour interactive elements such as links and buttons: primary, on-primary, visited, focus, and the interaction state indicator in its default and tint variants."
+        }
+      },
+      {
+        "id": "token-für-form-inputs",
+        "heading": "Token für Form Inputs",
+        "url": "https://www.kern-ux.de/design-system/foundations/farbe/kontextuell#token-für-form-inputs",
+        "summary": {
+          "en": "Contextual tokens for form inputs define the colours specific to form fields, here the accessible border colour."
+        }
+      },
+      {
+        "id": "feedback-token",
+        "heading": "Feedback-Token",
+        "url": "https://www.kern-ux.de/design-system/foundations/farbe/kontextuell#feedback-token",
+        "summary": {
+          "en": "Contextual feedback tokens define status message colours: a neutral default plus info, success, warning and danger, each with a matching background."
+        }
+      },
+      {
+        "id": "token-für-dekorative-elemente",
+        "heading": "Token für dekorative Elemente",
+        "url": "https://www.kern-ux.de/design-system/foundations/farbe/kontextuell#token-für-dekorative-elemente",
+        "summary": {
+          "en": "Decorative colour values are for ornament only and need not meet contrast requirements. They cover a contextual brand colour and a decorative border colour."
+        }
+      }
+    ]
+  },
+  "knowledge": {
+    "summary": {
+      "en": "Contextual colour tokens take their value from the visual context a component sits in, so components adapt instead of relying on fixed colours."
+    },
+    "donts": [
+      {
+        "en": "Don't use the decorative colour values for content-bearing or functional elements: they are meant for ornament only and need not meet contrast requirements."
+      }
+    ]
+  },
+  "provenance": {
+    "docs.sections.action-token.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/farbe/kontextuell.mdx#action-token"
+      ],
+      "inputHash": "sha256:5000925343a41d00bf68c9ba6837147c4986227a6e1f26b902506d66e7014b4a"
+    },
+    "docs.sections.feedback-token.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/farbe/kontextuell.mdx#feedback-token"
+      ],
+      "inputHash": "sha256:5000925343a41d00bf68c9ba6837147c4986227a6e1f26b902506d66e7014b4a"
+    },
+    "docs.sections.layout-token.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/farbe/kontextuell.mdx#layout-token"
+      ],
+      "inputHash": "sha256:5000925343a41d00bf68c9ba6837147c4986227a6e1f26b902506d66e7014b4a"
+    },
+    "docs.sections.token-für-dekorative-elemente.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/farbe/kontextuell.mdx#token-für-dekorative-elemente"
+      ],
+      "inputHash": "sha256:5000925343a41d00bf68c9ba6837147c4986227a6e1f26b902506d66e7014b4a"
+    },
+    "docs.sections.token-für-form-inputs.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/farbe/kontextuell.mdx#token-für-form-inputs"
+      ],
+      "inputHash": "sha256:5000925343a41d00bf68c9ba6837147c4986227a6e1f26b902506d66e7014b4a"
+    },
+    "docs.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/farbe/kontextuell.mdx"
+      ],
+      "inputHash": "sha256:5000925343a41d00bf68c9ba6837147c4986227a6e1f26b902506d66e7014b4a"
+    },
+    "knowledge.donts.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/farbe/kontextuell.mdx"
+      ],
+      "inputHash": "sha256:4e113a573d23e52eeeed5b38ec06c08bb1a906537b43727633d00e1772df91d0"
+    },
+    "knowledge.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/farbe/kontextuell.mdx"
+      ],
+      "inputHash": "sha256:4e113a573d23e52eeeed5b38ec06c08bb1a906537b43727633d00e1772df91d0"
+    }
+  }
+}

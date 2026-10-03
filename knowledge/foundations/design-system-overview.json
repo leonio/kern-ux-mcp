@@ -1,0 +1,117 @@
+{
+  "id": "design-system-overview",
+  "title": {
+    "en": "What a design system covers",
+    "de": "Was gehört zu einem Design-System?"
+  },
+  "group": "Design system",
+  "status": "documented",
+  "links": {
+    "docs": "https://www.kern-ux.de/design-system/index"
+  },
+  "docs": {
+    "url": "https://www.kern-ux.de/design-system/index",
+    "summary": {
+      "en": "An introduction to what a design system covers. It sets out the benefits of consistency - trust, faster recognition, more efficient and cheaper delivery, accessibility covered by components - and explains that reusable building blocks do not restrict creativity, since KERN ships no special solutions. It then describes the layered build-up: basics such as colour, typography and spacing come first, and these combine along Atomic Design into atoms, molecules, organisms and page templates."
+    },
+    "sections": [
+      {
+        "id": "was-sind-die-vorteile-eines-design-systems",
+        "heading": "Was sind die Vorteile eines Design-Systems?",
+        "url": "https://www.kern-ux.de/design-system/index#was-sind-die-vorteile-eines-design-systems",
+        "summary": {
+          "en": "Components and a shared system create consistency, which builds trust and speeds up use through recognition. Development becomes more efficient and cheaper because nothing is reinvented, and teams can focus on the service itself since essentials such as accessibility are handled at component level."
+        }
+      },
+      {
+        "id": "schränkt-das-die-kreativität-ein",
+        "heading": "Schränkt das die Kreativität ein?",
+        "url": "https://www.kern-ux.de/design-system/index#schränkt-das-die-kreativität-ein",
+        "summary": {
+          "en": "No. KERN provides reusable elements only, not tailored solutions, so creativity is still needed to apply them well to a particular case. KERN also invites teams to help develop the system further."
+        }
+      },
+      {
+        "id": "aufbau",
+        "heading": "Aufbau",
+        "url": "https://www.kern-ux.de/design-system/index#aufbau",
+        "summary": {
+          "en": "KERN defines more than components: basics such as colour, typography and spacing, plus larger reusable elements built from them. The build-up follows Atomic Design: colours are the smallest parts, atoms are labels, molecules are buttons, organisms are forms, and templates cover whole pages."
+        }
+      }
+    ]
+  },
+  "knowledge": {
+    "summary": {
+      "en": "A design system brings consistency, trust and faster, cheaper delivery; KERN supplies reusable parts plus core basics, structured by Atomic Design."
+    },
+    "dos": [
+      {
+        "en": "Focus your creativity on combining KERN's reusable elements so they meet the requirements of your specific case."
+      }
+    ],
+    "donts": [
+      {
+        "en": "Don't expect one-off or special solutions from KERN; the system offers reusable elements that you assemble yourself."
+      }
+    ]
+  },
+  "provenance": {
+    "docs.sections.aufbau.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/index.md#aufbau"
+      ],
+      "inputHash": "sha256:be6d2bd912e1e4c9e1c96171b66f1b6af3fb847b51c5a8a3a85f32380b26772f"
+    },
+    "docs.sections.schränkt-das-die-kreativität-ein.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/index.md#schränkt-das-die-kreativität-ein"
+      ],
+      "inputHash": "sha256:be6d2bd912e1e4c9e1c96171b66f1b6af3fb847b51c5a8a3a85f32380b26772f"
+    },
+    "docs.sections.was-sind-die-vorteile-eines-design-systems.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/index.md#was-sind-die-vorteile-eines-design-systems"
+      ],
+      "inputHash": "sha256:be6d2bd912e1e4c9e1c96171b66f1b6af3fb847b51c5a8a3a85f32380b26772f"
+    },
+    "docs.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/index.md"
+      ],
+      "inputHash": "sha256:be6d2bd912e1e4c9e1c96171b66f1b6af3fb847b51c5a8a3a85f32380b26772f"
+    },
+    "knowledge.donts.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/index.md"
+      ],
+      "inputHash": "sha256:b65a5aa199528577539eb05eb27f7003f34719f6cc6360259bba8bd83b4e1e1d"
+    },
+    "knowledge.dos.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/index.md"
+      ],
+      "inputHash": "sha256:b65a5aa199528577539eb05eb27f7003f34719f6cc6360259bba8bd83b4e1e1d"
+    },
+    "knowledge.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/index.md"
+      ],
+      "inputHash": "sha256:b65a5aa199528577539eb05eb27f7003f34719f6cc6360259bba8bd83b4e1e1d"
+    }
+  }
+}

@@ -1,0 +1,807 @@
+{
+  "bundleVersion": "0.2.0",
+  "kernVersion": "2.8.2",
+  "sources": {
+    "kern-ux-plain": {
+      "storyFiles": 59,
+      "stories": 408,
+      "excludedStoryFiles": [
+        "stories/Compose.stories.js",
+        "stories/Tests/TokenInheritance.stories.js"
+      ],
+      "unmappedStoryFiles": null,
+      "failedStories": null,
+      "partials": 49,
+      "unmappedPartials": [
+        {
+          "item": "src/scss/core/typography/_hgroup.scss",
+          "reason": "defines classes but no component claims it"
+        }
+      ],
+      "classes": 2678,
+      "classesByKind": {
+        "component": 196,
+        "global": 4,
+        "layer": 4,
+        "shared": 3,
+        "theme": 2,
+        "utility": 2469
+      }
+    },
+    "technische-dokumentation": {
+      "componentPages": 46,
+      "mapped": 46,
+      "hubs": [
+        "komponenten/form-inputs/index",
+        "komponenten/index",
+        "komponenten/layout/index",
+        "komponenten/text/index"
+      ],
+      "foundationPages": [
+        "design-system/barrierefreiheit",
+        "design-system/branding/anwendung",
+        "design-system/branding/glossar",
+        "design-system/branding/typografie",
+        "design-system/foundations/design-token",
+        "design-system/foundations/farbe/generisch",
+        "design-system/foundations/farbe/kontextuell",
+        "design-system/foundations/farbe/semantisch",
+        "design-system/foundations/farbe/systematik",
+        "design-system/foundations/groesse-und-abstaende",
+        "design-system/foundations/icons",
+        "design-system/foundations/interaktion",
+        "design-system/foundations/layering",
+        "design-system/foundations/layout",
+        "design-system/foundations/typografie",
+        "design-system/gestaltungsprinzipien",
+        "design-system/index",
+        "design-system/kopfzeile",
+        "design-system/sprache_und_tonalitaet"
+      ],
+      "patternPages": [
+        "patterns/formulare/adresse",
+        "patterns/templates/frageseite",
+        "patterns/templates/header"
+      ],
+      "unmappedPages": [
+        {
+          "item": "komponenten/layout/hilfsklassen",
+          "reason": "foundation page, mapped to foundations/utilities.json"
+        }
+      ],
+      "missingAccessibility": [
+        "grid"
+      ],
+      "unknownCriteria": [
+        {
+          "item": "loader: long-loading-updates",
+          "reason": "not a WCAG 2.2 success criterion slug"
+        }
+      ],
+      "unresolvedSimilar": [
+        {
+          "item": "badge → Chips",
+          "reason": "no component in the bundle has this name or docs page"
+        },
+        {
+          "item": "badge → Toast",
+          "reason": "no component in the bundle has this name or docs page"
+        },
+        {
+          "item": "details → Tooltip",
+          "reason": "no component in the bundle has this name or docs page"
+        },
+        {
+          "item": "details → Help",
+          "reason": "no component in the bundle has this name or docs page"
+        }
+      ],
+      "docsExamplesUsedFor": null
+    },
+    "kern-react-kit": {
+      "directories": [
+        "Accordion",
+        "Alert",
+        "Badge",
+        "Button",
+        "Card",
+        "DescriptionList",
+        "Dialog",
+        "Divider",
+        "Fieldset",
+        "Grid",
+        "Heading",
+        "Icon",
+        "Input",
+        "Kopfzeile",
+        "Label",
+        "Link",
+        "Lists",
+        "Loader",
+        "Preline",
+        "Progress",
+        "Subline",
+        "Summary",
+        "Table",
+        "TaskList",
+        "Text",
+        "ThemeProvider",
+        "Title"
+      ],
+      "mapped": 26,
+      "unmapped": [
+        {
+          "item": "src/components/ThemeProvider",
+          "reason": "no KERN component maps to it"
+        }
+      ]
+    }
+  },
+  "coverage": {
+    "components": 46,
+    "withHtml": 41,
+    "withReact": 37,
+    "docsOnly": [
+      "bildwortmarke",
+      "header",
+      "nav",
+      "notification-banner",
+      "tabs"
+    ],
+    "withOptions": 25,
+    "withStates": 21,
+    "withExamples": 40,
+    "withAccessibility": 40,
+    "unverifiedSources": null
+  },
+  "drift": [
+    {
+      "component": "accordion",
+      "kind": "unknown-class",
+      "en": "Stories use classes that kern-ux-plain's SCSS doesn't define.",
+      "sources": [
+        "kern-ux-plain"
+      ],
+      "items": [
+        "kern-accordion-group"
+      ]
+    },
+    {
+      "component": "accordion",
+      "kind": "unknown-class",
+      "en": "Docs examples use classes that kern-ux-plain doesn't define.",
+      "sources": [
+        "technische-dokumentation",
+        "kern-ux-plain"
+      ],
+      "items": [
+        "kern-accordion-group"
+      ]
+    },
+    {
+      "component": "button",
+      "kind": "binding-gap",
+      "en": "kern-react-kit's source never emits these kern-ux-plain modifiers, so its components can't express them.",
+      "sources": [
+        "kern-react-kit",
+        "kern-ux-plain"
+      ],
+      "items": [
+        "kern-btn--large",
+        "kern-btn--small",
+        "kern-btn--x-large",
+        "kern-btn--x-small"
+      ]
+    },
+    {
+      "component": "card",
+      "kind": "unknown-class",
+      "en": "Stories use classes that kern-ux-plain's SCSS doesn't define.",
+      "sources": [
+        "kern-ux-plain"
+      ],
+      "items": [
+        "kern"
+      ]
+    },
+    {
+      "component": "card",
+      "kind": "example-coverage",
+      "en": "Modifiers defined in SCSS that no story or docs example shows.",
+      "sources": [
+        "kern-ux-plain"
+      ],
+      "items": [
+        "kern-card--active"
+      ]
+    },
+    {
+      "component": "card",
+      "kind": "binding-gap",
+      "en": "kern-react-kit's source never emits these kern-ux-plain modifiers, so its components can't express them.",
+      "sources": [
+        "kern-react-kit",
+        "kern-ux-plain"
+      ],
+      "items": [
+        "kern-card--interactive",
+        "kern-card--surface"
+      ]
+    },
+    {
+      "component": "checkboxes",
+      "kind": "unknown-class",
+      "en": "Docs examples use classes that kern-ux-plain doesn't define.",
+      "sources": [
+        "technische-dokumentation",
+        "kern-ux-plain"
+      ],
+      "items": [
+        "kern-icon--md"
+      ]
+    },
+    {
+      "component": "details",
+      "kind": "missing-implementation",
+      "en": "kern-react-kit has no component for this.",
+      "sources": [
+        "kern-react-kit",
+        "kern-ux-plain"
+      ]
+    },
+    {
+      "component": "divider",
+      "kind": "binding-gap",
+      "en": "kern-react-kit's source never emits these kern-ux-plain modifiers, so its components can't express them.",
+      "sources": [
+        "kern-react-kit",
+        "kern-ux-plain"
+      ],
+      "items": [
+        "kern-divider--decorative"
+      ]
+    },
+    {
+      "component": "dropdown",
+      "kind": "missing-implementation",
+      "en": "kern-react-kit has no component for this.",
+      "sources": [
+        "kern-react-kit",
+        "kern-ux-plain"
+      ]
+    },
+    {
+      "component": "icon",
+      "kind": "example-coverage",
+      "en": "Docs examples show modifiers that no kern-ux-plain story shows.",
+      "sources": [
+        "technische-dokumentation",
+        "kern-ux-plain"
+      ],
+      "items": [
+        "kern-icon--default"
+      ]
+    },
+    {
+      "component": "icon",
+      "kind": "example-coverage",
+      "en": "Modifiers defined in SCSS that no story or docs example shows.",
+      "sources": [
+        "kern-ux-plain"
+      ],
+      "items": [
+        "kern-icon--draft"
+      ]
+    },
+    {
+      "component": "input-date",
+      "kind": "example-coverage",
+      "en": "Modifiers defined in SCSS that no story or docs example shows.",
+      "sources": [
+        "kern-ux-plain"
+      ],
+      "items": [
+        "kern-form-input--error"
+      ]
+    },
+    {
+      "component": "input-date",
+      "kind": "binding-gap",
+      "en": "kern-react-kit's source never emits these kern-ux-plain modifiers, so its components can't express them.",
+      "sources": [
+        "kern-react-kit",
+        "kern-ux-plain"
+      ],
+      "items": [
+        "kern-fieldset__body--horizontal"
+      ]
+    },
+    {
+      "component": "input-email",
+      "kind": "unknown-class",
+      "en": "Docs examples use classes that kern-ux-plain doesn't define.",
+      "sources": [
+        "technische-dokumentation",
+        "kern-ux-plain"
+      ],
+      "items": [
+        "kern-icon--md"
+      ]
+    },
+    {
+      "component": "input-email",
+      "kind": "example-coverage",
+      "en": "Modifiers defined in SCSS that no story or docs example shows.",
+      "sources": [
+        "kern-ux-plain"
+      ],
+      "items": [
+        "kern-form-input__input--width-2",
+        "kern-form-input__input--width-4"
+      ]
+    },
+    {
+      "component": "input-file",
+      "kind": "unknown-class",
+      "en": "Docs examples use classes that kern-ux-plain doesn't define.",
+      "sources": [
+        "technische-dokumentation",
+        "kern-ux-plain"
+      ],
+      "items": [
+        "kern-icon--md"
+      ]
+    },
+    {
+      "component": "input-file",
+      "kind": "example-coverage",
+      "en": "Modifiers defined in SCSS that no story or docs example shows.",
+      "sources": [
+        "kern-ux-plain"
+      ],
+      "items": [
+        "kern-form-input__input--width-2",
+        "kern-form-input__input--width-4"
+      ]
+    },
+    {
+      "component": "input-group",
+      "kind": "example-coverage",
+      "en": "Modifiers defined in SCSS that no story or docs example shows.",
+      "sources": [
+        "kern-ux-plain"
+      ],
+      "items": [
+        "kern-form-input__input--width-2",
+        "kern-form-input__input--width-4"
+      ]
+    },
+    {
+      "component": "input-group",
+      "kind": "missing-implementation",
+      "en": "kern-react-kit has no component for this.",
+      "sources": [
+        "kern-react-kit",
+        "kern-ux-plain"
+      ]
+    },
+    {
+      "component": "input-number",
+      "kind": "unknown-class",
+      "en": "Docs examples use classes that kern-ux-plain doesn't define.",
+      "sources": [
+        "technische-dokumentation",
+        "kern-ux-plain"
+      ],
+      "items": [
+        "kern-icon--md"
+      ]
+    },
+    {
+      "component": "input-number",
+      "kind": "example-coverage",
+      "en": "Modifiers defined in SCSS that no story or docs example shows.",
+      "sources": [
+        "kern-ux-plain"
+      ],
+      "items": [
+        "kern-form-input__input--width-2",
+        "kern-form-input__input--width-4"
+      ]
+    },
+    {
+      "component": "input-password",
+      "kind": "unknown-class",
+      "en": "Docs examples use classes that kern-ux-plain doesn't define.",
+      "sources": [
+        "technische-dokumentation",
+        "kern-ux-plain"
+      ],
+      "items": [
+        "kern-icon--md"
+      ]
+    },
+    {
+      "component": "input-password",
+      "kind": "example-coverage",
+      "en": "Modifiers defined in SCSS that no story or docs example shows.",
+      "sources": [
+        "kern-ux-plain"
+      ],
+      "items": [
+        "kern-form-input__input--width-2",
+        "kern-form-input__input--width-4"
+      ]
+    },
+    {
+      "component": "input-tel",
+      "kind": "unknown-class",
+      "en": "Docs examples use classes that kern-ux-plain doesn't define.",
+      "sources": [
+        "technische-dokumentation",
+        "kern-ux-plain"
+      ],
+      "items": [
+        "kern-icon--md"
+      ]
+    },
+    {
+      "component": "input-tel",
+      "kind": "example-coverage",
+      "en": "Modifiers defined in SCSS that no story or docs example shows.",
+      "sources": [
+        "kern-ux-plain"
+      ],
+      "items": [
+        "kern-form-input__input--width-2",
+        "kern-form-input__input--width-4"
+      ]
+    },
+    {
+      "component": "input-text",
+      "kind": "unknown-class",
+      "en": "Docs examples use classes that kern-ux-plain doesn't define.",
+      "sources": [
+        "technische-dokumentation",
+        "kern-ux-plain"
+      ],
+      "items": [
+        "kern-icon--md"
+      ]
+    },
+    {
+      "component": "input-text",
+      "kind": "example-coverage",
+      "en": "Modifiers defined in SCSS that no story or docs example shows.",
+      "sources": [
+        "kern-ux-plain"
+      ],
+      "items": [
+        "kern-form-input__input--width-2",
+        "kern-form-input__input--width-4"
+      ]
+    },
+    {
+      "component": "input-url",
+      "kind": "unknown-class",
+      "en": "Docs examples use classes that kern-ux-plain doesn't define.",
+      "sources": [
+        "technische-dokumentation",
+        "kern-ux-plain"
+      ],
+      "items": [
+        "kern-icon--md"
+      ]
+    },
+    {
+      "component": "input-url",
+      "kind": "example-coverage",
+      "en": "Modifiers defined in SCSS that no story or docs example shows.",
+      "sources": [
+        "kern-ux-plain"
+      ],
+      "items": [
+        "kern-form-input__input--width-2",
+        "kern-form-input__input--width-4"
+      ]
+    },
+    {
+      "component": "label",
+      "kind": "binding-gap",
+      "en": "kern-react-kit's source never emits these kern-ux-plain modifiers, so its components can't express them.",
+      "sources": [
+        "kern-react-kit",
+        "kern-ux-plain"
+      ],
+      "items": [
+        "kern-label--subtle"
+      ]
+    },
+    {
+      "component": "link",
+      "kind": "example-coverage",
+      "en": "Modifiers defined in SCSS that no story or docs example shows.",
+      "sources": [
+        "kern-ux-plain"
+      ],
+      "items": [
+        "kern-link--stretched"
+      ]
+    },
+    {
+      "component": "link",
+      "kind": "binding-gap",
+      "en": "kern-react-kit's source never emits these kern-ux-plain modifiers, so its components can't express them.",
+      "sources": [
+        "kern-react-kit",
+        "kern-ux-plain"
+      ],
+      "items": [
+        "kern-link--no-visited-state"
+      ]
+    },
+    {
+      "component": "radios",
+      "kind": "unknown-class",
+      "en": "Docs examples use classes that kern-ux-plain doesn't define.",
+      "sources": [
+        "technische-dokumentation",
+        "kern-ux-plain"
+      ],
+      "items": [
+        "kern-icon--md"
+      ]
+    },
+    {
+      "component": "radios",
+      "kind": "example-coverage",
+      "en": "Modifiers defined in SCSS that no story or docs example shows.",
+      "sources": [
+        "kern-ux-plain"
+      ],
+      "items": [
+        "kern-form-check--error",
+        "kern-form-check__checkbox--error"
+      ]
+    },
+    {
+      "component": "search",
+      "kind": "example-coverage",
+      "en": "Modifiers defined in SCSS that no story or docs example shows.",
+      "sources": [
+        "kern-ux-plain"
+      ],
+      "items": [
+        "kern-form-input--error",
+        "kern-form-input__input--error",
+        "kern-form-input__input--width-2",
+        "kern-form-input__input--width-4"
+      ]
+    },
+    {
+      "component": "search",
+      "kind": "missing-implementation",
+      "en": "kern-react-kit has no component for this.",
+      "sources": [
+        "kern-react-kit",
+        "kern-ux-plain"
+      ]
+    },
+    {
+      "component": "select",
+      "kind": "unknown-class",
+      "en": "Docs examples use classes that kern-ux-plain doesn't define.",
+      "sources": [
+        "technische-dokumentation",
+        "kern-ux-plain"
+      ],
+      "items": [
+        "kern-icon--md"
+      ]
+    },
+    {
+      "component": "select",
+      "kind": "example-coverage",
+      "en": "Modifiers defined in SCSS that no story or docs example shows.",
+      "sources": [
+        "kern-ux-plain"
+      ],
+      "items": [
+        "kern-form-input__input--error",
+        "kern-form-input__input--width-2",
+        "kern-form-input__input--width-4"
+      ]
+    },
+    {
+      "component": "summary",
+      "kind": "unknown-class",
+      "en": "Stories use classes that kern-ux-plain's SCSS doesn't define.",
+      "sources": [
+        "kern-ux-plain"
+      ],
+      "items": [
+        "kern-summary-group",
+        "kern-summary__actions"
+      ]
+    },
+    {
+      "component": "summary",
+      "kind": "unknown-class",
+      "en": "Docs examples use classes that kern-ux-plain doesn't define.",
+      "sources": [
+        "technische-dokumentation",
+        "kern-ux-plain"
+      ],
+      "items": [
+        "kern-summary-group",
+        "kern-summary__actions"
+      ]
+    },
+    {
+      "component": "table",
+      "kind": "unknown-class",
+      "en": "Stories use classes that kern-ux-plain's SCSS doesn't define.",
+      "sources": [
+        "kern-ux-plain"
+      ],
+      "items": [
+        "kern-table__head"
+      ]
+    },
+    {
+      "component": "table",
+      "kind": "unknown-class",
+      "en": "Docs examples use classes that kern-ux-plain doesn't define.",
+      "sources": [
+        "technische-dokumentation",
+        "kern-ux-plain"
+      ],
+      "items": [
+        "kern-table__head"
+      ]
+    },
+    {
+      "component": "table",
+      "kind": "binding-gap",
+      "en": "kern-react-kit's source never emits these kern-ux-plain modifiers, so its components can't express them.",
+      "sources": [
+        "kern-react-kit",
+        "kern-ux-plain"
+      ],
+      "items": [
+        "kern-table__cell--action",
+        "kern-table__header--action"
+      ]
+    },
+    {
+      "component": "task-list",
+      "kind": "unknown-class",
+      "en": "Docs examples use classes that kern-ux-plain doesn't define.",
+      "sources": [
+        "technische-dokumentation",
+        "kern-ux-plain"
+      ],
+      "items": [
+        "kern-icon--sm"
+      ]
+    },
+    {
+      "component": "textarea",
+      "kind": "unknown-class",
+      "en": "Docs examples use classes that kern-ux-plain doesn't define.",
+      "sources": [
+        "technische-dokumentation",
+        "kern-ux-plain"
+      ],
+      "items": [
+        "kern-icon--md"
+      ]
+    },
+    {
+      "component": "textarea",
+      "kind": "example-coverage",
+      "en": "Modifiers defined in SCSS that no story or docs example shows.",
+      "sources": [
+        "kern-ux-plain"
+      ],
+      "items": [
+        "kern-form-input__input--width-2",
+        "kern-form-input__input--width-4"
+      ]
+    }
+  ],
+  "text": {
+    "reviewed": 929,
+    "stale": null,
+    "missing": null,
+    "problems": null
+  },
+  "examples": {
+    "total": 322,
+    "fromStories": 322,
+    "fromDocs": 0,
+    "tagged": 227,
+    "withoutRoot": [
+      "input-group/group",
+      "kopfzeile/kopfzeile-web-component",
+      "kopfzeile/kopfzeile-web-component-custom-brealpoints",
+      "kopfzeile/kopfzeile-web-component-custom-label",
+      "kopfzeile/kopfzeile-web-component-dark",
+      "kopfzeile/kopfzeile-web-component-fluid",
+      "kopfzeile/kopfzeile-web-component-light",
+      "search/search-without-label"
+    ]
+  },
+  "uncuratedModifiers": [
+    {
+      "item": "input-date: kern-fieldset__body--horizontal",
+      "reason": "modifier of a part; not an option yet"
+    },
+    {
+      "item": "input-file: kern-form-input__input--width-2",
+      "reason": "modifier of a part; not an option yet"
+    },
+    {
+      "item": "input-file: kern-form-input__input--width-4",
+      "reason": "modifier of a part; not an option yet"
+    },
+    {
+      "item": "input-group: kern-form-input__input--width-2",
+      "reason": "modifier of a part; not an option yet"
+    },
+    {
+      "item": "input-group: kern-form-input__input--width-4",
+      "reason": "modifier of a part; not an option yet"
+    },
+    {
+      "item": "input-group: kern-input-group-text--disabled",
+      "reason": "modifier of a part; not an option yet"
+    },
+    {
+      "item": "input-group: kern-input-group-text--readonly",
+      "reason": "modifier of a part; not an option yet"
+    },
+    {
+      "item": "search: kern-form-input__input--width-2",
+      "reason": "modifier of a part; not an option yet"
+    },
+    {
+      "item": "search: kern-form-input__input--width-4",
+      "reason": "modifier of a part; not an option yet"
+    },
+    {
+      "item": "select: kern-form-input__input--width-2",
+      "reason": "modifier of a part; not an option yet"
+    },
+    {
+      "item": "select: kern-form-input__input--width-4",
+      "reason": "modifier of a part; not an option yet"
+    },
+    {
+      "item": "table: kern-table__cell--action",
+      "reason": "modifier of a part; not an option yet"
+    },
+    {
+      "item": "table: kern-table__cell--numeric",
+      "reason": "modifier of a part; not an option yet"
+    },
+    {
+      "item": "table: kern-table__header--action",
+      "reason": "modifier of a part; not an option yet"
+    },
+    {
+      "item": "table: kern-table__header--numeric",
+      "reason": "modifier of a part; not an option yet"
+    },
+    {
+      "item": "textarea: kern-form-input__input--width-2",
+      "reason": "modifier of a part; not an option yet"
+    },
+    {
+      "item": "textarea: kern-form-input__input--width-4",
+      "reason": "modifier of a part; not an option yet"
+    }
+  ],
+  "oversize": null,
+  "problems": null
+}

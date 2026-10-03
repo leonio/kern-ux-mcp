@@ -1,0 +1,476 @@
+{
+  "id": "icons",
+  "kernVersion": "2.8.2",
+  "class": "kern-icon",
+  "pattern": "kern-icon--{name}",
+  "sizes": [
+    {
+      "name": "small",
+      "class": "kern-icon--small"
+    },
+    {
+      "name": "default",
+      "class": "kern-icon--default"
+    },
+    {
+      "name": "large",
+      "class": "kern-icon--large"
+    },
+    {
+      "name": "x-large",
+      "class": "kern-icon--x-large"
+    }
+  ],
+  "icons": [
+    {
+      "name": "account-circle",
+      "class": "kern-icon--account-circle",
+      "keywords": [
+        "account",
+        "circle"
+      ],
+      "materialSymbol": "account_circle"
+    },
+    {
+      "name": "add",
+      "class": "kern-icon--add",
+      "keywords": [
+        "add"
+      ],
+      "materialSymbol": "add"
+    },
+    {
+      "name": "arrow-down",
+      "class": "kern-icon--arrow-down",
+      "keywords": [
+        "arrow",
+        "down"
+      ],
+      "materialSymbol": "arrow_down"
+    },
+    {
+      "name": "arrow-up",
+      "class": "kern-icon--arrow-up",
+      "keywords": [
+        "arrow",
+        "up"
+      ],
+      "materialSymbol": "arrow_up"
+    },
+    {
+      "name": "arrow-forward",
+      "class": "kern-icon--arrow-forward",
+      "keywords": [
+        "arrow",
+        "forward"
+      ],
+      "materialSymbol": "arrow_forward"
+    },
+    {
+      "name": "arrow-back",
+      "class": "kern-icon--arrow-back",
+      "keywords": [
+        "arrow",
+        "back"
+      ],
+      "materialSymbol": "arrow_back"
+    },
+    {
+      "name": "autorenew",
+      "class": "kern-icon--autorenew",
+      "keywords": [
+        "autorenew"
+      ],
+      "materialSymbol": "autorenew"
+    },
+    {
+      "name": "calendar-today",
+      "class": "kern-icon--calendar-today",
+      "keywords": [
+        "calendar",
+        "today"
+      ],
+      "materialSymbol": "calendar_today"
+    },
+    {
+      "name": "check",
+      "class": "kern-icon--check",
+      "keywords": [
+        "check"
+      ],
+      "materialSymbol": "check"
+    },
+    {
+      "name": "checklist",
+      "class": "kern-icon--checklist",
+      "keywords": [
+        "checklist"
+      ],
+      "materialSymbol": "checklist"
+    },
+    {
+      "name": "chevron-left",
+      "class": "kern-icon--chevron-left",
+      "keywords": [
+        "chevron",
+        "left"
+      ],
+      "materialSymbol": "chevron_left"
+    },
+    {
+      "name": "chevron-right",
+      "class": "kern-icon--chevron-right",
+      "keywords": [
+        "chevron",
+        "right"
+      ],
+      "materialSymbol": "chevron_right"
+    },
+    {
+      "name": "close",
+      "class": "kern-icon--close",
+      "keywords": [
+        "close"
+      ],
+      "materialSymbol": "close"
+    },
+    {
+      "name": "content-copy",
+      "class": "kern-icon--content-copy",
+      "keywords": [
+        "content",
+        "copy"
+      ],
+      "materialSymbol": "content_copy"
+    },
+    {
+      "name": "danger",
+      "class": "kern-icon--danger",
+      "keywords": [
+        "danger"
+      ],
+      "materialSymbol": "danger"
+    },
+    {
+      "name": "dehaze",
+      "class": "kern-icon--dehaze",
+      "keywords": [
+        "dehaze"
+      ],
+      "materialSymbol": "dehaze"
+    },
+    {
+      "name": "delete",
+      "class": "kern-icon--delete",
+      "keywords": [
+        "delete"
+      ],
+      "materialSymbol": "delete"
+    },
+    {
+      "name": "download",
+      "class": "kern-icon--download",
+      "keywords": [
+        "download"
+      ],
+      "materialSymbol": "download"
+    },
+    {
+      "name": "draft",
+      "class": "kern-icon--draft",
+      "keywords": [
+        "draft"
+      ],
+      "materialSymbol": "draft"
+    },
+    {
+      "name": "drive-folder-upload",
+      "class": "kern-icon--drive-folder-upload",
+      "keywords": [
+        "drive",
+        "folder",
+        "upload"
+      ],
+      "materialSymbol": "drive_folder_upload"
+    },
+    {
+      "name": "easy-language",
+      "class": "kern-icon--easy-language",
+      "keywords": [
+        "easy",
+        "language"
+      ],
+      "materialSymbol": "easy_language"
+    },
+    {
+      "name": "edit",
+      "class": "kern-icon--edit",
+      "keywords": [
+        "edit"
+      ],
+      "materialSymbol": "edit"
+    },
+    {
+      "name": "home",
+      "class": "kern-icon--home",
+      "keywords": [
+        "home"
+      ],
+      "materialSymbol": "home"
+    },
+    {
+      "name": "help",
+      "class": "kern-icon--help",
+      "keywords": [
+        "help"
+      ],
+      "materialSymbol": "help"
+    },
+    {
+      "name": "info",
+      "class": "kern-icon--info",
+      "keywords": [
+        "info"
+      ],
+      "materialSymbol": "info"
+    },
+    {
+      "name": "keyboard-double-arrow-left",
+      "class": "kern-icon--keyboard-double-arrow-left",
+      "keywords": [
+        "keyboard",
+        "double",
+        "arrow",
+        "left"
+      ],
+      "materialSymbol": "keyboard_double_arrow_left"
+    },
+    {
+      "name": "keyboard-double-arrow-right",
+      "class": "kern-icon--keyboard-double-arrow-right",
+      "keywords": [
+        "keyboard",
+        "double",
+        "arrow",
+        "right"
+      ],
+      "materialSymbol": "keyboard_double_arrow_right"
+    },
+    {
+      "name": "logout",
+      "class": "kern-icon--logout",
+      "keywords": [
+        "logout"
+      ],
+      "materialSymbol": "logout"
+    },
+    {
+      "name": "language",
+      "class": "kern-icon--language",
+      "keywords": [
+        "language"
+      ],
+      "materialSymbol": "language"
+    },
+    {
+      "name": "mail",
+      "class": "kern-icon--mail",
+      "keywords": [
+        "mail"
+      ],
+      "materialSymbol": "mail"
+    },
+    {
+      "name": "more-vert",
+      "class": "kern-icon--more-vert",
+      "keywords": [
+        "more",
+        "vert"
+      ],
+      "materialSymbol": "more_vert"
+    },
+    {
+      "name": "open-in-new",
+      "class": "kern-icon--open-in-new",
+      "keywords": [
+        "open",
+        "in",
+        "new"
+      ],
+      "materialSymbol": "open_in_new"
+    },
+    {
+      "name": "question-mark",
+      "class": "kern-icon--question-mark",
+      "keywords": [
+        "question",
+        "mark"
+      ],
+      "materialSymbol": "question_mark"
+    },
+    {
+      "name": "search",
+      "class": "kern-icon--search",
+      "keywords": [
+        "search"
+      ],
+      "materialSymbol": "search"
+    },
+    {
+      "name": "sign-language",
+      "class": "kern-icon--sign-language",
+      "keywords": [
+        "sign",
+        "language"
+      ],
+      "materialSymbol": "sign_language"
+    },
+    {
+      "name": "success",
+      "class": "kern-icon--success",
+      "keywords": [
+        "success"
+      ],
+      "materialSymbol": "success"
+    },
+    {
+      "name": "visibility",
+      "class": "kern-icon--visibility",
+      "keywords": [
+        "visibility"
+      ],
+      "materialSymbol": "visibility"
+    },
+    {
+      "name": "visibility-off",
+      "class": "kern-icon--visibility-off",
+      "keywords": [
+        "visibility",
+        "off"
+      ],
+      "materialSymbol": "visibility_off"
+    },
+    {
+      "name": "warning",
+      "class": "kern-icon--warning",
+      "keywords": [
+        "warning"
+      ],
+      "materialSymbol": "warning"
+    },
+    {
+      "name": "brightness-medium",
+      "class": "kern-icon--brightness-medium",
+      "keywords": [
+        "brightness",
+        "medium"
+      ],
+      "materialSymbol": "brightness_medium"
+    },
+    {
+      "name": "light-mode",
+      "class": "kern-icon--light-mode",
+      "keywords": [
+        "light",
+        "mode"
+      ],
+      "materialSymbol": "light_mode"
+    },
+    {
+      "name": "dark-mode",
+      "class": "kern-icon--dark-mode",
+      "keywords": [
+        "dark",
+        "mode"
+      ],
+      "materialSymbol": "dark_mode"
+    }
+  ],
+  "source": "kern-ux-plain/src/scss/core/utilities/_icons.scss",
+  "docs": {
+    "url": "https://www.kern-ux.de/design-system/foundations/icons",
+    "summary": {
+      "en": "KERN builds its icon set on Google Material Symbols, following the principle of evolving proven solutions instead of starting over. Icons carry simple actions in compact glyphs and help design elements stay consistent and recognisable. Use them deliberately and sparingly, only where they add real value, for example to mark an action or a status. The set is open, extensive and available in many variants; the detailed icon documentation lives in the components area."
+    },
+    "sections": [
+      {
+        "id": "icons-für-die-gestaltung-einsetzen",
+        "heading": "Icons für die Gestaltung einsetzen",
+        "url": "https://www.kern-ux.de/design-system/foundations/icons#icons-für-die-gestaltung-einsetzen",
+        "summary": {
+          "en": "Icons stand for simple actions in compact glyphs and support consistency and recognisability. Use them sparingly and only where they add value, such as marking an action or a status. KERN builds on the open Google Material Symbols collection; the components area documents icons in detail."
+        }
+      }
+    ]
+  },
+  "knowledge": {
+    "summary": {
+      "en": "Icons convey simple actions and must be used sparingly; KERN builds on the open Google Material Symbols set."
+    },
+    "whenToUse": [
+      {
+        "en": "To label an action or a status compactly, or to reinforce recognition of a familiar element."
+      }
+    ],
+    "dos": [
+      {
+        "en": "Use icons sparingly and only where they add real value, for example to mark an action or a status."
+      }
+    ],
+    "donts": [
+      {
+        "en": "Don't scatter icons through the interface or use them as decoration where they carry no meaning."
+      }
+    ]
+  },
+  "provenance": {
+    "docs.sections.icons-für-die-gestaltung-einsetzen.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/icons.mdx#icons-für-die-gestaltung-einsetzen"
+      ],
+      "inputHash": "sha256:ac059fe3762aadf4b20c2244e1d7986d64803fb33f8f16af737e03b4741ae155"
+    },
+    "docs.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/icons.mdx"
+      ],
+      "inputHash": "sha256:ac059fe3762aadf4b20c2244e1d7986d64803fb33f8f16af737e03b4741ae155"
+    },
+    "knowledge.donts.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/icons.mdx"
+      ],
+      "inputHash": "sha256:de15282c07487e7bd60d9e7e3751a08e03ccfe28ade5401105298b817d2804d4"
+    },
+    "knowledge.dos.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/icons.mdx"
+      ],
+      "inputHash": "sha256:de15282c07487e7bd60d9e7e3751a08e03ccfe28ade5401105298b817d2804d4"
+    },
+    "knowledge.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/icons.mdx"
+      ],
+      "inputHash": "sha256:de15282c07487e7bd60d9e7e3751a08e03ccfe28ade5401105298b817d2804d4"
+    },
+    "knowledge.whenToUse.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/foundations/icons.mdx"
+      ],
+      "inputHash": "sha256:de15282c07487e7bd60d9e7e3751a08e03ccfe28ade5401105298b817d2804d4"
+    }
+  }
+}

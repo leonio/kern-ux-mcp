@@ -1,0 +1,476 @@
+{
+  "id": "grid",
+  "title": {
+    "en": "Grid System",
+    "de": "Grid System"
+  },
+  "status": "deprecated",
+  "group": "layout",
+  "synonyms": {
+    "de": [
+      "Raster",
+      "Layout-System"
+    ]
+  },
+  "links": {
+    "docs": "https://www.kern-ux.de/komponenten/layout/grid-system",
+    "source": "https://gitlab.opencode.de/kern-ux/kern-ux-plain/-/tree/v2.8.2/src/scss/core/layout/_grid.scss"
+  },
+  "docs": {
+    "url": "https://www.kern-ux.de/komponenten/layout/grid-system",
+    "summary": {
+      "en": "The KERN grid is a lightweight, mobile-first CSS framework based on Bootstrap's grid for responsive, consistent layouts from containers, rows and columns. The page lists the kern-* classes, the 12-column and breakpoint scheme, offsets, vertical and horizontal alignment helpers, self-alignment, and the Do's and Don'ts."
+    },
+    "sections": [
+      {
+        "id": "kurzbeschreibung",
+        "heading": "Kurzbeschreibung",
+        "url": "https://www.kern-ux.de/komponenten/layout/grid-system#kurzbeschreibung",
+        "summary": {
+          "en": "A lightweight, mobile-first CSS framework based on Bootstrap grid that builds responsive, consistent layouts with containers, rows and columns; design layout details live in the Layout documentation."
+        }
+      },
+      {
+        "id": "grundlegender-aufbau",
+        "heading": "Grundlegender Aufbau",
+        "url": "https://www.kern-ux.de/komponenten/layout/grid-system#grundlegender-aufbau",
+        "summary": {
+          "en": "Basic HTML markup that shows the container, row and column structure."
+        }
+      },
+      {
+        "id": "bestandteile",
+        "heading": "Bestandteile",
+        "url": "https://www.kern-ux.de/komponenten/layout/grid-system#bestandteile",
+        "summary": {
+          "en": "The grid consists of the following basic building blocks."
+        }
+      },
+      {
+        "id": "container-kern-container",
+        "heading": "Container (kern-container)",
+        "url": "https://www.kern-ux.de/komponenten/layout/grid-system#container-kern-container",
+        "summary": {
+          "en": "The container wraps the grid and centres the content, keeping the layout within the viewport's maximum width and adapting on smaller screens. kern-container is responsive with a fixed maximum width per breakpoint; use kern-container-fluid for full-width containers."
+        }
+      },
+      {
+        "id": "zeilen-kern-row",
+        "heading": "Zeilen (kern-row)",
+        "url": "https://www.kern-ux.de/komponenten/layout/grid-system#zeilen-kern-row",
+        "summary": {
+          "en": "Rows are horizontal wrappers that group columns and keep content aligned inside the grid. They carry a negative margin to cancel the outer column padding and space the columns correctly, and act as CSS flexbox wrappers so flex helper classes can align the columns."
+        }
+      },
+      {
+        "id": "spalten-kern-col",
+        "heading": "Spalten (kern-col)",
+        "url": "https://www.kern-ux.de/komponenten/layout/grid-system#spalten-kern-col",
+        "summary": {
+          "en": "Columns are the vertical containers inside a row that define space for content and allow flexible arrangement in the raster. All classes are prefixed with kern- so they cannot collide with existing grid systems."
+        }
+      },
+      {
+        "id": "container-rows",
+        "heading": "Container & Rows",
+        "url": "https://www.kern-ux.de/komponenten/layout/grid-system#container-rows",
+        "summary": {
+          "en": ".kern-container is a centred, responsive container with a maximum width; .kern-container-fluid spans 100% width; .kern-row is the row that holds columns."
+        }
+      },
+      {
+        "id": "columns-spalten",
+        "heading": "Columns (Spalten)",
+        "url": "https://www.kern-ux.de/komponenten/layout/grid-system#columns-spalten",
+        "summary": {
+          "en": "Schema: .kern-col-{breakpoint}-{size}, where size runs from 1 to 12. Breakpoints: no suffix from 0px, sm from 576px, md from 768px, lg from 992px, xl from 1200px, xxl from 1600px."
+        }
+      },
+      {
+        "id": "erstellen-von-spalten",
+        "heading": "Erstellen von Spalten",
+        "url": "https://www.kern-ux.de/komponenten/layout/grid-system#erstellen-von-spalten",
+        "summary": {
+          "en": "Create columns with classes such as kern-col-*, where the wildcard is the breakpoint-specific width. For example, a class makes the column 4 of 12 available columns at screens from 768px."
+        }
+      },
+      {
+        "id": "responsive-spalten",
+        "heading": "Responsive Spalten",
+        "url": "https://www.kern-ux.de/komponenten/layout/grid-system#responsive-spalten",
+        "summary": {
+          "en": "Set column widths per screen size with breakpoint classes: kern-col-* up to 576px, kern-col-sm-* from 576px, kern-col-md-* from 768px, kern-col-lg-* from 992px, kern-col-xl-* from 1200px, kern-col-xxl-* from 1600px. Omit the breakpoint for a column that depends on none."
+        }
+      },
+      {
+        "id": "spaltenversatz-offset",
+        "heading": "Spaltenversatz (Offset)",
+        "url": "https://www.kern-ux.de/komponenten/layout/grid-system#spaltenversatz-offset",
+        "summary": {
+          "en": "Add an offset with kern-col-, the breakpoint, -offset- and the number of columns to skip. The example shifts a column by three columns, so it starts after a gap of three."
+        }
+      },
+      {
+        "id": "vertikale-ausrichtung",
+        "heading": "Vertikale Ausrichtung",
+        "url": "https://www.kern-ux.de/komponenten/layout/grid-system#vertikale-ausrichtung",
+        "summary": {
+          "en": "Classes added to .kern-row control vertical alignment: .kern-align-items-start aligns columns to the top, .kern-align-items-center centres them vertically, .kern-align-items-end aligns them to the bottom."
+        }
+      },
+      {
+        "id": "horizonale-ausrichtung",
+        "heading": "Horizonale Ausrichtung",
+        "url": "https://www.kern-ux.de/komponenten/layout/grid-system#horizonale-ausrichtung",
+        "summary": {
+          "en": "Classes added to .kern-row control horizontal alignment: .kern-justify-content-start (default, left), -center, -end, -around, -between and -evenly position or distribute the columns."
+        }
+      },
+      {
+        "id": "selbstausrichtung",
+        "heading": "Selbstausrichtung",
+        "url": "https://www.kern-ux.de/komponenten/layout/grid-system#selbstausrichtung",
+        "summary": {
+          "en": "These classes go on individual .kern-col-* elements to override their vertical alignment in the row: .kern-align-items-start, .kern-align-items-center and .kern-align-items-end."
+        }
+      },
+      {
+        "id": "dos-and-donts",
+        "heading": "Dos and Don'ts",
+        "url": "https://www.kern-ux.de/komponenten/layout/grid-system#dos-and-donts",
+        "summary": {
+          "en": "Use containers, rows and columns for a clean structure and avoid too many nested containers or rows, which are harder to maintain. Use kern-col without a width for even columns, combine breakpoints such as kern-col-md-6 kern-col-lg-4, and reserve kern-container-fluid for full-width content."
+        }
+      }
+    ]
+  },
+  "knowledge": {
+    "summary": {
+      "en": "Mobile-first CSS grid with containers, rows and 12 columns; classes are prefixed kern- and layout scales by breakpoint."
+    },
+    "dos": [
+      {
+        "en": "Use containers, rows and columns correctly to keep the layout clean and structured."
+      },
+      {
+        "en": "Use kern-col without a width when all columns should be distributed evenly."
+      },
+      {
+        "en": "Combine breakpoints such as kern-col-md-6 kern-col-lg-4 to adapt layouts to different screen sizes."
+      },
+      {
+        "en": "Use kern-container-fluid only when content really spans the full width, e.g. banners or background areas."
+      },
+      {
+        "en": "Make sure columns keep the content readable at every viewport."
+      }
+    ],
+    "donts": [
+      {
+        "en": "Do not use too many nested containers or rows; the layout becomes harder to maintain."
+      }
+    ]
+  },
+  "examples": [
+    {
+      "id": "grid",
+      "html": {
+        "markup": "<div class=\"kern-container\"><div class=\"kern-row\"><div class=\"kern-col\"><div class=\"kern-form-input\"><label class=\"kern-label\" for=\"text-1\">Name</label><input class=\"kern-form-input__input\" id=\"text-1\" name=\"text\" type=\"text\"></div></div></div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Grid/Grid.stories.js",
+          "export": "Grid"
+        }
+      }
+    },
+    {
+      "id": "container",
+      "html": {
+        "markup": "<div class=\"kern-container\"><div class=\"kern-row\"><div class=\"kern-col\"><div class=\"kern-form-input\"><label class=\"kern-label\" for=\"text-2\">Name</label><input class=\"kern-form-input__input\" id=\"text-2\" name=\"text\" type=\"text\"></div></div></div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Grid/Grid.stories.js",
+          "export": "Container"
+        }
+      }
+    },
+    {
+      "id": "container-fluid",
+      "html": {
+        "markup": "<div class=\"kern-container-fluid\"><div class=\"kern-row\"><div class=\"kern-col\"><div class=\"kern-form-input\"><label class=\"kern-label\" for=\"text-3\">Name</label><input class=\"kern-form-input__input\" id=\"text-3\" name=\"text\" type=\"text\"></div></div></div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Grid/Grid.stories.js",
+          "export": "ContainerFluid"
+        }
+      }
+    },
+    {
+      "id": "container-col",
+      "html": {
+        "markup": "<div class=\"kern-container\"><div class=\"kern-row\"><div class=\"kern-col\"><div class=\"kern-form-input\"><label class=\"kern-label\" for=\"text-4\">Name</label><input class=\"kern-form-input__input\" id=\"text-4\" name=\"text\" type=\"text\"></div></div><div class=\"kern-col\"><div class=\"kern-form-input\"><label class=\"kern-label\" for=\"vorname-5\">Vorname</label><input class=\"kern-form-input__input\" id=\"vorname-5\" name=\"vorname\" type=\"text\"></div></div><div class=\"kern-col\"><div class=\"kern-form-input\"><label class=\"kern-label\" for=\"alter-6\">Alter</label><input class=\"kern-form-input__input\" id=\"alter-6\" name=\"alter\" type=\"text\"></div></div></div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Grid/Grid.stories.js",
+          "export": "ContainerCol"
+        }
+      }
+    },
+    {
+      "id": "container-col-9-3",
+      "html": {
+        "markup": "<div class=\"kern-container\"><div class=\"kern-row\"><div class=\"kern-col-9\"><div class=\"kern-form-input\"><label class=\"kern-label\" for=\"name-7\">Name</label><input class=\"kern-form-input__input\" id=\"name-7\" name=\"name\" type=\"text\"></div></div><div class=\"kern-col-3\"><div class=\"kern-form-input\"><label class=\"kern-label\" for=\"vorname-8\">Vorname</label><input class=\"kern-form-input__input\" id=\"vorname-8\" name=\"vorname\" type=\"text\"></div></div></div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Grid/Grid.stories.js",
+          "export": "ContainerCol_9_3"
+        }
+      }
+    },
+    {
+      "id": "container-col-4-4-4",
+      "html": {
+        "markup": "<div class=\"kern-container\"><div class=\"kern-row\"><div class=\"kern-col-4\"><div class=\"kern-form-input\"><label class=\"kern-label\" for=\"name-9\">Name</label><input class=\"kern-form-input__input\" id=\"name-9\" name=\"name\" type=\"text\"></div></div><div class=\"kern-col-4\"><div class=\"kern-form-input\"><label class=\"kern-label\" for=\"name2-10\">Name 2</label><input class=\"kern-form-input__input\" id=\"name2-10\" name=\"name2\" type=\"text\"></div></div><div class=\"kern-col-4\"><div class=\"kern-form-input\"><label class=\"kern-label\" for=\"vorname-11\">Vorname</label><input class=\"kern-form-input__input\" id=\"vorname-11\" name=\"vorname\" type=\"text\"></div></div></div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Grid/Grid.stories.js",
+          "export": "ContainerCol_4_4_4"
+        }
+      }
+    },
+    {
+      "id": "container-col-sm-6-6",
+      "html": {
+        "markup": "<div class=\"kern-container\"><div class=\"kern-row\"><div class=\"kern-col-sm-6\"><div class=\"kern-form-input\"><label class=\"kern-label\" for=\"name-12\">Name</label><input class=\"kern-form-input__input\" id=\"name-12\" name=\"name\" type=\"text\"></div></div><div class=\"kern-col-sm-6\"><div class=\"kern-form-input\"><label class=\"kern-label\" for=\"vorname-13\">Vorname</label><input class=\"kern-form-input__input\" id=\"vorname-13\" name=\"vorname\" type=\"text\"></div></div></div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Grid/Grid.stories.js",
+          "export": "ContainerCol_SM_6_6"
+        }
+      }
+    }
+  ],
+  "moreExamples": {
+    "file": "grid.examples.json",
+    "count": 6
+  },
+  "implementations": {
+    "html": {
+      "package": "@kern-ux/native",
+      "version": "2.8.2",
+      "classes": {
+        "roots": [
+          "kern-container",
+          "kern-container-fluid"
+        ],
+        "blocks": [
+          "kern-col",
+          "kern-row"
+        ]
+      },
+      "sources": [
+        "src/scss/core/layout/_grid.scss",
+        "stories/Grid/Grid.stories.js"
+      ]
+    },
+    "react": {
+      "package": "@publicplan/kern-react-kit",
+      "version": "1.3.5",
+      "import": "import { KernColumn } from '@publicplan/kern-react-kit'",
+      "components": [
+        "KernColumn",
+        "KernContainer",
+        "KernRow"
+      ],
+      "sources": [
+        "src/components/Grid"
+      ]
+    }
+  },
+  "provenance": {
+    "docs.sections.bestandteile.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/layout/grid-system.mdx#bestandteile"
+      ],
+      "inputHash": "sha256:845bf944f0e8387b0e61c9b89a56cfd304e582a970974afef34617f14178404d"
+    },
+    "docs.sections.columns-spalten.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/layout/grid-system.mdx#columns-spalten"
+      ],
+      "inputHash": "sha256:845bf944f0e8387b0e61c9b89a56cfd304e582a970974afef34617f14178404d"
+    },
+    "docs.sections.container-kern-container.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/layout/grid-system.mdx#container-kern-container"
+      ],
+      "inputHash": "sha256:845bf944f0e8387b0e61c9b89a56cfd304e582a970974afef34617f14178404d"
+    },
+    "docs.sections.container-rows.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/layout/grid-system.mdx#container-rows"
+      ],
+      "inputHash": "sha256:845bf944f0e8387b0e61c9b89a56cfd304e582a970974afef34617f14178404d"
+    },
+    "docs.sections.dos-and-donts.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/layout/grid-system.mdx#dos-and-donts"
+      ],
+      "inputHash": "sha256:845bf944f0e8387b0e61c9b89a56cfd304e582a970974afef34617f14178404d"
+    },
+    "docs.sections.erstellen-von-spalten.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/layout/grid-system.mdx#erstellen-von-spalten"
+      ],
+      "inputHash": "sha256:845bf944f0e8387b0e61c9b89a56cfd304e582a970974afef34617f14178404d"
+    },
+    "docs.sections.grundlegender-aufbau.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/layout/grid-system.mdx#grundlegender-aufbau"
+      ],
+      "inputHash": "sha256:845bf944f0e8387b0e61c9b89a56cfd304e582a970974afef34617f14178404d"
+    },
+    "docs.sections.horizonale-ausrichtung.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/layout/grid-system.mdx#horizonale-ausrichtung"
+      ],
+      "inputHash": "sha256:845bf944f0e8387b0e61c9b89a56cfd304e582a970974afef34617f14178404d"
+    },
+    "docs.sections.kurzbeschreibung.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/layout/grid-system.mdx#kurzbeschreibung"
+      ],
+      "inputHash": "sha256:845bf944f0e8387b0e61c9b89a56cfd304e582a970974afef34617f14178404d"
+    },
+    "docs.sections.responsive-spalten.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/layout/grid-system.mdx#responsive-spalten"
+      ],
+      "inputHash": "sha256:845bf944f0e8387b0e61c9b89a56cfd304e582a970974afef34617f14178404d"
+    },
+    "docs.sections.selbstausrichtung.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/layout/grid-system.mdx#selbstausrichtung"
+      ],
+      "inputHash": "sha256:845bf944f0e8387b0e61c9b89a56cfd304e582a970974afef34617f14178404d"
+    },
+    "docs.sections.spalten-kern-col.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/layout/grid-system.mdx#spalten-kern-col"
+      ],
+      "inputHash": "sha256:845bf944f0e8387b0e61c9b89a56cfd304e582a970974afef34617f14178404d"
+    },
+    "docs.sections.spaltenversatz-offset.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/layout/grid-system.mdx#spaltenversatz-offset"
+      ],
+      "inputHash": "sha256:845bf944f0e8387b0e61c9b89a56cfd304e582a970974afef34617f14178404d"
+    },
+    "docs.sections.vertikale-ausrichtung.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/layout/grid-system.mdx#vertikale-ausrichtung"
+      ],
+      "inputHash": "sha256:845bf944f0e8387b0e61c9b89a56cfd304e582a970974afef34617f14178404d"
+    },
+    "docs.sections.zeilen-kern-row.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/layout/grid-system.mdx#zeilen-kern-row"
+      ],
+      "inputHash": "sha256:845bf944f0e8387b0e61c9b89a56cfd304e582a970974afef34617f14178404d"
+    },
+    "docs.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/layout/grid-system.mdx"
+      ],
+      "inputHash": "sha256:845bf944f0e8387b0e61c9b89a56cfd304e582a970974afef34617f14178404d"
+    },
+    "knowledge.donts.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/layout/grid-system.mdx"
+      ],
+      "inputHash": "sha256:bfbf81c57a43a5a979adaeec289ad87a966b187180a4d9f5b1b9b4ef518dc6f3"
+    },
+    "knowledge.dos.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/layout/grid-system.mdx"
+      ],
+      "inputHash": "sha256:bfbf81c57a43a5a979adaeec289ad87a966b187180a4d9f5b1b9b4ef518dc6f3"
+    },
+    "knowledge.dos.1": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/layout/grid-system.mdx"
+      ],
+      "inputHash": "sha256:bfbf81c57a43a5a979adaeec289ad87a966b187180a4d9f5b1b9b4ef518dc6f3"
+    },
+    "knowledge.dos.2": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/layout/grid-system.mdx"
+      ],
+      "inputHash": "sha256:bfbf81c57a43a5a979adaeec289ad87a966b187180a4d9f5b1b9b4ef518dc6f3"
+    },
+    "knowledge.dos.3": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/layout/grid-system.mdx"
+      ],
+      "inputHash": "sha256:bfbf81c57a43a5a979adaeec289ad87a966b187180a4d9f5b1b9b4ef518dc6f3"
+    },
+    "knowledge.dos.4": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/layout/grid-system.mdx"
+      ],
+      "inputHash": "sha256:bfbf81c57a43a5a979adaeec289ad87a966b187180a4d9f5b1b9b4ef518dc6f3"
+    },
+    "knowledge.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/layout/grid-system.mdx"
+      ],
+      "inputHash": "sha256:bfbf81c57a43a5a979adaeec289ad87a966b187180a4d9f5b1b9b4ef518dc6f3"
+    }
+  }
+}

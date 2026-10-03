@@ -1,0 +1,329 @@
+{
+  "id": "loader",
+  "title": {
+    "en": "Loader",
+    "de": "Loader"
+  },
+  "status": "stable",
+  "group": "feedback",
+  "synonyms": {
+    "de": [
+      "Ladeanzeige",
+      "Loading Indicator",
+      "Spinner",
+      "Wartekreisel",
+      "Spinning Wheel",
+      "Loading Spinner"
+    ]
+  },
+  "links": {
+    "docs": "https://www.kern-ux.de/komponenten/loader",
+    "figma": "https://www.figma.com/community/file/1624024563231427311",
+    "source": "https://gitlab.opencode.de/kern-ux/kern-ux-plain/-/tree/v2.8.2/src/scss/core/components/_loader.scss"
+  },
+  "docs": {
+    "url": "https://www.kern-ux.de/komponenten/loader",
+    "summary": {
+      "en": "Loader is an animated spinning icon that tells users content is loading. It signals that a request is being processed and is used when the expected wait is unknown but likely longer than one second. A transparent white background (colour and transparency tokens in Figma) sits behind it so the loader stays clearly visible. Typical cases are fetching or refreshing search results, signing in to protected areas, downloads and loading large content such as videos."
+    },
+    "sections": [
+      {
+        "id": "kurzbeschreibung",
+        "heading": "Kurzbeschreibung",
+        "url": "https://www.kern-ux.de/komponenten/loader#kurzbeschreibung",
+        "summary": {
+          "en": "An animated, spinning icon that tells users that content is loading."
+        }
+      },
+      {
+        "id": "beschreibung",
+        "heading": "Beschreibung",
+        "url": "https://www.kern-ux.de/komponenten/loader#beschreibung",
+        "summary": {
+          "en": "Indicates that a loading or computation process is running. The icon animates continuously to signal to users that their request is being processed."
+        }
+      },
+      {
+        "id": "verwendungsregeln",
+        "heading": "Verwendungsregeln",
+        "url": "https://www.kern-ux.de/komponenten/loader#verwendungsregeln",
+        "summary": {
+          "en": "Use a loader when the expected wait is not exactly known but is likely to exceed one second. The component sits on a transparent white background (colour and transparency tokens in Figma) so it stays clearly visible."
+        }
+      },
+      {
+        "id": "beispiele",
+        "heading": "Beispiele",
+        "url": "https://www.kern-ux.de/komponenten/loader#beispiele",
+        "summary": {
+          "en": "Typical cases: fetching new or refreshed search results, signing in to protected areas, downloading content, and loading large content such as videos."
+        }
+      },
+      {
+        "id": "dos-und-donts",
+        "heading": "Dos und Don’ts",
+        "url": "https://www.kern-ux.de/komponenten/loader#dos-und-donts",
+        "summary": {
+          "en": "Do not show a loading indicator when the wait is less than one second, and never use several loaders at the same time."
+        }
+      }
+    ]
+  },
+  "knowledge": {
+    "summary": {
+      "en": "Animated spinner that signals an ongoing load; use it when the expected wait is not known but likely exceeds one second."
+    },
+    "whenToUse": [
+      {
+        "en": "Signalling an unknown wait that is expected to last longer than about one second."
+      },
+      {
+        "en": "Fetching or refreshing search results, signing in, downloads, or loading large content such as videos."
+      }
+    ],
+    "dos": [
+      {
+        "en": "Use a loader when the expected wait is not exactly known but is likely to take more than one second."
+      }
+    ],
+    "donts": [
+      {
+        "en": "Do not show a loading indicator when the expected wait is less than one second."
+      },
+      {
+        "en": "Do not use several loaders at the same time."
+      }
+    ],
+    "similar": [
+      {
+        "id": "progress"
+      }
+    ]
+  },
+  "options": [
+    {
+      "id": "visible",
+      "kind": "boolean",
+      "origin": "curated",
+      "html": {
+        "binding": "modifier",
+        "class": "kern-loader--visible"
+      }
+    }
+  ],
+  "accessibility": [
+    {
+      "id": "non-text-content",
+      "criterion": "1.1.1",
+      "slug": "non-text-content",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-10-21"
+    },
+    {
+      "id": "info-and-relationships",
+      "criterion": "1.3.1",
+      "slug": "info-and-relationships",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-10-21"
+    },
+    {
+      "id": "use-of-color",
+      "criterion": "1.4.1",
+      "slug": "use-of-color",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-10-21"
+    },
+    {
+      "id": "non-text-contrast",
+      "criterion": "1.4.11",
+      "slug": "non-text-contrast",
+      "level": "AA",
+      "status": "passed",
+      "lastChecked": "2025-10-21"
+    },
+    {
+      "id": "pause-stop-hide",
+      "criterion": "2.2.2",
+      "slug": "pause-stop-hide",
+      "level": "A",
+      "status": "implementation-dependent",
+      "lastChecked": "2025-10-21"
+    },
+    {
+      "id": "status-messages",
+      "criterion": "4.1.3",
+      "slug": "status-messages",
+      "level": "AA",
+      "status": "implementation-dependent",
+      "lastChecked": "2025-10-21"
+    },
+    {
+      "id": "timing-adjustable",
+      "criterion": "2.2.1",
+      "slug": "timing-adjustable",
+      "level": "A",
+      "status": "implementation-dependent",
+      "lastChecked": "2025-10-21"
+    },
+    {
+      "id": "animation-from-interactions",
+      "criterion": "2.3.3",
+      "slug": "animation-from-interactions",
+      "level": "AAA",
+      "status": "implementation-dependent",
+      "lastChecked": "2025-10-21"
+    },
+    {
+      "id": "long-loading-updates",
+      "slug": "long-loading-updates",
+      "status": "implementation-dependent",
+      "lastChecked": "2026-07-06"
+    }
+  ],
+  "examples": [
+    {
+      "id": "loader",
+      "options": {
+        "visible": true
+      },
+      "html": {
+        "markup": "<div class=\"kern-loader kern-loader--visible\" role=\"status\"><span class=\"kern-sr-only\">Wird geladen...</span></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Loader/Loader.stories.js",
+          "export": "Loader"
+        }
+      }
+    }
+  ],
+  "implementations": {
+    "html": {
+      "package": "@kern-ux/native",
+      "version": "2.8.2",
+      "classes": {
+        "roots": [
+          "kern-loader"
+        ],
+        "modifiers": [
+          "kern-loader--visible"
+        ]
+      },
+      "sources": [
+        "src/scss/core/components/_loader.scss",
+        "stories/Loader/Loader.stories.js"
+      ]
+    },
+    "react": {
+      "package": "@publicplan/kern-react-kit",
+      "version": "1.3.5",
+      "import": "import { Loader } from '@publicplan/kern-react-kit'",
+      "components": [
+        "Loader"
+      ],
+      "sources": [
+        "src/components/Loader"
+      ]
+    }
+  },
+  "provenance": {
+    "docs.sections.beispiele.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/loader.mdx#beispiele"
+      ],
+      "inputHash": "sha256:e16ba1e6d51afe7258e3b40d820a6199703c819be4febef8c46304b5a9d99c3f"
+    },
+    "docs.sections.beschreibung.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/loader.mdx#beschreibung"
+      ],
+      "inputHash": "sha256:e16ba1e6d51afe7258e3b40d820a6199703c819be4febef8c46304b5a9d99c3f"
+    },
+    "docs.sections.dos-und-donts.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/loader.mdx#dos-und-donts"
+      ],
+      "inputHash": "sha256:e16ba1e6d51afe7258e3b40d820a6199703c819be4febef8c46304b5a9d99c3f"
+    },
+    "docs.sections.kurzbeschreibung.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/loader.mdx#kurzbeschreibung"
+      ],
+      "inputHash": "sha256:e16ba1e6d51afe7258e3b40d820a6199703c819be4febef8c46304b5a9d99c3f"
+    },
+    "docs.sections.verwendungsregeln.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/loader.mdx#verwendungsregeln"
+      ],
+      "inputHash": "sha256:e16ba1e6d51afe7258e3b40d820a6199703c819be4febef8c46304b5a9d99c3f"
+    },
+    "docs.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/loader.mdx"
+      ],
+      "inputHash": "sha256:e16ba1e6d51afe7258e3b40d820a6199703c819be4febef8c46304b5a9d99c3f"
+    },
+    "knowledge.donts.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/loader.mdx"
+      ],
+      "inputHash": "sha256:0a170ba29578d372288466c3a1e61d510190204eb7b981ef967dc6cd2ca800d4"
+    },
+    "knowledge.donts.1": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/loader.mdx"
+      ],
+      "inputHash": "sha256:0a170ba29578d372288466c3a1e61d510190204eb7b981ef967dc6cd2ca800d4"
+    },
+    "knowledge.dos.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/loader.mdx"
+      ],
+      "inputHash": "sha256:0a170ba29578d372288466c3a1e61d510190204eb7b981ef967dc6cd2ca800d4"
+    },
+    "knowledge.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/loader.mdx"
+      ],
+      "inputHash": "sha256:0a170ba29578d372288466c3a1e61d510190204eb7b981ef967dc6cd2ca800d4"
+    },
+    "knowledge.whenToUse.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/loader.mdx"
+      ],
+      "inputHash": "sha256:0a170ba29578d372288466c3a1e61d510190204eb7b981ef967dc6cd2ca800d4"
+    },
+    "knowledge.whenToUse.1": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/loader.mdx"
+      ],
+      "inputHash": "sha256:0a170ba29578d372288466c3a1e61d510190204eb7b981ef967dc6cd2ca800d4"
+    }
+  }
+}

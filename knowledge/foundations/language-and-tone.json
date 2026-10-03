@@ -1,0 +1,242 @@
+{
+  "id": "language-and-tone",
+  "title": {
+    "en": "Language and tone",
+    "de": "Sprache und Tonalität"
+  },
+  "group": "Design system",
+  "status": "documented",
+  "links": {
+    "docs": "https://www.kern-ux.de/design-system/sprache_und_tonalitaet"
+  },
+  "docs": {
+    "url": "https://www.kern-ux.de/design-system/sprache_und_tonalitaet",
+    "summary": {
+      "en": "Guidance for the text of public-sector digital services, based on a digital administration language guide from the Hamburg Senatskanzlei. User-centred communication makes services faster to understand, more stable and more efficient, and a consistent style signals empathy, confidence and reliability. The style is clear, short, active and free of nominal phrasing; the tone is insistent and friendly. The page ends with SEO and inclusive-language rules, including a 20-word sentence limit."
+    },
+    "sections": [
+      {
+        "id": "texte-verständlich-und-ansprechend-formulieren",
+        "heading": "Texte verständlich und ansprechend formulieren",
+        "url": "https://www.kern-ux.de/design-system/sprache_und_tonalitaet#texte-verständlich-und-ansprechend-formulieren",
+        "summary": {
+          "en": "User-centred administrative services benefit citizens and the administration alike, because fewer questions and misunderstandings help everyone. The guidance was developed by the Hamburg Senatskanzlei as a digital administration language guide and forms a good basis for KERN's language and tone."
+        }
+      },
+      {
+        "id": "warum-nutzer-innenzentrierte-kommunikation-so-wichtig-ist",
+        "heading": "Warum nutzer:innenzentrierte Kommunikation so wichtig ist",
+        "url": "https://www.kern-ux.de/design-system/sprache_und_tonalitaet#warum-nutzer-innenzentrierte-kommunikation-so-wichtig-ist",
+        "summary": {
+          "en": "Time spent on structure and readability saves users time and effort. User-centred content makes services faster to grasp, more stable because fewer input errors occur, and more efficient because fewer enquiries reach the administration. A consistent style conveys empathy, confidence and reliability."
+        }
+      },
+      {
+        "id": "stil",
+        "heading": "Stil",
+        "url": "https://www.kern-ux.de/design-system/sprache_und_tonalitaet#stil",
+        "summary": {
+          "en": "Write clearly, concisely and plainly: main clauses with at most two subordinate clauses, only the information users need immediately. Avoid nominal style and prefer active, direct phrasing. Use jargon only where it aids understanding. Alternate between the user's and the administration's view."
+        }
+      },
+      {
+        "id": "tonalität",
+        "heading": "Tonalität",
+        "url": "https://www.kern-ux.de/design-system/sprache_und_tonalitaet#tonalität",
+        "summary": {
+          "en": "Administrative language is insistent and friendly: it gets to the point and guides people safely through a process, while treating citizens as partners. Keep the formal address, stay solution- and service-oriented and never servile, and keep rambling or jokey wording out of written communication."
+        }
+      },
+      {
+        "id": "optimierung-für-suchmaschinen-seo",
+        "heading": "Optimierung für Suchmaschinen (SEO)",
+        "url": "https://www.kern-ux.de/design-system/sprache_und_tonalitaet#optimierung-für-suchmaschinen-seo",
+        "summary": {
+          "en": "Search engines reward informative, well-structured pages with internal linking and long dwell times. Watch for duplicate content across regional portals and pages updated too rarely, and check SEO regularly. Keywords help but must not dominate; meta title and meta description matter more."
+        }
+      },
+      {
+        "id": "inklusion-einfache-und-leichte-sprache",
+        "heading": "Inklusion, einfache und leichte Sprache",
+        "url": "https://www.kern-ux.de/design-system/sprache_und_tonalitaet#inklusion-einfache-und-leichte-sprache",
+        "summary": {
+          "en": "Use simple language that makes complex processes clear to as many people as possible and keep sentences to a maximum of 20 words. Easy-to-read language is a separate thing, requires rewriting every text and is a case-by-case decision. Offer read-aloud text and image descriptions."
+        }
+      }
+    ]
+  },
+  "knowledge": {
+    "summary": {
+      "en": "Write plainly and user-centrically: short active sentences, no nominal or jargon-heavy style, a friendly but insistent tone and consistent direct address."
+    },
+    "dos": [
+      {
+        "en": "Keep sentences under 20 words and use main clauses with at most two subordinate clauses."
+      },
+      {
+        "en": "Prefer active, verb-based constructions over nominal style and passive voice."
+      },
+      {
+        "en": "Address users directly; this often avoids lengthening gender-specific wording."
+      },
+      {
+        "en": "Put only the information users immediately need in the text and link to anything beyond it."
+      },
+      {
+        "en": "Write in an insistent and friendly tone that guides users safely through the process."
+      }
+    ],
+    "donts": [
+      {
+        "en": "Don't use nominal style, passive constructions or long nested sentences."
+      },
+      {
+        "en": "Don't use jargon or foreign words unless they make the text easier to understand."
+      },
+      {
+        "en": "Don't be rambling, jokey or servile in written communication."
+      },
+      {
+        "en": "Don't let keywords dominate the content; give meta title and meta description priority."
+      }
+    ]
+  },
+  "provenance": {
+    "docs.sections.inklusion-einfache-und-leichte-sprache.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/sprache_und_tonalitaet.md#inklusion-einfache-und-leichte-sprache"
+      ],
+      "inputHash": "sha256:29d521897478af783ee212715d6ae1502647faa10c0c5386f60130135fb22f37"
+    },
+    "docs.sections.optimierung-für-suchmaschinen-seo.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/sprache_und_tonalitaet.md#optimierung-für-suchmaschinen-seo"
+      ],
+      "inputHash": "sha256:29d521897478af783ee212715d6ae1502647faa10c0c5386f60130135fb22f37"
+    },
+    "docs.sections.stil.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/sprache_und_tonalitaet.md#stil"
+      ],
+      "inputHash": "sha256:29d521897478af783ee212715d6ae1502647faa10c0c5386f60130135fb22f37"
+    },
+    "docs.sections.texte-verständlich-und-ansprechend-formulieren.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/sprache_und_tonalitaet.md#texte-verständlich-und-ansprechend-formulieren"
+      ],
+      "inputHash": "sha256:29d521897478af783ee212715d6ae1502647faa10c0c5386f60130135fb22f37"
+    },
+    "docs.sections.tonalität.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/sprache_und_tonalitaet.md#tonalität"
+      ],
+      "inputHash": "sha256:29d521897478af783ee212715d6ae1502647faa10c0c5386f60130135fb22f37"
+    },
+    "docs.sections.warum-nutzer-innenzentrierte-kommunikation-so-wichtig-ist.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/sprache_und_tonalitaet.md#warum-nutzer-innenzentrierte-kommunikation-so-wichtig-ist"
+      ],
+      "inputHash": "sha256:29d521897478af783ee212715d6ae1502647faa10c0c5386f60130135fb22f37"
+    },
+    "docs.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/sprache_und_tonalitaet.md"
+      ],
+      "inputHash": "sha256:29d521897478af783ee212715d6ae1502647faa10c0c5386f60130135fb22f37"
+    },
+    "knowledge.donts.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/sprache_und_tonalitaet.md"
+      ],
+      "inputHash": "sha256:f8c43da36eb52852427c2d3f864c155265b851a68951cdcc92a7ab2a5b0ef174"
+    },
+    "knowledge.donts.1": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/sprache_und_tonalitaet.md"
+      ],
+      "inputHash": "sha256:f8c43da36eb52852427c2d3f864c155265b851a68951cdcc92a7ab2a5b0ef174"
+    },
+    "knowledge.donts.2": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/sprache_und_tonalitaet.md"
+      ],
+      "inputHash": "sha256:f8c43da36eb52852427c2d3f864c155265b851a68951cdcc92a7ab2a5b0ef174"
+    },
+    "knowledge.donts.3": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/sprache_und_tonalitaet.md"
+      ],
+      "inputHash": "sha256:f8c43da36eb52852427c2d3f864c155265b851a68951cdcc92a7ab2a5b0ef174"
+    },
+    "knowledge.dos.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/sprache_und_tonalitaet.md"
+      ],
+      "inputHash": "sha256:f8c43da36eb52852427c2d3f864c155265b851a68951cdcc92a7ab2a5b0ef174"
+    },
+    "knowledge.dos.1": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/sprache_und_tonalitaet.md"
+      ],
+      "inputHash": "sha256:f8c43da36eb52852427c2d3f864c155265b851a68951cdcc92a7ab2a5b0ef174"
+    },
+    "knowledge.dos.2": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/sprache_und_tonalitaet.md"
+      ],
+      "inputHash": "sha256:f8c43da36eb52852427c2d3f864c155265b851a68951cdcc92a7ab2a5b0ef174"
+    },
+    "knowledge.dos.3": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/sprache_und_tonalitaet.md"
+      ],
+      "inputHash": "sha256:f8c43da36eb52852427c2d3f864c155265b851a68951cdcc92a7ab2a5b0ef174"
+    },
+    "knowledge.dos.4": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/sprache_und_tonalitaet.md"
+      ],
+      "inputHash": "sha256:f8c43da36eb52852427c2d3f864c155265b851a68951cdcc92a7ab2a5b0ef174"
+    },
+    "knowledge.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/sprache_und_tonalitaet.md"
+      ],
+      "inputHash": "sha256:f8c43da36eb52852427c2d3f864c155265b851a68951cdcc92a7ab2a5b0ef174"
+    }
+  }
+}

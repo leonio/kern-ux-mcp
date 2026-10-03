@@ -1,0 +1,526 @@
+{
+  "id": "table",
+  "title": {
+    "en": "Table",
+    "de": "Table"
+  },
+  "status": "stable",
+  "group": "content",
+  "synonyms": {
+    "de": [
+      "Tabelle",
+      "DataTable"
+    ]
+  },
+  "links": {
+    "docs": "https://www.kern-ux.de/komponenten/table",
+    "figma": "https://www.figma.com/community/file/1624024563231427311",
+    "source": "https://gitlab.opencode.de/kern-ux/kern-ux-plain/-/tree/v2.8.2/src/scss/core/components/_table.scss"
+  },
+  "docs": {
+    "url": "https://www.kern-ux.de/komponenten/table",
+    "summary": {
+      "en": "Table presents structured data in rows and columns for easy comparison and quick scanning. It comes in two sizes, default and small. A table can have an action column at the right edge with right-aligned buttons; those always use button size x-small and only the Secondary and Tertiary variants, never Primary, so the page hierarchy stays intact. Action-column buttons need a meaningful accessible name; when labels repeat or are icon-only, link them to the row header via aria-describedby."
+    },
+    "sections": [
+      {
+        "id": "kurzbeschreibung",
+        "heading": "Kurzbeschreibung",
+        "url": "https://www.kern-ux.de/komponenten/table#kurzbeschreibung",
+        "summary": {
+          "en": "Presents data in tabular form for easy comparison and quick scanning of information."
+        }
+      },
+      {
+        "id": "aktionen",
+        "heading": "Aktionen",
+        "url": "https://www.kern-ux.de/komponenten/table#aktionen",
+        "summary": {
+          "en": "Tables can have an action column at the right edge, with the buttons inside its cells aligned to the right."
+        }
+      },
+      {
+        "id": "buttons-in-tabellen",
+        "heading": "Buttons in Tabellen",
+        "url": "https://www.kern-ux.de/komponenten/table#buttons-in-tabellen",
+        "summary": {
+          "en": "Action-column interaction elements always use button size x-small. Only Secondary and Tertiary are allowed, never Primary. Buttons need an accessible name, linked to the row header via aria-describedby when labels repeat or are icon-only."
+        }
+      },
+      {
+        "id": "beschreibung",
+        "heading": "Beschreibung",
+        "url": "https://www.kern-ux.de/komponenten/table#beschreibung",
+        "summary": {
+          "en": "A table is a static, tabular structure with one or more rows and several columns; it is not interactive. Rows can be striped for readability. The component comes in two sizes: default and small."
+        }
+      },
+      {
+        "id": "bestandteile-einer-tabelle",
+        "heading": "Bestandteile einer Tabelle:",
+        "url": "https://www.kern-ux.de/komponenten/table#bestandteile-einer-tabelle",
+        "summary": {
+          "en": "Parts of a table: an optional Caption describing the content; the Head with column headings; the Body with the data rows, one record per row and one attribute per column; and an optional Footer below the body for totals or extra information."
+        }
+      },
+      {
+        "id": "verwendungsregeln",
+        "heading": "Verwendungsregeln",
+        "url": "https://www.kern-ux.de/komponenten/table#verwendungsregeln",
+        "summary": {
+          "en": "Use the table for structured data that fits in rows and columns, with clear column headings and content ordered for quick scanning; with very many columns, consider another presentation. Right-align numbers, left-align text, align dates by convention. Check small screens for horizontal scrolling."
+        }
+      },
+      {
+        "id": "dos",
+        "heading": "Dos",
+        "url": "https://www.kern-ux.de/komponenten/table#dos",
+        "summary": {
+          "en": "Do not use tables for unstructured content or to lay out a page; use the Grid for layout. Use visual emphasis such as bold for important data points, right-align values in numeric columns, do not overload the table with too many columns, and avoid unexplained abbreviations."
+        }
+      }
+    ]
+  },
+  "knowledge": {
+    "summary": {
+      "en": "Presents structured data in rows and columns; static, with an optional action column."
+    },
+    "whenToUse": [
+      {
+        "en": "For structured data that can be arranged meaningfully in rows and columns."
+      }
+    ],
+    "dos": [
+      {
+        "en": "Right-align values in columns that contain only numbers to make comparison easier."
+      },
+      {
+        "en": "Use visual emphasis such as bold for important data points."
+      },
+      {
+        "en": "Always use button size x-small for interaction elements in the action column."
+      },
+      {
+        "en": "Give action-column buttons a meaningful accessible name, linking them to the row header via aria-describedby when labels repeat or are icon-only."
+      }
+    ],
+    "donts": [
+      {
+        "en": "Do not use tables for unstructured content."
+      },
+      {
+        "en": "Do not use tables to lay out page content; use the Grid instead."
+      },
+      {
+        "en": "Do not overload a table with too many columns or too much data."
+      },
+      {
+        "en": "Do not use unexplained abbreviations or symbols."
+      },
+      {
+        "en": "Do not use Primary buttons inside a table; only Secondary and Tertiary are allowed."
+      }
+    ],
+    "similar": [
+      {
+        "id": "description-list"
+      },
+      {
+        "id": "summary"
+      }
+    ]
+  },
+  "options": [
+    {
+      "id": "size",
+      "kind": "enum",
+      "origin": "curated",
+      "values": [
+        {
+          "id": "default",
+          "default": true
+        },
+        {
+          "id": "small"
+        }
+      ],
+      "html": {
+        "binding": "modifier",
+        "pattern": "kern-table--{value}",
+        "omit": [
+          "default"
+        ]
+      }
+    },
+    {
+      "id": "striped",
+      "kind": "boolean",
+      "origin": "curated",
+      "html": {
+        "binding": "modifier",
+        "class": "kern-table--striped"
+      }
+    }
+  ],
+  "accessibility": [
+    {
+      "id": "info-and-relationships",
+      "criterion": "1.3.1",
+      "slug": "info-and-relationships",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-10-21"
+    },
+    {
+      "id": "labels-or-instructions",
+      "criterion": "3.3.2",
+      "slug": "labels-or-instructions",
+      "level": "A",
+      "status": "implementation-dependent",
+      "lastChecked": "2025-10-21"
+    },
+    {
+      "id": "use-of-color",
+      "criterion": "1.4.1",
+      "slug": "use-of-color",
+      "level": "A",
+      "status": "implementation-dependent",
+      "lastChecked": "2025-10-21"
+    },
+    {
+      "id": "contrast-enhanced",
+      "criterion": "1.4.6",
+      "slug": "contrast-enhanced",
+      "level": "AAA",
+      "status": "passed",
+      "lastChecked": "2025-10-21"
+    },
+    {
+      "id": "non-text-contrast",
+      "criterion": "1.4.11",
+      "slug": "non-text-contrast",
+      "level": "AA",
+      "status": "implementation-dependent",
+      "lastChecked": "2025-10-21"
+    },
+    {
+      "id": "headings-and-labels",
+      "criterion": "2.4.6",
+      "slug": "headings-and-labels",
+      "level": "AA",
+      "status": "passed",
+      "lastChecked": "2025-10-21"
+    },
+    {
+      "id": "page-titled",
+      "criterion": "2.4.2",
+      "slug": "page-titled",
+      "level": "A",
+      "status": "implementation-dependent",
+      "lastChecked": "2025-10-21"
+    },
+    {
+      "id": "parsing",
+      "criterion": "4.1.1",
+      "slug": "parsing",
+      "status": "passed",
+      "lastChecked": "2025-10-21"
+    },
+    {
+      "id": "name-role-value",
+      "criterion": "4.1.2",
+      "slug": "name-role-value",
+      "level": "A",
+      "status": "implementation-dependent",
+      "lastChecked": "2026-06-03"
+    }
+  ],
+  "examples": [
+    {
+      "id": "table",
+      "options": {
+        "size": "default"
+      },
+      "html": {
+        "markup": "<table class=\"kern-table\"><caption class=\"kern-title\">Autovermietung Flotte</caption><thead class=\"kern-table__head\"><tr class=\"kern-table__row\"><th scope=\"col\" class=\"kern-table__header\">Marke</th><th scope=\"col\" class=\"kern-table__header\">Verfügbarkeit</th><th scope=\"col\" class=\"kern-table__header kern-table__header--numeric\">Tagespreis</th></tr></thead><tbody class=\"kern-table__body\"><tr class=\"kern-table__row\"><th scope=\"row\" class=\"kern-table__header\">BMW</th><td class=\"kern-table__cell\">Frei</td><td class=\"kern-table__cell kern-table__cell--numeric\">69,00 €</td></tr><tr class=\"kern-table__row\"><th scope=\"row\" class=\"kern-table__header\">Fiat</th><td class=\"kern-table__cell\">Vermietet</td><td class=\"kern-table__cell kern-table__cell--numeric\">49,59 €</td></tr><tr class=\"kern-table__row\"><th scope=\"row\" class=\"kern-table__header\">VW</th><td class=\"kern-table__cell\">Frei</td><td class=\"kern-table__cell kern-table__cell--numeric\">54,99 €</td></tr></tbody></table>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Table/Table.stories.js",
+          "export": "Table"
+        }
+      }
+    },
+    {
+      "id": "table-small",
+      "options": {
+        "size": "small"
+      },
+      "html": {
+        "markup": "<table class=\"kern-table kern-table--small\"><caption class=\"kern-title\">Autovermietung Flotte</caption><thead class=\"kern-table__head\"><tr class=\"kern-table__row\"><th scope=\"col\" class=\"kern-table__header\">Marke</th><th scope=\"col\" class=\"kern-table__header\">Verfügbarkeit</th><th scope=\"col\" class=\"kern-table__header kern-table__header--numeric\">Tagespreis</th></tr></thead><tbody class=\"kern-table__body\"><tr class=\"kern-table__row\"><th scope=\"row\" class=\"kern-table__header\">BMW</th><td class=\"kern-table__cell\">Frei</td><td class=\"kern-table__cell kern-table__cell--numeric\">69,00 €</td></tr><tr class=\"kern-table__row\"><th scope=\"row\" class=\"kern-table__header\">Fiat</th><td class=\"kern-table__cell\">Vermietet</td><td class=\"kern-table__cell kern-table__cell--numeric\">49,59 €</td></tr><tr class=\"kern-table__row\"><th scope=\"row\" class=\"kern-table__header\">VW</th><td class=\"kern-table__cell\">Frei</td><td class=\"kern-table__cell kern-table__cell--numeric\">54,99 €</td></tr></tbody></table>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Table/Table.stories.js",
+          "export": "TableSmall"
+        }
+      }
+    },
+    {
+      "id": "table-stripes",
+      "options": {
+        "size": "default",
+        "striped": true
+      },
+      "html": {
+        "markup": "<table class=\"kern-table kern-table--striped\"><caption class=\"kern-title\">Autovermietung Flotte</caption><thead class=\"kern-table__head\"><tr class=\"kern-table__row\"><th scope=\"col\" class=\"kern-table__header\">Marke</th><th scope=\"col\" class=\"kern-table__header\">Verfügbarkeit</th><th scope=\"col\" class=\"kern-table__header kern-table__header--numeric\">Tagespreis</th></tr></thead><tbody class=\"kern-table__body\"><tr class=\"kern-table__row\"><th scope=\"row\" class=\"kern-table__header\">BMW</th><td class=\"kern-table__cell\">Frei</td><td class=\"kern-table__cell kern-table__cell--numeric\">69,00 €</td></tr><tr class=\"kern-table__row\"><th scope=\"row\" class=\"kern-table__header\">Fiat</th><td class=\"kern-table__cell\">Vermietet</td><td class=\"kern-table__cell kern-table__cell--numeric\">49,59 €</td></tr><tr class=\"kern-table__row\"><th scope=\"row\" class=\"kern-table__header\">VW</th><td class=\"kern-table__cell\">Frei</td><td class=\"kern-table__cell kern-table__cell--numeric\">54,99 €</td></tr><tr class=\"kern-table__row\"><th scope=\"row\" class=\"kern-table__header\">Audi</th><td class=\"kern-table__cell\">Frei</td><td class=\"kern-table__cell kern-table__cell--numeric\">84,99 €</td></tr></tbody></table>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Table/Table.stories.js",
+          "export": "TableStripes"
+        }
+      }
+    }
+  ],
+  "moreExamples": {
+    "file": "table.examples.json",
+    "count": 4
+  },
+  "implementations": {
+    "html": {
+      "package": "@kern-ux/native",
+      "version": "2.8.2",
+      "classes": {
+        "roots": [
+          "kern-table"
+        ],
+        "blocks": [
+          "kern-table-responsive"
+        ],
+        "elements": [
+          "kern-table__body",
+          "kern-table__cell",
+          "kern-table__footer",
+          "kern-table__header",
+          "kern-table__row"
+        ],
+        "modifiers": [
+          "kern-table--small",
+          "kern-table--striped",
+          "kern-table__cell--action",
+          "kern-table__cell--numeric",
+          "kern-table__header--action",
+          "kern-table__header--numeric"
+        ]
+      },
+      "sources": [
+        "src/scss/core/components/_table.scss",
+        "stories/Table/Table.stories.js"
+      ]
+    },
+    "react": {
+      "package": "@publicplan/kern-react-kit",
+      "version": "1.3.5",
+      "import": "import { TableBody } from '@publicplan/kern-react-kit'",
+      "components": [
+        "TableBody",
+        "TableCell",
+        "TableColumn",
+        "TableFooter",
+        "TableHeader",
+        "TableRoot",
+        "TableRow"
+      ],
+      "sources": [
+        "src/components/Table"
+      ]
+    }
+  },
+  "drift": [
+    {
+      "kind": "unknown-class",
+      "en": "Stories use classes that kern-ux-plain's SCSS doesn't define.",
+      "sources": [
+        "kern-ux-plain"
+      ],
+      "items": [
+        "kern-table__head"
+      ]
+    },
+    {
+      "kind": "unknown-class",
+      "en": "Docs examples use classes that kern-ux-plain doesn't define.",
+      "sources": [
+        "technische-dokumentation",
+        "kern-ux-plain"
+      ],
+      "items": [
+        "kern-table__head"
+      ]
+    },
+    {
+      "kind": "binding-gap",
+      "en": "kern-react-kit's source never emits these kern-ux-plain modifiers, so its components can't express them.",
+      "sources": [
+        "kern-react-kit",
+        "kern-ux-plain"
+      ],
+      "items": [
+        "kern-table__cell--action",
+        "kern-table__header--action"
+      ]
+    }
+  ],
+  "provenance": {
+    "docs.sections.aktionen.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/table.mdx#aktionen"
+      ],
+      "inputHash": "sha256:a6e2e227f16136c114ace09d618c937b89d04a8adaf226e5d512bcedec9005d5"
+    },
+    "docs.sections.beschreibung.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/table.mdx#beschreibung"
+      ],
+      "inputHash": "sha256:a6e2e227f16136c114ace09d618c937b89d04a8adaf226e5d512bcedec9005d5"
+    },
+    "docs.sections.bestandteile-einer-tabelle.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/table.mdx#bestandteile-einer-tabelle"
+      ],
+      "inputHash": "sha256:a6e2e227f16136c114ace09d618c937b89d04a8adaf226e5d512bcedec9005d5"
+    },
+    "docs.sections.buttons-in-tabellen.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/table.mdx#buttons-in-tabellen"
+      ],
+      "inputHash": "sha256:a6e2e227f16136c114ace09d618c937b89d04a8adaf226e5d512bcedec9005d5"
+    },
+    "docs.sections.dos.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/table.mdx#dos"
+      ],
+      "inputHash": "sha256:a6e2e227f16136c114ace09d618c937b89d04a8adaf226e5d512bcedec9005d5"
+    },
+    "docs.sections.kurzbeschreibung.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/table.mdx#kurzbeschreibung"
+      ],
+      "inputHash": "sha256:a6e2e227f16136c114ace09d618c937b89d04a8adaf226e5d512bcedec9005d5"
+    },
+    "docs.sections.verwendungsregeln.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/table.mdx#verwendungsregeln"
+      ],
+      "inputHash": "sha256:a6e2e227f16136c114ace09d618c937b89d04a8adaf226e5d512bcedec9005d5"
+    },
+    "docs.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/table.mdx"
+      ],
+      "inputHash": "sha256:a6e2e227f16136c114ace09d618c937b89d04a8adaf226e5d512bcedec9005d5"
+    },
+    "knowledge.donts.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/table.mdx"
+      ],
+      "inputHash": "sha256:5856c0c5f7f98a4072130df7c8fc86cbb84c425de2c62afc67a5fa9cbb6b405d"
+    },
+    "knowledge.donts.1": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/table.mdx"
+      ],
+      "inputHash": "sha256:5856c0c5f7f98a4072130df7c8fc86cbb84c425de2c62afc67a5fa9cbb6b405d"
+    },
+    "knowledge.donts.2": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/table.mdx"
+      ],
+      "inputHash": "sha256:5856c0c5f7f98a4072130df7c8fc86cbb84c425de2c62afc67a5fa9cbb6b405d"
+    },
+    "knowledge.donts.3": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/table.mdx"
+      ],
+      "inputHash": "sha256:5856c0c5f7f98a4072130df7c8fc86cbb84c425de2c62afc67a5fa9cbb6b405d"
+    },
+    "knowledge.donts.4": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/table.mdx"
+      ],
+      "inputHash": "sha256:5856c0c5f7f98a4072130df7c8fc86cbb84c425de2c62afc67a5fa9cbb6b405d"
+    },
+    "knowledge.dos.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/table.mdx"
+      ],
+      "inputHash": "sha256:5856c0c5f7f98a4072130df7c8fc86cbb84c425de2c62afc67a5fa9cbb6b405d"
+    },
+    "knowledge.dos.1": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/table.mdx"
+      ],
+      "inputHash": "sha256:5856c0c5f7f98a4072130df7c8fc86cbb84c425de2c62afc67a5fa9cbb6b405d"
+    },
+    "knowledge.dos.2": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/table.mdx"
+      ],
+      "inputHash": "sha256:5856c0c5f7f98a4072130df7c8fc86cbb84c425de2c62afc67a5fa9cbb6b405d"
+    },
+    "knowledge.dos.3": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/table.mdx"
+      ],
+      "inputHash": "sha256:5856c0c5f7f98a4072130df7c8fc86cbb84c425de2c62afc67a5fa9cbb6b405d"
+    },
+    "knowledge.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/table.mdx"
+      ],
+      "inputHash": "sha256:5856c0c5f7f98a4072130df7c8fc86cbb84c425de2c62afc67a5fa9cbb6b405d"
+    },
+    "knowledge.whenToUse.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/table.mdx"
+      ],
+      "inputHash": "sha256:5856c0c5f7f98a4072130df7c8fc86cbb84c425de2c62afc67a5fa9cbb6b405d"
+    }
+  }
+}

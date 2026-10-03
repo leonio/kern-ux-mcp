@@ -1,0 +1,109 @@
+{
+  "component": "link",
+  "examples": [
+    {
+      "id": "link-icon",
+      "options": {
+        "size": "default"
+      },
+      "html": {
+        "markup": "<a href=\"#\" class=\"kern-link\"><span class=\"kern-icon kern-icon--arrow-forward\" aria-hidden=\"true\"></span> Linktext </a>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Link/LinkIcon.stories.js",
+          "export": "LinkIcon"
+        },
+        "alsoIn": [
+          {
+            "repo": "kern-ux-plain",
+            "path": "stories/Link/LinkIcon.stories.js",
+            "export": "LinkIconFocus",
+            "states": [
+              "focus"
+            ]
+          },
+          {
+            "repo": "kern-ux-plain",
+            "path": "stories/Link/LinkIcon.stories.js",
+            "export": "LinkIconHover",
+            "states": [
+              "hover"
+            ]
+          },
+          {
+            "repo": "kern-ux-plain",
+            "path": "stories/Link/LinkIcon.stories.js",
+            "export": "LinkIconActive",
+            "states": [
+              "active"
+            ]
+          },
+          {
+            "repo": "kern-ux-plain",
+            "path": "stories/Link/LinkIcon.stories.js",
+            "export": "LinkIconVisited",
+            "states": [
+              "visited"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "link-icon-long-text",
+      "options": {
+        "size": "default"
+      },
+      "html": {
+        "markup": "<a href=\"#\" class=\"kern-link\"><span class=\"kern-icon kern-icon--arrow-back\" aria-hidden=\"true\"></span> Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat </a>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Link/LinkIcon.stories.js",
+          "export": "LinkIconLongText"
+        }
+      }
+    },
+    {
+      "id": "link-icon-left",
+      "options": {
+        "size": "default"
+      },
+      "html": {
+        "markup": "<a href=\"#\" class=\"kern-link\"> Linktext <span class=\"kern-icon kern-icon--arrow-back\" aria-hidden=\"true\"></span></a>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Link/LinkIcon.stories.js",
+          "export": "LinkIconLeft"
+        }
+      }
+    },
+    {
+      "id": "link-underline-small-icon-left",
+      "options": {
+        "size": "small"
+      },
+      "html": {
+        "markup": "<a href=\"#\" class=\"kern-link kern-link--small\"><span class=\"kern-icon kern-icon--arrow-back\" aria-hidden=\"true\"></span> Linktext </a>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Link/LinkSmall.stories.js",
+          "export": "LinkUnderlineSmallIconLeft"
+        }
+      }
+    },
+    {
+      "id": "link-underline-small-icon-right",
+      "options": {
+        "size": "small"
+      },
+      "html": {
+        "markup": "<a href=\"#\" class=\"kern-link kern-link--small\"> Linktext <span class=\"kern-icon kern-icon--arrow-back\" aria-hidden=\"true\"></span></a>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Link/LinkSmall.stories.js",
+          "export": "LinkUnderlineSmallIconRight"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,155 @@
+{
+  "id": "branding-glossary",
+  "title": {
+    "en": "Branding glossary",
+    "de": "Glossar"
+  },
+  "group": "Branding",
+  "status": "documented",
+  "links": {
+    "docs": "https://www.kern-ux.de/design-system/branding/glossar"
+  },
+  "docs": {
+    "url": "https://www.kern-ux.de/design-system/branding/glossar",
+    "summary": {
+      "en": "A glossary of the branding terms KERN uses, fixing the meaning of each so teams share one vocabulary when adapting KERN to a brand. It covers Branding, Markenidentität, Theming, Schmuckelemente, the two kinds of Schmuckelement, Dachmarke and Dachmarken-Theme."
+    },
+    "sections": [
+      {
+        "id": "branding",
+        "heading": "Branding",
+        "url": "https://www.kern-ux.de/design-system/branding/glossar#branding",
+        "summary": {
+          "en": "In KERN, Branding means theming a user interface so a brand comes across through variables and Schmuckelemente."
+        }
+      },
+      {
+        "id": "markenidentität",
+        "heading": "Markenidentität",
+        "url": "https://www.kern-ux.de/design-system/branding/glossar#markenidentität",
+        "summary": {
+          "en": "Markenidentität, or the brand for short, is the reputation and feeling people associate with an organisation. Organisations steer it through a consistent appearance and elements such as logo, colours, claim and imagery."
+        }
+      },
+      {
+        "id": "theming",
+        "heading": "Theming",
+        "url": "https://www.kern-ux.de/design-system/branding/glossar#theming",
+        "summary": {
+          "en": "Theming is the purely technical ability to change the visual character of an interface through variables."
+        }
+      },
+      {
+        "id": "schmuckelemente",
+        "heading": "Schmuckelemente",
+        "url": "https://www.kern-ux.de/design-system/branding/glossar#schmuckelemente",
+        "summary": {
+          "en": "Schmuckelemente are design elements that carry a brand's character but are not relevant to accessibility, meaning functionality, usability and barrier freedom. Examples include sub- and topline, hero masks, watermarks, divider, a coloured brand background layer and the claim."
+        }
+      },
+      {
+        "id": "hier-ein-paar-beispiele",
+        "heading": "Hier ein paar Beispiele:",
+        "url": "https://www.kern-ux.de/design-system/branding/glossar#hier-ein-paar-beispiele",
+        "summary": {
+          "en": "Distinguishes two kinds of Schmuckelement: purely decorative ornament components such as illustrations, imagery or shape elements in the brand colour, and functional components with a Schmuck slot that can show ornament optionally."
+        }
+      },
+      {
+        "id": "dachmarke",
+        "heading": "Dachmarke",
+        "url": "https://www.kern-ux.de/design-system/branding/glossar#dachmarke",
+        "summary": {
+          "en": "The Dachmarke is the modular labelling system of the Digitale Dachmarke, made up of the Kopfzeile, the gov.de domain, the image mark and the KERN design system. It lets federal, state and local bodies label their services recognisably and counter disinformation."
+        }
+      },
+      {
+        "id": "dachmarken-theme",
+        "heading": "Dachmarken-Theme",
+        "url": "https://www.kern-ux.de/design-system/branding/glossar#dachmarken-theme",
+        "summary": {
+          "en": "The Dachmarken-Theme is the Dachmarke implemented in KERN; KERN defines variables to produce the theme."
+        }
+      }
+    ]
+  },
+  "knowledge": {
+    "summary": {
+      "en": "Fixes KERN's branding vocabulary: Branding, Markenidentität, Theming, Schmuckelemente, Dachmarke and Dachmarken-Theme."
+    }
+  },
+  "provenance": {
+    "docs.sections.branding.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/branding/glossar.mdx#branding"
+      ],
+      "inputHash": "sha256:d90b8ff031a6fd64d8d03db02455880b7a7e19e9221028a3bbd5e478da45506b"
+    },
+    "docs.sections.dachmarke.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/branding/glossar.mdx#dachmarke"
+      ],
+      "inputHash": "sha256:d90b8ff031a6fd64d8d03db02455880b7a7e19e9221028a3bbd5e478da45506b"
+    },
+    "docs.sections.dachmarken-theme.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/branding/glossar.mdx#dachmarken-theme"
+      ],
+      "inputHash": "sha256:d90b8ff031a6fd64d8d03db02455880b7a7e19e9221028a3bbd5e478da45506b"
+    },
+    "docs.sections.hier-ein-paar-beispiele.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/branding/glossar.mdx#hier-ein-paar-beispiele"
+      ],
+      "inputHash": "sha256:d90b8ff031a6fd64d8d03db02455880b7a7e19e9221028a3bbd5e478da45506b"
+    },
+    "docs.sections.markenidentität.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/branding/glossar.mdx#markenidentität"
+      ],
+      "inputHash": "sha256:d90b8ff031a6fd64d8d03db02455880b7a7e19e9221028a3bbd5e478da45506b"
+    },
+    "docs.sections.schmuckelemente.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/branding/glossar.mdx#schmuckelemente"
+      ],
+      "inputHash": "sha256:d90b8ff031a6fd64d8d03db02455880b7a7e19e9221028a3bbd5e478da45506b"
+    },
+    "docs.sections.theming.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/branding/glossar.mdx#theming"
+      ],
+      "inputHash": "sha256:d90b8ff031a6fd64d8d03db02455880b7a7e19e9221028a3bbd5e478da45506b"
+    },
+    "docs.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/branding/glossar.mdx"
+      ],
+      "inputHash": "sha256:d90b8ff031a6fd64d8d03db02455880b7a7e19e9221028a3bbd5e478da45506b"
+    },
+    "knowledge.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:design-system/branding/glossar.mdx"
+      ],
+      "inputHash": "sha256:3939e712d9087fca6e0b847de3c1e84f65e8b24af332ce6fd901086875e7de5f"
+    }
+  }
+}

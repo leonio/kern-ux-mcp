@@ -1,0 +1,50 @@
+{
+  "component": "input-date",
+  "examples": [
+    {
+      "id": "input-date",
+      "options": {
+        "width": "width-2"
+      },
+      "html": {
+        "markup": "<fieldset class=\"kern-fieldset\" aria-describedby=\"hint-text\"><legend class=\"kern-label\"> Wann wurde der Ausweis ausgestellt? </legend><div class=\"kern-hint\" id=\"hint-text\">Beispielsweise: 17 3 2015</div><div class=\"kern-fieldset__body kern-fieldset__body--horizontal\"><div class=\"kern-form-input\"><label class=\"kern-label\" for=\"tag\">Tag</label><input class=\"kern-form-input__input kern-form-input__input--width-2\" id=\"tag\" name=\"tag\" type=\"text\" inputmode=\"numeric\"></div><div class=\"kern-form-input\"><label class=\"kern-label\" for=\"monat\">Monat</label><input class=\"kern-form-input__input kern-form-input__input--width-2\" id=\"monat\" name=\"monat\" type=\"text\" inputmode=\"numeric\"></div><div class=\"kern-form-input\"><label class=\"kern-label\" for=\"jahr\">Jahr</label><input class=\"kern-form-input__input kern-form-input__input--width-4\" id=\"jahr\" name=\"jahr\" type=\"text\" inputmode=\"numeric\"></div><div></fieldset>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/InputDate/InputDate.stories.js",
+          "export": "InputDate"
+        }
+      }
+    },
+    {
+      "id": "input-date-optional",
+      "options": {
+        "width": "width-2"
+      },
+      "html": {
+        "markup": "<fieldset class=\"kern-fieldset\" aria-describedby=\"hint-text\"><legend class=\"kern-label\"> Wann wurde der Ausweis ausgestellt? <span class=\"kern-label__optional\">- Optional</span></legend><div class=\"kern-hint\" id=\"hint-text\">Beispielsweise: 17 3 2015</div><div class=\"kern-fieldset__body kern-fieldset__body--horizontal\"><div class=\"kern-form-input\"><label class=\"kern-label\" for=\"tag\">Tag</label><input class=\"kern-form-input__input kern-form-input__input--width-2\" id=\"tag\" name=\"tag\" type=\"text\" inputmode=\"numeric\"></div><div class=\"kern-form-input\"><label class=\"kern-label\" for=\"monat\">Monat</label><input class=\"kern-form-input__input kern-form-input__input--width-2\" id=\"monat\" name=\"monat\" type=\"text\" inputmode=\"numeric\"></div><div class=\"kern-form-input\"><label class=\"kern-label\" for=\"jahr\">Jahr</label><input class=\"kern-form-input__input kern-form-input__input--width-4\" id=\"jahr\" name=\"jahr\" type=\"text\" inputmode=\"numeric\"></div><div></fieldset>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/InputDate/InputDate.stories.js",
+          "export": "InputDateOptional"
+        }
+      }
+    },
+    {
+      "id": "input-date-hint-error",
+      "options": {
+        "width": "width-2"
+      },
+      "states": [
+        "error"
+      ],
+      "html": {
+        "markup": "<fieldset class=\"kern-fieldset kern-fieldset--error\" aria-describedby=\"hint-text6 kern-error\"><legend class=\"kern-label\"> Wann wurde der Ausweis ausgestellt? </legend><div class=\"kern-hint\" id=\"hint-text6\">Beispielsweise: 17 3 2015</div><div class=\"kern-fieldset__body kern-fieldset__body--horizontal\"><div class=\"kern-form-input\"><label class=\"kern-label\" for=\"tag5\">Tag</label><input class=\"kern-form-input__input kern-form-input__input--width-2 kern-form-input__input--error\" id=\"tag5\" name=\"tag5\" type=\"text\" inputmode=\"numeric\" value=\"01\" aria-describedby=\"kern-error\" aria-invalid=\"true\"></div><div class=\"kern-form-input\"><label class=\"kern-label\" for=\"monat5\">Monat</label><input class=\"kern-form-input__input kern-form-input__input--width-2 kern-form-input__input--error\" id=\"monat5\" name=\"monat5\" type=\"text\" inputmode=\"numeric\" value=\"05\" aria-describedby=\"kern-error\" aria-invalid=\"true\"></div><div class=\"kern-form-input\"><label class=\"kern-label\" for=\"jahr5\">Jahr</label><input class=\"kern-form-input__input kern-form-input__input--width-4 kern-form-input__input--error\" id=\"jahr5\" name=\"jahr5\" type=\"text\" inputmode=\"numeric\" value=\"2027\" aria-describedby=\"kern-error\" aria-invalid=\"true\"></div></div><p class=\"kern-error\" id=\"kern-error\"><span class=\"kern-icon kern-icon--danger\" aria-hidden=\"true\"></span><span class=\"kern-body\">Das Ausstellungsdatum deines Ausweises muss in der Vergangenheit liegen.</span></p></fieldset>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/InputDate/InputDate.stories.js",
+          "export": "InputDateHintError"
+        }
+      }
+    }
+  ]
+}

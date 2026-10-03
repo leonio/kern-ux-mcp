@@ -1,0 +1,2078 @@
+{
+  "id": "utilities",
+  "kernVersion": "2.8.2",
+  "links": {
+    "docs": "https://www.kern-ux.de/komponenten/layout/hilfsklassen"
+  },
+  "families": [
+    {
+      "id": "align-content",
+      "source": "layout/_utilities.scss",
+      "count": 36,
+      "samples": [
+        "kern-align-content-around",
+        "kern-align-content-around-lg",
+        "kern-align-content-around-md",
+        "kern-align-content-around-sm"
+      ]
+    },
+    {
+      "id": "align-items",
+      "source": "layout/_utilities.scss",
+      "count": 30,
+      "samples": [
+        "kern-align-items-baseline",
+        "kern-align-items-baseline-lg",
+        "kern-align-items-baseline-md",
+        "kern-align-items-baseline-sm"
+      ]
+    },
+    {
+      "id": "align-self",
+      "source": "layout/_utilities.scss",
+      "count": 36,
+      "samples": [
+        "kern-align-self-auto",
+        "kern-align-self-auto-lg",
+        "kern-align-self-auto-md",
+        "kern-align-self-auto-sm"
+      ]
+    },
+    {
+      "id": "aspect",
+      "source": "layout/_utilities.scss",
+      "count": 6,
+      "samples": [
+        "kern-aspect-auto",
+        "kern-aspect-auto-lg",
+        "kern-aspect-auto-md",
+        "kern-aspect-auto-sm"
+      ]
+    },
+    {
+      "id": "aspect-square",
+      "source": "layout/_utilities.scss",
+      "count": 6,
+      "samples": [
+        "kern-aspect-square",
+        "kern-aspect-square-lg",
+        "kern-aspect-square-md",
+        "kern-aspect-square-sm"
+      ]
+    },
+    {
+      "id": "aspect-video",
+      "source": "layout/_utilities.scss",
+      "count": 6,
+      "samples": [
+        "kern-aspect-video",
+        "kern-aspect-video-lg",
+        "kern-aspect-video-md",
+        "kern-aspect-video-sm"
+      ]
+    },
+    {
+      "id": "auto",
+      "source": "layout/_utilities.scss",
+      "count": 48,
+      "samples": [
+        "kern-auto-cols-auto",
+        "kern-auto-cols-auto-lg",
+        "kern-auto-cols-auto-md",
+        "kern-auto-cols-auto-sm"
+      ]
+    },
+    {
+      "id": "basis",
+      "source": "layout/_utilities.scss",
+      "count": 48,
+      "samples": [
+        "kern-basis-0",
+        "kern-basis-0-lg",
+        "kern-basis-0-md",
+        "kern-basis-0-sm"
+      ]
+    },
+    {
+      "id": "block",
+      "source": "layout/_utilities.scss",
+      "count": 6,
+      "samples": [
+        "kern-block",
+        "kern-block-lg",
+        "kern-block-md",
+        "kern-block-sm"
+      ]
+    },
+    {
+      "id": "col",
+      "source": "layout/_grid.scss",
+      "count": 210,
+      "samples": [
+        "kern-col",
+        "kern-col-1",
+        "kern-col-1-lg",
+        "kern-col-1-md"
+      ]
+    },
+    {
+      "id": "col-end",
+      "source": "layout/_utilities.scss",
+      "count": 84,
+      "samples": [
+        "kern-col-end-1",
+        "kern-col-end-1-lg",
+        "kern-col-end-1-md",
+        "kern-col-end-1-sm"
+      ]
+    },
+    {
+      "id": "col-offset",
+      "source": "layout/_grid.scss",
+      "count": 12,
+      "samples": [
+        "kern-col-offset-1",
+        "kern-col-offset-10",
+        "kern-col-offset-11",
+        "kern-col-offset-12"
+      ]
+    },
+    {
+      "id": "col-start",
+      "source": "layout/_utilities.scss",
+      "count": 84,
+      "samples": [
+        "kern-col-start-1",
+        "kern-col-start-1-lg",
+        "kern-col-start-1-md",
+        "kern-col-start-1-sm"
+      ]
+    },
+    {
+      "id": "container",
+      "source": "layout/_grid.scss",
+      "count": 1,
+      "samples": [
+        "kern-container"
+      ]
+    },
+    {
+      "id": "container-fluid",
+      "source": "layout/_grid.scss",
+      "count": 1,
+      "samples": [
+        "kern-container-fluid"
+      ]
+    },
+    {
+      "id": "flex",
+      "source": "layout/_utilities.scss",
+      "count": 24,
+      "samples": [
+        "kern-flex",
+        "kern-flex-1",
+        "kern-flex-1-lg",
+        "kern-flex-1-md"
+      ]
+    },
+    {
+      "id": "flex-col",
+      "source": "layout/_utilities.scss",
+      "count": 12,
+      "samples": [
+        "kern-flex-col",
+        "kern-flex-col-lg",
+        "kern-flex-col-md",
+        "kern-flex-col-reverse"
+      ]
+    },
+    {
+      "id": "flex-grow",
+      "source": "layout/_utilities.scss",
+      "count": 84,
+      "samples": [
+        "kern-flex-grow",
+        "kern-flex-grow-0",
+        "kern-flex-grow-0-lg",
+        "kern-flex-grow-0-md"
+      ]
+    },
+    {
+      "id": "flex-initial",
+      "source": "layout/_utilities.scss",
+      "count": 6,
+      "samples": [
+        "kern-flex-initial",
+        "kern-flex-initial-lg",
+        "kern-flex-initial-md",
+        "kern-flex-initial-sm"
+      ]
+    },
+    {
+      "id": "flex-nowrap",
+      "source": "layout/_utilities.scss",
+      "count": 6,
+      "samples": [
+        "kern-flex-nowrap",
+        "kern-flex-nowrap-lg",
+        "kern-flex-nowrap-md",
+        "kern-flex-nowrap-sm"
+      ]
+    },
+    {
+      "id": "flex-row",
+      "source": "layout/_utilities.scss",
+      "count": 12,
+      "samples": [
+        "kern-flex-row",
+        "kern-flex-row-lg",
+        "kern-flex-row-md",
+        "kern-flex-row-reverse"
+      ]
+    },
+    {
+      "id": "flex-shrink",
+      "source": "layout/_utilities.scss",
+      "count": 12,
+      "samples": [
+        "kern-flex-shrink",
+        "kern-flex-shrink-0",
+        "kern-flex-shrink-0-lg",
+        "kern-flex-shrink-0-md"
+      ]
+    },
+    {
+      "id": "flex-wrap",
+      "source": "layout/_utilities.scss",
+      "count": 12,
+      "samples": [
+        "kern-flex-wrap",
+        "kern-flex-wrap-lg",
+        "kern-flex-wrap-md",
+        "kern-flex-wrap-reverse"
+      ]
+    },
+    {
+      "id": "gap",
+      "source": "layout/_utilities.scss",
+      "count": 42,
+      "samples": [
+        "kern-gap-lg",
+        "kern-gap-lg-lg",
+        "kern-gap-lg-md",
+        "kern-gap-lg-sm"
+      ]
+    },
+    {
+      "id": "gap-x",
+      "source": "layout/_utilities.scss",
+      "count": 42,
+      "samples": [
+        "kern-gap-x-lg",
+        "kern-gap-x-lg-lg",
+        "kern-gap-x-lg-md",
+        "kern-gap-x-lg-sm"
+      ]
+    },
+    {
+      "id": "gap-y",
+      "source": "layout/_utilities.scss",
+      "count": 42,
+      "samples": [
+        "kern-gap-y-lg",
+        "kern-gap-y-lg-lg",
+        "kern-gap-y-lg-md",
+        "kern-gap-y-lg-sm"
+      ]
+    },
+    {
+      "id": "grid",
+      "source": "layout/_utilities.scss",
+      "count": 6,
+      "samples": [
+        "kern-grid",
+        "kern-grid-lg",
+        "kern-grid-md",
+        "kern-grid-sm"
+      ]
+    },
+    {
+      "id": "grid-cols",
+      "source": "layout/_utilities.scss",
+      "count": 78,
+      "samples": [
+        "kern-grid-cols-1",
+        "kern-grid-cols-1-lg",
+        "kern-grid-cols-1-md",
+        "kern-grid-cols-1-sm"
+      ]
+    },
+    {
+      "id": "grid-flow",
+      "source": "layout/_utilities.scss",
+      "count": 30,
+      "samples": [
+        "kern-grid-flow-col",
+        "kern-grid-flow-col-dense",
+        "kern-grid-flow-col-dense-lg",
+        "kern-grid-flow-col-dense-md"
+      ]
+    },
+    {
+      "id": "grid-rows",
+      "source": "layout/_utilities.scss",
+      "count": 42,
+      "samples": [
+        "kern-grid-rows-1",
+        "kern-grid-rows-1-lg",
+        "kern-grid-rows-1-md",
+        "kern-grid-rows-1-sm"
+      ]
+    },
+    {
+      "id": "h",
+      "source": "layout/_utilities.scss",
+      "count": 12,
+      "samples": [
+        "kern-h-auto",
+        "kern-h-auto-lg",
+        "kern-h-auto-md",
+        "kern-h-auto-sm"
+      ]
+    },
+    {
+      "id": "h-screen",
+      "source": "layout/_utilities.scss",
+      "count": 6,
+      "samples": [
+        "kern-h-screen",
+        "kern-h-screen-lg",
+        "kern-h-screen-md",
+        "kern-h-screen-sm"
+      ]
+    },
+    {
+      "id": "hidden",
+      "source": "layout/_utilities.scss",
+      "count": 6,
+      "samples": [
+        "kern-hidden",
+        "kern-hidden-lg",
+        "kern-hidden-md",
+        "kern-hidden-sm"
+      ]
+    },
+    {
+      "id": "inline",
+      "source": "layout/_utilities.scss",
+      "count": 6,
+      "samples": [
+        "kern-inline",
+        "kern-inline-lg",
+        "kern-inline-md",
+        "kern-inline-sm"
+      ]
+    },
+    {
+      "id": "inline-block",
+      "source": "layout/_utilities.scss",
+      "count": 6,
+      "samples": [
+        "kern-inline-block",
+        "kern-inline-block-lg",
+        "kern-inline-block-md",
+        "kern-inline-block-sm"
+      ]
+    },
+    {
+      "id": "inline-flex",
+      "source": "layout/_utilities.scss",
+      "count": 6,
+      "samples": [
+        "kern-inline-flex",
+        "kern-inline-flex-lg",
+        "kern-inline-flex-md",
+        "kern-inline-flex-sm"
+      ]
+    },
+    {
+      "id": "inline-grid",
+      "source": "layout/_utilities.scss",
+      "count": 6,
+      "samples": [
+        "kern-inline-grid",
+        "kern-inline-grid-lg",
+        "kern-inline-grid-md",
+        "kern-inline-grid-sm"
+      ]
+    },
+    {
+      "id": "justify-content",
+      "source": "layout/_utilities.scss",
+      "count": 36,
+      "samples": [
+        "kern-justify-content-around",
+        "kern-justify-content-around-lg",
+        "kern-justify-content-around-md",
+        "kern-justify-content-around-sm"
+      ]
+    },
+    {
+      "id": "justify-items",
+      "source": "layout/_utilities.scss",
+      "count": 30,
+      "samples": [
+        "kern-justify-items-baseline",
+        "kern-justify-items-baseline-lg",
+        "kern-justify-items-baseline-md",
+        "kern-justify-items-baseline-sm"
+      ]
+    },
+    {
+      "id": "justify-self",
+      "source": "layout/_utilities.scss",
+      "count": 36,
+      "samples": [
+        "kern-justify-self-auto",
+        "kern-justify-self-auto-lg",
+        "kern-justify-self-auto-md",
+        "kern-justify-self-auto-sm"
+      ]
+    },
+    {
+      "id": "m",
+      "source": "layout/_spacing.scss",
+      "count": 56,
+      "samples": [
+        "kern-m-auto",
+        "kern-m-auto-lg",
+        "kern-m-auto-md",
+        "kern-m-auto-sm"
+      ]
+    },
+    {
+      "id": "max-h",
+      "source": "layout/_utilities.scss",
+      "count": 12,
+      "samples": [
+        "kern-max-h-full",
+        "kern-max-h-full-lg",
+        "kern-max-h-full-md",
+        "kern-max-h-full-sm"
+      ]
+    },
+    {
+      "id": "max-w",
+      "source": "layout/_utilities.scss",
+      "count": 12,
+      "samples": [
+        "kern-max-w-full",
+        "kern-max-w-full-lg",
+        "kern-max-w-full-md",
+        "kern-max-w-full-sm"
+      ]
+    },
+    {
+      "id": "mb",
+      "source": "layout/_spacing.scss",
+      "count": 56,
+      "samples": [
+        "kern-mb-auto",
+        "kern-mb-auto-lg",
+        "kern-mb-auto-md",
+        "kern-mb-auto-sm"
+      ]
+    },
+    {
+      "id": "min-h",
+      "source": "layout/_utilities.scss",
+      "count": 18,
+      "samples": [
+        "kern-min-h-0",
+        "kern-min-h-0-lg",
+        "kern-min-h-0-md",
+        "kern-min-h-0-sm"
+      ]
+    },
+    {
+      "id": "min-w",
+      "source": "layout/_utilities.scss",
+      "count": 12,
+      "samples": [
+        "kern-min-w-0",
+        "kern-min-w-0-lg",
+        "kern-min-w-0-md",
+        "kern-min-w-0-sm"
+      ]
+    },
+    {
+      "id": "ml",
+      "source": "layout/_spacing.scss",
+      "count": 56,
+      "samples": [
+        "kern-ml-auto",
+        "kern-ml-auto-lg",
+        "kern-ml-auto-md",
+        "kern-ml-auto-sm"
+      ]
+    },
+    {
+      "id": "mr",
+      "source": "layout/_spacing.scss",
+      "count": 56,
+      "samples": [
+        "kern-mr-auto",
+        "kern-mr-auto-lg",
+        "kern-mr-auto-md",
+        "kern-mr-auto-sm"
+      ]
+    },
+    {
+      "id": "mt",
+      "source": "layout/_spacing.scss",
+      "count": 56,
+      "samples": [
+        "kern-mt-auto",
+        "kern-mt-auto-lg",
+        "kern-mt-auto-md",
+        "kern-mt-auto-sm"
+      ]
+    },
+    {
+      "id": "mx",
+      "source": "layout/_spacing.scss",
+      "count": 56,
+      "samples": [
+        "kern-mx-auto",
+        "kern-mx-auto-lg",
+        "kern-mx-auto-md",
+        "kern-mx-auto-sm"
+      ]
+    },
+    {
+      "id": "my",
+      "source": "layout/_spacing.scss",
+      "count": 56,
+      "samples": [
+        "kern-my-auto",
+        "kern-my-auto-lg",
+        "kern-my-auto-md",
+        "kern-my-auto-sm"
+      ]
+    },
+    {
+      "id": "order",
+      "source": "layout/_utilities.scss",
+      "count": 78,
+      "samples": [
+        "kern-order-0",
+        "kern-order-0-lg",
+        "kern-order-0-md",
+        "kern-order-0-sm"
+      ]
+    },
+    {
+      "id": "order-first",
+      "source": "layout/_utilities.scss",
+      "count": 6,
+      "samples": [
+        "kern-order-first",
+        "kern-order-first-lg",
+        "kern-order-first-md",
+        "kern-order-first-sm"
+      ]
+    },
+    {
+      "id": "order-last",
+      "source": "layout/_utilities.scss",
+      "count": 6,
+      "samples": [
+        "kern-order-last",
+        "kern-order-last-lg",
+        "kern-order-last-md",
+        "kern-order-last-sm"
+      ]
+    },
+    {
+      "id": "overflow",
+      "source": "layout/_utilities.scss",
+      "count": 6,
+      "samples": [
+        "kern-overflow-auto",
+        "kern-overflow-auto-lg",
+        "kern-overflow-auto-md",
+        "kern-overflow-auto-sm"
+      ]
+    },
+    {
+      "id": "overflow-hidden",
+      "source": "layout/_utilities.scss",
+      "count": 6,
+      "samples": [
+        "kern-overflow-hidden",
+        "kern-overflow-hidden-lg",
+        "kern-overflow-hidden-md",
+        "kern-overflow-hidden-sm"
+      ]
+    },
+    {
+      "id": "overflow-scroll",
+      "source": "layout/_utilities.scss",
+      "count": 6,
+      "samples": [
+        "kern-overflow-scroll",
+        "kern-overflow-scroll-lg",
+        "kern-overflow-scroll-md",
+        "kern-overflow-scroll-sm"
+      ]
+    },
+    {
+      "id": "overflow-visible",
+      "source": "layout/_utilities.scss",
+      "count": 6,
+      "samples": [
+        "kern-overflow-visible",
+        "kern-overflow-visible-lg",
+        "kern-overflow-visible-md",
+        "kern-overflow-visible-sm"
+      ]
+    },
+    {
+      "id": "overflow-x",
+      "source": "layout/_utilities.scss",
+      "count": 24,
+      "samples": [
+        "kern-overflow-x-auto",
+        "kern-overflow-x-auto-lg",
+        "kern-overflow-x-auto-md",
+        "kern-overflow-x-auto-sm"
+      ]
+    },
+    {
+      "id": "overflow-y",
+      "source": "layout/_utilities.scss",
+      "count": 24,
+      "samples": [
+        "kern-overflow-y-auto",
+        "kern-overflow-y-auto-lg",
+        "kern-overflow-y-auto-md",
+        "kern-overflow-y-auto-sm"
+      ]
+    },
+    {
+      "id": "p",
+      "source": "layout/_spacing.scss",
+      "count": 49,
+      "samples": [
+        "kern-p-lg",
+        "kern-p-lg-lg",
+        "kern-p-lg-md",
+        "kern-p-lg-sm"
+      ]
+    },
+    {
+      "id": "pb",
+      "source": "layout/_spacing.scss",
+      "count": 49,
+      "samples": [
+        "kern-pb-lg",
+        "kern-pb-lg-lg",
+        "kern-pb-lg-md",
+        "kern-pb-lg-sm"
+      ]
+    },
+    {
+      "id": "pl",
+      "source": "layout/_spacing.scss",
+      "count": 49,
+      "samples": [
+        "kern-pl-lg",
+        "kern-pl-lg-lg",
+        "kern-pl-lg-md",
+        "kern-pl-lg-sm"
+      ]
+    },
+    {
+      "id": "place-content",
+      "source": "layout/_utilities.scss",
+      "count": 36,
+      "samples": [
+        "kern-place-content-around",
+        "kern-place-content-around-lg",
+        "kern-place-content-around-md",
+        "kern-place-content-around-sm"
+      ]
+    },
+    {
+      "id": "place-items",
+      "source": "layout/_utilities.scss",
+      "count": 30,
+      "samples": [
+        "kern-place-items-baseline",
+        "kern-place-items-baseline-lg",
+        "kern-place-items-baseline-md",
+        "kern-place-items-baseline-sm"
+      ]
+    },
+    {
+      "id": "place-self",
+      "source": "layout/_utilities.scss",
+      "count": 36,
+      "samples": [
+        "kern-place-self-auto",
+        "kern-place-self-auto-lg",
+        "kern-place-self-auto-md",
+        "kern-place-self-auto-sm"
+      ]
+    },
+    {
+      "id": "pr",
+      "source": "layout/_spacing.scss",
+      "count": 49,
+      "samples": [
+        "kern-pr-lg",
+        "kern-pr-lg-lg",
+        "kern-pr-lg-md",
+        "kern-pr-lg-sm"
+      ]
+    },
+    {
+      "id": "pt",
+      "source": "layout/_spacing.scss",
+      "count": 49,
+      "samples": [
+        "kern-pt-lg",
+        "kern-pt-lg-lg",
+        "kern-pt-lg-md",
+        "kern-pt-lg-sm"
+      ]
+    },
+    {
+      "id": "px",
+      "source": "layout/_spacing.scss",
+      "count": 49,
+      "samples": [
+        "kern-px-lg",
+        "kern-px-lg-lg",
+        "kern-px-lg-md",
+        "kern-px-lg-sm"
+      ]
+    },
+    {
+      "id": "py",
+      "source": "layout/_spacing.scss",
+      "count": 49,
+      "samples": [
+        "kern-py-lg",
+        "kern-py-lg-lg",
+        "kern-py-lg-md",
+        "kern-py-lg-sm"
+      ]
+    },
+    {
+      "id": "row",
+      "source": "layout/_grid.scss",
+      "count": 49,
+      "samples": [
+        "kern-row",
+        "kern-row-1",
+        "kern-row-1-lg",
+        "kern-row-1-md"
+      ]
+    },
+    {
+      "id": "row-end",
+      "source": "layout/_utilities.scss",
+      "count": 48,
+      "samples": [
+        "kern-row-end-1",
+        "kern-row-end-1-lg",
+        "kern-row-end-1-md",
+        "kern-row-end-1-sm"
+      ]
+    },
+    {
+      "id": "row-start",
+      "source": "layout/_utilities.scss",
+      "count": 48,
+      "samples": [
+        "kern-row-start-1",
+        "kern-row-start-1-lg",
+        "kern-row-start-1-md",
+        "kern-row-start-1-sm"
+      ]
+    },
+    {
+      "id": "stack",
+      "source": "layout/_utilities.scss",
+      "count": 43,
+      "samples": [
+        "kern-stack",
+        "kern-stack-lg",
+        "kern-stack-lg-lg",
+        "kern-stack-lg-md"
+      ]
+    },
+    {
+      "id": "w",
+      "source": "layout/_utilities.scss",
+      "count": 12,
+      "samples": [
+        "kern-w-auto",
+        "kern-w-auto-lg",
+        "kern-w-auto-md",
+        "kern-w-auto-sm"
+      ]
+    },
+    {
+      "id": "w-screen",
+      "source": "layout/_utilities.scss",
+      "count": 6,
+      "samples": [
+        "kern-w-screen",
+        "kern-w-screen-lg",
+        "kern-w-screen-md",
+        "kern-w-screen-sm"
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "id": "flex-container-eigenschaften",
+      "html": {
+        "markup": "<p>Beispiel: Flex Deault (Row, NoWrap)</p><div class=\"kern-flex kern-gap-md\"><div class=\"\" style=\"background:#d9d9d9; width: 200px; padding: 0.5rem\">1</div><div class=\"\" style=\"background:#d9d9d9; width: 200px; padding: 0.5rem\">2</div><div class=\"\" style=\"background:#d9d9d9; width: 200px; padding: 0.5rem\">3</div><div class=\"\" style=\"background:#d9d9d9; width: 200px; padding: 0.5rem\">4</div><div class=\"\" style=\"background:#d9d9d9; width: 200px; padding: 0.5rem\">5</div></div><p>Beispiel: Flex Row Wrap</p><div class=\"kern-flex kern-flex-row kern-flex-wrap kern-gap-md\"><div class=\"\" style=\"background:#d9d9d9; width: 200px; padding: 0.5rem\">1</div><div class=\"\" style=\"background:#d9d9d9; width: 200px; padding: 0.5rem\">2</div><div class=\"\" style=\"background:#d9d9d9; width: 200px; padding: 0.5rem\">3</div><div class=\"\" style=\"background:#d9d9d9; width: 200px; padding: 0.5rem\">4</div><div class=\"\" style=\"background:#d9d9d9; width: 200px; padding: 0.5rem\">5</div></div><p>Beispiel: Flex Row-Reverse Wrap</p><div class=\"kern-flex kern-flex-row-reverse kern-flex-wrap kern-gap-md\"><div class=\"\" style=\"background:#d9d9d9; width: 200px; padding: 0.5rem\">1</div><div class=\"\" style=\"background:#d9d9d9; width: 200px; padding: 0.5rem\">2</div><div class=\"\" style=\"background:#d9d9d9; width: 200px; padding: 0.5rem\">3</div><div class=\"\" style=\"background:#d9d9d9; width: 200px; padding: 0.5rem\">4</div><div class=\"\" style=\"background:#d9d9d9; width: 200px; padding: 0.5rem\">5</div></div><p>Beispiel: Flex Col</p><div class=\"kern-flex kern-flex-col kern-gap-md\"><div class=\"\" style=\"background:#d9d9d9; width: 200px; padding: 0.5rem\">1</div><div class=\"\" style=\"background:#d9d9d9; width: 200px; padding: 0.5rem\">2</div><div class=\"\" style=\"background:#d9d9d9; width: 200px; padding: 0.5rem\">3</div><div class=\"\" style=\"background:#d9d9d9; width: 200px; padding: 0.5rem\">4</div><div class=\"\" style=\"background:#d9d9d9; width: 200px; padding: 0.5rem\">5</div></div><p>Beispiel: Flex Col-Reverse</p><div class=\"kern-flex kern-flex-col-reverse kern-gap-md\"><div class=\"\" style=\"background:#d9d9d9; width: 200px; padding: 0.5rem\">1</div><div class=\"\" style=\"background:#d9d9d9; width: 200px; padding: 0.5rem\">2</div><div class=\"\" style=\"background:#d9d9d9; width: 200px; padding: 0.5rem\">3</div><div class=\"\" style=\"background:#d9d9d9; width: 200px; padding: 0.5rem\">4</div><div class=\"\" style=\"background:#d9d9d9; width: 200px; padding: 0.5rem\">5</div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/CssFlex/CssFlex.stories.js",
+          "export": "FlexContainerEigenschaften"
+        }
+      }
+    },
+    {
+      "id": "flex-hauptachen-ausrichting",
+      "html": {
+        "markup": "<p>Beispiel: Start</p><div class=\"kern-flex kern-justify-content-start kern-gap-md\"><div class=\"\" style=\"background:#d9d9d9; width: 200px; padding: 0.5rem\">1</div><div class=\"\" style=\"background:#d9d9d9; width: 200px; padding: 0.5rem\">2</div><div class=\"\" style=\"background:#d9d9d9; width: 200px; padding: 0.5rem\">3</div></div><p>Beispiel: End</p><div class=\"kern-flex kern-justify-content-end kern-gap-md\"><div class=\"\" style=\"background:#d9d9d9; width: 200px; padding: 0.5rem\">1</div><div class=\"\" style=\"background:#d9d9d9; width: 200px; padding: 0.5rem\">2</div><div class=\"\" style=\"background:#d9d9d9; width: 200px; padding: 0.5rem\">3</div></div><p>Beispiel: Center</p><div class=\"kern-flex kern-justify-content-center kern-gap-md\"><div class=\"\" style=\"background:#d9d9d9; width: 200px; padding: 0.5rem\">1</div><div class=\"\" style=\"background:#d9d9d9; width: 200px; padding: 0.5rem\">2</div><div class=\"\" style=\"background:#d9d9d9; width: 200px; padding: 0.5rem\">3</div></div><p>Beispiel: Between</p><div class=\"kern-flex kern-justify-content-between kern-gap-md\"><div class=\"\" style=\"background:#d9d9d9; width: 200px; padding: 0.5rem\">1</div><div class=\"\" style=\"background:#d9d9d9; width: 200px; padding: 0.5rem\">2</div><div class=\"\" style=\"background:#d9d9d9; width: 200px; padding: 0.5rem\">3</div></div><p>Beispiel: Around</p><div class=\"kern-flex kern-justify-content-around kern-gap-md\"><div class=\"\" style=\"background:#d9d9d9; width: 200px; padding: 0.5rem\">1</div><div class=\"\" style=\"background:#d9d9d9; width: 200px; padding: 0.5rem\">2</div><div class=\"\" style=\"background:#d9d9d9; width: 200px; padding: 0.5rem\">3</div></div><p>Beispiel: Evenly</p><div class=\"kern-flex kern-justify-content-evenly kern-gap-md\"><div class=\"\" style=\"background:#d9d9d9; width: 200px; padding: 0.5rem\">1</div><div class=\"\" style=\"background:#d9d9d9; width: 200px; padding: 0.5rem\">2</div><div class=\"\" style=\"background:#d9d9d9; width: 200px; padding: 0.5rem\">3</div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/CssFlex/CssFlex.stories.js",
+          "export": "FlexHauptachenAusrichting"
+        }
+      }
+    },
+    {
+      "id": "flex-querachsen-ausrichtung",
+      "html": {
+        "markup": "<p>Beispiel: Start</p><div class=\"kern-flex kern-align-items-start\" style=\"height: 100px; border: 1px solid black\"><div class=\"\" style=\"background:#d9d9d9; width: 200px; padding: 0.5rem\">Perfekt zentriert</div></div><p>Beispiel: Center</p><div class=\"kern-flex kern-align-items-center\" style=\"height: 100px; border: 1px solid black\"><div class=\"\" style=\"background:#d9d9d9; width: 200px; padding: 0.5rem\">Perfekt zentriert</div></div><p>Beispiel: End</p><div class=\"kern-flex kern-align-items-end\" style=\"height: 100px; border: 1px solid black\"><div class=\"\" style=\"background:#d9d9d9; width: 200px; padding: 0.5rem\">Perfekt zentriert</div></div><p>Beispiel: Stretch</p><div class=\"kern-flex kern-align-items-stretch\" style=\"height: 100px; border: 1px solid black\"><div class=\"\" style=\"background:#d9d9d9; width: 200px; padding: 0.5rem\">Perfekt zentriert</div></div><p>Beispiel: Baseline</p><div class=\"kern-flex kern-align-items-baseline\" style=\"height: 100px; border: 1px solid black\"><div class=\"\" style=\"background:#d9d9d9; width: 200px; padding: 0.5rem\">Perfekt zentriert</div></div><p>Beispiel: Perfekt Center</p><div class=\"kern-flex kern-justify-content-center kern-align-items-center\" style=\"height: 100px; border: 1px solid black\"><div class=\"\" style=\"background:#d9d9d9; width: 200px; padding: 0.5rem\">Perfekt zentriert</div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/CssFlex/CssFlex.stories.js",
+          "export": "FlexQuerachsenAusrichtung"
+        }
+      }
+    },
+    {
+      "id": "flex-responsive-ausrichtung",
+      "html": {
+        "markup": "<div class=\"kern-flex kern-flex-col kern-flex-row-md kern-align-items-center kern-justify-content-between kern-gap-md\" style=\"border: 1px dotted black;\"><div class=\"\" style=\"background-color: #d9d9d9; padding: 0.5rem;\">Mobil Col, ab MD Row</div><div class=\"\" style=\"background-color: #d9d9d9; padding: 0.5rem;\">Mobil Col, ab MD Row</div><div class=\"\" style=\"background-color: #d9d9d9; padding: 0.5rem;\">Mobil Col, ab MD Row</div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/CssFlex/CssFlex.stories.js",
+          "export": "FlexResponsiveAusrichtung"
+        }
+      }
+    },
+    {
+      "id": "flex-item-order",
+      "html": {
+        "markup": "<div class=\"kern-flex kern-flex-col kern-flex-row-md kern-align-items-center kern-justify-content-between kern-gap-md\" style=\"border: 1px dotted black;\"><div class=\"kern-order-1 kern-order-2-md\" style=\"background-color: #d9d9d9; padding: 0.5rem;\">A (Order 1 Mobil, Order 2 ab MD)</div><div class=\"kern-order-2 kern-order-1-md\" style=\"background-color: #d1f3f1; padding: 0.5rem;\">B (Order 2 Mobil, Order 1 ab MD)</div><div class=\"kern-order-3\" style=\"background-color: #d9d9d9; padding: 0.5rem;\">C (Immer Order 3)</div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/CssFlex/CssFlex.stories.js",
+          "export": "FlexItemOrder"
+        }
+      }
+    },
+    {
+      "id": "flex-wrap-grow-shrink",
+      "html": {
+        "markup": "<div class=\"kern-flex kern-flex-wrap kern-gap-sm\" style=\"border: 1px dotted black;\"><div class=\" kern-flex-grow\" style=\"background-color: #d1f3f1; padding: 0.5rem\">A (Wächst)</div><div class=\" kern-flex-none\" style=\"background-color: #d9d9d9; width: 200px; padding: 0.5rem\">B (Fest 200px)</div><div class=\" kern-flex-auto\" style=\"background-color: #d9d9d9; padding: 0.5rem\">C (Auto)</div></div><p>Element A füllt den übrigen Raum (Grow) | Element B hat feste Größe</p><div class=\"kern-flex kern-gap-md\" style=\"border: 1px dotted black;\"><div class=\" kern-flex-grow\" style=\"background-color: #d1f3f1;\">A: Wächst (kern-flex-grow)</div><div class=\" kern-flex-shrink-0\" style=\"background-color: #d9d9d9; width: 200px;\">B: Fest 200px (kern-flex-shrink-0)</div><div class=\" kern-flex-auto\" style=\"background-color: #d1f3f1;\">C: Flex-Auto (Wächst, Basis 0)</div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/CssFlex/CssFlex.stories.js",
+          "export": "FlexWrapGrowShrink"
+        }
+      }
+    },
+    {
+      "id": "flex-gewichtete-verteilung",
+      "html": {
+        "markup": "<h3>Gewichtetes 4:2:6 Layout</h3><p> Verhältnis der Breiten: Element A (33.3%) : Element B (16.6%) : Element C (50%). </p><div class=\"kern-flex kern-flex-wrap kern-gap-md\"><div class=\"kern-flex-grow-4 kern-basis-0\" style=\"background: #d1f3f1; padding: 0.5rem;\">A: Grow 4</div><div class=\"kern-flex-grow-2 kern-basis-0\" style=\"background: #d9d9d9; padding: 0.5rem;\">B: Grow 2</div><div class=\"kern-flex-grow-6 kern-basis-0\" style=\"background: #d1f3f1; padding: 0.5rem;\">C: Grow 6</div></div><h3>Responsives 4:2:6 Layout (Mobile 100%)</h3><p>Mobile: Jedes Element nimmt 100% Breite ein. Ab MD: 4:2:6-Verhältnis.</p><div class=\"kern-flex kern-flex-wrap kern-gap-md\"><div class=\"kern-basis-full kern-flex-grow-4-md kern-basis-0-md\" style=\"background: #d1f3f1; padding: 0.5rem;\">A: Grow 4 ab MD</div><div class=\"kern-basis-full kern-flex-grow-2-md kern-basis-0-md\" style=\"background: #d9d9d9; padding: 0.5rem;\">B: Grow 2 ab MD</div><div class=\"kern-basis-full kern-flex-grow-6-md kern-basis-0-md\" style=\"background: #d1f3f1; padding: 0.5rem;\">C: Grow 6 ab MD</div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/CssFlex/CssFlex.stories.js",
+          "export": "FlexGewichteteVerteilung"
+        }
+      }
+    },
+    {
+      "id": "flex-responsive-stapelung",
+      "html": {
+        "markup": "<div class=\"kern-flex kern-flex-col kern-flex-row-md kern-justify-content-center kern-justify-content-end-md kern-align-items-center kern-align-items-start-lg kern-gap-lg\" style=\"border: 1px dotted black; height: 180px;\"><div class=\"\" style=\"background-color: #d9d9d9; padding: 0.5rem\">A (Col/Center)</div><div class=\"\" style=\"background-color: #d9d9d9; padding: 0.5rem\">B (Row/End ab MD)</div><div class=\"\" style=\"background-color: #d9d9d9; padding: 0.5rem\">C (Start ab LG)</div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/CssFlex/CssFlex.stories.js",
+          "export": "FlexResponsiveStapelung"
+        }
+      }
+    },
+    {
+      "id": "flex-wrapping-mehrzeilen-verteilung",
+      "html": {
+        "markup": "<div class=\"kern-flex kern-flex-wrap kern-align-content-between kern-gap-xs\" style=\"border: 1px dotted black; height: 140px;\"><div class=\"\" style=\"background-color: #d9d9d9; width: 200px; padding: 0.5rem\">Wrap Item 1</div><div class=\"\" style=\"background-color: #d9d9d9; width: 200px; padding: 0.5rem\">Wrap Item 2</div><div class=\"\" style=\"background-color: #d9d9d9; width: 200px; padding: 0.5rem\">Wrap Item 3</div><div class=\"\" style=\"background-color: #d9d9d9; width: 200px; padding: 0.5rem\">Reihe 2 (oben)</div><div class=\"\" style=\"background-color: #d9d9d9; width: 200px; padding: 0.5rem\">Reihe 2 (unten)</div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/CssFlex/CssFlex.stories.js",
+          "export": "FlexWrappingMehrzeilenVerteilung"
+        }
+      }
+    },
+    {
+      "id": "flex-individuelle-item-ausrichtung",
+      "html": {
+        "markup": "<div class=\"kern-flex kern-align-items-stretch kern-justify-content-around kern-gap-md\" style=\"border: 1px dotted black; height: 100px;\"><div class=\" kern-align-self-end\" style=\"background-color: #d9d9d9; padding: 0.5rem\">Unten</div><div class=\" kern-align-self-center\" style=\"background-color: #d9d9d9; padding: 0.5rem\">Mitte</div><div class=\" kern-align-self-start kern-align-self-end-lg\" style=\"background-color: #d9d9d9; padding: 0.5rem\">Oben (Start) | Unten (End ab LG)</div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/CssFlex/CssFlex.stories.js",
+          "export": "FlexIndividuelleItemAusrichtung"
+        }
+      }
+    },
+    {
+      "id": "flex-responsiver-reihenwechsel-umkehrung",
+      "html": {
+        "markup": "<div class=\"kern-flex kern-flex-row kern-flex-row-reverse-md kern-justify-content-between kern-gap-md\" style=\"border: 1px dotted black;\"><div class=\"\" style=\"background-color: #d9d9d9; padding: 0.5rem\">A (Erstes mobil, Zweites ab MD)</div><div class=\"\" style=\"background-color: #d9d9d9; padding: 0.5rem\">B (Zweites mobil, Erstes ab MD)</div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/CssFlex/CssFlex.stories.js",
+          "export": "FlexResponsiverReihenwechselUmkehrung"
+        }
+      }
+    },
+    {
+      "id": "flex-vertikales-stacken-selbstausrichtung",
+      "html": {
+        "markup": "<div class=\"kern-flex kern-flex-col kern-align-items-center kern-gap-sm\" style=\"border: 1px dotted black; height: 180px; width: 300px;\"><div class=\" kern-align-self-start\" style=\"background-color: #d9d9d9; padding: 0.5rem;\">Links (Self-Start)</div><div class=\" kern-align-self-center\" style=\"background-color: #d9d9d9; padding: 0.5rem;\">Zentriert (Self-Center)</div><div class=\" kern-align-self-end\" style=\"background-color: #d9d9d9; padding: 0.5rem;\">Rechts (Self-End)</div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/CssFlex/CssFlex.stories.js",
+          "export": "FlexVertikalesStackenSelbstausrichtung"
+        }
+      }
+    },
+    {
+      "id": "flex-auto-initial-none-grow",
+      "html": {
+        "markup": "<h3>Flexbox: Umbruch Auto</h3><div class=\"kern-flex kern-flex-wrap kern-gap-md\" style=\"\"><div class=\"kern-flex-auto\" style=\"background:#d9d9d9; padding: 0.5rem;\">A (auto)</div><div class=\"kern-flex-auto\" style=\"background:#d9d9d9; padding: 0.5rem;\">B (auto)</div><div class=\"kern-flex-auto\" style=\"background:#d9d9d9; padding: 0.5rem;\">C (auto)</div></div><h3>Flexbox: Umbruch Auto / Initial</h3><div class=\"kern-flex kern-flex-wrap kern-gap-md\" style=\"\"><div class=\"kern-flex-auto\" style=\"background:#d9d9d9; padding: 0.5rem;\">A (auto)</div><div class=\"kern-flex-initial\" style=\"background:#d9d9d9; padding: 0.5rem;\">B (initial)</div><div class=\"kern-flex-initial\" style=\"background:#d9d9d9; padding: 0.5rem;\">C (initial)</div></div><h3>Flexbox: Umbruch Auto / None</h3><div class=\"kern-flex kern-flex-wrap kern-gap-md\" style=\"\"><div class=\"kern-flex-auto\" style=\"background:#d9d9d9; padding: 0.5rem;\">A (auto)</div><div class=\"kern-flex-auto\" style=\"background:#d9d9d9; padding: 0.5rem;\">B (auto)</div><div class=\"kern-flex-none\" style=\"background:#d9d9d9; padding: 0.5rem;\">C (none)</div></div><h3>Flexbox: Umbruch Initial / None</h3><div class=\"kern-flex kern-flex-wrap kern-gap-md\" style=\"\"><div class=\"kern-flex-initial\" style=\"background:#d9d9d9; padding: 0.5rem;\">C (initial)</div><div class=\"kern-flex-none\" style=\"background:#d9d9d9; padding: 0.5rem;\">C (none)</div><div class=\"kern-flex-none\" style=\"background:#d9d9d9; padding: 0.5rem;\">C (none)</div></div><h3>Flexbox: Grow 4 2 1</h3><div class=\"kern-flex kern-flex-wrap kern-gap-md\"><div class=\"kern-flex-grow-4\" style=\"background: #d9d9d9; padding: 0.5rem;\">A (grow 4)</div><div class=\"kern-flex-grow-2\" style=\"background: #d9d9d9; padding: 0.5rem;\">B (grow 2)</div><div class=\"kern-flex-1\" style=\"background: #d9d9d9; padding: 0.5rem;\">C (grow 1)</div></div><h3>Flex Grow Responsive</h3><div class=\"kern-flex kern-flex-wrap kern-gap-md\"><div class=\"kern-basis-full kern-flex-grow-8-lg kern-basis-0-lg\" style=\"background: #d9d9d9; padding: 0.5rem;\"> Hauptinhalt (2/3 Breite ab LG) </div><div class=\"kern-basis-full kern-flex-grow-4-lg kern-basis-0-lg\" style=\"background: #d9d9d9; padding: 0.5rem;\"> Sidebar (1/3 Breite ab LG) </div></div><h3>Flex-Basis</h3><div class=\"kern-flex kern-gap-md\"><div class=\"kern-basis-1-3 \" style=\"background-color: #d9d9d9; padding: 0.5rem\">33.33% (Basis)</div><div class=\"kern-flex-1 \" style=\"background-color: #d1f3f1; padding: 0.5rem\">Rest (Flex 1)</div><div class=\"kern-flex-none \" style=\"width: 100px; background-color: #d9d9d9; padding: 0.5rem\">Fest 100px</div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/CssFlex/CssFlex.stories.js",
+          "export": "FlexAutoInitialNoneGrow"
+        }
+      }
+    },
+    {
+      "id": "grid-container-definition",
+      "html": {
+        "markup": "<h2>Basis 4-Spalten-Grid mit Lücken (Gap)</h2><p>Definiert ein Grid mit 4 Spalten und einem mittleren Abstand.</p><div class=\"kern-grid kern-grid-cols-4 kern-gap-md\" style=\"\"><div class=\"kern-p-sm\" style=\"background:#d9d9d9;\">A (1fr)</div><div class=\"kern-p-sm\" style=\"background:#d9d9d9;\">B (1fr)</div><div class=\"kern-p-sm\" style=\"background:#d9d9d9;\">C (1fr)</div><div class=\"kern-p-sm\" style=\"background:#d9d9d9;\">D (1fr)</div></div><h2>3-Spalten-Grid mit automatischen Reihen</h2><p>Definiert 3 Spalten. Die Reihen werden automatisch hinzugefügt (`auto-rows-min`).</p><div class=\"kern-grid kern-grid-cols-3 kern-auto-rows-min kern-gap-sm\" style=\"\"><div class=\"kern-p-sm\" style=\"background:#d9d9d9; height: 50px;\">Item 1</div><div class=\"kern-p-sm\" style=\"background:#d9d9d9; height: 30px;\">Item 2</div><div class=\"kern-p-sm\" style=\"background:#d9d9d9; height: 70px;\">Item 3</div><div class=\"kern-p-sm\" style=\"background:#efefef;\">Item 4 (Neue Reihe)</div><div class=\"kern-p-sm\" style=\"background:#efefef;\">Item 5</div></div><h2>Spezifische Reihenanzahl (3 Reihen)</h2><p>Fixiert die Struktur auf 2 Spalten und 3 explizite Reihen.</p><div class=\"kern-grid kern-grid-cols-2 kern-grid-rows-3 kern-gap-md\" style=\" height: 150px;\"><div class=\"kern-p-sm\" style=\"background:#d9d9d9;\">R1C1</div><div class=\"kern-p-sm\" style=\"background:#d9d9d9;\">R1C2</div><div class=\"kern-p-sm\" style=\"background:#d9d9d9;\">R2C1</div><div class=\"kern-p-sm\" style=\"background:#d9d9d9;\">R2C2</div><div class=\"kern-p-sm\" style=\"background:#d9d9d9;\">R3C1</div><div class=\"kern-p-sm\" style=\"background:#d9d9d9;\">R3C2</div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/CssGrid/CssGrid.stories.js",
+          "export": "GridContainerDefinition"
+        }
+      }
+    },
+    {
+      "id": "grid-item-positionierung",
+      "html": {
+        "markup": "<h2>Spanning und Start (Grundlegend)</h2><p>Das erste Item spannt 3 Spalten. Das zweite Item beginnt an der 4. Spaltenlinie.</p><div class=\"kern-grid kern-grid-cols-4 kern-gap-sm\" style=\"\"><div class=\"kern-col-3 kern-p-sm\" style=\"background:#d9d9d9;\">HEADER (Spannt 3)</div><div class=\"kern-col-start-4 kern-p-sm\" style=\"background:#d9d9d9;\">SIDEBAR (Start 4)</div><div class=\"kern-p-sm\" style=\"background:#d9d9d9;\">Inhalt 1</div><div class=\"kern-p-sm\" style=\"background:#d9d9d9;\">Inhalt 2</div></div><h2>Reihen- und Spalten-Spanning (Komplexes Layout)</h2><p>Sidebar spannt 2 Reihen und startet in der 2. Reihe. Item 3 füllt den Rest der ersten Reihe.</p><div class=\"kern-grid kern-grid-cols-4 kern-grid-rows-3 kern-gap-sm\" style=\" height: 200px;\"><div class=\"kern-col-2 kern-p-sm\" style=\"background:#d9d9d9;\">HEADER (Spannt 2)</div><div class=\"kern-p-sm\" style=\"background:#d9d9d9;\">Item 3</div><div class=\"kern-p-sm\" style=\"background:#d9d9d9;\">Item 4</div><div class=\"kern-row-start-2 kern-col-start-4 kern-row-2 kern-p-sm\" style=\"background:#d9d9d9;\">SIDEBAR (Start R2/C4, Spannt 2 Reihen)</div><div class=\"kern-p-sm\" style=\"background:#d9d9d9;\">Inhalt 1</div><div class=\"kern-p-sm\" style=\"background:#d9d9d9;\">Inhalt 2</div><div class=\"kern-p-sm\" style=\"background:#d9d9d9;\">Inhalt 3</div></div><h2>Volle Breite mit `span-full` und End-Linie</h2><p>Footer nimmt immer die volle Breite des Containers ein.</p><div class=\"kern-grid kern-grid-cols-4 kern-gap-sm\" style=\"\"><div class=\"kern-col-2 kern-p-sm\" style=\"background:#d9d9d9;\">C1</div><div class=\"kern-col-2 kern-p-sm\" style=\"background:#d9d9d9;\">C2</div><div class=\"kern-col-full kern-p-sm\" style=\"background:#d9d9d9;\">FOOTER (Spannt Full, d.h. von Linie 1 bis -1)</div></div><h2>Überlappende Elemente mit `start-end`</h2><p>Item 2 überlappt Item 1, indem es an der gleichen Spaltenlinie beginnt/endet.</p><div class=\"kern-grid kern-grid-cols-2 kern-gap-sm\" style=\"\"><div class=\"kern-col-start-1 kern-col-end-3\" style=\"background:rgba(209, 243, 241, 0.8); padding: 2rem;\">Layer 1: Basis (Start 1, End 3)</div><div class=\"kern-col-start-1 kern-col-end-3\" style=\"background:rgba(217, 217, 217, 0.4); padding: 1rem; margin-top: -20px;\">Layer 2: Overlay (Start 1, End 3)</div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/CssGrid/CssGrid.stories.js",
+          "export": "GridItemPositionierung"
+        }
+      }
+    },
+    {
+      "id": "grid-container-ausrichtung",
+      "html": {
+        "markup": "<style> .demo-item { background: #d9d9d9; width: 50px; height: 50px; } </style><h2>Platz-Verteilung (`justify-content` und `align-content`)</h2><p>Nur sichtbar, wenn die Spalten/Reihen *nicht* den gesamten Raum füllen (hier: 2 Spalten, 100px).</p><div class=\"kern-grid kern-grid-cols-2 kern-grid-rows-2 kern-justify-content-center kern-align-content-between kern-gap-sm\" style=\"border: 1px dotted black; height: 200px; width: 300px; grid-template-columns: 100px 100px;\"><div class=\"demo-item kern-p-sm\">1</div><div class=\"demo-item kern-p-sm\">2</div><div class=\"demo-item kern-p-sm\">3</div><div class=\"demo-item kern-p-sm\">4</div></div><h2>Item-Ausrichtung (`place-items`)</h2><p>Items werden innerhalb ihrer Zelle zentriert (sowohl horizontal als auch vertikal).</p><div class=\"kern-grid kern-grid-cols-3 kern-place-items-center kern-gap-sm\" style=\"border: 1px dotted black; height: 150px;\"><div class=\"demo-item kern-p-sm\" style=\"width: 80px; height: 80px;\">Center</div><div class=\"demo-item kern-p-sm\" style=\"width: 100px; height: 100px;\">Center</div><div class=\"demo-item kern-p-sm\" style=\"width: 80px; height: 80px;\">Center</div></div><h2>Item-Ausrichtung (Start/End)</h2><p>Ausrichtung der Items am Anfang/Ende der Zelle.</p><div class=\"kern-grid kern-grid-cols-3 kern-justify-content-items-start kern-align-items-end kern-gap-sm\" style=\"border: 1px dotted black; height: 120px;\"><div class=\"kern-p-sm\" style=\"background: #d9d9d9;\">Start/End</div><div class=\"kern-p-sm\" style=\"background: #d9d9d9;\">Start/End</div><div class=\"kern-p-sm\" style=\"background: #d9d9d9;\">Start/End</div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/CssGrid/CssGrid.stories.js",
+          "export": "GridContainerAusrichtung"
+        }
+      }
+    },
+    {
+      "id": "grid-item-self-und-flow",
+      "html": {
+        "markup": "<h2>Individuelle Item-Ausrichtung (`justify-self`, `align-self`)</h2><p>Überschreibt die `align-items`-Einstellung des Containers für ein einzelnes Item.</p><div class=\"kern-grid kern-grid-cols-3 kern-align-items-center kern-gap-sm\" style=\"height: 150px; border: 1px dotted black;\"><div class=\"kern-justify-content-self-start kern-align-self-end kern-p-sm\" style=\"background:#d9d9d9; width: 80px;\">Start/ End</div><div class=\"kern-justify-content-self-center kern-align-self-center kern-p-sm\" style=\"background:#d9d9d9; width: 80px;\">Center/ Center</div><div class=\"kern-justify-content-self-end kern-align-self-start kern-p-sm\" style=\"background:#d9d9d9; width: 80px;\">End/ Start</div></div><h2>Grid-Flow (Dichte Packung)</h2><p>Items füllen Lücken aggressiv auf. Item 3 schließt die Lücke über Item 4.</p><div class=\"kern-grid kern-grid-cols-4 kern-grid-flow-dense kern-gap-sm\" style=\"height: 100px;\"><div class=\"kern-col-2 kern-p-sm\" style=\"background:#d9d9d9;\">1 (Span 2)</div><div class=\"kern-p-sm\" style=\"background:#d9d9d9;\">2</div><div class=\"kern-col-2 kern-p-sm\" style=\"background:#d9d9d9;\">4 (Span 2)</div><div class=\"kern-p-sm\" style=\"background:#d9d9d9;\">3 (Füllt Lücke)</div></div><h2>Grid-Flow nach Reihen (`row`)</h2><p>Der automatische Fluss priorisiert das Füllen neuer Reihen (horizontal).</p><div class=\"kern-grid kern-grid-cols-2 kern-grid-flow-row kern-gap-sm\" style=\" height: 100px;\"><div class=\"kern-p-sm\" style=\"background:#d9d9d9;\">1</div><div class=\"kern-p-sm\" style=\"background:#d9d9d9;\">2</div><div class=\"kern-p-sm\" style=\"background:#d9d9d9;\">3 (Neue Reihe)</div><div class=\"kern-p-sm\" style=\"background:#d9d9d9;\">4</div></div><h2>Element-Reihenfolge (`order`)</h2><p>Unabhängig von der Quellreihenfolge wird Item 2 zuerst angezeigt.</p><div class=\"kern-grid kern-grid-cols-3 kern-gap-sm\"><div class=\"kern-order-2 kern-p-sm\" style=\"background:#d9d9d9;\">1 (Order 2)</div><div class=\"kern-order-1 kern-p-sm\" style=\"background:#d9d9d9;\">2 (Order 1, Zuerst)</div><div class=\"kern-order-3 kern-p-sm\" style=\"background:#d9d9d9;\">3 (Order 3)</div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/CssGrid/CssGrid.stories.js",
+          "export": "GridItemSelfUndFlow"
+        }
+      }
+    },
+    {
+      "id": "grid-responsive-definition",
+      "html": {
+        "markup": "<h2>Dynamischer Spaltenwechsel (1 -> 2 -> 4)</h2><p>Mobile: 1 Spalte (Standard). MD: 2 Spalten. LG: 4 Spalten.</p><div class=\"kern-grid kern-grid-cols-2-md kern-grid-cols-4-lg kern-gap-sm\"><div class=\"kern-p-sm\" style=\"background:#d9d9d9;\">Item 1</div><div class=\"kern-p-sm\" style=\"background:#d9d9d9;\">Item 2</div><div class=\"kern-p-sm\" style=\"background:#d9d9d9;\">Item 3</div><div class=\"kern-p-sm\" style=\"background:#d9d9d9;\">Item 4</div><div class=\"kern-p-sm\" style=\"background:#d9d9d9;\">Item 5</div></div><h2>Spaltenanzahl und Spanning (12er-Raster)</h2><p>MD: 12er-Raster. Item 1 spannt 4, Item 2 spannt 8.</p><div class=\"kern-grid kern-grid-cols-12-md kern-gap-md\"><div class=\"kern-col-4-md kern-p-sm\" style=\"background:#d9d9d9;\">Item 1 (4/12)</div><div class=\"kern-col-8-md kern-p-sm\" style=\"background:#d9d9d9;\">Item 2 (8/12)</div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/CssGrid/CssGrid.stories.js",
+          "export": "GridResponsiveDefinition"
+        }
+      }
+    },
+    {
+      "id": "grid-advanced-positionierung",
+      "html": {
+        "markup": "<h2>Offsetting mit `col-start` (12er-Raster)</h2><p>Item 1 (Span 4) beginnt an Linie 2 (Offset 1). Item 2 (Span 4) beginnt an Linie 7 (Offset 6).</p><div class=\"kern-grid kern-grid-cols-12 kern-gap-sm\" style=\"border: 1px dotted black;\"><div class=\"kern-col-4 kern-col-start-2 kern-p-sm\" style=\"background:#d9d9d9;\">A (Span 4, Start 2)</div><div class=\"kern-col-4 kern-col-start-7 kern-p-sm\" style=\"background:#d9d9d9;\">B (Span 4, Start 7)</div></div><h2>Offsetting in Reihen (Header und Footer)</h2><p>Header beginnt an der 2. Reihe, Footer an der 4. Reihe.</p><div class=\"kern-grid kern-grid-cols-3 kern-grid-rows-5 kern-gap-sm\"><div class=\"kern-col-full kern-p-sm\" style=\"background:#d9d9d9;\">Top-Banner (Row 1)</div><div class=\"kern-row-start-2 kern-col-full kern-p-sm\" style=\"background:#d9d9d9;\">Header (Row 2)</div><div class=\"kern-row-start-3 kern-p-sm\" style=\"background:#d9d9d9;\">Content 1 (Row 3)</div><div class=\"kern-row-start-3 kern-p-sm\" style=\"background:#d9d9d9;\">Content 2 (Row 3)</div><div class=\"kern-row-start-3 kern-p-sm\" style=\"background:#d9d9d9;\">Content 3 (Row 3)</div><div class=\"kern-row-start-4 kern-col-full kern-p-sm\" style=\"background:#d9d9d9;\">Footer (Row 4)</div></div><h2>Negatives End (Volle Breite)</h2><p>Item füllt die Breite, indem es an der letzten Linie (-1) endet.</p><div class=\"kern-grid kern-grid-cols-6 kern-gap-sm\" ><div class=\"kern-col-2 kern-p-sm\" style=\"background:#d9d9d9;\">Item</div><div class=\"kern-col-start-1 kern-col-end-7 kern-p-sm\" style=\"background:#d9d9d9;\">Breites Element (Start 1, End -1)</div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/CssGrid/CssGrid.stories.js",
+          "export": "GridAdvancedPositionierung"
+        }
+      }
+    },
+    {
+      "id": "grid-zentrierung-und-self",
+      "html": {
+        "markup": "<style> .item-box { background: #d9d9d9; width: 80px; height: 80px; } </style><h2>Perfekte Zellenzentrierung</h2><p>Zeintrieren mit `kern-align-items-center kern-justify-content-center` Spacing & Alignment</p><div class=\"kern-grid kern-align-items-center kern-justify-content-center\" style=\"height: 150px; border: 1px dotted black;\"><div class=\"kern-col-4 kern-col-start-5 kern-p-sm\" style=\"background:#d9d9d9;\">Perfekt Center</div></div><p>Verwendet `place-items-center` für horizontale und vertikale Zentrierung in der Zelle.</p><div class=\"kern-grid kern-grid-cols-3 kern-place-items-center kern-gap-sm\" style=\"border: 1px dotted black; height: 150px;\"><div class=\"kern-p-sm\" style=\"background:#d9d9d9;\">Perfekt Center</div><div class=\"kern-p-sm\" style=\"background:#d9d9d9;\">Perfekt Center</div><div class=\"kern-p-sm\" style=\"background:#d9d9d9;\">Perfekt Center</div></div><br><div class=\"kern-grid kern-grid-cols-none kern-place-items-center\" style=\"height: 150px; border: 1px dotted black;\"><div class=\"kern-p-sm\" style=\"background:#d9d9d9;\">Perfekt Center</div></div><h2>Individuelle Zentrierung (`justify-self`)</h2><p>Jedes Item wird entlang der horizontalen Achse unterschiedlich positioniert.</p><div class=\"kern-grid kern-grid-cols-3 kern-gap-sm\" style=\"border: 1px dotted black; height: 80px;\"><div class=\"kern-justify-content-self-start item-box kern-p-sm\">Start</div><div class=\"kern-justify-content-self-center item-box kern-p-sm\">Center</div><div class=\"kern-justify-content-self-end item-box kern-p-sm\">End</div></div><h2>Platzhalter (Leere Zelle)</h2><p>Item 2 wird übersprungen (explizit oder durch `col-start`).</p><div class=\"kern-grid kern-grid-cols-4 kern-gap-sm\" style=\"border: 1px dotted black;\"><div class=\"kern-p-sm\" style=\"background:#ffcccb;\">Item 1</div><div class=\"kern-col-start-3 kern-p-sm\" style=\"background:#d9d9d9;\">Item 3 (Start 3)</div><div class=\"kern-p-sm\" style=\"background:#a5d6a7;\">Item 4</div></div><h2>Responsive Self-Alignment</h2><p>Item 1: Auf Mobil linksbündig (`start`), ab LG zentriert (`center-lg`).</p><div class=\"kern-grid kern-grid-cols-3 kern-gap-sm kern-align-items-end\" style=\"border: 1px dotted black; height: 120px;\"><div class=\"kern-justify-content-self-start kern-justify-content-self-center-lg item-box kern-p-sm\">Start/ Center-LG</div><div class=\"item-box kern-p-sm\">Item 2</div><div class=\"item-box kern-p-sm\">Item 3</div></div><h2>`min` und `max` Content (Nicht als Default!)</h2><p>Dieses Item nimmt die minimale Breite seines Inhalts ein, ungeachtet der Spannen-Breite (nur bei Bedarf verwenden).</p><div class=\"kern-grid kern-grid-cols-3 kern-gap-sm\"><div class=\"kern-w-max kern-p-sm\" style=\"background:#ffcccb;\">Item mit min. Inhalt.</div><div class=\"kern-w-fit kern-p-sm\" style=\"background:#d9d9d9;\">Item mit fit-content Breite</div><div class=\"kern-p-sm\" style=\"background:#a5d6a7;\">Reguläres Item</div></div><h2>Responsives Ausrichten</h2><p>Manchmal soll die Ausrichtung nur bei einem bestimmten Breakpoint umschalten.</p><p>Ziel: Mobile linksbündig (start), ab lg (Desktop) horizontal zentriert (center).</p><div class=\"kern-grid kern-grid-cols-12 kern-justify-content-start kern-justify-content-center-lg kern-gap-md\" style=\"border: 1px dotted black;\"><div class=\"kern-col-12 kern-col-6-lg kern-col-start-4-lg kern-p-sm\" style=\"background:#d9d9d9;\">Inhalt A</div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/CssGrid/CssGrid.stories.js",
+          "export": "GridZentrierungUndSelf"
+        }
+      }
+    },
+    {
+      "id": "container-grid-und-css-grid",
+      "html": {
+        "markup": "<h2>Container Grid</h2><div class=\"kern-container\" style=\"border: 1px dotted black;\"><div class=\"kern-grid\"><div class=\"\"><div style=\"background:#d9d9d9; padding: 0.5rem;\">A (col)</div></div><div class=\"\"><div style=\"background:#d9d9d9; padding: 0.5rem;\">B (col)</div></div><div class=\"\"><div style=\"background:#d9d9d9; padding: 0.5rem;\">C (col)</div></div><div class=\"\"><div style=\"background:#d9d9d9; padding: 0.5rem;\">B (col)</div></div></div></div><h2>Container Flex Grid (Responsiv: 1 -> 2 -> 4)</h2><p>Mobile: 100% Breite. Ab MD (Tablet): 50% Breite (2 Spalten). Ab LG (Desktop): 25% Breite (4 Spalten).</p><div class=\"kern-container\" style=\"border: 1px dotted black;\"><div class=\"kern-grid\"><div class=\"kern-col-12 kern-col-6-md kern-col-3-lg\"><div style=\"background:#d9d9d9; padding: 0.5rem;\">A (3-lg)</div></div><div class=\"kern-col-12 kern-col-6-md kern-col-3-lg\"><div style=\"background:#d9d9d9; padding: 0.5rem;\">B (3-lg)</div></div><div class=\"kern-col-12 kern-col-6-md kern-col-3-lg\"><div style=\"background:#d9d9d9; padding: 0.5rem;\">C (3-lg)</div></div><div class=\"kern-col-12 kern-col-6-md kern-col-3-lg\"><div style=\"background:#d9d9d9; padding: 0.5rem;\">D (3-lg)</div></div></div></div><h2>Css Grid</h2><div class=\"kern-container\" style=\"border: 1px dotted black;\"><div class=\"kern-grid kern-grid-cols-4 kern-gap-xl\" style=\"\"><div style=\"background:#d9d9d9; padding: 0.5rem;\">A (1fr)</div><div style=\"background:#d9d9d9; padding: 0.5rem;\">B (1fr)</div><div style=\"background:#d9d9d9; padding: 0.5rem;\">C (1fr)</div><div style=\"background:#d9d9d9; padding: 0.5rem;\">D (1fr)</div></div></div><h2>CSS Grid (Responsiv: 1 -> 2 -> 4)</h2><p>Mobile: 1 Spalte. Ab MD (Tablet): 2 Spalten. Ab LG (Desktop): 4 Spalten.</p><div class=\"kern-container\" style=\"border: 1px dotted black;\"><div class=\"kern-grid kern-grid-cols-2-md kern-grid-cols-4-lg kern-gap-xl\"><div style=\"background:#d9d9d9; padding: 0.5rem;\">A (1fr)</div><div style=\"background:#d9d9d9; padding: 0.5rem;\">B (1fr)</div><div style=\"background:#d9d9d9; padding: 0.5rem;\">C (1fr)</div><div style=\"background:#d9d9d9; padding: 0.5rem;\">D (1fr)</div></div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/CssGrid/CssGrid.stories.js",
+          "export": "ContainerGridUndCssGrid"
+        }
+      }
+    },
+    {
+      "id": "grid-css",
+      "html": {
+        "markup": "<div class=\"kern-container\"><div class=\"kern-grid kern-grid-cols-12\"><div class=\"kern-col-12\"><div class=\"kern-form-input\"><label class=\"kern-form-input__label\" for=\"text-1\">Name</label><input class=\"kern-form-input__input\" id=\"text-1\" name=\"text\" type=\"text\"></div></div></div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/CssGrid/CssGrid.stories.js",
+          "export": "GridCSS"
+        }
+      }
+    },
+    {
+      "id": "container-css",
+      "html": {
+        "markup": "<div class=\"kern-container\"><div class=\"kern-grid kern-grid-cols-12\"><div class=\"kern-col-12\"><div class=\"kern-form-input\"><label class=\"kern-form-input__label\" for=\"text-2\">Name</label><input class=\"kern-form-input__input\" id=\"text-2\" name=\"text\" type=\"text\"></div></div></div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/CssGrid/CssGrid.stories.js",
+          "export": "ContainerCSS"
+        }
+      }
+    },
+    {
+      "id": "container-fluid-css",
+      "html": {
+        "markup": "<div class=\"kern-container-fluid\"><div class=\"kern-grid kern-grid-cols-12\"><div class=\"kern-col-12\"><div class=\"kern-form-input\"><label class=\"kern-form-input__label\" for=\"text-3\">Name</label><input class=\"kern-form-input__input\" id=\"text-3\" name=\"text\" type=\"text\"></div></div></div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/CssGrid/CssGrid.stories.js",
+          "export": "ContainerFluidCSS"
+        }
+      }
+    },
+    {
+      "id": "container-col-css",
+      "html": {
+        "markup": "<div class=\"kern-container\"><div class=\"kern-grid kern-grid-cols-12 kern-gap-xl\"><div class=\"kern-col-4\"><div class=\"kern-form-input\"><label class=\"kern-form-input__label\" for=\"name-4\">Name</label><input class=\"kern-form-input__input\" id=\"name-4\" name=\"name\" type=\"text\"></div></div><div class=\"kern-col-4\"><div class=\"kern-form-input\"><label class=\"kern-form-input__label\" for=\"vorname-5\">Vorname</label><input class=\"kern-form-input__input\" id=\"vorname-5\" name=\"vorname\" type=\"text\"></div></div><div class=\"kern-col-4\"><div class=\"kern-form-input\"><label class=\"kern-form-input__label\" for=\"alter-6\">Alter</label><input class=\"kern-form-input__input\" id=\"alter-6\" name=\"alter\" type=\"text\"></div></div></div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/CssGrid/CssGrid.stories.js",
+          "export": "ContainerColCSS"
+        }
+      }
+    },
+    {
+      "id": "container-col-9-3-css",
+      "html": {
+        "markup": "<div class=\"kern-container\"><div class=\"kern-grid kern-grid-cols-12 kern-gap-xl\"><div class=\"kern-col-9\"><div class=\"kern-form-input\"><label class=\"kern-form-input__label\" for=\"name-7\">Name</label><input class=\"kern-form-input__input\" id=\"name-7\" name=\"name\" type=\"text\"></div></div><div class=\"kern-col-3\"><div class=\"kern-form-input\"><label class=\"kern-form-input__label\" for=\"vorname-8\">Vorname</label><input class=\"kern-form-input__input\" id=\"vorname-8\" name=\"vorname\" type=\"text\"></div></div></div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/CssGrid/CssGrid.stories.js",
+          "export": "ContainerCol_9_3_CSS"
+        }
+      }
+    },
+    {
+      "id": "container-col-4-4-4-css",
+      "html": {
+        "markup": "<div class=\"kern-container\"><div class=\"kern-grid kern-grid-cols-12 kern-gap-xl\"><div class=\"kern-col-4\"><div class=\"kern-form-input\"><label class=\"kern-form-input__label\" for=\"name-9\">Name</label><input class=\"kern-form-input__input\" id=\"name-9\" name=\"name\" type=\"text\"></div></div><div class=\"kern-col-4\"><div class=\"kern-form-input\"><label class=\"kern-form-input__label\" for=\"name2-10\">Name 2</label><input class=\"kern-form-input__input\" id=\"name2-10\" name=\"name2\" type=\"text\"></div></div><div class=\"kern-col-4\"><div class=\"kern-form-input\"><label class=\"kern-form-input__label\" for=\"vorname-11\">Vorname</label><input class=\"kern-form-input__input\" id=\"vorname-11\" name=\"vorname\" type=\"text\"></div></div></div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/CssGrid/CssGrid.stories.js",
+          "export": "ContainerCol_4_4_4_CSS"
+        }
+      }
+    },
+    {
+      "id": "container-col-sm-6-6-css",
+      "html": {
+        "markup": "<div class=\"kern-container\"><div class=\"kern-grid kern-grid-cols-12 kern-gap-xl\"><div class=\"kern-col-12 kern-col-6-sm\"><div class=\"kern-form-input\"><label class=\"kern-form-input__label\" for=\"name-12\">Name</label><input class=\"kern-form-input__input\" id=\"name-12\" name=\"name\" type=\"text\"></div></div><div class=\"kern-col-12 kern-col-6-sm\"><div class=\"kern-form-input\"><label class=\"kern-form-input__label\" for=\"vorname-13\">Vorname</label><input class=\"kern-form-input__input\" id=\"vorname-13\" name=\"vorname\" type=\"text\"></div></div></div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/CssGrid/CssGrid.stories.js",
+          "export": "ContainerCol_SM_6_6_CSS"
+        }
+      }
+    },
+    {
+      "id": "container-col-md-3-9-css",
+      "html": {
+        "markup": "<div class=\"kern-container\"><div class=\"kern-grid kern-grid-cols-12 kern-gap-xl\"><div class=\"kern-col-12 kern-col-3-md\"><div class=\"kern-form-input\"><label class=\"kern-form-input__label\" for=\"name-14\">Name</label><input class=\"kern-form-input__input\" id=\"name-14\" name=\"name\" type=\"text\"></div></div><div class=\"kern-col-12 kern-col-9-md\"><div class=\"kern-form-input\"><label class=\"kern-form-input__label\" for=\"vorname-15\">Vorname</label><input class=\"kern-form-input__input\" id=\"vorname-15\" name=\"vorname\" type=\"text\"></div></div></div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/CssGrid/CssGrid.stories.js",
+          "export": "ContainerCol_MD_3_9_CSS"
+        }
+      }
+    },
+    {
+      "id": "container-col-9-offset-3-css",
+      "html": {
+        "markup": "<div class=\"kern-container\"><div class=\"kern-grid kern-grid-cols-12 kern-gap-xl\"><div class=\"kern-col-12 kern-col-start-4-md kern-col-9-md\"><div class=\"kern-form-input\"><label class=\"kern-form-input__label\" for=\"text-16\">Name</label><input class=\"kern-form-input__input\" id=\"text-16\" name=\"text\" type=\"text\"></div></div></div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/CssGrid/CssGrid.stories.js",
+          "export": "ContainerCol_9_Offset_3_CSS"
+        }
+      }
+    },
+    {
+      "id": "alignment-items-top-css",
+      "html": {
+        "markup": "<div class=\"kern-container\"><div class=\"kern-grid kern-grid-cols-3 kern-align-items-start kern-gap-xl\" style=\"min-height: 10rem; background-color: var(--core-color-neutral-tint-90);\"><div><div class=\"kern-form-input\"><label class=\"kern-form-input__label\" for=\"text-17\">Name</label><input class=\"kern-form-input__input\" id=\"text-17\" name=\"text\" type=\"text\"></div></div><div><div class=\"kern-form-input\"><label class=\"kern-form-input__label\" for=\"vorname-18\">Vorname</label><input class=\"kern-form-input__input\" id=\"vorname-18\" name=\"vorname\" type=\"text\"></div></div><div><div class=\"kern-form-input\"><label class=\"kern-form-input__label\" for=\"alter-19\">Alter</label><input class=\"kern-form-input__input\" id=\"alter-19\" name=\"alter\" type=\"text\"></div></div></div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/CssGrid/CssGrid.stories.js",
+          "export": "AlignmentItemsTopCSS"
+        }
+      }
+    },
+    {
+      "id": "alignment-items-center-css",
+      "html": {
+        "markup": "<div class=\"kern-container\"><div class=\"kern-grid kern-grid-cols-3 kern-align-items-center kern-gap-xl\" style=\"min-height: 10rem; background-color: var(--core-color-neutral-tint-90);\"><div><div class=\"kern-form-input\"><label class=\"kern-form-input__label\" for=\"text-20\">Name</label><input class=\"kern-form-input__input\" id=\"text-20\" name=\"text\" type=\"text\"></div></div><div><div class=\"kern-form-input\"><label class=\"kern-form-input__label\" for=\"vorname-21\">Vorname</label><input class=\"kern-form-input__input\" id=\"vorname-21\" name=\"vorname\" type=\"text\"></div></div><div><div class=\"kern-form-input\"><label class=\"kern-form-input__label\" for=\"alter-22\">Alter</label><input class=\"kern-form-input__input\" id=\"alter-22\" name=\"alter\" type=\"text\"></div></div></div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/CssGrid/CssGrid.stories.js",
+          "export": "AlignmentItemsCenterCSS"
+        }
+      }
+    },
+    {
+      "id": "alignment-items-end-css",
+      "html": {
+        "markup": "<div class=\"kern-container\"><div class=\"kern-grid kern-grid-cols-3 kern-align-items-end kern-gap-xl\" style=\"min-height: 10rem; background-color: var(--core-color-neutral-tint-90);\"><div><div class=\"kern-form-input\"><label class=\"kern-form-input__label\" for=\"text-23\">Name</label><input class=\"kern-form-input__input\" id=\"text-23\" name=\"text\" type=\"text\"></div></div><div><div class=\"kern-form-input\"><label class=\"kern-form-input__label\" for=\"vorname-24\">Vorname</label><input class=\"kern-form-input__input\" id=\"vorname-24\" name=\"vorname\" type=\"text\"></div></div><div><div class=\"kern-form-input\"><label class=\"kern-form-input__label\" for=\"alter-25\">Alter</label><input class=\"kern-form-input__input\" id=\"alter-25\" name=\"alter\" type=\"text\"></div></div></div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/CssGrid/CssGrid.stories.js",
+          "export": "AlignmentItemsEndCSS"
+        }
+      }
+    },
+    {
+      "id": "alignment-item-self-css",
+      "html": {
+        "markup": "<div class=\"kern-container\"><div class=\"kern-grid kern-grid-cols-3 kern-gap-xl\" style=\"min-height: 10rem; background-color: var(--core-color-neutral-tint-90);\"><div class=\"kern-align-self-start\"><div class=\"kern-form-input\"><label class=\"kern-form-input__label\" for=\"text-26\">Name</label><input class=\"kern-form-input__input\" id=\"text-26\" name=\"text\" type=\"text\"></div></div><div class=\"kern-align-self-center\"><div class=\"kern-form-input\"><label class=\"kern-form-input__label\" for=\"vorname-27\">Vorname</label><input class=\"kern-form-input__input\" id=\"vorname-27\" name=\"vorname\" type=\"text\"></div></div><div class=\"kern-align-self-end\"><div class=\"kern-form-input\"><label class=\"kern-form-input__label\" for=\"alter-28\">Alter</label><input class=\"kern-form-input__input\" id=\"alter-28\" name=\"alter\" type=\"text\"></div></div></div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/CssGrid/CssGrid.stories.js",
+          "export": "AlignmentItemSelfCSS"
+        }
+      }
+    },
+    {
+      "id": "horizontal-alignment-new-flex",
+      "html": {
+        "markup": "<div class=\"kern-container kern-stack\"><div class=\"kern-flex kern-justify-content-start kern-gap-xl\"><div class=\"\"><div class=\"kern-form-input\"><label class=\"kern-form-input__label\" for=\"text1-29\">Name</label><input class=\"kern-form-input__input\" id=\"text1-29\" name=\"text\" type=\"text\"></div></div><div class=\"\"><div class=\"kern-form-input\"><label class=\"kern-form-input__label\" for=\"vorname1-30\">Vorname</label><input class=\"kern-form-input__input\" id=\"vorname1-30\" name=\"vorname\" type=\"text\"></div></div></div><div class=\"kern-flex kern-justify-content-center kern-gap-xl\"><div class=\"\"><div class=\"kern-form-input\"><label class=\"kern-form-input__label\" for=\"text2-31\">Name</label><input class=\"kern-form-input__input\" id=\"text2-31\" name=\"text\" type=\"text\"></div></div><div class=\"\"><div class=\"kern-form-input\"><label class=\"kern-form-input__label\" for=\"vorname2-32\">Vorname</label><input class=\"kern-form-input__input\" id=\"vorname2-32\" name=\"vorname\" type=\"text\"></div></div></div><div class=\"kern-flex kern-justify-content-end kern-gap-xl\"><div class=\"\"><div class=\"kern-form-input\"><label class=\"kern-form-input__label\" for=\"text3-33\">Name</label><input class=\"kern-form-input__input\" id=\"text3-33\" name=\"text\" type=\"text\"></div></div><div class=\"\"><div class=\"kern-form-input\"><label class=\"kern-form-input__label\" for=\"vorname3-34\">Vorname</label><input class=\"kern-form-input__input\" id=\"vorname3-34\" name=\"vorname\" type=\"text\"></div></div></div><div class=\"kern-flex kern-justify-content-around kern-gap-xl\"><div class=\"\"><div class=\"kern-form-input\"><label class=\"kern-form-input__label\" for=\"text4-35\">Name</label><input class=\"kern-form-input__input\" id=\"text4-35\" name=\"text\" type=\"text\"></div></div><div class=\"\"><div class=\"kern-form-input\"><label class=\"kern-form-input__label\" for=\"vorname4-36\">Vorname</label><input class=\"kern-form-input__input\" id=\"vorname4-36\" name=\"vorname\" type=\"text\"></div></div></div><div class=\"kern-flex kern-justify-content-between kern-gap-xl\"><div class=\"\"><div class=\"kern-form-input\"><label class=\"kern-form-input__label\" for=\"text5-37\">Name</label><input class=\"kern-form-input__input\" id=\"text5-37\" name=\"text\" type=\"text\"></div></div><div class=\"\"><div class=\"kern-form-input\"><label class=\"kern-form-input__label\" for=\"vorname5-38\">Vorname</label><input class=\"kern-form-input__input\" id=\"vorname5-38\" name=\"vorname\" type=\"text\"></div></div></div><div class=\"kern-flex kern-justify-content-evenly kern-gap-xl\"><div class=\"\"><div class=\"kern-form-input\"><label class=\"kern-form-input__label\" for=\"text6-39\">Name</label><input class=\"kern-form-input__input\" id=\"text6-39\" name=\"text\" type=\"text\"></div></div><div class=\"\"><div class=\"kern-form-input\"><label class=\"kern-form-input__label\" for=\"vorname6-40\">Vorname</label><input class=\"kern-form-input__input\" id=\"vorname6-40\" name=\"vorname\" type=\"text\"></div></div></div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/CssGrid/CssGrid.stories.js",
+          "export": "HorizontalAlignmentNewFlex"
+        }
+      }
+    },
+    {
+      "id": "gap",
+      "html": {
+        "markup": "<p>Beispiel: None (Default)</p><div class=\"kern-flex\"><div class=\"kern-flex\" style=\"background:#d9d9d9; width: 200px; padding: 0.5rem\">1</div><div class=\"kern-flex\" style=\"background:#d9d9d9; width: 200px; padding: 0.5rem\">3</div><div class=\"kern-flex\" style=\"background:#d9d9d9; width: 200px; padding: 0.5rem\">2</div></div><p>Beispiel: 2x-small</p><div class=\"kern-flex kern-gap-xxs\"><div class=\"kern-flex\" style=\"background:#d9d9d9; width: 200px; padding: 0.5rem\">1</div><div class=\"kern-flex\" style=\"background:#d9d9d9; width: 200px; padding: 0.5rem\">2</div><div class=\"kern-flex\" style=\"background:#d9d9d9; width: 200px; padding: 0.5rem\">3</div></div><p>Beispiel: x-small</p><div class=\"kern-flex kern-gap-xs\"><div class=\"kern-flex\" style=\"background:#d9d9d9; width: 200px; padding: 0.5rem\">1</div><div class=\"kern-flex\" style=\"background:#d9d9d9; width: 200px; padding: 0.5rem\">2</div><div class=\"kern-flex\" style=\"background:#d9d9d9; width: 200px; padding: 0.5rem\">3</div></div><p>Beispiel: small</p><div class=\"kern-flex kern-gap-sm\"><div class=\"kern-flex\" style=\"background:#d9d9d9; width: 200px; padding: 0.5rem\">1</div><div class=\"kern-flex\" style=\"background:#d9d9d9; width: 200px; padding: 0.5rem\">2</div><div class=\"kern-flex\" style=\"background:#d9d9d9; width: 200px; padding: 0.5rem\">3</div></div><p>Beispiel: Default</p><div class=\"kern-flex kern-gap-md\"><div class=\"kern-flex\" style=\"background:#d9d9d9; width: 200px; padding: 0.5rem\">1</div><div class=\"kern-flex\" style=\"background:#d9d9d9; width: 200px; padding: 0.5rem\">2</div><div class=\"kern-flex\" style=\"background:#d9d9d9; width: 200px; padding: 0.5rem\">3</div></div><p>Beispiel: Large</p><div class=\"kern-flex kern-gap-lg\"><div class=\"kern-flex\" style=\"background:#d9d9d9; width: 200px; padding: 0.5rem\">1</div><div class=\"kern-flex\" style=\"background:#d9d9d9; width: 200px; padding: 0.5rem\">2</div><div class=\"kern-flex\" style=\"background:#d9d9d9; width: 200px; padding: 0.5rem\">3</div></div><p>Beispiel: X-Large</p><div class=\"kern-flex kern-gap-xl\"><div class=\"kern-flex\" style=\"background:#d9d9d9; width: 200px; padding: 0.5rem\">1</div><div class=\"kern-flex\" style=\"background:#d9d9d9; width: 200px; padding: 0.5rem\">2</div><div class=\"kern-flex\" style=\"background:#d9d9d9; width: 200px; padding: 0.5rem\">3</div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Gap/Gap.stories.js",
+          "export": "Gap"
+        }
+      }
+    },
+    {
+      "id": "gap-responsive",
+      "html": {
+        "markup": "<div class=\"kern-grid kern-grid-cols-2 kern-grid-rows-2 kern-gap-md kern-gap-xxs-sm kern-gap-xl-md kern-gap-xs-xl kern-gap-xl-xxl\" style=\"border: 1px dotted black;\"><div style=\"background:#d9d9d9; padding: 0.5rem;\">1</div><div style=\"background:#d9d9d9; padding: 0.5rem;\">2</div><div style=\"background:#d9d9d9; padding: 0.5rem;\">3</div><div style=\"background:#d9d9d9; padding: 0.5rem;\">4</div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Gap/Gap.stories.js",
+          "export": "GapResponsive"
+        }
+      }
+    },
+    {
+      "id": "stack",
+      "html": {
+        "markup": "<div class=\"kern-layer kern-level-0\"><div class=\"kern-form-input\"><label class=\"kern-label\" for=\"text\">Name</label><input class=\"kern-form-input__input\" id=\"text\" name=\"text\" type=\"text\"></div><div class=\"kern-layer kern-level-1\"><div class=\"kern-form-input\"><label class=\"kern-label\" for=\"text\">Name</label><input class=\"kern-form-input__input\" id=\"text\" name=\"text\" type=\"text\"></div><div class=\"kern-layer kern-level-2\"><div class=\"kern-form-input\"><label class=\"kern-label\" for=\"text\">Name</label><input class=\"kern-form-input__input\" id=\"text\" name=\"text\" type=\"text\"></div></div></div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Layers/Layers.stories.js",
+          "export": "Stack"
+        }
+      }
+    },
+    {
+      "id": "margin",
+      "html": {
+        "markup": "<div style=\"background:#f8f8f8; padding:1rem;\"><div class=\"kern-m-none\" style=\"background:#ccc; border:1px solid #999;\">.kern-m-none</div><div class=\"kern-m-xxs\" style=\"background:#ccc; border:1px solid #999;\">.kern-m-xxs</div><div class=\"kern-m-xs\" style=\"background:#ccc; border:1px solid #999;\">.kern-m-xs</div><div class=\"kern-m-sm\" style=\"background:#ccc; border:1px solid #999;\">.kern-m-sm</div><div class=\"kern-m-md\" style=\"background:#ccc; border:1px solid #999;\">.kern-m-md</div><div class=\"kern-m-lg\" style=\"background:#ccc; border:1px solid #999;\">.kern-m-lg</div><div class=\"kern-m-xl\" style=\"background:#ccc; border:1px solid #999;\">.kern-m-xl</div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Spacing/Spacing.stories.js",
+          "export": "Margin"
+        }
+      }
+    },
+    {
+      "id": "padding",
+      "html": {
+        "markup": "<div style=\"background:#f8f8f8; padding:1rem;\"><div class=\"kern-p-none\" style=\"background:#ccc; border:1px solid #999;\">.kern-p-none</div><div class=\"kern-p-xxs\" style=\"background:#ccc; border:1px solid #999;\">.kern-p-xxs</div><div class=\"kern-p-xs\" style=\"background:#ccc; border:1px solid #999;\">.kern-p-xs</div><div class=\"kern-p-sm\" style=\"background:#ccc; border:1px solid #999;\">.kern-p-sm</div><div class=\"kern-p-md\" style=\"background:#ccc; border:1px solid #999;\">.kern-p-md</div><div class=\"kern-p-lg\" style=\"background:#ccc; border:1px solid #999;\">.kern-p-lg</div><div class=\"kern-p-xl\" style=\"background:#ccc; border:1px solid #999;\">.kern-p-xl</div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Spacing/Spacing.stories.js",
+          "export": "Padding"
+        }
+      }
+    },
+    {
+      "id": "responsive-spacing",
+      "html": {
+        "markup": "<div style=\"background:#f8f8f8; padding:1rem;\"><div class=\"kern-m-sm-xs kern-m-lg-md kern-p-md-xs kern-p-xl-lg\" style=\"background:#e0f0ff; border:2px solid #0066cc; margin-bottom:1rem;\"><h4 style=\"margin:0 0 0.5rem 0;\">Responsive Margin & Padding</h4><p style=\"margin:0;\"><code>.kern-m-sm-xs .kern-m-lg-md .kern-p-md-xs .kern-p-xl-lg</code><br> Margin: Mobile sm → Tablet lg<br> Padding: Mobile md → Desktop xl </p></div><div class=\"kern-mx-none-xs kern-mx-md-sm kern-my-sm-xs kern-my-lg-xl\" style=\"background:#f0ffe0; border:2px solid #66cc00; margin-bottom:1rem;\"><div style=\"padding:0.5rem;\"><h4 style=\"margin:0 0 0.5rem 0;\">Responsive Directional Spacing</h4><p style=\"margin:0;\"><code>.kern-mx-none-xs .kern-mx-md-sm .kern-my-sm-xs .kern-my-lg-xl</code><br> Horizontal: Mobile none → ab Sm md<br> Vertikal: Mobile sm → Desktop lg </p></div></div><div class=\"kern-gap-sm-xs kern-gap-lg-md\" style=\"flex-wrap:wrap; background:#fff0e0; border:2px solid #cc6600;\"><div style=\"background:#ffcc99; padding:0.5rem; border:1px solid #cc6600;\">Item 1</div><div style=\"background:#ffcc99; padding:0.5rem; border:1px solid #cc6600;\">Item 2</div><div style=\"background:#ffcc99; padding:0.5rem; border:1px solid #cc6600;\"><code>.kern-gap-sm-xs .kern-gap-lg-md</code><br> Gap: Mobile sm → Tablet lg </div></div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Spacing/Spacing.stories.js",
+          "export": "ResponsiveSpacing"
+        }
+      }
+    },
+    {
+      "id": "stack-stack",
+      "html": {
+        "markup": "<div class=\"kern-stack\"><p class=\"kern-body\" style=\"background: #dadada;\">Zeile 1 (stack)</p><p class=\"kern-body\" style=\"background: #dadada;\">Zeile 2 (stack)</p></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Stack/Stack.stories.js",
+          "export": "Stack"
+        }
+      }
+    },
+    {
+      "id": "stack-xxs",
+      "html": {
+        "markup": "<div class=\"kern-stack kern-stack-xxs\"><p class=\"kern-body\" style=\"background: #dadada;\">Zeile 1 (kern-stack-xxs)</p><p class=\"kern-body\" style=\"background: #dadada;\">Zeile 2 (kern-stack-xxs)</p></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Stack/Stack.stories.js",
+          "export": "StackXxs"
+        }
+      }
+    },
+    {
+      "id": "stack-xs",
+      "html": {
+        "markup": "<div class=\"kern-stack kern-stack-xs\"><p class=\"kern-body\" style=\"background: #dadada;\">Zeile 1 (kern-stack-xs)</p><p class=\"kern-body\" style=\"background: #dadada;\">Zeile 2 (kern-stack-xs)</p></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Stack/Stack.stories.js",
+          "export": "StackXs"
+        }
+      }
+    },
+    {
+      "id": "stack-sm",
+      "html": {
+        "markup": "<div class=\"kern-stack kern-stack-sm\"><p class=\"kern-body\" style=\"background: #dadada;\">Zeile 1 (kern-stack-sm)</p><p class=\"kern-body\" style=\"background: #dadada;\">Zeile 2 (kern-stack-sm)</p></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Stack/Stack.stories.js",
+          "export": "StackSm"
+        }
+      }
+    },
+    {
+      "id": "stack-md",
+      "html": {
+        "markup": "<div class=\"kern-stack kern-stack-md\"><p class=\"kern-body\" style=\"background: #dadada;\">Zeile 1 (kern-stack-md)</p><p class=\"kern-body\" style=\"background: #dadada;\">Zeile 2 (kern-stack-md)</p></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Stack/Stack.stories.js",
+          "export": "StackMd"
+        }
+      }
+    },
+    {
+      "id": "stack-lg",
+      "html": {
+        "markup": "<div class=\"kern-stack kern-stack-lg\"><p class=\"kern-body\" style=\"background: #dadada;\">Zeile 1 (kern-stack-lg)</p><p class=\"kern-body\" style=\"background: #dadada;\">Zeile 2 (kern-stack-lg)</p></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Stack/Stack.stories.js",
+          "export": "StackLg"
+        }
+      }
+    },
+    {
+      "id": "stack-xl",
+      "html": {
+        "markup": "<div class=\"kern-stack kern-stack-xl\"><p class=\"kern-body\" style=\"background: #dadada;\">Zeile 1 (kern-stack-xl)</p><p class=\"kern-body\" style=\"background: #dadada;\">Zeile 2 (kern-stack-xl)</p></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Stack/Stack.stories.js",
+          "export": "StackXl"
+        }
+      }
+    },
+    {
+      "id": "stack-none",
+      "html": {
+        "markup": "<div class=\"kern-stack kern-stack-none\"><p class=\"kern-body\" style=\"background: #dadada;\">Zeile 1 (kern-stack-none)</p><p class=\"kern-body\" style=\"background: #dadada;\">Zeile 2 (kern-stack-none)</p></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Stack/Stack.stories.js",
+          "export": "StackNone"
+        }
+      }
+    },
+    {
+      "id": "stack-nested",
+      "html": {
+        "markup": "<div class=\"kern-stack\" style=\"border: 4px solid #000\"><p class=\"kern-body\" style=\"background: #dadada;\">Zeile 1 (stack)</p><p class=\"kern-body\" style=\"background: #dadada;\">Zeile 2 (stack)</p><div class=\"kern-stack-sm\" style=\"border: 4px dashed #4e4e4e\"><p class=\"kern-body\" style=\"background: #dadada;\">Zeile 3-1 (stack-sm)</p><p class=\"kern-body\" style=\"background: #dadada;\">Zeile 3-2 (stack-sm)</p></div><p class=\"kern-body\" style=\"background: #dadada;\">Zeile 4 (stack)</p><p class=\"kern-body\" style=\"background: #dadada;\">Zeile 5 (stack)</p><div class=\"kern-stack-lg\" style=\"border: 4px dashed #4e4e4e\"><p class=\"kern-body\" style=\"background: #dadada;\">Zeile 6-1 (stack-lg)</p><p class=\"kern-body\" style=\"background: #dadada;\">Zeile 6-2 (stack-lg)</p><div class=\"kern-stack-sm\" style=\"border: 4px dotted #7e7e7e\"><p class=\"kern-body\" style=\"background: #dadada;\">Zeile 6-3-1 (stack-sm)</p><p class=\"kern-body\" style=\"background: #dadada;\">Zeile 6-3-2 (stack-sm)</p></div><p class=\"kern-body\" style=\"background: #dadada;\">Zeile 6-4 (stack-lg)</p><p class=\"kern-body\" style=\"background: #dadada;\">Zeile 6-5 (stack-lg)</p><div class=\"kern-stack-none\" style=\"border: 4px dotted #7e7e7e\"><p class=\"kern-body\" style=\"background: #dadada;\">Zeile 6-6-1 (stack-none)</p><p class=\"kern-body\" style=\"background: #dadada;\">Zeile 6-6-2 (stack-none)</p></div><p class=\"kern-body\" style=\"background: #dadada;\">Zeile 6-7 (stack-lg)</p><p class=\"kern-body\" style=\"background: #dadada;\">Zeile 6-8 (stack-lg)</p><div class=\"kern-stack-xl\" style=\"border: 4px dotted #7e7e7e\"><p class=\"kern-body\" style=\"background: #dadada;\">Zeile 6-9-1 (stack-xl)</p><p class=\"kern-body\" style=\"background: #dadada;\">Zeile 6-9-2 (stack-xl)</p></div><p class=\"kern-body\" style=\"background: #dadada;\">Zeile 6-10 (stack-lg)</p><p class=\"kern-body\" style=\"background: #dadada;\">Zeile 6-11 (stack-lg)</p></div><p class=\"kern-body\" style=\"background: #dadada;\">Zeile 7 (stack)</p><p class=\"kern-body\" style=\"background: #dadada;\">Zeile 8 (stack)</p></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Stack/Stack.stories.js",
+          "export": "StackNested"
+        }
+      }
+    },
+    {
+      "id": "stack-responsive",
+      "html": {
+        "markup": "<div class=\"kern-stack kern-stack-none-md\" style=\"border: 4px solid #000\"><p class=\"kern-body\" style=\"background: #dadada;\">kern-stack kern-stack-none-md</p><p class=\"kern-body\" style=\"background: #dadada;\">kern-stack kern-stack-none-md</p><p class=\"kern-body\" style=\"background: #dadada;\">kern-stack kern-stack-none-md</p></div><div class=\"kern-stack-xs kern-stack-xl-lg\" style=\"border: 4px solid #000\"><p class=\"kern-body\" style=\"background: #dadada;\">kern-stack-xs kern-stack-xl-lg</p><p class=\"kern-body\" style=\"background: #dadada;\">kern-stack-xs kern-stack-xl-lg</p><p class=\"kern-body\" style=\"background: #dadada;\">kern-stack-xs kern-stack-xl-lg</p></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Stack/Stack.stories.js",
+          "export": "StackResponsive"
+        }
+      }
+    },
+    {
+      "id": "container",
+      "html": {
+        "markup": "<div class=\"kern-container\"><div class=\"kern-grid kern-grid-cols-12 kern-gap-xl\"><div class=\"kern-col-span-8\"><div class=\"kern-form-input\"><label class=\"kern-form-input__label\" for=\"name\">Straße</label><input class=\"kern-form-input__input\" id=\"name\" name=\"name\" type=\"text\"></div></div><div class=\"kern-col-span-4\"><div class=\"kern-form-input\"><label class=\"kern-form-input__label\" for=\"nummer\">Nummer</label><input class=\"kern-form-input__input\" id=\"nummer\" name=\"nummer\" type=\"text\"></div></div></div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/UtilityHelper/UtilityHelper.stories.js",
+          "export": "Container"
+        }
+      }
+    },
+    {
+      "id": "container-fluid",
+      "html": {
+        "markup": "<div class=\"kern-container-fluid\"><div class=\"kern-grid kern-grid-cols-12 kern-gap-xl\"><div class=\"kern-col-span-8\"><div class=\"kern-form-input\"><label class=\"kern-form-input__label\" for=\"name\">Straße</label><input class=\"kern-form-input__input\" id=\"name\" name=\"name\" type=\"text\"></div></div><div class=\"kern-col-span-4\"><div class=\"kern-form-input\"><label class=\"kern-form-input__label\" for=\"nummer\">Nummer</label><input class=\"kern-form-input__input\" id=\"nummer\" name=\"nummer\" type=\"text\"></div></div></div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/UtilityHelper/UtilityHelper.stories.js",
+          "export": "ContainerFluid"
+        }
+      }
+    },
+    {
+      "id": "aspect-ratio-example",
+      "html": {
+        "markup": "<div class=\"kern-grid kern-grid-cols-3 kern-gap-md\" style=\"height: 300px;\"><div class=\"kern-aspect-square kern-p-sm\" style=\"background: #d9d9d9;\"><p>Square (1:1)</p></div><div class=\"kern-aspect-video kern-p-sm\" style=\"background: #d9d9d9;\"><p>Video (16:9)</p></div><div class=\"kern-aspect-auto kern-p-sm\" style=\"background: #d9d9d9;\"><p>Auto</p></div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/UtilityHelper/UtilityHelper.stories.js",
+          "export": "AspectRatioExample"
+        }
+      }
+    },
+    {
+      "id": "width-height-example",
+      "html": {
+        "markup": "<div class=\"kern-p-md\" style=\"background: #d9d9d9; height: 150px;\"><div class=\"kern-w-full\" style=\"background: #d1f3f1; height: 30px;\"> .kern-w-full (100%) </div><div class=\"kern-h-screen\" style=\"width: 50px; background: #d1f3d1;\"> .kern-h-screen (100vh) </div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/UtilityHelper/UtilityHelper.stories.js",
+          "export": "WidthHeightExample"
+        }
+      }
+    },
+    {
+      "id": "min-max-example",
+      "html": {
+        "markup": "<div class=\"kern-p-md\" style=\"background: #f0f0f0;\"><div class=\"kern-min-h-screen\" style=\"background: #ccc;\"><p>Dieser Container ist mindestens 100vh hoch (.kern-min-h-screen).</p></div><div class=\"kern-max-w-full\" style=\"background: lightblue; overflow: auto;\"><div style=\"width: 200%; height: 20px;\"></div></div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/UtilityHelper/UtilityHelper.stories.js",
+          "export": "MinMaxExample"
+        }
+      }
+    },
+    {
+      "id": "display-types-example",
+      "html": {
+        "markup": "<div style=\"background: #f0f0f0; padding: 1rem;\"><h3>Display Block</h3><span class=\"kern-block\" style=\"background: #d9d9d9; width: 150px; margin-bottom: 0.5rem;\"> .kern-block 1 </span><span class=\"kern-block\" style=\"background: #d9d9d9; width: 150px;\"> .kern-block 2 </span><h3>Display Inline</h3><span class=\"kern-inline\" style=\"background: #d9d9d9; width: 200px;\"> .kern-inline A </span><span class=\"kern-inline\" style=\"background: #d9d9d9; width: 200px;\"> .kern-inline B </span><h3>Display Inline-Block</h3><span class=\"kern-inline-block\" style=\"background: #d9d9d9; width: 100px; height: 50px;\"> .kern-inline-block C </span><span class=\"kern-inline-block\" style=\"background: #d9d9d9; width: 100px; height: 50px;\"> .kern-inline-block D </span><h3>Responsives Ausblenden</h3><div class=\"kern-block kern-hidden-sm\" style=\"background-color: #d9d9d9; padding: 0.5rem\"> Sichtbar auf Small Mobile, Unsichtbar ab SM (576px). </div><div class=\"kern-block kern-hidden-md \" style=\"background-color: #d1f3f1; padding: 0.5rem\"> Sichtbar auf Mobile, Unsichtbar ab MD (768px). </div><div class=\"kern-block kern-hidden-lg \" style=\"background-color: #a5d6a7; padding: 0.5rem\"> Sichtbar auf Mobile/Tablet, Unsichtbar ab LG (992px). </div><div class=\"kern-block kern-hidden-xl \" style=\"background-color: #d9d9d9; padding: 0.5rem\"> Sichtbar auf Mobile/Tablet, Unsichtbar ab XL (1200px). </div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/UtilityHelper/UtilityHelper.stories.js",
+          "export": "DisplayTypesExample"
+        }
+      }
+    },
+    {
+      "id": "overflow-types-example",
+      "html": {
+        "markup": "<div class=\"kern-grid kern-grid-cols-2 kern-gap-md\"><div class=\"kern-overflow-auto\" style=\"height: 100px; width: 100%; border: 1px solid #d9d9d9;\"><p style=\"width: 150%; height: 150px; background: #d9d9d9;\"> .kern-overflow-auto: Scrollbars erscheinen nur, weil der Text zu lang ist. </p></div><div class=\"kern-overflow-hidden\" style=\"height: 100px; width: 100%; border: 1px solid #d9d9d9;\"><p style=\"width: 150%; height: 150px; background: #d9d9d9;\"> .kern-overflow-hidden: Dieser Text wird abgeschnitten, es gibt keine Scrollbars. </p></div><div class=\"kern-overflow-y-scroll\" style=\"height: 100px; width: 100%; border: 1px solid #d9d9d9;\"><p style=\"width: 90%; height: 150px; background: #d9d9d9;\"> .kern-overflow-y-scroll: Hier gibt es nur eine vertikale Scrollbar. </p></div><div class=\"kern-overflow-visible\" style=\"height: 100px; width: 100%; border: 1px solid #d9d9d9;\"><p style=\"width: 150%; height: 150px; background: #d9d9d9;\"> .kern-overflow-visible: Inhalt ragt über die Grenzen hinaus. </p></div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/UtilityHelper/UtilityHelper.stories.js",
+          "export": "OverflowTypesExample"
+        }
+      }
+    }
+  ],
+  "docs": {
+    "url": "https://www.kern-ux.de/komponenten/layout/hilfsklassen",
+    "summary": {
+      "en": "Reference for the KERN layout helper classes: flex container and item classes, CSS Grid utilities whose .kern-grid wrapper replaces the legacy .kern-row grid, the container and container-fluid wrappers, gap and spacing classes using the .kern-{property}{sides}-{size}[-{breakpoint}] scheme, stack, visibility and display helpers, and size, aspect-ratio and overflow classes. All classes are mobile first; breakpoints are sm 576px, md 768px, lg 992px, xl 1200px and xxl 1600px."
+    },
+    "sections": [
+      {
+        "id": "css-flex",
+        "heading": "CSS Flex",
+        "url": "https://www.kern-ux.de/komponenten/layout/hilfsklassen#css-flex",
+        "summary": {
+          "en": "Utilities for flex containers and items. Most properties accept a breakpoint suffix, for example .kern-flex-row-md."
+        }
+      },
+      {
+        "id": "container",
+        "heading": "Container",
+        "url": "https://www.kern-ux.de/komponenten/layout/hilfsklassen#container",
+        "summary": {
+          "en": "Classes for display and direction: .kern-flex, .kern-inline-flex, .kern-flex-row[-{breakpoint}], .kern-flex-row-reverse, .kern-flex-col, .kern-flex-col-reverse, .kern-flex-wrap and .kern-flex-nowrap."
+        }
+      },
+      {
+        "id": "ausrichtung-justify-align",
+        "heading": "Ausrichtung (Justify & Align)",
+        "url": "https://www.kern-ux.de/komponenten/layout/hilfsklassen#ausrichtung-justify-align",
+        "summary": {
+          "en": "Breakpoint-capable justify-content classes on the main axis (start, end, center, between, around, evenly) and align-items classes on the cross axis (start, end, center, stretch, baseline), for example .kern-justify-content-between-lg. An example switches from row on mobile to column at md."
+        }
+      },
+      {
+        "id": "order",
+        "heading": "Order",
+        "url": "https://www.kern-ux.de/komponenten/layout/hilfsklassen#order",
+        "summary": {
+          "en": "Controls the order of flex items, also per breakpoint: .kern-order-{0-12}[-{breakpoint}], .kern-order-first (order: -9999) and .kern-order-last (order: 9999), for example .kern-order-2-sm."
+        }
+      },
+      {
+        "id": "css-grid",
+        "heading": "CSS Grid",
+        "url": "https://www.kern-ux.de/komponenten/layout/hilfsklassen#css-grid",
+        "summary": {
+          "en": "Low-level access to CSS Grid for complex layouts without custom CSS. A wrapper .kern-grid defines the grid with display: grid and replaces the classic .kern-row architecture; columns and gaps are set through modifier classes."
+        }
+      },
+      {
+        "id": "beschreibung",
+        "heading": "Beschreibung",
+        "url": "https://www.kern-ux.de/komponenten/layout/hilfsklassen#beschreibung",
+        "summary": {
+          "en": "Grid display classes: .kern-grid (display: grid, default 12 columns and gap-lg) and .kern-inline-grid. Column and row counts come from .kern-grid-cols-{n} (1-12) and .kern-grid-rows-{n} (1-6); gaps from .kern-gap-{size}[-{breakpoint}], also .kern-gap-x-{size} and .kern-gap-y-{size}."
+        }
+      },
+      {
+        "id": "spalten-platzierung-items",
+        "heading": "Spalten-Platzierung (Items)",
+        "url": "https://www.kern-ux.de/komponenten/layout/hilfsklassen#spalten-platzierung-items",
+        "summary": {
+          "en": "Places items in the grid: .kern-col-{n}[-{breakpoint}] spans n columns, .kern-col-start-{n} and .kern-col-end-{n} set the start or end column line."
+        }
+      },
+      {
+        "id": "drei-spalten-layout",
+        "heading": "Drei Spalten Layout",
+        "url": "https://www.kern-ux.de/komponenten/layout/hilfsklassen#drei-spalten-layout",
+        "summary": {
+          "en": "Example that creates three equally wide columns across all viewports."
+        }
+      },
+      {
+        "id": "responsive-anpassung",
+        "heading": "Responsive Anpassung",
+        "url": "https://www.kern-ux.de/komponenten/layout/hilfsklassen#responsive-anpassung",
+        "summary": {
+          "en": "Responsive suffixes adapt the layout; the example starts with 2 columns on mobile and switches to 4 columns from the md breakpoint."
+        }
+      },
+      {
+        "id": "1-raster-definition",
+        "heading": "1. Raster Definition",
+        "url": "https://www.kern-ux.de/komponenten/layout/hilfsklassen#1-raster-definition",
+        "summary": {
+          "en": "Defines the basic grid structure on the container."
+        }
+      },
+      {
+        "id": "2-abstände-gap",
+        "heading": "2. Abstände (Gap)",
+        "url": "https://www.kern-ux.de/komponenten/layout/hilfsklassen#2-abstände-gap",
+        "summary": {
+          "en": "Controls the gap between columns and rows."
+        }
+      },
+      {
+        "id": "3-wrapping",
+        "heading": "3. Wrapping",
+        "url": "https://www.kern-ux.de/komponenten/layout/hilfsklassen#3-wrapping",
+        "summary": {
+          "en": "Grid items wrap automatically onto the next row once more than the available 12 columns are occupied."
+        }
+      },
+      {
+        "id": "4-positionierung-starts-ends",
+        "heading": "4. Positionierung (Starts & Ends)",
+        "url": "https://www.kern-ux.de/komponenten/layout/hilfsklassen#4-positionierung-starts-ends",
+        "summary": {
+          "en": "Replaces traditional offsets: it states explicitly where an element starts or ends."
+        }
+      },
+      {
+        "id": "5-automatische-spalten-auto-columns",
+        "heading": "5. Automatische Spalten (Auto Columns)",
+        "url": "https://www.kern-ux.de/komponenten/layout/hilfsklassen#5-automatische-spalten-auto-columns",
+        "summary": {
+          "en": "Items without an explicit column class occupy one unit of the 12-column grid by default. .kern-col-auto sizes an item from its content but keeps it inside the grid: in CSS Grid it takes exactly one grid cell regardless of content width."
+        }
+      },
+      {
+        "id": "6-verschachtelung-nesting",
+        "heading": "6. Verschachtelung (Nesting)",
+        "url": "https://www.kern-ux.de/komponenten/layout/hilfsklassen#6-verschachtelung-nesting",
+        "summary": {
+          "en": "Grids can be nested without limit. The inner grid does not inherit the parent's column count; it defines a new grid context."
+        }
+      },
+      {
+        "id": "breakpoints",
+        "heading": "Breakpoints",
+        "url": "https://www.kern-ux.de/komponenten/layout/hilfsklassen#breakpoints",
+        "summary": {
+          "en": "All classes follow the mobile-first approach."
+        }
+      },
+      {
+        "id": "dos-and-donts",
+        "heading": "Dos and Don'ts",
+        "url": "https://www.kern-ux.de/komponenten/layout/hilfsklassen#dos-and-donts",
+        "summary": {
+          "en": "Do use kern-gap to define spacing, and kern-col-full for elements that should break out of the grid. Do not mix kern-row (legacy) with kern-grid syntax."
+        }
+      },
+      {
+        "id": "kern-container",
+        "heading": "Kern Container",
+        "url": "https://www.kern-ux.de/komponenten/layout/hilfsklassen#kern-container",
+        "summary": {
+          "en": ".kern-container is a primary layout element: it centres the whole page content horizontally and limits it to a readable maximum width. It should be the direct child of the body tag or of the main layout area."
+        }
+      },
+      {
+        "id": "kern-container-fluid",
+        "heading": "Kern Container Fluid",
+        "url": "https://www.kern-ux.de/komponenten/layout/hilfsklassen#kern-container-fluid",
+        "summary": {
+          "en": ".kern-container-fluid is a variant without a max-width: it always takes the full viewport width at every breakpoint. It is typically used to keep the horizontal padding at the page edges while content fills the available area, ideal for elements that must span the full width."
+        }
+      },
+      {
+        "id": "funktionsweise",
+        "heading": "Funktionsweise",
+        "url": "https://www.kern-ux.de/komponenten/layout/hilfsklassen#funktionsweise",
+        "summary": {
+          "en": "Centring via margin-left and margin-right set to auto; a max-width bound to the breakpoints so content does not become unreadably wide on large screens; horizontal padding so content does not stick to the browser edges, especially on small viewports."
+        }
+      },
+      {
+        "id": "gap-abstände",
+        "heading": "Gap (Abstände)",
+        "url": "https://www.kern-ux.de/komponenten/layout/hilfsklassen#gap-abstände",
+        "summary": {
+          "en": "Gap classes space flex and grid elements through the gap property, without extra margins or paddings. All KERN spaces can be used as values."
+        }
+      },
+      {
+        "id": "spacing",
+        "heading": "Spacing",
+        "url": "https://www.kern-ux.de/komponenten/layout/hilfsklassen#spacing",
+        "summary": {
+          "en": "Margin and padding classes follow .kern-{property}{sides}-{size}[-{breakpoint}]: property m or p; sides empty (all), t, b, l, r, x (horizontal) or y (vertical); a size; and an optional breakpoint. Examples: .kern-m-md, .kern-pt-lg, .kern-p-lg-sm (large padding from the small breakpoint)."
+        }
+      },
+      {
+        "id": "verfügbare-breakpoints",
+        "heading": "Verfügbare Breakpoints",
+        "url": "https://www.kern-ux.de/komponenten/layout/hilfsklassen#verfügbare-breakpoints",
+        "summary": {
+          "en": "Same breakpoints as the grid system: no suffix is always active (mobile first), -sm from 576px, -md from 768px, -lg from 992px, -xl from 1200px, -xxl from 1600px. kern-mx-auto centres a block element with a fixed width."
+        }
+      },
+      {
+        "id": "stack",
+        "heading": "Stack",
+        "url": "https://www.kern-ux.de/komponenten/layout/hilfsklassen#stack",
+        "summary": {
+          "en": ".kern-stack is a vertical flex container with the standard md gap. .kern-stack-{size} changes the spacing for all screen sizes; sizes are none, xxs, xs, sm, md, lg, xl. .kern-stack-{size}-{breakpoint} makes it responsive."
+        }
+      },
+      {
+        "id": "verschachtelter-stack",
+        "heading": "Verschachtelter Stack",
+        "url": "https://www.kern-ux.de/komponenten/layout/hilfsklassen#verschachtelter-stack",
+        "summary": {
+          "en": "Stack supports unlimited nesting, which allows flexible layout hierarchies on one page."
+        }
+      },
+      {
+        "id": "visibility-display",
+        "heading": "Visibility & Display",
+        "url": "https://www.kern-ux.de/komponenten/layout/hilfsklassen#visibility-display",
+        "summary": {
+          "en": "Display classes with breakpoints, e.g. .kern-hidden-sm: .kern-block, .kern-flex, .kern-inline-block, .kern-inline, .kern-hidden. .kern-sr-only is screen-reader only; .kern-sr-only-mobile hides on mobile (up to 767px), shows on desktop. .kern-overflow-{auto|hidden|visible|scroll} sets overflow."
+        }
+      },
+      {
+        "id": "size-aspect-ratio-overflow-utilities",
+        "heading": "Size, Aspect Ratio & Overflow Utilities",
+        "url": "https://www.kern-ux.de/komponenten/layout/hilfsklassen#size-aspect-ratio-overflow-utilities",
+        "summary": {
+          "en": "Classes for the dimensions (width, height) and aspect ratio of elements. All are responsive and take a suffix such as -md or -lg, for example .kern-w-full-lg."
+        }
+      },
+      {
+        "id": "width-height",
+        "heading": "Width Height",
+        "url": "https://www.kern-ux.de/komponenten/layout/hilfsklassen#width-height",
+        "summary": {
+          "en": "Use .kern-w/h-full for 100% of the parent size and .kern-w/h-screen for 100% of the viewport size."
+        }
+      },
+      {
+        "id": "min-und-max",
+        "heading": "Min und Max",
+        "url": "https://www.kern-ux.de/komponenten/layout/hilfsklassen#min-und-max",
+        "summary": {
+          "en": ".kern-min-h-screen is often used in layouts to make sure content fills at least the screen height."
+        }
+      },
+      {
+        "id": "aspect-ratio-mit-beispielen",
+        "heading": "Aspect Ratio mit Beispielen",
+        "url": "https://www.kern-ux.de/komponenten/layout/hilfsklassen#aspect-ratio-mit-beispielen",
+        "summary": {
+          "en": "The .kern-aspect-* classes force an element to keep a fixed aspect ratio even when its width changes."
+        }
+      },
+      {
+        "id": "overflow",
+        "heading": "Overflow",
+        "url": "https://www.kern-ux.de/komponenten/layout/hilfsklassen#overflow",
+        "summary": {
+          "en": "These classes decide what happens when an element's content is larger than the element itself, and are typically used on containers. .kern-overflow-auto is the recommended default in most cases."
+        }
+      }
+    ]
+  },
+  "knowledge": {
+    "summary": {
+      "en": "KERN layout utilities: flex, CSS Grid (.kern-grid replaces kern-row), container, gap/spacing, stack, visibility and size classes with mobile-first breakpoints."
+    },
+    "whenToUse": [
+      {
+        "en": "Use .kern-container to centre page content and cap it at a readable width; place it as the direct child of body or the main layout area."
+      },
+      {
+        "en": "Use .kern-container-fluid for elements that must span the full viewport width."
+      },
+      {
+        "en": "Use .kern-stack to arrange elements vertically with consistent spacing."
+      }
+    ],
+    "dos": [
+      {
+        "en": "Define spacing with kern-gap instead of adding margins between grid items."
+      },
+      {
+        "en": "Use kern-col-full for elements that should break out of the grid."
+      }
+    ],
+    "donts": [
+      {
+        "en": "Do not mix the legacy kern-row syntax with kern-grid."
+      }
+    ]
+  },
+  "provenance": {
+    "docs.sections.1-raster-definition.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/layout/hilfsklassen.mdx#1-raster-definition"
+      ],
+      "inputHash": "sha256:952bc1370895c2a217d8cc66ea7e1c2561a9ba6f4197f35ca01cb3c58d0595ed"
+    },
+    "docs.sections.2-abstände-gap.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/layout/hilfsklassen.mdx#2-abstände-gap"
+      ],
+      "inputHash": "sha256:952bc1370895c2a217d8cc66ea7e1c2561a9ba6f4197f35ca01cb3c58d0595ed"
+    },
+    "docs.sections.3-wrapping.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/layout/hilfsklassen.mdx#3-wrapping"
+      ],
+      "inputHash": "sha256:952bc1370895c2a217d8cc66ea7e1c2561a9ba6f4197f35ca01cb3c58d0595ed"
+    },
+    "docs.sections.4-positionierung-starts-ends.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/layout/hilfsklassen.mdx#4-positionierung-starts-ends"
+      ],
+      "inputHash": "sha256:952bc1370895c2a217d8cc66ea7e1c2561a9ba6f4197f35ca01cb3c58d0595ed"
+    },
+    "docs.sections.5-automatische-spalten-auto-columns.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/layout/hilfsklassen.mdx#5-automatische-spalten-auto-columns"
+      ],
+      "inputHash": "sha256:952bc1370895c2a217d8cc66ea7e1c2561a9ba6f4197f35ca01cb3c58d0595ed"
+    },
+    "docs.sections.6-verschachtelung-nesting.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/layout/hilfsklassen.mdx#6-verschachtelung-nesting"
+      ],
+      "inputHash": "sha256:952bc1370895c2a217d8cc66ea7e1c2561a9ba6f4197f35ca01cb3c58d0595ed"
+    },
+    "docs.sections.aspect-ratio-mit-beispielen.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/layout/hilfsklassen.mdx#aspect-ratio-mit-beispielen"
+      ],
+      "inputHash": "sha256:952bc1370895c2a217d8cc66ea7e1c2561a9ba6f4197f35ca01cb3c58d0595ed"
+    },
+    "docs.sections.ausrichtung-justify-align.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/layout/hilfsklassen.mdx#ausrichtung-justify-align"
+      ],
+      "inputHash": "sha256:952bc1370895c2a217d8cc66ea7e1c2561a9ba6f4197f35ca01cb3c58d0595ed"
+    },
+    "docs.sections.beschreibung.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/layout/hilfsklassen.mdx#beschreibung"
+      ],
+      "inputHash": "sha256:952bc1370895c2a217d8cc66ea7e1c2561a9ba6f4197f35ca01cb3c58d0595ed"
+    },
+    "docs.sections.breakpoints.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/layout/hilfsklassen.mdx#breakpoints"
+      ],
+      "inputHash": "sha256:952bc1370895c2a217d8cc66ea7e1c2561a9ba6f4197f35ca01cb3c58d0595ed"
+    },
+    "docs.sections.container.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/layout/hilfsklassen.mdx#container"
+      ],
+      "inputHash": "sha256:952bc1370895c2a217d8cc66ea7e1c2561a9ba6f4197f35ca01cb3c58d0595ed"
+    },
+    "docs.sections.css-flex.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/layout/hilfsklassen.mdx#css-flex"
+      ],
+      "inputHash": "sha256:952bc1370895c2a217d8cc66ea7e1c2561a9ba6f4197f35ca01cb3c58d0595ed"
+    },
+    "docs.sections.css-grid.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/layout/hilfsklassen.mdx#css-grid"
+      ],
+      "inputHash": "sha256:952bc1370895c2a217d8cc66ea7e1c2561a9ba6f4197f35ca01cb3c58d0595ed"
+    },
+    "docs.sections.dos-and-donts.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/layout/hilfsklassen.mdx#dos-and-donts"
+      ],
+      "inputHash": "sha256:952bc1370895c2a217d8cc66ea7e1c2561a9ba6f4197f35ca01cb3c58d0595ed"
+    },
+    "docs.sections.drei-spalten-layout.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/layout/hilfsklassen.mdx#drei-spalten-layout"
+      ],
+      "inputHash": "sha256:952bc1370895c2a217d8cc66ea7e1c2561a9ba6f4197f35ca01cb3c58d0595ed"
+    },
+    "docs.sections.funktionsweise.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/layout/hilfsklassen.mdx#funktionsweise"
+      ],
+      "inputHash": "sha256:952bc1370895c2a217d8cc66ea7e1c2561a9ba6f4197f35ca01cb3c58d0595ed"
+    },
+    "docs.sections.gap-abstände.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/layout/hilfsklassen.mdx#gap-abstände"
+      ],
+      "inputHash": "sha256:952bc1370895c2a217d8cc66ea7e1c2561a9ba6f4197f35ca01cb3c58d0595ed"
+    },
+    "docs.sections.kern-container-fluid.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/layout/hilfsklassen.mdx#kern-container-fluid"
+      ],
+      "inputHash": "sha256:952bc1370895c2a217d8cc66ea7e1c2561a9ba6f4197f35ca01cb3c58d0595ed"
+    },
+    "docs.sections.kern-container.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/layout/hilfsklassen.mdx#kern-container"
+      ],
+      "inputHash": "sha256:952bc1370895c2a217d8cc66ea7e1c2561a9ba6f4197f35ca01cb3c58d0595ed"
+    },
+    "docs.sections.min-und-max.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/layout/hilfsklassen.mdx#min-und-max"
+      ],
+      "inputHash": "sha256:952bc1370895c2a217d8cc66ea7e1c2561a9ba6f4197f35ca01cb3c58d0595ed"
+    },
+    "docs.sections.order.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/layout/hilfsklassen.mdx#order"
+      ],
+      "inputHash": "sha256:952bc1370895c2a217d8cc66ea7e1c2561a9ba6f4197f35ca01cb3c58d0595ed"
+    },
+    "docs.sections.overflow.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/layout/hilfsklassen.mdx#overflow"
+      ],
+      "inputHash": "sha256:952bc1370895c2a217d8cc66ea7e1c2561a9ba6f4197f35ca01cb3c58d0595ed"
+    },
+    "docs.sections.responsive-anpassung.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/layout/hilfsklassen.mdx#responsive-anpassung"
+      ],
+      "inputHash": "sha256:952bc1370895c2a217d8cc66ea7e1c2561a9ba6f4197f35ca01cb3c58d0595ed"
+    },
+    "docs.sections.size-aspect-ratio-overflow-utilities.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/layout/hilfsklassen.mdx#size-aspect-ratio-overflow-utilities"
+      ],
+      "inputHash": "sha256:952bc1370895c2a217d8cc66ea7e1c2561a9ba6f4197f35ca01cb3c58d0595ed"
+    },
+    "docs.sections.spacing.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/layout/hilfsklassen.mdx#spacing"
+      ],
+      "inputHash": "sha256:952bc1370895c2a217d8cc66ea7e1c2561a9ba6f4197f35ca01cb3c58d0595ed"
+    },
+    "docs.sections.spalten-platzierung-items.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/layout/hilfsklassen.mdx#spalten-platzierung-items"
+      ],
+      "inputHash": "sha256:952bc1370895c2a217d8cc66ea7e1c2561a9ba6f4197f35ca01cb3c58d0595ed"
+    },
+    "docs.sections.stack.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/layout/hilfsklassen.mdx#stack"
+      ],
+      "inputHash": "sha256:952bc1370895c2a217d8cc66ea7e1c2561a9ba6f4197f35ca01cb3c58d0595ed"
+    },
+    "docs.sections.verfügbare-breakpoints.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/layout/hilfsklassen.mdx#verfügbare-breakpoints"
+      ],
+      "inputHash": "sha256:952bc1370895c2a217d8cc66ea7e1c2561a9ba6f4197f35ca01cb3c58d0595ed"
+    },
+    "docs.sections.verschachtelter-stack.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/layout/hilfsklassen.mdx#verschachtelter-stack"
+      ],
+      "inputHash": "sha256:952bc1370895c2a217d8cc66ea7e1c2561a9ba6f4197f35ca01cb3c58d0595ed"
+    },
+    "docs.sections.visibility-display.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/layout/hilfsklassen.mdx#visibility-display"
+      ],
+      "inputHash": "sha256:952bc1370895c2a217d8cc66ea7e1c2561a9ba6f4197f35ca01cb3c58d0595ed"
+    },
+    "docs.sections.width-height.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/layout/hilfsklassen.mdx#width-height"
+      ],
+      "inputHash": "sha256:952bc1370895c2a217d8cc66ea7e1c2561a9ba6f4197f35ca01cb3c58d0595ed"
+    },
+    "docs.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/layout/hilfsklassen.mdx"
+      ],
+      "inputHash": "sha256:952bc1370895c2a217d8cc66ea7e1c2561a9ba6f4197f35ca01cb3c58d0595ed"
+    },
+    "knowledge.donts.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/layout/hilfsklassen.mdx"
+      ],
+      "inputHash": "sha256:77191af09d4e530658edc1ea51b06ab9565a0f68c9cb3d6c40c1359a72f688fa"
+    },
+    "knowledge.dos.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/layout/hilfsklassen.mdx"
+      ],
+      "inputHash": "sha256:77191af09d4e530658edc1ea51b06ab9565a0f68c9cb3d6c40c1359a72f688fa"
+    },
+    "knowledge.dos.1": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/layout/hilfsklassen.mdx"
+      ],
+      "inputHash": "sha256:77191af09d4e530658edc1ea51b06ab9565a0f68c9cb3d6c40c1359a72f688fa"
+    },
+    "knowledge.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/layout/hilfsklassen.mdx"
+      ],
+      "inputHash": "sha256:77191af09d4e530658edc1ea51b06ab9565a0f68c9cb3d6c40c1359a72f688fa"
+    },
+    "knowledge.whenToUse.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/layout/hilfsklassen.mdx"
+      ],
+      "inputHash": "sha256:77191af09d4e530658edc1ea51b06ab9565a0f68c9cb3d6c40c1359a72f688fa"
+    },
+    "knowledge.whenToUse.1": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/layout/hilfsklassen.mdx"
+      ],
+      "inputHash": "sha256:77191af09d4e530658edc1ea51b06ab9565a0f68c9cb3d6c40c1359a72f688fa"
+    },
+    "knowledge.whenToUse.2": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/layout/hilfsklassen.mdx"
+      ],
+      "inputHash": "sha256:77191af09d4e530658edc1ea51b06ab9565a0f68c9cb3d6c40c1359a72f688fa"
+    }
+  }
+}

@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/leonio/kern-ux-knowledge-packer/schema/reviewed-text.schema.json",
+  "title": "KERN reviewed text (provisional)",
+  "description": "Contract of bundle/reviewed/<kind>s/<id>.json: one file per document, keyed by text path, holding the hand-authored English text that fills a bundle document's knowledge and docs blocks. Written by a human or by the kern-docs-translate skill and validated by `kernux bundle -review-schema <this file>`; what it rejects lands in report.json under text.problems and fails -check. The limits mirror $defs/summary, text and docsDigest in knowledge-bundle.schema.json; `from` is required here because every provenance entry in the bundle carries it.",
+  "type": "object",
+  "patternProperties": {
+    "^knowledge\\.summary$": { "$ref": "#/$defs/summaryItem" },
+    "^knowledge\\.(whenToUse|dos|donts|contentGuidelines)\\.[0-9]+$": { "$ref": "#/$defs/item" },
+    "^knowledge\\.whenNotToUse\\.[0-9]+$": { "$ref": "#/$defs/useOtherItem" },
+    "^knowledge\\.similar\\.[^.]+\\.difference$": { "$ref": "#/$defs/item" },
+    "^options\\.[A-Za-z][A-Za-z0-9]*\\.summary$": { "$ref": "#/$defs/item" },
+    "^options\\.[A-Za-z][A-Za-z0-9]*\\.values\\.[^.]+\\.summary$": { "$ref": "#/$defs/item" },
+    "^states\\.[^.]+\\.guidance$": { "$ref": "#/$defs/item" },
+    "^accessibility\\.[^.]+\\.obligation$": { "$ref": "#/$defs/item" },
+    "^docs\\.summary$": { "$ref": "#/$defs/docsSummaryItem" },
+    "^docs\\.sections\\.[^.]+\\.summary$": { "$ref": "#/$defs/sectionItem" }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "id": { "type": "string", "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$" },
+    "ref": {
+      "type": "string",
+      "pattern": "^docs:[^\\s#]+(#\\S+)?$",
+      "description": "Where the text came from: a docs page and, for a section, its anchor."
+    },
+    "from": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/ref" }
+    },
+    "hash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "description": "The inputHash or docsHash the source pack recorded, so the bundle can report the text as stale once the German source changes. Optional: leaving it out keeps the text but gives up that check."
+    },
+    "itemBase": {
+      "type": "object",
+      "properties": {
+        "from": { "$ref": "#/$defs/from" },
+        "inputHash": { "$ref": "#/$defs/hash" }
+      },
+      "required": ["from"]
+    },
+    "summaryItem": {
+      "allOf": [
+        { "$ref": "#/$defs/itemBase" },
+        { "type": "object", "properties": { "en": { "type": "string", "minLength": 1, "maxLength": 160 } }, "required": ["en"] }
+      ],
+      "unevaluatedProperties": false
+    },
+    "item": {
+      "allOf": [
+        { "$ref": "#/$defs/itemBase" },
+        { "type": "object", "properties": { "en": { "type": "string", "minLength": 1, "maxLength": 200 } }, "required": ["en"] }
+      ],
+      "unevaluatedProperties": false
+    },
+    "useOtherItem": {
+      "allOf": [
+        { "$ref": "#/$defs/itemBase" },
+        {
+          "type": "object",
+          "properties": {
+            "en": { "type": "string", "minLength": 1, "maxLength": 200 },
+            "useInstead": {
+              "allOf": [{ "$ref": "#/$defs/id" }],
+              "description": "Id of the component to use instead; it must exist in the bundle."
+            }
+          },
+          "required": ["en"]
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "docsSummaryItem": {
+      "allOf": [
+        { "$ref": "#/$defs/itemBase" },
+        { "type": "object", "properties": { "en": { "type": "string", "minLength": 1, "maxLength": 500 } }, "required": ["en"] }
+      ],
+      "unevaluatedProperties": false
+    },
+    "sectionItem": {
+      "allOf": [
+        { "$ref": "#/$defs/itemBase" },
+        { "type": "object", "properties": { "en": { "type": "string", "minLength": 1, "maxLength": 300 } }, "required": ["en"] }
+      ],
+      "unevaluatedProperties": false
+    }
+  }
+}

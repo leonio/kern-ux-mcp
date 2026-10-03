@@ -1,0 +1,1379 @@
+{
+  "component": "button",
+  "examples": [
+    {
+      "id": "primary",
+      "options": {
+        "labelVisibility": "visible",
+        "size": "default",
+        "variant": "primary"
+      },
+      "html": {
+        "markup": "<button class=\"kern-btn kern-btn--primary\"><span class=\"kern-label\">Primärer Button</span></button>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Button/ButtonPrimary.stories.js",
+          "export": "Primary"
+        },
+        "alsoIn": [
+          {
+            "repo": "kern-ux-plain",
+            "path": "stories/Button/ButtonPrimary.stories.js",
+            "export": "PrimaryHover",
+            "states": [
+              "hover"
+            ]
+          },
+          {
+            "repo": "kern-ux-plain",
+            "path": "stories/Button/ButtonPrimary.stories.js",
+            "export": "PrimaryActive",
+            "states": [
+              "active"
+            ]
+          },
+          {
+            "repo": "kern-ux-plain",
+            "path": "stories/Button/ButtonPrimary.stories.js",
+            "export": "PrimaryFocus",
+            "states": [
+              "focus"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "primary-all-sizes",
+      "options": {
+        "labelVisibility": "visible",
+        "variant": "primary"
+      },
+      "variesOver": [
+        "size"
+      ],
+      "instances": 5,
+      "html": {
+        "markup": "<div class=\"kern-btn-wrapper kern-align-items-center\"><button class=\"kern-btn kern-btn--primary kern-btn--x-small\"><span class=\"kern-icon kern-icon--content-copy\" aria-hidden=\"true\"></span><span class=\"kern-label\">X Small</span></button><button class=\"kern-btn kern-btn--primary kern-btn--small\"><span class=\"kern-icon kern-icon--content-copy\" aria-hidden=\"true\"></span><span class=\"kern-label\">Small</span></button><button class=\"kern-btn kern-btn--primary\"><span class=\"kern-icon kern-icon--content-copy\" aria-hidden=\"true\"></span><span class=\"kern-label\">Default</span></button><button class=\"kern-btn kern-btn--primary kern-btn--large\"><span class=\"kern-icon kern-icon--content-copy\" aria-hidden=\"true\"></span><span class=\"kern-label\">Large</span></button><button class=\"kern-btn kern-btn--primary kern-btn--x-large\"><span class=\"kern-icon kern-icon--content-copy\" aria-hidden=\"true\"></span><span class=\"kern-label\">X Large</span></button></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Button/ButtonPrimary.stories.js",
+          "export": "PrimaryAllSizes"
+        }
+      }
+    },
+    {
+      "id": "primary-x-small",
+      "options": {
+        "labelVisibility": "visible",
+        "size": "x-small",
+        "variant": "primary"
+      },
+      "html": {
+        "markup": "<button class=\"kern-btn kern-btn--primary kern-btn--x-small\"><span class=\"kern-label\">Button X Small</span></button>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Button/ButtonPrimary.stories.js",
+          "export": "PrimaryXSmall"
+        }
+      }
+    },
+    {
+      "id": "primary-x-small-icon-only-mobile",
+      "options": {
+        "labelVisibility": "sr-only-mobile",
+        "size": "x-small",
+        "variant": "primary"
+      },
+      "html": {
+        "markup": "<button class=\"kern-btn kern-btn--primary kern-btn--x-small\"><span class=\"kern-icon kern-icon--content-copy\" aria-hidden=\"true\"></span><span class=\"kern-label kern-sr-only-mobile\">Kopieren</span></button>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Button/ButtonPrimary.stories.js",
+          "export": "PrimaryXSmallIconOnlyMobile"
+        }
+      }
+    },
+    {
+      "id": "primary-x-small-icon-only",
+      "options": {
+        "labelVisibility": "sr-only",
+        "size": "x-small",
+        "variant": "primary"
+      },
+      "html": {
+        "markup": "<button class=\"kern-btn kern-btn--primary kern-btn--x-small\"><span class=\"kern-icon kern-icon--content-copy\" aria-hidden=\"true\"></span><span class=\"kern-label kern-sr-only\">Kopieren</span></button>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Button/ButtonPrimary.stories.js",
+          "export": "PrimaryXSmallIconOnly"
+        }
+      }
+    },
+    {
+      "id": "primary-small",
+      "options": {
+        "labelVisibility": "visible",
+        "size": "small",
+        "variant": "primary"
+      },
+      "html": {
+        "markup": "<button class=\"kern-btn kern-btn--primary kern-btn--small\"><span class=\"kern-label\">Button Small</span></button>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Button/ButtonPrimary.stories.js",
+          "export": "PrimarySmall"
+        }
+      }
+    },
+    {
+      "id": "primary-small-icon-only-mobile",
+      "options": {
+        "labelVisibility": "sr-only-mobile",
+        "size": "small",
+        "variant": "primary"
+      },
+      "html": {
+        "markup": "<button class=\"kern-btn kern-btn--primary kern-btn--small\"><span class=\"kern-icon kern-icon--content-copy\" aria-hidden=\"true\"></span><span class=\"kern-label kern-sr-only-mobile\">Kopieren</span></button>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Button/ButtonPrimary.stories.js",
+          "export": "PrimarySmallIconOnlyMobile"
+        }
+      }
+    },
+    {
+      "id": "primary-small-icon-only",
+      "options": {
+        "labelVisibility": "sr-only",
+        "size": "small",
+        "variant": "primary"
+      },
+      "html": {
+        "markup": "<button class=\"kern-btn kern-btn--primary kern-btn--small\"><span class=\"kern-icon kern-icon--content-copy\" aria-hidden=\"true\"></span><span class=\"kern-label kern-sr-only\">Kopieren</span></button>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Button/ButtonPrimary.stories.js",
+          "export": "PrimarySmallIconOnly"
+        }
+      }
+    },
+    {
+      "id": "primary-large-icon-only-mobile",
+      "options": {
+        "labelVisibility": "sr-only-mobile",
+        "size": "large",
+        "variant": "primary"
+      },
+      "html": {
+        "markup": "<button class=\"kern-btn kern-btn--primary kern-btn--large\"><span class=\"kern-icon kern-icon--content-copy\" aria-hidden=\"true\"></span><span class=\"kern-label kern-sr-only-mobile\">Kopieren</span></button>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Button/ButtonPrimary.stories.js",
+          "export": "PrimaryLargeIconOnlyMobile"
+        }
+      }
+    },
+    {
+      "id": "primary-large-icon-only",
+      "options": {
+        "labelVisibility": "sr-only",
+        "size": "large",
+        "variant": "primary"
+      },
+      "html": {
+        "markup": "<button class=\"kern-btn kern-btn--primary kern-btn--large\"><span class=\"kern-icon kern-icon--content-copy\" aria-hidden=\"true\"></span><span class=\"kern-label kern-sr-only\">Kopieren</span></button>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Button/ButtonPrimary.stories.js",
+          "export": "PrimaryLargeIconOnly"
+        }
+      }
+    },
+    {
+      "id": "primary-x-large",
+      "options": {
+        "labelVisibility": "visible",
+        "size": "x-large",
+        "variant": "primary"
+      },
+      "html": {
+        "markup": "<button class=\"kern-btn kern-btn--primary kern-btn--x-large\"><span class=\"kern-label\">Button X Large</span></button>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Button/ButtonPrimary.stories.js",
+          "export": "PrimaryXLarge"
+        }
+      }
+    },
+    {
+      "id": "primary-x-large-icon-only-mobile",
+      "options": {
+        "labelVisibility": "sr-only-mobile",
+        "size": "x-large",
+        "variant": "primary"
+      },
+      "html": {
+        "markup": "<button class=\"kern-btn kern-btn--primary kern-btn--x-large\"><span class=\"kern-icon kern-icon--content-copy\" aria-hidden=\"true\"></span><span class=\"kern-label kern-sr-only-mobile\">Kopieren</span></button>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Button/ButtonPrimary.stories.js",
+          "export": "PrimaryXLargeIconOnlyMobile"
+        }
+      }
+    },
+    {
+      "id": "primary-x-large-icon-only",
+      "options": {
+        "labelVisibility": "sr-only",
+        "size": "x-large",
+        "variant": "primary"
+      },
+      "html": {
+        "markup": "<button class=\"kern-btn kern-btn--primary kern-btn--x-large\"><span class=\"kern-icon kern-icon--content-copy\" aria-hidden=\"true\"></span><span class=\"kern-label kern-sr-only\">Kopieren</span></button>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Button/ButtonPrimary.stories.js",
+          "export": "PrimaryXLargeIconOnly"
+        }
+      }
+    },
+    {
+      "id": "button-wrapper",
+      "options": {
+        "labelVisibility": "sr-only-mobile",
+        "size": "default",
+        "variant": "primary"
+      },
+      "instances": 3,
+      "html": {
+        "markup": "<div class=\"kern-btn-wrapper\"><button class=\"kern-btn kern-btn--primary\"><span class=\"kern-icon kern-icon--content-copy\" aria-hidden=\"true\"></span><span class=\"kern-label kern-sr-only-mobile\">Kopieren</span></button><button class=\"kern-btn kern-btn--primary\"><span class=\"kern-icon kern-icon--edit\" aria-hidden=\"true\"></span><span class=\"kern-label kern-sr-only-mobile\">Editieren</span></button><button class=\"kern-btn kern-btn--primary\"><span class=\"kern-icon kern-icon--delete\" aria-hidden=\"true\"></span><span class=\"kern-label kern-sr-only-mobile\">Löschen</span></button></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Button/ButtonPrimary.stories.js",
+          "export": "ButtonWrapper"
+        }
+      }
+    },
+    {
+      "id": "button-wrapper-x-small",
+      "options": {
+        "labelVisibility": "visible",
+        "size": "x-small",
+        "variant": "primary"
+      },
+      "instances": 3,
+      "html": {
+        "markup": "<div class=\"kern-btn-wrapper\"><button class=\"kern-btn kern-btn--primary kern-btn--x-small\"><span class=\"kern-icon kern-icon--content-copy\" aria-hidden=\"true\"></span><span class=\"kern-label\">Kopieren</span></button><button class=\"kern-btn kern-btn--primary kern-btn--x-small\"><span class=\"kern-icon kern-icon--edit\" aria-hidden=\"true\"></span><span class=\"kern-label\">Editieren</span></button><button class=\"kern-btn kern-btn--primary kern-btn--x-small\"><span class=\"kern-icon kern-icon--delete\" aria-hidden=\"true\"></span><span class=\"kern-label\">Löschen</span></button></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Button/ButtonPrimary.stories.js",
+          "export": "ButtonWrapperXSmall"
+        }
+      }
+    },
+    {
+      "id": "button-wrapper-x-small-icon-only-mobile",
+      "options": {
+        "labelVisibility": "sr-only-mobile",
+        "size": "x-small",
+        "variant": "primary"
+      },
+      "instances": 3,
+      "html": {
+        "markup": "<div class=\"kern-btn-wrapper\"><button class=\"kern-btn kern-btn--primary kern-btn--x-small\"><span class=\"kern-icon kern-icon--content-copy\" aria-hidden=\"true\"></span><span class=\"kern-label kern-sr-only-mobile\">Kopieren</span></button><button class=\"kern-btn kern-btn--primary kern-btn--x-small\"><span class=\"kern-icon kern-icon--edit\" aria-hidden=\"true\"></span><span class=\"kern-label kern-sr-only-mobile\">Editieren</span></button><button class=\"kern-btn kern-btn--primary kern-btn--x-small\"><span class=\"kern-icon kern-icon--delete\" aria-hidden=\"true\"></span><span class=\"kern-label kern-sr-only-mobile\">Löschen</span></button></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Button/ButtonPrimary.stories.js",
+          "export": "ButtonWrapperXSmallIconOnlyMobile"
+        }
+      }
+    },
+    {
+      "id": "button-wrapper-x-small-icon-only",
+      "options": {
+        "labelVisibility": "sr-only",
+        "size": "x-small",
+        "variant": "primary"
+      },
+      "instances": 3,
+      "html": {
+        "markup": "<div class=\"kern-btn-wrapper\"><button class=\"kern-btn kern-btn--primary kern-btn--x-small\"><span class=\"kern-icon kern-icon--content-copy\" aria-hidden=\"true\"></span><span class=\"kern-label kern-sr-only\">Kopieren</span></button><button class=\"kern-btn kern-btn--primary kern-btn--x-small\"><span class=\"kern-icon kern-icon--edit\" aria-hidden=\"true\"></span><span class=\"kern-label kern-sr-only\">Editieren</span></button><button class=\"kern-btn kern-btn--primary kern-btn--x-small\"><span class=\"kern-icon kern-icon--delete\" aria-hidden=\"true\"></span><span class=\"kern-label kern-sr-only\">Löschen</span></button></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Button/ButtonPrimary.stories.js",
+          "export": "ButtonWrapperXSmallIconOnly"
+        }
+      }
+    },
+    {
+      "id": "primary-disabled",
+      "options": {
+        "labelVisibility": "visible",
+        "size": "default",
+        "variant": "primary"
+      },
+      "states": [
+        "disabled"
+      ],
+      "html": {
+        "markup": "<button class=\"kern-btn kern-btn--primary\" disabled><span class=\"kern-label\">Primärer Button</span></button>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Button/ButtonPrimary.stories.js",
+          "export": "PrimaryDisabled"
+        }
+      }
+    },
+    {
+      "id": "icon-left",
+      "options": {
+        "labelVisibility": "visible",
+        "size": "default",
+        "variant": "primary"
+      },
+      "html": {
+        "markup": "<button class=\"kern-btn kern-btn--primary\"><span class=\"kern-icon kern-icon--edit\" aria-hidden=\"true\"></span><span class=\"kern-label\">Primärer Button</span></button>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Button/ButtonPrimary.stories.js",
+          "export": "IconLeft"
+        }
+      }
+    },
+    {
+      "id": "icon-right",
+      "options": {
+        "labelVisibility": "visible",
+        "size": "default",
+        "variant": "primary"
+      },
+      "html": {
+        "markup": "<button class=\"kern-btn kern-btn--primary\"><span class=\"kern-label\">Primärer Button</span><span class=\"kern-icon kern-icon--arrow-forward\" aria-hidden=\"true\"></span></button>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Button/ButtonPrimary.stories.js",
+          "export": "IconRight"
+        }
+      }
+    },
+    {
+      "id": "icon-only",
+      "options": {
+        "labelVisibility": "sr-only",
+        "size": "default",
+        "variant": "primary"
+      },
+      "html": {
+        "markup": "<button class=\"kern-btn kern-btn--primary\"><span class=\"kern-icon kern-icon--edit\" aria-hidden=\"true\"></span><span class=\"kern-label kern-sr-only\">Bearbeiten</span></button>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Button/ButtonPrimary.stories.js",
+          "export": "IconOnly"
+        }
+      }
+    },
+    {
+      "id": "icon-only-mobile",
+      "options": {
+        "labelVisibility": "sr-only-mobile",
+        "size": "default",
+        "variant": "primary"
+      },
+      "html": {
+        "markup": "<button class=\"kern-btn kern-btn--primary\"><span class=\"kern-icon kern-icon--edit\" aria-hidden=\"true\"></span><span class=\"kern-label kern-sr-only-mobile\">Bearbeiten</span></button>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Button/ButtonPrimary.stories.js",
+          "export": "IconOnlyMobile"
+        }
+      }
+    },
+    {
+      "id": "secondary",
+      "options": {
+        "labelVisibility": "visible",
+        "size": "default",
+        "variant": "secondary"
+      },
+      "html": {
+        "markup": "<button class=\"kern-btn kern-btn--secondary\"><span class=\"kern-label\">Secondary Button</span></button>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Button/ButtonSecondary.stories.js",
+          "export": "Secondary"
+        },
+        "alsoIn": [
+          {
+            "repo": "kern-ux-plain",
+            "path": "stories/Button/ButtonSecondary.stories.js",
+            "export": "SecondaryHover",
+            "states": [
+              "hover"
+            ]
+          },
+          {
+            "repo": "kern-ux-plain",
+            "path": "stories/Button/ButtonSecondary.stories.js",
+            "export": "SecondaryActive",
+            "states": [
+              "active"
+            ]
+          },
+          {
+            "repo": "kern-ux-plain",
+            "path": "stories/Button/ButtonSecondary.stories.js",
+            "export": "SecondaryFocus",
+            "states": [
+              "focus"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "secondary-all-sizes",
+      "options": {
+        "labelVisibility": "visible",
+        "variant": "secondary"
+      },
+      "variesOver": [
+        "size"
+      ],
+      "instances": 5,
+      "html": {
+        "markup": "<div class=\"kern-btn-wrapper kern-align-items-center\"><button class=\"kern-btn kern-btn--secondary kern-btn--x-small\"><span class=\"kern-icon kern-icon--content-copy\" aria-hidden=\"true\"></span><span class=\"kern-label\">X Small</span></button><button class=\"kern-btn kern-btn--secondary kern-btn--small\"><span class=\"kern-icon kern-icon--content-copy\" aria-hidden=\"true\"></span><span class=\"kern-label\">Small</span></button><button class=\"kern-btn kern-btn--secondary\"><span class=\"kern-icon kern-icon--content-copy\" aria-hidden=\"true\"></span><span class=\"kern-label\">Default</span></button><button class=\"kern-btn kern-btn--secondary kern-btn--large\"><span class=\"kern-icon kern-icon--content-copy\" aria-hidden=\"true\"></span><span class=\"kern-label\">Large</span></button><button class=\"kern-btn kern-btn--secondary kern-btn--x-large\"><span class=\"kern-icon kern-icon--content-copy\" aria-hidden=\"true\"></span><span class=\"kern-label\">X Large</span></button></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Button/ButtonSecondary.stories.js",
+          "export": "SecondaryAllSizes"
+        }
+      }
+    },
+    {
+      "id": "secondary-x-small",
+      "options": {
+        "labelVisibility": "visible",
+        "size": "x-small",
+        "variant": "secondary"
+      },
+      "html": {
+        "markup": "<button class=\"kern-btn kern-btn--secondary kern-btn--x-small\"><span class=\"kern-label\">Button X Small</span></button>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Button/ButtonSecondary.stories.js",
+          "export": "SecondaryXSmall"
+        }
+      }
+    },
+    {
+      "id": "secondary-x-small-icon-only",
+      "options": {
+        "labelVisibility": "sr-only",
+        "size": "x-small",
+        "variant": "secondary"
+      },
+      "html": {
+        "markup": "<button class=\"kern-btn kern-btn--secondary kern-btn--x-small\"><span class=\"kern-icon kern-icon--content-copy\" aria-hidden=\"true\"></span><span class=\"kern-label kern-sr-only\">Kopieren</span></button>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Button/ButtonSecondary.stories.js",
+          "export": "SecondaryXSmallIconOnly"
+        }
+      }
+    },
+    {
+      "id": "secondary-small",
+      "options": {
+        "labelVisibility": "visible",
+        "size": "small",
+        "variant": "secondary"
+      },
+      "html": {
+        "markup": "<button class=\"kern-btn kern-btn--secondary kern-btn--small\"><span class=\"kern-label\">Button Small</span></button>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Button/ButtonSecondary.stories.js",
+          "export": "SecondarySmall"
+        }
+      }
+    },
+    {
+      "id": "secondary-small-icon-only-mobile",
+      "options": {
+        "labelVisibility": "sr-only-mobile",
+        "size": "small",
+        "variant": "secondary"
+      },
+      "html": {
+        "markup": "<button class=\"kern-btn kern-btn--secondary kern-btn--small\"><span class=\"kern-icon kern-icon--content-copy\" aria-hidden=\"true\"></span><span class=\"kern-label kern-sr-only-mobile\">Kopieren</span></button>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Button/ButtonSecondary.stories.js",
+          "export": "SecondarySmallIconOnlyMobile"
+        }
+      }
+    },
+    {
+      "id": "secondary-small-icon-only",
+      "options": {
+        "labelVisibility": "sr-only",
+        "size": "small",
+        "variant": "secondary"
+      },
+      "html": {
+        "markup": "<button class=\"kern-btn kern-btn--secondary kern-btn--small\"><span class=\"kern-icon kern-icon--content-copy\" aria-hidden=\"true\"></span><span class=\"kern-label kern-sr-only\">Kopieren</span></button>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Button/ButtonSecondary.stories.js",
+          "export": "SecondarySmallIconOnly"
+        }
+      }
+    },
+    {
+      "id": "secondary-large",
+      "options": {
+        "labelVisibility": "visible",
+        "size": "large",
+        "variant": "secondary"
+      },
+      "html": {
+        "markup": "<button class=\"kern-btn kern-btn--secondary kern-btn--large\"><span class=\"kern-label\">Button Large</span></button>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Button/ButtonSecondary.stories.js",
+          "export": "SecondaryLarge"
+        }
+      }
+    },
+    {
+      "id": "secondary-large-icon-only-mobile",
+      "options": {
+        "labelVisibility": "sr-only-mobile",
+        "size": "large",
+        "variant": "secondary"
+      },
+      "html": {
+        "markup": "<button class=\"kern-btn kern-btn--secondary kern-btn--large\"><span class=\"kern-icon kern-icon--content-copy\" aria-hidden=\"true\"></span><span class=\"kern-label kern-sr-only-mobile\">Kopieren</span></button>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Button/ButtonSecondary.stories.js",
+          "export": "SecondaryLargeIconOnlyMobile"
+        }
+      }
+    },
+    {
+      "id": "secondary-large-icon-only",
+      "options": {
+        "labelVisibility": "sr-only",
+        "size": "large",
+        "variant": "secondary"
+      },
+      "html": {
+        "markup": "<button class=\"kern-btn kern-btn--secondary kern-btn--large\"><span class=\"kern-icon kern-icon--content-copy\" aria-hidden=\"true\"></span><span class=\"kern-label kern-sr-only\">Kopieren</span></button>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Button/ButtonSecondary.stories.js",
+          "export": "SecondaryLargeIconOnly"
+        }
+      }
+    },
+    {
+      "id": "secondary-x-large",
+      "options": {
+        "labelVisibility": "visible",
+        "size": "x-large",
+        "variant": "secondary"
+      },
+      "html": {
+        "markup": "<button class=\"kern-btn kern-btn--secondary kern-btn--x-large\"><span class=\"kern-label\">Button X Large</span></button>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Button/ButtonSecondary.stories.js",
+          "export": "SecondaryXLarge"
+        }
+      }
+    },
+    {
+      "id": "secondary-x-large-icon-only-mobile",
+      "options": {
+        "labelVisibility": "sr-only-mobile",
+        "size": "x-large",
+        "variant": "secondary"
+      },
+      "html": {
+        "markup": "<button class=\"kern-btn kern-btn--secondary kern-btn--x-large\"><span class=\"kern-icon kern-icon--content-copy\" aria-hidden=\"true\"></span><span class=\"kern-label kern-sr-only-mobile\">Kopieren</span></button>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Button/ButtonSecondary.stories.js",
+          "export": "SecondaryXLargeIconOnlyMobile"
+        }
+      }
+    },
+    {
+      "id": "secondary-x-large-icon-only",
+      "options": {
+        "labelVisibility": "sr-only",
+        "size": "x-large",
+        "variant": "secondary"
+      },
+      "html": {
+        "markup": "<button class=\"kern-btn kern-btn--secondary kern-btn--x-large\"><span class=\"kern-icon kern-icon--content-copy\" aria-hidden=\"true\"></span><span class=\"kern-label kern-sr-only\">Kopieren</span></button>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Button/ButtonSecondary.stories.js",
+          "export": "SecondaryXLargeIconOnly"
+        }
+      }
+    },
+    {
+      "id": "button-wrapper-secondary",
+      "options": {
+        "labelVisibility": "sr-only-mobile",
+        "size": "default",
+        "variant": "secondary"
+      },
+      "instances": 3,
+      "html": {
+        "markup": "<div class=\"kern-btn-wrapper\"><button class=\"kern-btn kern-btn--secondary\"><span class=\"kern-icon kern-icon--content-copy\" aria-hidden=\"true\"></span><span class=\"kern-label kern-sr-only-mobile\">Kopieren</span></button><button class=\"kern-btn kern-btn--secondary\"><span class=\"kern-icon kern-icon--edit\" aria-hidden=\"true\"></span><span class=\"kern-label kern-sr-only-mobile\">Editieren</span></button><button class=\"kern-btn kern-btn--secondary\"><span class=\"kern-icon kern-icon--delete\" aria-hidden=\"true\"></span><span class=\"kern-label kern-sr-only-mobile\">Löschen</span></button></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Button/ButtonSecondary.stories.js",
+          "export": "ButtonWrapper"
+        }
+      }
+    },
+    {
+      "id": "button-wrapper-x-small-secondary",
+      "options": {
+        "labelVisibility": "visible",
+        "size": "x-small",
+        "variant": "secondary"
+      },
+      "instances": 3,
+      "html": {
+        "markup": "<div class=\"kern-btn-wrapper\"><button class=\"kern-btn kern-btn--secondary kern-btn--x-small\"><span class=\"kern-icon kern-icon--content-copy\" aria-hidden=\"true\"></span><span class=\"kern-label\">Kopieren</span></button><button class=\"kern-btn kern-btn--secondary kern-btn--x-small\"><span class=\"kern-icon kern-icon--edit\" aria-hidden=\"true\"></span><span class=\"kern-label\">Editieren</span></button><button class=\"kern-btn kern-btn--secondary kern-btn--x-small\"><span class=\"kern-icon kern-icon--delete\" aria-hidden=\"true\"></span><span class=\"kern-label\">Löschen</span></button></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Button/ButtonSecondary.stories.js",
+          "export": "ButtonWrapperXSmall"
+        }
+      }
+    },
+    {
+      "id": "button-wrapper-x-small-icon-only-mobile-secondary",
+      "options": {
+        "labelVisibility": "sr-only-mobile",
+        "size": "x-small",
+        "variant": "secondary"
+      },
+      "instances": 3,
+      "html": {
+        "markup": "<div class=\"kern-btn-wrapper\"><button class=\"kern-btn kern-btn--secondary kern-btn--x-small\"><span class=\"kern-icon kern-icon--content-copy\" aria-hidden=\"true\"></span><span class=\"kern-label kern-sr-only-mobile\">Kopieren</span></button><button class=\"kern-btn kern-btn--secondary kern-btn--x-small\"><span class=\"kern-icon kern-icon--edit\" aria-hidden=\"true\"></span><span class=\"kern-label kern-sr-only-mobile\">Editieren</span></button><button class=\"kern-btn kern-btn--secondary kern-btn--x-small\"><span class=\"kern-icon kern-icon--delete\" aria-hidden=\"true\"></span><span class=\"kern-label kern-sr-only-mobile\">Löschen</span></button></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Button/ButtonSecondary.stories.js",
+          "export": "ButtonWrapperXSmallIconOnlyMobile"
+        }
+      }
+    },
+    {
+      "id": "button-wrapper-x-small-icon-only-secondary",
+      "options": {
+        "labelVisibility": "sr-only",
+        "size": "x-small",
+        "variant": "secondary"
+      },
+      "instances": 3,
+      "html": {
+        "markup": "<div class=\"kern-btn-wrapper\"><button class=\"kern-btn kern-btn--secondary kern-btn--x-small\"><span class=\"kern-icon kern-icon--content-copy\" aria-hidden=\"true\"></span><span class=\"kern-label kern-sr-only\">Kopieren</span></button><button class=\"kern-btn kern-btn--secondary kern-btn--x-small\"><span class=\"kern-icon kern-icon--edit\" aria-hidden=\"true\"></span><span class=\"kern-label kern-sr-only\">Editieren</span></button><button class=\"kern-btn kern-btn--secondary kern-btn--x-small\"><span class=\"kern-icon kern-icon--delete\" aria-hidden=\"true\"></span><span class=\"kern-label kern-sr-only\">Löschen</span></button></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Button/ButtonSecondary.stories.js",
+          "export": "ButtonWrapperXSmallIconOnly"
+        }
+      }
+    },
+    {
+      "id": "secondary-block",
+      "options": {
+        "block": true,
+        "labelVisibility": "visible",
+        "size": "default",
+        "variant": "secondary"
+      },
+      "html": {
+        "markup": "<button class=\"kern-btn kern-btn--block kern-btn--secondary\"><span class=\"kern-label\">Secondary Block</span></button>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Button/ButtonSecondary.stories.js",
+          "export": "SecondaryBlock"
+        }
+      }
+    },
+    {
+      "id": "secondary-disabled",
+      "options": {
+        "labelVisibility": "visible",
+        "size": "default",
+        "variant": "secondary"
+      },
+      "states": [
+        "disabled"
+      ],
+      "html": {
+        "markup": "<button class=\"kern-btn kern-btn--secondary\" disabled><span class=\"kern-label\">Secondary Button</span></button>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Button/ButtonSecondary.stories.js",
+          "export": "SecondaryDisabled"
+        }
+      }
+    },
+    {
+      "id": "icon-left-secondary",
+      "options": {
+        "labelVisibility": "visible",
+        "size": "default",
+        "variant": "secondary"
+      },
+      "html": {
+        "markup": "<button class=\"kern-btn kern-btn--secondary\"><span class=\"kern-icon kern-icon--edit\" aria-hidden=\"true\"></span><span class=\"kern-label\">Secondary Button</span></button>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Button/ButtonSecondary.stories.js",
+          "export": "IconLeft"
+        }
+      }
+    },
+    {
+      "id": "icon-right-secondary",
+      "options": {
+        "labelVisibility": "visible",
+        "size": "default",
+        "variant": "secondary"
+      },
+      "html": {
+        "markup": "<button class=\"kern-btn kern-btn--secondary\"><span class=\"kern-label\">Secondary Button</span><span class=\"kern-icon kern-icon--arrow-forward\" aria-hidden=\"true\"></span></button>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Button/ButtonSecondary.stories.js",
+          "export": "IconRight"
+        }
+      }
+    },
+    {
+      "id": "icon-only-secondary",
+      "options": {
+        "labelVisibility": "sr-only",
+        "size": "default",
+        "variant": "secondary"
+      },
+      "html": {
+        "markup": "<button class=\"kern-btn kern-btn--secondary\"><span class=\"kern-icon kern-icon--edit\" aria-hidden=\"true\"></span><span class=\"kern-label kern-sr-only\">Bearbeiten</span></button>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Button/ButtonSecondary.stories.js",
+          "export": "IconOnly"
+        }
+      }
+    },
+    {
+      "id": "icon-only-mobile-secondary",
+      "options": {
+        "labelVisibility": "sr-only-mobile",
+        "size": "default",
+        "variant": "secondary"
+      },
+      "html": {
+        "markup": "<button class=\"kern-btn kern-btn--secondary\"><span class=\"kern-icon kern-icon--edit\" aria-hidden=\"true\"></span><span class=\"kern-label kern-sr-only-mobile\">Bearbeiten</span></button>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Button/ButtonSecondary.stories.js",
+          "export": "IconOnlyMobile"
+        }
+      }
+    },
+    {
+      "id": "tertiary",
+      "options": {
+        "labelVisibility": "visible",
+        "size": "default",
+        "variant": "tertiary"
+      },
+      "html": {
+        "markup": "<button class=\"kern-btn kern-btn--tertiary\"><span class=\"kern-label\">Tertiary Button</span></button>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Button/ButtonTertiary.stories.js",
+          "export": "Tertiary"
+        }
+      }
+    },
+    {
+      "id": "tertiary-all-sizes",
+      "options": {
+        "labelVisibility": "visible",
+        "variant": "tertiary"
+      },
+      "variesOver": [
+        "size"
+      ],
+      "instances": 5,
+      "html": {
+        "markup": "<div class=\"kern-btn-wrapper kern-align-items-center\"><button class=\"kern-btn kern-btn--tertiary kern-btn--x-small\"><span class=\"kern-icon kern-icon--content-copy\" aria-hidden=\"true\"></span><span class=\"kern-label\">X Small</span></button><button class=\"kern-btn kern-btn--tertiary kern-btn--small\"><span class=\"kern-icon kern-icon--content-copy\" aria-hidden=\"true\"></span><span class=\"kern-label\">Small</span></button><button class=\"kern-btn kern-btn--tertiary\"><span class=\"kern-icon kern-icon--content-copy\" aria-hidden=\"true\"></span><span class=\"kern-label\">Default</span></button><button class=\"kern-btn kern-btn--tertiary kern-btn--large\"><span class=\"kern-icon kern-icon--content-copy\" aria-hidden=\"true\"></span><span class=\"kern-label\">Large</span></button><button class=\"kern-btn kern-btn--tertiary kern-btn--x-large\"><span class=\"kern-icon kern-icon--content-copy\" aria-hidden=\"true\"></span><span class=\"kern-label\">X Large</span></button></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Button/ButtonTertiary.stories.js",
+          "export": "TertiaryAllSizes"
+        }
+      }
+    },
+    {
+      "id": "tertiary-x-small",
+      "options": {
+        "labelVisibility": "visible",
+        "size": "x-small",
+        "variant": "tertiary"
+      },
+      "html": {
+        "markup": "<button class=\"kern-btn kern-btn--tertiary kern-btn--x-small\"><span class=\"kern-label\">Button X Small</span></button>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Button/ButtonTertiary.stories.js",
+          "export": "TertiaryXSmall"
+        }
+      }
+    },
+    {
+      "id": "tertiary-x-small-icon-only-mobile",
+      "options": {
+        "labelVisibility": "sr-only-mobile",
+        "size": "x-small",
+        "variant": "tertiary"
+      },
+      "html": {
+        "markup": "<button class=\"kern-btn kern-btn--tertiary kern-btn--x-small\"><span class=\"kern-icon kern-icon--content-copy\" aria-hidden=\"true\"></span><span class=\"kern-label kern-sr-only-mobile\">Kopieren</span></button>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Button/ButtonTertiary.stories.js",
+          "export": "TertiaryXSmallIconOnlyMobile"
+        }
+      }
+    },
+    {
+      "id": "tertiary-x-small-icon-only",
+      "options": {
+        "labelVisibility": "sr-only",
+        "size": "x-small",
+        "variant": "tertiary"
+      },
+      "html": {
+        "markup": "<button class=\"kern-btn kern-btn--tertiary kern-btn--x-small\"><span class=\"kern-icon kern-icon--content-copy\" aria-hidden=\"true\"></span><span class=\"kern-label kern-sr-only\">Kopieren</span></button>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Button/ButtonTertiary.stories.js",
+          "export": "TertiaryXSmallIconOnly"
+        }
+      }
+    },
+    {
+      "id": "tertiary-small",
+      "options": {
+        "labelVisibility": "visible",
+        "size": "small",
+        "variant": "tertiary"
+      },
+      "html": {
+        "markup": "<button class=\"kern-btn kern-btn--tertiary kern-btn--small\"><span class=\"kern-label\">Button Small</span></button>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Button/ButtonTertiary.stories.js",
+          "export": "TertiarySmall"
+        }
+      }
+    },
+    {
+      "id": "tertiary-small-icon-only-mobile",
+      "options": {
+        "labelVisibility": "sr-only-mobile",
+        "size": "small",
+        "variant": "tertiary"
+      },
+      "html": {
+        "markup": "<button class=\"kern-btn kern-btn--tertiary kern-btn--small\"><span class=\"kern-icon kern-icon--content-copy\" aria-hidden=\"true\"></span><span class=\"kern-label kern-sr-only-mobile\">Kopieren</span></button>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Button/ButtonTertiary.stories.js",
+          "export": "TertiarySmallIconOnlyMobile"
+        }
+      }
+    },
+    {
+      "id": "tertiary-large",
+      "options": {
+        "labelVisibility": "visible",
+        "size": "large",
+        "variant": "tertiary"
+      },
+      "html": {
+        "markup": "<button class=\"kern-btn kern-btn--tertiary kern-btn--large\"><span class=\"kern-label\">Button Large</span></button>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Button/ButtonTertiary.stories.js",
+          "export": "TertiaryLarge"
+        }
+      }
+    },
+    {
+      "id": "tertiary-large-icon-only-mobile",
+      "options": {
+        "labelVisibility": "sr-only-mobile",
+        "size": "large",
+        "variant": "tertiary"
+      },
+      "html": {
+        "markup": "<button class=\"kern-btn kern-btn--tertiary kern-btn--large\"><span class=\"kern-icon kern-icon--content-copy\" aria-hidden=\"true\"></span><span class=\"kern-label kern-sr-only-mobile\">Kopieren</span></button>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Button/ButtonTertiary.stories.js",
+          "export": "TertiaryLargeIconOnlyMobile"
+        }
+      }
+    },
+    {
+      "id": "tertiary-large-icon-only",
+      "options": {
+        "labelVisibility": "sr-only",
+        "size": "large",
+        "variant": "tertiary"
+      },
+      "html": {
+        "markup": "<button class=\"kern-btn kern-btn--tertiary kern-btn--large\"><span class=\"kern-icon kern-icon--content-copy\" aria-hidden=\"true\"></span><span class=\"kern-label kern-sr-only\">Kopieren</span></button>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Button/ButtonTertiary.stories.js",
+          "export": "TertiaryLargeIconOnly"
+        }
+      }
+    },
+    {
+      "id": "tertiary-x-large",
+      "options": {
+        "labelVisibility": "visible",
+        "size": "x-large",
+        "variant": "tertiary"
+      },
+      "html": {
+        "markup": "<button class=\"kern-btn kern-btn--tertiary kern-btn--x-large\"><span class=\"kern-label\">Button X Large</span></button>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Button/ButtonTertiary.stories.js",
+          "export": "TertiaryXLarge"
+        }
+      }
+    },
+    {
+      "id": "tertiary-x-large-icon-only-mobile",
+      "options": {
+        "labelVisibility": "sr-only-mobile",
+        "size": "x-large",
+        "variant": "tertiary"
+      },
+      "html": {
+        "markup": "<button class=\"kern-btn kern-btn--tertiary kern-btn--x-large\"><span class=\"kern-icon kern-icon--content-copy\" aria-hidden=\"true\"></span><span class=\"kern-label kern-sr-only-mobile\">Kopieren</span></button>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Button/ButtonTertiary.stories.js",
+          "export": "TertiaryXLargeIconOnlyMobile"
+        }
+      }
+    },
+    {
+      "id": "tertiary-x-large-icon-only",
+      "options": {
+        "labelVisibility": "sr-only",
+        "size": "x-large",
+        "variant": "tertiary"
+      },
+      "html": {
+        "markup": "<button class=\"kern-btn kern-btn--tertiary kern-btn--x-large\"><span class=\"kern-icon kern-icon--content-copy\" aria-hidden=\"true\"></span><span class=\"kern-label kern-sr-only\">Kopieren</span></button>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Button/ButtonTertiary.stories.js",
+          "export": "TertiaryXLargeIconOnly"
+        }
+      }
+    },
+    {
+      "id": "button-wrapper-tertiary",
+      "options": {
+        "labelVisibility": "sr-only-mobile",
+        "size": "default",
+        "variant": "tertiary"
+      },
+      "instances": 3,
+      "html": {
+        "markup": "<div class=\"kern-btn-wrapper\"><button class=\"kern-btn kern-btn--tertiary\"><span class=\"kern-icon kern-icon--content-copy\" aria-hidden=\"true\"></span><span class=\"kern-label kern-sr-only-mobile\">Kopieren</span></button><button class=\"kern-btn kern-btn--tertiary\"><span class=\"kern-icon kern-icon--edit\" aria-hidden=\"true\"></span><span class=\"kern-label kern-sr-only-mobile\">Editieren</span></button><button class=\"kern-btn kern-btn--tertiary\"><span class=\"kern-icon kern-icon--delete\" aria-hidden=\"true\"></span><span class=\"kern-label kern-sr-only-mobile\">Löschen</span></button></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Button/ButtonTertiary.stories.js",
+          "export": "ButtonWrapper"
+        }
+      }
+    },
+    {
+      "id": "button-wrapper-x-small-tertiary",
+      "options": {
+        "labelVisibility": "visible",
+        "size": "x-small",
+        "variant": "tertiary"
+      },
+      "instances": 3,
+      "html": {
+        "markup": "<div class=\"kern-btn-wrapper\"><button class=\"kern-btn kern-btn--tertiary kern-btn--x-small\"><span class=\"kern-icon kern-icon--content-copy\" aria-hidden=\"true\"></span><span class=\"kern-label\">Kopieren</span></button><button class=\"kern-btn kern-btn--tertiary kern-btn--x-small\"><span class=\"kern-icon kern-icon--edit\" aria-hidden=\"true\"></span><span class=\"kern-label\">Editieren</span></button><button class=\"kern-btn kern-btn--tertiary kern-btn--x-small\"><span class=\"kern-icon kern-icon--delete\" aria-hidden=\"true\"></span><span class=\"kern-label\">Löschen</span></button></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Button/ButtonTertiary.stories.js",
+          "export": "ButtonWrapperXSmall"
+        }
+      }
+    },
+    {
+      "id": "button-wrapper-x-small-icon-only-mobile-tertiary",
+      "options": {
+        "labelVisibility": "sr-only-mobile",
+        "size": "x-small",
+        "variant": "tertiary"
+      },
+      "instances": 3,
+      "html": {
+        "markup": "<div class=\"kern-btn-wrapper\"><button class=\"kern-btn kern-btn--tertiary kern-btn--x-small\"><span class=\"kern-icon kern-icon--content-copy\" aria-hidden=\"true\"></span><span class=\"kern-label kern-sr-only-mobile\">Kopieren</span></button><button class=\"kern-btn kern-btn--tertiary kern-btn--x-small\"><span class=\"kern-icon kern-icon--edit\" aria-hidden=\"true\"></span><span class=\"kern-label kern-sr-only-mobile\">Editieren</span></button><button class=\"kern-btn kern-btn--tertiary kern-btn--x-small\"><span class=\"kern-icon kern-icon--delete\" aria-hidden=\"true\"></span><span class=\"kern-label kern-sr-only-mobile\">Löschen</span></button></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Button/ButtonTertiary.stories.js",
+          "export": "ButtonWrapperXSmallIconOnlyMobile"
+        }
+      }
+    },
+    {
+      "id": "button-wrapper-x-small-icon-only-tertiary",
+      "options": {
+        "labelVisibility": "sr-only",
+        "size": "x-small",
+        "variant": "tertiary"
+      },
+      "instances": 3,
+      "html": {
+        "markup": "<div class=\"kern-btn-wrapper\"><button class=\"kern-btn kern-btn--tertiary kern-btn--x-small\"><span class=\"kern-icon kern-icon--content-copy\" aria-hidden=\"true\"></span><span class=\"kern-label kern-sr-only\">Kopieren</span></button><button class=\"kern-btn kern-btn--tertiary kern-btn--x-small\"><span class=\"kern-icon kern-icon--edit\" aria-hidden=\"true\"></span><span class=\"kern-label kern-sr-only\">Editieren</span></button><button class=\"kern-btn kern-btn--tertiary kern-btn--x-small\"><span class=\"kern-icon kern-icon--delete\" aria-hidden=\"true\"></span><span class=\"kern-label kern-sr-only\">Löschen</span></button></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Button/ButtonTertiary.stories.js",
+          "export": "ButtonWrapperXSmallIconOnly"
+        }
+      }
+    },
+    {
+      "id": "tertiary-block",
+      "options": {
+        "block": true,
+        "labelVisibility": "visible",
+        "size": "default",
+        "variant": "tertiary"
+      },
+      "html": {
+        "markup": "<button class=\"kern-btn kern-btn--block kern-btn--tertiary\"><span class=\"kern-label\">tertiary Block</span></button>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Button/ButtonTertiary.stories.js",
+          "export": "TertiaryBlock"
+        }
+      }
+    },
+    {
+      "id": "tertiary-disabled",
+      "options": {
+        "labelVisibility": "visible",
+        "size": "default",
+        "variant": "tertiary"
+      },
+      "states": [
+        "disabled"
+      ],
+      "html": {
+        "markup": "<button class=\"kern-btn kern-btn--tertiary\" disabled><span class=\"kern-label\">tertiary Button</span></button>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Button/ButtonTertiary.stories.js",
+          "export": "TertiaryDisabled"
+        }
+      }
+    },
+    {
+      "id": "tertiary-hover",
+      "options": {
+        "labelVisibility": "visible",
+        "size": "default",
+        "variant": "tertiary"
+      },
+      "states": [
+        "hover"
+      ],
+      "html": {
+        "markup": "<button class=\"kern-btn kern-btn--tertiary\"><span class=\"kern-label\">tertiary Button</span></button>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Button/ButtonTertiary.stories.js",
+          "export": "TertiaryHover"
+        },
+        "alsoIn": [
+          {
+            "repo": "kern-ux-plain",
+            "path": "stories/Button/ButtonTertiary.stories.js",
+            "export": "TertiaryActive",
+            "states": [
+              "active"
+            ]
+          },
+          {
+            "repo": "kern-ux-plain",
+            "path": "stories/Button/ButtonTertiary.stories.js",
+            "export": "TertiaryFocus",
+            "states": [
+              "focus"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "icon-left-tertiary",
+      "options": {
+        "labelVisibility": "visible",
+        "size": "default",
+        "variant": "tertiary"
+      },
+      "html": {
+        "markup": "<button class=\"kern-btn kern-btn--tertiary\"><span class=\"kern-icon kern-icon--edit\" aria-hidden=\"true\"></span><span class=\"kern-label\">tertiary Button</span></button>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Button/ButtonTertiary.stories.js",
+          "export": "IconLeft"
+        }
+      }
+    },
+    {
+      "id": "icon-right-tertiary",
+      "options": {
+        "labelVisibility": "visible",
+        "size": "default",
+        "variant": "tertiary"
+      },
+      "html": {
+        "markup": "<button class=\"kern-btn kern-btn--tertiary\"><span class=\"kern-label\">tertiary Button</span><span class=\"kern-icon kern-icon--arrow-forward\" aria-hidden=\"true\"></span></button>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Button/ButtonTertiary.stories.js",
+          "export": "IconRight"
+        }
+      }
+    },
+    {
+      "id": "icon-only-tertiary",
+      "options": {
+        "labelVisibility": "sr-only",
+        "size": "default",
+        "variant": "tertiary"
+      },
+      "html": {
+        "markup": "<button class=\"kern-btn kern-btn--tertiary\"><span class=\"kern-icon kern-icon--edit\" aria-hidden=\"true\"></span><span class=\"kern-label kern-sr-only\">Bearbeiten</span></button>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Button/ButtonTertiary.stories.js",
+          "export": "IconOnly"
+        }
+      }
+    },
+    {
+      "id": "icon-only-mobile-tertiary",
+      "options": {
+        "labelVisibility": "sr-only-mobile",
+        "size": "default",
+        "variant": "tertiary"
+      },
+      "html": {
+        "markup": "<button class=\"kern-btn kern-btn--tertiary\"><span class=\"kern-icon kern-icon--edit\" aria-hidden=\"true\"></span><span class=\"kern-label kern-sr-only-mobile\">Bearbeiten</span></button>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Button/ButtonTertiary.stories.js",
+          "export": "IconOnlyMobile"
+        }
+      }
+    },
+    {
+      "id": "link-button-icon",
+      "options": {
+        "labelVisibility": "visible",
+        "size": "default",
+        "variant": "tertiary"
+      },
+      "html": {
+        "markup": "<a href=\"#\" class=\"kern-btn kern-btn--tertiary\"><span class=\"kern-label\">Linktext</span><span class=\"kern-icon kern-icon--arrow-forward\" aria-hidden=\"true\"></span></a>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Link/LinkButton.stories.js",
+          "export": "LinkButtonIcon"
+        },
+        "alsoIn": [
+          {
+            "repo": "kern-ux-plain",
+            "path": "stories/Link/LinkButton.stories.js",
+            "export": "LinkButtonIconFocus",
+            "states": [
+              "focus"
+            ]
+          },
+          {
+            "repo": "kern-ux-plain",
+            "path": "stories/Link/LinkButton.stories.js",
+            "export": "LinkButtonIconHover",
+            "states": [
+              "hover"
+            ]
+          },
+          {
+            "repo": "kern-ux-plain",
+            "path": "stories/Link/LinkButton.stories.js",
+            "export": "LinkButtonIconActive",
+            "states": [
+              "active"
+            ]
+          },
+          {
+            "repo": "kern-ux-plain",
+            "path": "stories/Link/LinkButton.stories.js",
+            "export": "LinkButtonIconVisited",
+            "states": [
+              "visited"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "link-button-icon-long-text",
+      "options": {
+        "labelVisibility": "visible",
+        "size": "default",
+        "variant": "tertiary"
+      },
+      "html": {
+        "markup": "<a href=\"#\" class=\"kern-btn kern-btn--tertiary\"><span class=\"kern-icon kern-icon--arrow-back\" aria-hidden=\"true\"></span><span class=\"kern-label\">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat</span></a>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Link/LinkButton.stories.js",
+          "export": "LinkButtonIconLongText"
+        }
+      }
+    },
+    {
+      "id": "link-button-icon-left",
+      "options": {
+        "labelVisibility": "visible",
+        "size": "default",
+        "variant": "tertiary"
+      },
+      "html": {
+        "markup": "<a href=\"#\" class=\"kern-btn kern-btn--tertiary\"><span class=\"kern-icon kern-icon--arrow-back\" aria-hidden=\"true\"></span><span class=\"kern-label\">Linktext</span></a>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Link/LinkButton.stories.js",
+          "export": "LinkButtonIconLeft"
+        }
+      }
+    },
+    {
+      "id": "link-button-primary",
+      "options": {
+        "labelVisibility": "visible",
+        "size": "default",
+        "variant": "primary"
+      },
+      "html": {
+        "markup": "<a href=\"#\" class=\"kern-btn kern-btn--primary\"><span class=\"kern-label\">Linktext</span></a>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Link/LinkButton.stories.js",
+          "export": "LinkButtonPrimary"
+        }
+      }
+    },
+    {
+      "id": "link-button-primary-icon",
+      "options": {
+        "labelVisibility": "visible",
+        "size": "default",
+        "variant": "primary"
+      },
+      "html": {
+        "markup": "<a href=\"#\" class=\"kern-btn kern-btn--primary\"><span class=\"kern-icon kern-icon--arrow-back\" aria-hidden=\"true\"></span><span class=\"kern-label\">Linktext</span></a>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Link/LinkButton.stories.js",
+          "export": "LinkButtonPrimaryIcon"
+        }
+      }
+    },
+    {
+      "id": "link-button-secondary",
+      "options": {
+        "labelVisibility": "visible",
+        "size": "default",
+        "variant": "secondary"
+      },
+      "html": {
+        "markup": "<a href=\"#\" class=\"kern-btn kern-btn--secondary\"><span class=\"kern-label\">Linktext</span></a>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Link/LinkButton.stories.js",
+          "export": "LinkButtonSecondary"
+        }
+      }
+    },
+    {
+      "id": "link-button-secondary-icon",
+      "options": {
+        "labelVisibility": "visible",
+        "size": "default",
+        "variant": "secondary"
+      },
+      "html": {
+        "markup": "<a href=\"#\" class=\"kern-btn kern-btn--secondary\"><span class=\"kern-icon kern-icon--arrow-back\" aria-hidden=\"true\"></span><span class=\"kern-label\">Linktext</span></a>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Link/LinkButton.stories.js",
+          "export": "LinkButtonSecondaryIcon"
+        }
+      }
+    },
+    {
+      "id": "link-button-x-small",
+      "options": {
+        "size": "x-small"
+      },
+      "variesOver": [
+        "labelVisibility",
+        "variant"
+      ],
+      "instances": 6,
+      "html": {
+        "markup": "<div class=\"kern-btn-wrapper\"><a href=\"#\" class=\"kern-btn kern-btn--primary kern-btn--x-small\"><span class=\"kern-icon kern-icon--arrow-back\" aria-hidden=\"true\"></span><span class=\"kern-label\">Linktext</span></a><a href=\"#\" class=\"kern-btn kern-btn--secondary kern-btn--x-small\"><span class=\"kern-icon kern-icon--arrow-back\" aria-hidden=\"true\"></span><span class=\"kern-label\">Linktext</span></a><a href=\"#\" class=\"kern-btn kern-btn--tertiary kern-btn--x-small\"><span class=\"kern-icon kern-icon--arrow-back\" aria-hidden=\"true\"></span><span class=\"kern-label\">Linktext</span></a></div><h3>Mobile nur Icons</h3><div class=\"kern-btn-wrapper\"><a href=\"#\" class=\"kern-btn kern-btn--primary kern-btn--x-small\"><span class=\"kern-icon kern-icon--arrow-back\" aria-hidden=\"true\"></span><span class=\"kern-label kern-sr-only-mobile\">Linktext</span></a><a href=\"#\" class=\"kern-btn kern-btn--secondary kern-btn--x-small\"><span class=\"kern-icon kern-icon--arrow-back\" aria-hidden=\"true\"></span><span class=\"kern-label kern-sr-only-mobile\">Linktext</span></a><a href=\"#\" class=\"kern-btn kern-btn--tertiary kern-btn--x-small\"><span class=\"kern-icon kern-icon--arrow-back\" aria-hidden=\"true\"></span><span class=\"kern-label kern-sr-only-mobile\">Linktext</span></a></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Link/LinkButton.stories.js",
+          "export": "LinkButtonXSmall"
+        }
+      }
+    }
+  ]
+}

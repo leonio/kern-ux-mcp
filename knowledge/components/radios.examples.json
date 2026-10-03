@@ -1,0 +1,44 @@
+{
+  "component": "radios",
+  "examples": [
+    {
+      "id": "radios-hint-horizontal",
+      "instances": 3,
+      "html": {
+        "markup": "<fieldset class=\"kern-fieldset\"><legend class=\"kern-label\"> Ansprechpartner </legend><div class=\"kern-fieldset__body kern-fieldset__body--horizontal\"><div class=\"kern-form-check\"><input class=\"kern-form-check__radio\" id=\"radio-herr8\" name=\"geschlecht8\" type=\"radio\"><label class=\"kern-label\" for=\"radio-herr8\">Herr</label></div><div class=\"kern-form-check\"><input class=\"kern-form-check__radio\" id=\"frau8\" name=\"geschlecht8\" type=\"radio\"><label class=\"kern-label\" for=\"frau8\">Frau</label></div><div class=\"kern-form-check\"><input class=\"kern-form-check__radio\" id=\"divers8\" name=\"geschlecht8\" type=\"radio\"><label class=\"kern-label\" for=\"divers8\">Divers</label></div></div></fieldset>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Radio/Radio.stories.js",
+          "export": "RadiosHintHorizontal"
+        }
+      }
+    },
+    {
+      "id": "radios-hint-optional",
+      "instances": 3,
+      "html": {
+        "markup": "<fieldset class=\"kern-fieldset\"><legend class=\"kern-label\"> Ansprechpartner <span class=\"kern-label__optional\">- Optional</span></legend><div class=\"kern-fieldset__body\"><div class=\"kern-form-check\"><input class=\"kern-form-check__radio\" id=\"radio-herr10\" name=\"geschlecht10\" type=\"radio\"><label class=\"kern-label\" for=\"radio-herr10\">Herr</label></div><div class=\"kern-form-check\"><input class=\"kern-form-check__radio\" id=\"frau10\" name=\"geschlecht10\" type=\"radio\"><label class=\"kern-label\" for=\"frau10\">Frau</label></div><div class=\"kern-form-check\"><input class=\"kern-form-check__radio\" id=\"divers10\" name=\"geschlecht10\" type=\"radio\"><label class=\"kern-label\" for=\"divers10\">Divers</label></div></div></fieldset>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Radio/Radio.stories.js",
+          "export": "RadiosHintOptional"
+        }
+      }
+    },
+    {
+      "id": "radios-hint-horizontal-error",
+      "states": [
+        "error"
+      ],
+      "instances": 3,
+      "html": {
+        "markup": "<fieldset class=\"kern-fieldset kern-fieldset--error\" aria-describedby=\"hint-text kern-input-error\"><legend class=\"kern-label\"> Ansprechpartner </legend><div class=\"kern-hint\" id=\"hint-text\">Hint</div><div class=\"kern-fieldset__body kern-fieldset__body--horizontal\"><div class=\"kern-form-check\"><input class=\"kern-form-check__radio kern-form-check__radio--error\" id=\"radio-herr9\" name=\"geschlecht9\" type=\"radio\" aria-invalid=\"true\"><label class=\"kern-label\" for=\"radio-herr9\">Herr</label></div><div class=\"kern-form-check\"><input class=\"kern-form-check__radio kern-form-check__radio--error\" id=\"frau9\" name=\"geschlecht9\" type=\"radio\" aria-invalid=\"true\"><label class=\"kern-label\" for=\"frau9\">Frau</label></div><div class=\"kern-form-check\"><input class=\"kern-form-check__radio kern-form-check__radio--error\" id=\"divers9\" name=\"geschlecht9\" type=\"radio\" aria-invalid=\"true\"><label class=\"kern-label\" for=\"divers9\">Divers</label></div></div><p class=\"kern-error\" id=\"kern-input-error\"><span class=\"kern-icon kern-icon--danger\" aria-hidden=\"true\"></span><span class=\"kern-body\">Eine Auswahl muss getroffen werden</span></p></fieldset>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Radio/Radio.stories.js",
+          "export": "RadiosHintHorizontalError"
+        }
+      }
+    }
+  ]
+}

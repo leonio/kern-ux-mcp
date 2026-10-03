@@ -1,0 +1,428 @@
+{
+  "id": "task-list",
+  "title": {
+    "en": "Task List",
+    "de": "Task List"
+  },
+  "status": "stable",
+  "group": "content",
+  "synonyms": {
+    "de": [
+      "Aufgabenliste",
+      "Todo-Liste"
+    ]
+  },
+  "links": {
+    "docs": "https://www.kern-ux.de/komponenten/tasklist",
+    "figma": "https://www.figma.com/community/file/1624024563231427311",
+    "source": "https://gitlab.opencode.de/kern-ux/kern-ux-plain/-/tree/v2.8.2/src/scss/core/components/_task-list.scss"
+  },
+  "docs": {
+    "url": "https://www.kern-ux.de/komponenten/tasklist",
+    "summary": {
+      "en": "Task List shows the tasks users must complete and marks each one's status. It has a heading and one or more Task List elements; a group of at least two lists is often useful, especially when a summary follows. Each element describes a task, links to its form and can carry numbering and status: new, incomplete, done or not yet editable."
+    },
+    "sections": [
+      {
+        "id": "kurzbeschreibung",
+        "heading": "Kurzbeschreibung",
+        "url": "https://www.kern-ux.de/komponenten/tasklist#kurzbeschreibung",
+        "summary": {
+          "en": "Shows all tasks users must complete and marks the status of each task."
+        }
+      },
+      {
+        "id": "beschreibung",
+        "heading": "Beschreibung",
+        "url": "https://www.kern-ux.de/komponenten/tasklist#beschreibung",
+        "summary": {
+          "en": "A Task List has a heading and one or more Task List elements; a group of at least two lists is often useful, especially when a summary follows. Each element describes a task, links to its form and can carry numbering and status: new, incomplete, done or not yet editable."
+        }
+      },
+      {
+        "id": "verwendungsregeln",
+        "heading": "Verwendungsregeln",
+        "url": "https://www.kern-ux.de/komponenten/tasklist#verwendungsregeln",
+        "summary": {
+          "en": "Use a Task List or group for longer processes such as online services, where users work through tasks over several steps, placed on its own page that is easy to reach. It suits information too extensive for one page, processes needing several sessions, and tasks in any order."
+        }
+      },
+      {
+        "id": "dos-und-donts",
+        "heading": "Dos und Don’ts",
+        "url": "https://www.kern-ux.de/komponenten/tasklist#dos-und-donts",
+        "summary": {
+          "en": "Keep to at most 7 tasks per Task List and keep the number of groups manageable. Write group and task labels short and clear for screen reader users. Communicate only the correct status, do not add other actions inside the Task List, and number tasks across the whole list."
+        }
+      }
+    ]
+  },
+  "knowledge": {
+    "summary": {
+      "en": "Lists tasks with their completion status for longer, multi-step processes."
+    },
+    "whenToUse": [
+      {
+        "en": "Longer processes spread over several steps, such as online services."
+      },
+      {
+        "en": "When the required information does not fit on one page or several sessions are needed."
+      },
+      {
+        "en": "When tasks can be completed in any order."
+      }
+    ],
+    "dos": [
+      {
+        "en": "Keep a Task List to at most 7 tasks."
+      },
+      {
+        "en": "Keep the number of groups in a Task List group manageable."
+      },
+      {
+        "en": "Write group and task labels short and clear so screen reader users can operate the list."
+      },
+      {
+        "en": "Communicate only the correct status of a task."
+      },
+      {
+        "en": "Number tasks across the whole list instead of restarting numbering per group."
+      }
+    ],
+    "donts": [
+      {
+        "en": "Do not invent additional statuses beyond the ones defined."
+      },
+      {
+        "en": "Do not add other buttons or actions inside the Task List."
+      }
+    ],
+    "similar": [
+      {
+        "id": "summary"
+      }
+    ]
+  },
+  "states": [
+    {
+      "id": "active",
+      "origin": "derived",
+      "html": {
+        "binding": "pseudo",
+        "selector": ":active",
+        "partClass": "kern-task-list__content-wrapper"
+      }
+    },
+    {
+      "id": "focus",
+      "origin": "derived",
+      "html": {
+        "binding": "pseudo",
+        "selector": ":focus",
+        "partClass": "kern-task-list__content-wrapper"
+      }
+    },
+    {
+      "id": "hover",
+      "origin": "derived",
+      "html": {
+        "binding": "pseudo",
+        "selector": ":hover",
+        "partClass": "kern-task-list__content-wrapper"
+      }
+    }
+  ],
+  "accessibility": [
+    {
+      "id": "info-and-relationships",
+      "criterion": "1.3.1",
+      "slug": "info-and-relationships",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "name-role-value",
+      "criterion": "4.1.2",
+      "slug": "name-role-value",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "use-of-color",
+      "criterion": "1.4.1",
+      "slug": "use-of-color",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "contrast-enhanced",
+      "criterion": "1.4.6",
+      "slug": "contrast-enhanced",
+      "level": "AAA",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "non-text-contrast",
+      "criterion": "1.4.11",
+      "slug": "non-text-contrast",
+      "level": "AA",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "labels-or-instructions",
+      "criterion": "3.3.2",
+      "slug": "labels-or-instructions",
+      "level": "A",
+      "status": "implementation-dependent",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "keyboard",
+      "criterion": "2.1.1",
+      "slug": "keyboard",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "focus-appearance",
+      "criterion": "2.4.13",
+      "slug": "focus-appearance",
+      "level": "AAA",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "focus-order",
+      "criterion": "2.4.3",
+      "slug": "focus-order",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    }
+  ],
+  "examples": [
+    {
+      "id": "task-list",
+      "html": {
+        "markup": "<div class=\"kern-task-list\"><div class=\"kern-task-list__header\"><h2 class=\"kern-heading-medium\">Aufgabengruppe 1</h2></div><ol class=\"kern-task-list__list\"><li class=\"kern-task-list__item\"><div class=\"kern-task-list__title\" id=\"task1-title\"><a href=\"#\" class=\"kern-link kern-link--stretched kern-task-list__content-wrapper\" aria-describedby=\"task1-status\"><span class=\"kern-number\">1</span><span>Aufgabe xy erledigen</span></a><div class=\"kern-task-list__status\" id=\"task1-status\"><span class=\"kern-badge kern-badge--success\"><span class=\"kern-icon kern-icon--success\" aria-hidden=\"true\"></span><span class=\"kern-label kern-label--small\">Erledigt</span></span></div></div></li><li class=\"kern-task-list__item\"><div class=\"kern-task-list__title\" id=\"task2-title\"><a href=\"#\" class=\"kern-link kern-link--stretched kern-task-list__content-wrapper\" aria-describedby=\"task2-status\"><span class=\"kern-number\">2</span><span>Aufgabe xy erledigen</span></a><div class=\"kern-task-list__status\" id=\"task2-status\"><span class=\"kern-badge kern-badge--warning\"><span class=\"kern-label kern-label--small\">Unvollständig</span></span></div></div></li><li class=\"kern-task-list__item\"><div class=\"kern-task-list__title\" id=\"task3-title\"><div class=\"kern-task-list__content-wrapper\"><span class=\"kern-number\">3</span><p class=\"kern-body\">Aufgabe xy erledigen</p></div><div class=\"kern-task-list__status\" id=\"task3-status\"><span class=\"kern-badge kern-badge--info\"><span class=\"kern-label kern-label--small\">Noch nicht zu bearbeiten</span></span></div></div></li></ol></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Tasklist/Tasklist.stories.js",
+          "export": "TaskList"
+        }
+      }
+    },
+    {
+      "id": "task-list-group",
+      "instances": 3,
+      "html": {
+        "markup": "<div class=\"kern-task-list-group\"><div class=\"kern-task-list\"><div class=\"kern-task-list__header\"><h2 class=\"kern-heading-medium\">Aufgabengruppe 1</h2></div><ol class=\"kern-task-list__list\"><li class=\"kern-task-list__item\"><div class=\"kern-task-list__title\" id=\"task1-title\"><a href=\"#\" class=\"kern-link kern-link--stretched kern-task-list__content-wrapper\" aria-describedby=\"task3-status\"><span class=\"kern-number\">1</span><span>Aufgabe xy erledigen</span></a><div class=\"kern-task-list__status\" id=\"task3-status\"><span class=\"kern-badge kern-badge--success\"><span class=\"kern-icon kern-icon--success\" aria-hidden=\"true\"></span><span class=\"kern-label kern-label--small\">Erledigt</span></span></div></div></li><li class=\"kern-task-list__item\"><div class=\"kern-task-list__title\" id=\"task2-title\"><a href=\"#\" class=\"kern-link kern-link--stretched kern-task-list__content-wrapper\" aria-describedby=\"task4-status\"><span class=\"kern-number\">2</span><span>Aufgabe xy erledigen</span></a><div class=\"kern-task-list__status\" id=\"task4-status\"><span class=\"kern-badge kern-badge--warning\"><span class=\"kern-label kern-label--small\">Unvollständig</span></span></div></div></li><li class=\"kern-task-list__item\"><div class=\"kern-task-list__title\" id=\"task3-title\"><div class=\"kern-task-list__content-wrapper\"><span class=\"kern-number\">3</span><p class=\"kern-body\">Aufgabe xy erledigen</p></div><div class=\"kern-task-list__status\" id=\"task3-status\"><span class=\"kern-badge kern-badge--info\"><span class=\"kern-label kern-label--small\">Noch nicht zu bearbeiten</span></span></div></div></li></ol></div><div class=\"kern-task-list\"><div class=\"kern-task-list__header\"><h2 class=\"kern-heading-medium\">Aufgabengruppe 2</h2></div><ol class=\"kern-task-list__list\"><li class=\"kern-task-list__item\"><div class=\"kern-task-list__title\" id=\"task1-title\"><a href=\"#\" class=\"kern-link kern-link--stretched kern-task-list__content-wrapper\" aria-describedby=\"task3-status\"><span class=\"kern-number\">4</span><span>Aufgabe xy erledigen</span></a><div class=\"kern-task-list__status\" id=\"task3-status\"><span class=\"kern-badge kern-badge--success\"><span class=\"kern-icon kern-icon--success\" aria-hidden=\"true\"></span><span class=\"kern-label kern-label--small\">Erledigt</span></span></div></div></li><li class=\"kern-task-list__item\"><div class=\"kern-task-list__title\" id=\"task2-title\"><a href=\"#\" class=\"kern-link kern-link--stretched kern-task-list__content-wrapper\" aria-describedby=\"task4-status\"><span class=\"kern-number\">5</span><span>Aufgabe xy erledigen</span></a><div class=\"kern-task-list__status\" id=\"task4-status\"><span class=\"kern-badge kern-badge--warning\"><span class=\"kern-label kern-label--small\">Unvollständig</span></span></div></div></li><li class=\"kern-task-list__item\"><div class=\"kern-task-list__title\" id=\"task3-title\"><div class=\"kern-task-list__content-wrapper\"><span class=\"kern-number\">6</span><p class=\"kern-body\">Aufgabe xy erledigen</p></div><div class=\"kern-task-list__status\" id=\"task3-status\"><span class=\"kern-badge kern-badge--info\"><span class=\"kern-label kern-label--small\">Noch nicht zu bearbeiten</span></span></div></div></li></ol></div><div class=\"kern-task-list\"><div class=\"kern-task-list__header\"><h2 class=\"kern-heading-medium\">Zusammenfassung</h2></div><ul class=\"kern-task-list__list\"><li class=\"kern-task-list__item\"><div class=\"kern-task-list__title\" id=\"task3-title\"><p class=\"kern-body\">Wenn Sie alle Angaben gemacht haben, können Sie diese noch einmal prüfen.</p><div class=\"kern-task-list__status\" id=\"task3-status\"><span class=\"kern-badge kern-badge--info\"><span class=\"kern-label kern-label--small\">Noch nicht zu bearbeiten</span></span></div></div></li></ul></div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Tasklist/Tasklist.stories.js",
+          "export": "TaskListGroup"
+        }
+      }
+    },
+    {
+      "id": "task-list-unordered",
+      "instances": 2,
+      "html": {
+        "markup": "<div class=\"kern-task-list-group\"><div class=\"kern-task-list\"><div class=\"kern-task-list__header\"><h2 class=\"kern-heading-medium\">Aufgabengruppe 1</h2></div><ul class=\"kern-task-list__list\"><li class=\"kern-task-list__item\"><div class=\"kern-task-list__title\" id=\"task1-title\"><a href=\"#\" class=\"kern-link kern-link--stretched\" aria-describedby=\"task3-status\">Aufgabe xy erledigen</a><div class=\"kern-task-list__status\" id=\"task3-status\"><span class=\"kern-badge kern-badge--success\"><span class=\"kern-icon kern-icon--success\" aria-hidden=\"true\"></span><span class=\"kern-label kern-label--small\">Erledigt</span></span></div></div></li><li class=\"kern-task-list__item\"><div class=\"kern-task-list__title\" id=\"task2-title\"><a href=\"#\" class=\"kern-link kern-link--stretched\" aria-describedby=\"task4-status\">Aufgabe xy erledigen</a><div class=\"kern-task-list__status\" id=\"task4-status\"><span class=\"kern-badge kern-badge--warning\"><span class=\"kern-label kern-label--small\">Unvollständig</span></span></div></div></li><li class=\"kern-task-list__item\"><div class=\"kern-task-list__title\" id=\"task3-title\"><p class=\"kern-body\">Aufgabe xy erledigen</p><div class=\"kern-task-list__status\" id=\"task3-status\"><span class=\"kern-badge kern-badge--info\"><span class=\"kern-label kern-label--small\">Noch nicht zu bearbeiten</span></span></div></div></li></ul></div><div class=\"kern-task-list\"><div class=\"kern-task-list__header\"><h2 class=\"kern-heading-medium\">Zusammenfassung</h2></div><ul class=\"kern-task-list__list\"><li class=\"kern-task-list__item\"><div class=\"kern-task-list__title\" id=\"task3-title\"><p class=\"kern-body\">Wenn Sie alle Angaben gemacht haben, können Sie diese noch einmal prüfen.</p><div class=\"kern-task-list__status\" id=\"task3-status\"><span class=\"kern-badge kern-badge--info\"><span class=\"kern-label kern-label--small\">Noch nicht zu bearbeiten</span></span></div></div></li></ul></div></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/Tasklist/Tasklist.stories.js",
+          "export": "TaskListUnordered"
+        }
+      }
+    }
+  ],
+  "moreExamples": {
+    "file": "task-list.examples.json",
+    "count": 1
+  },
+  "implementations": {
+    "html": {
+      "package": "@kern-ux/native",
+      "version": "2.8.2",
+      "classes": {
+        "roots": [
+          "kern-task-list"
+        ],
+        "blocks": [
+          "kern-task-list-group"
+        ],
+        "elements": [
+          "kern-task-list__content-wrapper",
+          "kern-task-list__header",
+          "kern-task-list__item",
+          "kern-task-list__list",
+          "kern-task-list__status",
+          "kern-task-list__title"
+        ]
+      },
+      "sources": [
+        "src/scss/core/components/_task-list.scss",
+        "stories/Tasklist/Tasklist.stories.js"
+      ]
+    },
+    "react": {
+      "package": "@publicplan/kern-react-kit",
+      "version": "1.3.5",
+      "import": "import from '@publicplan/kern-react-kit'",
+      "components": [],
+      "sources": [
+        "src/components/TaskList"
+      ]
+    }
+  },
+  "drift": [
+    {
+      "kind": "unknown-class",
+      "en": "Docs examples use classes that kern-ux-plain doesn't define.",
+      "sources": [
+        "technische-dokumentation",
+        "kern-ux-plain"
+      ],
+      "items": [
+        "kern-icon--sm"
+      ]
+    }
+  ],
+  "provenance": {
+    "docs.sections.beschreibung.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/tasklist.mdx#beschreibung"
+      ],
+      "inputHash": "sha256:b3230b6ebfe99daf13028bc9be98b41d602f0a83fc0491826acf356f7c708941"
+    },
+    "docs.sections.dos-und-donts.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/tasklist.mdx#dos-und-donts"
+      ],
+      "inputHash": "sha256:b3230b6ebfe99daf13028bc9be98b41d602f0a83fc0491826acf356f7c708941"
+    },
+    "docs.sections.kurzbeschreibung.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/tasklist.mdx#kurzbeschreibung"
+      ],
+      "inputHash": "sha256:b3230b6ebfe99daf13028bc9be98b41d602f0a83fc0491826acf356f7c708941"
+    },
+    "docs.sections.verwendungsregeln.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/tasklist.mdx#verwendungsregeln"
+      ],
+      "inputHash": "sha256:b3230b6ebfe99daf13028bc9be98b41d602f0a83fc0491826acf356f7c708941"
+    },
+    "docs.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/tasklist.mdx"
+      ],
+      "inputHash": "sha256:b3230b6ebfe99daf13028bc9be98b41d602f0a83fc0491826acf356f7c708941"
+    },
+    "knowledge.donts.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/tasklist.mdx"
+      ],
+      "inputHash": "sha256:1c50b4f2b4a2572ef78e05f2f8a3cc6531c6c2e0f2ad58ce1e7d9ec46783a646"
+    },
+    "knowledge.donts.1": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/tasklist.mdx"
+      ],
+      "inputHash": "sha256:1c50b4f2b4a2572ef78e05f2f8a3cc6531c6c2e0f2ad58ce1e7d9ec46783a646"
+    },
+    "knowledge.dos.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/tasklist.mdx"
+      ],
+      "inputHash": "sha256:1c50b4f2b4a2572ef78e05f2f8a3cc6531c6c2e0f2ad58ce1e7d9ec46783a646"
+    },
+    "knowledge.dos.1": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/tasklist.mdx"
+      ],
+      "inputHash": "sha256:1c50b4f2b4a2572ef78e05f2f8a3cc6531c6c2e0f2ad58ce1e7d9ec46783a646"
+    },
+    "knowledge.dos.2": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/tasklist.mdx"
+      ],
+      "inputHash": "sha256:1c50b4f2b4a2572ef78e05f2f8a3cc6531c6c2e0f2ad58ce1e7d9ec46783a646"
+    },
+    "knowledge.dos.3": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/tasklist.mdx"
+      ],
+      "inputHash": "sha256:1c50b4f2b4a2572ef78e05f2f8a3cc6531c6c2e0f2ad58ce1e7d9ec46783a646"
+    },
+    "knowledge.dos.4": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/tasklist.mdx"
+      ],
+      "inputHash": "sha256:1c50b4f2b4a2572ef78e05f2f8a3cc6531c6c2e0f2ad58ce1e7d9ec46783a646"
+    },
+    "knowledge.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/tasklist.mdx"
+      ],
+      "inputHash": "sha256:1c50b4f2b4a2572ef78e05f2f8a3cc6531c6c2e0f2ad58ce1e7d9ec46783a646"
+    },
+    "knowledge.whenToUse.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/tasklist.mdx"
+      ],
+      "inputHash": "sha256:1c50b4f2b4a2572ef78e05f2f8a3cc6531c6c2e0f2ad58ce1e7d9ec46783a646"
+    },
+    "knowledge.whenToUse.1": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/tasklist.mdx"
+      ],
+      "inputHash": "sha256:1c50b4f2b4a2572ef78e05f2f8a3cc6531c6c2e0f2ad58ce1e7d9ec46783a646"
+    },
+    "knowledge.whenToUse.2": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/tasklist.mdx"
+      ],
+      "inputHash": "sha256:1c50b4f2b4a2572ef78e05f2f8a3cc6531c6c2e0f2ad58ce1e7d9ec46783a646"
+    }
+  }
+}

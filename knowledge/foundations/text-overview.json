@@ -1,0 +1,171 @@
+{
+  "id": "text-overview",
+  "title": {
+    "en": "Text components",
+    "de": "Text"
+  },
+  "group": "Komponenten",
+  "status": "documented",
+  "links": {
+    "docs": "https://www.kern-ux.de/komponenten/text/index"
+  },
+  "docs": {
+    "url": "https://www.kern-ux.de/komponenten/text/index",
+    "summary": {
+      "en": "The Text components give the design system a consistent set of typographic building blocks based on an 8-point grid. They ship their required vertical spacing, so components of the same size category combine without extra spacing or manual tweaking. Heading, Title, Preline, Subline, Label and Body each have a defined role: page and section headings, headings inside components, supporting text for those, labelling of UI elements and running text."
+    },
+    "sections": [
+      {
+        "id": "beschreibung",
+        "heading": "Beschreibung",
+        "url": "https://www.kern-ux.de/komponenten/text/index#beschreibung",
+        "summary": {
+          "en": "Text components built on an 8-point grid. They bring their own vertical spacing and can be combined within one size category without extra spacing: Heading for pages and sections, Title inside components, Preline and Subline as supporting text, Label for UI elements, Body for running text."
+        }
+      },
+      {
+        "id": "textrollen",
+        "heading": "Textrollen",
+        "url": "https://www.kern-ux.de/komponenten/text/index#textrollen",
+        "summary": {
+          "en": "Text roles structure content and define its function. Heading marks sections with HTML heading tags; Title marks headings inside components and also needs a heading tag; Preline and Subline only accompany a Title or Heading; Label names UI elements; Body carries longer text."
+        }
+      },
+      {
+        "id": "textkomponenten-kombinieren",
+        "heading": "Textkomponenten kombinieren",
+        "url": "https://www.kern-ux.de/komponenten/text/index#textkomponenten-kombinieren",
+        "summary": {
+          "en": "The same 8-point grid applies when combining components. Except for Heading, every text component takes a size modifier in the form kern-Textkomponente--Groesse, for example kern-title--small."
+        }
+      },
+      {
+        "id": "verfügbare-modifikatoren-je-komponente",
+        "heading": "Verfügbare Modifikatoren je Komponente",
+        "url": "https://www.kern-ux.de/komponenten/text/index#verfügbare-modifikatoren-je-komponente",
+        "summary": {
+          "en": "Heading offers medium (the default), small and large. Title, Subline, Label and Body each offer default, small and large."
+        }
+      },
+      {
+        "id": "empfehlung-zur-kombination",
+        "heading": "Empfehlung zur Kombination",
+        "url": "https://www.kern-ux.de/komponenten/text/index#empfehlung-zur-kombination",
+        "summary": {
+          "en": "Every component is tuned to the others typographically and spatially, so differently styled text can be combined without extra spacing. Only combine components with the same size label (for example only *-default), as in label-default, title-default, subline-default, body-default."
+        }
+      }
+    ]
+  },
+  "knowledge": {
+    "summary": {
+      "en": "Text components (Heading, Title, Preline, Subline, Label, Body) share an 8-point grid and combine only within the same size modifier."
+    },
+    "dos": [
+      {
+        "en": "Combine only text components that use the same size label, for example label-default with title-default and body-default."
+      },
+      {
+        "en": "Mark up Heading and Title with the matching HTML heading tag."
+      }
+    ],
+    "donts": [
+      {
+        "en": "Do not mix size modifiers in one group, such as label-small with title-large and body-small."
+      },
+      {
+        "en": "Do not use Preline or Subline on their own; they only complement a Heading or Title."
+      }
+    ]
+  },
+  "provenance": {
+    "docs.sections.beschreibung.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/text/index.mdx#beschreibung"
+      ],
+      "inputHash": "sha256:2e1542bf85c7a51b10d4d1a67164842a83d3a75f99ca8dd92196b8a9b44bd749"
+    },
+    "docs.sections.empfehlung-zur-kombination.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/text/index.mdx#empfehlung-zur-kombination"
+      ],
+      "inputHash": "sha256:2e1542bf85c7a51b10d4d1a67164842a83d3a75f99ca8dd92196b8a9b44bd749"
+    },
+    "docs.sections.textkomponenten-kombinieren.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/text/index.mdx#textkomponenten-kombinieren"
+      ],
+      "inputHash": "sha256:2e1542bf85c7a51b10d4d1a67164842a83d3a75f99ca8dd92196b8a9b44bd749"
+    },
+    "docs.sections.textrollen.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/text/index.mdx#textrollen"
+      ],
+      "inputHash": "sha256:2e1542bf85c7a51b10d4d1a67164842a83d3a75f99ca8dd92196b8a9b44bd749"
+    },
+    "docs.sections.verfügbare-modifikatoren-je-komponente.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/text/index.mdx#verfügbare-modifikatoren-je-komponente"
+      ],
+      "inputHash": "sha256:2e1542bf85c7a51b10d4d1a67164842a83d3a75f99ca8dd92196b8a9b44bd749"
+    },
+    "docs.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/text/index.mdx"
+      ],
+      "inputHash": "sha256:2e1542bf85c7a51b10d4d1a67164842a83d3a75f99ca8dd92196b8a9b44bd749"
+    },
+    "knowledge.donts.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/text/index.mdx"
+      ],
+      "inputHash": "sha256:1bd6e2bcdc36904cbc67b31645a58624a7e7526b3311bdd3b1d1a71f3d99eb57"
+    },
+    "knowledge.donts.1": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/text/index.mdx"
+      ],
+      "inputHash": "sha256:1bd6e2bcdc36904cbc67b31645a58624a7e7526b3311bdd3b1d1a71f3d99eb57"
+    },
+    "knowledge.dos.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/text/index.mdx"
+      ],
+      "inputHash": "sha256:1bd6e2bcdc36904cbc67b31645a58624a7e7526b3311bdd3b1d1a71f3d99eb57"
+    },
+    "knowledge.dos.1": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/text/index.mdx"
+      ],
+      "inputHash": "sha256:1bd6e2bcdc36904cbc67b31645a58624a7e7526b3311bdd3b1d1a71f3d99eb57"
+    },
+    "knowledge.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/text/index.mdx"
+      ],
+      "inputHash": "sha256:1bd6e2bcdc36904cbc67b31645a58624a7e7526b3311bdd3b1d1a71f3d99eb57"
+    }
+  }
+}

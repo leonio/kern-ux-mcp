@@ -1,0 +1,613 @@
+{
+  "id": "input-number",
+  "title": {
+    "en": "Input Number",
+    "de": "Input Number"
+  },
+  "status": "stable",
+  "group": "form",
+  "synonyms": {
+    "de": [
+      "Zahlenfeld",
+      "Zahlen-Eingabefeld",
+      "Nummernfeld",
+      "Nummern-Eingabefeld"
+    ]
+  },
+  "links": {
+    "docs": "https://www.kern-ux.de/komponenten/form-inputs/number",
+    "figma": "https://www.figma.com/community/file/1624024563231427311",
+    "source": "https://gitlab.opencode.de/kern-ux/kern-ux-plain/-/tree/v2.8.2/src/scss/core/components/_input.scss"
+  },
+  "docs": {
+    "url": "https://www.kern-ux.de/komponenten/form-inputs/number",
+    "summary": {
+      "en": "Input Number takes a number. The field uses inputmode=\"numeric\", so mobile users get a numeric keypad, and it validates the entry and shows errors below the field. The label should make clear that only digits belong here; otherwise the hint must list the characters that are allowed. The width can be adjusted."
+    },
+    "sections": [
+      {
+        "id": "kurzbeschreibung",
+        "heading": "Kurzbeschreibung",
+        "url": "https://www.kern-ux.de/komponenten/form-inputs/number#kurzbeschreibung",
+        "summary": {
+          "en": "Input Number helps users enter a number."
+        }
+      },
+      {
+        "id": "disabled",
+        "heading": "Disabled",
+        "url": "https://www.kern-ux.de/komponenten/form-inputs/number#disabled",
+        "summary": {
+          "en": "Avoid disabled, because it restricts accessibility."
+        }
+      },
+      {
+        "id": "beschreibung",
+        "heading": "Beschreibung",
+        "url": "https://www.kern-ux.de/komponenten/form-inputs/number#beschreibung",
+        "summary": {
+          "en": "The general input properties apply. inputmode=\"numeric\" gives users a numeric keypad, typically on mobile devices. Keep the label short and clear, optionally marked as optional, and use the hint for the format. Validation reports problems below the field, and the width can be adjusted."
+        }
+      },
+      {
+        "id": "verwendungsregeln",
+        "heading": "Verwendungsregeln",
+        "url": "https://www.kern-ux.de/komponenten/form-inputs/number#verwendungsregeln",
+        "summary": {
+          "en": "Used where the expected number cannot be predicted. If the answer options are known, prefer Select, Checkboxes or Radios; for a phone number or a date use Input Tel or Input Date. The label must show that only numbers are allowed, otherwise the hint must list the permitted characters."
+        }
+      },
+      {
+        "id": "dos-und-donts",
+        "heading": "Dos und Don’ts",
+        "url": "https://www.kern-ux.de/komponenten/form-inputs/number#dos-und-donts",
+        "summary": {
+          "en": "For other fixed number formats, such as phone numbers or dates, use Input Tel or Input Date; when the options are known, use Select, Checkboxes or Radios. The general Input Dos and Don'ts also apply."
+        }
+      }
+    ]
+  },
+  "knowledge": {
+    "summary": {
+      "en": "Input Number accepts a number through inputmode=\"numeric\" and reports validation errors below the field."
+    },
+    "whenToUse": [
+      {
+        "en": "Use Input Number for unpredictable numeric values such as a postcode, a house number or an area size."
+      }
+    ],
+    "dos": [
+      {
+        "en": "Make the label show that only numbers are expected, for example a house number or a postcode."
+      },
+      {
+        "en": "Explain the permitted characters in the hint when the label does not make it obvious."
+      },
+      {
+        "en": "Use inputmode=\"numeric\" so users get a numeric keypad."
+      }
+    ],
+    "donts": [
+      {
+        "en": "Don't use Input Number when the answer options are known; use Select, Checkboxes or Radios."
+      },
+      {
+        "en": "Don't use it for a phone number or a date; Input Tel and Input Date fit better."
+      },
+      {
+        "en": "Don't use disabled, because it restricts accessibility."
+      }
+    ],
+    "similar": [
+      {
+        "id": "input-date"
+      },
+      {
+        "id": "input-tel"
+      },
+      {
+        "id": "input-text"
+      }
+    ]
+  },
+  "options": [
+    {
+      "id": "width",
+      "kind": "enum",
+      "origin": "curated",
+      "values": [
+        {
+          "id": "full",
+          "default": true
+        },
+        {
+          "id": "width-2"
+        },
+        {
+          "id": "width-4"
+        }
+      ],
+      "html": {
+        "binding": "part-class",
+        "pattern": "kern-form-input__input--{value}",
+        "part": "input",
+        "partClass": "kern-form-input__input",
+        "omit": [
+          "full"
+        ]
+      }
+    }
+  ],
+  "states": [
+    {
+      "id": "disabled",
+      "origin": "derived",
+      "html": {
+        "binding": "attribute",
+        "attribute": "disabled",
+        "alternatives": [
+          {
+            "binding": "attribute",
+            "attribute": "disabled",
+            "partClass": "kern-form-input__input"
+          },
+          {
+            "binding": "attribute",
+            "attribute": "aria-disabled",
+            "value": "true",
+            "partClass": "kern-form-input__input"
+          }
+        ]
+      }
+    },
+    {
+      "id": "error",
+      "origin": "derived",
+      "html": {
+        "binding": "modifier",
+        "class": "kern-form-input--error",
+        "alternatives": [
+          {
+            "binding": "modifier",
+            "class": "kern-form-input__input--error",
+            "partClass": "kern-form-input__input"
+          }
+        ]
+      }
+    },
+    {
+      "id": "focus",
+      "origin": "derived",
+      "html": {
+        "binding": "pseudo",
+        "selector": ":focus",
+        "partClass": "kern-form-input__input"
+      }
+    },
+    {
+      "id": "hover",
+      "origin": "derived",
+      "html": {
+        "binding": "pseudo",
+        "selector": ":hover",
+        "partClass": "kern-form-input__input"
+      }
+    },
+    {
+      "id": "readonly",
+      "origin": "derived",
+      "html": {
+        "binding": "attribute",
+        "attribute": "readonly",
+        "partClass": "kern-form-input__input"
+      }
+    }
+  ],
+  "accessibility": [
+    {
+      "id": "info-and-relationships",
+      "criterion": "1.3.1",
+      "slug": "info-and-relationships",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "use-of-color",
+      "criterion": "1.4.1",
+      "slug": "use-of-color",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "contrast-enhanced",
+      "criterion": "1.4.6",
+      "slug": "contrast-enhanced",
+      "level": "AAA",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "non-text-contrast",
+      "criterion": "1.4.11",
+      "slug": "non-text-contrast",
+      "level": "AA",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "labels-or-instructions",
+      "criterion": "3.3.2",
+      "slug": "labels-or-instructions",
+      "level": "A",
+      "status": "implementation-dependent",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "labels-or-instructions-2",
+      "criterion": "3.3.2",
+      "slug": "labels-or-instructions",
+      "level": "A",
+      "status": "implementation-dependent",
+      "lastChecked": "2025-10-23"
+    },
+    {
+      "id": "keyboard",
+      "criterion": "2.1.1",
+      "slug": "keyboard",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "focus-appearance",
+      "criterion": "2.4.13",
+      "slug": "focus-appearance",
+      "level": "AAA",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "focus-order",
+      "criterion": "2.4.3",
+      "slug": "focus-order",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "error-identification",
+      "criterion": "3.3.1",
+      "slug": "error-identification",
+      "level": "A",
+      "status": "implementation-dependent",
+      "lastChecked": "2025-10-22"
+    },
+    {
+      "id": "info-and-relationships-2",
+      "criterion": "1.3.1",
+      "slug": "info-and-relationships",
+      "level": "A",
+      "status": "passed",
+      "lastChecked": "2025-10-23"
+    },
+    {
+      "id": "status-messages",
+      "criterion": "4.1.3",
+      "slug": "status-messages",
+      "level": "AA",
+      "status": "implementation-dependent",
+      "lastChecked": "2025-10-23"
+    },
+    {
+      "id": "identify-input-purpose",
+      "criterion": "1.3.5",
+      "slug": "identify-input-purpose",
+      "level": "AA",
+      "status": "implementation-dependent",
+      "lastChecked": "2025-10-23"
+    }
+  ],
+  "examples": [
+    {
+      "id": "input-number",
+      "options": {
+        "width": "full"
+      },
+      "html": {
+        "markup": "<div class=\"kern-form-input\"><label class=\"kern-label\" for=\"number\">Number</label><input class=\"kern-form-input__input\" id=\"number\" name=\"number\" type=\"text\" inputmode=\"numeric\"></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/InputNumber/InputNumber.stories.js",
+          "export": "InputNumber"
+        }
+      }
+    },
+    {
+      "id": "input-number-hover",
+      "options": {
+        "width": "full"
+      },
+      "states": [
+        "hover"
+      ],
+      "html": {
+        "markup": "<div class=\"kern-form-input\"><label class=\"kern-label\" for=\"number1\">Number</label><input class=\"kern-form-input__input\" id=\"number1\" name=\"number1\" type=\"text\" inputmode=\"numeric\"></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/InputNumber/InputNumber.stories.js",
+          "export": "InputNumberHover"
+        }
+      }
+    },
+    {
+      "id": "input-number-focus",
+      "options": {
+        "width": "full"
+      },
+      "states": [
+        "focus"
+      ],
+      "html": {
+        "markup": "<div class=\"kern-form-input\"><label class=\"kern-label\" for=\"number2\">Number</label><input class=\"kern-form-input__input\" id=\"number2\" name=\"number2\" type=\"text\" inputmode=\"numeric\"></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/InputNumber/InputNumber.stories.js",
+          "export": "InputNumberFocus"
+        }
+      }
+    },
+    {
+      "id": "input-number-read-only",
+      "options": {
+        "width": "full"
+      },
+      "states": [
+        "readonly"
+      ],
+      "html": {
+        "markup": "<div class=\"kern-form-input\"><label class=\"kern-label\" for=\"number3\">Number</label><input class=\"kern-form-input__input\" id=\"number3\" name=\"number3\" type=\"text\" inputmode=\"numeric\" value=\"1234\" readonly></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/InputNumber/InputNumber.stories.js",
+          "export": "InputNumberReadOnly"
+        }
+      }
+    },
+    {
+      "id": "input-number-disabled",
+      "options": {
+        "width": "full"
+      },
+      "states": [
+        "disabled"
+      ],
+      "html": {
+        "markup": "<div class=\"kern-form-input\"><label class=\"kern-label\" for=\"number4\">Number</label><input class=\"kern-form-input__input\" id=\"number4\" name=\"number4\" type=\"text\" inputmode=\"numeric\" value=\"6789\" disabled></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/InputNumber/InputNumber.stories.js",
+          "export": "InputNumberDisabled"
+        }
+      }
+    },
+    {
+      "id": "input-number-hint",
+      "options": {
+        "width": "full"
+      },
+      "html": {
+        "markup": "<div class=\"kern-form-input\"><label class=\"kern-label\" for=\"number5\">Number</label><div class=\"kern-hint\" id=\"number-hint\">Hint Number</div><input class=\"kern-form-input__input\" id=\"number5\" name=\"number5\" type=\"text\" inputmode=\"numeric\" aria-describedby=\"number-hint\"></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/InputNumber/InputNumber.stories.js",
+          "export": "InputNumberHint"
+        }
+      }
+    },
+    {
+      "id": "input-number-optional",
+      "options": {
+        "width": "full"
+      },
+      "html": {
+        "markup": "<div class=\"kern-form-input\"><label class=\"kern-label\" for=\"number7\">Number <span class=\"kern-label__optional\">- Optional</span></label><div class=\"kern-hint\" id=\"number-hint\">Hint Number</div><input class=\"kern-form-input__input\" id=\"number7\" name=\"number7\" type=\"text\" inputmode=\"numeric\" aria-describedby=\"number-hint\"></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/InputNumber/InputNumber.stories.js",
+          "export": "InputNumberOptional"
+        }
+      }
+    },
+    {
+      "id": "input-number-hint-error",
+      "options": {
+        "width": "full"
+      },
+      "states": [
+        "error"
+      ],
+      "html": {
+        "markup": "<div class=\"kern-form-input kern-form-input--error\"><label class=\"kern-label\" for=\"number6\">Number</label><div class=\"kern-hint\" id=\"number-hint\">Hint Number</div><input class=\"kern-form-input__input kern-form-input__input--error\" id=\"number6\" name=\"number6\" type=\"text\" inputmode=\"numeric\" aria-describedby=\"number-hint kern-input-error\" aria-invalid=\"true\"><p class=\"kern-error\" id=\"kern-input-error\"><span class=\"kern-icon kern-icon--danger\" aria-hidden=\"true\"></span><span class=\"kern-body\">Die Number darf nicht leer sein</span></p></div>",
+        "source": {
+          "repo": "kern-ux-plain",
+          "path": "stories/InputNumber/InputNumber.stories.js",
+          "export": "InputNumberHintError"
+        }
+      }
+    }
+  ],
+  "implementations": {
+    "html": {
+      "package": "@kern-ux/native",
+      "version": "2.8.2",
+      "classes": {
+        "roots": [
+          "kern-form-input"
+        ],
+        "elements": [
+          "kern-form-input__input",
+          "kern-form-input__select-wrapper"
+        ],
+        "modifiers": [
+          "kern-form-input--error",
+          "kern-form-input__input--error",
+          "kern-form-input__input--width-2",
+          "kern-form-input__input--width-4"
+        ]
+      },
+      "sources": [
+        "src/scss/core/components/_input.scss",
+        "stories/InputNumber/InputNumber.stories.js"
+      ]
+    },
+    "react": {
+      "package": "@publicplan/kern-react-kit",
+      "version": "1.3.5",
+      "import": "import from '@publicplan/kern-react-kit'",
+      "components": [],
+      "sources": [
+        "src/components/Input"
+      ]
+    }
+  },
+  "drift": [
+    {
+      "kind": "unknown-class",
+      "en": "Docs examples use classes that kern-ux-plain doesn't define.",
+      "sources": [
+        "technische-dokumentation",
+        "kern-ux-plain"
+      ],
+      "items": [
+        "kern-icon--md"
+      ]
+    },
+    {
+      "kind": "example-coverage",
+      "en": "Modifiers defined in SCSS that no story or docs example shows.",
+      "sources": [
+        "kern-ux-plain"
+      ],
+      "items": [
+        "kern-form-input__input--width-2",
+        "kern-form-input__input--width-4"
+      ]
+    }
+  ],
+  "provenance": {
+    "docs.sections.beschreibung.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/number.mdx#beschreibung"
+      ],
+      "inputHash": "sha256:c5c19f1e00adbc0342f5a8c17b468aed88701e49b95346d3e763aee3b00ba1f2"
+    },
+    "docs.sections.disabled.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/number.mdx#disabled"
+      ],
+      "inputHash": "sha256:c5c19f1e00adbc0342f5a8c17b468aed88701e49b95346d3e763aee3b00ba1f2"
+    },
+    "docs.sections.dos-und-donts.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/number.mdx#dos-und-donts"
+      ],
+      "inputHash": "sha256:c5c19f1e00adbc0342f5a8c17b468aed88701e49b95346d3e763aee3b00ba1f2"
+    },
+    "docs.sections.kurzbeschreibung.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/number.mdx#kurzbeschreibung"
+      ],
+      "inputHash": "sha256:c5c19f1e00adbc0342f5a8c17b468aed88701e49b95346d3e763aee3b00ba1f2"
+    },
+    "docs.sections.verwendungsregeln.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/number.mdx#verwendungsregeln"
+      ],
+      "inputHash": "sha256:c5c19f1e00adbc0342f5a8c17b468aed88701e49b95346d3e763aee3b00ba1f2"
+    },
+    "docs.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/number.mdx"
+      ],
+      "inputHash": "sha256:c5c19f1e00adbc0342f5a8c17b468aed88701e49b95346d3e763aee3b00ba1f2"
+    },
+    "knowledge.donts.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/number.mdx"
+      ],
+      "inputHash": "sha256:64dddaacc4ed0dfb3a15ff85974c55bc3a81cbd6ea03e3fcf04e0853634b97cd"
+    },
+    "knowledge.donts.1": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/number.mdx"
+      ],
+      "inputHash": "sha256:64dddaacc4ed0dfb3a15ff85974c55bc3a81cbd6ea03e3fcf04e0853634b97cd"
+    },
+    "knowledge.donts.2": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/number.mdx"
+      ],
+      "inputHash": "sha256:64dddaacc4ed0dfb3a15ff85974c55bc3a81cbd6ea03e3fcf04e0853634b97cd"
+    },
+    "knowledge.dos.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/number.mdx"
+      ],
+      "inputHash": "sha256:64dddaacc4ed0dfb3a15ff85974c55bc3a81cbd6ea03e3fcf04e0853634b97cd"
+    },
+    "knowledge.dos.1": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/number.mdx"
+      ],
+      "inputHash": "sha256:64dddaacc4ed0dfb3a15ff85974c55bc3a81cbd6ea03e3fcf04e0853634b97cd"
+    },
+    "knowledge.dos.2": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/number.mdx"
+      ],
+      "inputHash": "sha256:64dddaacc4ed0dfb3a15ff85974c55bc3a81cbd6ea03e3fcf04e0853634b97cd"
+    },
+    "knowledge.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/number.mdx"
+      ],
+      "inputHash": "sha256:64dddaacc4ed0dfb3a15ff85974c55bc3a81cbd6ea03e3fcf04e0853634b97cd"
+    },
+    "knowledge.whenToUse.0": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/form-inputs/number.mdx"
+      ],
+      "inputHash": "sha256:64dddaacc4ed0dfb3a15ff85974c55bc3a81cbd6ea03e3fcf04e0853634b97cd"
+    }
+  }
+}

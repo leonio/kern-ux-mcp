@@ -1,0 +1,47 @@
+{
+  "id": "header",
+  "title": {
+    "en": "Header",
+    "de": "Header"
+  },
+  "status": "docs-only",
+  "group": "navigation",
+  "synonyms": {
+    "de": []
+  },
+  "links": {
+    "docs": "https://www.kern-ux.de/komponenten/header",
+    "figma": "https://www.figma.com/community/file/1624024563231427311"
+  },
+  "docs": {
+    "url": "https://www.kern-ux.de/komponenten/header",
+    "summary": {
+      "en": "Header provides a page's central navigation: the logo, the main menu and the most important actions, so key areas are reachable from the top of the page."
+    },
+    "sections": []
+  },
+  "knowledge": {
+    "summary": {
+      "en": "Header carries a page's central navigation: logo, main menu and key actions."
+    }
+  },
+  "implementations": {},
+  "provenance": {
+    "docs.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/header.mdx"
+      ],
+      "inputHash": "sha256:f7299bace5c216e21e4c74a2b2e07077f55fb26da63086c0a7bbba7e4c2faef2"
+    },
+    "knowledge.summary": {
+      "origin": "reviewed",
+      "reviewed": true,
+      "from": [
+        "docs:komponenten/header.mdx"
+      ],
+      "inputHash": "sha256:b06c444a7e2ae7fcec3a313bb6dacbcb15225d6a428231114de2d395d91aa8e4"
+    }
+  }
+}
