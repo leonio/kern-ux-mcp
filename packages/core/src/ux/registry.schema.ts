@@ -2,15 +2,10 @@ import { z } from "zod";
 import { REGISTRY_CONTRACT_MAJOR } from "./registry.js";
 
 /**
- * The registry contract: the shape of registry.json, which an external generator
- * will produce (docs/plan-v2/registry-requirements.md). This repo owns it. The
- * registry types derive from it, and registry:import validates against it. The
- * server doesn't load this module at startup (see REGISTRY_CONTRACT_MAJOR).
- *
- * Within a major version the contract only grows: new fields are optional, and
- * unknown keys are accepted (parsing strips them, registry:import lists them), so
- * the generator can work ahead of the contract. A breaking change bumps the major
- * in both repositories.
+ * The registry contract: the shape of registry.json, the data the server reads.
+ * The registry types derive from it, and a test checks the checked-in file
+ * against it. The server doesn't load this module at startup (see
+ * REGISTRY_CONTRACT_MAJOR).
  */
 
 const notRead = (what: string) => ({
@@ -214,15 +209,3 @@ export type ComponentInfo = z.infer<typeof ComponentInfoSchema>;
 export type TokenSnapshot = z.infer<typeof TokenSnapshotSchema>;
 export type UpstreamSource = z.infer<typeof UpstreamSourceSchema>;
 export type RegistryManifest = z.infer<typeof RegistryManifestSchema>;
-
-/**
- * The contract as JSON Schema (2020-12), for the generator to validate against.
- * It describes input, so unknown keys stay allowed. `npm run registry:schema`
- * writes it to docs/registry.schema.json, and a test keeps that file current.
- */
-export function buildRegistryJsonSchema(): Record<string, unknown> {
-	return z.toJSONSchema(RegistryManifestSchema, {
-		target: "draft-2020-12",
-		io: "input",
-	}) as Record<string, unknown>;
-}

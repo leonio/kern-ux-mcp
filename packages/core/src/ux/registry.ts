@@ -28,8 +28,8 @@ function toRegistry(manifest: RegistryManifest): Registry {
 
 /**
  * Builds the runtime registry from a manifest, with only cheap checks: the full
- * contract (RegistryManifestSchema) is checked by a test and by registry:import,
- * and the bundles inline the file those checked.
+ * contract (RegistryManifestSchema) is checked by a test, and the bundles inline
+ * the file it checked.
  */
 export function registryFromManifest(json: unknown): Registry {
 	const parsed = json as Partial<RegistryManifest> | null;

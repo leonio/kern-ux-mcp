@@ -1,6 +1,5 @@
 import type {
 	ComponentInfo,
-	ReviewedComponentGuidance,
 	TokenSnapshot,
 	UpstreamSource,
 } from "./registry.schema.js";
@@ -24,13 +23,6 @@ export type {
 	TokenSnapshot,
 	UpstreamSource,
 } from "./registry.schema.js";
-
-/** The retired guidance overlay (docs/guidance-overlay.json), read by tools/manifest. */
-export type GuidanceOverlayManifest = {
-	overlayVersion: string;
-	generatedAt?: string;
-	components: Record<string, ReviewedComponentGuidance>;
-};
 
 /** The loaded registry, with components sorted by ID and indexed. */
 export type Registry = {
