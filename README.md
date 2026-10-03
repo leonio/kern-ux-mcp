@@ -2,6 +2,8 @@
 
 MCP Language Server exposing component tools, recursive composition rendering and strict accessibility validation for the [KERN-UX Component Library](https://www.kern-ux.de/).
 
+Setup guides for VS Code Copilot, Claude Desktop and Claude Code, Docker hosting and debugging are in the [wiki](https://github.com/leonio/kern-ux-mcp/wiki).
+
 ## Prerequisites
 - **Node.js**: 24.16.0+
 

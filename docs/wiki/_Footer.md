@@ -1,0 +1,1 @@
+[kern-ux-mcp on GitHub](https://github.com/leonio/kern-ux-mcp) · Licence EUPL-1.2 · This wiki is generated from [`docs/wiki/`](https://github.com/leonio/kern-ux-mcp/tree/main/docs/wiki): edit it there with a pull request, not here.
