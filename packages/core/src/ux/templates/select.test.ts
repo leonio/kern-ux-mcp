@@ -122,6 +122,22 @@ describe("buildSelect", () => {
 		expect(result.html).toContain("Optional");
 	});
 
+	it("marks a required select with aria-required, not required", () => {
+		const options = [{ value: "v", text: "Wert" }];
+		const required = buildSelect(
+			{ name: "land", label: "Land", required: true, options },
+			"de",
+		).html;
+		const plain = buildSelect(
+			{ name: "land", label: "Land", options },
+			"de",
+		).html;
+
+		expect(required).toMatch(/<select [^>]*aria-required="true"/);
+		expect(required).not.toMatch(/\srequired\b/);
+		expect(plain).not.toContain("aria-required");
+	});
+
 	it("builds a select with disabled option", () => {
 		const result = buildSelect(
 			{

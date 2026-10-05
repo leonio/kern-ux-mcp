@@ -101,6 +101,18 @@ describe("buildTextarea", () => {
 		expect(result.html).toContain("optional");
 	});
 
+	it("marks a required textarea with aria-required, not required", () => {
+		const required = buildTextarea(
+			{ name: "text", label: "Text", required: true },
+			"de",
+		).html;
+		const plain = buildTextarea({ name: "text", label: "Text" }, "de").html;
+
+		expect(required).toMatch(/<textarea [^>]*aria-required="true"/);
+		expect(required).not.toMatch(/\srequired\b/);
+		expect(plain).not.toContain("aria-required");
+	});
+
 	it("should include rows and cols attributes", () => {
 		const result = buildTextarea(
 			{ name: "sized", label: "Sized Textarea", rows: 10, cols: 50 },

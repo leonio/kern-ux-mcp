@@ -1339,6 +1339,10 @@
                           "description": "Marks the field as optional.",
                           "type": "boolean"
                         },
+                        "required": {
+                          "description": "Adds aria-required=\"true\" (text-like fields, textarea, select).",
+                          "type": "boolean"
+                        },
                         "value": {
                           "description": "Initial value (text-like types and textarea).",
                           "type": "string"
@@ -2429,6 +2433,10 @@
                           "description": "Marks the field as optional.",
                           "type": "boolean"
                         },
+                        "required": {
+                          "description": "Adds aria-required=\"true\" (text-like fields, textarea, select).",
+                          "type": "boolean"
+                        },
                         "value": {
                           "description": "Initial value (text-like types and textarea).",
                           "type": "string"
@@ -3414,6 +3422,10 @@
                           "description": "Marks the field as optional.",
                           "type": "boolean"
                         },
+                        "required": {
+                          "description": "Adds aria-required=\"true\" (text-like fields, textarea, select).",
+                          "type": "boolean"
+                        },
                         "value": {
                           "description": "Initial value (text-like types and textarea).",
                           "type": "string"
@@ -3857,6 +3869,10 @@
                                 "description": "Marks the field as optional.",
                                 "type": "boolean"
                               },
+                              "required": {
+                                "description": "Adds aria-required=\"true\" (text-like fields, textarea, select).",
+                                "type": "boolean"
+                              },
                               "value": {
                                 "description": "Initial value (text-like types and textarea).",
                                 "type": "string"
@@ -4237,6 +4253,10 @@
                         },
                         "optional": {
                           "description": "Marks the field as optional.",
+                          "type": "boolean"
+                        },
+                        "required": {
+                          "description": "Adds aria-required=\"true\" (text-like fields, textarea, select).",
                           "type": "boolean"
                         },
                         "value": {
@@ -5484,6 +5504,10 @@
                         },
                         "optional": {
                           "description": "Marks the field as optional.",
+                          "type": "boolean"
+                        },
+                        "required": {
+                          "description": "Adds aria-required=\"true\" (text-like fields, textarea, select).",
                           "type": "boolean"
                         },
                         "value": {
@@ -6803,6 +6827,10 @@
                           "description": "Marks the field as optional.",
                           "type": "boolean"
                         },
+                        "required": {
+                          "description": "Adds aria-required=\"true\" (text-like fields, textarea, select).",
+                          "type": "boolean"
+                        },
                         "value": {
                           "description": "Initial value (text-like types and textarea).",
                           "type": "string"
@@ -7176,6 +7204,10 @@
                           },
                           "optional": {
                             "description": "Marks the field as optional.",
+                            "type": "boolean"
+                          },
+                          "required": {
+                            "description": "Adds aria-required=\"true\" (text-like fields, textarea, select).",
                             "type": "boolean"
                           },
                           "value": {
@@ -7674,6 +7706,11 @@
             "description": "Shows the optional marker on the label. KERN marks optional fields, not required ones.",
             "type": "boolean"
           },
+          "required": {
+            "default": false,
+            "description": "Adds aria-required=\"true\", as KERN asks for required fields; no visible marker, and no native required attribute.",
+            "type": "boolean"
+          },
           "disabled": {
             "default": false,
             "description": "Not focusable and not submitted. Avoid where possible: hide a field that isn't needed.",
@@ -7835,6 +7872,11 @@
             "description": "Shows the optional marker on the label. KERN marks optional fields, not required ones.",
             "type": "boolean"
           },
+          "required": {
+            "default": false,
+            "description": "Adds aria-required=\"true\", as KERN asks for required fields; no visible marker, and no native required attribute.",
+            "type": "boolean"
+          },
           "disabled": {
             "default": false,
             "description": "Not focusable and not submitted. Avoid where possible: hide a field that isn't needed.",
@@ -7986,6 +8028,11 @@
           "optional": {
             "default": false,
             "description": "Shows the optional marker on the label. KERN marks optional fields, not required ones.",
+            "type": "boolean"
+          },
+          "required": {
+            "default": false,
+            "description": "Adds aria-required=\"true\", as KERN asks for required fields; no visible marker, and no native required attribute.",
             "type": "boolean"
           },
           "disabled": {
@@ -8280,6 +8327,11 @@
             "description": "Shows the optional marker on the label. KERN marks optional fields, not required ones.",
             "type": "boolean"
           },
+          "required": {
+            "default": false,
+            "description": "Adds aria-required=\"true\", as KERN asks for required fields; no visible marker, and no native required attribute.",
+            "type": "boolean"
+          },
           "disabled": {
             "default": false,
             "description": "Not focusable and not submitted. Avoid where possible: hide a field that isn't needed.",
@@ -8436,6 +8488,11 @@
             "description": "Shows the optional marker on the label. KERN marks optional fields, not required ones.",
             "type": "boolean"
           },
+          "required": {
+            "default": false,
+            "description": "Adds aria-required=\"true\", as KERN asks for required fields; no visible marker, and no native required attribute.",
+            "type": "boolean"
+          },
           "type": {
             "default": "password",
             "type": "string",
@@ -8586,6 +8643,11 @@
           "optional": {
             "default": false,
             "description": "Shows the optional marker on the label. KERN marks optional fields, not required ones.",
+            "type": "boolean"
+          },
+          "required": {
+            "default": false,
+            "description": "Adds aria-required=\"true\", as KERN asks for required fields; no visible marker, and no native required attribute.",
             "type": "boolean"
           },
           "disabled": {
@@ -8763,6 +8825,11 @@
             "description": "Shows the optional marker on the label. KERN marks optional fields, not required ones.",
             "type": "boolean"
           },
+          "required": {
+            "default": false,
+            "description": "Adds aria-required=\"true\", as KERN asks for required fields; no visible marker, and no native required attribute.",
+            "type": "boolean"
+          },
           "disabled": {
             "default": false,
             "description": "Not focusable and not submitted. Avoid where possible: hide a field that isn't needed.",
@@ -8917,6 +8984,11 @@
           "optional": {
             "default": false,
             "description": "Shows the optional marker on the label. KERN marks optional fields, not required ones.",
+            "type": "boolean"
+          },
+          "required": {
+            "default": false,
+            "description": "Adds aria-required=\"true\", as KERN asks for required fields; no visible marker, and no native required attribute.",
             "type": "boolean"
           },
           "disabled": {
@@ -10492,6 +10564,11 @@
             "description": "Shows the optional marker on the label. KERN marks optional fields, not required ones.",
             "type": "boolean"
           },
+          "required": {
+            "default": false,
+            "description": "Adds aria-required=\"true\", as KERN asks for required fields; no visible marker, and no native required attribute.",
+            "type": "boolean"
+          },
           "disabled": {
             "default": false,
             "description": "Not focusable and not submitted. Avoid where possible: hide a field that isn't needed.",
@@ -11466,6 +11543,11 @@
           "optional": {
             "default": false,
             "description": "Shows the optional marker on the label. KERN marks optional fields, not required ones.",
+            "type": "boolean"
+          },
+          "required": {
+            "default": false,
+            "description": "Adds aria-required=\"true\", as KERN asks for required fields; no visible marker, and no native required attribute.",
             "type": "boolean"
           },
           "disabled": {

@@ -1,5 +1,11 @@
 import { describe, expect, it } from "vitest";
+import { buildInputDate } from "./input-date.js";
+import { buildInputEmail } from "./input-email.js";
+import { buildInputNumber } from "./input-number.js";
+import { buildInputPassword } from "./input-password.js";
+import { buildInputTel } from "./input-tel.js";
 import { buildInputText } from "./input-text.js";
+import { buildInputUrl } from "./input-url.js";
 
 describe("buildInputText", () => {
 	it("builds a basic text input", () => {
@@ -111,6 +117,35 @@ describe("buildInputText", () => {
 
 		expect(result.html).toContain("kern-label__optional");
 		expect(result.html).toContain("Optional");
+	});
+
+	it("marks a required input with aria-required, not required", () => {
+		const required = buildInputText(
+			{ name: "name", label: "Name", required: true },
+			"de",
+		).html;
+		const plain = buildInputText({ name: "name", label: "Name" }, "de").html;
+
+		expect(required).toMatch(/<input [^>]*aria-required="true"/);
+		expect(required).not.toMatch(/\srequired\b/);
+		expect(required).not.toContain("kern-label__optional");
+		expect(plain).not.toContain("aria-required");
+	});
+
+	it.each([
+		["buildInputDate", buildInputDate],
+		["buildInputEmail", buildInputEmail],
+		["buildInputNumber", buildInputNumber],
+		["buildInputPassword", buildInputPassword],
+		["buildInputTel", buildInputTel],
+		["buildInputUrl", buildInputUrl],
+	] as const)("%s passes required on", (_name, build) => {
+		const html = build(
+			{ name: "feld", label: "Feld", required: true },
+			"de",
+		).html;
+
+		expect(html).toMatch(/<input [^>]*aria-required="true"/);
 	});
 
 	it("builds different input types", () => {

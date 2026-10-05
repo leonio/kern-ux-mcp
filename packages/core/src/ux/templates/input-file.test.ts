@@ -83,6 +83,22 @@ describe("buildInputFile", () => {
 		);
 	});
 
+	it("marks a required upload with aria-required, not required", () => {
+		const required = buildInputFile(
+			{ name: "upload", label: "Nachweis", required: true },
+			"de",
+		).html;
+		const plain = buildInputFile(
+			{ name: "upload", label: "Nachweis" },
+			"de",
+		).html;
+
+		expect(required).toMatch(/<input [^>]*aria-required="true"/);
+		expect(required).not.toMatch(/\srequired\b/);
+		expect(validateHtmlStrict(required).ok).toBe(true);
+		expect(plain).not.toContain("aria-required");
+	});
+
 	it("produces markup that passes strict validation, including the error state", () => {
 		for (const error of [undefined, "Datei fehlt"]) {
 			const result = buildInputFile(

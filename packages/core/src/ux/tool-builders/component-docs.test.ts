@@ -177,9 +177,28 @@ describe("get_component_docs", () => {
 
 		expect(result.tool).toBeUndefined();
 		expect(result.note).toBe(
-			"KERN 2.8.2 documents Tabs but doesn't implement it: there's no tool and no kern-* markup for it.",
+			"KERN 2.8.2 documents Tabs but doesn't implement it: there's no tool and no kern-* markup for it, so don't invent kern-* classes for it.",
 		);
 		expect(result.summary).toBe("Lets users switch between content panels.");
+	});
+
+	it("names the closest tools for a docs-only component that has them", async () => {
+		const result = await docs(
+			registryWith([
+				{
+					id: "notificationbanner",
+					kernId: "notification-banner",
+					title: "Notification Banner",
+					status: "docs-only",
+				},
+			]),
+			"notificationbanner",
+		);
+
+		expect(result.tool).toBeUndefined();
+		expect(result.note).toBe(
+			"KERN 2.8.2 documents Notification Banner but doesn't implement it: there's no tool and no kern-* markup for it, so don't invent kern-* classes for it. The closest tools here: get_alert.",
+		);
 	});
 
 	it("says when the server has no tool for an implemented component", async () => {

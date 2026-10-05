@@ -4,7 +4,7 @@
 
 Lets users show content elements in a structured way and switch between them.
 
-> KERN 2.8.2 documents Tabs but doesn't implement it: there's no tool and no kern-* markup for it.
+> KERN 2.8.2 documents Tabs but doesn't implement it: there's no tool and no kern-* markup for it, so don't invent kern-* classes for it.
 
 ## Links
 
