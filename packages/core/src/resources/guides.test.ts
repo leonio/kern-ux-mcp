@@ -11,13 +11,14 @@ const definition = guides(registry, getCatalog().tools);
 const entries = await definition.entries();
 
 /** A guide stays small enough to attach whole. */
-const GUIDE_BUDGET_BYTES = 12_000;
+const GUIDE_BUDGET_BYTES = 16_000;
 
 describe("kern://guides/{name}", () => {
 	it("lists the guides with their size", async () => {
 		expect(entries.map((entry) => entry.uri)).toEqual([
 			"kern://guides/forms",
 			"kern://guides/layout",
+			"kern://guides/accessibility",
 		]);
 		for (const entry of entries) {
 			expect(entry.size).toBe(

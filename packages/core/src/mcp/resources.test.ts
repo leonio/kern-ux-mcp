@@ -38,6 +38,7 @@ describe.each(MCP_ERAS)("MCP resources over $era", ({ era, connect }) => {
 			...componentIds.map((id) => `kern://components/${id}`),
 			"kern://guides/forms",
 			"kern://guides/layout",
+			"kern://guides/accessibility",
 		]);
 		expect(resources.find((resource) => resource.name === "button")).toEqual({
 			uri: "kern://components/button",
