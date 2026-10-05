@@ -18,7 +18,7 @@ Re-planned 2026-10-03. R0 to R5.1 are done apart from R0's client check. What's 
    - **B.** Put the bundle on the tool path: the docs tool, hint lines, icons, unknown classes.
    - **C.** Move layout to the CSS Grid utilities.
    - **D.** The component cards and the forms, layout and accessibility guides.
-2. **R7: three prompts** (done 2026-10-05, one finding open):
+2. **R7: three prompts** (done 2026-10-05; one eval to run, see [r7-handover.md](r7-handover.md)):
    - `create_page_layout`
    - `create_input_form`, which builds a wizard when given steps
    - `review_kern_html`
@@ -185,12 +185,12 @@ Re-planned 2026-10-03: three prompts instead of five.
 Done 2026-10-05 ([r7-kickoff.md](r7-kickoff.md)). `strict` turned out to be the render tools' argument, not `validate_html`'s, so the prompts render with `strict: true` and call `validate_html` only on changed or given HTML.
 
 - [x] `create_page_layout` (`8260a11`, `9e80993`): one `render_page` call with `strict: true`, with the section, grid and card shapes quoted.
-- [x] `create_input_form` (`392666b`, `6d3b8a8`, `83d1b82`): fields to input types, fieldsets, and the `form` block with its error summary, rendered with `strict: true`. Given `steps`, a `formFlow` block with exactly the given steps and a `get_summary` group in the step for checking the answers.
+- [x] `create_input_form` (`392666b`, `6d3b8a8`, `83d1b82`, `70a6292`): fields to input types, fieldsets, and the `form` block with its error summary, rendered with `strict: true`. Given `steps`, a `formFlow` block with exactly the given steps and a `summary` block in the step for checking the answers.
 - [x] `review_kern_html` (`1e5ad47`, `db9d5f9`): `validate_html`, the accessibility guide, the content rebuilt with the tools, and a fix list after the rebuild that names what a person still has to check.
 - [x] Each prompt embeds the guide it relies on, links the cards it uses, and asks for the final HTML verbatim. That settles R5.1's open question on long results: in `prompts-r7-c` all 12 answers are verbatim, against 3 without the prompts (6 described).
 - [x] Prompt snapshots; every tool name and resource URI in the server's text resolves (`a2a8dc6`); an eval scenario per prompt (the `prompts` suite, `7505e57`).
 - [x] Three new `validate_html` rules (`881011a`): a field without a label and a table without header cells (errors), a skipped heading level (a warning). `get_inputgroup` needed a `label` to pass them.
-- [ ] Open: the wizard's empty trailing step (see [r7-kickoff.md](r7-kickoff.md), findings from group C).
+- [x] The wizard's empty trailing step (`70a6292`): a `summary` block kind, so the review step no longer pastes `get_summary`'s HTML. Its eval (3 `application-flow` runs) is still to run ([r7-handover.md](r7-handover.md)).
 
 ### Release 2.0.0
 

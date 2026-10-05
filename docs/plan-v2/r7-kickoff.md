@@ -156,3 +156,13 @@ Three groups: the plumbing with the form prompt and the eval's prompt support (A
   - `formFlow` drops empty trailing steps with a warning instead of rejecting the call (input normalization, as `invoke.ts` does elsewhere)
   - a `summary` block kind in `render_composition`, so the review step doesn't paste HTML (also the JSON-escaping finding from group A)
 - **The client commands in the README** (`/mcp.kern-ux.create_input_form`, `/mcp__kern-ux__create_input_form`) follow the clients' documented naming; the release's client check confirms them.
+
+## After C: the summary block
+
+Decided 2026-10-05: the larger of the two options for the wizard's empty trailing step.
+
+- **`70a6292`:** `render_composition` and `render_page` take `{ kind: "summary", summary: { title?, summaries: [{ title, items: [{ key, value }], editHref? }] } }`, rendered as `get_summary`'s group: numbered summaries, "Ihre Angaben" or "Your answers" by default, an edit link per `editHref`. No heading levels and no HTML values, to keep it small.
+- **The wizard's review step** starts with a summary block instead of pasting `get_summary`'s HTML into an `html` block.
+- **The listing** had 899 characters left and the block costs about 1,530 (it's in both render tools). The shared `locale` description ("Language of generated text (default: de).") and the `required` one got shorter: 119,420 of 120,000.
+- **Tests:** 2,274 pass; the build and e2e pass.
+- **Not measured yet:** the session's usage ran low, so the eval waits. Run it first next time ([r7-handover.md](r7-handover.md)).
