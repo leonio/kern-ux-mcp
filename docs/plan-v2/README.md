@@ -8,7 +8,8 @@ This folder holds the plan for 2.0 and the record of how it's going. The work ha
 |---|---|
 | [roadmap.md](roadmap.md) | **Start here.** The status tracker (steps R0–R7, plus R4b and R5.1), the decisions, the target architecture and the details of each step. |
 | [findings.md](findings.md) | The discovery write-ups (items 1–22) with file references. Roadmap steps point at them. |
-| [r5-handover.md](r5-handover.md) | **The latest state.** R5 half done, what to do first, and the findings for the English areas. |
+| [r6-handover.md](r6-handover.md) | **The latest state.** R6 groups A and B done, notes for group C, open findings. |
+| [r5-handover.md](r5-handover.md) | Where R5 stood halfway, and the findings for the English areas. |
 | [r5-kickoff.md](r5-kickoff.md), [r5-eval/](r5-eval/) | R5's plan, progress and lessons; the eval reports. |
 | [r4b-kickoff.md](r4b-kickoff.md), [r4-handover.md](r4-handover.md) | R4b (groups A and B done; the rest waits on the knowledge bundle); where R4 ended and the 2026-10-02 review. |
 | [post-alpha-work.md](post-alpha-work.md) | Unscheduled follow-ups: the context-budget research (tool discovery and sub-agent scoping, with verdicts) and a proposal for nested eval scenarios. |

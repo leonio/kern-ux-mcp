@@ -188,6 +188,16 @@ Run the base and nested suites after A (titles and status banners), after B (the
 - **The fallback markup is on one line** until the packer keeps the stories' formatting.
 - **The stdio bundle** grew from 351 KB to 494 KB with the richer registry.
 
+## Where group B ended
+
+- **Evals** against `r6-a` and `nested-r6-a`:
+  - **Base 95/96.** One `fix-markup` run replaced the image with an icon instead of adding `alt`. That's Haiku's choice; the other runs passed.
+  - **Nested 105/105**, with no error results (A had 3).
+  - **All 42 answers strict-valid.**
+  - **`class.unknown`** appeared where the scenarios use the invented `kern-button`.
+  - **No run called `get_component_docs`.** Its value shows when a model is unsure, which these scenarios rarely make it.
+- **Group C starts from [r6-handover.md](r6-handover.md)**, which has the notes from reading for C9. They cover where the container grid is rendered, `.kern-grid`'s 12-column default, `get_grid`'s status, and the eval checks to update.
+
 ## Asks for the packer (none blocks R6)
 
 - a canonical example marker (one `canonical:` line per component in `components.yaml`)
@@ -207,10 +217,11 @@ Run the base and nested suites after A (titles and status banners), after B (the
 - [x] A3 `0dcf484`: the old registry path retired. A3 and A4 swapped places: the old generator imported the registry types, so it had to go before the contract changed.
 - [x] A4 `a72a4dd`: `registry.json` from `knowledge/` (contract major 2, 48 components), with the contributor docs and the component-update skill describing the import.
 - [x] Evals after A: [r5-eval/r6-a.json](r5-eval/r6-a.json), [r5-eval/nested-r6-a.json](r5-eval/nested-r6-a.json)
-- [ ] B5 `get_component_docs` from the bundle
-- [ ] B6 The hint-lines skill and the description lines
-- [ ] B7 `list_icons` from the bundle
-- [ ] B8 `validate_html` warns on unknown classes
+- [x] B5 `7f1ac4b`: `get_component_docs` from the bundle, in `tool-builders/component-docs.ts`. It takes our IDs, KERN's and other spellings.
+- [x] B6 `f0c9586`: the `tool-hints` skill and 18 description lines (`tool-hints.ts`), each with its source's `inputHash`. The listing is 116,871 characters.
+- [x] B7 `61c59eb`: `list_icons` and the icon checks use the bundle's 42 icons (`icons.ts`).
+- [x] B8 `63dddab`: `validate_html` warns on unknown `kern-*` classes (`kern-classes.ts`). Fixing our own invented classes changed `get_disclosure` (KERN's accordion markup) and `formFlow` (data attributes).
+- [x] Evals after B: [r5-eval/r6-b.json](r5-eval/r6-b.json), [r5-eval/nested-r6-b.json](r5-eval/nested-r6-b.json)
 - [ ] C9 `get_grid` and the grid block on `kern-grid`
 - [ ] C10 Card groups, sections and the page shell on `kern-grid`
 - [ ] D11 Registration, cache hints, test harness, the component cards
