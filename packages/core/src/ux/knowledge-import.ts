@@ -13,6 +13,7 @@ import {
 	type BundleSectionRange,
 	componentIdFromKernId,
 	FALLBACK_EXAMPLES,
+	GUIDE_FOUNDATIONS,
 	TOOLS_FROM_SECTIONS,
 	TOOLS_WITHOUT_BUNDLE_COMPONENT,
 } from "./knowledge-map.js";
@@ -125,6 +126,12 @@ export function checkKnowledgeBundle(files: KnowledgeBundleFiles): string[] {
 			problems.push(
 				`get_${toolId} returns the example ${pick.example}, which isn't in ${pick.document}.`,
 			);
+		}
+	}
+
+	for (const id of GUIDE_FOUNDATIONS) {
+		if (!files.has(`foundations/${id}.json`)) {
+			problems.push(`foundations/${id}.json is missing: the guides quote it.`);
 		}
 	}
 

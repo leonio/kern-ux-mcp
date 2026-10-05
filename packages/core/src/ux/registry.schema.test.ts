@@ -29,6 +29,20 @@ const manifest = (
 			status: "experimental",
 		},
 	],
+	foundations: [
+		{
+			id: "layout",
+			title: "Layout",
+			url: "https://www.kern-ux.de/design-system/foundations/layout",
+			sections: [
+				{
+					id: "breakpoints",
+					heading: "Breakpoints",
+					url: "https://www.kern-ux.de/design-system/foundations/layout#breakpoints",
+				},
+			],
+		},
+	],
 	...overrides,
 });
 

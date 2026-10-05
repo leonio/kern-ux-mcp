@@ -58,6 +58,23 @@ export const ComponentDocsSchema = z.object({
 	),
 });
 
+/** A foundations page the guides quote, with its sections by ID. */
+export const FoundationInfoSchema = z.object({
+	id: z.string().describe("KERN's ID, e.g. form-inputs-overview."),
+	title: z.string(),
+	url: LinkSchema.describe("The page on kern-ux.de."),
+	summary: z.string().optional(),
+	knowledge: ComponentKnowledgeSchema.optional(),
+	sections: z.array(
+		z.object({
+			id: z.string(),
+			heading: z.string().describe("The page's heading, in German."),
+			url: LinkSchema,
+			summary: z.string().optional(),
+		}),
+	),
+});
+
 export const AccessibilityCriterionSchema = z.object({
 	criterion: z
 		.string()
@@ -182,6 +199,11 @@ export const RegistryManifestSchema = z
 				"The kern-* classes validate_html knows: defined in KERN's SCSS or used in KERN's own examples.",
 			),
 		components: z.array(ComponentInfoSchema),
+		foundations: z
+			.array(FoundationInfoSchema)
+			.describe(
+				"The foundations pages the guides quote (GUIDE_FOUNDATIONS in knowledge-map.ts).",
+			),
 	})
 	.superRefine((manifest, ctx) => {
 		const seen = new Set<string>();
@@ -204,6 +226,7 @@ export type AccessibilityCriterion = z.infer<
 	typeof AccessibilityCriterionSchema
 >;
 export type ComponentInfo = z.infer<typeof ComponentInfoSchema>;
+export type FoundationInfo = z.infer<typeof FoundationInfoSchema>;
 export type TokenSnapshot = z.infer<typeof TokenSnapshotSchema>;
 export type UpstreamSource = z.infer<typeof UpstreamSourceSchema>;
 export type RegistryManifest = z.infer<typeof RegistryManifestSchema>;

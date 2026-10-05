@@ -63,7 +63,7 @@ Per component, from the bundle:
 
 `get_grid` is the exception: it renders the CSS Grid utilities, which replace KERN's deprecated container grid. Its entry is a run of sections of the utilities page (`TOOLS_FROM_SECTIONS` in `knowledge-map.ts`), and KERN's `grid` component isn't in the registry.
 
-Plus the upstream pins from the bundle's index, and the token names, carried over from the previous registry until the bundle has tokens.
+Plus the upstream pins from the bundle's index, the token names (carried over from the previous registry until the bundle has tokens), and the foundations pages the guides quote (`GUIDE_FOUNDATIONS` in `knowledge-map.ts`), with their sections by ID.
 
 ## Importing KERN knowledge
 

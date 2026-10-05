@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-
+import { GUIDE_FOUNDATIONS } from "./knowledge-map.js";
 import { projectRegistry } from "./knowledge-projection.js";
 import { COMPONENT_TOOL_IDS } from "./tool-builders/component-tools.js";
 
@@ -72,6 +72,16 @@ function bundle(input: Record<string, unknown> = {}): Map<string, unknown> {
 		id: "header",
 		examples: [example("flex-header", "stories/Pattern/Header.stories.js")],
 	});
+	for (const id of GUIDE_FOUNDATIONS) {
+		const file = `foundations/${id}.json`;
+		files.set(file, {
+			id,
+			title: { en: id, de: id },
+			status: "documented",
+			links: { docs: `https://www.kern-ux.de/${id}` },
+			...(files.get(file) as object | undefined),
+		});
+	}
 	files.set("index.json", {
 		bundleVersion: "0.2.0",
 		generatedAt: "2026-10-03T09:09:48Z",
@@ -111,7 +121,7 @@ describe("projectRegistry", () => {
 	it("takes the version, date and pins from the index, and keeps the tokens", () => {
 		const registry = project();
 
-		expect(registry.manifestVersion).toBe("2.0.0");
+		expect(registry.manifestVersion).toBe("2.1.0");
 		expect(registry.generatedAt).toBe("2026-10-03T09:09:48Z");
 		expect(registry.upstream).toEqual({
 			package: "@kern-ux/native",
@@ -363,6 +373,52 @@ describe("projectRegistry", () => {
 				},
 			},
 		]);
+	});
+
+	it("carries the foundations pages the guides quote, with their sections by ID", () => {
+		const registry = project({
+			"foundations/layout.json": {
+				id: "layout",
+				title: { en: "Layout", de: "Layout" },
+				status: "documented",
+				links: { docs: "https://www.kern-ux.de/layout" },
+				docs: {
+					url: "https://www.kern-ux.de/layout",
+					summary: { en: "A mobile-first grid." },
+					sections: [
+						{
+							id: "breakpoints",
+							heading: "Breakpoints",
+							url: "https://www.kern-ux.de/layout#breakpoints",
+							summary: { en: "From 576 px up." },
+						},
+					],
+				},
+				knowledge: {
+					summary: { en: "Short." },
+					dos: [{ en: "Think mobile-first." }],
+				},
+			},
+		});
+
+		expect(registry.foundations.map((page) => page.id)).toEqual([
+			...GUIDE_FOUNDATIONS,
+		]);
+		expect(registry.foundations.find((page) => page.id === "layout")).toEqual({
+			id: "layout",
+			title: "Layout",
+			url: "https://www.kern-ux.de/layout",
+			summary: "A mobile-first grid.",
+			knowledge: { dos: ["Think mobile-first."] },
+			sections: [
+				{
+					id: "breakpoints",
+					heading: "Breakpoints",
+					url: "https://www.kern-ux.de/layout#breakpoints",
+					summary: "From 576 px up.",
+				},
+			],
+		});
 	});
 
 	it("knows the classes the SCSS defines and KERN's examples use, with breakpoint variants collapsed", () => {

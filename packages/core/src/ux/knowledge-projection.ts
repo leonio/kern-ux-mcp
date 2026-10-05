@@ -3,6 +3,7 @@ import type {
 	BundleClasses,
 	BundleComponent,
 	BundleExample,
+	BundleFoundation,
 	BundleIcons,
 	BundleIndex,
 	BundleKnowledge,
@@ -16,6 +17,7 @@ import {
 	type BundleSectionRange,
 	componentIdFromKernId,
 	FALLBACK_EXAMPLES,
+	GUIDE_FOUNDATIONS,
 	TOOLS_FROM_SECTIONS,
 	TOOLS_WITHOUT_BUNDLE_COMPONENT,
 } from "./knowledge-map.js";
@@ -23,12 +25,13 @@ import type {
 	AccessibilityCriterion,
 	ComponentInfo,
 	ComponentKnowledge,
+	FoundationInfo,
 	RegistryManifest,
 	TokenSnapshot,
 } from "./registry.schema.js";
 
 /** The registry contract version knowledge:import writes. */
-export const REGISTRY_MANIFEST_VERSION = "2.0.0";
+export const REGISTRY_MANIFEST_VERSION = "2.1.0";
 
 /**
  * registry.json from a checked bundle (checkKnowledgeBundle) and the code-owned
@@ -88,7 +91,37 @@ export function projectRegistry(
 		),
 		classes: projectClasses(files),
 		components: components.sort((a, b) => a.id.localeCompare(b.id)),
+		foundations: GUIDE_FOUNDATIONS.map((id) =>
+			projectFoundation(
+				files.get(`foundations/${id}.json`) as BundleFoundation,
+			),
+		),
 	};
+}
+
+/**
+ * A foundations page the guides quote: its English text, sections by ID. The
+ * utilities page has no title, so its ID stands in.
+ */
+function projectFoundation(
+	page: Omit<BundleFoundation, "title"> &
+		Partial<Pick<BundleFoundation, "title">>,
+): FoundationInfo {
+	return compact({
+		id: page.id,
+		title: page.title?.en ?? page.id.charAt(0).toUpperCase() + page.id.slice(1),
+		url: page.links.docs,
+		summary: page.docs?.summary?.en ?? page.knowledge?.summary?.en,
+		knowledge: projectKnowledge(page.knowledge),
+		sections: (page.docs?.sections ?? []).map((section) =>
+			compact({
+				id: section.id,
+				heading: section.heading,
+				url: section.url,
+				summary: section.summary?.en,
+			}),
+		),
+	});
 }
 
 const BREAKPOINTS = ["sm", "md", "lg", "xl", "xxl"] as const;

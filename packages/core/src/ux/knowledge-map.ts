@@ -64,6 +64,19 @@ export const TOOLS_FROM_SECTIONS = {
 } as const satisfies Record<string, BundleSectionRange & { title: string }>;
 
 /**
+ * The foundations pages the guides quote (kern://guides/{name}), by KERN's
+ * ID. The registry carries their text; the guides pick sections by ID.
+ */
+export const GUIDE_FOUNDATIONS = [
+	"accessibility",
+	"form-inputs-overview",
+	"layout",
+	"layout-overview",
+	"sizes-and-spacing",
+	"utilities",
+] as const;
+
+/**
  * The example each fallback tool returns as its HTML, picked by hand: a rule
  * can't choose (it picks deprecated variants and the search field without a
  * label). layers and pattern aren't components in the bundle; their markup is

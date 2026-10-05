@@ -1,5 +1,5 @@
 {
-  "manifestVersion": "2.0.0",
+  "manifestVersion": "2.1.0",
   "generatedAt": "2026-10-03T09:09:48Z",
   "upstream": {
     "package": "@kern-ux/native",
@@ -7486,6 +7486,637 @@
       "sources": [
         "src/scss/core/typography/_title.scss",
         "stories/Title/Title.stories.js"
+      ]
+    }
+  ],
+  "foundations": [
+    {
+      "id": "accessibility",
+      "title": "Accessibility",
+      "url": "https://www.kern-ux.de/design-system/barrierefreiheit",
+      "summary": "Explains why accessibility matters and what KERN contributes: accessible components built on best practice, guidance on colour, contrast and type sizes - none of which replaces an individual audit or full WCAG conformance for an assembled service. The page outlines the legal background, notes that the KERN code base meets at least BITV 2.0 level AA, treats accessibility as a shared team task, lists testing options and gives the main rules on contrast, alt text, scaling, keyboard use and video.",
+      "knowledge": {
+        "dos": [
+          "Check contrast: 3:1 for text above 24px, 4.5:1 at 24px or smaller, and 3:1 for graphics and controls, including when focused.",
+          "Describe informative graphics in text, give linked graphics an alt text naming purpose and target, and leave alt empty for decorative images.",
+          "Keep services operable by keyboard without traps and let shortcuts be switched off or remapped.",
+          "Limit moving content to 5 seconds or make it switchable off.",
+          "Publish an accessibility statement in an accessible, machine-readable format reachable from the home page and every page.",
+          "Test representative pages that together cover the likely barriers, using self-tests, user testing and expert conformance audits.",
+          "Use valid HTML semantics, avoid duplicate IDs and make status messages detectable by screen readers.",
+          "Subtitle videos that carry sound or offer a media alternative, and convey on-screen information in text as well."
+        ],
+        "donts": [
+          "Don't treat KERN components as a guarantee of WCAG or BITV conformance for the assembled service.",
+          "Don't assume accessibility is one person's job: research, design and project management all share it.",
+          "Don't rely on a self-audit as a substitute for an expert conformance test.",
+          "Don't use sliders and other moving elements without limiting or being able to switch off the motion.",
+          "Don't let content or functionality break when text is enlarged to 200% or the page narrows to 320px."
+        ]
+      },
+      "sections": [
+        {
+          "id": "barrierefreiheit-mit-kern",
+          "heading": "Barrierefreiheit mit KERN",
+          "url": "https://www.kern-ux.de/design-system/barrierefreiheit#barrierefreiheit-mit-kern",
+          "summary": "Accessibility is essential for an inclusive digital experience. KERN helps product owners, designers and developers build accessible applications efficiently and to standard, but it does not replace an individual review or guarantee full WCAG conformance: tests with users remain essential."
+        },
+        {
+          "id": "was-das-kern-design-system-bietet",
+          "heading": "Was das KERN Design-System bietet",
+          "url": "https://www.kern-ux.de/design-system/barrierefreiheit#was-das-kern-design-system-bietet",
+          "summary": "Accessible UI components designed with accessibility best practice from the start, clear guidance on colours, contrast and font sizes, and semantically correct code that supports assistive technologies."
+        },
+        {
+          "id": "was-das-kern-design-system-nicht-leistet",
+          "heading": "Was das KERN Design-System nicht leistet",
+          "url": "https://www.kern-ux.de/design-system/barrierefreiheit#was-das-kern-design-system-nicht-leistet",
+          "summary": "It does not replace an individual accessibility review, does not by itself guarantee full WCAG or BITV conformance for a component in its overall context, and does not cover every specific accessibility requirement, so additional measures are often needed."
+        },
+        {
+          "id": "was-bedeutet-barrierefreiheit",
+          "heading": "Was bedeutet Barrierefreiheit?",
+          "url": "https://www.kern-ux.de/design-system/barrierefreiheit#was-bedeutet-barrierefreiheit",
+          "summary": "In the digital context, accessibility means a service is usable by everyone regardless of individual abilities. Beyond permanent disabilities it also covers temporary ones such as injuries and situational ones, so ignoring the standards leaves out far more people than we assume."
+        },
+        {
+          "id": "wie-sieht-die-gesetzliche-landschaft-aus",
+          "heading": "Wie sieht die gesetzliche Landschaft aus?",
+          "url": "https://www.kern-ux.de/design-system/barrierefreiheit#wie-sieht-die-gesetzliche-landschaft-aus",
+          "summary": "EU Directive 2016/2102 requires public-sector websites and mobile applications to be accessible, transposed into national law by each member state. In Germany rules apply at federal and state level. The BFIT publishes guidance that closes gaps in DIN EN ISO 9241-161, EN 301 549 v3.2.1 and the WCAG."
+        },
+        {
+          "id": "welche-standards-erfüllt-kern",
+          "heading": "Welche Standards erfüllt KERN?",
+          "url": "https://www.kern-ux.de/design-system/barrierefreiheit#welche-standards-erfüllt-kern",
+          "summary": "The KERN code base behind the components meets at least level AA of BITV 2.0. A service built with them is not automatically accessible: conformance must be developed and verified in the overall context, and that responsibility lies with the implementing teams, not with KERN."
+        },
+        {
+          "id": "wer-ist-verantwortlich-für-barrierefreiheit",
+          "heading": "Wer ist verantwortlich für Barrierefreiheit?",
+          "url": "https://www.kern-ux.de/design-system/barrierefreiheit#wer-ist-verantwortlich-für-barrierefreiheit",
+          "summary": "Accessibility is a team task. One person may hold particular expertise, but every role contributes: researchers include people with disabilities in interviews and surveys, designers watch contrast and usability, and project managers plan time for accessibility work."
+        },
+        {
+          "id": "testarten",
+          "heading": "Testarten",
+          "url": "https://www.kern-ux.de/design-system/barrierefreiheit#testarten",
+          "summary": "Auditing every page is impractical: pick representative pages that together cover the likely barriers. Options: the BITV self-test, useful early but no substitute for an expert test; user testing with people with disabilities; and a detailed conformance audit by a qualified provider."
+        },
+        {
+          "id": "erklärung-zur-barrierefreiheit",
+          "heading": "Erklärung zur Barrierefreiheit",
+          "url": "https://www.kern-ux.de/design-system/barrierefreiheit#erklärung-zur-barrierefreiheit",
+          "summary": "The accessibility statement required by section 12b of the German disability equality act must be published in an accessible, machine-readable format and be reachable from the home page and every page. For mobile applications publish it where the app is downloaded or on the public body's website."
+        },
+        {
+          "id": "leichte-sprache-und-deutsche-gebärdensprache",
+          "heading": "Leichte Sprache und deutsche Gebärdensprache",
+          "url": "https://www.kern-ux.de/design-system/barrierefreiheit#leichte-sprache-und-deutsche-gebärdensprache",
+          "summary": "Under section 4 BITV 2.0, the information on a website's home page must also be provided in plain-language form and in German Sign Language. The BITV 2.0 ordinance holds the details."
+        },
+        {
+          "id": "allgemeine-richtlinien",
+          "heading": "Allgemeine Richtlinien",
+          "url": "https://www.kern-ux.de/design-system/barrierefreiheit#allgemeine-richtlinien",
+          "summary": "A rough list of the most important accessibility rules; the BFIT guidance and EN 301 549 carry the detailed requirements."
+        },
+        {
+          "id": "wahrnehmbarkeit-von-farbkontrasten",
+          "heading": "Wahrnehmbarkeit von Farbkontrasten",
+          "url": "https://www.kern-ux.de/design-system/barrierefreiheit#wahrnehmbarkeit-von-farbkontrasten",
+          "summary": "Text above 24px needs a contrast ratio of 3:1; text at 24px or smaller needs 4.5:1. Graphics and graphical controls need 3:1, and at least 3:1 must hold when they receive focus."
+        },
+        {
+          "id": "alternativtexte",
+          "heading": "Alternativtexte",
+          "url": "https://www.kern-ux.de/design-system/barrierefreiheit#alternativtexte",
+          "summary": "For linked graphics, state the purpose and target of the link. Describe informative graphics in text, and leave the alt attribute empty for decorative ones. Alternative texts also support SEO."
+        },
+        {
+          "id": "skalierbarkeit",
+          "heading": "Skalierbarkeit",
+          "url": "https://www.kern-ux.de/design-system/barrierefreiheit#skalierbarkeit",
+          "summary": "Pages must reflow down to 320px in portrait and landscape. Text must be resizable up to 200% without loss of content or functionality, except for captions and images of text. Content that cannot scale, such as tables and images, may scroll horizontally."
+        },
+        {
+          "id": "tastaturbedienbarkeit",
+          "heading": "Tastaturbedienbarkeit",
+          "url": "https://www.kern-ux.de/design-system/barrierefreiheit#tastaturbedienbarkeit",
+          "summary": "Make online services operable with a keyboard, including mobile apps. Shortcuts must be switchable off or remappable and no keyboard trap may exist: a trap is when focus can enter a region but cannot leave it again with the usual keys."
+        },
+        {
+          "id": "bewegte-inhalte",
+          "heading": "Bewegte Inhalte",
+          "url": "https://www.kern-ux.de/design-system/barrierefreiheit#bewegte-inhalte",
+          "summary": "Moving content distracts. Avoid sliders and other moving elements, limit them to 5 seconds or make them switchable off; the BFIT guidance on animation has more."
+        },
+        {
+          "id": "robustheit",
+          "heading": "Robustheit",
+          "url": "https://www.kern-ux.de/design-system/barrierefreiheit#robustheit",
+          "summary": "Ensure compatibility with assistive technology: HTML semantics must be correct, IDs must not be duplicated (check with the W3C markup validation service), and status indicators such as loading messages must be detectable by screen readers."
+        },
+        {
+          "id": "videos",
+          "heading": "Videos",
+          "url": "https://www.kern-ux.de/design-system/barrierefreiheit#videos",
+          "summary": "A video with sound needs subtitles or a media alternative, and the tools support captioning including live captions. Information shown visually in a video must also be conveyed another way, as a description of what is seen or as a full text alternative."
+        },
+        {
+          "id": "redaktionelle-inhalte",
+          "heading": "Redaktionelle Inhalte",
+          "url": "https://www.kern-ux.de/design-system/barrierefreiheit#redaktionelle-inhalte",
+          "summary": "Editorial content such as podcasts, PDFs and Office documents should be accessible too. The SHUFFLE project of HdM Stuttgart published three extended checklists in German with explainer videos covering Word, Excel and PowerPoint, and offers training on accessible office documents."
+        }
+      ]
+    },
+    {
+      "id": "form-inputs-overview",
+      "title": "Form inputs",
+      "url": "https://www.kern-ux.de/komponenten/form-inputs/index",
+      "summary": "Overview page for every KERN input field type (checkboxes, date, e-mail, file, input group, number, password, radios, select, tel, text, textarea, url) plus the rules that apply to all of them: available states, label and legend, marking required fields with aria-required=true, marking optional fields, hint texts, error messages, field width and height, inputs outside forms, and why the disabled attribute should be avoided.",
+      "knowledge": {
+        "whenToUse": [
+          "Use the readonly state only when showing stored information again is valuable to the user.",
+          "Use the error states after submit validation, for example when a required field was left empty.",
+          "Use aria-disabled=true when an input must look disabled but stay reachable by keyboard and readable by screen readers."
+        ],
+        "dos": [
+          "Prefer aria-required=true over the native required attribute to keep validation, styling and error messages under control.",
+          "Keep label text short and on one line, with no trailing colon.",
+          "Place at most two closely related text fields side by side and prefer stacking fields.",
+          "Write error messages concisely, name a single cause and always give an action, without blaming the user.",
+          "Write hint texts as a complete sentence with a full stop."
+        ],
+        "donts": [
+          "Do not put links in hint text; screen readers do not detect them as links.",
+          "Do not label the many required fields; label the few optional ones instead.",
+          "Do not use the disabled attribute; hide the input or use aria-disabled=true with JavaScript instead."
+        ]
+      },
+      "sections": [
+        {
+          "id": "beschreibung",
+          "heading": "Beschreibung",
+          "url": "https://www.kern-ux.de/komponenten/form-inputs/index#beschreibung",
+          "summary": "An input field lets users enter data such as text or numbers into the system. This page collects general information on all input types; the individual variants (checkboxes, date, e-mail, file, input group, number, password, radios, select, tel, text, textarea, url) have their own subpages."
+        },
+        {
+          "id": "states",
+          "heading": "States",
+          "url": "https://www.kern-ux.de/komponenten/form-inputs/index#states",
+          "summary": "Inputs can take the states default (normal entry), hover, focus, readonly (display stored values that cannot be changed), disabled, and error in combination with default, focus or hover. Not every field uses every state; each input type lists the states it supports."
+        },
+        {
+          "id": "label-und-legende",
+          "heading": "Label und Legende",
+          "url": "https://www.kern-ux.de/komponenten/form-inputs/index#label-und-legende",
+          "summary": "The label or legend of an input should always describe the required entry as briefly and precisely as possible."
+        },
+        {
+          "id": "required-auszeichnung",
+          "heading": "Required-Auszeichnung",
+          "url": "https://www.kern-ux.de/komponenten/form-inputs/index#required-auszeichnung",
+          "summary": "Mark required fields with aria-required=true rather than the native required attribute, which triggers inconsistent browser validation. aria-required=true is recognised by assistive technology while validation stays under JavaScript and CSS control. Forms should be mostly required fields."
+        },
+        {
+          "id": "optional-label",
+          "heading": "Optional-Label",
+          "url": "https://www.kern-ux.de/komponenten/form-inputs/index#optional-label",
+          "summary": "Mark optional inputs clearly and consider carefully whether the information is really needed, so the form does not become overloaded. Ideally a form is mostly required fields with only a few optional ones."
+        },
+        {
+          "id": "hint",
+          "heading": "Hint",
+          "url": "https://www.kern-ux.de/komponenten/form-inputs/index#hint",
+          "summary": "A hint gives supporting information and extra context, for example the expected data format. It should not carry long explanations, lists or paragraphs, and should only repeat information that helps many users and is not already stated elsewhere in the form."
+        },
+        {
+          "id": "fehlermeldungen",
+          "heading": "Fehlermeldungen",
+          "url": "https://www.kern-ux.de/komponenten/form-inputs/index#fehlermeldungen",
+          "summary": "Write a specific message for every recognisable error state and keep it constructive without blaming the user, understandable and free of jargon, concise with a single cause and active language, and friendly and supportive rather than discouraging. Based on the German UPA guide."
+        },
+        {
+          "id": "breite-und-höhe-der-eingabefelder",
+          "heading": "Breite und Höhe der Eingabefelder",
+          "url": "https://www.kern-ux.de/komponenten/form-inputs/index#breite-und-höhe-der-eingabefelder",
+          "summary": "Applies to text and number inputs, not to checkboxes or radios. Height stays fixed however much text is entered; width is flexible but should not be too wide and should hint at the length of the expected value. Use a consistent width for similar information and test on different screen sizes."
+        },
+        {
+          "id": "eingabefelder-außerhalb-von-formularen",
+          "heading": "Eingabefelder außerhalb von Formularen",
+          "url": "https://www.kern-ux.de/komponenten/form-inputs/index#eingabefelder-außerhalb-von-formularen",
+          "summary": "A text or number input may exceptionally sit on a light grey background (layout/background/hued) outside classic forms, for example in a short input mask that should stand apart from the rest of the page. The field background must then be light (layout/background-inverted)."
+        },
+        {
+          "id": "dos-und-donts",
+          "heading": "Dos und Don’ts",
+          "url": "https://www.kern-ux.de/komponenten/form-inputs/index#dos-und-donts",
+          "summary": "Keep label text short, on one line, with no trailing colon. Place at most two closely related fields side by side. Write error messages concisely with an action and no blame. Do not put links in hint text, and write hints as complete sentences. Mark the few optional fields, not the many required."
+        },
+        {
+          "id": "weitere-hinweise",
+          "heading": "Weitere Hinweise",
+          "url": "https://www.kern-ux.de/komponenten/form-inputs/index#weitere-hinweise",
+          "summary": "Allow copying and pasting content and the use of autocomplete in input fields. A guide to good error messages is available from the German UPA."
+        },
+        {
+          "id": "disabled-attribut",
+          "heading": "disabled Attribut",
+          "url": "https://www.kern-ux.de/komponenten/form-inputs/index#disabled-attribut",
+          "summary": "disabled prevents interaction and makes an input unreachable for keyboard users: it cannot be focused with the tab key or read by screen readers. Prefer hiding the input and showing it later. If deactivation is unavoidable, prefer aria-disabled=true and disable interaction in JavaScript."
+        }
+      ]
+    },
+    {
+      "id": "layout",
+      "title": "Layout",
+      "url": "https://www.kern-ux.de/design-system/foundations/layout",
+      "summary": "The layout foundation is a mobile-first 12-column grid of containers, rows, columns and fixed gutters. Fixed containers keep a controlled width that suits reading; fluid containers span the full viewport for headers, footers and media-heavy areas. Breakpoints change grid behaviour at 576, 768, 992, 1200 and 1600px. Twelve columns divide in many ways, so even, asymmetric and single-column layouts are possible; keep text lines at roughly 60 to 80 characters, since they grow wide on large screens.",
+      "knowledge": {
+        "whenToUse": [
+          "Use fixed containers where a controlled width helps readability, and fluid containers for headers, footers or media-heavy areas."
+        ],
+        "dos": [
+          "Think layouts mobile-first, from small to large viewports, and let the grid change behaviour only at the defined breakpoints.",
+          "Keep the line length of text-heavy content at roughly 60 to 80 characters at every breakpoint.",
+          "Use column offsets when you need narrower columns and clearer reading structures."
+        ],
+        "donts": [
+          "Do not let single-column layouts stretch text into overly wide blocks on large screens."
+        ]
+      },
+      "sections": [
+        {
+          "id": "grid-struktur",
+          "heading": "Grid Struktur",
+          "url": "https://www.kern-ux.de/design-system/foundations/layout#grid-struktur",
+          "summary": "The grid follows the classic structure of container, row, column and gutter. The container centres content within a breakpoint-dependent width, rows group columns horizontally, columns carry content, and the fixed gutter comes from the horizontal padding of the column elements."
+        },
+        {
+          "id": "fluid-vs-fixe-layouts",
+          "heading": "Fluid vs. Fixe Layouts",
+          "url": "https://www.kern-ux.de/design-system/foundations/layout#fluid-vs-fixe-layouts",
+          "summary": "Two container variants exist. Fixed containers use defined maximum widths tied to the breakpoints and suit content areas that need a controlled width, while fluid containers stretch across the whole viewport and fit headers, footers or media-heavy areas."
+        },
+        {
+          "id": "breakpoints",
+          "heading": "Breakpoints",
+          "url": "https://www.kern-ux.de/design-system/foundations/layout#breakpoints",
+          "summary": "The grid is mobile-first, so layouts are designed from small to large viewports and behaviour can change at defined thresholds. The column prefixes run from --kern-col-* below 576px through --kern-col-sm-*, -md-* (768px), -lg-* (992px), -xl-* (1200px) to --kern-col-xxl-* from 1600px."
+        },
+        {
+          "id": "layoutaufteilungen",
+          "heading": "Layoutaufteilungen",
+          "url": "https://www.kern-ux.de/design-system/foundations/layout#layoutaufteilungen",
+          "summary": "The grid supports many layout variants, from simple single-column pages to complex multi-column structures, and the 12-column base makes widely different divisions easy to realise."
+        },
+        {
+          "id": "gleichmäßige-spaltenlayouts",
+          "heading": "gleichmäßige Spaltenlayouts",
+          "url": "https://www.kern-ux.de/design-system/foundations/layout#gleichmäßige-spaltenlayouts",
+          "summary": "Shows even column layouts, where the 12-column base is divided into equal parts."
+        },
+        {
+          "id": "asymmetrische-aufteilungen",
+          "heading": "asymmetrische Aufteilungen",
+          "url": "https://www.kern-ux.de/design-system/foundations/layout#asymmetrische-aufteilungen",
+          "summary": "Shows asymmetric column layouts, where the 12-column base is divided into unequal parts."
+        },
+        {
+          "id": "einspaltige-layouts",
+          "heading": "einspaltige Layouts",
+          "url": "https://www.kern-ux.de/design-system/foundations/layout#einspaltige-layouts",
+          "summary": "Single-column layouts can produce very wide text blocks on larger screens, so keep line length in a comfortable range, ideally about 60 to 80 characters, and watch this at every breakpoint. Offsets let you create narrower columns and clearer reading structures on any device."
+        }
+      ]
+    },
+    {
+      "id": "layout-overview",
+      "title": "Layout components",
+      "url": "https://www.kern-ux.de/komponenten/layout/index",
+      "summary": "The Layout area covers a 12-column Bootstrap-style grid, whose rows act as flexbox wrappers, and the layout utility classes for flexbox, CSS Grid, spacing, stack and visibility. For new projects and active layout work CSS Grid is preferred for its two-dimensional control; otherwise use the grid for the outer shell, the flex grid for content flow and flex helpers for fine alignment inside components.",
+      "knowledge": {
+        "whenToUse": [
+          "Use the CSS Grid utilities for page layouts and complex two-dimensional structures such as header, sidebar, main and footer.",
+          "Use the Bootstrap-style grid for standard responsive column layouts such as three-column content areas.",
+          "Use the flex helper classes for fine alignment inside components, for example centring icons or aligning buttons in cards."
+        ],
+        "dos": [
+          "Use Grid for the outer shell, the Flex Grid for content flow and flex helpers for details inside components."
+        ]
+      },
+      "sections": [
+        {
+          "id": "kurzbeschreibung",
+          "heading": "Kurzbeschreibung",
+          "url": "https://www.kern-ux.de/komponenten/layout/index#kurzbeschreibung",
+          "summary": "The Layout area documents the grid and layout helper classes: a 12-column grid system based on Bootstrap, where rows act as flexbox wrappers, and utilities for flexbox, CSS Grid, spacing, stacking and visibility."
+        },
+        {
+          "id": "was-verwende-ich-wann",
+          "heading": "Was verwende ich wann?",
+          "url": "https://www.kern-ux.de/komponenten/layout/index#was-verwende-ich-wann",
+          "summary": "For new projects and actively developed layouts, CSS Grid is the preferred choice: it offers more precise two-dimensional control and a more modern code standard."
+        },
+        {
+          "id": "css-grid-hilfsklassen-2d",
+          "heading": "CSS Grid Hilfsklassen (2D)",
+          "url": "https://www.kern-ux.de/komponenten/layout/index#css-grid-hilfsklassen-2d",
+          "summary": "For the global page layout and complex two-dimensional structures, such as pages with header, sidebar, main and footer, or tile grids with variable heights and widths. Layout-first: you define the grid and the content follows. Gives full control over rows and columns at once."
+        },
+        {
+          "id": "grid-system-bootstrap-stil-1d",
+          "heading": "Grid System / Bootstrap-Stil (1D)",
+          "url": "https://www.kern-ux.de/komponenten/layout/index#grid-system-bootstrap-stil-1d",
+          "summary": "For standardised, responsive column layouts, such as typical content areas that wrap on mobile. Row-first: you think in horizontal rows divided into (usually 12) columns. Fast to build and highly predictable."
+        },
+        {
+          "id": "css-flex-hilfsklassen-1d",
+          "heading": "CSS-Flex Hilfsklassen (1D)",
+          "url": "https://www.kern-ux.de/komponenten/layout/index#css-flex-hilfsklassen-1d",
+          "summary": "For fine alignment inside components, such as centring icons, distributing navigation links or aligning buttons in cards. Content-first: the size of the content drives the distribution. Point-wise control, for example with kern-justify-content-between, without a fixed column system."
+        },
+        {
+          "id": "quick-check-was-nehme-ich-wann",
+          "heading": "Quick-Check: Was nehme ich wann?",
+          "url": "https://www.kern-ux.de/komponenten/layout/index#quick-check-was-nehme-ich-wann",
+          "summary": "Golden rule: use the grid for the outer shell, the flex grid for content flow and the flex helper classes for details inside components."
+        }
+      ]
+    },
+    {
+      "id": "sizes-and-spacing",
+      "title": "Sizes and spacing",
+      "url": "https://www.kern-ux.de/design-system/foundations/groesse-und-abstaende",
+      "summary": "Sizes and spacing use a small set of combinable metric tokens covering every needed border width, radius, container size, padding, gap and margin. They form three groups, each with a default step: border tokens, dimension tokens for container sizes, and space tokens for padding, gap and margin. Larger whitespace comes from combining space steps through containers. Stacking guidance closes the page: spacing follows text size, close elements stay close and groups get more horizontal room.",
+      "knowledge": {
+        "whenToUse": [
+          "Use the border, dimension and space token groups for border widths and radii, fixed container sizes, padding, gaps and margins."
+        ],
+        "dos": [
+          "Combine several space tokens to create larger whitespace instead of introducing new values.",
+          "Keep elements that belong together close and separate unrelated groups with more whitespace.",
+          "Scale stacking space to the text size, for example --kern-metric-space-large next to Heading-Large.",
+          "Give grouped elements more space horizontally than vertically, for example --kern-metric-space-large across and --kern-metric-space-default down."
+        ],
+        "donts": [
+          "Do not place a large gap between text and a following button; keep them together with --kern-metric-space-default so the law of proximity still holds."
+        ]
+      },
+      "sections": [
+        {
+          "id": "übersicht",
+          "heading": "Übersicht",
+          "url": "https://www.kern-ux.de/design-system/foundations/groesse-und-abstaende#übersicht",
+          "summary": "Spacing and sizes are defined simply and accessibly with only a few tokens that can be combined, enough to express every required value. KERN offers four groups, each with a default size, and large whitespace comes from combining several spaces through a container and its padding."
+        },
+        {
+          "id": "border-token",
+          "heading": "Border-Token",
+          "url": "https://www.kern-ux.de/design-system/foundations/groesse-und-abstaende#border-token",
+          "summary": "Lists the border width tokens (none 0, light 1px, default 2px, bold 4px, heavy 8px) and the border radius tokens (none 0, small 2px, default 4px, large 8px, full 9999px) with their values."
+        },
+        {
+          "id": "dimension-token-feste-container-größen",
+          "heading": "Dimension-Token (feste Container-Größen)",
+          "url": "https://www.kern-ux.de/design-system/foundations/groesse-und-abstaende#dimension-token-feste-container-größen",
+          "summary": "Lists the dimension tokens for fixed container sizes, running from --kern-metric-dimension-2x-small at 8px through --kern-metric-dimension-default at 24px up to --kern-metric-dimension-7x-large at 144px."
+        },
+        {
+          "id": "space-token-padding-gap-margin",
+          "heading": "Space-Token (Padding / Gap / Margin)",
+          "url": "https://www.kern-ux.de/design-system/foundations/groesse-und-abstaende#space-token-padding-gap-margin",
+          "summary": "Lists the space tokens used for padding, gap and margin, from --kern-metric-space-none at 0 through --kern-metric-space-default at 16px up to --kern-metric-space-11x-large at 192px."
+        },
+        {
+          "id": "umgang-mit-weißraum",
+          "heading": "Umgang mit Weißraum",
+          "url": "https://www.kern-ux.de/design-system/foundations/groesse-und-abstaende#umgang-mit-weißraum",
+          "summary": "Whitespace signals how strongly elements belong together: the closer they are, the stronger the relation, and the wider the gap, the more clearly groups and patterns become visible. Larger dimensions are built by combining smaller ones through auto-layout in Figma or padding in CSS."
+        },
+        {
+          "id": "stacking",
+          "heading": "Stacking",
+          "url": "https://www.kern-ux.de/design-system/foundations/groesse-und-abstaende#stacking",
+          "summary": "Body and Heading components stack directly. When further elements such as a button or a card follow, group them with whitespace: spacing scales with text size, so Heading-Large pairs with --kern-metric-space-large, while text and a following button use --kern-metric-space-default."
+        },
+        {
+          "id": "space-kombination-beim-stacking",
+          "heading": "Space Kombination beim Stacking",
+          "url": "https://www.kern-ux.de/design-system/foundations/groesse-und-abstaende#space-kombination-beim-stacking",
+          "summary": "Stacking starts from the text: a Title-Default combines with --kern-metric-space-default and a Title-Small with --kern-metric-space-small. Within a group, vertical spacing is smaller than horizontal, for example --kern-metric-space-default vertically and --kern-metric-space-large horizontally."
+        }
+      ]
+    },
+    {
+      "id": "utilities",
+      "title": "Utilities",
+      "url": "https://www.kern-ux.de/komponenten/layout/hilfsklassen",
+      "summary": "Reference for the KERN layout helper classes: flex container and item classes, CSS Grid utilities whose .kern-grid wrapper replaces the legacy .kern-row grid, the container and container-fluid wrappers, gap and spacing classes using the .kern-{property}{sides}-{size}[-{breakpoint}] scheme, stack, visibility and display helpers, and size, aspect-ratio and overflow classes. All classes are mobile first; breakpoints are sm 576px, md 768px, lg 992px, xl 1200px and xxl 1600px.",
+      "knowledge": {
+        "whenToUse": [
+          "Use .kern-container to centre page content and cap it at a readable width; place it as the direct child of body or the main layout area.",
+          "Use .kern-container-fluid for elements that must span the full viewport width.",
+          "Use .kern-stack to arrange elements vertically with consistent spacing."
+        ],
+        "dos": [
+          "Define spacing with kern-gap instead of adding margins between grid items.",
+          "Use kern-col-full for elements that should break out of the grid."
+        ],
+        "donts": [
+          "Do not mix the legacy kern-row syntax with kern-grid."
+        ]
+      },
+      "sections": [
+        {
+          "id": "css-flex",
+          "heading": "CSS Flex",
+          "url": "https://www.kern-ux.de/komponenten/layout/hilfsklassen#css-flex",
+          "summary": "Utilities for flex containers and items. Most properties accept a breakpoint suffix, for example .kern-flex-row-md."
+        },
+        {
+          "id": "container",
+          "heading": "Container",
+          "url": "https://www.kern-ux.de/komponenten/layout/hilfsklassen#container",
+          "summary": "Classes for display and direction: .kern-flex, .kern-inline-flex, .kern-flex-row[-{breakpoint}], .kern-flex-row-reverse, .kern-flex-col, .kern-flex-col-reverse, .kern-flex-wrap and .kern-flex-nowrap."
+        },
+        {
+          "id": "ausrichtung-justify-align",
+          "heading": "Ausrichtung (Justify & Align)",
+          "url": "https://www.kern-ux.de/komponenten/layout/hilfsklassen#ausrichtung-justify-align",
+          "summary": "Breakpoint-capable justify-content classes on the main axis (start, end, center, between, around, evenly) and align-items classes on the cross axis (start, end, center, stretch, baseline), for example .kern-justify-content-between-lg. An example switches from row on mobile to column at md."
+        },
+        {
+          "id": "order",
+          "heading": "Order",
+          "url": "https://www.kern-ux.de/komponenten/layout/hilfsklassen#order",
+          "summary": "Controls the order of flex items, also per breakpoint: .kern-order-{0-12}[-{breakpoint}], .kern-order-first (order: -9999) and .kern-order-last (order: 9999), for example .kern-order-2-sm."
+        },
+        {
+          "id": "css-grid",
+          "heading": "CSS Grid",
+          "url": "https://www.kern-ux.de/komponenten/layout/hilfsklassen#css-grid",
+          "summary": "Low-level access to CSS Grid for complex layouts without custom CSS. A wrapper .kern-grid defines the grid with display: grid and replaces the classic .kern-row architecture; columns and gaps are set through modifier classes."
+        },
+        {
+          "id": "beschreibung",
+          "heading": "Beschreibung",
+          "url": "https://www.kern-ux.de/komponenten/layout/hilfsklassen#beschreibung",
+          "summary": "Grid display classes: .kern-grid (display: grid, default 12 columns and gap-lg) and .kern-inline-grid. Column and row counts come from .kern-grid-cols-{n} (1-12) and .kern-grid-rows-{n} (1-6); gaps from .kern-gap-{size}[-{breakpoint}], also .kern-gap-x-{size} and .kern-gap-y-{size}."
+        },
+        {
+          "id": "spalten-platzierung-items",
+          "heading": "Spalten-Platzierung (Items)",
+          "url": "https://www.kern-ux.de/komponenten/layout/hilfsklassen#spalten-platzierung-items",
+          "summary": "Places items in the grid: .kern-col-{n}[-{breakpoint}] spans n columns, .kern-col-start-{n} and .kern-col-end-{n} set the start or end column line."
+        },
+        {
+          "id": "drei-spalten-layout",
+          "heading": "Drei Spalten Layout",
+          "url": "https://www.kern-ux.de/komponenten/layout/hilfsklassen#drei-spalten-layout",
+          "summary": "Example that creates three equally wide columns across all viewports."
+        },
+        {
+          "id": "responsive-anpassung",
+          "heading": "Responsive Anpassung",
+          "url": "https://www.kern-ux.de/komponenten/layout/hilfsklassen#responsive-anpassung",
+          "summary": "Responsive suffixes adapt the layout; the example starts with 2 columns on mobile and switches to 4 columns from the md breakpoint."
+        },
+        {
+          "id": "1-raster-definition",
+          "heading": "1. Raster Definition",
+          "url": "https://www.kern-ux.de/komponenten/layout/hilfsklassen#1-raster-definition",
+          "summary": "Defines the basic grid structure on the container."
+        },
+        {
+          "id": "2-abstände-gap",
+          "heading": "2. Abstände (Gap)",
+          "url": "https://www.kern-ux.de/komponenten/layout/hilfsklassen#2-abstände-gap",
+          "summary": "Controls the gap between columns and rows."
+        },
+        {
+          "id": "3-wrapping",
+          "heading": "3. Wrapping",
+          "url": "https://www.kern-ux.de/komponenten/layout/hilfsklassen#3-wrapping",
+          "summary": "Grid items wrap automatically onto the next row once more than the available 12 columns are occupied."
+        },
+        {
+          "id": "4-positionierung-starts-ends",
+          "heading": "4. Positionierung (Starts & Ends)",
+          "url": "https://www.kern-ux.de/komponenten/layout/hilfsklassen#4-positionierung-starts-ends",
+          "summary": "Replaces traditional offsets: it states explicitly where an element starts or ends."
+        },
+        {
+          "id": "5-automatische-spalten-auto-columns",
+          "heading": "5. Automatische Spalten (Auto Columns)",
+          "url": "https://www.kern-ux.de/komponenten/layout/hilfsklassen#5-automatische-spalten-auto-columns",
+          "summary": "Items without an explicit column class occupy one unit of the 12-column grid by default. .kern-col-auto sizes an item from its content but keeps it inside the grid: in CSS Grid it takes exactly one grid cell regardless of content width."
+        },
+        {
+          "id": "6-verschachtelung-nesting",
+          "heading": "6. Verschachtelung (Nesting)",
+          "url": "https://www.kern-ux.de/komponenten/layout/hilfsklassen#6-verschachtelung-nesting",
+          "summary": "Grids can be nested without limit. The inner grid does not inherit the parent's column count; it defines a new grid context."
+        },
+        {
+          "id": "breakpoints",
+          "heading": "Breakpoints",
+          "url": "https://www.kern-ux.de/komponenten/layout/hilfsklassen#breakpoints",
+          "summary": "All classes follow the mobile-first approach."
+        },
+        {
+          "id": "dos-and-donts",
+          "heading": "Dos and Don'ts",
+          "url": "https://www.kern-ux.de/komponenten/layout/hilfsklassen#dos-and-donts",
+          "summary": "Do use kern-gap to define spacing, and kern-col-full for elements that should break out of the grid. Do not mix kern-row (legacy) with kern-grid syntax."
+        },
+        {
+          "id": "kern-container",
+          "heading": "Kern Container",
+          "url": "https://www.kern-ux.de/komponenten/layout/hilfsklassen#kern-container",
+          "summary": ".kern-container is a primary layout element: it centres the whole page content horizontally and limits it to a readable maximum width. It should be the direct child of the body tag or of the main layout area."
+        },
+        {
+          "id": "kern-container-fluid",
+          "heading": "Kern Container Fluid",
+          "url": "https://www.kern-ux.de/komponenten/layout/hilfsklassen#kern-container-fluid",
+          "summary": ".kern-container-fluid is a variant without a max-width: it always takes the full viewport width at every breakpoint. It is typically used to keep the horizontal padding at the page edges while content fills the available area, ideal for elements that must span the full width."
+        },
+        {
+          "id": "funktionsweise",
+          "heading": "Funktionsweise",
+          "url": "https://www.kern-ux.de/komponenten/layout/hilfsklassen#funktionsweise",
+          "summary": "Centring via margin-left and margin-right set to auto; a max-width bound to the breakpoints so content does not become unreadably wide on large screens; horizontal padding so content does not stick to the browser edges, especially on small viewports."
+        },
+        {
+          "id": "gap-abstände",
+          "heading": "Gap (Abstände)",
+          "url": "https://www.kern-ux.de/komponenten/layout/hilfsklassen#gap-abstände",
+          "summary": "Gap classes space flex and grid elements through the gap property, without extra margins or paddings. All KERN spaces can be used as values."
+        },
+        {
+          "id": "spacing",
+          "heading": "Spacing",
+          "url": "https://www.kern-ux.de/komponenten/layout/hilfsklassen#spacing",
+          "summary": "Margin and padding classes follow .kern-{property}{sides}-{size}[-{breakpoint}]: property m or p; sides empty (all), t, b, l, r, x (horizontal) or y (vertical); a size; and an optional breakpoint. Examples: .kern-m-md, .kern-pt-lg, .kern-p-lg-sm (large padding from the small breakpoint)."
+        },
+        {
+          "id": "verfügbare-breakpoints",
+          "heading": "Verfügbare Breakpoints",
+          "url": "https://www.kern-ux.de/komponenten/layout/hilfsklassen#verfügbare-breakpoints",
+          "summary": "Same breakpoints as the grid system: no suffix is always active (mobile first), -sm from 576px, -md from 768px, -lg from 992px, -xl from 1200px, -xxl from 1600px. kern-mx-auto centres a block element with a fixed width."
+        },
+        {
+          "id": "stack",
+          "heading": "Stack",
+          "url": "https://www.kern-ux.de/komponenten/layout/hilfsklassen#stack",
+          "summary": ".kern-stack is a vertical flex container with the standard md gap. .kern-stack-{size} changes the spacing for all screen sizes; sizes are none, xxs, xs, sm, md, lg, xl. .kern-stack-{size}-{breakpoint} makes it responsive."
+        },
+        {
+          "id": "verschachtelter-stack",
+          "heading": "Verschachtelter Stack",
+          "url": "https://www.kern-ux.de/komponenten/layout/hilfsklassen#verschachtelter-stack",
+          "summary": "Stack supports unlimited nesting, which allows flexible layout hierarchies on one page."
+        },
+        {
+          "id": "visibility-display",
+          "heading": "Visibility & Display",
+          "url": "https://www.kern-ux.de/komponenten/layout/hilfsklassen#visibility-display",
+          "summary": "Display classes with breakpoints, e.g. .kern-hidden-sm: .kern-block, .kern-flex, .kern-inline-block, .kern-inline, .kern-hidden. .kern-sr-only is screen-reader only; .kern-sr-only-mobile hides on mobile (up to 767px), shows on desktop. .kern-overflow-{auto|hidden|visible|scroll} sets overflow."
+        },
+        {
+          "id": "size-aspect-ratio-overflow-utilities",
+          "heading": "Size, Aspect Ratio & Overflow Utilities",
+          "url": "https://www.kern-ux.de/komponenten/layout/hilfsklassen#size-aspect-ratio-overflow-utilities",
+          "summary": "Classes for the dimensions (width, height) and aspect ratio of elements. All are responsive and take a suffix such as -md or -lg, for example .kern-w-full-lg."
+        },
+        {
+          "id": "width-height",
+          "heading": "Width Height",
+          "url": "https://www.kern-ux.de/komponenten/layout/hilfsklassen#width-height",
+          "summary": "Use .kern-w/h-full for 100% of the parent size and .kern-w/h-screen for 100% of the viewport size."
+        },
+        {
+          "id": "min-und-max",
+          "heading": "Min und Max",
+          "url": "https://www.kern-ux.de/komponenten/layout/hilfsklassen#min-und-max",
+          "summary": ".kern-min-h-screen is often used in layouts to make sure content fills at least the screen height."
+        },
+        {
+          "id": "aspect-ratio-mit-beispielen",
+          "heading": "Aspect Ratio mit Beispielen",
+          "url": "https://www.kern-ux.de/komponenten/layout/hilfsklassen#aspect-ratio-mit-beispielen",
+          "summary": "The .kern-aspect-* classes force an element to keep a fixed aspect ratio even when its width changes."
+        },
+        {
+          "id": "overflow",
+          "heading": "Overflow",
+          "url": "https://www.kern-ux.de/komponenten/layout/hilfsklassen#overflow",
+          "summary": "These classes decide what happens when an element's content is larger than the element itself, and are typically used on containers. .kern-overflow-auto is the recommended default in most cases."
+        }
       ]
     }
   ]

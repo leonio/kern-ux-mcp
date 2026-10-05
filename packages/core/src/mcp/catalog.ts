@@ -1,5 +1,6 @@
 import { componentCards } from "../resources/component-cards.js";
 import type { KernResourceDefinition } from "../resources/definition.js";
+import { guides } from "../resources/guides.js";
 import { loadRegistryFromManifest } from "../ux/registry.js";
 import { assertComponentToolsInRegistry } from "../ux/tool-builders/component-tools.js";
 import type { ToolDef } from "../ux/tool-builders/shared.js";
@@ -35,5 +36,8 @@ function buildCatalog(): Catalog {
 		}
 		return tool;
 	});
-	return { tools, resources: [componentCards(registry, tools)] };
+	return {
+		tools,
+		resources: [componentCards(registry, tools), guides(registry, tools)],
+	};
 }

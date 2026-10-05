@@ -34,9 +34,11 @@ describe.each(MCP_ERAS)("MCP resources over $era", ({ era, connect }) => {
 	it("lists a card per component, with a title, Markdown type and size", async () => {
 		const { resources } = await client.listResources();
 
-		expect(resources.map((resource) => resource.uri)).toEqual(
-			componentIds.map((id) => `kern://components/${id}`),
-		);
+		expect(resources.map((resource) => resource.uri)).toEqual([
+			...componentIds.map((id) => `kern://components/${id}`),
+			"kern://guides/forms",
+			"kern://guides/layout",
+		]);
 		expect(resources.find((resource) => resource.name === "button")).toEqual({
 			uri: "kern://components/button",
 			name: "button",
@@ -47,7 +49,7 @@ describe.each(MCP_ERAS)("MCP resources over $era", ({ era, connect }) => {
 		});
 	});
 
-	it("lists the card template", async () => {
+	it("lists the card and guide templates", async () => {
 		const { resourceTemplates } = await client.listResourceTemplates();
 
 		expect(resourceTemplates).toEqual([
@@ -57,7 +59,27 @@ describe.each(MCP_ERAS)("MCP resources over $era", ({ era, connect }) => {
 				title: "KERN component cards",
 				mimeType: "text/markdown",
 			}),
+			expect.objectContaining({
+				name: "guides",
+				uriTemplate: "kern://guides/{name}",
+				title: "KERN guides",
+				mimeType: "text/markdown",
+			}),
 		]);
+	});
+
+	it("reads a guide and completes its name", async () => {
+		const guide = await client.readResource({ uri: "kern://guides/forms" });
+		const completion = await client.complete({
+			ref: { type: "ref/resource", uri: "kern://guides/{name}" },
+			argument: { name: "name", value: "l" },
+		});
+
+		expect(guide.contents[0]).toMatchObject({
+			mimeType: "text/markdown",
+			text: expect.stringMatching(/^# KERN guide: forms\n/),
+		});
+		expect(completion.completion.values).toEqual(["layout"]);
 	});
 
 	it("reads a card as Markdown, cacheable for an hour on 2026-07-28 only", async () => {

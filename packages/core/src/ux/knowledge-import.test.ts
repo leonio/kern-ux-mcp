@@ -9,6 +9,7 @@ import {
 	formatKnowledgeImport,
 	staleToolHints,
 } from "./knowledge-import.js";
+import { GUIDE_FOUNDATIONS } from "./knowledge-map.js";
 import { COMPONENT_TOOL_IDS } from "./tool-builders/component-tools.js";
 import { TOOL_HINTS } from "./tool-hints.js";
 
@@ -84,6 +85,11 @@ function bundle(): Map<string, unknown> {
 		id: "header",
 		examples: [example("flex-header")],
 	});
+	for (const id of GUIDE_FOUNDATIONS) {
+		if (!files.has(`foundations/${id}.json`)) {
+			files.set(`foundations/${id}.json`, { id, status: "documented" });
+		}
+	}
 	files.set("index.json", {
 		bundleVersion: "0.2.0",
 		components: components.map((id) => ({
@@ -147,6 +153,7 @@ describe("checkKnowledgeBundle", () => {
 		expect(checkKnowledgeBundle(files)).toEqual([
 			"index.json lists foundations/utilities.json, which isn't in the bundle.",
 			"get_layers returns the example stack, which isn't in foundations/utilities.json.",
+			"foundations/utilities.json is missing: the guides quote it.",
 			"get_grid's entry is the sections css-grid to dos-and-donts of foundations/utilities.json, which aren't there in that order.",
 		]);
 	});
@@ -236,6 +243,16 @@ describe("checkKnowledgeBundle", () => {
 
 		expect(checkKnowledgeBundle(files)).toEqual([
 			"get_grid's entry is the sections css-grid to dos-and-donts of foundations/utilities.json, which aren't there in that order.",
+		]);
+	});
+
+	it("needs the foundations pages the guides quote", () => {
+		const files = bundleWith((files) => {
+			files.delete("foundations/layout.json");
+		});
+
+		expect(checkKnowledgeBundle(files)).toEqual([
+			"foundations/layout.json is missing: the guides quote it.",
 		]);
 	});
 
