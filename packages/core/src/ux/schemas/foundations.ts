@@ -5,7 +5,7 @@ export const McpCommonSchema = z.object({
 	locale: z
 		.enum(["de", "en"])
 		.optional()
-		.describe("Language of generated labels and messages (default: de)."),
+		.describe("Language of generated text (default: de)."),
 	strict: z
 		.boolean()
 		.optional()
@@ -45,7 +45,7 @@ export const FormFieldBaseSchema = z.object({
 		.optional()
 		.default(false)
 		.describe(
-			'Adds aria-required="true", as KERN asks for required fields; no visible marker, and no native required attribute.',
+			'Adds aria-required="true", as KERN asks; no visible marker and no native required.',
 		),
 	disabled: z
 		.boolean()

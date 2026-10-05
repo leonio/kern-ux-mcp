@@ -376,6 +376,7 @@ export const COMPOSITION_VALID_KINDS = [
 	"disclosure",
 	"grid",
 	"formFlow",
+	"summary",
 ] as const;
 
 export const COMPOSITION_CHEAT_SHEET = [
@@ -398,6 +399,7 @@ export const COMPOSITION_CHEAT_SHEET = [
 	"                 One inner array of blocks per column, up to 12; columns defaults to their number.",
 	'  formFlow:   { kind: "formFlow", formFlow: { currentStep: 1, heading?: "...", steps: [{ label: "...", contentBlocks: [...] }, ...], navigation?: { backLabel, nextLabel, submitLabel } } }',
 	"                 The steps render inside a form; renderAllSteps: true renders every step, the inactive ones hidden.",
+	'  summary:    { kind: "summary", summary: { summaries: [{ title: "...", items: [{ key: "...", value: "..." }], editHref?: "#..." }] } }',
 	"",
 	"Nested blocks (section.contentBlocks, card.contentBlocks, grid.columnsContent[][], disclosure.contentBlocks, fieldset.contentBlocks, form.contentBlocks) use the same kind-based shapes recursively.",
 	"Rules: forms don't nest (no form or formFlow inside a form or formFlow); no card directly inside a card; a section needs contentBlocks or paragraphs, a disclosure contentBlocks or content.",

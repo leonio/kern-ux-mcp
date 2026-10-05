@@ -1,7 +1,9 @@
 import { HTMLElement, parse } from "node-html-parser";
+import { t } from "../i18n.js";
 import {
 	MAX_RECURSIVE_CONTENT_DEPTH,
 	type RecursiveContentNodeInput,
+	type SummaryBlockInput,
 } from "../schemas/content-union.js";
 import type { BuildResult, Locale } from "../types.js";
 import { buildBadge } from "./badge.js";
@@ -15,6 +17,7 @@ import { buildForm } from "./form.js";
 import { buildFormFlow } from "./form-flow.js";
 import { buildGrid } from "./grid.js";
 import { buildSection } from "./section.js";
+import { buildSummary } from "./summary.js";
 
 /** Renders content blocks. Every container recurses through the same renderer. */
 export type CompositionRenderer = {
@@ -177,7 +180,31 @@ function renderBlock(
 			return buildDisclosure(block.disclosure, locale, context);
 		case "formFlow":
 			return buildFormFlow(block.formFlow, locale, context);
+		case "summary":
+			return buildSummaryBlock(block.summary, locale);
 	}
+}
+
+const SUMMARY_TITLE = { de: "Ihre Angaben", en: "Your answers" };
+
+/** A summary block as get_summary's group: numbered summaries, edit links labelled by default. */
+function buildSummaryBlock(
+	summary: SummaryBlockInput,
+	locale: Locale,
+): BuildResult {
+	return buildSummary(
+		{
+			mode: "group",
+			groupTitle: summary.title ?? t(locale, SUMMARY_TITLE),
+			summaries: summary.summaries.map((entry, index) => ({
+				number: index + 1,
+				title: entry.title,
+				items: entry.items,
+				action: entry.editHref ? { href: entry.editHref } : undefined,
+			})),
+		},
+		locale,
+	);
 }
 
 /** Turns the `paragraphs` shorthand into text blocks, unless `contentBlocks` is set. */

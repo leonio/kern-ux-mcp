@@ -1078,13 +1078,13 @@
   {
     "name": "render_composition",
     "title": "Render KERN Composition",
-    "description": "KERN UX: Renders nested content blocks as one layout: sections, grids, cards, disclosures, forms and multi-step forms (formFlow).\n\nEvery block must have a 'kind' discriminator. Valid kinds and their shapes:\n\n  text:       { kind: \"text\", text: \"...\" }\n  html:       { kind: \"html\", html: \"<p>...</p>\" }\n  button:     { kind: \"button\", button: { label: \"OK\", variant: \"primary\" } }\n  badge:      { kind: \"badge\", badge: { type: \"info\", text: \"Neu\" } }\n  field:      { kind: \"field\", field: { type: \"email\", name: \"email\", label: \"E-Mail\", hint?: \"...\", error?: \"...\" } }\n                 type: text|email|tel|url|number|date|password|textarea|select|radio|checkbox; select/radio need options: [{ value, label }].\n  fieldset:   { kind: \"fieldset\", fieldset: { legend: \"...\", legendSize?: \"large\", hint?: \"...\", contentBlocks: [field, ...] } }\n  form:       { kind: \"form\", form: { action?: \"/senden\", errorSummary?: {}, contentBlocks: [fieldset, field, ...], actions?: { submitLabel: \"Absenden\" } } }\n                 errorSummary lists every field inside the form that has an error, linked to the field.\n  card:       { kind: \"card\", card: { header: { title: \"...\" }, body: \"...\", contentBlocks?: [...], footer?: { primaryLabel: \"...\" } } }\n  section:    { kind: \"section\", section: { headingText: \"...\", contentBlocks: [...] } }\n                 Shorthand: paragraphs: [\"text1\", \"text2\"] is also accepted (auto-converted to text blocks).\n  disclosure: { kind: \"disclosure\", disclosure: { triggerLabel: \"...\", contentBlocks: [...] } }; content: \"...\" also works\n  grid:       { kind: \"grid\", grid: { columnsContent: [ [block, block], [block], [block] ] } }\n                 One inner array of blocks per column, up to 12; columns defaults to their number.\n  formFlow:   { kind: \"formFlow\", formFlow: { currentStep: 1, heading?: \"...\", steps: [{ label: \"...\", contentBlocks: [...] }, ...], navigation?: { backLabel, nextLabel, submitLabel } } }\n                 The steps render inside a form; renderAllSteps: true renders every step, the inactive ones hidden.\n\nNested blocks (section.contentBlocks, card.contentBlocks, grid.columnsContent[][], disclosure.contentBlocks, fieldset.contentBlocks, form.contentBlocks) use the same kind-based shapes recursively.\nRules: forms don't nest (no form or formFlow inside a form or formFlow); no card directly inside a card; a section needs contentBlocks or paragraphs, a disclosure contentBlocks or content.\nLimits: blocks nest at most 4 levels deep, 60 blocks in all.",
+    "description": "KERN UX: Renders nested content blocks as one layout: sections, grids, cards, disclosures, forms and multi-step forms (formFlow).\n\nEvery block must have a 'kind' discriminator. Valid kinds and their shapes:\n\n  text:       { kind: \"text\", text: \"...\" }\n  html:       { kind: \"html\", html: \"<p>...</p>\" }\n  button:     { kind: \"button\", button: { label: \"OK\", variant: \"primary\" } }\n  badge:      { kind: \"badge\", badge: { type: \"info\", text: \"Neu\" } }\n  field:      { kind: \"field\", field: { type: \"email\", name: \"email\", label: \"E-Mail\", hint?: \"...\", error?: \"...\" } }\n                 type: text|email|tel|url|number|date|password|textarea|select|radio|checkbox; select/radio need options: [{ value, label }].\n  fieldset:   { kind: \"fieldset\", fieldset: { legend: \"...\", legendSize?: \"large\", hint?: \"...\", contentBlocks: [field, ...] } }\n  form:       { kind: \"form\", form: { action?: \"/senden\", errorSummary?: {}, contentBlocks: [fieldset, field, ...], actions?: { submitLabel: \"Absenden\" } } }\n                 errorSummary lists every field inside the form that has an error, linked to the field.\n  card:       { kind: \"card\", card: { header: { title: \"...\" }, body: \"...\", contentBlocks?: [...], footer?: { primaryLabel: \"...\" } } }\n  section:    { kind: \"section\", section: { headingText: \"...\", contentBlocks: [...] } }\n                 Shorthand: paragraphs: [\"text1\", \"text2\"] is also accepted (auto-converted to text blocks).\n  disclosure: { kind: \"disclosure\", disclosure: { triggerLabel: \"...\", contentBlocks: [...] } }; content: \"...\" also works\n  grid:       { kind: \"grid\", grid: { columnsContent: [ [block, block], [block], [block] ] } }\n                 One inner array of blocks per column, up to 12; columns defaults to their number.\n  formFlow:   { kind: \"formFlow\", formFlow: { currentStep: 1, heading?: \"...\", steps: [{ label: \"...\", contentBlocks: [...] }, ...], navigation?: { backLabel, nextLabel, submitLabel } } }\n                 The steps render inside a form; renderAllSteps: true renders every step, the inactive ones hidden.\n  summary:    { kind: \"summary\", summary: { summaries: [{ title: \"...\", items: [{ key: \"...\", value: \"...\" }], editHref?: \"#...\" }] } }\n\nNested blocks (section.contentBlocks, card.contentBlocks, grid.columnsContent[][], disclosure.contentBlocks, fieldset.contentBlocks, form.contentBlocks) use the same kind-based shapes recursively.\nRules: forms don't nest (no form or formFlow inside a form or formFlow); no card directly inside a card; a section needs contentBlocks or paragraphs, a disclosure contentBlocks or content.\nLimits: blocks nest at most 4 levels deep, 60 blocks in all.",
     "inputSchema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
       "type": "object",
       "properties": {
         "locale": {
-          "description": "Language of generated labels and messages (default: de).",
+          "description": "Language of generated text (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -1976,6 +1976,71 @@
                   "kind",
                   "formFlow"
                 ]
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "type": "string",
+                    "const": "summary"
+                  },
+                  "summary": {
+                    "type": "object",
+                    "properties": {
+                      "title": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "summaries": {
+                        "minItems": 1,
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "title": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "items": {
+                              "minItems": 1,
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "key": {
+                                    "type": "string"
+                                  },
+                                  "value": {
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "key",
+                                  "value"
+                                ]
+                              }
+                            },
+                            "editHref": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "title",
+                            "items"
+                          ]
+                        }
+                      }
+                    },
+                    "required": [
+                      "summaries"
+                    ],
+                    "description": "Answers to check before sending: one numbered summary per step."
+                  }
+                },
+                "required": [
+                  "kind",
+                  "summary"
+                ]
               }
             ]
           },
@@ -2081,7 +2146,7 @@
       "type": "object",
       "properties": {
         "locale": {
-          "description": "Language of generated labels and messages (default: de).",
+          "description": "Language of generated text (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -3070,6 +3135,71 @@
                   "kind",
                   "formFlow"
                 ]
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "type": "string",
+                    "const": "summary"
+                  },
+                  "summary": {
+                    "type": "object",
+                    "properties": {
+                      "title": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "summaries": {
+                        "minItems": 1,
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "title": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "items": {
+                              "minItems": 1,
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "key": {
+                                    "type": "string"
+                                  },
+                                  "value": {
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "key",
+                                  "value"
+                                ]
+                              }
+                            },
+                            "editHref": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "title",
+                            "items"
+                          ]
+                        }
+                      }
+                    },
+                    "required": [
+                      "summaries"
+                    ],
+                    "description": "Answers to check before sending: one numbered summary per step."
+                  }
+                },
+                "required": [
+                  "kind",
+                  "summary"
+                ]
               }
             ]
           },
@@ -3229,7 +3359,7 @@
       "type": "object",
       "properties": {
         "locale": {
-          "description": "Language of generated labels and messages (default: de).",
+          "description": "Language of generated text (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -3608,7 +3738,7 @@
       "type": "object",
       "properties": {
         "locale": {
-          "description": "Language of generated labels and messages (default: de).",
+          "description": "Language of generated text (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -4092,7 +4222,7 @@
       "type": "object",
       "properties": {
         "locale": {
-          "description": "Language of generated labels and messages (default: de).",
+          "description": "Language of generated text (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -4429,7 +4559,7 @@
           "type": "object",
           "properties": {
             "locale": {
-              "description": "Language of generated labels and messages (default: de).",
+              "description": "Language of generated text (default: de).",
               "type": "string",
               "enum": [
                 "de",
@@ -4476,7 +4606,7 @@
           "type": "object",
           "properties": {
             "locale": {
-              "description": "Language of generated labels and messages (default: de).",
+              "description": "Language of generated text (default: de).",
               "type": "string",
               "enum": [
                 "de",
@@ -4630,7 +4760,7 @@
       "type": "object",
       "properties": {
         "locale": {
-          "description": "Language of generated labels and messages (default: de).",
+          "description": "Language of generated text (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -4804,7 +4934,7 @@
       "type": "object",
       "properties": {
         "locale": {
-          "description": "Language of generated labels and messages (default: de).",
+          "description": "Language of generated text (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -4955,7 +5085,7 @@
           "type": "boolean"
         },
         "locale": {
-          "description": "Language of generated labels and messages (default: de).",
+          "description": "Language of generated text (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -5063,7 +5193,7 @@
       "type": "object",
       "properties": {
         "locale": {
-          "description": "Language of generated labels and messages (default: de).",
+          "description": "Language of generated text (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -5252,7 +5382,7 @@
       "type": "object",
       "properties": {
         "locale": {
-          "description": "Language of generated labels and messages (default: de).",
+          "description": "Language of generated text (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -5680,7 +5810,7 @@
               "const": "single"
             },
             "locale": {
-              "description": "Language of generated labels and messages (default: de).",
+              "description": "Language of generated text (default: de).",
               "type": "string",
               "enum": [
                 "de",
@@ -5747,7 +5877,7 @@
               "const": "list"
             },
             "locale": {
-              "description": "Language of generated labels and messages (default: de).",
+              "description": "Language of generated text (default: de).",
               "type": "string",
               "enum": [
                 "de",
@@ -5987,7 +6117,7 @@
           "type": "boolean"
         },
         "locale": {
-          "description": "Language of generated labels and messages (default: de).",
+          "description": "Language of generated text (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -6095,7 +6225,7 @@
       "type": "object",
       "properties": {
         "locale": {
-          "description": "Language of generated labels and messages (default: de).",
+          "description": "Language of generated text (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -6203,7 +6333,7 @@
       "type": "object",
       "properties": {
         "locale": {
-          "description": "Language of generated labels and messages (default: de).",
+          "description": "Language of generated text (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -6377,7 +6507,7 @@
           "type": "boolean"
         },
         "locale": {
-          "description": "Language of generated labels and messages (default: de).",
+          "description": "Language of generated text (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -6485,7 +6615,7 @@
       "type": "object",
       "properties": {
         "locale": {
-          "description": "Language of generated labels and messages (default: de).",
+          "description": "Language of generated text (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -6886,7 +7016,7 @@
           "description": "The grouped content: field blocks, plus text, html or badge, e.g. [{ kind: 'field', field: { type: 'text', name: 'street', label: 'Street' } }]."
         },
         "locale": {
-          "description": "Language of generated labels and messages (default: de).",
+          "description": "Language of generated text (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -7266,7 +7396,7 @@
           }
         },
         "locale": {
-          "description": "Language of generated labels and messages (default: de).",
+          "description": "Language of generated text (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -7409,7 +7539,7 @@
           ]
         },
         "locale": {
-          "description": "Language of generated labels and messages (default: de).",
+          "description": "Language of generated text (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -7517,7 +7647,7 @@
       "type": "object",
       "properties": {
         "locale": {
-          "description": "Language of generated labels and messages (default: de).",
+          "description": "Language of generated text (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -7652,7 +7782,7 @@
       "type": "object",
       "properties": {
         "locale": {
-          "description": "Language of generated labels and messages (default: de).",
+          "description": "Language of generated text (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -7699,7 +7829,7 @@
         },
         "required": {
           "default": false,
-          "description": "Adds aria-required=\"true\", as KERN asks for required fields; no visible marker, and no native required attribute.",
+          "description": "Adds aria-required=\"true\", as KERN asks; no visible marker and no native required.",
           "type": "boolean"
         },
         "disabled": {
@@ -7818,7 +7948,7 @@
       "type": "object",
       "properties": {
         "locale": {
-          "description": "Language of generated labels and messages (default: de).",
+          "description": "Language of generated text (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -7865,7 +7995,7 @@
         },
         "required": {
           "default": false,
-          "description": "Adds aria-required=\"true\", as KERN asks for required fields; no visible marker, and no native required attribute.",
+          "description": "Adds aria-required=\"true\", as KERN asks; no visible marker and no native required.",
           "type": "boolean"
         },
         "disabled": {
@@ -7984,7 +8114,7 @@
       "type": "object",
       "properties": {
         "locale": {
-          "description": "Language of generated labels and messages (default: de).",
+          "description": "Language of generated text (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -8023,7 +8153,7 @@
         },
         "required": {
           "default": false,
-          "description": "Adds aria-required=\"true\", as KERN asks for required fields; no visible marker, and no native required attribute.",
+          "description": "Adds aria-required=\"true\", as KERN asks; no visible marker and no native required.",
           "type": "boolean"
         },
         "disabled": {
@@ -8132,7 +8262,7 @@
       "type": "object",
       "properties": {
         "locale": {
-          "description": "Language of generated labels and messages (default: de).",
+          "description": "Language of generated text (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -8279,7 +8409,7 @@
       "type": "object",
       "properties": {
         "locale": {
-          "description": "Language of generated labels and messages (default: de).",
+          "description": "Language of generated text (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -8326,7 +8456,7 @@
         },
         "required": {
           "default": false,
-          "description": "Adds aria-required=\"true\", as KERN asks for required fields; no visible marker, and no native required attribute.",
+          "description": "Adds aria-required=\"true\", as KERN asks; no visible marker and no native required.",
           "type": "boolean"
         },
         "disabled": {
@@ -8440,7 +8570,7 @@
       "type": "object",
       "properties": {
         "locale": {
-          "description": "Language of generated labels and messages (default: de).",
+          "description": "Language of generated text (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -8487,7 +8617,7 @@
         },
         "required": {
           "default": false,
-          "description": "Adds aria-required=\"true\", as KERN asks for required fields; no visible marker, and no native required attribute.",
+          "description": "Adds aria-required=\"true\", as KERN asks; no visible marker and no native required.",
           "type": "boolean"
         },
         "type": {
@@ -8597,7 +8727,7 @@
       "type": "object",
       "properties": {
         "locale": {
-          "description": "Language of generated labels and messages (default: de).",
+          "description": "Language of generated text (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -8644,7 +8774,7 @@
         },
         "required": {
           "default": false,
-          "description": "Adds aria-required=\"true\", as KERN asks for required fields; no visible marker, and no native required attribute.",
+          "description": "Adds aria-required=\"true\", as KERN asks; no visible marker and no native required.",
           "type": "boolean"
         },
         "disabled": {
@@ -8763,7 +8893,7 @@
       "type": "object",
       "properties": {
         "locale": {
-          "description": "Language of generated labels and messages (default: de).",
+          "description": "Language of generated text (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -8824,7 +8954,7 @@
         },
         "required": {
           "default": false,
-          "description": "Adds aria-required=\"true\", as KERN asks for required fields; no visible marker, and no native required attribute.",
+          "description": "Adds aria-required=\"true\", as KERN asks; no visible marker and no native required.",
           "type": "boolean"
         },
         "disabled": {
@@ -8938,7 +9068,7 @@
       "type": "object",
       "properties": {
         "locale": {
-          "description": "Language of generated labels and messages (default: de).",
+          "description": "Language of generated text (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -8985,7 +9115,7 @@
         },
         "required": {
           "default": false,
-          "description": "Adds aria-required=\"true\", as KERN asks for required fields; no visible marker, and no native required attribute.",
+          "description": "Adds aria-required=\"true\", as KERN asks; no visible marker and no native required.",
           "type": "boolean"
         },
         "disabled": {
@@ -9113,7 +9243,7 @@
           "type": "boolean"
         },
         "locale": {
-          "description": "Language of generated labels and messages (default: de).",
+          "description": "Language of generated text (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -9226,7 +9356,7 @@
           "type": "string"
         },
         "locale": {
-          "description": "Language of generated labels and messages (default: de).",
+          "description": "Language of generated text (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -9334,7 +9464,7 @@
       "type": "object",
       "properties": {
         "locale": {
-          "description": "Language of generated labels and messages (default: de).",
+          "description": "Language of generated text (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -9452,7 +9582,7 @@
           "type": "string"
         },
         "locale": {
-          "description": "Language of generated labels and messages (default: de).",
+          "description": "Language of generated text (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -9570,7 +9700,7 @@
           "type": "boolean"
         },
         "locale": {
-          "description": "Language of generated labels and messages (default: de).",
+          "description": "Language of generated text (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -9678,7 +9808,7 @@
       "type": "object",
       "properties": {
         "locale": {
-          "description": "Language of generated labels and messages (default: de).",
+          "description": "Language of generated text (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -9795,7 +9925,7 @@
       "type": "object",
       "properties": {
         "locale": {
-          "description": "Language of generated labels and messages (default: de).",
+          "description": "Language of generated text (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -9908,7 +10038,7 @@
           "type": "string"
         },
         "locale": {
-          "description": "Language of generated labels and messages (default: de).",
+          "description": "Language of generated text (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -10016,7 +10146,7 @@
       "type": "object",
       "properties": {
         "locale": {
-          "description": "Language of generated labels and messages (default: de).",
+          "description": "Language of generated text (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -10153,7 +10283,7 @@
           "type": "object",
           "properties": {
             "locale": {
-              "description": "Language of generated labels and messages (default: de).",
+              "description": "Language of generated text (default: de).",
               "type": "string",
               "enum": [
                 "de",
@@ -10204,7 +10334,7 @@
           "type": "object",
           "properties": {
             "locale": {
-              "description": "Language of generated labels and messages (default: de).",
+              "description": "Language of generated text (default: de).",
               "type": "string",
               "enum": [
                 "de",
@@ -10388,7 +10518,7 @@
       "type": "object",
       "properties": {
         "locale": {
-          "description": "Language of generated labels and messages (default: de).",
+          "description": "Language of generated text (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -10496,7 +10626,7 @@
       "type": "object",
       "properties": {
         "locale": {
-          "description": "Language of generated labels and messages (default: de).",
+          "description": "Language of generated text (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -10563,7 +10693,7 @@
         },
         "required": {
           "default": false,
-          "description": "Adds aria-required=\"true\", as KERN asks for required fields; no visible marker, and no native required attribute.",
+          "description": "Adds aria-required=\"true\", as KERN asks; no visible marker and no native required.",
           "type": "boolean"
         },
         "disabled": {
@@ -10678,7 +10808,7 @@
           "type": "string"
         },
         "locale": {
-          "description": "Language of generated labels and messages (default: de).",
+          "description": "Language of generated text (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -10788,7 +10918,7 @@
           "type": "object",
           "properties": {
             "locale": {
-              "description": "Language of generated labels and messages (default: de).",
+              "description": "Language of generated text (default: de).",
               "type": "string",
               "enum": [
                 "de",
@@ -10886,7 +11016,7 @@
           "type": "object",
           "properties": {
             "locale": {
-              "description": "Language of generated labels and messages (default: de).",
+              "description": "Language of generated text (default: de).",
               "type": "string",
               "enum": [
                 "de",
@@ -11108,7 +11238,7 @@
       "type": "object",
       "properties": {
         "locale": {
-          "description": "Language of generated labels and messages (default: de).",
+          "description": "Language of generated text (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -11333,7 +11463,7 @@
       "type": "object",
       "properties": {
         "locale": {
-          "description": "Language of generated labels and messages (default: de).",
+          "description": "Language of generated text (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -11491,7 +11621,7 @@
       "type": "object",
       "properties": {
         "locale": {
-          "description": "Language of generated labels and messages (default: de).",
+          "description": "Language of generated text (default: de).",
           "type": "string",
           "enum": [
             "de",
@@ -11544,7 +11674,7 @@
         },
         "required": {
           "default": false,
-          "description": "Adds aria-required=\"true\", as KERN asks for required fields; no visible marker, and no native required attribute.",
+          "description": "Adds aria-required=\"true\", as KERN asks; no visible marker and no native required.",
           "type": "boolean"
         },
         "disabled": {
@@ -11673,7 +11803,7 @@
           ]
         },
         "locale": {
-          "description": "Language of generated labels and messages (default: de).",
+          "description": "Language of generated text (default: de).",
           "type": "string",
           "enum": [
             "de",

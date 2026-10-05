@@ -5,6 +5,7 @@ import {
 	type RecursiveContentNodeInput,
 } from "../schemas/content-union.js";
 import type { BuildResult } from "../types.js";
+import { validateHtmlStrict } from "../validate.js";
 import { buildCard } from "./card.js";
 import { createCompositionRenderer } from "./composition-renderer.js";
 import { buildDisclosure } from "./disclosure.js";
@@ -51,6 +52,15 @@ function leaf(
 			return { kind, badge: { type: "info", text: marker } };
 		case "field":
 			return { kind, field: { type: "text", name: "feld", label: marker } };
+		case "summary":
+			return {
+				kind,
+				summary: {
+					summaries: [
+						{ title: "Schritt", items: [{ key: "Name", value: marker }] },
+					],
+				},
+			};
 		default:
 			return wrap(kind, { kind: "text", text: marker });
 	}
@@ -429,5 +439,111 @@ describe("createCompositionRenderer", () => {
 				).toContainEqual(expect.stringContaining(rule ?? ""));
 			},
 		);
+	});
+});
+
+describe("summary blocks", () => {
+	const summary: RecursiveContentNodeInput = {
+		kind: "summary",
+		summary: {
+			summaries: [
+				{
+					title: "Persönliche Daten",
+					items: [{ key: "Vorname", value: "Erika" }],
+					editHref: "#schritt-1",
+				},
+				{
+					title: "Fahrzeug",
+					items: [{ key: "Kennzeichen", value: "M-AB 123" }],
+				},
+			],
+		},
+	};
+
+	it("renders get_summary's group: a default title, numbered summaries, edit links", () => {
+		const { html } = renderer.renderBlocks([summary], 1);
+
+		expect(html).toContain('<h2 class="kern-heading-medium">Ihre Angaben</h2>');
+		expect(html.match(/<span class="kern-number">(\d)<\/span>/g)).toEqual([
+			'<span class="kern-number">1</span>',
+			'<span class="kern-number">2</span>',
+		]);
+		expect(html).toContain('href="#schritt-1"');
+		expect(html.match(/href=/g)).toHaveLength(1);
+		expect(validateHtmlStrict(html)).toEqual({ ok: true, issues: [] });
+	});
+
+	it("takes a title, and English for en", () => {
+		const titled = {
+			...summary,
+			summary: { ...summary.summary, title: "Prüfen" },
+		};
+		const english = createCompositionRenderer("en").renderBlocks([summary], 1);
+
+		expect(
+			renderer.renderBlocks([titled as RecursiveContentNodeInput], 1).html,
+		).toContain(">Prüfen</h2>");
+		expect(english.html).toContain(">Your answers</h2>");
+		expect(english.html).toContain("Edit");
+	});
+
+	it("fits a formFlow's review step, strict-valid with every step rendered", () => {
+		const blocks = RecursiveContentBlocksSchema.parse([
+			{
+				kind: "formFlow",
+				formFlow: {
+					currentStep: 2,
+					renderAllSteps: true,
+					heading: "Bewohnerparkausweis",
+					navigation: {
+						backLabel: "Zurück",
+						nextLabel: "Weiter",
+						submitLabel: "Absenden",
+					},
+					steps: [
+						{
+							label: "Persönliche Daten",
+							contentBlocks: [
+								{
+									kind: "field",
+									field: { type: "text", name: "vorname", label: "Vorname" },
+								},
+							],
+						},
+						{
+							label: "Prüfen und Absenden",
+							contentBlocks: [
+								summary,
+								{
+									kind: "field",
+									field: {
+										type: "checkbox",
+										name: "ok",
+										label: "Die Angaben sind richtig.",
+									},
+								},
+							],
+						},
+					],
+				},
+			},
+		]);
+		const { html } = renderer.renderBlocks(blocks, 1);
+
+		expect(html).toContain("kern-summary");
+		expect(validateHtmlStrict(html).ok).toBe(true);
+	});
+
+	it("needs at least one summary with at least one item", () => {
+		for (const bad of [
+			{ summaries: [] },
+			{ summaries: [{ title: "Leer", items: [] }] },
+		]) {
+			expect(
+				RecursiveContentBlocksSchema.safeParse([
+					{ kind: "summary", summary: bad },
+				]).success,
+			).toBe(false);
+		}
 	});
 });

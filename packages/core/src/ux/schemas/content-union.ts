@@ -50,6 +50,36 @@ const fieldContentNodeSchema = z.object({
 	field: FieldSchema,
 });
 
+/**
+ * A group of summaries to check answers before sending: get_summary's group
+ * mode, cut down to what a review step needs, so it needn't be pasted as HTML.
+ */
+const summaryContentNodeSchema = z.object({
+	kind: z.literal("summary"),
+	summary: z
+		.object({
+			title: z.string().min(1).optional(),
+			summaries: z
+				.array(
+					z.object({
+						title: z.string().min(1),
+						items: z
+							.array(z.object({ key: z.string(), value: z.string() }))
+							.min(1),
+						editHref: z.string().optional(),
+					}),
+				)
+				.min(1),
+		})
+		.describe(
+			"Answers to check before sending: one numbered summary per step.",
+		),
+});
+
+export type SummaryBlockInput = z.input<
+	typeof summaryContentNodeSchema
+>["summary"];
+
 /** The block kinds the standalone block tools accept (get_section, get_card, ...). */
 export const SIMPLE_BLOCK_KINDS = ["text", "html", "badge", "field"] as const;
 
@@ -209,7 +239,8 @@ export type RecursiveContentNodeInput =
 	| DisclosureContentNodeInput
 	| GridContentNodeInput
 	| CardContentNodeInput
-	| FormFlowContentNodeInput;
+	| FormFlowContentNodeInput
+	| { kind: "summary"; summary: SummaryBlockInput };
 
 export const RecursiveContentNodeSchema: z.ZodType<
 	RecursiveContentNodeInput,
@@ -368,6 +399,7 @@ export const RecursiveContentNodeSchema: z.ZodType<
 						"A multi-step form: the step list, progress and the active step.",
 					),
 			}),
+			summaryContentNodeSchema,
 		])
 		.describe("One block; kind selects which."),
 );

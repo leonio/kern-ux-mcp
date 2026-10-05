@@ -210,13 +210,19 @@ describe("create_input_form with steps", () => {
 			block.type === "resource_link" ? [block.name] : [],
 		);
 
-	it("builds a formFlow with a review step through get_summary", async () => {
+	it("builds a formFlow whose review step starts with a summary block", async () => {
 		const text = await workflowOf("create_input_form", args);
 
 		expect(text).toMatch(/^Build a multi-step form with the kern tools/);
 		expect(text).toContain("Steps: Person; Fahrzeug; Prüfen");
 		expect(text).toContain("one `formFlow` block with exactly the steps given");
-		expect(text).toContain("`get_summary`");
+		expect(text).toContain(
+			'start its `contentBlocks` with a summary block, `{ kind: "summary", summary:',
+		);
+		// Pasting get_summary's HTML into an html block made large, escape-heavy
+		// inputs: one unparsable, and an empty step after it in 3 of 6 runs.
+		expect(text).not.toContain("get_summary");
+		expect(text).not.toContain("`html` block, before");
 		expect(text).toContain("`renderAllSteps: true`");
 		expect(text).toContain("such as Zurück, Weiter and Absenden");
 		expect(text).not.toContain("one `form` block");
