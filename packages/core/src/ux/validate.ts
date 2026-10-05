@@ -1,9 +1,32 @@
-import { parse } from "node-html-parser";
+import { type HTMLElement, parse } from "node-html-parser";
 import { isKnownKernClass } from "./kern-classes.js";
 import type { ValidationIssue, ValidationResult } from "./validate.schema.js";
 import { ruleSeverity, type ValidationRuleId } from "./validation-rules.js";
 
 export type { ValidationResult } from "./validate.schema.js";
+
+/** Input types that need no label: hidden, or named by their own value. */
+const UNLABELLED_INPUT_TYPES = new Set([
+	"hidden",
+	"submit",
+	"button",
+	"reset",
+	"image",
+]);
+
+/** A label around the field with text of its own (a select's options don't count). */
+function insideLabel(element: HTMLElement): boolean {
+	for (
+		let node: HTMLElement | null = element.parentNode;
+		node;
+		node = node.parentNode
+	) {
+		if (node.rawTagName?.toLowerCase() === "label") {
+			return node.text.replace(element.text, "").trim() !== "";
+		}
+	}
+	return false;
+}
 
 /** An issue under a rule of VALIDATION_RULES, with the rule's severity. */
 function issue(
@@ -202,6 +225,35 @@ export function validateHtmlStrict(html: string): ValidationResult {
 		}
 	}
 
+	// Form: every field has a label; a placeholder is none
+	for (const field of root.querySelectorAll("input, select, textarea")) {
+		const tag = field.rawTagName.toLowerCase();
+		const type = (field.getAttribute("type") ?? "text").toLowerCase();
+		if (tag === "input" && UNLABELLED_INPUT_TYPES.has(type)) continue;
+		const id = field.getAttribute("id");
+		const labelled =
+			(field.getAttribute("aria-label") ?? "").trim() !== "" ||
+			(field.getAttribute("aria-labelledby") ?? "").trim() !== "" ||
+			(id !== undefined &&
+				root
+					.querySelectorAll(`label[for="${id.replace(/"/g, '\\"')}"]`)
+					.some((label) => label.text.trim() !== "")) ||
+			insideLabel(field);
+		if (labelled) continue;
+		const name = field.getAttribute("name");
+		const hint = id ? `#${id}` : name ? `${tag}[name="${name}"]` : tag;
+		issues.push(
+			issue(
+				"form.field_label",
+				{
+					en: `The field ${hint} has no label. Add a <label for>, or aria-label where a visible label can't go; a placeholder doesn't count.`,
+					de: `Das Feld ${hint} hat kein Label. Ein <label for> ergänzen, oder aria-label, wo kein sichtbares Label stehen kann; ein Platzhalter zählt nicht.`,
+				},
+				hint,
+			),
+		);
+	}
+
 	// Form: error messages (KERN's p.kern-error) should be referenced via aria-describedby
 	for (const errorEl of root.querySelectorAll(".kern-error")) {
 		const errorId = errorEl.getAttribute("id");
@@ -269,6 +321,42 @@ export function validateHtmlStrict(html: string): ValidationResult {
 			);
 			break; // One warning per table fragment is enough
 		}
+	}
+
+	// Table: a data table has header cells; role=presentation or none marks layout
+	for (const table of root.querySelectorAll("table")) {
+		const role = (table.getAttribute("role") ?? "").toLowerCase();
+		if (role === "presentation" || role === "none") continue;
+		if (table.querySelector("th")) continue;
+		issues.push(
+			issue(
+				"table.headers",
+				{
+					en: "This table has no header cells. Mark the column or row headings as <th> with scope, so screen readers can name each cell's column or row.",
+					de: "Diese Tabelle hat keine Kopfzellen. Spalten- oder Zeilenüberschriften als <th> mit scope auszeichnen, damit Screenreader zu jeder Zelle Spalte oder Zeile nennen.",
+				},
+				"table",
+			),
+		);
+	}
+
+	// Headings: at most one level below the heading before it
+	let previousLevel: number | undefined;
+	for (const heading of root.querySelectorAll("h1, h2, h3, h4, h5, h6")) {
+		const level = Number(heading.rawTagName.slice(1));
+		if (previousLevel !== undefined && level > previousLevel + 1) {
+			issues.push(
+				issue(
+					"heading.level_skip",
+					{
+						en: `A heading jumps from h${previousLevel} to h${level}. Use h${previousLevel + 1}: a heading is at most one level below the one before it.`,
+						de: `Eine Überschrift springt von h${previousLevel} auf h${level}. h${previousLevel + 1} verwenden: eine Überschrift liegt höchstens eine Ebene unter der vorigen.`,
+					},
+					`h${level}`,
+				),
+			);
+		}
+		previousLevel = level;
 	}
 
 	// Images must have alt attribute

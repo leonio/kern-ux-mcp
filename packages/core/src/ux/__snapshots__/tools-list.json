@@ -8147,6 +8147,11 @@
           "type": "string",
           "description": "Name submitted with the form."
         },
+        "label": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Visible label: short, one line, e.g. 'Monatliche Miete in €'. A placeholder doesn't replace it."
+        },
         "prefix": {
           "description": "Text before the input, e.g. 'https://' or '€'. Screen readers don't announce it: repeat it in the label if it matters.",
           "type": "string"
@@ -8175,7 +8180,8 @@
         }
       },
       "required": [
-        "name"
+        "name",
+        "label"
       ]
     },
     "outputSchema": {

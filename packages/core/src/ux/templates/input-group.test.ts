@@ -1,10 +1,11 @@
 import { describe, expect, it } from "vitest";
+import { validateHtmlStrict } from "../validate.js";
 import { buildInputGroup } from "./input-group.js";
 
 describe("buildInputGroup", () => {
 	it("builds an input group with prefix and suffix", () => {
 		const result = buildInputGroup(
-			{ name: "amount", prefix: "€", suffix: "EUR" },
+			{ name: "amount", label: "Betrag", prefix: "€", suffix: "EUR" },
 			"de",
 		);
 		expect(result.html).toContain('class="kern-input-group"');
@@ -12,10 +13,31 @@ describe("buildInputGroup", () => {
 		expect(result.html).toContain("EUR");
 	});
 
+	it("labels the input, as KERN's labelled input group does", () => {
+		const { html } = buildInputGroup(
+			{ name: "miete", label: "Monatliche Miete in €", suffix: "€" },
+			"de",
+		);
+		const id = html.match(/<input [^>]*id="([^"]+)"/)?.[1];
+
+		expect(html).toMatch(/^<div class="kern-form-input">/);
+		expect(html).toContain(
+			`<label class="kern-label" for="${id}">Monatliche Miete in €</label>`,
+		);
+		expect(validateHtmlStrict(html)).toEqual({ ok: true, issues: [] });
+	});
+
+	it("needs a label", () => {
+		expect(() => buildInputGroup({ name: "miete" } as never, "de")).toThrow(
+			/label/,
+		);
+	});
+
 	it("builds a readonly input group with readonly affixes", () => {
 		const result = buildInputGroup(
 			{
 				name: "amount",
+				label: "Betrag",
 				prefix: "€",
 				suffix: "EUR",
 				value: "100",
@@ -33,6 +55,7 @@ describe("buildInputGroup", () => {
 		const result = buildInputGroup(
 			{
 				name: "betrag",
+				label: text,
 				prefix: text,
 				suffix: text,
 				value: text,

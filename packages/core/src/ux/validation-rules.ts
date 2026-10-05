@@ -67,6 +67,13 @@ export const VALIDATION_RULES = [
 		requirement: "A label's for attribute names the id of an existing field.",
 	},
 	{
+		id: "form.field_label",
+		severity: "error",
+		appliesTo: "input, select, textarea",
+		requirement:
+			"A field has a label with text: a label element that names it with for or wraps it, aria-label or aria-labelledby. A placeholder is no label.",
+	},
+	{
 		id: "form.error_id",
 		severity: "warning",
 		appliesTo: "input, select, textarea",
@@ -90,6 +97,19 @@ export const VALIDATION_RULES = [
 		severity: "warning",
 		appliesTo: "table",
 		requirement: 'A header cell has scope="col" or scope="row".',
+	},
+	{
+		id: "table.headers",
+		severity: "error",
+		appliesTo: "table",
+		requirement:
+			'A table has header cells (th), unless role="presentation" or role="none" marks it as layout.',
+	},
+	{
+		id: "heading.level_skip",
+		severity: "warning",
+		requirement:
+			"A heading is at most one level below the heading before it: h2 after h1, not h3. The first heading may have any level.",
 	},
 	{
 		id: "img.alt",

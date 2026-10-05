@@ -18,12 +18,16 @@ const BREAKS: Record<ValidationRuleId, string> = {
 	"button.icon_only_sr_label":
 		'<button class="kern-btn"><span class="kern-icon kern-icon--add" aria-hidden="true"></span></button>',
 	"form.label_for": '<label for="nope">Name</label>',
+	"form.field_label": '<input id="plz" placeholder="PLZ">',
 	"form.error_id": '<input id="plz"><p class="kern-error">Fehlt</p>',
 	"form.error_describedby":
 		'<input id="plz"><p class="kern-error" id="fehler">Fehlt</p>',
 	"table.caption": "<table><tr><td>x</td></tr></table>",
 	"table.th_scope":
 		"<table><caption>Gebühren</caption><tr><th>Leistung</th></tr></table>",
+	"table.headers":
+		"<table><caption>Gebühren</caption><tr><td>Leistung</td></tr></table>",
+	"heading.level_skip": "<h1>Amt</h1><h3>Öffnungszeiten</h3>",
 	"img.alt": '<img src="wappen.png">',
 	"layout.grid_in_container":
 		'<div class="kern-container"><div class="kern-grid kern-grid-cols-1"></div></div>',

@@ -178,7 +178,9 @@ export const TOOL_EXAMPLES: Readonly<Record<string, readonly ToolExample[]>> = {
 			},
 		},
 	],
-	get_inputgroup: [{ input: { name: "miete", suffix: "€" } }],
+	get_inputgroup: [
+		{ input: { name: "miete", label: "Monatliche Miete in €", suffix: "€" } },
+	],
 	get_inputnumber: [
 		{ input: { name: "personen", label: "Personen im Haushalt" } },
 	],

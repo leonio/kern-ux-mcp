@@ -56,7 +56,7 @@ function workflow(args: Args): string {
 
 	const items = [
 		"**Check:** call `validate_html` with the HTML as it is.",
-		"**Problems:** collect them for your answer: the check's issues by `ruleId`, and what the check can't see by the WCAG criterion the guide lists for the component, such as a field without a label or with a placeholder as its label (3.3.2), or a skipped heading level or a table without header cells (1.3.1).",
+		"**Problems:** collect them for your answer: the check's issues by `ruleId`, and what the check can't see by the WCAG criterion the guide lists for the component, such as a link made to look like a button (4.1.2) or a heading that doesn't say what its part is about (2.4.6).",
 		"**Rebuild:** build the same content again with the kern tools instead of patching the markup: `render_page` for a whole page, `render_composition` for a part. Use `field` blocks in a `form` block for inputs, `section` blocks for headed parts, and the component tools, such as `get_table` or `get_button`, as `html` blocks for the rest. Keep every text, link, value and option, and replace classes KERN doesn't define. An image keeps its `src` and gets an `alt` text that says what it shows.",
 		strictRender(["render_page", "render_composition"], locale),
 	];

@@ -22,6 +22,8 @@ Pre-releases go out under the npm dist-tag `alpha`. "Next alpha" means landed on
 | `get_index` is gone | next alpha | Nothing: it rendered a placeholder for an internal SCSS file, not a KERN component |
 | `get_section`, `get_card`, `get_card_group`, `get_grid`, `get_disclosure` and `get_fieldset` take only `text`, `html`, `badge` and `field` blocks | next alpha | Build nested layouts (cards in a section, a grid in a disclosure, buttons in a card's body) with `render_composition` or `render_page`; put card actions in `footer` |
 | `get_grid`, grid blocks, `get_card_group` and `render_page`'s footer render `kern-grid` instead of `kern-row` and `kern-col-*` | next alpha | Update CSS or scripts that select `.kern-row` or `.kern-col-md-*` in our markup |
+| `get_inputgroup` needs a `label` and renders KERN's labelled input group: the group sits in `kern-form-input` under a `<label class="kern-label" for>` | next alpha | Pass `label`; update CSS or scripts that expect `kern-input-group` at the top |
+| `validate_html` reports fields without a label and tables without header cells as errors (`form.field_label`, `table.headers`) | next alpha | Label every field and give data tables `th` cells; with `strict: true` such HTML now fails |
 | `get_component_docs` returns KERN's guidance in new fields (`summary`, `whenToUse`, `dos`, `docs`, …); `excerpt`, `sections` and `files` are gone, and `canonicalHtml` comes only for `details`, `search`, `layers` and `pattern` | next alpha | Read the new fields; call the component's `tool` for its markup |
 
 ## Protocol and errors (2.0.0-alpha.69)
@@ -132,6 +134,10 @@ Pre-releases go out under the npm dist-tag `alpha`. "Next alpha" means landed on
 - Two new warnings catch the `kern-grid` pitfalls in hand-written markup (see [Layout on CSS Grid](#layout-on-css-grid-next-alpha)). Each comes once per document, and strict mode isn't affected:
   - `layout.grid_in_container`: a `kern-grid` directly inside `kern-container` or `kern-container-fluid`, which removes the container's padding
   - `layout.grid_columns_small`: a `kern-grid` whose column counts all have a breakpoint suffix (`kern-grid-cols-3-md`), so small screens get 12 columns
+- Three new rules catch what `review_kern_html` used to find only by hand. **The two errors fail strict mode** on HTML that passed it before:
+  - `form.field_label` (error): an `input` (not `hidden`, `submit`, `button`, `reset` or `image`), `select` or `textarea` without a label with text: a `<label for>`, a `<label>` around it, `aria-label` or `aria-labelledby`. A placeholder doesn't count, nor does an empty label. `form.label_for` only checks the labels that exist.
+  - `table.headers` (error): a `table` without any `th`, unless `role="presentation"` or `role="none"` marks it as layout. `table.th_scope` only checks the `th` cells that exist.
+  - `heading.level_skip` (warning): a heading more than one level below the heading before it, such as `h3` after `h1`. The first heading may have any level, so a part of a page can start at `h2`. One warning per skip.
 
 ## KERN knowledge from the knowledge bundle (next alpha)
 

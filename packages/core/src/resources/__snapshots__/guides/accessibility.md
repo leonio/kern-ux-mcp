@@ -16,10 +16,13 @@ Every tool checks its own output with these rules, and `validate_html` checks an
 | `icon.aria` | error | An icon is decorative (aria-hidden="true") or has an aria-label. |
 | `button.icon_only_sr_label` | error | A button with only an icon has a non-empty sr-only label (.kern-label.kern-sr-only). |
 | `form.label_for` | error | A label's for attribute names the id of an existing field. |
+| `form.field_label` | error | A field has a label with text: a label element that names it with for or wraps it, aria-label or aria-labelledby. A placeholder is no label. |
 | `form.error_id` | warning | An error message (.kern-error) has an id. |
 | `form.error_describedby` | warning | A field with an error message references it through aria-describedby. |
 | `table.caption` | warning | A table has a caption. |
 | `table.th_scope` | warning | A header cell has scope="col" or scope="row". |
+| `table.headers` | error | A table has header cells (th), unless role="presentation" or role="none" marks it as layout. |
+| `heading.level_skip` | warning | A heading is at most one level below the heading before it: h2 after h1, not h3. The first heading may have any level. |
 | `img.alt` | error | An image has an alt attribute: alt="" when it is decorative. |
 | `layout.grid_in_container` | warning | A kern-grid sits in a div of its own, not directly in kern-container, which would lose its padding. |
 | `layout.grid_columns_small` | warning | A kern-grid that sets its columns from a breakpoint up also sets them for small screens (kern-grid-cols-1). |

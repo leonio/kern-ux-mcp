@@ -28,14 +28,18 @@ export function buildInputGroup(
 			: "";
 
 	const prefix = params.prefix
-		? `<span class="kern-input-group-text${affixModifier}">${escapeHtml(params.prefix)}</span>\n  `
+		? `<span class="kern-input-group-text${affixModifier}">${escapeHtml(params.prefix)}</span>\n    `
 		: "";
 	const suffix = params.suffix
-		? `\n  <span class="kern-input-group-text${affixModifier}">${escapeHtml(params.suffix)}</span>`
+		? `\n    <span class="kern-input-group-text${affixModifier}">${escapeHtml(params.suffix)}</span>`
 		: "";
 
-	const html = `<div class="kern-input-group">
-  ${prefix}<input class="kern-form-input__input" id="${id}" name="${escapeHtml(params.name)}" type="text"${valueAttr}${placeholderAttr}${readonlyAttr}${disabledAttr} />${suffix}
+	// KERN's labelled input group (kern-ux-plain's "group-with-label" story).
+	const html = `<div class="kern-form-input">
+  <label class="kern-label" for="${id}">${escapeHtml(params.label)}</label>
+  <div class="kern-input-group">
+    ${prefix}<input class="kern-form-input__input" id="${id}" name="${escapeHtml(params.name)}" type="text"${valueAttr}${placeholderAttr}${readonlyAttr}${disabledAttr} />${suffix}
+  </div>
 </div>`;
 
 	return { html, warnings };

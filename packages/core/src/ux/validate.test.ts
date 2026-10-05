@@ -256,7 +256,7 @@ describe("validateHtmlStrict: form error wiring", () => {
 	});
 
 	it("warns when no field references the error id via aria-describedby", () => {
-		const html = `<input id="name" class="kern-form-input__input"><p id="name-error" class="kern-error">Pflichtfeld</p>`;
+		const html = `<label for="name">Name</label><input id="name" class="kern-form-input__input"><p id="name-error" class="kern-error">Pflichtfeld</p>`;
 		const res = validateHtmlStrict(html);
 
 		expect(res.issues.map((i) => i.ruleId)).toEqual(["form.error_describedby"]);
@@ -264,7 +264,7 @@ describe("validateHtmlStrict: form error wiring", () => {
 	});
 
 	it("accepts an error referenced as one of several aria-describedby ids", () => {
-		const html = `<input id="name" aria-describedby="name-hint name-error"><p id="name-hint">Hinweis</p><p id="name-error" class="kern-error">Pflichtfeld</p>`;
+		const html = `<label for="name">Name</label><input id="name" aria-describedby="name-hint name-error"><p id="name-hint">Hinweis</p><p id="name-error" class="kern-error">Pflichtfeld</p>`;
 		expect(ruleIdsOf(html)).toEqual([]);
 	});
 
@@ -444,5 +444,111 @@ describe("kern-grid layout warnings", () => {
 		],
 	])("leaves %s alone", (_, html) => {
 		expect(layoutIssues(html)).toEqual([]);
+	});
+});
+
+describe("validateHtmlStrict: field labels", () => {
+	it.each([
+		["a label for its id", '<label for="plz">PLZ</label><input id="plz">'],
+		["a label around it", "<label>PLZ <input></label>"],
+		["aria-label", '<input aria-label="Suche">'],
+		["aria-labelledby", '<span id="t">PLZ</span><input aria-labelledby="t">'],
+		["a hidden input", '<input type="hidden" name="token">'],
+		["a submit input", '<input type="submit" value="Senden">'],
+		[
+			"a select in a label with text of its own",
+			"<label>Land <select><option>DE</option></select></label>",
+		],
+	])("accepts a field with %s", (_, html) => {
+		expect(ruleIdsOf(html)).not.toContain("form.field_label");
+	});
+
+	it.each([
+		["an input with only a placeholder", '<input id="plz" placeholder="PLZ">'],
+		["an empty label", '<label for="plz"> </label><input id="plz">'],
+		[
+			"a select with no label",
+			'<select name="land"><option>DE</option></select>',
+		],
+		[
+			"a select whose label holds only its options",
+			"<label><select><option>DE</option></select></label>",
+		],
+		["a textarea with no label", "<textarea></textarea>"],
+	])("errors on %s", (_, html) => {
+		const res = validateHtmlStrict(html);
+
+		expect(res.ok).toBe(false);
+		expect(res.issues.map((i) => i.ruleId)).toEqual(["form.field_label"]);
+	});
+
+	it("names the field by id, else by name", () => {
+		const hints = validateHtmlStrict(
+			'<input id="plz"><select name="land"></select><textarea></textarea>',
+		).issues.map((i) => i.selectorHint);
+
+		expect(hints).toEqual(["#plz", 'select[name="land"]', "textarea"]);
+	});
+});
+
+describe("validateHtmlStrict: table headers", () => {
+	it("errors on a table without header cells", () => {
+		const res = validateHtmlStrict(
+			"<table><caption>Gebühren</caption><tr><td>Leistung</td><td>Gebühr</td></tr></table>",
+		);
+
+		expect(res.ok).toBe(false);
+		expect(res.issues.map((i) => i.ruleId)).toEqual(["table.headers"]);
+	});
+
+	it.each(["presentation", "none"])(
+		"accepts a layout table with role=%s",
+		(role) => {
+			expect(
+				ruleIdsOf(
+					`<table role="${role}"><caption>x</caption><tr><td>x</td></tr></table>`,
+				),
+			).not.toContain("table.headers");
+		},
+	);
+
+	it("accepts a table with a header row", () => {
+		expect(
+			ruleIdsOf(
+				'<table><caption>Gebühren</caption><tr><th scope="col">Leistung</th></tr><tr><td>Pass</td></tr></table>',
+			),
+		).toEqual([]);
+	});
+});
+
+describe("validateHtmlStrict: heading levels", () => {
+	it("warns when a heading skips a level, without failing", () => {
+		const res = validateHtmlStrict("<h1>Amt</h1><h3>Öffnungszeiten</h3>");
+
+		expect(res.ok).toBe(true);
+		expect(res.issues).toEqual([
+			expect.objectContaining({
+				ruleId: "heading.level_skip",
+				severity: "warning",
+				selectorHint: "h3",
+				message: expect.objectContaining({
+					en: expect.stringContaining("from h1 to h3. Use h2"),
+				}),
+			}),
+		]);
+	});
+
+	it("lets the first heading have any level and go back up any number", () => {
+		expect(
+			ruleIdsOf("<h2>Teil</h2><h3>a</h3><h4>b</h4><h2>Nächster</h2><h3>c</h3>"),
+		).toEqual([]);
+	});
+
+	it("reports each skip, in document order", () => {
+		const hints = validateHtmlStrict(
+			"<h1>a</h1><section><h3>b</h3></section><h2>c</h2><h4>d</h4>",
+		).issues.map((i) => i.selectorHint);
+
+		expect(hints).toEqual(["h3", "h4"]);
 	});
 });

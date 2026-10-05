@@ -11,6 +11,12 @@ export const inputGroupSchema = z
 	.object({
 		...CommonParams,
 		name: z.string().describe("Name submitted with the form."),
+		label: z
+			.string()
+			.min(1)
+			.describe(
+				"Visible label: short, one line, e.g. 'Monatliche Miete in €'. A placeholder doesn't replace it.",
+			),
 		prefix: z
 			.string()
 			.optional()

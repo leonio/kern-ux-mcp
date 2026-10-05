@@ -78,6 +78,7 @@ Every tool also takes `locale` (`de` or `en`; `de` by default) and `strict` (fai
 
 `validate_html` checks this markup for:
 
+- `form.field_label` (error): A field has a label with text: a label element that names it with for or wraps it, aria-label or aria-labelledby. A placeholder is no label.
 - `form.error_id` (warning): An error message (.kern-error) has an id.
 - `form.error_describedby` (warning): A field with an error message references it through aria-describedby.
 
