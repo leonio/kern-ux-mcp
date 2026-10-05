@@ -1,6 +1,7 @@
 import { McpServer } from "@modelcontextprotocol/server";
 
 import { runTool } from "../invoke.js";
+import { registerKernPrompts } from "../prompts/register.js";
 import { registerKernResources } from "../resources/register.js";
 import {
 	KERN_TOOL_ANNOTATIONS,
@@ -48,19 +49,20 @@ export type KernServerOptions = {
 };
 
 /**
- * Creates a server with every KERN tool and resource registered. It's cheap
- * enough to call per connection or per request: definitions, JSON Schemas and
- * resource content are built once.
+ * Creates a server with every KERN tool, resource and prompt registered. It's
+ * cheap enough to call per connection or per request: definitions, JSON
+ * Schemas and resource content are built once.
  */
 export function createKernServer({ version }: KernServerOptions): McpServer {
-	const { tools, resources } = getCatalog();
+	const { tools, resources, prompts } = getCatalog();
 	const server = new McpServer(
 		{ name: "kern-ux", version },
 		{
-			// Tools and resources are fixed per release: no list-changed notifications.
+			// Tools, resources and prompts are fixed per release: no list-changed notifications.
 			capabilities: {
 				tools: { listChanged: false },
 				resources: { listChanged: false },
+				prompts: { listChanged: false },
 			},
 			cacheHints: {
 				"server/discover": RELEASE_CACHE_HINT,
@@ -76,6 +78,7 @@ export function createKernServer({ version }: KernServerOptions): McpServer {
 		registerKernTool(server, tool);
 	}
 	registerKernResources(server, resources);
+	registerKernPrompts(server, prompts);
 
 	return server;
 }
