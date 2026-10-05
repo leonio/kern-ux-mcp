@@ -1,21 +1,14 @@
-import { type CacheHint, McpServer } from "@modelcontextprotocol/server";
+import { McpServer } from "@modelcontextprotocol/server";
 
 import { runTool } from "../invoke.js";
+import { registerKernResources } from "../resources/register.js";
 import {
 	KERN_TOOL_ANNOTATIONS,
 	type ToolDef,
 } from "../ux/tool-builders/shared.js";
+import { RELEASE_CACHE_HINT } from "./cache-hint.js";
 import { getCatalog } from "./catalog.js";
 import { kernInputSchema, kernOutputSchema } from "./kern-schema.js";
-
-/**
- * Lists only change with a release (a new server version), so clients and shared
- * caches may keep them for an hour. Applies to 2026-07-28 responses only.
- */
-const LIST_CACHE_HINT: CacheHint = {
-	ttlMs: 60 * 60 * 1000,
-	cacheScope: "public",
-};
 
 /**
  * Registers one tool. Input validation happens in the SDK through
@@ -52,22 +45,26 @@ export type KernServerOptions = {
 };
 
 /**
- * Creates a server with every KERN tool registered. It's cheap enough to call
- * per connection or per request: definitions and JSON Schemas are built once.
+ * Creates a server with every KERN tool and resource registered. It's cheap
+ * enough to call per connection or per request: definitions, JSON Schemas and
+ * resource content are built once.
  */
 export function createKernServer({ version }: KernServerOptions): McpServer {
-	const { tools } = getCatalog();
+	const { tools, resources } = getCatalog();
 	const server = new McpServer(
 		{ name: "kern-ux", version },
 		{
-			// The tool set is fixed per release, so no list-changed notifications.
-			capabilities: { tools: { listChanged: false } },
+			// Tools and resources are fixed per release: no list-changed notifications.
+			capabilities: {
+				tools: { listChanged: false },
+				resources: { listChanged: false },
+			},
 			cacheHints: {
-				"server/discover": LIST_CACHE_HINT,
-				"tools/list": LIST_CACHE_HINT,
-				"prompts/list": LIST_CACHE_HINT,
-				"resources/list": LIST_CACHE_HINT,
-				"resources/templates/list": LIST_CACHE_HINT,
+				"server/discover": RELEASE_CACHE_HINT,
+				"tools/list": RELEASE_CACHE_HINT,
+				"prompts/list": RELEASE_CACHE_HINT,
+				"resources/list": RELEASE_CACHE_HINT,
+				"resources/templates/list": RELEASE_CACHE_HINT,
 			},
 		},
 	);
@@ -75,6 +72,7 @@ export function createKernServer({ version }: KernServerOptions): McpServer {
 	for (const tool of tools) {
 		registerKernTool(server, tool);
 	}
+	registerKernResources(server, resources);
 
 	return server;
 }

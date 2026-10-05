@@ -23,7 +23,7 @@ const RELATED_TOOLS: Readonly<Record<string, readonly string[]>> = {
 };
 
 /** The tool that renders a component, if the server has one. */
-function toolFor(componentId: string): string | undefined {
+export function toolFor(componentId: string): string | undefined {
 	return getComponentToolStrategy(componentId)
 		? `get_${componentId}`
 		: undefined;
@@ -250,7 +250,8 @@ function describeComponent(
 	};
 }
 
-function noteFor(
+/** What a reader needs to know first: no implementation, or no tool. */
+export function noteFor(
 	registry: Registry,
 	component: ComponentInfo,
 	tool: string | undefined,
