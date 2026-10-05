@@ -151,6 +151,9 @@ function ignoredProperties(field: FieldInput): string[] {
 			field.autocomplete !== undefined &&
 			"autocomplete",
 		type !== "textarea" && field.rows !== undefined && "rows",
+		(type === "radio" || type === "checkbox") &&
+			field.required !== undefined &&
+			"required",
 		singleCheckbox && field.hint !== undefined && "hint",
 		singleCheckbox && field.optional !== undefined && "optional",
 	].filter((property): property is string => typeof property === "string");

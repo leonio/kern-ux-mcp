@@ -176,6 +176,38 @@ describe("buildField", () => {
 		]);
 	});
 
+	it.each(
+		FIELD_TYPES.filter((type) => type !== "radio" && type !== "checkbox"),
+	)("marks a required %s field with aria-required only", (type) => {
+		const result = buildField(fieldOf(type, { required: true }), "de");
+		const control = root(result.html).querySelector('[name="feld"]');
+
+		expect(control?.getAttribute("aria-required")).toBe("true");
+		expect(control?.hasAttribute("required")).toBe(false);
+		expect(result.html).not.toContain("kern-label__optional");
+		expect(result.warnings).toEqual([]);
+		expect(validateHtmlStrict(result.html).ok).toBe(true);
+	});
+
+	it.each([
+		{ type: "radio", options: OPTIONS, kind: "radio field" },
+		{ type: "checkbox", options: OPTIONS, kind: "checkbox group" },
+		{ type: "checkbox", options: undefined, kind: "single checkbox" },
+	] as const)(
+		"warns that a $kind ignores required",
+		({ type, options, kind }) => {
+			const result = buildField(
+				fieldOf(type, { required: true, options }),
+				"de",
+			);
+
+			expect(result.html).not.toContain("aria-required");
+			expect(result.warnings).toEqual([
+				`Field "feld": required is ignored for a ${kind}.`,
+			]);
+		},
+	);
+
 	it.each(FIELD_TYPES)("escapes the model's text in a %s field", (type) => {
 		const text = `<b>"A" & 'B'</b>`;
 		const html = buildField(
