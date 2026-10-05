@@ -3,17 +3,20 @@
  * mode, with a small model and the kern stdio server as its only tools, and
  * records tool calls, errors, retries, tokens and cost per run.
  *
- *   npm run eval -- --label baseline [--suite base|nested]
+ *   npm run eval -- --label baseline [--suite base|nested|resources|prompts]
  *                   [--server <path/to/stdio/dist/index.js>] [--runs 3]
  *                   [--only contact-form,faq] [--model claude-haiku-4-5] [--concurrency 2]
- *                   [--resources]
+ *                   [--resources] [--without-prompts]
  *   npm run eval -- --label baseline --from-transcripts
  *                   (re-scores the saved transcripts, e.g. after changing the checks)
  *
  * The base suite is the ten R5 scenarios; nested is four layouts that need the
  * recursive block union; resources is two tasks a card or guide should help
- * with (scenarios.ts). --resources turns on Claude Code's tools for listing
- * and reading MCP resources; run a suite with and without it to compare.
+ * with; prompts is tasks of the others asked through our MCP prompts
+ * (scenarios.ts). --resources turns on Claude Code's tools for listing and
+ * reading MCP resources; run a suite with and without it to compare. The
+ * prompts suite renders each prompt from the server under test (prompt-text.ts)
+ * and sends that text; --without-prompts sends the tasks' own text instead.
  *
  * It uses the Claude Code login of whoever runs it (no API key needed); each run
  * costs a few cents at Haiku rates. The summary goes to
@@ -25,6 +28,10 @@ import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
+import { Client } from "@modelcontextprotocol/client";
+import { StdioClientTransport } from "@modelcontextprotocol/client/stdio";
+
+import { promptText } from "./prompt-text.js";
 import { type Scenario, SUITES } from "./scenarios.js";
 import {
 	aggregate,
@@ -49,7 +56,7 @@ function option(name: string, fallback?: string): string | undefined {
 const label = option("label");
 if (!label || !/^[\w.-]+$/.test(label)) {
 	console.error(
-		"Usage: npm run eval -- --label <name> [--suite base|nested] [--server <path>] [--runs 3] [--only a,b] [--model claude-haiku-4-5] [--concurrency 2] [--resources]",
+		"Usage: npm run eval -- --label <name> [--suite base|nested|resources|prompts] [--server <path>] [--runs 3] [--only a,b] [--model claude-haiku-4-5] [--concurrency 2] [--resources] [--without-prompts]",
 	);
 	process.exit(2);
 }
@@ -85,6 +92,11 @@ const only = option("only")?.split(",");
 const withResources =
 	process.argv.includes("--resources") || previous?.resources === true;
 const scenarios = suiteScenarios.filter((s) => !only || only.includes(s.id));
+// The prompts suite sends each task through its MCP prompt, unless told not to.
+const withPrompts =
+	!process.argv.includes("--without-prompts") &&
+	previous?.mcpPrompts !== false &&
+	scenarios.some((s) => s.mcpPrompt);
 
 if (!fromTranscripts) {
 	try {
@@ -139,10 +151,41 @@ await fs.mkdir(rawDir, { recursive: true });
 
 const resourceTools = [RESOURCE_TOOLS.list, RESOURCE_TOOLS.read];
 
+/**
+ * Each scenario's MCP prompt, rendered once by the server under test, as the
+ * text the runs send. The text goes next to the transcripts for reading.
+ */
+async function renderPrompts(): Promise<Map<string, string>> {
+	const texts = new Map<string, string>();
+	if (!withPrompts || fromTranscripts) return texts;
+	const client = new Client({ name: "kern-eval", version: "0.0.0" });
+	await client.connect(
+		new StdioClientTransport({
+			command: process.execPath,
+			args: [server],
+			stderr: "inherit",
+		}),
+	);
+	try {
+		for (const scenario of scenarios) {
+			if (!scenario.mcpPrompt) continue;
+			const { messages } = await client.getPrompt(scenario.mcpPrompt);
+			const text = promptText(messages);
+			texts.set(scenario.id, text);
+			await fs.writeFile(path.join(rawDir, `${scenario.id}.prompt.md`), text);
+		}
+	} finally {
+		await client.close();
+	}
+	return texts;
+}
+
+const promptTexts = await renderPrompts();
+
 function runOnce(scenario: Scenario, attempt: number): Promise<RunSummary> {
 	const args = [
 		"-p",
-		scenario.prompt,
+		promptTexts.get(scenario.id) ?? scenario.prompt,
 		"--model",
 		model,
 		"--mcp-config",
@@ -226,7 +269,7 @@ if (fromTranscripts) {
 		}
 	};
 	console.log(
-		`Eval "${label}": ${jobs.length} runs (${scenarios.length} scenarios × ${runs}) with ${model} against ${server}${withResources ? ", with the resource tools" : ""}`,
+		`Eval "${label}": ${jobs.length} runs (${scenarios.length} scenarios × ${runs}) with ${model} against ${server}${withResources ? ", with the resource tools" : ""}${withPrompts ? ", through the MCP prompts" : ""}`,
 	);
 	await Promise.all(Array.from({ length: concurrency }, worker));
 }
@@ -243,6 +286,9 @@ const byScenario = scenarios.map((scenario) => {
 		...(withResources
 			? { resourceReads: own.map((r) => r.resourceReads) }
 			: {}),
+		...(withPrompts && scenario.mcpPrompt
+			? { mcpPrompt: scenario.mcpPrompt.name }
+			: {}),
 	};
 });
 const total = aggregate(results);
@@ -255,6 +301,7 @@ const report = {
 	serverCommit: previous?.serverCommit ?? serverCommit(),
 	runsPerScenario: previous?.runsPerScenario ?? runs,
 	resources: withResources,
+	mcpPrompts: withPrompts,
 	systemPrompt: previous?.systemPrompt ?? SYSTEM_PROMPT,
 	total,
 	scenarios: byScenario,
