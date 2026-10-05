@@ -12,7 +12,8 @@ import type { ToolDef } from "./shared.js";
 
 /**
  * Tools that go with a component's own tool, beyond what KERN's similar
- * components suggest: how our tools compose. Facts about this server, so code.
+ * components suggest: how our tools compose. For a docs-only component, the
+ * tools closest to it, which its note names. Facts about this server, so code.
  */
 const RELATED_TOOLS: Readonly<Record<string, readonly string[]>> = {
 	button: ["get_icon", "list_icons"],
@@ -20,6 +21,8 @@ const RELATED_TOOLS: Readonly<Record<string, readonly string[]>> = {
 	dialog: ["get_button"],
 	header: ["render_page", "get_pattern"],
 	nav: ["render_page"],
+	// Docs-only: KERN names no alternative, and models invent kern-notification-banner.
+	notificationbanner: ["get_alert"],
 };
 
 /** The URI template of the component cards, the kern://components/{id} resources. */
@@ -285,7 +288,11 @@ export function noteFor(
 		const release = registry.upstream?.version
 			? `KERN ${registry.upstream.version}`
 			: "KERN";
-		return `${release} documents ${component.title} but doesn't implement it: there's no tool and no kern-* markup for it.`;
+		const closest = RELATED_TOOLS[component.id];
+		return (
+			`${release} documents ${component.title} but doesn't implement it: there's no tool and no kern-* markup for it, so don't invent kern-* classes for it.` +
+			(closest ? ` The closest tools here: ${closest.join(", ")}.` : "")
+		);
 	}
 	return tool ? undefined : "This server has no tool for this component.";
 }
