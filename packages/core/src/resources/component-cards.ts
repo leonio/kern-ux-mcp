@@ -3,7 +3,11 @@ import { parse } from "node-html-parser";
 import { invokeTool } from "../invoke.js";
 import { withStableIds } from "../ux/id.js";
 import { getToolInputJsonSchema } from "../ux/json-schema.js";
-import { noteFor, toolFor } from "../ux/tool-builders/component-docs.js";
+import {
+	COMPONENT_CARD_URI_TEMPLATE,
+	noteFor,
+	toolFor,
+} from "../ux/tool-builders/component-docs.js";
 import type { ToolDef } from "../ux/tool-builders/shared.js";
 import { TOOL_EXAMPLES } from "../ux/tool-examples.js";
 import {
@@ -49,7 +53,7 @@ export function componentCards(
 
 	const definition: KernResourceDefinition = {
 		name: "component-cards",
-		uriTemplate: "kern://components/{id}",
+		uriTemplate: COMPONENT_CARD_URI_TEMPLATE,
 		variable: "id",
 		title: "KERN component cards",
 		description:

@@ -149,6 +149,10 @@
             "description": "The tool that renders the component.",
             "type": "string"
           },
+          "card": {
+            "type": "string",
+            "description": "The component's card, an MCP resource with this guidance, the tool's fields and a rendered example."
+          },
           "note": {
             "type": "string"
           },
@@ -813,7 +817,8 @@
         "required": [
           "componentId",
           "title",
-          "status"
+          "status",
+          "card"
         ],
         "additionalProperties": false
       },

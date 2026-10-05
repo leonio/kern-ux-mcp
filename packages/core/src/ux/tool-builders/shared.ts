@@ -20,6 +20,16 @@ export type ToolDef = {
 	inputSchema: z.ZodType;
 	outputSchema: z.ZodType;
 	handler: ToolHandler;
+	/** Resources the result points to, sent along as resource_link content. */
+	resourceLinks?: (output: unknown) => readonly ResourceLinkRef[];
+};
+
+/** A link to one of the server's resources, kept SDK-free like ToolDef. */
+export type ResourceLinkRef = {
+	uri: string;
+	name: string;
+	title?: string;
+	mimeType?: string;
 };
 
 /** MCP tool annotations (hints for clients), kept SDK-free in packages/core/src/ux. */

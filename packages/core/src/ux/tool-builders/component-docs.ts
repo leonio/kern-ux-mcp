@@ -22,6 +22,14 @@ const RELATED_TOOLS: Readonly<Record<string, readonly string[]>> = {
 	nav: ["render_page"],
 };
 
+/** The URI template of the component cards, the kern://components/{id} resources. */
+export const COMPONENT_CARD_URI_TEMPLATE = "kern://components/{id}";
+
+/** A component's card. */
+export function componentCardUri(componentId: string): string {
+	return COMPONENT_CARD_URI_TEMPLATE.replace("{id}", componentId);
+}
+
 /** The tool that renders a component, if the server has one. */
 export function toolFor(componentId: string): string | undefined {
 	return getComponentToolStrategy(componentId)
@@ -91,6 +99,11 @@ const outputSchema = z.object({
 	title: z.string(),
 	status: z.enum(["stable", "experimental", "deprecated", "docs-only"]),
 	tool: z.string().optional().describe("The tool that renders the component."),
+	card: z
+		.string()
+		.describe(
+			"The component's card, an MCP resource with this guidance, the tool's fields and a rendered example.",
+		),
 	note: z.string().optional(),
 	summary: z.string().optional(),
 	whenToUse: z.array(z.string()).optional(),
@@ -181,6 +194,17 @@ export function buildComponentDocsTool(registry: Registry): ToolDef {
 			"Valid IDs come from list_components_by_category.",
 		inputSchema,
 		outputSchema,
+		resourceLinks: (output) => {
+			const { card, componentId, title } = output as ComponentDocsResult;
+			return [
+				{
+					uri: card,
+					name: componentId,
+					title: `KERN ${title}`,
+					mimeType: "text/markdown",
+				},
+			];
+		},
 		handler: async (args: { componentId: string; locale?: Locale }) => {
 			const component = findDocumentedComponent(registry, args.componentId);
 			if (!component) {
@@ -233,6 +257,7 @@ function describeComponent(
 		title: component.title,
 		status: component.status,
 		tool,
+		card: componentCardUri(component.id),
 		note: noteFor(registry, component, tool),
 		summary: component.summary,
 		whenToUse: knowledge.whenToUse,

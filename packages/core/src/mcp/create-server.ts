@@ -15,7 +15,8 @@ import { kernInputSchema, kernOutputSchema } from "./kern-schema.js";
  * kernInputSchema. Anything the handler throws (strict-mode failures, invalid
  * output) becomes an isError result with the error's message. Successful
  * results carry the output twice: as structuredContent for clients that read
- * the outputSchema, and as a JSON text block for those that don't.
+ * the outputSchema, and as a JSON text block for those that don't. A tool with
+ * resourceLinks adds them as resource_link blocks after the text.
  */
 export function registerKernTool(server: McpServer, tool: ToolDef): void {
 	server.registerTool(
@@ -29,9 +30,11 @@ export function registerKernTool(server: McpServer, tool: ToolDef): void {
 		},
 		async (args: unknown) => {
 			const output = (await runTool(tool, args)) as Record<string, unknown>;
+			const links = tool.resourceLinks?.(output) ?? [];
 			return {
 				content: [
 					{ type: "text" as const, text: JSON.stringify(output, null, 2) },
+					...links.map((link) => ({ type: "resource_link" as const, ...link })),
 				],
 				structuredContent: output,
 			};

@@ -111,6 +111,7 @@ describe("get_component_docs", () => {
 			title: "Input Text",
 			status: "stable",
 			tool: "get_inputtext",
+			card: "kern://components/inputtext",
 			summary: "The basic single-line field.",
 			whenToUse: ["For a name or a street."],
 			whenNotToUse: [

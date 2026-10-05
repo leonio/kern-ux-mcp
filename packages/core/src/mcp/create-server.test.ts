@@ -103,6 +103,33 @@ describe.each(MCP_ERAS)("MCP server over $era", ({ era, connect }) => {
 		});
 	});
 
+	it("links get_component_docs to the component's card, which reads", async () => {
+		const result = await client.callTool({
+			name: "get_component_docs",
+			arguments: { componentId: "input-text" },
+		});
+
+		expect(result.content).toEqual([
+			{
+				type: "text",
+				text: expect.stringContaining('"componentId": "inputtext"'),
+			},
+			{
+				type: "resource_link",
+				uri: "kern://components/inputtext",
+				name: "inputtext",
+				title: "KERN Input Text",
+				mimeType: "text/markdown",
+			},
+		]);
+		const card = await client.readResource({
+			uri: "kern://components/inputtext",
+		});
+		expect(card.contents[0]).toMatchObject({
+			text: expect.stringMatching(/^# KERN Input Text\n/),
+		});
+	});
+
 	it("calls a tool and returns its validated output as JSON text", async () => {
 		const result = await client.callTool({
 			name: "get_button",
