@@ -61,8 +61,8 @@ Three groups: the plumbing with the form prompt and the eval's prompt support (A
    - The workflow becomes a `formFlow` block: the step list (tasklist) and progress, the active step's fields, back and forward buttons, a review step through `get_summary` before the last, and submit on the last step only. `renderAllSteps` when a script should switch steps in the browser.
    - The `tasklist`, `progress` and `summary` cards are added to the links.
 3. **The eval renders a prompt.**
-   - A scenario can carry `prompt: { name, arguments }`. The harness renders it with `prompts/get` against the server it tests and sends the joined text (decision 4).
-   - A `prompts` suite with `contact-form` and `application-flow`, with their checks.
+   - A scenario can carry `mcpPrompt: { name, arguments }`. The harness renders it with `prompts/get` against the server it tests and sends the joined text (decision 4).
+   - A `prompts` suite with `contact-form` and `application-flow`, with their IDs and checks. `--without-prompts` runs the same suite with the tasks' own text: that's the comparison.
 
 ### B. The other two prompts
 
@@ -77,14 +77,39 @@ Three groups: the plumbing with the form prompt and the eval's prompt support (A
 
 ## Evals
 
-- **After A:** `npm run eval -- --label r7-a --suite prompts`, and `--only contact-form` (base) plus `--only application-flow` (nested) without the prompt, on the same commit.
-- **After C:** the full `prompts` suite, plus `base` and `nested` on the same commit: they're the comparison, and they confirm the new capability changes nothing without a prompt.
+- **After A:** `npm run eval -- --label r7-a --suite prompts` and `--label r7-a-plain --suite prompts --without-prompts` on the same commit, then `npm run eval:compare -- r7-a-plain r7-a`.
+- **After C:** the full `prompts` suite with and without the prompts, plus `base` and `nested` on the same commit, to confirm the new capability changes nothing without a prompt.
 
 ## Progress
 
-- [ ] A1: the prompt definition, registration and `create_input_form` without steps
-- [ ] A2: `steps`, the wizard
-- [ ] A3: the eval renders a prompt
+- [x] Decisions confirmed `4f7f7c4`.
+- [x] A1 `392666b`: `prompts/` (definition, `registerKernPrompts`), the catalog entry, the `prompts` capability and `create_input_form` without steps. 28 tests on both eras plus two file snapshots; the migration notes have "Prompts".
+- [x] A2 `6d3b8a8`: `steps` builds a `formFlow` block; the `tasklist`, `progress` and `summary` cards join the links.
+- [x] A3 `7505e57`: the eval renders a scenario's `mcpPrompt` over stdio (`prompt-text.ts`); the `prompts` suite; `--without-prompts`.
+- [x] From the eval: `eb08cb5` and `83d1b82` fix the wizard's step wording (see below).
+- [x] Evals after A: [r7-a](r5-eval/r7-a.json), [r7-a-plain](r5-eval/r7-a-plain.json), [r7-a-fix](r5-eval/r7-a-fix.json), [r7-a-fix2](r5-eval/r7-a-fix2.json).
+- **Message order:** the guide, then the card links, then the workflow, not the order decision 2 lists. The workflow ends with "Answer with the final HTML … verbatim", so that's the last thing the model reads.
+- **Blank optional arguments count as none** (`locale`, `steps`): a client may send `""` for an optional argument left empty. `locale` is a union with `""`, so the SDK still finds its completer under `.optional()`.
+- **Checked by hand before writing the text:** a file upload as `get_inputfile` HTML in an `html` block, and a `get_summary` group in the last step of a `renderAllSteps` `formFlow`, both pass strict validation. `get_summary`'s group mode needs `groupTitle`, so the text names it.
+- **Tests:** 2,210 pass (2026-10-05).
+- **The eval after A** (`r7-a` against `r7-a-plain`: the same suite and server, 3 runs per task; the server shows `+dirty` only for this file):
+  - **Both 39/39 and 6/6 strict-valid.** The four checks of `contact-form` and nine of `application-flow` pass either way, so the difference is in the markup and the answers.
+  - **Answers:** 6 verbatim with the prompt; 4 verbatim and 2 described without. Without it, two `application-flow` runs used `render_page` and summarised the form in prose, as `nested-r6-d` did.
+  - **Markup:** with the prompt every `application-flow` run used `formFlow` with a `get_summary` review, three `autocomplete` tokens and fieldsets; without it one run in three did, with no `autocomplete` and no summary. `contact-form` set `aria-required` on all three required fields in every prompted run, against 1 to 3 without.
+  - **Cost:** $0.57 against $0.21, with 11 tool calls against 6 (the `get_summary` call and one retry). About $0.16 of it is the first two runs writing a cold prompt cache (40K tokens each), which the plain runs, started later, read. The prompt adds 2,850 tokens to the first request.
+  - **One error:** Claude Code couldn't parse a 4 KB `render_composition` input as JSON; the retry passed. Copying `get_summary`'s HTML into an `html` block makes the input large and escape-heavy.
+- **The wizard's steps** (three re-runs of `application-flow`):
+  - In `r7-a`, one run added an empty fourth step "Absenden" after "Prüfen und Absenden". A2 said "if the last step isn't for that, add one".
+  - `eb08cb5` said "never add a step for the submit button alone": all three `r7-a-fix` runs reached for a fourth step (empty, text-only, `null`). Naming the thing invites it.
+  - `83d1b82` says "exactly the steps given" and drops adding a review step: in `r7-a-fix2` two runs rendered three steps, one rendered four and then three on its own. 27/27, 3/3 strict-valid.
+
+### Findings from group A
+
+- **The delivery check takes the largest tool HTML.** A run that renders twice and answers with the second render counts as "edited" (`r7-a-fix2` run 1). Comparing against the last render would fix it; C8 can change it before the full eval.
+- **Cold cache:** the first runs of an eval session pay the cache write. Compare cost on runs started in the same order, or run the plain suite first.
+- **A `summary` block kind** in `render_composition` would save copying `get_summary` HTML into an `html` block, and the large inputs that come with it. That's a tool change, after 2.0.
+- **Small misses:** one `r7-a-fix2` run left out the confirmation checkbox in the review step (no check covers it); one called `get_summary` without `mode` and retried.
+
 - [ ] B4: `create_page_layout`
 - [ ] B5: `review_kern_html`
 - [ ] C6: every tool name and `kern://` URI in text resolves

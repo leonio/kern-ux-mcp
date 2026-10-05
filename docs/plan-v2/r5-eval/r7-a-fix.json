@@ -1,0 +1,87 @@
+{
+	"label": "r7-a-fix",
+	"suite": "prompts",
+	"date": "2026-10-05T17:47:16.295Z",
+	"model": "claude-haiku-4-5",
+	"serverCommit": "eb08cb5+dirty",
+	"runsPerScenario": 3,
+	"resources": false,
+	"mcpPrompts": true,
+	"systemPrompt": "You build web page markup with the KERN UX design system. Use the kern tools to render components instead of writing KERN markup by hand. When you're done, reply with the final HTML.",
+	"total": {
+		"runs": 3,
+		"completed": 3,
+		"toolCalls": 7,
+		"errorResults": 1,
+		"invalidInputErrors": 1,
+		"retries": 1,
+		"turns": 10,
+		"checksPassed": 27,
+		"checksTotal": 27,
+		"compositionCalls": 4,
+		"compositionErrors": 1,
+		"compositionRetries": 1,
+		"blockDepth": 3,
+		"blockNodes": 12,
+		"deliveredVerbatim": 3,
+		"deliveredEdited": 0,
+		"deliveredDescribed": 0,
+		"fallbacks": 0,
+		"strictValid": 3,
+		"resourceLists": 0,
+		"resourceReads": 0,
+		"firstRequestTokens": 40359,
+		"inputTokens": 459360,
+		"outputTokens": 30759,
+		"costUsd": 0.2994273,
+		"durationMs": 239496
+	},
+	"scenarios": [
+		{
+			"id": "application-flow",
+			"runs": 3,
+			"completed": 3,
+			"toolCalls": 7,
+			"errorResults": 1,
+			"invalidInputErrors": 1,
+			"retries": 1,
+			"turns": 10,
+			"checksPassed": 27,
+			"checksTotal": 27,
+			"compositionCalls": 4,
+			"compositionErrors": 1,
+			"compositionRetries": 1,
+			"blockDepth": 3,
+			"blockNodes": 12,
+			"deliveredVerbatim": 3,
+			"deliveredEdited": 0,
+			"deliveredDescribed": 0,
+			"fallbacks": 0,
+			"strictValid": 3,
+			"resourceLists": 0,
+			"resourceReads": 0,
+			"firstRequestTokens": 40359,
+			"inputTokens": 459360,
+			"outputTokens": 30759,
+			"costUsd": 0.2994273,
+			"durationMs": 239496,
+			"failedChecks": [],
+			"calls": [
+				[
+					"get_summary",
+					"render_composition"
+				],
+				[
+					"get_summary",
+					"render_composition"
+				],
+				[
+					"get_summary",
+					"render_composition!invalid-input",
+					"render_composition"
+				]
+			],
+			"mcpPrompt": "create_input_form"
+		}
+	]
+}
