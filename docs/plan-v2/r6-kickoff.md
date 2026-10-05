@@ -198,6 +198,27 @@ Run the base and nested suites after A (titles and status banners), after B (the
   - **No run called `get_component_docs`.** Its value shows when a model is unsure, which these scenarios rarely make it.
 - **Group C starts from [r6-handover.md](r6-handover.md)**, which has the notes from reading for C9. They cover where the container grid is rendered, `.kern-grid`'s 12-column default, `get_grid`'s status, and the eval checks to update.
 
+## Where group C ended
+
+- **The markup**, checked in headless Chrome against the published 2.8.2 CSS at phone and desktop widths:
+  - Every grid of ours is `kern-grid kern-grid-cols-1 kern-grid-cols-{n}-md kern-gap-lg`, in a `div` of its own.
+  - **The `div` matters.** 2.8.2 has `.kern-container:has(> .kern-grid) { padding: 0 }`. A grid right inside `render_page`'s `<main>` would take main's padding away, and with it the inset of the `h1` and every block.
+  - **`kern-grid` sets no gap.** The line is commented out in `_utilities.scss`, although the docs text says `gap-lg`. Hence `kern-gap-lg`.
+  - **`kern-grid` has 12 columns** until a `kern-grid-cols-*` class applies. The story that says "Mobile: 1 Spalte (Standard)" gives 12 columns of 29 px on a phone.
+  - **Check against the npm package's `dist/kern.min.css`**, not `samples/basic-layout/assets/kern.min.css`. The sample's copy is older than 2.8.2: its rule is `:has(.kern-grid)`, at any depth.
+- **`get_grid`'s entry** is the utilities page's CSS Grid sections, checked at import: "CSS Grid", stable, no banner. KERN's container grid left the registry. The tool-hints rule needs no line for `get_grid`.
+- **The first eval run** (`r6-c`) found a model copying the descriptions' shorthand, `kern-grid kern-grid-cols-3-md`, into a hand-written `html` block right inside `<main>`: no padding, and 12 columns on a phone. Hence `ff80158` and `d264223`.
+- **Evals** against `r6-b` and `nested-r6-b`:
+  - **Base 96/96** (`r6-b`: 95/96), 30/30 completed, 29/30 strict-valid. The one invalid answer has `aria-hidden="true\"`, a typo from the model's own edit.
+  - **Every grid our tools rendered** has the new classes (`get_card_group`, `render_composition`, `render_page`). `service-cards` and `dashboard` pass their updated checks in every run.
+  - **One `landing-page` run** still hand-wrote a grid of cards in an `html` block right inside `<main>`, now with the full classes. `render_page` returned `layout.grid_in_container`, and Haiku delivered the page anyway.
+  - **Nested 99/105** (`nested-r6-b`: 105/105), 12/12 strict-valid. All six misses are one `application-flow` answer that summarised the form in prose and kept a fragment of the HTML; the tool's output had the structure. One `dashboard` run tried a `table` block kind, then used `get_table`.
+- **The listing** is 116,265 characters, down from 116,871. The stdio bundle is 532 KB.
+- **Open decision:** should `render_page` and `render_composition` wrap an `html` block whose root is a `kern-grid` in a plain `div` when it sits in a container? The warning alone didn't stop Haiku.
+- **Upstream findings:**
+  - KERN's container stories use `kern-col-span-8`, which the CSS doesn't define. An example uses it, so `class.unknown` accepts it. Our utility reference copied it until C9.
+  - The utilities docs say `.kern-grid` has `gap-lg` by default; the CSS sets no gap.
+
 ## Asks for the packer (none blocks R6)
 
 - a canonical example marker (one `canonical:` line per component in `components.yaml`)
@@ -222,8 +243,10 @@ Run the base and nested suites after A (titles and status banners), after B (the
 - [x] B7 `61c59eb`: `list_icons` and the icon checks use the bundle's 42 icons (`icons.ts`).
 - [x] B8 `63dddab`: `validate_html` warns on unknown `kern-*` classes (`kern-classes.ts`). Fixing our own invented classes changed `get_disclosure` (KERN's accordion markup) and `formFlow` (data attributes).
 - [x] Evals after B: [r5-eval/r6-b.json](r5-eval/r6-b.json), [r5-eval/nested-r6-b.json](r5-eval/nested-r6-b.json)
-- [ ] C9 `get_grid` and the grid block on `kern-grid`
-- [ ] C10 Card groups, sections and the page shell on `kern-grid`
+- [x] C9 `b0cd9dd`: `get_grid` and the grid block on `kern-grid`, 1 to 12 columns, the count from `columnsContent`. `get_grid`'s entry is the utilities' CSS Grid sections (`TOOLS_FROM_SECTIONS`): stable, no banner.
+- [x] C10 `ae5076a`: card groups and the page footer on `kern-grid`, the section error message, the migration notes. Sections needed no change: none rendered the container grid.
+- [x] From the first eval run: `ff80158` spells out the full classes in the grid descriptions; `d264223` adds the `layout.grid_in_container` and `layout.grid_columns_small` warnings.
+- [x] Evals after C: [r5-eval/r6-c2.json](r5-eval/r6-c2.json), [r5-eval/nested-r6-c2.json](r5-eval/nested-r6-c2.json). The first run, [r6-c](r5-eval/r6-c.json) and [nested-r6-c](r5-eval/nested-r6-c.json), lost six runs to a lost connection.
 - [ ] D11 Registration, cache hints, test harness, the component cards
 - [ ] D12 `resource_link`s from `get_component_docs`
 - [ ] D13 The forms and layout guides

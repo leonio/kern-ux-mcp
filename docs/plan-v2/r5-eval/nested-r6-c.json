@@ -1,0 +1,228 @@
+{
+	"label": "nested-r6-c",
+	"suite": "nested",
+	"date": "2026-10-05T10:54:35.988Z",
+	"model": "claude-haiku-4-5",
+	"serverCommit": "ae5076a",
+	"runsPerScenario": 3,
+	"systemPrompt": "You build web page markup with the KERN UX design system. Use the kern tools to render components instead of writing KERN markup by hand. When you're done, reply with the final HTML.",
+	"total": {
+		"runs": 12,
+		"completed": 8,
+		"toolCalls": 21,
+		"errorResults": 0,
+		"invalidInputErrors": 0,
+		"retries": 0,
+		"turns": 26,
+		"checksPassed": 78,
+		"checksTotal": 105,
+		"compositionCalls": 11,
+		"compositionErrors": 0,
+		"compositionRetries": 0,
+		"blockDepth": 4,
+		"blockNodes": 14,
+		"deliveredVerbatim": 4,
+		"deliveredEdited": 2,
+		"deliveredDescribed": 3,
+		"fallbacks": 0,
+		"strictValid": 9,
+		"firstRequestTokens": 36972,
+		"inputTokens": 916174,
+		"outputTokens": 41832,
+		"costUsd": 0.5561344,
+		"durationMs": 343730
+	},
+	"scenarios": [
+		{
+			"id": "dashboard",
+			"runs": 3,
+			"completed": 3,
+			"toolCalls": 9,
+			"errorResults": 0,
+			"invalidInputErrors": 0,
+			"retries": 0,
+			"turns": 12,
+			"checksPassed": 21,
+			"checksTotal": 21,
+			"compositionCalls": 3,
+			"compositionErrors": 0,
+			"compositionRetries": 0,
+			"blockDepth": 2,
+			"blockNodes": 4,
+			"deliveredVerbatim": 2,
+			"deliveredEdited": 1,
+			"deliveredDescribed": 0,
+			"fallbacks": 0,
+			"strictValid": 3,
+			"firstRequestTokens": 36687,
+			"inputTokens": 363636,
+			"outputTokens": 18375,
+			"costUsd": 0.1780257,
+			"durationMs": 148665,
+			"failedChecks": [],
+			"calls": [
+				[
+					"get_card_group",
+					"get_table",
+					"render_composition"
+				],
+				[
+					"get_card_group",
+					"get_table",
+					"render_composition"
+				],
+				[
+					"get_card_group",
+					"get_table",
+					"render_composition"
+				]
+			]
+		},
+		{
+			"id": "application-flow",
+			"runs": 3,
+			"completed": 3,
+			"toolCalls": 3,
+			"errorResults": 0,
+			"invalidInputErrors": 0,
+			"retries": 0,
+			"turns": 6,
+			"checksPassed": 27,
+			"checksTotal": 27,
+			"compositionCalls": 3,
+			"compositionErrors": 0,
+			"compositionRetries": 0,
+			"blockDepth": 3,
+			"blockNodes": 10,
+			"deliveredVerbatim": 1,
+			"deliveredEdited": 0,
+			"deliveredDescribed": 2,
+			"fallbacks": 0,
+			"strictValid": 3,
+			"firstRequestTokens": 36739,
+			"inputTokens": 237621,
+			"outputTokens": 14247,
+			"costUsd": 0.1377649,
+			"durationMs": 119329,
+			"failedChecks": [],
+			"calls": [
+				[
+					"render_page"
+				],
+				[
+					"render_composition"
+				],
+				[
+					"render_page"
+				]
+			]
+		},
+		{
+			"id": "service-page",
+			"runs": 3,
+			"completed": 0,
+			"toolCalls": 3,
+			"errorResults": 0,
+			"invalidInputErrors": 0,
+			"retries": 0,
+			"turns": 0,
+			"checksPassed": 8,
+			"checksTotal": 24,
+			"compositionCalls": 2,
+			"compositionErrors": 0,
+			"compositionRetries": 0,
+			"blockDepth": 3,
+			"blockNodes": 13,
+			"deliveredVerbatim": 0,
+			"deliveredEdited": 0,
+			"deliveredDescribed": 1,
+			"fallbacks": 0,
+			"strictValid": 1,
+			"firstRequestTokens": 36696,
+			"inputTokens": 0,
+			"outputTokens": 0,
+			"costUsd": 0,
+			"durationMs": 0,
+			"failedChecks": [
+				"Sperrmüll anmelden",
+				"structure: the header navigation (0)",
+				"structure: the main heading (0)",
+				"structure: the form fields (0)",
+				"structure: the item type select (0)",
+				"structure: the fee table (0)",
+				"structure: three FAQ entries (0)",
+				"structure: two columns of footer links (0)",
+				"Sperrmüll anmelden",
+				"structure: the header navigation (0)",
+				"structure: the main heading (0)",
+				"structure: the form fields (0)",
+				"structure: the item type select (0)",
+				"structure: the fee table (0)",
+				"structure: three FAQ entries (0)",
+				"structure: two columns of footer links (0)"
+			],
+			"calls": [
+				[
+					"render_page",
+					"get_accordion",
+					"render_page"
+				],
+				[],
+				[]
+			]
+		},
+		{
+			"id": "fix-page",
+			"runs": 3,
+			"completed": 2,
+			"toolCalls": 6,
+			"errorResults": 0,
+			"invalidInputErrors": 0,
+			"retries": 0,
+			"turns": 8,
+			"checksPassed": 22,
+			"checksTotal": 33,
+			"compositionCalls": 3,
+			"compositionErrors": 0,
+			"compositionRetries": 0,
+			"blockDepth": 4,
+			"blockNodes": 14,
+			"deliveredVerbatim": 1,
+			"deliveredEdited": 1,
+			"deliveredDescribed": 0,
+			"fallbacks": 0,
+			"strictValid": 2,
+			"firstRequestTokens": 36972,
+			"inputTokens": 314917,
+			"outputTokens": 9210,
+			"costUsd": 0.2403438,
+			"durationMs": 75736,
+			"failedChecks": [
+				"called validate_html",
+				"Öffnungszeiten",
+				"Meldebescheinigung",
+				"37,00",
+				"Passfoto",
+				"structure: the image has alt text (0)",
+				"structure: labels for the three fields (0)",
+				"structure: table headers (0)",
+				"structure: KERN buttons (0)",
+				"structure: no kern-button class (0)",
+				"structure: no card in a card (0)"
+			],
+			"calls": [
+				[],
+				[
+					"validate_html",
+					"render_page",
+					"render_page"
+				],
+				[
+					"validate_html",
+					"render_page",
+					"validate_html"
+				]
+			]
+		}
+	]
+}

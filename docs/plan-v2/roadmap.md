@@ -163,7 +163,7 @@ These change what tools return, so they wait until R5's before/after measurement
 
 ### R6: The knowledge bundle, layout and resources
 
-In progress: [r6-kickoff.md](r6-kickoff.md), re-planned 2026-10-03 after reviewing the bundle with its English text. Groups A and B are done; start group C from [r6-handover.md](r6-handover.md). Four groups:
+In progress: [r6-kickoff.md](r6-kickoff.md), re-planned 2026-10-03 after reviewing the bundle with its English text. Groups A, B and C are done; start group D from [r6-handover.md](r6-handover.md). Four groups:
 - **A** imports the knowledge bundle and generates `registry.json` from it (K1a and K1b).
 - **B** puts the bundle's English text on the tool path.
 - **C** moves layout to KERN's CSS Grid utilities, since the container grid is deprecated upstream.
@@ -171,7 +171,7 @@ In progress: [r6-kickoff.md](r6-kickoff.md), re-planned 2026-10-03 after reviewi
 
 - [x] A: Import the bundle into `knowledge/`, generate `registry.json` from it, and retire the in-repo generator.
 - [x] B: `get_component_docs` from the bundle, hint lines in the descriptions that need one, `list_icons` from the bundle, and a warning for unknown `kern-*` classes.
-- [ ] C: `get_grid`, card groups, sections and the page shell on the CSS Grid utilities (`kern-grid`).
+- [x] C: `get_grid`, card groups, sections and the page shell on the CSS Grid utilities (`kern-grid`).
 - [ ] D: Resource registration, cache hints, a snapshot test harness, and the `kern://components/{id}` cards with completion. (`/schema` dropped 2026-10-02: `tools/list` already carries every input schema. The `kern://components` index dropped 2026-10-03: resource listing and `list_components_by_category` cover it.)
 - [ ] D: Guides: forms, layout, accessibility. (Dropped 2026-10-03, because each duplicates a tool or the cheat sheet: the composition guide and the `kern://tokens`, `kern://utilities`, `kern://icons` and `kern://templates/page-shell` resources.)
 - [ ] D: `resource_link`s from `get_component_docs`.
