@@ -318,23 +318,32 @@ describe("review_kern_html", () => {
 		});
 	});
 
-	it("puts the HTML before the steps: check, fix list, rebuild, strict render", async () => {
+	it("puts the HTML before the steps: check, problems, rebuild, strict render", async () => {
 		const text = await workflowOf("review_kern_html", { html });
 
 		expect(text.indexOf(html)).toBeLessThan(text.indexOf("1. **Check:**"));
 		expect(text).toContain('```html\n<img src="wappen.png">\n```');
 		expect(text).toContain("call `validate_html` with the HTML as it is");
-		expect(text).toContain("in German: the rule and how the rebuild fixes it");
+		expect(text).toContain("2. **Problems:** collect them for your answer");
 		expect(text).toContain(
 			'call `render_page` or `render_composition` with `locale: "de"` and `strict: true`',
 		);
-		expect(text).toMatch(/^Answer with the fix list, then the final HTML/m);
+	});
+
+	it("asks for the fix list once, in the answer, with what a person must check", async () => {
+		const text = await workflowOf("review_kern_html", { html });
+
+		expect(text.match(/fix list/g)).toHaveLength(1);
+		expect(text).toMatch(
+			/^Answer with the fix list in German, one line per problem: its rule, how the rebuild fixed it, and what a person still has to check/m,
+		);
+		expect(text).toMatch(/Then the final HTML from the tool, verbatim/);
 	});
 
 	it("writes the fix list in English for en", async () => {
 		expect(
 			await workflowOf("review_kern_html", { html, locale: "en" }),
-		).toContain("in English: the rule");
+		).toContain("Answer with the fix list in English");
 	});
 
 	it("takes no more HTML than validate_html", () => {

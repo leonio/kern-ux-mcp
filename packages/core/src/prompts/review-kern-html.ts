@@ -31,7 +31,9 @@ type Args = z.output<typeof argsSchema>;
  * review_kern_html: validate_html on the given HTML, a fix list by rule, and
  * the content rebuilt with our tools rather than patched by hand, rendered
  * strictly. The accessibility guide is embedded; it lists every rule, so no
- * cards are linked. The HTML comes before the steps, the answer last.
+ * cards are linked. The HTML comes before the steps, the answer last. The fix
+ * list is asked for once, in the answer, so it records what the rebuild
+ * changed: asked for as a step, models wrote it before rebuilding (r7-b).
  */
 export function reviewKernHtml(
 	guides: KernResourceDefinition,
@@ -54,7 +56,7 @@ function workflow(args: Args): string {
 
 	const items = [
 		"**Check:** call `validate_html` with the HTML as it is.",
-		`**Fix list:** one line per problem, in ${LOCALE_NAMES[locale]}: the rule and how the rebuild fixes it. Take the check's issues by \`ruleId\`. Add what the check can't see by the WCAG criterion the guide lists for the component, such as a field without a label or with a placeholder as its label (3.3.2), or a skipped heading level or a table without header cells (1.3.1).`,
+		"**Problems:** collect them for your answer: the check's issues by `ruleId`, and what the check can't see by the WCAG criterion the guide lists for the component, such as a field without a label or with a placeholder as its label (3.3.2), or a skipped heading level or a table without header cells (1.3.1).",
 		"**Rebuild:** build the same content again with the kern tools instead of patching the markup: `render_page` for a whole page, `render_composition` for a part. Use `field` blocks in a `form` block for inputs, `section` blocks for headed parts, and the component tools, such as `get_table` or `get_button`, as `html` blocks for the rest. Keep every text, link, value and option, and replace classes KERN doesn't define. An image keeps its `src` and gets an `alt` text that says what it shows.",
 		strictRender(["render_page", "render_composition"], locale),
 	];
@@ -64,6 +66,6 @@ function workflow(args: Args): string {
 		fencedHtml(args.html),
 		"The accessibility guide above lists what `validate_html` checks, KERN's accessibility rules, and the WCAG criteria each component leaves to the page. Work in this order:",
 		numbered(items),
-		"Answer with the fix list, then the final HTML from the tool, verbatim, in one ```html block, not a description of it.",
+		`Answer with the fix list in ${LOCALE_NAMES[locale]}, one line per problem: its rule, how the rebuild fixed it, and what a person still has to check, such as an \`alt\` text written without seeing the image. Then the final HTML from the tool, verbatim, in one \`\`\`html block, not a description of it.`,
 	].join("\n\n");
 }
