@@ -219,6 +219,30 @@ Run the base and nested suites after A (titles and status banners), after B (the
   - KERN's container stories use `kern-col-span-8`, which the CSS doesn't define. An example uses it, so `class.unknown` accepts it. Our utility reference copied it until C9.
   - The utilities docs say `.kern-grid` has `gap-lg` by default; the CSS sets no gap.
 
+## Where group D ended
+
+- **Resources:** 48 component cards (`kern://components/{id}`) and three guides (`kern://guides/{name}`: forms, layout, accessibility), registered as two templates with listing, completion, an hour's public cache hint and `-32602` with `data.uri` for unknown URIs, on both protocol eras.
+- **Order changed:** D14's rule table came first, in D11 (`7ca102d`), because the cards list the rules that apply. D14 kept the guide.
+- **Two things the cards needed:**
+  - **Examples:** `TOOL_EXAMPLES` had 10 of 43 component tools; now every one has an example, except `get_pattern` (KERN's header story fails strict validation).
+  - **Stable IDs:** generated IDs were random, so a card's bytes differed between processes. Cards and guides render inside `withStableIds` (`AsyncLocalStorage`); tool calls keep random IDs.
+- **The field digest** is a Markdown table, not the roadmap's YAML: the card is Markdown, and YAML needed a new dependency.
+- **The registry** (contract 2.1.0) carries six foundations pages for the guides (`GUIDE_FOUNDATIONS`), about 39 KB. The stdio bundle is 612 KB, up from 532 KB after C. Much of the utilities page is unused; the projection could keep only quoted sections.
+- **The resource eval** (`r6-d-res-off`, `r6-d-res-on`, same commit, 3 runs per scenario):
+  - Both 14/21. With the resource tools, Haiku never listed resources and never read a guide. It read a card only by following `get_component_docs`'s `resource_link` (2 of 3 `notice-banner` runs).
+  - **`form-required`** missed `aria-required` in all six runs: our field tools don't set it, and nothing links to the forms guide that says so.
+  - **`notice-banner`** invented `kern-notification-banner` in 4 of 6 runs, with and without the card. The bundle has nothing for the docs-only Notification Banner beyond "KERN doesn't implement it", so neither the docs tool nor the card names an alternative. The scenario's comment claimed the card points to the alert; it doesn't.
+  - So resources reach a model through links from tools, or when a person attaches them. They don't replace guidance on the tool path.
+- **Evals** against `r6-c2` and `nested-r6-c2`:
+  - **Base 96/96**, 30/30 completed and strict-valid, no error results (`r6-c2`: 29/30 strict-valid, 1 error).
+  - **Nested 99/105**, 12/12 strict-valid, as in `nested-r6-c2`. Again all six misses are one `application-flow` answer that summarised the form in prose; the tool's output had the structure. Two invalid-input errors, both retried: an empty text block, and a section without content, which got C10's new message.
+
+### Findings for after R6
+
+- **`aria-required`:** give the field tools a `required` option that renders `aria-required="true"`, as KERN's form rules ask. Today only the forms guide says so.
+- **Docs-only components need a pointer:** `get_component_docs` (and the card) could name our closest tool for each docs-only component (Notification Banner: `get_alert`; Header and Nav already have `render_page`), code-owned like `RELATED_TOOLS`, and say not to invent `kern-*` classes for it.
+- **Claude Code shows a `resource_link` as a text line** before the JSON (`[Resource link: notificationbanner] kern://components/notificationbanner`). Clients that parse the first content block as JSON should take the last text block, or the structured content.
+
 ## Asks for the packer (none blocks R6)
 
 - a canonical example marker (one `canonical:` line per component in `components.yaml`)
@@ -247,9 +271,10 @@ Run the base and nested suites after A (titles and status banners), after B (the
 - [x] C10 `ae5076a`: card groups and the page footer on `kern-grid`, the section error message, the migration notes. Sections needed no change: none rendered the container grid.
 - [x] From the first eval run: `ff80158` spells out the full classes in the grid descriptions; `d264223` adds the `layout.grid_in_container` and `layout.grid_columns_small` warnings.
 - [x] Evals after C: [r5-eval/r6-c2.json](r5-eval/r6-c2.json), [r5-eval/nested-r6-c2.json](r5-eval/nested-r6-c2.json). The first run, [r6-c](r5-eval/r6-c.json) and [nested-r6-c](r5-eval/nested-r6-c.json), lost six runs to a lost connection.
-- [ ] D11 Registration, cache hints, test harness, the component cards
-- [ ] D12 `resource_link`s from `get_component_docs`
-- [ ] D13 The forms and layout guides
-- [ ] D14 The rule table and the accessibility guide
-- [ ] D15 Docs
-- [ ] D16 The eval with resources
+- [x] `8401d9c`, the decision after C: an `html` block with a top-level `kern-grid` gets a `div` of its own.
+- [x] D11 `7324594`: registration, cache hints, the test harness and the 48 component cards. Before it, `92012a1` gave every component tool an example and `7ca102d` moved the rule table forward from D14.
+- [x] D12 `44f4ac3`: `get_component_docs` returns a `card` field and a `resource_link`.
+- [x] D13 `abe8f4a`: the forms and layout guides; the registry (2.1.0) carries the foundations pages they quote.
+- [x] D14 `1a2d175`: the accessibility guide.
+- [x] D15 `614bf94`: the README, migration notes and codebase guide.
+- [x] D16 `d77be2f`: `--resources` and the resources suite. Evals: [r6-d](r5-eval/r6-d.json), [nested-r6-d](r5-eval/nested-r6-d.json), [r6-d-res-off](r5-eval/r6-d-res-off.json), [r6-d-res-on](r5-eval/r6-d-res-on.json).

@@ -1,57 +1,65 @@
-# Handover: R6 after groups A, B and C (2026-10-05)
+# Handover: R6 done (2026-10-05)
 
-Start here in a new session. The plan and its progress are in [r6-kickoff.md](r6-kickoff.md). The roadmap's remaining steps are in [roadmap.md](roadmap.md#closing-out-the-alpha). This file says where the work stands, what to do first, and what was learned.
+Start here in a new session. R6's plan, progress and findings are in [r6-kickoff.md](r6-kickoff.md). The roadmap's remaining steps are in [roadmap.md](roadmap.md#closing-out-the-alpha). This file says where the work stands, what to do first, and what was learned.
 
 ## State
 
 - **Branch:** `feat/v2-alpha`. Nothing is pushed since `d784040`.
-- **Groups A, B and C are done.** C moved every layout of ours to KERN's CSS Grid utilities; see "Where group C ended" in the kickoff.
+- **R6 is done:** the bundle import (A), the bundle on the tool path (B), layout on CSS Grid (C), and resources (D): 48 component cards and three guides.
 - **Checks:**
-  - 1,979 tests pass; coverage is 97.3 / 92.1 / 98.4 / 97.3.
+  - 2,150 tests pass; coverage is 97.3 / 92.3 / 98.5 / 97.4.
   - Biome, both typechecks, the build and the e2e tests pass.
 - **Sizes:**
   - the listing is 116,265 characters, against the 120K budget
-  - the stdio bundle is 532 KB
-- **Evals after C** (`r6-c2`, `nested-r6-c2`): base 96/96 and 29/30 strict-valid, nested 99/105 and 12/12 strict-valid. The misses are model delivery, not layout; the kickoff has the details.
+  - the stdio bundle is 612 KB (351 KB before R6)
+- **Evals after D** (`r6-d`, `nested-r6-d`): base 96/96 and 30/30 strict-valid; nested 99/105 and 12/12 strict-valid, the misses one prose answer. With and without resources (`r6-d-res-on`, `-off`): 14/21 both; the model reads a card only through a `resource_link`, never a guide on its own.
 
-## What group C did
+## What group D did
 
 | Commit | What |
 |---|---|
-| `b0cd9dd` C9 | `get_grid` and grid blocks on `kern-grid kern-grid-cols-1 kern-grid-cols-{n}-md kern-gap-lg`, in a `div` of their own; 1 to 12 columns, the count from `columnsContent`. `get_grid`'s registry entry is the utilities' CSS Grid sections (`TOOLS_FROM_SECTIONS` in `knowledge-map.ts`), so it's stable with no banner. The utility reference lists `kern-col-{n}` instead of the undefined `kern-col-span-{n}`. |
-| `ae5076a` C10 | Card groups (the cards are the grid items, so a row shares one height) and the page footer on the same classes, through `equalColumnsGridClasses()` in `templates/grid.ts`. The section error message says where the blocks go. The migration notes have "Layout on CSS Grid". |
-| `ff80158` | The grid descriptions spell out the full classes: the first eval run copied the shorthand into hand-written markup. |
-| `d264223` | `validate_html` warns on `layout.grid_in_container` and `layout.grid_columns_small`. |
+| `8401d9c` | The decision after C: an `html` block with a top-level `kern-grid` gets a `div` of its own. |
+| `92012a1` | A known-good example for every component tool but `get_pattern`, in `TOOL_EXAMPLES`. |
+| `7ca102d` | `validate_html`'s rules in one table, `VALIDATION_RULES` (from D14). |
+| `7324594` D11 | `packages/core/src/resources`: the definition type, `registerKernResources`, and the `kern://components/{id}` cards. Examples render with stable IDs (`withStableIds`). |
+| `44f4ac3` D12 | `get_component_docs` returns `card` and a `resource_link`. |
+| `abe8f4a` D13 | `kern://guides/forms` and `kern://guides/layout`; the registry (2.1.0) carries `GUIDE_FOUNDATIONS`. |
+| `1a2d175` D14 | `kern://guides/accessibility`. |
+| `614bf94` D15 | The README, migration notes and codebase guide. |
+| `d77be2f` D16 | The eval's `--resources` option and the `resources` suite. |
 
 ## Do first
 
-1. Read the kickoff's group D boxes (D11 to D16) and start **D11**. One commit per box, and a pause for review after group D, with the evals (D16).
-
-## Notes for group D
-
-- **D13's layout guide** has its code facts in "Where group C ended": the grid's own `div`, `kern-grid-cols-1`, and the explicit gap. The bundle's side is `layout-overview`, `layout` and `sizes-and-spacing`, plus the utilities' CSS Grid sections that `get_grid`'s entry already uses.
-- **D14's rule table** gets the two `layout.*` rules and `class.unknown` along with the older ones.
+1. **R7, prompts.** Read the roadmap's R7 section and its "R7 prompts" design, write `r7-kickoff.md` with the boxes, and check the plan with the user before the first commit. Each prompt can embed the guides and link the cards that D built.
+2. **Or the R6 findings first**, if the user prefers: they're small and change what models produce. See "Findings for after R6" in the kickoff.
 
 ## Open findings
 
-- **`get_dropdown` and KERN disagree.** Our description says "Not a menu or a select". KERN's summary says "Collapsible menu that bundles actions or links". Check whether the notes in `tool-notes.ts` explain it, or whether the tool should change (after R6).
-- **`get_pattern` fails validation** on KERN's own header story: an `<img>` without `alt`. Upstream markup.
-- **Models try a `table` block kind** in compositions (one `dashboard` run), then fall back to `get_table` and an `html` block.
-- **Upstream:** KERN's container stories use `kern-col-span-8`, which the CSS doesn't define, so `class.unknown` accepts it. The utilities docs say `.kern-grid` has `gap-lg`; the CSS sets no gap.
-- **The fallback markup is on one line** until the packer keeps the stories' formatting. That's on the packer list in the kickoff.
+- **From D:**
+  - **`aria-required`:** our field tools don't set it, though KERN's form rules ask for it on required fields. Only the forms guide says so, and no model read it.
+  - **Docs-only components need a pointer:** for the Notification Banner, neither `get_component_docs` nor the card names an alternative, and models invent `kern-notification-banner`. A code-owned pointer to our closest tool (`get_alert`), like `RELATED_TOOLS`, would fix it.
+  - **Claude Code shows a `resource_link` as a text line before the JSON text.** Anything that parses a result's first text block as JSON should take the structured content instead.
+  - **The registry carries all of the utilities page** for the guides, though they quote a few sections. Trim it if the bundle size matters.
+- **From earlier:**
+  - **`get_dropdown` and KERN disagree.** Our description says "Not a menu or a select"; KERN's summary says "Collapsible menu that bundles actions or links".
+  - **`get_pattern` fails validation** on KERN's own header story (an `<img>` without `alt`), so it has no example.
+  - **Models try a `table` block kind** in compositions, then fall back to `get_table` and an `html` block.
+  - **Upstream:** KERN's container stories use the undefined `kern-col-span-8`; the utilities docs claim a default gap the CSS doesn't set.
+  - **The fallback markup is on one line** until the packer keeps the stories' formatting.
 - **The listing has about 3.7K of headroom** under the 120K budget.
 
 ## Environment notes
 
 - **Inline `node -e` scripts in Git Bash break on apostrophes** in the text ("don't", "KERN's"), and lose backslash escapes (`\s`). Use the Edit tool for prose and regexes, or write the script to a file first.
-- **Python's text mode on Windows writes CRLF.** Open files with `newline="\n"`. In a Python replacement, a `\n` inside a JS string literal must be `\\n` or the edit lands a real line break.
+- **Python here-docs in Git Bash turn `\\n` into a real line break**, even with a quoted delimiter. Use the Edit tool for any string with an escape in it. Open files with `newline="\n"` so Python doesn't write CRLF.
 - **Scripts with top-level await** run as `.mts` files with `node --import tsx`; import repo modules by `file:///C:/...` URL from outside the repo. `npx tsx` takes about a minute to start on this machine.
 - **Browser checks:** Chrome is at `C:\Program Files\Google\Chrome\Application\chrome.exe`. `--headless=new --window-size=W,H --dump-dom <file-url>` runs a page whose inline script writes measurements into a `<pre>`; the narrowest window is 500 px. Get KERN's CSS with `npm pack @kern-ux/native@2.8.2` (its `dist/kern.min.css`), not the sample's copy.
 - **Eval runs:**
   - Commit and build first.
   - While one runs, don't create or edit any file in the repo outside `docs/plan-v2/r5-eval/`. The harness records `+dirty` for untracked files too, so move new reports out of the repo before a re-run.
-  - Both suites take 20 to 30 minutes.
+  - Base and nested take 20 to 30 minutes together; the resources suite about two minutes each way.
   - A lost connection or a sleeping machine leaves runs `FAILED` with `$0.000` and an empty or cut-off transcript, and no `.err` file. Repeat the run under a new label.
+  - `--resources` gives the model Claude Code's `ListMcpResourcesTool` and `ReadMcpResourceTool`.
 - **The import:**
   - `npm run knowledge:import -- ../kern-ux-scraper/bundle/final` takes in a new bundle.
   - Without a path, it regenerates `registry.json` after a change to `knowledge-map.ts`.
