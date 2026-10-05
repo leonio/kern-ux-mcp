@@ -1,16 +1,17 @@
 import { parse } from "node-html-parser";
 import { isKnownKernClass } from "./kern-classes.js";
 import type { ValidationIssue, ValidationResult } from "./validate.schema.js";
+import { ruleSeverity, type ValidationRuleId } from "./validation-rules.js";
 
 export type { ValidationResult } from "./validate.schema.js";
 
+/** An issue under a rule of VALIDATION_RULES, with the rule's severity. */
 function issue(
-	ruleId: string,
-	severity: "error" | "warning",
+	ruleId: ValidationRuleId,
 	message: { en: string; de: string },
 	selectorHint?: string,
 ): ValidationIssue {
-	return { ruleId, severity, message, selectorHint };
+	return { ruleId, severity: ruleSeverity(ruleId), message, selectorHint };
 }
 
 export function validateHtmlStrict(html: string): ValidationResult {
@@ -33,7 +34,6 @@ export function validateHtmlStrict(html: string): ValidationResult {
 			issues.push(
 				issue(
 					"alert.role",
-					"error",
 					{
 						en: 'Alerts must include role="alert".',
 						de: 'Alerts müssen role="alert" enthalten.',
@@ -51,7 +51,6 @@ export function validateHtmlStrict(html: string): ValidationResult {
 			issues.push(
 				issue(
 					"loader.role",
-					"error",
 					{
 						en: 'Visible loaders must have role="status".',
 						de: 'Sichtbare Loader müssen role="status" haben.',
@@ -66,7 +65,6 @@ export function validateHtmlStrict(html: string): ValidationResult {
 			issues.push(
 				issue(
 					"loader.sr_text",
-					"error",
 					{
 						en: "Visible loaders must include a non-empty .kern-sr-only label.",
 						de: "Sichtbare Loader müssen einen nicht-leeren .kern-sr-only Text enthalten.",
@@ -84,7 +82,6 @@ export function validateHtmlStrict(html: string): ValidationResult {
 			issues.push(
 				issue(
 					"dialog.aria_labelledby",
-					"error",
 					{
 						en: "Dialogs must include aria-labelledby pointing to the dialog heading.",
 						de: "Dialoge müssen aria-labelledby enthalten, das auf die Überschrift verweist.",
@@ -102,7 +99,6 @@ export function validateHtmlStrict(html: string): ValidationResult {
 			issues.push(
 				issue(
 					"dialog.aria_labelledby_target",
-					"error",
 					{
 						en: `aria-labelledby references missing id: ${labelledBy}.`,
 						de: `aria-labelledby verweist auf eine fehlende ID: ${labelledBy}.`,
@@ -127,7 +123,6 @@ export function validateHtmlStrict(html: string): ValidationResult {
 			issues.push(
 				issue(
 					"icon.aria",
-					"error",
 					{
 						en: 'Icons must be aria-hidden="true" (decorative) or have aria-label (semantic).',
 						de: 'Icons müssen aria-hidden="true" (dekorativ) sein oder ein aria-label (semantisch) haben.',
@@ -178,7 +173,6 @@ export function validateHtmlStrict(html: string): ValidationResult {
 			issues.push(
 				issue(
 					"button.icon_only_sr_label",
-					"error",
 					{
 						en: "Icon-only buttons must include a non-empty sr-only label.",
 						de: "Icon-only Buttons müssen einen nicht-leeren sr-only Text enthalten.",
@@ -198,7 +192,6 @@ export function validateHtmlStrict(html: string): ValidationResult {
 			issues.push(
 				issue(
 					"form.label_for",
-					"error",
 					{
 						en: `<label for="${forAttr}"> references a missing id. Ensure the input has id="${forAttr}".`,
 						de: `<label for="${forAttr}"> verweist auf eine fehlende ID. Das Eingabefeld muss id="${forAttr}" haben.`,
@@ -216,7 +209,6 @@ export function validateHtmlStrict(html: string): ValidationResult {
 			issues.push(
 				issue(
 					"form.error_id",
-					"warning",
 					{
 						en: "Error messages should have an id so inputs can reference them via aria-describedby.",
 						de: "Fehlermeldungen sollten eine ID haben, damit Eingabefelder über aria-describedby darauf verweisen können.",
@@ -234,7 +226,6 @@ export function validateHtmlStrict(html: string): ValidationResult {
 			issues.push(
 				issue(
 					"form.error_describedby",
-					"warning",
 					{
 						en: `Error element #${errorId} exists but no input references it via aria-describedby.`,
 						de: `Fehlerelement #${errorId} existiert, aber kein Eingabefeld verweist darauf via aria-describedby.`,
@@ -252,7 +243,6 @@ export function validateHtmlStrict(html: string): ValidationResult {
 			issues.push(
 				issue(
 					"table.caption",
-					"warning",
 					{
 						en: "Tables should include a <caption> element describing the table content.",
 						de: "Tabellen sollten ein <caption>-Element enthalten, das den Tabelleninhalt beschreibt.",
@@ -270,7 +260,6 @@ export function validateHtmlStrict(html: string): ValidationResult {
 			issues.push(
 				issue(
 					"table.th_scope",
-					"warning",
 					{
 						en: '<th> elements should have a scope attribute (scope="col" or scope="row").',
 						de: '<th>-Elemente sollten ein scope-Attribut haben (scope="col" oder scope="row").',
@@ -289,7 +278,6 @@ export function validateHtmlStrict(html: string): ValidationResult {
 			issues.push(
 				issue(
 					"img.alt",
-					"error",
 					{
 						en: '<img> elements must have an alt attribute (use alt="" for decorative images).',
 						de: '<img>-Elemente müssen ein alt-Attribut haben (alt="" für dekorative Bilder).',
@@ -313,7 +301,6 @@ export function validateHtmlStrict(html: string): ValidationResult {
 		issues.push(
 			issue(
 				"layout.grid_in_container",
-				"warning",
 				{
 					en: "A kern-grid directly inside kern-container takes the container's padding away, so the content touches the screen edge. Wrap the grid in a <div>.",
 					de: "Ein kern-grid direkt in kern-container nimmt dem Container das Padding, der Inhalt stößt an den Bildschirmrand. Das Grid in ein <div> setzen.",
@@ -339,7 +326,6 @@ export function validateHtmlStrict(html: string): ValidationResult {
 		issues.push(
 			issue(
 				"layout.grid_columns_small",
-				"warning",
 				{
 					en: "This kern-grid sets its columns only from a breakpoint up, so small screens get 12 narrow columns. Add kern-grid-cols-1 (or another count) without a breakpoint.",
 					de: "Dieses kern-grid setzt seine Spalten erst ab einem Breakpoint, kleine Bildschirme bekommen 12 schmale Spalten. kern-grid-cols-1 (oder eine andere Zahl) ohne Breakpoint ergänzen.",
@@ -367,7 +353,6 @@ export function validateHtmlStrict(html: string): ValidationResult {
 		issues.push(
 			issue(
 				"class.unknown",
-				"warning",
 				{
 					en: `KERN doesn't define these classes: ${shown}. Check the spelling; get_utility_reference lists the utility classes.`,
 					de: `Diese Klassen gibt es in KERN nicht: ${shown}. Schreibweise prüfen; get_utility_reference listet die Hilfsklassen.`,
