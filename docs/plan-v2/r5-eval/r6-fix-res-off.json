@@ -1,0 +1,128 @@
+{
+	"label": "r6-fix-res-off",
+	"suite": "resources",
+	"date": "2026-10-05T12:43:34.659Z",
+	"model": "claude-haiku-4-5",
+	"serverCommit": "b0fd99f",
+	"runsPerScenario": 3,
+	"resources": false,
+	"systemPrompt": "You build web page markup with the KERN UX design system. Use the kern tools to render components instead of writing KERN markup by hand. When you're done, reply with the final HTML.",
+	"total": {
+		"runs": 6,
+		"completed": 6,
+		"toolCalls": 9,
+		"errorResults": 0,
+		"invalidInputErrors": 0,
+		"retries": 0,
+		"turns": 15,
+		"checksPassed": 19,
+		"checksTotal": 21,
+		"compositionCalls": 3,
+		"compositionErrors": 0,
+		"compositionRetries": 0,
+		"blockDepth": 2,
+		"blockNodes": 4,
+		"deliveredVerbatim": 5,
+		"deliveredEdited": 1,
+		"deliveredDescribed": 0,
+		"fallbacks": 1,
+		"strictValid": 6,
+		"resourceLists": 0,
+		"resourceReads": 0,
+		"firstRequestTokens": 37408,
+		"inputTokens": 576230,
+		"outputTokens": 11261,
+		"costUsd": 0.29093420000000003,
+		"durationMs": 115788
+	},
+	"scenarios": [
+		{
+			"id": "form-required",
+			"runs": 3,
+			"completed": 3,
+			"toolCalls": 3,
+			"errorResults": 0,
+			"invalidInputErrors": 0,
+			"retries": 0,
+			"turns": 6,
+			"checksPassed": 15,
+			"checksTotal": 15,
+			"compositionCalls": 3,
+			"compositionErrors": 0,
+			"compositionRetries": 0,
+			"blockDepth": 2,
+			"blockNodes": 4,
+			"deliveredVerbatim": 3,
+			"deliveredEdited": 0,
+			"deliveredDescribed": 0,
+			"fallbacks": 0,
+			"strictValid": 3,
+			"resourceLists": 0,
+			"resourceReads": 0,
+			"firstRequestTokens": 37408,
+			"inputTokens": 229683,
+			"outputTokens": 6656,
+			"costUsd": 0.21352390000000002,
+			"durationMs": 62752,
+			"failedChecks": [],
+			"calls": [
+				[
+					"render_composition"
+				],
+				[
+					"render_composition"
+				],
+				[
+					"render_composition"
+				]
+			]
+		},
+		{
+			"id": "notice-banner",
+			"runs": 3,
+			"completed": 3,
+			"toolCalls": 6,
+			"errorResults": 0,
+			"invalidInputErrors": 0,
+			"retries": 0,
+			"turns": 9,
+			"checksPassed": 4,
+			"checksTotal": 6,
+			"compositionCalls": 0,
+			"compositionErrors": 0,
+			"compositionRetries": 0,
+			"blockDepth": 0,
+			"blockNodes": 0,
+			"deliveredVerbatim": 2,
+			"deliveredEdited": 1,
+			"deliveredDescribed": 0,
+			"fallbacks": 1,
+			"strictValid": 3,
+			"resourceLists": 0,
+			"resourceReads": 0,
+			"firstRequestTokens": 37386,
+			"inputTokens": 346547,
+			"outputTokens": 4605,
+			"costUsd": 0.07741030000000002,
+			"durationMs": 53036,
+			"failedChecks": [
+				"structure: an alert (0)",
+				"structure: no invented notification classes (4)"
+			],
+			"calls": [
+				[
+					"get_component_docs",
+					"get_alert"
+				],
+				[
+					"get_component_docs"
+				],
+				[
+					"list_components_by_category",
+					"get_component_docs",
+					"get_alert"
+				]
+			]
+		}
+	]
+}

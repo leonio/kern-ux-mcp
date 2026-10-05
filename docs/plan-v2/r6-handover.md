@@ -6,13 +6,15 @@ Start here in a new session. R6's plan, progress and findings are in [r6-kickoff
 
 - **Branch:** `feat/v2-alpha`. Nothing is pushed since `d784040`.
 - **R6 is done:** the bundle import (A), the bundle on the tool path (B), layout on CSS Grid (C), and resources (D): 48 component cards and three guides.
+- **After R6:** `required` renders `aria-required`, and docs-only notes name the closest tools. Both are tested (`07b55e5`, `b0fd99f`) and recorded in [r6-kickoff.md](r6-kickoff.md#after-r6-the-two-fixes-from-d).
 - **Checks:**
-  - 2,150 tests pass; coverage is 97.3 / 92.3 / 98.5 / 97.4.
+  - 2,173 tests pass; coverage is 97.3 / 92.4 / 98.5 / 97.4.
   - Biome, both typechecks, the build and the e2e tests pass.
 - **Sizes:**
-  - the listing is 116,265 characters, against the 120K budget
+  - the listing is 118,941 characters, against the 120K budget
   - the stdio bundle is 612 KB (351 KB before R6)
 - **Evals after D** (`r6-d`, `nested-r6-d`): base 96/96 and 30/30 strict-valid; nested 99/105 and 12/12 strict-valid, the misses one prose answer. With and without resources (`r6-d-res-on`, `-off`): 14/21 both; the model reads a card only through a `resource_link`, never a guide on its own.
+- **Eval after the fixes** (`r6-fix-res-off`): 19/21, up from 14/21. `form-required` 15/15; `notice-banner` 4/6, one run still inventing the banner's classes.
 
 ## What group D did
 
@@ -30,17 +32,13 @@ Start here in a new session. R6's plan, progress and findings are in [r6-kickoff
 
 ## Do first
 
-1. **Test the two fixes made after R6, untested to save context:**
-   - `be08fa7`: `required: true` renders `aria-required="true"` (input-text and its variants, textarea, select, input-file, and field blocks).
-   - `d70ae86`: the docs-only note says not to invent `kern-*` classes and names the closest tools (`notificationbanner`: `get_alert`).
-
-   Run `npm test`. Expect the listing snapshots (new `required` fields), the component-docs tests and the `tabs` card snapshot (the longer note) to fail. Check the listing budget (`npm run listing:sizes`), add tests for `required`, update the snapshots (`npx vitest run -u`) and read the diff. Then run `npm run eval -- --label r6-fix-res-off --suite resources` and compare it with `r6-d-res-off`: `form-required` should now mark `aria-required` when asked, and `notice-banner` should stop inventing classes.
+1. ~~**Test the two fixes made after R6.**~~ Done 2026-10-05: `07b55e5` (radio and checkbox field blocks warn that they ignore `required`) and `b0fd99f` (tests, snapshots), eval `r6-fix-res-off`.
 2. **R7, prompts.** Read the roadmap's R7 section and its "R7 prompts" design, write `r7-kickoff.md` with the boxes, and check the plan with the user before the first commit. Each prompt can embed the guides and link the cards that D built.
 
 ## Open findings
 
 - **From D:**
-  - **`aria-required`** and **docs-only pointers:** fixed in `be08fa7` and `d70ae86`, untested (see "Do first").
+  - **The Notification Banner note doesn't always hold:** 1 of 3 `r6-fix-res-off` runs read "use `get_alert`" and still wrote `kern-notification-banner` markup. The note opens with "KERN documents …"; leading with the action might hold better. Re-run the resources suite after any change.
   - **Claude Code shows a `resource_link` as a text line before the JSON text.** Anything that parses a result's first text block as JSON should take the structured content instead.
   - **The registry carries all of the utilities page** for the guides, though they quote a few sections. Trim it if the bundle size matters.
 - **From earlier:**
@@ -49,7 +47,8 @@ Start here in a new session. R6's plan, progress and findings are in [r6-kickoff
   - **Models try a `table` block kind** in compositions, then fall back to `get_table` and an `html` block.
   - **Upstream:** KERN's container stories use the undefined `kern-col-span-8`; the utilities docs claim a default gap the CSS doesn't set.
   - **The fallback markup is on one line** until the packer keeps the stories' formatting.
-- **The listing has about 3.7K of headroom** under the 120K budget.
+- **The listing has about 1.06K of headroom** under the 120K budget, after the `required` fields took 2.7K. The top-level description repeats in 10 tools; shortening it would win back a few hundred.
+- **`server.test.ts`'s per-request timing test** can fail under coverage (5.10 ms against 5 ms once); it passed on the re-run.
 
 ## Environment notes
 

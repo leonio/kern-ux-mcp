@@ -239,9 +239,20 @@ Run the base and nested suites after A (titles and status banners), after B (the
 
 ### Findings for after R6
 
-- **`aria-required`:** give the field tools a `required` option that renders `aria-required="true"`, as KERN's form rules ask. Today only the forms guide says so.
-- **Docs-only components need a pointer:** `get_component_docs` (and the card) could name our closest tool for each docs-only component (Notification Banner: `get_alert`; Header and Nav already have `render_page`), code-owned like `RELATED_TOOLS`, and say not to invent `kern-*` classes for it.
+- **`aria-required`:** done in `be08fa7`, see below.
+- **Docs-only components need a pointer:** done in `d70ae86`, see below.
 - **Claude Code shows a `resource_link` as a text line** before the JSON (`[Resource link: notificationbanner] kern://components/notificationbanner`). Clients that parse the first content block as JSON should take the last text block, or the structured content.
+
+## After R6: the two fixes from D
+
+- **`required: true`** (`be08fa7`) adds `aria-required="true"` to the control: `get_inputtext` and its six variants, `get_textarea`, `get_select`, `get_inputfile`, and text-like, textarea and select field blocks. No visible marker and no native `required`, as KERN's form rules ask. A radio or checkbox field block warns that it ignores `required` (`07b55e5`); the radio and checkbox tools don't take it.
+- **Docs-only notes** (`d70ae86`) say not to invent `kern-*` classes and name the closest tools from `RELATED_TOOLS`: Notification Banner `get_alert`, Header `render_page` and `get_pattern`, Nav `render_page`. The card shows the same note.
+- **Tests** (`b0fd99f`): 2,173 pass; coverage 97.3 / 92.4 / 98.5 / 97.4.
+- **The listing** is 118,941 characters, up from 116,265: the `required` field in 10 tools and the field block in 8. About 1,060 characters are left under the 120K budget.
+- **The resource eval** (`r6-fix-res-off`, against `r6-d-res-off`): 19/21, up from 14/21.
+  - **`form-required`:** 15/15, up from 12/15. All three runs set `required` on the composition's field blocks.
+  - **`notice-banner`:** 4/6, up from 2/6. Two runs called `get_alert` after reading the note. One read the note naming `get_alert` and still hand-wrote `kern-notification-banner` markup, "based on the KERN design system", offering the alert only as a fallback. The note opens with "KERN documents Notification Banner", which Haiku took as permission. Leading with the action ("Use get_alert …") might hold better.
+- **Flaky under coverage:** `server.test.ts`'s per-request timing test failed once at 5.10 ms against its 5 ms limit with coverage on, and passed on the re-run and without coverage.
 
 ## Asks for the packer (none blocks R6)
 
@@ -278,3 +289,4 @@ Run the base and nested suites after A (titles and status banners), after B (the
 - [x] D14 `1a2d175`: the accessibility guide.
 - [x] D15 `614bf94`: the README, migration notes and codebase guide.
 - [x] D16 `d77be2f`: `--resources` and the resources suite. Evals: [r6-d](r5-eval/r6-d.json), [nested-r6-d](r5-eval/nested-r6-d.json), [r6-d-res-off](r5-eval/r6-d-res-off.json), [r6-d-res-on](r5-eval/r6-d-res-on.json).
+- [x] After R6: `be08fa7` `required` renders `aria-required`, `d70ae86` docs-only notes name the closest tools; tested in `07b55e5` and `b0fd99f`. Eval: [r6-fix-res-off](r5-eval/r6-fix-res-off.json).
