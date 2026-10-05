@@ -387,6 +387,25 @@ describe("what reached the user", () => {
 		});
 	});
 
+	it("counts the last render, pasted, as verbatim when an earlier one was larger", () => {
+		const first = `<main>${card}${card}</main>`;
+		const second = `<main>${card}</main>`;
+		const renders = [
+			{ tool: "render_page", input: {}, html: first },
+			{ tool: "render_page", input: {}, html: second },
+		];
+
+		expect(
+			runOf(renders, `Fertig:\n\`\`\`html\n${second}\n\`\`\``),
+		).toMatchObject({ delivery: "verbatim" });
+		expect(
+			runOf(
+				renders,
+				'```html\n<main><div class="kern-card"><p class="kern-body">B</p></div></main>\n```',
+			),
+		).toMatchObject({ delivery: "edited" });
+	});
+
 	it("checks structure and validates the delivered HTML", () => {
 		const nested: Scenario = {
 			id: "nested",

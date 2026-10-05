@@ -220,13 +220,18 @@ const classAttributes = (html: string) =>
 			.filter((value) => value.length > 0),
 	);
 
+/** Verbatim when the answer holds the last render, or else the largest tool HTML. */
 function deliveryOf(
 	answerHtml: string | undefined,
 	toolHtml: string[],
+	lastRender: string | undefined,
 ): Delivery {
 	if (!answerHtml) return toolHtml.length > 0 ? "described" : "none";
 	const largest = toolHtml.reduce((a, b) => (b.length > a.length ? b : a), "");
-	return largest && normalizeHtml(answerHtml).includes(normalizeHtml(largest))
+	const answer = normalizeHtml(answerHtml);
+	return [lastRender, largest].some(
+		(html) => html && answer.includes(normalizeHtml(html)),
+	)
 		? "verbatim"
 		: "edited";
 }
@@ -283,6 +288,9 @@ export function summarizeRun(
 	// The HTML the kern tools returned: a model may describe a long page instead
 	// of pasting it, so the checks look at what was built as well as the answer.
 	const toolHtml: string[] = [];
+	// The last render_composition or render_page result: a model that renders
+	// again answers with the later render, which can be the smaller one.
+	let lastRender: string | undefined;
 	// Resource tool calls by id: a list, or a read of a URI.
 	const resourceCalls = new Map<string, { read: boolean; uri: string }>();
 	for (const event of events) {
@@ -326,6 +334,7 @@ export function summarizeRun(
 				} else if (call) {
 					const html = htmlOf(resultText(block.content));
 					if (html) toolHtml.push(html);
+					if (html && COMPOSITION_TOOLS.has(call.tool)) lastRender = html;
 				}
 			}
 		}
@@ -388,7 +397,7 @@ export function summarizeRun(
 		compositionRetries,
 		blockDepth: shape.depth,
 		blockNodes: shape.nodes,
-		delivery: deliveryOf(answerHtml, toolHtml),
+		delivery: deliveryOf(answerHtml, toolHtml, lastRender),
 		fallback: isFallback(answerHtml, toolHtml),
 		strictErrors: delivered
 			? validateHtmlStrict(delivered).issues.filter(
