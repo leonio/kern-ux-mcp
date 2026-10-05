@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 import type { KernResourceDefinition } from "../resources/definition.js";
-import type { Registry } from "../ux/types.js";
+import type { Locale, Registry } from "../ux/types.js";
 import {
 	cardLinks,
 	embeddedResource,
@@ -20,6 +20,19 @@ const FORM_CARDS = [
 	"fieldset",
 ] as const;
 
+/** The cards a multi-step form adds: the step list, progress and the review. */
+const STEP_CARDS = ["tasklist", "progress", "summary"] as const;
+
+/** Example labels, in the form's language. */
+const NAVIGATION_LABELS: Readonly<Record<Locale, string>> = {
+	de: "Zurück, Weiter and Absenden",
+	en: "Back, Next and Submit",
+};
+const REVIEW_STEP: Readonly<Record<Locale, string>> = {
+	de: "Prüfen und Absenden",
+	en: "Review and submit",
+};
+
 const argsSchema = z.object({
 	purpose: z
 		.string()
@@ -31,52 +44,83 @@ const argsSchema = z.object({
 		.string()
 		.min(1)
 		.describe(
-			'The fields, separated by commas, e.g. "Vorname, Nachname, E-Mail, Geburtsdatum". Options in brackets, e.g. "Anrede (Frau, Herr, divers)".',
+			'The fields, separated by commas, e.g. "Vorname, Nachname, E-Mail, Geburtsdatum". Options in brackets, e.g. "Anrede (Frau, Herr, divers)". With steps, the fields of every step, in order.',
+		),
+	steps: z
+		.string()
+		.optional()
+		.describe(
+			'The steps of a multi-step form, separated by semicolons, e.g. "Persönliche Daten; Fahrzeug; Prüfen und Absenden". Leave it empty for a form on one page.',
 		),
 	locale: localeArgument,
 });
 
+type Args = z.output<typeof argsSchema>;
+
 /**
  * create_input_form: a form from a list of fields, built with field, fieldset
- * and form blocks and rendered strictly. The forms guide is embedded and the
- * input cards are linked; the workflow comes last, ending with the answer it
- * wants, so that's what the model reads last.
+ * and form blocks and rendered strictly. Given steps, a formFlow block instead,
+ * with a review step. The forms guide is embedded and the cards of the inputs
+ * (and of the step list, progress and summary) are linked; the workflow comes
+ * last, ending with the answer it wants, so that's what the model reads last.
  */
 export function createInputForm(
 	registry: Registry,
 	guides: KernResourceDefinition,
 ): KernPromptDefinition<typeof argsSchema> {
-	const links = cardLinks(registry, FORM_CARDS);
+	const formLinks = cardLinks(registry, FORM_CARDS);
+	const stepLinks = cardLinks(registry, STEP_CARDS);
 
 	return {
 		name: "create_input_form",
 		title: "Create a KERN form",
 		description:
-			"Builds an accessible form from a list of fields with the KERN tools: input types, fieldsets, required and optional fields, the error summary, and strict validation.",
+			"Builds an accessible form from a list of fields with the KERN tools: input types, fieldsets, required and optional fields, the error summary, and strict validation. Given steps, a multi-step form with a step list, progress and a review step.",
 		argsSchema,
 		content: async (args) => [
 			await embeddedResource(guides, "forms"),
-			...links,
+			...formLinks,
+			...(stepsOf(args) ? stepLinks : []),
 			{ type: "text", text: workflow(args) },
 		],
 	};
 }
 
-function workflow(args: z.output<typeof argsSchema>): string {
+/** The steps, or undefined for a form on one page; a blank value counts as none. */
+function stepsOf(args: Args): string | undefined {
+	return args.steps?.trim() || undefined;
+}
+
+function workflow(args: Args): string {
 	const locale = args.locale ?? "de";
-	const language = LOCALE_NAMES[locale];
+	const steps = stepsOf(args);
 
-	return `Build a form with the kern tools: ${args.purpose.trim()}
+	const items = [
+		"**Fields:** one `field` block per field. Pick its `type`: text, email, tel, url, number, date, password, textarea, select, radio or checkbox. select and radio need `options`; a checkbox with `options` is a group. A file upload has no field type: render it with `get_inputfile` and add its HTML as an `html` block.",
+		`**Labels:** a short \`label\` in ${LOCALE_NAMES[locale]} without a trailing colon, a \`name\`, and an \`autocomplete\` token where one fits (given-name, family-name, email, tel, bday, street-address, postal-code). A \`hint\` only where it helps, such as for an expected format.`,
+		"**Required and optional:** `required: true` on the fields the form needs, `optional: true` on the few it doesn't. Radio and checkbox fields ignore `required`.",
+		...(steps
+			? stepItems(locale)
+			: [
+					'**Groups:** related fields go in a `fieldset` block with a `legend`, with `legendSize: "large"` for a main part of the form such as an address. Everything goes in one `form` block with `actions: { submitLabel }`. To show the form after a failed submit, give each field in error its `error` message and the form `errorSummary: {}`.',
+				]),
+		`**Render:** call \`render_composition\` with \`locale: "${locale}"\` and \`strict: true\`. A strict call fails with the issues: fix the blocks and call again. If you change the HTML afterwards, check it with \`validate_html\`.`,
+	];
 
-Fields: ${args.fields.trim()}
+	return [
+		`Build ${steps ? "a multi-step form" : "a form"} with the kern tools: ${args.purpose.trim()}`,
+		...(steps ? [`Steps: ${steps}`] : []),
+		`Fields: ${args.fields.trim()}`,
+		`The forms guide above has KERN's rules for labels, hints, errors and required fields, and the cards linked above describe ${steps ? "each input, the step list, the progress bar and the summary" : "each input"}. Work in this order:`,
+		items.map((item, index) => `${index + 1}. ${item}`).join("\n"),
+		"Answer with the final HTML from the tool, verbatim, in one ```html block, not a description of it.",
+	].join("\n\n");
+}
 
-The forms guide above has KERN's rules for labels, hints, errors and required fields, and the cards linked above describe each input. Work in this order:
-
-1. **Fields:** one \`field\` block per field. Pick its \`type\`: text, email, tel, url, number, date, password, textarea, select, radio or checkbox. select and radio need \`options\`; a checkbox with \`options\` is a group. A file upload has no field type: render it with \`get_inputfile\` and add its HTML as an \`html\` block.
-2. **Labels:** a short \`label\` in ${language} without a trailing colon, a \`name\`, and an \`autocomplete\` token where one fits (given-name, family-name, email, tel, bday, street-address, postal-code). A \`hint\` only where it helps, such as for an expected format.
-3. **Required and optional:** \`required: true\` on the fields the form needs, \`optional: true\` on the few it doesn't. Radio and checkbox fields ignore \`required\`.
-4. **Groups:** related fields go in a \`fieldset\` block with a \`legend\`, with \`legendSize: "large"\` for a main part of the form such as an address. Everything goes in one \`form\` block with \`actions: { submitLabel }\`. To show the form after a failed submit, give each field in error its \`error\` message and the form \`errorSummary: {}\`.
-5. **Render:** call \`render_composition\` with \`locale: "${locale}"\` and \`strict: true\`. A strict call fails with the issues: fix the blocks and call again. If you change the HTML afterwards, check it with \`validate_html\`.
-
-Answer with the final HTML from the tool, verbatim, in one \`\`\`html block, not a description of it.`;
+function stepItems(locale: Locale): string[] {
+	return [
+		`**Steps:** one \`formFlow\` block with an entry in \`steps\` per step, its \`label\` as given. Spread the fields over the steps in the order given, each step's fields in a \`fieldset\` whose \`legend\` names the step, with \`legendSize: "large"\`. \`navigation: { backLabel, nextLabel, submitLabel }\` (such as ${NAVIGATION_LABELS[locale]}) gives every step but the first a back button, and only the last one a submit button. The step list and the progress bar come with the block.`,
+		`**Review:** people check their answers before they send them. If the last step isn't for that, add one, such as "${REVIEW_STEP[locale]}". Render its summary with \`get_summary\`: \`mode: "group"\` with a \`groupTitle\`, one summary per earlier step, titled and ordered like the steps, with example answers and an edit link (\`action\`). Add the HTML to that step as an \`html\` block, before the step's own fields.`,
+		"**The step shown:** `currentStep` is the step to show. Without `renderAllSteps`, each step is a page of its own; with `renderAllSteps: true`, every step is in the page and the inactive ones are hidden, so a script can switch between them. To show a step after a failed submit, give each field in error its `error` message and the `formFlow` block `errorSummary: {}`.",
+	];
 }

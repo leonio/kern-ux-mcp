@@ -220,12 +220,12 @@ The server now offers MCP resources: Markdown that a client can attach to a conv
 The server now offers MCP prompts: workflows over the tools that a user picks in the client, such as a slash command. Nothing changes for clients that don't use them.
 
 - **Capability:** `prompts`, without list-changed notifications. On protocol `2026-07-28`, `prompts/list` can be cached for an hour, like the other lists. `prompts/get` has no cache hint, since its result depends on the arguments.
-- **`create_input_form`** (`purpose`, `fields`, `locale`): builds a form from a list of fields with `field`, `fieldset` and `form` blocks, rendered by `render_composition` with `strict: true`.
+- **`create_input_form`** (`purpose`, `fields`, `steps`, `locale`): builds a form from a list of fields with `field`, `fieldset` and `form` blocks, rendered by `render_composition` with `strict: true`. Given `steps` (separated by semicolons), it builds a multi-step form with a `formFlow` block instead: the step list, progress, back, next and submit buttons, and a review step with a `get_summary` group before the answers are sent.
 - **What a prompt returns:** user messages, one content block each. First the guide it relies on, embedded as a `resource` with the same text as `resources/read`. Then `resource_link`s to the component cards it uses. Last the workflow as text, which asks for the final HTML verbatim in an `html` code block.
-- **Arguments** are strings. `locale` is `de` (the default) or `en`, and `completion/complete` completes it. A blank `locale` counts as none.
+- **Arguments** are strings. `locale` is `de` (the default) or `en`, and `completion/complete` completes it. A blank optional argument counts as none.
 - **Errors:** an unknown prompt, a missing argument and an invalid `locale` fail with JSON-RPC `-32602`.
 
 ## Planned before 2.0.0 (may still change)
 
 These are on the roadmap and not released. Entries move up when they land.
-- **More prompts** (R7): `create_input_form` with `steps` for a multi-step form, `create_page_layout` and `review_kern_html`.
+- **More prompts** (R7): `create_page_layout` and `review_kern_html`.

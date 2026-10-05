@@ -78,6 +78,16 @@ const CASES: ReadonlyArray<{
 			locale: "en",
 		},
 	},
+	{
+		prompt: "create_input_form",
+		label: "steps",
+		args: {
+			purpose: "Antrag auf einen Bewohnerparkausweis",
+			fields:
+				"Vorname, Nachname, Geburtsdatum, Kennzeichen, Fahrzeugart (PKW, Motorrad, Wohnmobil), Bestätigung der Angaben",
+			steps: "Persönliche Daten; Fahrzeug; Prüfen und Absenden",
+		},
+	},
 ];
 
 describe("prompts", () => {
@@ -156,6 +166,62 @@ describe("create_input_form", () => {
 			"radio",
 			"fieldset",
 		]);
+	});
+});
+
+describe("create_input_form with steps", () => {
+	const args = {
+		purpose: "Bewohnerparkausweis",
+		fields: "Name, Kennzeichen",
+		steps: "Person; Fahrzeug; Prüfen",
+	};
+	const linkNames = (content: readonly KernPromptContent[]) =>
+		content.flatMap((block) =>
+			block.type === "resource_link" ? [block.name] : [],
+		);
+
+	it("builds a formFlow with a review step through get_summary", async () => {
+		const text = await workflowOf("create_input_form", args);
+
+		expect(text).toMatch(/^Build a multi-step form with the kern tools/);
+		expect(text).toContain("Steps: Person; Fahrzeug; Prüfen");
+		expect(text).toContain("one `formFlow` block");
+		expect(text).toContain("`get_summary`");
+		expect(text).toContain("`renderAllSteps: true`");
+		expect(text).toContain("such as Zurück, Weiter and Absenden");
+		expect(text).not.toContain("one `form` block");
+	});
+
+	it("names the English labels for an English form", async () => {
+		const text = await workflowOf("create_input_form", {
+			...args,
+			locale: "en",
+		});
+
+		expect(text).toContain("such as Back, Next and Submit");
+		expect(text).toContain('such as "Review and submit"');
+	});
+
+	it("links the step list, progress and summary cards too", async () => {
+		expect(linkNames(await contentOf("create_input_form", args))).toEqual([
+			"inputtext",
+			"textarea",
+			"select",
+			"checkbox",
+			"radio",
+			"fieldset",
+			"tasklist",
+			"progress",
+			"summary",
+		]);
+	});
+
+	it("builds a form on one page for blank steps", async () => {
+		const single = { purpose: args.purpose, fields: args.fields };
+
+		expect(
+			await contentOf("create_input_form", { ...single, steps: " " }),
+		).toEqual(await contentOf("create_input_form", single));
 	});
 });
 

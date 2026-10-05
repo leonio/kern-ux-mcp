@@ -50,6 +50,11 @@ describe.each(MCP_ERAS)("MCP prompts over $era", ({ era, connect }) => {
 						required: true,
 					},
 					{
+						name: "steps",
+						description: expect.stringContaining("separated by semicolons"),
+						required: false,
+					},
+					{
 						name: "locale",
 						description: expect.stringContaining("de (the default) or en"),
 						required: false,
