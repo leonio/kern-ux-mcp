@@ -8,9 +8,9 @@ Do **R7** from [roadmap.md](roadmap.md#r7-prompts), the last step before the 2.0
 - `create_page_layout`
 - `review_kern_html`
 
-Three groups: the plumbing with the form prompt (A), the other two prompts (B), then the checks, docs and eval (C). One commit per box, and a pause for review after each group.
+Three groups: the plumbing with the form prompt and the eval's prompt support (A), the other two prompts (B), then the checks, docs and the full eval (C). One commit per box, and a pause for review after each group.
 
-## Decisions (proposed 2026-10-05, to confirm)
+## Decisions (confirmed 2026-10-05)
 
 1. **Where:** `packages/core/src/prompts`, like `resources/`: a definition type, `registerKernPrompts(server, prompts)`, and the definitions in the catalog, built once.
    - Capability `prompts: { listChanged: false }`. `prompts/list` already has the release cache hint (`create-server.ts`). `prompts/get` isn't cacheable on 2026-07-28, so it has none.
@@ -21,14 +21,19 @@ Three groups: the plumbing with the form prompt (A), the other two prompts (B), 
      - `create_input_form`: `inputtext`, `textarea`, `select`, `checkbox`, `radio`, `fieldset`; with `steps` also `tasklist`, `progress`, `summary`.
      - `create_page_layout`: `kopfzeile`, `heading`, `grid`, `card`, `link`.
      - `review_kern_html`: none; the guide lists every rule.
-3. **Arguments** are strings, as MCP requires. `locale` is `de` or `en`, completed with `completable()`, default `de`. It decides the language of the UI text and is passed to every tool call. The prompt text itself is English, our base language.
+   - **`strict` is the render tools' argument**, not `validate_html`'s (it has none): `strict: true` makes a validation error fail the render call with the issues. The workflows render with `strict: true` and call `validate_html` on HTML that changed after rendering, and on the HTML `review_kern_html` is given.
+3. **Arguments** are strings, as MCP requires. `locale` is `de` or `en`, default `de`. It decides the language of the UI text and is passed to every tool call. The prompt text itself is English, our base language.
+   - **Completion:** `completable(z.enum(["de", "en"])).optional()`. The SDK only unwraps `.optional()` to find the completer, not `.default()`, so the default is applied in code. `completable()` marks the schema it's given, so the locale schema is built once and shared.
    - `create_input_form`: `purpose`, `fields` (e.g. "Vorname, Nachname, E-Mail, Geburtsdatum"), `steps?` (e.g. "Persönliche Daten; Fahrzeug; Prüfen und Absenden"), `locale?`
    - `create_page_layout`: `purpose`, `sections?`, `locale?`
-   - `review_kern_html`: `html`, `locale?`. `html` gets a `maxLength`, as the tools' large strings do (the HTTP host's exposure guard).
+   - `review_kern_html`: `html`, `locale?`. `html` reuses `VALIDATE_HTML_MAX_LENGTH` (500,000): the prompt passes it to `validate_html`, so a looser limit would accept HTML its first tool call rejects.
 4. **The eval sends the prompt's text, not a slash command.** The harness gets the prompt with `prompts/get` from the built server, joins the messages (the guide inline, each link as a line) and sends that as the `-p` prompt.
-   - **Why not Claude Code's own `/mcp__kern__create_input_form`:** the harness runs headless with slash commands off, and the free-text arguments have spaces. Whether headless mode runs MCP prompts, and how it splits the arguments, is unknown.
+   - **Why not Claude Code's own `/mcp__kern__create_input_form`:** the harness runs with `--disable-slash-commands`, and the free-text arguments have spaces. Whether headless mode runs MCP prompts, and how it splits the arguments, is unknown.
    - **The real client path** is in the release's client check, which already lists "tools, resources and prompts appear and work" in VS Code Copilot, Claude Code and Claude Desktop.
-5. **Eval scenarios reuse today's tasks**, so their checks and baselines carry over: `create_input_form` with `contact-form` (base) and, with `steps`, `application-flow` (nested); `create_page_layout` with `service-page` (nested); `review_kern_html` with `fix-page` (nested). The comparison is the same task with and without its prompt, against `r6-d` and `nested-r6-d`.
+5. **Eval scenarios reuse today's tasks**, so their checks carry over: `create_input_form` with `contact-form` (base) and, with `steps`, `application-flow` (nested); `create_page_layout` with `service-page` (nested); `review_kern_html` with `fix-page` (nested).
+   - **The comparison is the same task with and without its prompt, on the same commit.** `r6-d` and `nested-r6-d` ran before the two R6 fixes, which changed form output, so they stay as history only.
+   - **Without `--resources`,** like the baselines: the guide is inline, and the card links are lines of text. One extra `--resources` run shows whether the model follows them.
+6. **Timing:** the harness change is its own box at the end of group A (A3), so group A is measured before B copies its shape. C8 keeps the full `prompts` suite and the runs.
 
 ## Where things stand
 
@@ -44,43 +49,44 @@ Three groups: the plumbing with the form prompt (A), the other two prompts (B), 
 
 ## Plan
 
-### A. Plumbing and `create_input_form`
+### A. Plumbing, `create_input_form` and the eval
 
 1. **The prompt definition, registration and `create_input_form` without steps.**
    - A definition type: name, title, description, the Zod `argsSchema`, and `messages(args)`.
    - `registerKernPrompts`, the catalog entry and the capability.
-   - **`create_input_form`:** map each field to an input type and its tool (`field` blocks), group them in `fieldset`s, wrap them in a `form` block with `errorSummary` when it shows errors, set `required` and `optional`, then `validate_html` with `strict: true`. The forms guide embedded, the field cards linked.
+   - **`create_input_form`:** map each field to an input type (`field` blocks), group them in `fieldset`s, wrap them in a `form` block with `errorSummary` when it shows errors, set `required` and `optional`, render with `render_composition` and `strict: true`. The forms guide embedded, the field cards linked.
    - Tests on both protocol eras: the list (names, titles, arguments), the messages of a get, an unknown prompt (`-32602`), a missing required argument, `locale` completion. A file snapshot of each prompt's rendered messages.
    - "Prompts" in the migration notes.
 2. **`steps`: the wizard.**
    - The workflow becomes a `formFlow` block: the step list (tasklist) and progress, the active step's fields, back and forward buttons, a review step through `get_summary` before the last, and submit on the last step only. `renderAllSteps` when a script should switch steps in the browser.
    - The `tasklist`, `progress` and `summary` cards are added to the links.
+3. **The eval renders a prompt.**
+   - A scenario can carry `prompt: { name, arguments }`. The harness renders it with `prompts/get` against the server it tests and sends the joined text (decision 4).
+   - A `prompts` suite with `contact-form` and `application-flow`, with their checks.
 
 ### B. The other two prompts
 
-3. **`create_page_layout`:** `render_page` with the header pattern, the sections as `section` blocks with grids and cards, the footer, then `validate_html`. The layout guide embedded, its cards linked.
-4. **`review_kern_html`:** `validate_html` with `strict: true` on the given HTML, a fix list by rule (the accessibility guide embedded), the content rebuilt with our tools rather than patched by hand, `validate_html` again, and the corrected HTML returned verbatim.
+4. **`create_page_layout`:** `render_page` with the header pattern, the sections as `section` blocks with grids and cards, the footer, with `strict: true`. The layout guide embedded, its cards linked.
+5. **`review_kern_html`:** `validate_html` on the given HTML, a fix list by rule (the accessibility guide embedded), the content rebuilt with our tools with `strict: true` rather than patched by hand, and the corrected HTML returned verbatim.
 
 ### C. Checks, docs and eval
 
-5. **Every name resolves:** each tool name and `kern://` URI in prompts, guides and tool descriptions is one the server serves. A test, with the list of names it found in its snapshot.
-6. **Docs:** "Prompts" in the README's feature list, the migration notes complete, `codebase-guide.md`.
-7. **The eval with prompts:**
-   - The harness takes a scenario's `prompt: { name, arguments }` and renders it with `prompts/get` (decision 4).
-   - A `prompts` suite: the four tasks of decision 5, with their checks.
-   - Run it, and compare each task with its run in `r6-d` or `nested-r6-d`.
+6. **Every name resolves:** each tool name and `kern://` URI in prompts, guides and tool descriptions is one the server serves. A test, with the list of names it found in its snapshot.
+7. **Docs:** "Prompts" in the README's feature list, the migration notes complete, `codebase-guide.md`.
+8. **The full eval:** `service-page` and `fix-page` join the `prompts` suite. Run it, and compare each task with its run without the prompt on the same commit.
 
 ## Evals
 
-- **After A:** `npm run eval -- --label r7-a --suite prompts --only contact-form,application-flow` once the harness can render a prompt. That needs box 7's harness change early: it moves into box 1 if you prefer measuring A on its own.
-- **After C:** the full `prompts` suite, plus `base` and `nested` to confirm the new capability changes nothing without a prompt.
+- **After A:** `npm run eval -- --label r7-a --suite prompts`, and `--only contact-form` (base) plus `--only application-flow` (nested) without the prompt, on the same commit.
+- **After C:** the full `prompts` suite, plus `base` and `nested` on the same commit: they're the comparison, and they confirm the new capability changes nothing without a prompt.
 
 ## Progress
 
 - [ ] A1: the prompt definition, registration and `create_input_form` without steps
 - [ ] A2: `steps`, the wizard
-- [ ] B3: `create_page_layout`
-- [ ] B4: `review_kern_html`
-- [ ] C5: every tool name and `kern://` URI in text resolves
-- [ ] C6: docs
-- [ ] C7: the eval with prompts
+- [ ] A3: the eval renders a prompt
+- [ ] B4: `create_page_layout`
+- [ ] B5: `review_kern_html`
+- [ ] C6: every tool name and `kern://` URI in text resolves
+- [ ] C7: docs
+- [ ] C8: the full eval
