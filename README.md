@@ -1,6 +1,6 @@
 # Kern UX MCP Server
 
-MCP Language Server exposing component tools, recursive composition rendering and strict accessibility validation for the [KERN-UX Component Library](https://www.kern-ux.de/).
+MCP Language Server exposing component tools, recursive composition rendering, strict accessibility validation, and component cards and guides as resources for the [KERN-UX Component Library](https://www.kern-ux.de/).
 
 ## Prerequisites
 - **Node.js**: 24.16.0+
@@ -132,6 +132,17 @@ KERN_ALLOWED_HOSTS=localhost,<name>.trycloudflare.com npx -y @leonio/kern-ux-mcp
 ```
 
 Then use `https://<name>.trycloudflare.com/mcp` as the server URL. `ngrok http 3000` works the same way. The tunnel makes the server public, so set `KERN_AUTH_TOKEN` if your client can send an `Authorization` header.
+
+---
+
+## Resources
+
+Besides its tools, the server offers Markdown resources that a client can attach to a conversation, for example from VS Code's context picker or with an `@`-mention in Claude:
+
+- `kern://components/{id}`: a card for each component the server knows, 48 in all. It has KERN's guidance (when to use it, do's and don'ts, similar components, the WCAG criteria left to the page) and our tool with its fields, a rendered example and the validation rules that apply. `get_component_docs` links to the card.
+- `kern://guides/forms`, `kern://guides/layout` and `kern://guides/accessibility`: what our tools do, next to KERN's guidance on the topic.
+
+The tools work without them: a resource reaches the model only when the client or the user brings it in.
 
 ---
 

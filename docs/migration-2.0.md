@@ -203,7 +203,19 @@ KERN deprecates its container grid (`kern-row`, `kern-col-*`). Its CSS Grid util
 - **`get_grid` is "KERN CSS Grid", without the deprecation banner.** `get_component_docs` for `grid` returns the CSS Grid sections of KERN's utilities page, not the container grid's page.
 - **`get_utility_reference` lists `kern-col-{n}`** for an item that spans columns. It listed `kern-col-span-{n}`, which KERN's CSS doesn't define.
 
+## Resources (next alpha)
+
+The server now offers MCP resources: Markdown that a client can attach to a conversation. Nothing changes for clients that don't use them.
+
+- **Capabilities:** `resources`, without list-changed notifications, and `completions`.
+- **`kern://components/{id}`:** a card for each registry component, 48 in all. From KERN's docs: title, status, synonyms, summary, when to use it and when not, do's and don'ts, similar components with their tools, the WCAG criteria left to the implementation, and links. From our code: the tool's description, its fields as tables, a rendered example, the validation rules that apply, and our notes on the tool. A docs-only component's card says that KERN doesn't implement it.
+- **`kern://guides/{name}`:** `forms`, `layout` and `accessibility`. Each puts what our tools do, with an example, next to KERN's guidance on the topic, quoted section by section. The accessibility guide lists every `validate_html` rule and, per component, the WCAG criteria KERN's docs leave to the implementation.
+- **Listing:** `resources/list` has every card and guide, with its title, description and size. `resources/templates/list` has the two templates, and `completion/complete` completes `{id}` and `{name}`.
+- **Caching:** on protocol `2026-07-28`, reads carry `ttlMs` of an hour and `cacheScope: "public"`, like the lists.
+- **An unknown URI** fails with JSON-RPC `-32602` and `data.uri`, on every protocol version.
+- **`get_component_docs`** returns the card's URI in a new `card` field and sends a `resource_link` to it after the JSON text.
+
 ## Planned before 2.0.0 (may still change)
 
 These are on the roadmap and not released. Entries move up when they land.
-- **Resources** (`kern://…`, R6) and **prompts** (R7).
+- **Prompts** (R7).

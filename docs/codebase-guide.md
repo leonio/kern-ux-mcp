@@ -15,6 +15,7 @@ flowchart TD
   K --> D[packages/core/src/ux/registry.json]
   D --> E[packages/core/src/mcp/create-server.ts]
   E --> P[packages/core/src/invoke.ts]
+  E --> R[packages/core/src/resources]
   E --> F[packages/core/src/ux/tools.ts]
   F --> G[packages/core/src/ux/tool-builders]
   G --> H[packages/core/src/ux/schemas]
@@ -38,7 +39,8 @@ The repo is an npm workspace:
 - [packages/http](../packages/http): `@leonio/kern-ux-mcp-http`, the published Streamable HTTP server. `src/server.ts` is the `node:http` host (Host/Origin guards, CORS, rate limit, bearer token, probes, drain), `src/config.ts` reads its environment variables. `Dockerfile` and `compose.yaml` build the container image from the standalone bundle; build from the repo root (the root `.dockerignore` applies).
 
 - [packages/stdio/src/index.ts](../packages/stdio/src/index.ts): stdio entry point (`serveStdio`), serving 2026-07-28 and 2025-era clients.
-- [packages/core/src/mcp](../packages/core/src/mcp): MCP SDK v2 wiring. `create-server.ts` registers every tool on `McpServer`, `kern-schema.ts` adapts each tool's Zod schema for the SDK (our JSON Schema, our validation hints), and `catalog.ts` builds the tool definitions once per process.
+- [packages/core/src/mcp](../packages/core/src/mcp): MCP SDK v2 wiring. `create-server.ts` registers every tool and resource on `McpServer`, `kern-schema.ts` adapts each tool's Zod schema for the SDK (our JSON Schema, our validation hints), and `catalog.ts` builds the tool and resource definitions once per process.
+- [packages/core/src/resources](../packages/core/src/resources): the MCP resources. `component-cards.ts` makes `kern://components/{id}`, `guides.ts` makes `kern://guides/{name}`, `field-digest.ts` turns a tool's input schema into tables, and `register.ts` registers each family as a template with listing, completion, an hour's public cache hint and a not-found error. Content is built on first read, with stable IDs (`withStableIds` in `ux/id.ts`), so every process serves the same bytes.
 - [packages/core/src/invoke.ts](../packages/core/src/invoke.ts): the call pipeline independent of the SDK: argument normalization, input parsing, validation hints, handler and output validation.
 - [packages/core/src/ux/tools.ts](../packages/core/src/ux/tools.ts): creates the tool registry, selects tool builders, lists tools for MCP.
 - [packages/core/src/ux/tool-builders](../packages/core/src/ux/tool-builders): strategy-specific tool construction shared across many components. `component-tools.ts` says which components get a tool and which builder makes it.
@@ -50,7 +52,7 @@ The repo is an npm workspace:
 - [packages/core/src/ux/knowledge-map.ts](../packages/core/src/ux/knowledge-map.ts): the code-owned map from KERN's IDs to ours, the example each fallback tool returns, and the docs sections `get_grid`'s entry is made of.
 - [packages/core/src/ux/tool-hints.ts](../packages/core/src/ux/tool-hints.ts): the one-line hints from KERN's guidance that some tool descriptions carry, written by the [tool-hints skill](../.github/skills/tool-hints/SKILL.md) with their source's hash.
 - [packages/core/src/ux/knowledge-import.ts](../packages/core/src/ux/knowledge-import.ts) and [knowledge-projection.ts](../packages/core/src/ux/knowledge-projection.ts): the import's checks and diff, and the projection to `registry.json`. Build-time only.
-- [packages/core/src/ux/validate.ts](../packages/core/src/ux/validate.ts): strict HTML validation rules used by tools.
+- [packages/core/src/ux/validate.ts](../packages/core/src/ux/validate.ts): strict HTML validation rules used by tools. Each rule's ID, severity, the markup it concerns and what it asks for are in [validation-rules.ts](../packages/core/src/ux/validation-rules.ts), which the component cards and the accessibility guide read too.
 - [knowledge](../knowledge): the KERN knowledge bundle as imported, checked in so upstream changes arrive as diffs. Never shipped; never edited by hand.
 - [tools/knowledge](../tools/knowledge): `npm run knowledge:import`, which validates a bundle against the packer's schema and our checks, prints what changes, replaces `knowledge/` and regenerates `registry.json`.
 - [tools/build/sbom.ts](../tools/build/sbom.ts): writes a host package's CycloneDX SBOM (`npm run sbom`), which the release ships in the tarball and attests for the image and the `.mcpb`.
