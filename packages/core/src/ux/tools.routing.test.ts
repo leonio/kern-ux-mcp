@@ -254,7 +254,9 @@ describe("createTools routing", () => {
 		const tool = tools.getTool("get_grid");
 
 		expect(tool).toBeDefined();
-		expect(tool?.description).toContain("kern-grid kern-grid-cols-{n}-md");
+		expect(tool?.description).toContain(
+			"kern-grid kern-grid-cols-1 kern-grid-cols-{n}-md kern-gap-lg",
+		);
 		const result = await callHandler<RenderedToolResult>(tool, {
 			columns: 3,
 		});

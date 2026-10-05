@@ -767,7 +767,7 @@ describe("tool input schemas", () => {
 
 		expect(listedTool).toBeDefined();
 		expect(listedTool?.description).toContain(
-			"kern-grid kern-grid-cols-{n}-md",
+			"kern-grid kern-grid-cols-1 kern-grid-cols-{n}-md kern-gap-lg",
 		);
 		expect(schema.properties.columns).toMatchObject({
 			type: "integer",

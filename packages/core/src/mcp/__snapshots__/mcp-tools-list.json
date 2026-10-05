@@ -3594,7 +3594,7 @@
     {
       "name": "get_card_group",
       "title": "KERN Card Group",
-      "description": "KERN UX: HTML for 1 to 6 cards side by side on KERN's CSS Grid utilities (kern-grid kern-grid-cols-{n}-md), one per row on small screens. Each card: an optional image, header, body text or simple blocks, and footer buttons.",
+      "description": "KERN UX: HTML for 1 to 6 cards side by side on KERN's CSS Grid utilities (kern-grid kern-grid-cols-1 kern-grid-cols-{n}-md kern-gap-lg), one per row on small screens. Each card: an optional image, header, body text or simple blocks, and footer buttons.",
       "inputSchema": {
         "$schema": "http://json-schema.org/draft-07/schema#",
         "type": "object",
@@ -6968,7 +6968,7 @@
     {
       "name": "get_grid",
       "title": "KERN CSS Grid",
-      "description": "KERN UX: HTML for 1 to 12 equal-width columns on KERN's CSS Grid utilities (kern-grid kern-grid-cols-{n}-md), one column on small screens. For columns of different widths, see get_utility_reference.",
+      "description": "KERN UX: HTML for 1 to 12 equal-width columns on KERN's CSS Grid utilities (kern-grid kern-grid-cols-1 kern-grid-cols-{n}-md kern-gap-lg), one column on small screens. For columns of different widths, see get_utility_reference.",
       "inputSchema": {
         "$schema": "http://json-schema.org/draft-07/schema#",
         "type": "object",
