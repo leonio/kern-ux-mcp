@@ -30,14 +30,17 @@ Start here in a new session. R6's plan, progress and findings are in [r6-kickoff
 
 ## Do first
 
-1. **R7, prompts.** Read the roadmap's R7 section and its "R7 prompts" design, write `r7-kickoff.md` with the boxes, and check the plan with the user before the first commit. Each prompt can embed the guides and link the cards that D built.
-2. **Or the R6 findings first**, if the user prefers: they're small and change what models produce. See "Findings for after R6" in the kickoff.
+1. **Test the two fixes made after R6, untested to save context:**
+   - `be08fa7`: `required: true` renders `aria-required="true"` (input-text and its variants, textarea, select, input-file, and field blocks).
+   - `d70ae86`: the docs-only note says not to invent `kern-*` classes and names the closest tools (`notificationbanner`: `get_alert`).
+
+   Run `npm test`. Expect the listing snapshots (new `required` fields), the component-docs tests and the `tabs` card snapshot (the longer note) to fail. Check the listing budget (`npm run listing:sizes`), add tests for `required`, update the snapshots (`npx vitest run -u`) and read the diff. Then run `npm run eval -- --label r6-fix-res-off --suite resources` and compare it with `r6-d-res-off`: `form-required` should now mark `aria-required` when asked, and `notice-banner` should stop inventing classes.
+2. **R7, prompts.** Read the roadmap's R7 section and its "R7 prompts" design, write `r7-kickoff.md` with the boxes, and check the plan with the user before the first commit. Each prompt can embed the guides and link the cards that D built.
 
 ## Open findings
 
 - **From D:**
-  - **`aria-required`:** our field tools don't set it, though KERN's form rules ask for it on required fields. Only the forms guide says so, and no model read it.
-  - **Docs-only components need a pointer:** for the Notification Banner, neither `get_component_docs` nor the card names an alternative, and models invent `kern-notification-banner`. A code-owned pointer to our closest tool (`get_alert`), like `RELATED_TOOLS`, would fix it.
+  - **`aria-required`** and **docs-only pointers:** fixed in `be08fa7` and `d70ae86`, untested (see "Do first").
   - **Claude Code shows a `resource_link` as a text line before the JSON text.** Anything that parses a result's first text block as JSON should take the structured content instead.
   - **The registry carries all of the utilities page** for the guides, though they quote a few sections. Trim it if the bundle size matters.
 - **From earlier:**
