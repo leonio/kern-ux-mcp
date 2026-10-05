@@ -311,7 +311,7 @@ function buildGetCardGroupTool(): ToolDef {
 		name: "get_card_group",
 		title: "KERN Card Group",
 		description:
-			"KERN UX: HTML for 1 to 6 cards side by side in the 12-column grid (kern-col-md-{12 / columns} kern-col-sm-12). " +
+			"KERN UX: HTML for 1 to 6 cards side by side on KERN's CSS Grid utilities (kern-grid kern-grid-cols-{n}-md), one per row on small screens. " +
 			"Each card: an optional image, header, body text or simple blocks, and footer buttons.",
 		inputSchema,
 		outputSchema,

@@ -21,7 +21,7 @@ Pre-releases go out under the npm dist-tag `alpha`. "Next alpha" means landed on
 | Text in labels, hints, errors, values and option text is escaped | next alpha | Don't pass markup in these strings |
 | `get_index` is gone | next alpha | Nothing: it rendered a placeholder for an internal SCSS file, not a KERN component |
 | `get_section`, `get_card`, `get_card_group`, `get_grid`, `get_disclosure` and `get_fieldset` take only `text`, `html`, `badge` and `field` blocks | next alpha | Build nested layouts (cards in a section, a grid in a disclosure, buttons in a card's body) with `render_composition` or `render_page`; put card actions in `footer` |
-| `get_grid` and grid blocks render `kern-grid` instead of `kern-row` and `kern-col-*` | next alpha | Update CSS or scripts that select `.kern-row` or `.kern-col-md-*` in our grids |
+| `get_grid`, grid blocks, `get_card_group` and `render_page`'s footer render `kern-grid` instead of `kern-row` and `kern-col-*` | next alpha | Update CSS or scripts that select `.kern-row` or `.kern-col-md-*` in our markup |
 | `get_component_docs` returns KERN's guidance in new fields (`summary`, `whenToUse`, `dos`, `docs`, …); `excerpt`, `sections` and `files` are gone, and `canonicalHtml` comes only for `details`, `search`, `layers` and `pattern` | next alpha | Read the new fields; call the component's `tool` for its markup |
 
 ## Protocol and errors (2.0.0-alpha.69)
@@ -104,7 +104,7 @@ Pre-releases go out under the npm dist-tag `alpha`. "Next alpha" means landed on
   - a `card` directly inside a `card`
   - a `section` with neither `contentBlocks` nor `paragraphs`, and a `disclosure` with neither `contentBlocks` nor `content`
 
-  The error reports the exact path. A tool's own container counts too: `get_card` rejects a card among its blocks.
+  The error reports the exact path. A tool's own container counts too: `get_card` rejects a card among its blocks. A section without content gets a hint: put the blocks that belong under its heading into its `contentBlocks`, not after the section.
 - **Depth.** A tool's own blocks are depth 1, and the limit (4) means the same in the schema and the renderer. In 1.x, blocks past the limit could still render.
 
 ## Rendered markup (next alpha)
@@ -175,7 +175,7 @@ KERN's facts and text now come from a knowledge bundle built from KERN's three s
 
 KERN deprecates its container grid (`kern-row`, `kern-col-*`). Its CSS Grid utilities (`kern-grid`) replace it, and our layouts move to them.
 
-- **`get_grid` and grid blocks render `kern-grid`:**
+- **`get_grid`, grid blocks, `get_card_group` and `render_page`'s footer render `kern-grid`.** No markup of ours uses `kern-row` or `kern-col-*` any more. A grid:
 
   ```html
   <div class="kern-container">
@@ -192,7 +192,9 @@ KERN deprecates its container grid (`kern-row`, `kern-col-*`). Its CSS Grid util
   - One column on small screens, `columns` from the md breakpoint (768 px) up, with a 24 px gap (`kern-gap-lg`). A plain `kern-grid` has 12 columns and no gap, so both are set.
   - The grid sits in a `div` of its own. KERN removes a `kern-container`'s padding when a `kern-grid` is its direct child, which would put the content against the screen edge. With a heading, that `div` stacks the heading and the grid (`kern-flex kern-flex-col kern-gap-lg`).
   - Columns are plain `div`s. They were `kern-col-md-{12 / columns} kern-col-sm-12` in a `kern-row`.
-- **`columns` takes any count from 1 to 12.** It was 1, 2, 3, 4, 6 or 12.
+  - **Card groups** use the same classes, with the cards as the grid's items: the cards in a row are as tall as the tallest. With a heading, the heading and the grid stack as in a grid. Five cards can now sit in five columns (`columns: 5`); the count is still capped at the number of cards.
+  - **`render_page`'s footer** puts its link columns on the same classes. The divider, the columns and the note stack with `kern-flex kern-flex-col kern-gap-lg`.
+- **`columns` takes any count from 1 to 12**, for grids and card groups. It was 1, 2, 3, 4, 6 or 12.
 - **Without `columns`, a grid has one column per `columnsContent` list,** or two without either. Three lists without `columns` used to render two columns and drop the third.
 - **`get_grid` is "KERN CSS Grid", without the deprecation banner.** `get_component_docs` for `grid` returns the CSS Grid sections of KERN's utilities page, not the container grid's page.
 - **`get_utility_reference` lists `kern-col-{n}`** for an item that spans columns. It listed `kern-col-span-{n}`, which KERN's CSS doesn't define.

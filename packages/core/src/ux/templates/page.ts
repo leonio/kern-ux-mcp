@@ -4,6 +4,7 @@ import type { BuildResult, Locale } from "../types.js";
 import { createCompositionRenderer } from "./composition-renderer.js";
 import { escapeHtml } from "./escape.js";
 import { STACK_CLASSES } from "./form.js";
+import { equalColumnsGridClasses } from "./grid.js";
 import { buildKopfzeile } from "./kopfzeile.js";
 
 type PageParams = ReturnType<typeof PageSchema.parse>;
@@ -140,33 +141,38 @@ function renderHeader(
 </header>`;
 }
 
-/** Link columns in the 12-column grid, then an optional closing note. */
+/**
+ * Link columns on kern-grid, one per row on small screens, then an optional
+ * closing note. They stack in a div of their own: a kern-grid right inside
+ * kern-container takes the container's padding away.
+ */
 function renderFooter(footer: NonNullable<PageParams["footer"]>): string {
 	const columns = footer.columns ?? [];
-	const span = columns.length > 0 ? 12 / columns.length : 12;
 	const columnsHtml = columns.length
 		? `
-    <div class="kern-row">
-      ${columns
-				.map(
-					(column) => `<div class="kern-col-md-${span} kern-col-sm-12">
-        <h2 class="kern-heading-small">${escapeHtml(column.heading)}</h2>
-        <ul class="kern-list">
-          ${column.links.map((link) => `<li>${renderLink(link, "kern-link")}</li>`).join("\n          ")}
-        </ul>
-      </div>`,
-				)
-				.join("\n      ")}
-    </div>`
+      <div class="${equalColumnsGridClasses(columns.length)}">
+        ${columns
+					.map(
+						(column) => `<div>
+          <h2 class="kern-heading-small">${escapeHtml(column.heading)}</h2>
+          <ul class="kern-list">
+            ${column.links.map((link) => `<li>${renderLink(link, "kern-link")}</li>`).join("\n            ")}
+          </ul>
+        </div>`,
+					)
+					.join("\n        ")}
+      </div>`
 		: "";
 	const note = footer.note
 		? `
-    <p class="kern-body kern-body--small">${escapeHtml(footer.note)}</p>`
+      <p class="kern-body kern-body--small">${escapeHtml(footer.note)}</p>`
 		: "";
 
 	return `<footer>
   <div class="kern-container">
-    <hr class="kern-divider" role="presentation">${columnsHtml}${note}
+    <div class="${STACK_CLASSES}">
+      <hr class="kern-divider" role="presentation">${columnsHtml}${note}
+    </div>
   </div>
 </footer>`;
 }

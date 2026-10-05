@@ -1,3 +1,4 @@
+import { parse } from "node-html-parser";
 import { describe, expect, it } from "vitest";
 import { buildCardGroup } from "./card-group.js";
 
@@ -14,10 +15,18 @@ describe("buildCardGroup", () => {
 			"de",
 		);
 
-		expect(result.html).toContain("kern-container");
-		expect(result.html).toContain("kern-row");
-		expect(result.html).toContain("kern-col-md-4");
-		expect(result.html).toContain("kern-col-sm-12");
+		const root = parse(result.html);
+		const grid = root.querySelector(".kern-container > div > .kern-grid");
+
+		expect(grid?.getAttribute("class")).toBe(
+			"kern-grid kern-grid-cols-1 kern-grid-cols-3-md kern-gap-lg",
+		);
+		// The cards are the grid's items, so a row's cards share one height.
+		expect(grid?.querySelectorAll(":scope > article.kern-card")).toHaveLength(
+			3,
+		);
+		// A kern-grid right inside kern-container takes its padding away.
+		expect(root.querySelector(".kern-container > .kern-grid")).toBeNull();
 		expect(result.html).toContain("Card 1");
 		expect(result.html).toContain("Card 2");
 		expect(result.html).toContain("Card 3");
@@ -38,8 +47,7 @@ describe("buildCardGroup", () => {
 			"de",
 		);
 
-		expect(result.html).toContain("kern-col-md-6");
-		expect(result.html).toContain("kern-col-sm-12");
+		expect(result.html).toContain("kern-grid-cols-2-md");
 	});
 
 	it("auto-calculates columns from card count", () => {
@@ -54,7 +62,7 @@ describe("buildCardGroup", () => {
 			"de",
 		);
 
-		expect(result.html).toContain("kern-col-md-4");
+		expect(result.html).toContain("kern-grid-cols-3-md");
 	});
 
 	it("caps auto columns at 4", () => {
@@ -71,7 +79,7 @@ describe("buildCardGroup", () => {
 			"de",
 		);
 
-		expect(result.html).toContain("kern-col-md-3");
+		expect(result.html).toContain("kern-grid-cols-4-md");
 	});
 
 	it("includes optional heading above cards", () => {
@@ -83,9 +91,9 @@ describe("buildCardGroup", () => {
 			"de",
 		);
 
-		expect(result.html).toContain("<h3");
-		expect(result.html).toContain("Unsere Angebote");
-		expect(result.html).toContain("kern-heading-medium");
+		expect(result.html).toContain(
+			'<div class="kern-flex kern-flex-col kern-gap-lg">\n    <h3 class="kern-heading-medium">Unsere Angebote</h3>',
+		);
 	});
 
 	it("supports card header title levels", () => {
@@ -99,16 +107,25 @@ describe("buildCardGroup", () => {
 		expect(result.html).toContain('<h4 class="kern-title">Card</h4>');
 	});
 
-	it("rejects unsupported column values", () => {
+	it("takes any column count up to one per card", () => {
+		const cards = ["1", "2", "3", "4", "5"].map((title) => ({
+			header: { title },
+		}));
+
+		expect(buildCardGroup({ cards, columns: 5 }, "de").html).toContain(
+			"kern-grid-cols-5-md",
+		);
+		expect(buildCardGroup({ cards, columns: 12 }, "de").html).toContain(
+			"kern-grid-cols-5-md",
+		);
+		expect(buildCardGroup({ cards: cards.slice(0, 1) }, "de").html).toContain(
+			'class="kern-grid kern-grid-cols-1 kern-gap-lg"',
+		);
+	});
+
+	it.each([0, 13])("rejects %i columns", (columns) => {
 		expect(() =>
-			buildCardGroup(
-				{
-					cards: [{ header: { title: "A" } }, { header: { title: "B" } }],
-					// @ts-expect-error columns must be a divisor of 12; this tests the runtime guard.
-					columns: 5,
-				},
-				"de",
-			),
+			buildCardGroup({ cards: [{ header: { title: "A" } }], columns }, "de"),
 		).toThrow();
 	});
 

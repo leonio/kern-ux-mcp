@@ -13,6 +13,19 @@ const indentLines = (html: string, indent: string) =>
 	html.replace(/\n/g, `\n${indent}`);
 
 /**
+ * The classes for `columns` equal columns from md up and one below. kern-grid
+ * alone has 12 columns and no gap, so both are set.
+ */
+export function equalColumnsGridClasses(columns: number): string {
+	return [
+		"kern-grid",
+		"kern-grid-cols-1",
+		...(columns > 1 ? [`kern-grid-cols-${columns}-md`] : []),
+		"kern-gap-lg",
+	].join(" ");
+}
+
+/**
  * Equal-width columns on KERN's CSS Grid utilities: one column on small
  * screens, `columns` from md up.
  */
@@ -48,14 +61,9 @@ export function buildGrid(
 		);
 	}
 
-	// kern-grid alone has 12 columns and no gap, so both are set.
-	const gridClasses = [
-		"kern-grid",
-		"kern-grid-cols-1",
-		...(columns > 1 ? [`kern-grid-cols-${columns}-md`] : []),
-		"kern-gap-lg",
-		...(params.rowAlignment ? [`kern-align-items-${params.rowAlignment}`] : []),
-	].join(" ");
+	const gridClasses =
+		equalColumnsGridClasses(columns) +
+		(params.rowAlignment ? ` kern-align-items-${params.rowAlignment}` : "");
 
 	const cols = Array.from({ length: columns }, (_, index) => {
 		const columnBlocks = params.columnsContent?.[index];

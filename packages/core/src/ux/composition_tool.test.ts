@@ -436,7 +436,8 @@ describe("render_composition nesting rules", () => {
 		).toEqual([
 			{
 				path: "contentBlocks.0.section.contentBlocks",
-				message: "A section needs contentBlocks or paragraphs.",
+				message:
+					"A section needs contentBlocks or paragraphs. Put the blocks that belong under its heading into its contentBlocks, not after the section.",
 			},
 			{
 				path: "contentBlocks.1.disclosure.contentBlocks",

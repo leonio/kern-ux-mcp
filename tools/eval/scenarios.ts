@@ -85,7 +85,7 @@ export const SCENARIOS: readonly Scenario[] = [
 		id: "service-cards",
 		prompt:
 			'Create a section "Unsere Leistungen" with the services in a two-column grid of cards, each card with a title, a short text and a link-style button.',
-		expectHtml: ["Unsere Leistungen", "kern-card", "kern-col"],
+		expectHtml: ["Unsere Leistungen", "kern-card", "kern-grid"],
 	},
 ];
 
@@ -121,7 +121,7 @@ export const NESTED_SCENARIOS: readonly Scenario[] = [
 		expectHtml: ["Meine Anträge", "Elterngeld"],
 		expectStructure: [
 			{
-				selector: ".kern-row .kern-card",
+				selector: ".kern-grid .kern-card",
 				min: 3,
 				label: "three cards in a grid",
 			},

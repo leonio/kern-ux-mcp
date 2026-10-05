@@ -183,7 +183,7 @@ describe("tool behaviour", () => {
 					columns: 2,
 					cards: [{ header: { title: "A" } }, { header: { title: "B" } }],
 				},
-				expectedFragments: ["kern-col-md-6", ">A<", ">B<"],
+				expectedFragments: ["kern-grid-cols-2-md", ">A<", ">B<"],
 			},
 			{
 				name: "get_disclosure",

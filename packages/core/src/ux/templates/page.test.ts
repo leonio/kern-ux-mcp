@@ -87,16 +87,16 @@ describe("buildPage", () => {
 		expect(main?.querySelector("section h2")?.text).toBe("Voraussetzungen");
 	});
 
-	it("renders the footer columns in the 12-column grid", () => {
+	it("renders the footer columns on kern-grid, not right inside the container", () => {
 		const footer = parse(buildPage(FULL_PAGE, "de").html).querySelector(
 			"footer",
 		);
+		const grid = footer?.querySelector(".kern-container > div > .kern-grid");
 
-		expect(
-			footer
-				?.querySelectorAll(".kern-row > div")
-				.map((column) => column.getAttribute("class")),
-		).toEqual(["kern-col-md-6 kern-col-sm-12", "kern-col-md-6 kern-col-sm-12"]);
+		expect(grid?.getAttribute("class")).toBe(
+			"kern-grid kern-grid-cols-1 kern-grid-cols-2-md kern-gap-lg",
+		);
+		expect(grid?.querySelectorAll(":scope > div")).toHaveLength(2);
 		expect(footer?.querySelectorAll("h2").map((h) => h.text)).toEqual([
 			"Service",
 			"Rechtliches",

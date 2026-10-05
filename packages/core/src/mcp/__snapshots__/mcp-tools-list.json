@@ -3594,7 +3594,7 @@
     {
       "name": "get_card_group",
       "title": "KERN Card Group",
-      "description": "KERN UX: HTML for 1 to 6 cards side by side in the 12-column grid (kern-col-md-{12 / columns} kern-col-sm-12). Each card: an optional image, header, body text or simple blocks, and footer buttons.",
+      "description": "KERN UX: HTML for 1 to 6 cards side by side on KERN's CSS Grid utilities (kern-grid kern-grid-cols-{n}-md), one per row on small screens. Each card: an optional image, header, body text or simple blocks, and footer buttons.",
       "inputSchema": {
         "$schema": "http://json-schema.org/draft-07/schema#",
         "type": "object",
@@ -3932,33 +3932,10 @@
             "description": "The cards, 1 to 6."
           },
           "columns": {
-            "description": "Columns; by default the number of cards, at most 4.",
-            "anyOf": [
-              {
-                "type": "number",
-                "const": 1
-              },
-              {
-                "type": "number",
-                "const": 2
-              },
-              {
-                "type": "number",
-                "const": 3
-              },
-              {
-                "type": "number",
-                "const": 4
-              },
-              {
-                "type": "number",
-                "const": 6
-              },
-              {
-                "type": "number",
-                "const": 12
-              }
-            ]
+            "description": "Columns from md up, at most one per card; by default the number of cards, at most 4.",
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 12
           },
           "heading": {
             "type": "object",

@@ -252,7 +252,8 @@ export const RecursiveContentNodeSchema: z.ZodType<
 							ctx.addIssue({
 								code: "custom",
 								path: ["contentBlocks"],
-								message: "A section needs contentBlocks or paragraphs.",
+								message:
+									"A section needs contentBlocks or paragraphs. Put the blocks that belong under its heading into its contentBlocks, not after the section.",
 							});
 						}
 					}),

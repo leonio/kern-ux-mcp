@@ -2,10 +2,12 @@ import { type CardGroupInput, CardGroupSchema } from "../schemas/card-group.js";
 import type { BuildResult, Locale } from "../types.js";
 import { buildCard } from "./card.js";
 import { escapeHtml } from "./escape.js";
+import { STACK_CLASSES } from "./form.js";
+import { equalColumnsGridClasses } from "./grid.js";
 
 /**
- * Build HTML for a KERN UX Card Group composition.
- * Wraps multiple cards in a responsive grid (kern-container/kern-row/kern-col).
+ * Build HTML for a KERN UX Card Group composition: the cards side by side on
+ * kern-grid, one per row on small screens.
  */
 export function buildCardGroup(
 	input: CardGroupInput,
@@ -20,35 +22,27 @@ export function buildCardGroup(
 		params.columns ?? Math.min(cards.length, 4),
 	);
 
-	// Build each card using the existing card builder
-	const cardHtmlParts: string[] = [];
-	for (const card of cards) {
-		const cardResult = buildCard(card, locale);
-		cardHtmlParts.push(cardResult.html);
-		warnings.push(...cardResult.warnings);
-	}
-
-	// Calculate responsive column class: 12 / columns → kern-col-md-{n}
-	// Always pair with kern-col-sm-12 for mobile stacking.
-	const colSpan = Math.floor(12 / columns);
-	const colClass = `kern-col-md-${colSpan} kern-col-sm-12`;
-
-	// Wrap each card in a responsive column
-	const colHtml = cardHtmlParts
-		.map(
-			(cardHtml) =>
-				`    <div class="${colClass}">\n      ${cardHtml.replace(/\n/g, "\n      ")}\n    </div>`,
-		)
+	// The cards are the grid's items, so a row's cards stretch to one height.
+	const cardsHtml = cards
+		.map((card) => {
+			const cardResult = buildCard(card, locale);
+			warnings.push(...cardResult.warnings);
+			return `      ${cardResult.html.replace(/\n/g, "\n      ")}`;
+		})
 		.join("\n");
 
-	// Optional heading above the grid
 	const headingHtml = heading
-		? `  <h${heading.level} class="kern-heading-medium">${escapeHtml(heading.text)}</h${heading.level}>\n`
+		? `    <h${heading.level} class="kern-heading-medium">${escapeHtml(heading.text)}</h${heading.level}>\n`
 		: "";
+	// A kern-grid right inside kern-container takes the container's padding
+	// away (see grid.ts), so the grid sits in a div of its own.
+	const wrapper = heading ? `<div class="${STACK_CLASSES}">` : "<div>";
 
 	const html = `<div class="kern-container">
-${headingHtml}  <div class="kern-row">
-${colHtml}
+  ${wrapper}
+${headingHtml}    <div class="${equalColumnsGridClasses(columns)}">
+${cardsHtml}
+    </div>
   </div>
 </div>`;
 
