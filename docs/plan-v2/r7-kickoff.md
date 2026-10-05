@@ -152,7 +152,7 @@ Three groups: the plumbing with the form prompt and the eval's prompt support (A
 
 ### Findings from group C
 
-- **The wizard's empty trailing step** is still there. Since `83d1b82` it's always empty (`null`, or an empty label and no content) and comes right after the step that holds the pasted `get_summary` HTML: 1 of 3 runs in `r7-a-fix2`, 2 of 3 in `prompts-r7-c`. Two rewordings didn't stop it, and every run recovers on the retry. Wording seems the wrong lever; two tool-side options:
+- **The wizard's empty trailing step** is still there. Since `83d1b82` it never has content (`null`, an empty label, or "Absenden" alone) and comes right after the step that holds the pasted `get_summary` HTML: 1 of 3 runs in `r7-a-fix2`, 2 of 3 in `prompts-r7-c`. Two rewordings didn't stop it, and every run recovers on the retry. Wording seems the wrong lever; two tool-side options:
   - `formFlow` drops empty trailing steps with a warning instead of rejecting the call (input normalization, as `invoke.ts` does elsewhere)
   - a `summary` block kind in `render_composition`, so the review step doesn't paste HTML (also the JSON-escaping finding from group A)
 - **The client commands in the README** (`/mcp.kern-ux.create_input_form`, `/mcp__kern-ux__create_input_form`) follow the clients' documented naming; the release's client check confirms them.
