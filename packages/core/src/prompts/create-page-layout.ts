@@ -66,8 +66,8 @@ function workflow(args: Args): string {
 
 	const items = [
 		"**Frame:** one `render_page` call. `header` with the site's `title` and its `navigation` (up to 8 links, `current: true` on this page's link), the page's `heading` (its only `h1`), and a `footer` with up to four link `columns` and a `note`. `kopfzeile: true` only for an official federal website. `document: true` returns a complete HTML document; leave it out for a fragment.",
-		`**Sections:** in \`contentBlocks\`, a short intro as a \`text\` block, then one \`section\` block per section${sections ? ", in the order given" : ""}, each with a \`headingText\`, which becomes an \`h2\`.`,
-		"**Columns:** things side by side, such as services or contacts, go in a `grid` block, one inner list per column. Give each a `card` with its title one level below its section (`header.titleLevel: 3`) and its actions in `footer`. No card directly in a card.",
+		`**Sections:** in \`contentBlocks\`, a short intro as \`{ kind: "text", text }\`, then one section block per section${sections ? ", in the order given" : ""}: \`{ kind: "section", section: { headingText, contentBlocks } }\`. Its \`headingText\` becomes an \`h2\`.`,
+		'**Columns:** things side by side, such as services or contacts, go in `{ kind: "grid", grid: { columnsContent: [[…], […]] } }`, one inner list per column. Give each a card, `{ kind: "card", card: { header: { title, titleLevel: 3 }, body, footer } }`: its title one level below its section, its actions in `footer`. No card directly in a card.',
 		`**Content:** the block kind for what each part shows: \`field\` blocks in a \`form\` block (with \`actions: { submitLabel }\`) for a form, \`disclosure\` blocks for questions that expand. A component without a block kind, such as a table (\`get_table\`) or a notice (\`get_alert\`), comes from its tool, added as an \`html\` block. All text in ${LOCALE_NAMES[locale]}.`,
 		strictRender("render_page", locale),
 	];

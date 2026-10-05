@@ -277,8 +277,12 @@ describe("create_page_layout", () => {
 
 		expect(text).toContain("Sections: Einleitung; Leistungen");
 		expect(text).toContain(
-			"one `section` block per section, in the order given",
+			'one section block per section, in the order given: `{ kind: "section", section: { headingText, contentBlocks } }`',
 		);
+		// Without the nested shape, every service-page run in prompts-r7-c wrote
+		// headingText on the block itself.
+		expect(text).toContain('`{ kind: "grid", grid: { columnsContent:');
+		expect(text).toContain('`{ kind: "card", card: { header: { title,');
 		expect(text).toContain(
 			'call `render_page` with `locale: "de"` and `strict: true`',
 		);
