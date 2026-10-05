@@ -25,8 +25,7 @@ Start here in a new session. The plan and its progress are in [r6-kickoff.md](r6
 
 ## Do first
 
-1. **Settle the open decision** from group C with the user: should `render_page` and `render_composition` wrap an `html` block whose root is a `kern-grid` in a plain `div` when it sits in a container? In `r6-c2`, Haiku hand-wrote such a block right inside `<main>` and ignored the warning.
-2. Read the kickoff's group D boxes (D11 to D16) and start **D11**. One commit per box, and a pause for review after group D, with the evals (D16).
+1. Read the kickoff's group D boxes (D11 to D16) and start **D11**. One commit per box, and a pause for review after group D, with the evals (D16).
 
 ## Notes for group D
 

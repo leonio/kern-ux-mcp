@@ -214,7 +214,7 @@ Run the base and nested suites after A (titles and status banners), after B (the
   - **One `landing-page` run** still hand-wrote a grid of cards in an `html` block right inside `<main>`, now with the full classes. `render_page` returned `layout.grid_in_container`, and Haiku delivered the page anyway.
   - **Nested 99/105** (`nested-r6-b`: 105/105), 12/12 strict-valid. All six misses are one `application-flow` answer that summarised the form in prose and kept a fragment of the HTML; the tool's output had the structure. One `dashboard` run tried a `table` block kind, then used `get_table`.
 - **The listing** is 116,265 characters, down from 116,871. The stdio bundle is 532 KB.
-- **Open decision:** should `render_page` and `render_composition` wrap an `html` block whose root is a `kern-grid` in a plain `div` when it sits in a container? The warning alone didn't stop Haiku.
+- **Settled 2026-10-05:** an `html` block with a top-level `kern-grid` gets a plain `div` of its own, wherever it's rendered. The warning alone didn't stop Haiku.
 - **Upstream findings:**
   - KERN's container stories use `kern-col-span-8`, which the CSS doesn't define. An example uses it, so `class.unknown` accepts it. Our utility reference copied it until C9.
   - The utilities docs say `.kern-grid` has `gap-lg` by default; the CSS sets no gap.

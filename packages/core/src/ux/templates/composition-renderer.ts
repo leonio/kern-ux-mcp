@@ -1,3 +1,4 @@
+import { HTMLElement, parse } from "node-html-parser";
 import {
 	MAX_RECURSIVE_CONTENT_DEPTH,
 	type RecursiveContentNodeInput,
@@ -83,6 +84,19 @@ export function renderChildBlocks(
 	});
 }
 
+/**
+ * Whether hand-written HTML has a kern-grid among its top-level elements. KERN
+ * drops a kern-container's padding when a kern-grid is its direct child, so
+ * such a block gets a div of its own: in render_page's main, the page keeps
+ * its inset.
+ */
+function hasTopLevelGrid(html: string): boolean {
+	return parse(html).childNodes.some(
+		(node) =>
+			node instanceof HTMLElement && node.classList.contains("kern-grid"),
+	);
+}
+
 /** Blocks whose element is inline-level: a flex column would stretch it to full width. */
 const INLINE_KINDS: ReadonlySet<RecursiveContentNodeInput["kind"]> = new Set([
 	"button",
@@ -137,7 +151,12 @@ function renderBlock(
 				warnings: [],
 			};
 		case "html":
-			return { html: block.html, warnings: [] };
+			return {
+				html: hasTopLevelGrid(block.html)
+					? `<div>${block.html}</div>`
+					: block.html,
+				warnings: [],
+			};
 		case "button":
 			return buildButton(block.button, locale);
 		case "badge":

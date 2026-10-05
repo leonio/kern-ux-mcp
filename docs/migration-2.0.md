@@ -196,6 +196,7 @@ KERN deprecates its container grid (`kern-row`, `kern-col-*`). Its CSS Grid util
   - The grid sits in a `div` of its own. KERN removes a `kern-container`'s padding when a `kern-grid` is its direct child, which would put the content against the screen edge. With a heading, that `div` stacks the heading and the grid (`kern-flex kern-flex-col kern-gap-lg`).
   - Columns are plain `div`s. They were `kern-col-md-{12 / columns} kern-col-sm-12` in a `kern-row`.
   - **Card groups** use the same classes, with the cards as the grid's items: the cards in a row are as tall as the tallest. With a heading, the heading and the grid stack as in a grid. Five cards can now sit in five columns (`columns: 5`); the count is still capped at the number of cards.
+  - **An `html` block with a `kern-grid` among its top-level elements** sits in a `div` of its own, so a grid written by hand doesn't take the padding of `render_page`'s `<main>` away.
   - **`render_page`'s footer** puts its link columns on the same classes. The divider, the columns and the note stack with `kern-flex kern-flex-col kern-gap-lg`.
 - **`columns` takes any count from 1 to 12**, for grids and card groups. It was 1, 2, 3, 4, 6 or 12.
 - **Without `columns`, a grid has one column per `columnsContent` list,** or two without either. Three lists without `columns` used to render two columns and drop the third.

@@ -209,6 +209,26 @@ describe("createCompositionRenderer", () => {
 		expect(result.html).toBe("<em>roh</em>");
 	});
 
+	it.each([
+		'<div class="kern-grid kern-grid-cols-1"><p>x</p></div>',
+		'<h2>Leistungen</h2>\n<section class="kern-grid kern-gap-lg"></section>',
+	])(
+		"puts an html block with a top-level kern-grid in a div of its own: %s",
+		(html) => {
+			expect(renderer.renderBlocks([{ kind: "html", html }], 1).html).toBe(
+				`<div>${html}</div>`,
+			);
+		},
+	);
+
+	it.each([
+		'<div class="kern-container"><div class="kern-grid"></div></div>',
+		'<div class="kern-grid-cols-1 kern-gridx">x</div>',
+		"Text with kern-grid in it",
+	])("leaves an html block without a top-level kern-grid alone: %s", (html) => {
+		expect(renderer.renderBlocks([{ kind: "html", html }], 1).html).toBe(html);
+	});
+
 	it("renders button and badge blocks with their builders", () => {
 		const result = renderer.renderBlocks(
 			[

@@ -135,6 +135,26 @@ describe("buildPage", () => {
 		expect(root.querySelector("header .kern-p-md")).toBeNull();
 	});
 
+	it("keeps main's padding when an html block holds a hand-written grid", () => {
+		const html = buildPage(
+			{
+				heading: "Bürgerservice",
+				contentBlocks: [
+					{
+						kind: "html",
+						html: '<div class="kern-grid kern-grid-cols-1 kern-grid-cols-3-md kern-gap-lg"><p>A</p></div>',
+					},
+				],
+			},
+			"de",
+		).html;
+
+		expect(parse(html).querySelector("main > div > .kern-grid")).not.toBeNull();
+		expect(
+			validateHtmlStrict(html).issues.map((issue) => issue.ruleId),
+		).not.toContain("layout.grid_in_container");
+	});
+
 	it("passes validation", () => {
 		const html = buildPage(FULL_PAGE, "de").html;
 
