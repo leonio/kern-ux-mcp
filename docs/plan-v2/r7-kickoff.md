@@ -33,7 +33,8 @@ Three groups: the plumbing with the form prompt and the eval's prompt support (A
 5. **Eval scenarios reuse today's tasks**, so their checks carry over: `create_input_form` with `contact-form` (base) and, with `steps`, `application-flow` (nested); `create_page_layout` with `service-page` (nested); `review_kern_html` with `fix-page` (nested).
    - **The comparison is the same task with and without its prompt, on the same commit.** `r6-d` and `nested-r6-d` ran before the two R6 fixes, which changed form output, so they stay as history only.
    - **Without `--resources`,** like the baselines: the guide is inline, and the card links are lines of text. One extra `--resources` run shows whether the model follows them.
-6. **Timing:** the harness change is its own box at the end of group A (A3), so group A is measured before B copies its shape. C8 keeps the full `prompts` suite and the runs.
+6. **Timing:** the harness change is its own box at the end of group A (A3), so group A is measured before B copies its shape. C9 keeps the full `prompts` suite and the runs.
+7. **Three `validate_html` rules go into 2.0** (decided 2026-10-05, after B). `review_kern_html` asks for what the check can't see; three of those things are machine-checkable, and adding error rules after 2.0 could fail HTML that passes `strict: true` today. Box C7.
 
 ## Where things stand
 
@@ -72,8 +73,15 @@ Three groups: the plumbing with the form prompt and the eval's prompt support (A
 ### C. Checks, docs and eval
 
 6. **Every name resolves:** each tool name and `kern://` URI in prompts, guides and tool descriptions is one the server serves. A test, with the list of names it found in its snapshot.
-7. **Docs:** "Prompts" in the README's feature list, the migration notes complete, `codebase-guide.md`.
-8. **The full eval:** the `prompts` suite (all four tasks; `service-page` and `fix-page` joined it in B4 and B5) with and without the prompts on the same commit, plus `base` and `nested`. First the delivery check's fix (findings from group A).
+7. **Three new `validate_html` rules** (decision 7). Proposed, to confirm before the box:
+   - **A field without a label** (error, WCAG 3.3.2 and 4.1.2, level A): an `input` (not `hidden`, `submit`, `button`, `reset` or `image`), `select` or `textarea` has a `<label for>`, a wrapping `<label>`, `aria-label` or `aria-labelledby`. A placeholder doesn't count. `form.label_for` only checks the labels that exist.
+   - **A table without header cells** (error, 1.3.1, level A): a `table` has at least one `th`, unless it has `role="presentation"` or `role="none"`. `table.th_scope` only checks the `th` cells that exist.
+   - **A skipped heading level** (warning, 1.3.1 and 2.4.6): a heading is at most one level deeper than the one before it. The first heading can be any level, since a part of a page may start at `h2`. Not an error: WCAG doesn't require the order.
+   - The rule table feeds the accessibility guide and the cards, so they list the new rules too. Every tool's own output must still pass strict validation; the golden tests show it.
+   - `review_kern_html` then cites the rule IDs instead of the WCAG criteria for these three.
+   - Migration notes: new rules and IDs; HTML that passed `strict: true` before can fail on the two errors.
+8. **Docs:** "Prompts" in the README's feature list, the migration notes complete, `codebase-guide.md`.
+9. **The full eval:** the `prompts` suite (all four tasks; `service-page` and `fix-page` joined it in B4 and B5) with and without the prompts on the same commit, plus `base` and `nested`. First the delivery check's fix (findings from group A).
 
 ## Evals
 
@@ -105,7 +113,7 @@ Three groups: the plumbing with the form prompt and the eval's prompt support (A
 
 ### Findings from group A
 
-- **The delivery check takes the largest tool HTML.** A run that renders twice and answers with the second render counts as "edited" (`r7-a-fix2` run 1). Comparing against the last render would fix it; C8 can change it before the full eval.
+- **The delivery check takes the largest tool HTML.** A run that renders twice and answers with the second render counts as "edited" (`r7-a-fix2` run 1, `r7-b-fix` runs 1 and 2). Comparing against the last render would fix it; C9 changes it before the full eval.
 - **Cold cache:** the first runs of an eval session pay the cache write. Compare cost on runs started in the same order, or run the plain suite first.
 - **A `summary` block kind** in `render_composition` would save copying `get_summary` HTML into an `html` block, and the large inputs that come with it. That's a tool change, after 2.0.
 - **Small misses:** one `r7-a-fix2` run left out the confirmation checkbox in the review step (no check covers it); one called `get_summary` without `mode` and retried.
@@ -123,6 +131,11 @@ Three groups: the plumbing with the form prompt and the eval's prompt support (A
   - **Calls:** 18 against 21; `fix-page` 11 against 14. Cost $0.49 against $0.44; the first request is 4,480 tokens larger (the 12K accessibility guide).
   - **The fix list:** all three `fix-page` runs wrote one in German by rule, including what the check can't see (a skipped heading level, the card in a card). Two wrote it between tool calls and ended with the HTML alone; a client shows both, the eval's final answer only the HTML.
   - **One invalid input each way,** both on `render_page`'s blocks and retried: with the prompt, three `section` blocks without their `section` object.
+- [x] After B: `db9d5f9` asks for the fix list once, after the rebuild. Eval: [r7-b-fix](r5-eval/r7-b-fix.json).
+  - **Why:** step 2 asked for the list and the answer line asked again. In `r7-b`, two runs wrote it right after `validate_html`, as a plan ("muss hinzugefügt werden"), and answered with the HTML alone.
+  - **Now:** step 2 only collects the problems. The answer asks for the list once: per problem its rule, how the rebuild fixed it, and what a person still has to check, such as an `alt` text written without seeing the image.
+  - **`r7-b-fix`** (`fix-page`, 3 runs): 33/33, 3/3 strict-valid. All three put the list in the final answer, after the rebuild, and all three flag the invented `alt` text. Two count as "edited", but both answers are their second render verbatim: the delivery check's known artifact.
 - [ ] C6: every tool name and `kern://` URI in text resolves
-- [ ] C7: docs
-- [ ] C8: the full eval
+- [ ] C7: three new `validate_html` rules
+- [ ] C8: docs
+- [ ] C9: the full eval

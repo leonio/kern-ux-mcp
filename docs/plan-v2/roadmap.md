@@ -187,6 +187,7 @@ Re-planned 2026-10-03: three prompts instead of five.
 - [ ] `review_kern_html`: `validate_html`, the accessibility guide, a fix list, then re-render with the tools.
 - [ ] Each prompt embeds the guides it relies on, links the cards it uses, and asks for the final HTML verbatim. That settles R5.1's open question on long results.
 - [ ] Prompt snapshots; every tool name and resource URI in a prompt resolves; an eval scenario per prompt.
+- [ ] Three new `validate_html` rules (added 2026-10-05): a field without a label and a table without header cells (errors), a skipped heading level (a warning). `review_kern_html` found them by hand; error rules added after 2.0 could fail HTML that passes `strict: true` today. See [r7-kickoff.md](r7-kickoff.md) box C7.
 
 ### Release 2.0.0
 
