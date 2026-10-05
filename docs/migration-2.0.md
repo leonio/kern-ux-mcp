@@ -222,6 +222,7 @@ The server now offers MCP prompts: workflows over the tools that a user picks in
 - **Capability:** `prompts`, without list-changed notifications. On protocol `2026-07-28`, `prompts/list` can be cached for an hour, like the other lists. `prompts/get` has no cache hint, since its result depends on the arguments.
 - **`create_input_form`** (`purpose`, `fields`, `steps`, `locale`): builds a form from a list of fields with `field`, `fieldset` and `form` blocks, rendered by `render_composition` with `strict: true`. Given `steps` (separated by semicolons), it builds a multi-step form with a `formFlow` block instead: exactly the given steps, the step list, progress, back, next and submit buttons, and a `get_summary` group in the step for checking the answers.
 - **`create_page_layout`** (`purpose`, `sections`, `locale`): builds a whole page with `render_page` and `strict: true`: the header with navigation, the `h1`, one `section` block per section with grids and cards, and the footer.
+- **`review_kern_html`** (`html`, `locale`): checks the HTML with `validate_html`, lists the fixes by rule (the check's `ruleId`s and the WCAG criteria in the accessibility guide), and rebuilds the content with `render_page` or `render_composition` and `strict: true`. `html` takes up to 500,000 characters, like `validate_html`. It embeds the accessibility guide and links no cards.
 - **What a prompt returns:** user messages, one content block each. First the guide it relies on, embedded as a `resource` with the same text as `resources/read`. Then `resource_link`s to the component cards it uses. Last the workflow as text, which asks for the final HTML verbatim in an `html` code block.
 - **Arguments** are strings. `locale` is `de` (the default) or `en`, and `completion/complete` completes it. A blank optional argument counts as none.
 - **Errors:** an unknown prompt, a missing argument and an invalid `locale` fail with JSON-RPC `-32602`.
@@ -229,4 +230,5 @@ The server now offers MCP prompts: workflows over the tools that a user picks in
 ## Planned before 2.0.0 (may still change)
 
 These are on the roadmap and not released. Entries move up when they land.
-- **More prompts** (R7): `review_kern_html`.
+
+None at the moment: R7's prompts were the last planned change to the contract.

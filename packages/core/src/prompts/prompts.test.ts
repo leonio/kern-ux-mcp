@@ -3,11 +3,14 @@ import { describe, expect, it } from "vitest";
 import { getCatalog } from "../mcp/catalog.js";
 import { byteLength } from "../resources/definition.js";
 import { loadRegistryFromManifest } from "../ux/registry.js";
+import { VALIDATE_HTML_MAX_LENGTH } from "../ux/tools.js";
 import {
 	cardLinks,
 	embeddedResource,
+	fencedHtml,
 	type KernPromptContent,
 	type KernPromptDefinition,
+	strictRender,
 } from "./definition.js";
 
 const { prompts, resources } = getCatalog();
@@ -106,13 +109,21 @@ const CASES: ReadonlyArray<{
 			locale: "en",
 		},
 	},
+	{
+		prompt: "review_kern_html",
+		label: "fix",
+		args: {
+			html: '<h1>Bürgerbüro</h1>\n<h3>Öffnungszeiten</h3>\n<img src="buergerbuero.jpg">\n<input type="text" id="name" placeholder="Name">\n<button class="kern-button">Senden</button>',
+		},
+	},
 ];
 
 describe("prompts", () => {
-	it("are create_input_form and create_page_layout", () => {
+	it("are create_input_form, create_page_layout and review_kern_html", () => {
 		expect(prompts.map((definition) => definition.name)).toEqual([
 			"create_input_form",
 			"create_page_layout",
+			"review_kern_html",
 		]);
 	});
 
@@ -295,6 +306,51 @@ describe("create_page_layout", () => {
 	});
 });
 
+describe("review_kern_html", () => {
+	const html = '<img src="wappen.png">';
+
+	it("embeds the accessibility guide and links no cards", async () => {
+		const content = await contentOf("review_kern_html", { html });
+
+		expect(content.map((block) => block.type)).toEqual(["resource", "text"]);
+		expect(content[0]).toMatchObject({
+			resource: { uri: "kern://guides/accessibility" },
+		});
+	});
+
+	it("puts the HTML before the steps: check, fix list, rebuild, strict render", async () => {
+		const text = await workflowOf("review_kern_html", { html });
+
+		expect(text.indexOf(html)).toBeLessThan(text.indexOf("1. **Check:**"));
+		expect(text).toContain('```html\n<img src="wappen.png">\n```');
+		expect(text).toContain("call `validate_html` with the HTML as it is");
+		expect(text).toContain("in German: the rule and how the rebuild fixes it");
+		expect(text).toContain(
+			'call `render_page` or `render_composition` with `locale: "de"` and `strict: true`',
+		);
+		expect(text).toMatch(/^Answer with the fix list, then the final HTML/m);
+	});
+
+	it("writes the fix list in English for en", async () => {
+		expect(
+			await workflowOf("review_kern_html", { html, locale: "en" }),
+		).toContain("in English: the rule");
+	});
+
+	it("takes no more HTML than validate_html", () => {
+		const { argsSchema } = prompt("review_kern_html");
+
+		expect(
+			argsSchema.safeParse({ html: "x".repeat(VALIDATE_HTML_MAX_LENGTH) })
+				.success,
+		).toBe(true);
+		expect(
+			argsSchema.safeParse({ html: "x".repeat(VALIDATE_HTML_MAX_LENGTH + 1) })
+				.success,
+		).toBe(false);
+	});
+});
+
 describe("prompt content helpers", () => {
 	const registry = loadRegistryFromManifest();
 	const guides = resources.find((definition) => definition.name === "guides");
@@ -309,6 +365,22 @@ describe("prompt content helpers", () => {
 		if (!guides) throw new Error("No guides resource.");
 		await expect(embeddedResource(guides, "composition")).rejects.toThrow(
 			/guides has no composition/,
+		);
+	});
+
+	it("fence HTML with more backticks than any run inside it", () => {
+		expect(fencedHtml("<p>a</p>")).toBe("```html\n<p>a</p>\n```");
+		expect(fencedHtml("<pre>```js\nx\n```</pre>")).toBe(
+			"````html\n<pre>```js\nx\n```</pre>\n````",
+		);
+	});
+
+	it("join render tools as alternatives", () => {
+		expect(strictRender("render_page", "en")).toMatch(
+			/^\*\*Render:\*\* call `render_page` with `locale: "en"`/,
+		);
+		expect(strictRender(["render_page", "render_composition"], "de")).toMatch(
+			/call `render_page` or `render_composition` with/,
 		);
 	});
 });

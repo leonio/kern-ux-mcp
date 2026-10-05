@@ -292,6 +292,10 @@ export const PROMPT_SCENARIOS: readonly Scenario[] = [
 				"A short intro; a form to book a bulky-waste pickup (name, street and house number, postcode, preferred date, a select of item types, and a submit button); a table of the fees for three item types with a price column; an FAQ with three questions that expand when clicked",
 		},
 	}),
+	withPrompt(NESTED_SCENARIOS, "fix-page", {
+		name: "review_kern_html",
+		arguments: { html: BROKEN_PAGE },
+	}),
 ];
 
 /** The scenario sets `npm run eval -- --suite <name>` can run. */

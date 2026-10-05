@@ -1,6 +1,7 @@
 import { type Client, ProtocolError } from "@modelcontextprotocol/client";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { MCP_ERAS } from "../test-support/mcp.js";
+import { VALIDATE_HTML_MAX_LENGTH } from "../ux/tools.js";
 
 /**
  * The prompts over a real MCP client/server pair, on both protocol eras:
@@ -17,6 +18,7 @@ const FORM_ARGS = {
 const SAMPLE_ARGS: Readonly<Record<string, Record<string, string>>> = {
 	create_input_form: FORM_ARGS,
 	create_page_layout: { purpose: "Startseite des Bürgerservice Musterstadt" },
+	review_kern_html: { html: '<img src="wappen.png">' },
 };
 
 describe.each(MCP_ERAS)("MCP prompts over $era", ({ era, connect }) => {
@@ -58,6 +60,11 @@ describe.each(MCP_ERAS)("MCP prompts over $era", ({ era, connect }) => {
 				name: "create_page_layout",
 				title: "Create a KERN page",
 				arguments: ["purpose", "sections?", "locale?"],
+			},
+			{
+				name: "review_kern_html",
+				title: "Review HTML against KERN",
+				arguments: ["html", "locale?"],
 			},
 		]);
 		for (const prompt of prompts) {
@@ -121,7 +128,6 @@ describe.each(MCP_ERAS)("MCP prompts over $era", ({ era, connect }) => {
 				content.type === "resource_link" ? [content.uri] : [],
 			);
 
-			expect(links.length).toBeGreaterThan(0);
 			for (const uri of links) {
 				const card = await client.readResource({ uri });
 				expect(card.contents[0], uri).toMatchObject({
@@ -146,13 +152,26 @@ describe.each(MCP_ERAS)("MCP prompts over $era", ({ era, connect }) => {
 	);
 
 	it.each([
-		["a missing argument", { purpose: "Kontakt" }, /fields/],
-		["an unknown locale", { ...FORM_ARGS, locale: "fr" }, /de or en/],
-	])("rejects %s with -32602", async (_, args, message) => {
-		const get = client.getPrompt({
-			name: "create_input_form",
-			arguments: args,
-		});
+		[
+			"a missing argument",
+			"create_input_form",
+			{ purpose: "Kontakt" },
+			/fields/,
+		],
+		[
+			"an unknown locale",
+			"create_input_form",
+			{ ...FORM_ARGS, locale: "fr" },
+			/de or en/,
+		],
+		[
+			"HTML longer than validate_html takes",
+			"review_kern_html",
+			{ html: "x".repeat(VALIDATE_HTML_MAX_LENGTH + 1) },
+			/html/,
+		],
+	])("rejects %s with -32602", async (_, name, args, message) => {
+		const get = client.getPrompt({ name, arguments: args });
 
 		await expect(get).rejects.toBeInstanceOf(ProtocolError);
 		await expect(get).rejects.toMatchObject({ code: -32602, message });

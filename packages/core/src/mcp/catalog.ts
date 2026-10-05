@@ -1,5 +1,6 @@
 import { createInputForm } from "../prompts/create-input-form.js";
 import { createPageLayout } from "../prompts/create-page-layout.js";
+import { reviewKernHtml } from "../prompts/review-kern-html.js";
 import type { KernPromptDefinition } from "../prompts/definition.js";
 import { componentCards } from "../resources/component-cards.js";
 import type { KernResourceDefinition } from "../resources/definition.js";
@@ -47,6 +48,7 @@ function buildCatalog(): Catalog {
 		prompts: [
 			createInputForm(registry, guideResources),
 			createPageLayout(registry, guideResources),
+			reviewKernHtml(guideResources),
 		],
 	};
 }
