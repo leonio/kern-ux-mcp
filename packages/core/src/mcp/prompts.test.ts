@@ -13,6 +13,12 @@ const FORM_ARGS = {
 	fields: "Name, E-Mail, Nachricht",
 };
 
+/** Arguments that get each prompt. */
+const SAMPLE_ARGS: Readonly<Record<string, Record<string, string>>> = {
+	create_input_form: FORM_ARGS,
+	create_page_layout: { purpose: "Startseite des Bürgerservice Musterstadt" },
+};
+
 describe.each(MCP_ERAS)("MCP prompts over $era", ({ era, connect }) => {
 	let client: Client;
 
@@ -33,35 +39,37 @@ describe.each(MCP_ERAS)("MCP prompts over $era", ({ era, connect }) => {
 	it("lists each prompt with a title, a description and its arguments", async () => {
 		const { prompts } = await client.listPrompts();
 
-		expect(prompts).toEqual([
+		// An optional argument ends in "?".
+		expect(
+			prompts.map((prompt) => ({
+				name: prompt.name,
+				title: prompt.title,
+				arguments: prompt.arguments?.map(
+					(argument) => `${argument.name}${argument.required ? "" : "?"}`,
+				),
+			})),
+		).toEqual([
 			{
 				name: "create_input_form",
 				title: "Create a KERN form",
-				description: expect.stringMatching(/\S/),
-				arguments: [
-					{
-						name: "purpose",
-						description: expect.stringMatching(/\S/),
-						required: true,
-					},
-					{
-						name: "fields",
-						description: expect.stringMatching(/\S/),
-						required: true,
-					},
-					{
-						name: "steps",
-						description: expect.stringContaining("separated by semicolons"),
-						required: false,
-					},
-					{
-						name: "locale",
-						description: expect.stringContaining("de (the default) or en"),
-						required: false,
-					},
-				],
+				arguments: ["purpose", "fields", "steps?", "locale?"],
+			},
+			{
+				name: "create_page_layout",
+				title: "Create a KERN page",
+				arguments: ["purpose", "sections?", "locale?"],
 			},
 		]);
+		for (const prompt of prompts) {
+			expect(prompt.description, prompt.name).toMatch(/\S/);
+			for (const argument of prompt.arguments ?? []) {
+				expect(argument.description, argument.name).toMatch(/\S/);
+			}
+			expect(
+				prompt.arguments?.find((argument) => argument.name === "locale")
+					?.description,
+			).toContain("de (the default) or en");
+		}
 	});
 
 	it("marks the list cacheable for an hour on 2026-07-28 only", async () => {
@@ -105,34 +113,37 @@ describe.each(MCP_ERAS)("MCP prompts over $era", ({ era, connect }) => {
 		});
 	});
 
-	it("links only cards that read", async () => {
-		const result = await client.getPrompt({
-			name: "create_input_form",
-			arguments: FORM_ARGS,
-		});
-		const links = result.messages.flatMap(({ content }) =>
-			content.type === "resource_link" ? [content.uri] : [],
-		);
+	it.each(Object.entries(SAMPLE_ARGS))(
+		"links only cards that read (%s)",
+		async (name, args) => {
+			const result = await client.getPrompt({ name, arguments: args });
+			const links = result.messages.flatMap(({ content }) =>
+				content.type === "resource_link" ? [content.uri] : [],
+			);
 
-		expect(links.length).toBeGreaterThan(0);
-		for (const uri of links) {
-			const card = await client.readResource({ uri });
-			expect(card.contents[0], uri).toMatchObject({
-				text: expect.stringMatching(/^# KERN /),
-			});
-		}
-	});
+			expect(links.length).toBeGreaterThan(0);
+			for (const uri of links) {
+				const card = await client.readResource({ uri });
+				expect(card.contents[0], uri).toMatchObject({
+					text: expect.stringMatching(/^# KERN /),
+				});
+			}
+		},
+	);
 
-	it("completes the locale", async () => {
-		const complete = (value: string) =>
-			client.complete({
-				ref: { type: "ref/prompt", name: "create_input_form" },
-				argument: { name: "locale", value },
-			});
+	it.each(Object.keys(SAMPLE_ARGS))(
+		"completes the locale (%s)",
+		async (name) => {
+			const complete = (value: string) =>
+				client.complete({
+					ref: { type: "ref/prompt", name },
+					argument: { name: "locale", value },
+				});
 
-		expect((await complete("")).completion.values).toEqual(["de", "en"]);
-		expect((await complete("e")).completion.values).toEqual(["en"]);
-	});
+			expect((await complete("")).completion.values).toEqual(["de", "en"]);
+			expect((await complete("e")).completion.values).toEqual(["en"]);
+		},
+	);
 
 	it.each([
 		["a missing argument", { purpose: "Kontakt" }, /fields/],

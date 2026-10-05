@@ -5,9 +5,13 @@ import type { Locale, Registry } from "../ux/types.js";
 import {
 	cardLinks,
 	embeddedResource,
+	filledIn,
 	type KernPromptDefinition,
 	LOCALE_NAMES,
 	localeArgument,
+	numbered,
+	strictRender,
+	VERBATIM_ANSWER,
 } from "./definition.js";
 
 /** The cards of the inputs a form is built from, linked whatever the fields. */
@@ -81,20 +85,15 @@ export function createInputForm(
 		content: async (args) => [
 			await embeddedResource(guides, "forms"),
 			...formLinks,
-			...(stepsOf(args) ? stepLinks : []),
+			...(filledIn(args.steps) ? stepLinks : []),
 			{ type: "text", text: workflow(args) },
 		],
 	};
 }
 
-/** The steps, or undefined for a form on one page; a blank value counts as none. */
-function stepsOf(args: Args): string | undefined {
-	return args.steps?.trim() || undefined;
-}
-
 function workflow(args: Args): string {
 	const locale = args.locale ?? "de";
-	const steps = stepsOf(args);
+	const steps = filledIn(args.steps);
 
 	const items = [
 		"**Fields:** one `field` block per field. Pick its `type`: text, email, tel, url, number, date, password, textarea, select, radio or checkbox. select and radio need `options`; a checkbox with `options` is a group. A file upload has no field type: render it with `get_inputfile` and add its HTML as an `html` block.",
@@ -105,7 +104,7 @@ function workflow(args: Args): string {
 			: [
 					'**Groups:** related fields go in a `fieldset` block with a `legend`, with `legendSize: "large"` for a main part of the form such as an address. Everything goes in one `form` block with `actions: { submitLabel }`. To show the form after a failed submit, give each field in error its `error` message and the form `errorSummary: {}`.',
 				]),
-		`**Render:** call \`render_composition\` with \`locale: "${locale}"\` and \`strict: true\`. A strict call fails with the issues: fix the blocks and call again. If you change the HTML afterwards, check it with \`validate_html\`.`,
+		strictRender("render_composition", locale),
 	];
 
 	return [
@@ -113,8 +112,8 @@ function workflow(args: Args): string {
 		...(steps ? [`Steps: ${steps}`] : []),
 		`Fields: ${args.fields.trim()}`,
 		`The forms guide above has KERN's rules for labels, hints, errors and required fields, and the cards linked above describe ${steps ? "each input, the step list, the progress bar and the summary" : "each input"}. Work in this order:`,
-		items.map((item, index) => `${index + 1}. ${item}`).join("\n"),
-		"Answer with the final HTML from the tool, verbatim, in one ```html block, not a description of it.",
+		numbered(items),
+		VERBATIM_ANSWER,
 	].join("\n\n");
 }
 

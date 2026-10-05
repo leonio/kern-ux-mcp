@@ -82,8 +82,10 @@ describe("the prompts suite", () => {
 			try {
 				const text = promptText((await client.getPrompt(mcpPrompt)).messages);
 
-				expect(text).toMatch(/^<resource uri="kern:\/\/guides\/forms">\n/);
-				expect(text).toContain(mcpPrompt.arguments.fields);
+				expect(text).toMatch(/^<resource uri="kern:\/\/guides\/\w+">\n/);
+				for (const value of Object.values(mcpPrompt.arguments)) {
+					expect(text).toContain(value);
+				}
 				expect(text).toMatch(/not a description of it\.$/);
 			} finally {
 				await client.close();

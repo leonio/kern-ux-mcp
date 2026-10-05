@@ -54,6 +54,25 @@ export const LOCALE_NAMES: Readonly<Record<Locale, string>> = {
 	en: "English",
 };
 
+/** An optional free-text argument, or undefined when it's blank. */
+export function filledIn(value: string | undefined): string | undefined {
+	return value?.trim() || undefined;
+}
+
+/** A workflow's steps as a numbered Markdown list. */
+export function numbered(items: readonly string[]): string {
+	return items.map((item, index) => `${index + 1}. ${item}`).join("\n");
+}
+
+/** The step that renders the result, strictly, in the page's language. */
+export function strictRender(tool: string, locale: Locale): string {
+	return `**Render:** call \`${tool}\` with \`locale: "${locale}"\` and \`strict: true\`. A strict call fails with the issues: fix the blocks and call again. If you change the HTML afterwards, check it with \`validate_html\`.`;
+}
+
+/** The last line of a workflow: the answer it asks for. */
+export const VERBATIM_ANSWER =
+	"Answer with the final HTML from the tool, verbatim, in one ```html block, not a description of it.";
+
 /** A resource embedded whole, as resources/read serves it. */
 export async function embeddedResource(
 	definition: KernResourceDefinition,

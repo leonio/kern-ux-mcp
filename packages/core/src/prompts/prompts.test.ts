@@ -88,12 +88,31 @@ const CASES: ReadonlyArray<{
 			steps: "Persönliche Daten; Fahrzeug; Prüfen und Absenden",
 		},
 	},
+	{
+		prompt: "create_page_layout",
+		label: "service-page",
+		args: {
+			purpose:
+				"Sperrmüll anmelden, Website der Stadt Musterstadt mit der Navigation Start, Abfall, Kontakt",
+			sections:
+				"Einleitung; Abholung buchen (Formular); Gebühren (Tabelle); Häufige Fragen",
+		},
+	},
+	{
+		prompt: "create_page_layout",
+		label: "home-en",
+		args: {
+			purpose: "Home page of the Musterstadt citizen portal",
+			locale: "en",
+		},
+	},
 ];
 
 describe("prompts", () => {
-	it("are create_input_form", () => {
+	it("are create_input_form and create_page_layout", () => {
 		expect(prompts.map((definition) => definition.name)).toEqual([
 			"create_input_form",
+			"create_page_layout",
 		]);
 	});
 
@@ -222,6 +241,57 @@ describe("create_input_form with steps", () => {
 		expect(
 			await contentOf("create_input_form", { ...single, steps: " " }),
 		).toEqual(await contentOf("create_input_form", single));
+	});
+});
+
+describe("create_page_layout", () => {
+	const args = { purpose: "Startseite", sections: "Einleitung; Leistungen" };
+
+	it("embeds the layout guide and links the page's cards", async () => {
+		const content = await contentOf("create_page_layout", args);
+
+		expect(content[0]).toMatchObject({
+			type: "resource",
+			resource: { uri: "kern://guides/layout", mimeType: "text/markdown" },
+		});
+		expect(
+			content.flatMap((block) =>
+				block.type === "resource_link" ? [block.name] : [],
+			),
+		).toEqual(["kopfzeile", "heading", "grid", "card", "link"]);
+	});
+
+	it("renders the page strictly with render_page, in the sections' order", async () => {
+		const text = await workflowOf("create_page_layout", args);
+
+		expect(text).toContain("Sections: Einleitung; Leistungen");
+		expect(text).toContain(
+			"one `section` block per section, in the order given",
+		);
+		expect(text).toContain(
+			'call `render_page` with `locale: "de"` and `strict: true`',
+		);
+		expect(text).toMatch(/verbatim, in one ```html block/);
+	});
+
+	it("chooses the sections from the purpose when none are given", async () => {
+		const text = await workflowOf("create_page_layout", {
+			purpose: "Startseite",
+			sections: "",
+		});
+
+		expect(text).not.toMatch(/^Sections: /m);
+		expect(text).not.toContain("in the order given");
+	});
+
+	it("writes the text in English for an English page", async () => {
+		const text = await workflowOf("create_page_layout", {
+			...args,
+			locale: "en",
+		});
+
+		expect(text).toContain("All text in English.");
+		expect(text).toContain('`locale: "en"`');
 	});
 });
 
