@@ -3776,116 +3776,77 @@
     },
     {
       "id": "grid",
-      "kernId": "grid",
-      "title": "Grid System",
-      "status": "deprecated",
-      "group": "layout",
-      "synonyms": [
-        "Raster",
-        "Layout-System"
-      ],
+      "title": "CSS Grid",
+      "status": "stable",
       "links": {
-        "docs": "https://www.kern-ux.de/komponenten/layout/grid-system",
-        "source": "https://gitlab.opencode.de/kern-ux/kern-ux-plain/-/tree/v2.8.2/src/scss/core/layout/_grid.scss"
-      },
-      "summary": "Mobile-first CSS grid with containers, rows and 12 columns; classes are prefixed kern- and layout scales by breakpoint.",
-      "knowledge": {
-        "dos": [
-          "Use containers, rows and columns correctly to keep the layout clean and structured.",
-          "Use kern-col without a width when all columns should be distributed evenly.",
-          "Combine breakpoints such as kern-col-md-6 kern-col-lg-4 to adapt layouts to different screen sizes.",
-          "Use kern-container-fluid only when content really spans the full width, e.g. banners or background areas.",
-          "Make sure columns keep the content readable at every viewport."
-        ],
-        "donts": [
-          "Do not use too many nested containers or rows; the layout becomes harder to maintain."
-        ]
+        "docs": "https://www.kern-ux.de/komponenten/layout/hilfsklassen#css-grid"
       },
       "docs": {
-        "url": "https://www.kern-ux.de/komponenten/layout/grid-system",
-        "summary": "The KERN grid is a lightweight, mobile-first CSS framework based on Bootstrap's grid for responsive, consistent layouts from containers, rows and columns. The page lists the kern-* classes, the 12-column and breakpoint scheme, offsets, vertical and horizontal alignment helpers, self-alignment, and the Do's and Don'ts.",
+        "url": "https://www.kern-ux.de/komponenten/layout/hilfsklassen#css-grid",
+        "summary": "Low-level access to CSS Grid for complex layouts without custom CSS. A wrapper .kern-grid defines the grid with display: grid and replaces the classic .kern-row architecture; columns and gaps are set through modifier classes.",
         "sections": [
           {
-            "heading": "Kurzbeschreibung",
-            "url": "https://www.kern-ux.de/komponenten/layout/grid-system#kurzbeschreibung",
-            "summary": "A lightweight, mobile-first CSS framework based on Bootstrap grid that builds responsive, consistent layouts with containers, rows and columns; design layout details live in the Layout documentation."
+            "heading": "Beschreibung",
+            "url": "https://www.kern-ux.de/komponenten/layout/hilfsklassen#beschreibung",
+            "summary": "Grid display classes: .kern-grid (display: grid, default 12 columns and gap-lg) and .kern-inline-grid. Column and row counts come from .kern-grid-cols-{n} (1-12) and .kern-grid-rows-{n} (1-6); gaps from .kern-gap-{size}[-{breakpoint}], also .kern-gap-x-{size} and .kern-gap-y-{size}."
           },
           {
-            "heading": "Grundlegender Aufbau",
-            "url": "https://www.kern-ux.de/komponenten/layout/grid-system#grundlegender-aufbau",
-            "summary": "Basic HTML markup that shows the container, row and column structure."
+            "heading": "Spalten-Platzierung (Items)",
+            "url": "https://www.kern-ux.de/komponenten/layout/hilfsklassen#spalten-platzierung-items",
+            "summary": "Places items in the grid: .kern-col-{n}[-{breakpoint}] spans n columns, .kern-col-start-{n} and .kern-col-end-{n} set the start or end column line."
           },
           {
-            "heading": "Bestandteile",
-            "url": "https://www.kern-ux.de/komponenten/layout/grid-system#bestandteile",
-            "summary": "The grid consists of the following basic building blocks."
+            "heading": "Drei Spalten Layout",
+            "url": "https://www.kern-ux.de/komponenten/layout/hilfsklassen#drei-spalten-layout",
+            "summary": "Example that creates three equally wide columns across all viewports."
           },
           {
-            "heading": "Container (kern-container)",
-            "url": "https://www.kern-ux.de/komponenten/layout/grid-system#container-kern-container",
-            "summary": "The container wraps the grid and centres the content, keeping the layout within the viewport's maximum width and adapting on smaller screens. kern-container is responsive with a fixed maximum width per breakpoint; use kern-container-fluid for full-width containers."
+            "heading": "Responsive Anpassung",
+            "url": "https://www.kern-ux.de/komponenten/layout/hilfsklassen#responsive-anpassung",
+            "summary": "Responsive suffixes adapt the layout; the example starts with 2 columns on mobile and switches to 4 columns from the md breakpoint."
           },
           {
-            "heading": "Zeilen (kern-row)",
-            "url": "https://www.kern-ux.de/komponenten/layout/grid-system#zeilen-kern-row",
-            "summary": "Rows are horizontal wrappers that group columns and keep content aligned inside the grid. They carry a negative margin to cancel the outer column padding and space the columns correctly, and act as CSS flexbox wrappers so flex helper classes can align the columns."
+            "heading": "1. Raster Definition",
+            "url": "https://www.kern-ux.de/komponenten/layout/hilfsklassen#1-raster-definition",
+            "summary": "Defines the basic grid structure on the container."
           },
           {
-            "heading": "Spalten (kern-col)",
-            "url": "https://www.kern-ux.de/komponenten/layout/grid-system#spalten-kern-col",
-            "summary": "Columns are the vertical containers inside a row that define space for content and allow flexible arrangement in the raster. All classes are prefixed with kern- so they cannot collide with existing grid systems."
+            "heading": "2. Abstände (Gap)",
+            "url": "https://www.kern-ux.de/komponenten/layout/hilfsklassen#2-abstände-gap",
+            "summary": "Controls the gap between columns and rows."
           },
           {
-            "heading": "Container & Rows",
-            "url": "https://www.kern-ux.de/komponenten/layout/grid-system#container-rows",
-            "summary": ".kern-container is a centred, responsive container with a maximum width; .kern-container-fluid spans 100% width; .kern-row is the row that holds columns."
+            "heading": "3. Wrapping",
+            "url": "https://www.kern-ux.de/komponenten/layout/hilfsklassen#3-wrapping",
+            "summary": "Grid items wrap automatically onto the next row once more than the available 12 columns are occupied."
           },
           {
-            "heading": "Columns (Spalten)",
-            "url": "https://www.kern-ux.de/komponenten/layout/grid-system#columns-spalten",
-            "summary": "Schema: .kern-col-{breakpoint}-{size}, where size runs from 1 to 12. Breakpoints: no suffix from 0px, sm from 576px, md from 768px, lg from 992px, xl from 1200px, xxl from 1600px."
+            "heading": "4. Positionierung (Starts & Ends)",
+            "url": "https://www.kern-ux.de/komponenten/layout/hilfsklassen#4-positionierung-starts-ends",
+            "summary": "Replaces traditional offsets: it states explicitly where an element starts or ends."
           },
           {
-            "heading": "Erstellen von Spalten",
-            "url": "https://www.kern-ux.de/komponenten/layout/grid-system#erstellen-von-spalten",
-            "summary": "Create columns with classes such as kern-col-*, where the wildcard is the breakpoint-specific width. For example, a class makes the column 4 of 12 available columns at screens from 768px."
+            "heading": "5. Automatische Spalten (Auto Columns)",
+            "url": "https://www.kern-ux.de/komponenten/layout/hilfsklassen#5-automatische-spalten-auto-columns",
+            "summary": "Items without an explicit column class occupy one unit of the 12-column grid by default. .kern-col-auto sizes an item from its content but keeps it inside the grid: in CSS Grid it takes exactly one grid cell regardless of content width."
           },
           {
-            "heading": "Responsive Spalten",
-            "url": "https://www.kern-ux.de/komponenten/layout/grid-system#responsive-spalten",
-            "summary": "Set column widths per screen size with breakpoint classes: kern-col-* up to 576px, kern-col-sm-* from 576px, kern-col-md-* from 768px, kern-col-lg-* from 992px, kern-col-xl-* from 1200px, kern-col-xxl-* from 1600px. Omit the breakpoint for a column that depends on none."
+            "heading": "6. Verschachtelung (Nesting)",
+            "url": "https://www.kern-ux.de/komponenten/layout/hilfsklassen#6-verschachtelung-nesting",
+            "summary": "Grids can be nested without limit. The inner grid does not inherit the parent's column count; it defines a new grid context."
           },
           {
-            "heading": "Spaltenversatz (Offset)",
-            "url": "https://www.kern-ux.de/komponenten/layout/grid-system#spaltenversatz-offset",
-            "summary": "Add an offset with kern-col-, the breakpoint, -offset- and the number of columns to skip. The example shifts a column by three columns, so it starts after a gap of three."
-          },
-          {
-            "heading": "Vertikale Ausrichtung",
-            "url": "https://www.kern-ux.de/komponenten/layout/grid-system#vertikale-ausrichtung",
-            "summary": "Classes added to .kern-row control vertical alignment: .kern-align-items-start aligns columns to the top, .kern-align-items-center centres them vertically, .kern-align-items-end aligns them to the bottom."
-          },
-          {
-            "heading": "Horizonale Ausrichtung",
-            "url": "https://www.kern-ux.de/komponenten/layout/grid-system#horizonale-ausrichtung",
-            "summary": "Classes added to .kern-row control horizontal alignment: .kern-justify-content-start (default, left), -center, -end, -around, -between and -evenly position or distribute the columns."
-          },
-          {
-            "heading": "Selbstausrichtung",
-            "url": "https://www.kern-ux.de/komponenten/layout/grid-system#selbstausrichtung",
-            "summary": "These classes go on individual .kern-col-* elements to override their vertical alignment in the row: .kern-align-items-start, .kern-align-items-center and .kern-align-items-end."
+            "heading": "Breakpoints",
+            "url": "https://www.kern-ux.de/komponenten/layout/hilfsklassen#breakpoints",
+            "summary": "All classes follow the mobile-first approach."
           },
           {
             "heading": "Dos and Don'ts",
-            "url": "https://www.kern-ux.de/komponenten/layout/grid-system#dos-and-donts",
-            "summary": "Use containers, rows and columns for a clean structure and avoid too many nested containers or rows, which are harder to maintain. Use kern-col without a width for even columns, combine breakpoints such as kern-col-md-6 kern-col-lg-4, and reserve kern-container-fluid for full-width content."
+            "url": "https://www.kern-ux.de/komponenten/layout/hilfsklassen#dos-and-donts",
+            "summary": "Do use kern-gap to define spacing, and kern-col-full for elements that should break out of the grid. Do not mix kern-row (legacy) with kern-grid syntax."
           }
         ]
-      },
-      "sources": [
-        "src/scss/core/layout/_grid.scss",
-        "stories/Grid/Grid.stories.js"
-      ]
+      }
     },
     {
       "id": "header",

@@ -38,6 +38,31 @@ export const TOOLS_WITHOUT_BUNDLE_COMPONENT: Readonly<Record<string, string>> =
 		pattern: "Pattern",
 	};
 
+/** A run of sections in a bundle document's docs, from one ID to another. */
+export type BundleSectionRange = {
+	/** Relative to the bundle root, e.g. foundations/utilities.json. */
+	document: string;
+	from: string;
+	/** The last section of the run, included. */
+	to: string;
+};
+
+/**
+ * Component tools whose registry entry is a run of sections in a foundations
+ * document, not the KERN component with the same ID, which leaves the registry.
+ * get_grid renders the CSS Grid utilities (kern-grid), which replace KERN's
+ * deprecated container grid (kern-row, kern-col-*), so its entry is the
+ * utilities page's CSS Grid sections.
+ */
+export const TOOLS_FROM_SECTIONS = {
+	grid: {
+		title: "CSS Grid",
+		document: "foundations/utilities.json",
+		from: "css-grid",
+		to: "dos-and-donts",
+	},
+} as const satisfies Record<string, BundleSectionRange & { title: string }>;
+
 /**
  * The example each fallback tool returns as its HTML, picked by hand: a rule
  * can't choose (it picks deprecated variants and the search field without a

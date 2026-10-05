@@ -6,7 +6,16 @@ import {
 	standaloneContext,
 } from "./composition-renderer.js";
 import { escapeHtml } from "./escape.js";
+import { STACK_CLASSES } from "./form.js";
 
+/** Indents every line after the first by `indent`. */
+const indentLines = (html: string, indent: string) =>
+	html.replace(/\n/g, `\n${indent}`);
+
+/**
+ * Equal-width columns on KERN's CSS Grid utilities: one column on small
+ * screens, `columns` from md up.
+ */
 export function buildGrid(
 	input: GridRenderInput,
 	locale: Locale = "de",
@@ -14,11 +23,10 @@ export function buildGrid(
 ): BuildResult {
 	const params = GridRenderSchema.parse(input);
 	const warnings: string[] = [];
-	// A divisor of 12: the schema rejects other counts with a hint that points at
-	// the CSS Grid utilities (kern-grid-cols-{n}).
-	const columns = params.columns;
-	// Inside a container (render_page's main, another grid) a row needs no container
-	// of its own; a nested one would add its padding twice.
+	// Without a count, one column per content list.
+	const columns = params.columns ?? (params.columnsContent?.length || 2);
+	// Inside a container (render_page's main, another grid) the grid needs no
+	// container of its own; a nested one would add its padding twice.
 	const containerClass = context.inContainer
 		? undefined
 		: params.containerFluid
@@ -29,16 +37,6 @@ export function buildGrid(
 			"containerFluid is ignored: this grid already sits inside a container.",
 		);
 	}
-	const rowAlignmentClass = params.rowAlignment
-		? ` kern-align-items-${params.rowAlignment}`
-		: "";
-	const heading =
-		params.includeHeading === true
-			? `<h${params.headingLevel} class="kern-heading-medium">${escapeHtml(params.headingText ?? "Abschnitt")}</h${params.headingLevel}>\n`
-			: "";
-
-	// 12-column system: kern-col-md-{span} for desktop, kern-col-sm-12 for mobile stacking.
-	const colClass = `kern-col-md-${12 / columns} kern-col-sm-12`;
 
 	if (
 		Array.isArray(params.columnsContent) &&
@@ -49,6 +47,15 @@ export function buildGrid(
 			"columnsContent length does not match columns. Extra entries are ignored and missing entries render empty placeholders.",
 		);
 	}
+
+	// kern-grid alone has 12 columns and no gap, so both are set.
+	const gridClasses = [
+		"kern-grid",
+		"kern-grid-cols-1",
+		...(columns > 1 ? [`kern-grid-cols-${columns}-md`] : []),
+		"kern-gap-lg",
+		...(params.rowAlignment ? [`kern-align-items-${params.rowAlignment}`] : []),
+	].join(" ");
 
 	const cols = Array.from({ length: columns }, (_, index) => {
 		const columnBlocks = params.columnsContent?.[index];
@@ -65,11 +72,24 @@ export function buildGrid(
 			warnings.push(...nested.warnings);
 		}
 
-		return `    <div class="${colClass}">\n      ${contentHtml.replace(/\n/g, "\n      ")}\n    </div>`;
+		return `    <div>\n      ${indentLines(contentHtml, "      ")}\n    </div>`;
 	}).join("\n");
 
+	const heading =
+		params.includeHeading === true
+			? `  <h${params.headingLevel} class="kern-heading-medium">${escapeHtml(params.headingText ?? "Abschnitt")}</h${params.headingLevel}>\n`
+			: "";
+	// KERN drops a container's padding when a kern-grid is its direct child
+	// (.kern-container:has(> .kern-grid)), so the grid sits in a div of its own
+	// and the content keeps the inset of the container around it. With a
+	// heading, that div stacks the two with KERN's spacing.
+	const wrapper = heading ? `<div class="${STACK_CLASSES}">` : "<div>";
+	const block = `${wrapper}\n${heading}  <div class="${gridClasses}">\n${cols}\n  </div>\n</div>`;
+
 	return {
-		html: `<div${containerClass ? ` class="${containerClass}"` : ""}>\n  ${heading}<div class="kern-row${rowAlignmentClass}">\n${cols}\n  </div>\n</div>`,
+		html: containerClass
+			? `<div class="${containerClass}">\n  ${indentLines(block, "  ")}\n</div>`
+			: block,
 		warnings,
 	};
 }

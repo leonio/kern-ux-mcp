@@ -268,7 +268,7 @@ export const RecursiveContentNodeSchema: z.ZodType<
 			z.object({
 				kind: z.literal("grid"),
 				grid: z.object({
-					columns: GridColumnsSchema.optional().default(2),
+					columns: GridColumnsSchema.optional(),
 					containerFluid: z.boolean().optional().default(false),
 					rowAlignment: z.enum(["start", "center", "end"]).optional(),
 					includeHeading: z.boolean().optional().default(false),
@@ -276,6 +276,7 @@ export const RecursiveContentNodeSchema: z.ZodType<
 					headingLevel: HeadingLevelSchema.optional().default(2),
 					columnsContent: z
 						.array(z.array(RecursiveContentNodeSchema))
+						.max(12)
 						.optional(),
 				}),
 			}),

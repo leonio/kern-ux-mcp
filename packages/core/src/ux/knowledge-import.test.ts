@@ -5,6 +5,7 @@ import {
 	describeKnowledgeBundle,
 	diffKnowledgeBundles,
 	findBundleExample,
+	findBundleSections,
 	formatKnowledgeImport,
 	staleToolHints,
 } from "./knowledge-import.js";
@@ -68,6 +69,16 @@ function bundle(): Map<string, unknown> {
 	files.set("foundations/utilities.json", {
 		id: "utilities",
 		examples: [example("stack")],
+		docs: {
+			url: "https://www.kern-ux.de/komponenten/layout/hilfsklassen",
+			sections: ["css-flex", "css-grid", "dos-and-donts", "stack"].map(
+				(id) => ({
+					id,
+					heading: id,
+					url: `https://www.kern-ux.de/komponenten/layout/hilfsklassen#${id}`,
+				}),
+			),
+		},
 	});
 	files.set("patterns/header.json", {
 		id: "header",
@@ -136,6 +147,7 @@ describe("checkKnowledgeBundle", () => {
 		expect(checkKnowledgeBundle(files)).toEqual([
 			"index.json lists foundations/utilities.json, which isn't in the bundle.",
 			"get_layers returns the example stack, which isn't in foundations/utilities.json.",
+			"get_grid's entry is the sections css-grid to dos-and-donts of foundations/utilities.json, which aren't there in that order.",
 		]);
 	});
 
@@ -207,6 +219,26 @@ describe("checkKnowledgeBundle", () => {
 		]);
 	});
 
+	it.each([
+		["is gone", ["css-flex", "css-grid", "stack"]],
+		["comes before the first", ["dos-and-donts", "css-grid"]],
+	])("reports a tool's run of sections whose last one %s", (_, ids) => {
+		const files = bundleWith((files) => {
+			files.set("foundations/utilities.json", {
+				id: "utilities",
+				examples: [example("stack")],
+				docs: {
+					url: "https://www.kern-ux.de/komponenten/layout/hilfsklassen",
+					sections: ids.map((id) => ({ id, heading: id, url: id })),
+				},
+			});
+		});
+
+		expect(checkKnowledgeBundle(files)).toEqual([
+			"get_grid's entry is the sections css-grid to dos-and-donts of foundations/utilities.json, which aren't there in that order.",
+		]);
+	});
+
 	it("needs the icons", () => {
 		const files = bundleWith((files) => {
 			files.delete("foundations/icons.json");
@@ -257,6 +289,29 @@ describe("findBundleExample", () => {
 				example: "nope",
 			}),
 		).toBeUndefined();
+	});
+});
+
+describe("findBundleSections", () => {
+	const range = (
+		from: string,
+		to: string,
+		document = "foundations/utilities.json",
+	) =>
+		findBundleSections(bundle(), { document, from, to })?.map(({ id }) => id);
+
+	it("finds the run with both ends", () => {
+		expect(range("css-grid", "dos-and-donts")).toEqual([
+			"css-grid",
+			"dos-and-donts",
+		]);
+		expect(range("stack", "stack")).toEqual(["stack"]);
+	});
+
+	it("finds nothing for a missing section, a backwards run or a missing document", () => {
+		expect(range("css-grid", "nope")).toBeUndefined();
+		expect(range("stack", "css-grid")).toBeUndefined();
+		expect(range("css-grid", "stack", "foundations/nope.json")).toBeUndefined();
 	});
 });
 

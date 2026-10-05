@@ -52,6 +52,21 @@ function bundle(input: Record<string, unknown> = {}): Map<string, unknown> {
 	files.set("foundations/utilities.json", {
 		id: "utilities",
 		examples: [example("stack", "stories/Layers/Layers.stories.js")],
+		docs: {
+			url: "https://www.kern-ux.de/komponenten/layout/hilfsklassen",
+			sections: [
+				["css-flex", "Flex utilities."],
+				["css-grid", "kern-grid replaces kern-row."],
+				["beschreibung", "kern-grid-cols-{n} sets the columns."],
+				["dos-and-donts", undefined],
+				["stack", "A vertical flex container."],
+			].map(([id, summary]) => ({
+				id,
+				heading: `Heading ${id}`,
+				url: `https://www.kern-ux.de/komponenten/layout/hilfsklassen#${id}`,
+				...(summary ? { summary: { en: summary } } : {}),
+			})),
+		},
 	});
 	files.set("patterns/header.json", {
 		id: "header",
@@ -312,6 +327,44 @@ describe("projectRegistry", () => {
 		).toEqual(["details", "layers", "pattern", "search"]);
 	});
 
+	it("makes get_grid's entry from the utilities' CSS Grid sections, not KERN's container grid", () => {
+		const registry = project({
+			"components/grid.json": {
+				id: "grid",
+				title: { en: "Grid System" },
+				status: "deprecated",
+				group: "layout",
+				synonyms: { de: [] },
+				links: {},
+				implementations: {},
+			},
+		});
+		const url = "https://www.kern-ux.de/komponenten/layout/hilfsklassen";
+
+		expect(
+			registry.components.filter((component) => component.id === "grid"),
+		).toEqual([
+			{
+				id: "grid",
+				title: "CSS Grid",
+				status: "stable",
+				links: { docs: `${url}#css-grid` },
+				docs: {
+					url: `${url}#css-grid`,
+					summary: "kern-grid replaces kern-row.",
+					sections: [
+						{
+							heading: "Heading beschreibung",
+							url: `${url}#beschreibung`,
+							summary: "kern-grid-cols-{n} sets the columns.",
+						},
+						{ heading: "Heading dos-and-donts", url: `${url}#dos-and-donts` },
+					],
+				},
+			},
+		]);
+	});
+
 	it("knows the classes the SCSS defines and KERN's examples use, with breakpoint variants collapsed", () => {
 		const responsive = ["", "-sm", "-md", "-lg", "-xl", "-xxl"].map(
 			(suffix) => ({
@@ -364,10 +417,16 @@ describe("projectRegistry", () => {
 
 	it("needs a checked bundle", () => {
 		const files = bundle();
-		files.set("foundations/utilities.json", { id: "utilities", examples: [] });
+		const utilities = files.get("foundations/utilities.json") as object;
 
+		files.set("foundations/utilities.json", { ...utilities, examples: [] });
 		expect(() => projectRegistry(files, TOKENS)).toThrow(
 			"get_layers's example stack isn't in foundations/utilities.json; run checkKnowledgeBundle first.",
+		);
+
+		files.set("foundations/utilities.json", { ...utilities, docs: undefined });
+		expect(() => projectRegistry(files, TOKENS)).toThrow(
+			"get_grid's sections css-grid to dos-and-donts aren't in foundations/utilities.json; run checkKnowledgeBundle first.",
 		);
 	});
 });

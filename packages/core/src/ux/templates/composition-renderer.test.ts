@@ -310,7 +310,7 @@ describe("createCompositionRenderer", () => {
 			expect(result.html).toContain("Innen");
 		});
 
-		it("renders only rows inside a surrounding container, and says containerFluid is ignored", () => {
+		it("renders no container inside a surrounding one, and says containerFluid is ignored", () => {
 			const result = renderer.renderBlocks(
 				[
 					{
@@ -327,7 +327,9 @@ describe("createCompositionRenderer", () => {
 			);
 
 			expect(containers(result.html)).toEqual([]);
-			expect(result.html).toContain('<div class="kern-row">');
+			expect(result.html).toContain(
+				'<div>\n  <div class="kern-grid kern-grid-cols-1 kern-gap-lg">',
+			);
 			expect(result.warnings).toContain(
 				"containerFluid is ignored: this grid already sits inside a container.",
 			);

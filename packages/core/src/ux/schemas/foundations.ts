@@ -65,16 +65,13 @@ export const LabeledFormFieldBaseSchema = FormFieldBaseSchema.extend({
 		),
 });
 
+/** Equal columns on kern-grid: kern-grid-cols-{n} goes from 1 to 12. */
 export const GridColumnsSchema = z
-	.union([
-		z.literal(1),
-		z.literal(2),
-		z.literal(3),
-		z.literal(4),
-		z.literal(6),
-		z.literal(12),
-	])
-	.describe("Columns in the 12-column grid; 12 / columns must be whole.");
+	.number()
+	.int()
+	.min(1)
+	.max(12)
+	.describe("Equal-width columns, 1 to 12.");
 
 export const HeadingLevelSchema = z
 	.union([

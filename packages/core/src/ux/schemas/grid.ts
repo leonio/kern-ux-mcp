@@ -12,11 +12,9 @@ import {
  * GridToolSchema.
  */
 export const GridRenderSchema = z.object({
-	columns: GridColumnsSchema.optional()
-		.default(2)
-		.describe(
-			"Equal-width columns: 1, 2, 3, 4, 6 or 12, so they fit the 12-column grid.",
-		),
+	columns: GridColumnsSchema.optional().describe(
+		"Equal-width columns, 1 to 12; one column on small screens. Default: one per columnsContent list, or 2.",
+	),
 	containerFluid: z
 		.boolean()
 		.optional()
@@ -40,13 +38,14 @@ export const GridRenderSchema = z.object({
 	headingLevel: HeadingLevelSchema.optional()
 		.default(2)
 		.describe("Level of the heading, h1 to h6. Don't skip levels."),
-	columnsContent: z.array(contentBlocksSchema("grid")).optional(),
+	columnsContent: z.array(contentBlocksSchema("grid")).max(12).optional(),
 });
 
 /** The get_grid tool's input: simple blocks only (roadmap R5, option B). */
 export const GridToolSchema = GridRenderSchema.extend({
 	columnsContent: z
 		.array(simpleBlocksSchema())
+		.max(12)
 		.optional()
 		.describe(
 			"Optional content per column, one block list per column: text, html, badge or field blocks. For cards in a grid use get_card_group; for other containers in columns, use render_composition with a grid block.",

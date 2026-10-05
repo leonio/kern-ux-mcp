@@ -69,9 +69,9 @@ describe("formatInputValidationError", () => {
 		expect(message).toContain("paragraphs");
 	});
 
-	it("adds actionable hint for get_grid when columns are outside 12-column set", () => {
+	it("gives get_grid's known-good payload when columns are out of range", () => {
 		const parsed = GridToolSchema.safeParse({
-			columns: 5,
+			columns: 13,
 		});
 
 		if (parsed.success) {
@@ -80,10 +80,9 @@ describe("formatInputValidationError", () => {
 		const message = formatInputValidationError("get_grid", parsed.error);
 
 		expect(message).toContain("Invalid arguments for get_grid");
-		expect(message).toContain("[1, 2, 3, 4, 6, 12]");
-		expect(message).toContain("do not use get_grid");
-		expect(message).toContain("get_utility_reference");
-		expect(message).toContain("kern-grid kern-grid-cols-5");
+		expect(message).toContain("- columns:");
+		expect(message).toContain("Known-good payload");
+		expect(message).not.toContain("divisor");
 	});
 
 	it("adds actionable hint for get_button", () => {

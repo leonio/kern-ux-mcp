@@ -77,28 +77,28 @@ const CSS_GRID_SECTION: UtilitySection = {
 	titleDe: "CSS-Grid-Layout",
 	titleEn: "CSS Grid Layout",
 	descriptionDe:
-		"CSS-Grid-Hilfsklassen für spaltenbasierte Layouts (Alternative zum 12-Spalten-Grid).",
+		"CSS-Grid-Hilfsklassen für spaltenbasierte Layouts. kern-grid ersetzt das veraltete Container-Grid (kern-row, kern-col-md-*); beides nicht mischen.",
 	descriptionEn:
-		"CSS grid utility classes for column-based layouts (alternative to the 12-column grid).",
+		"CSS grid utility classes for column-based layouts. kern-grid replaces the deprecated container grid (kern-row, kern-col-md-*); don't mix the two.",
 	entries: [
 		{
 			className: "kern-grid",
-			de: "Aktiviert CSS Grid.",
-			en: "Activates CSS grid.",
+			de: "Aktiviert CSS Grid, mit 12 Spalten und ohne Abstand: Spaltenzahl und kern-gap-* immer angeben. Nicht als direktes Kind von kern-container: KERN nimmt dem Container dann das Padding.",
+			en: "Activates CSS grid, with 12 columns and no gap: always set the column count and kern-gap-*. Not as a direct child of kern-container: KERN then removes the container's padding.",
 			example:
-				'<div class="kern-grid kern-grid-cols-3 kern-gap-md">\n  <div>A</div>\n  <div>B</div>\n  <div>C</div>\n</div>',
+				'<div class="kern-grid kern-grid-cols-1 kern-grid-cols-3-md kern-gap-lg">\n  <div>A</div>\n  <div>B</div>\n  <div>C</div>\n</div>',
 		},
 		{
-			className: "kern-grid-cols-{1–12}",
-			de: "Definiert die Anzahl gleichmäßiger Spalten (1–12). Beispiel: kern-grid-cols-4.",
-			en: "Defines the number of equal columns (1–12). Example: kern-grid-cols-4.",
+			className: "kern-grid-cols-{1–12}[-{breakpoint}]",
+			de: "Anzahl gleich breiter Spalten (1–12). kern-grid-cols-1 kern-grid-cols-3-md: eine Spalte auf kleinen Bildschirmen, drei ab md.",
+			en: "Number of equal columns (1–12). kern-grid-cols-1 kern-grid-cols-3-md: one column on small screens, three from md.",
 		},
 		{
-			className: "kern-col-span-{1–12}",
-			de: "Element über N Spalten spannen. Beispiel: kern-col-span-8.",
-			en: "Span an element across N columns. Example: kern-col-span-8.",
+			className: "kern-col-{1–12}[-{breakpoint}]",
+			de: "Element über N Spalten spannen. Beispiel: kern-col-8-md.",
+			en: "Span an element across N columns. Example: kern-col-8-md.",
 			example:
-				'<div class="kern-grid kern-grid-cols-12 kern-gap-md">\n  <div class="kern-col-span-8">Breit</div>\n  <div class="kern-col-span-4">Schmal</div>\n</div>',
+				'<div class="kern-grid kern-grid-cols-1 kern-grid-cols-12-md kern-gap-lg">\n  <div class="kern-col-8-md">Breit</div>\n  <div class="kern-col-4-md">Schmal</div>\n</div>',
 		},
 	],
 };

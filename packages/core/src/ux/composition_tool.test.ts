@@ -8,7 +8,7 @@ import {
 import { createTools } from "./tools.js";
 
 describe("render_composition tool", () => {
-	it("renders side-by-side cards using 12-column math", async () => {
+	it("renders side-by-side cards on kern-grid", async () => {
 		const tools = createTools(createRegistry());
 		const tool = tools.getTool("render_composition");
 
@@ -47,14 +47,13 @@ describe("render_composition tool", () => {
 		});
 
 		expect(result.html).toContain("kern-container");
-		expect(result.html).toContain("kern-row");
+		expect(result.html).toContain(
+			'class="kern-grid kern-grid-cols-1 kern-grid-cols-2-md kern-gap-lg"',
+		);
 		expect(result.html).toContain("Linke Karte");
 		expect(result.html).toContain("Rechte Karte");
 		expect(result.html).toContain("Inhalt links");
 		expect(result.html).toContain("Inhalt rechts");
-
-		const colMatches = result.html.match(/kern-col-md-6 kern-col-sm-12/g) ?? [];
-		expect(colMatches).toHaveLength(2);
 
 		const cardMatches =
 			result.html.match(/<article class="kern-card(?:\s|")/g) ?? [];

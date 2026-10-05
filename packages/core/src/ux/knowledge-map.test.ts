@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
 	componentIdFromKernId,
 	FALLBACK_EXAMPLES,
+	TOOLS_FROM_SECTIONS,
 	TOOLS_WITHOUT_BUNDLE_COMPONENT,
 } from "./knowledge-map.js";
 import {
@@ -38,6 +39,16 @@ describe("FALLBACK_EXAMPLES", () => {
 		expect(Object.keys(FALLBACK_EXAMPLES).sort()).toEqual(
 			[...fallbackTools].sort(),
 		);
+	});
+});
+
+describe("TOOLS_FROM_SECTIONS", () => {
+	it("names component tools that get no other entry", () => {
+		for (const toolId of Object.keys(TOOLS_FROM_SECTIONS)) {
+			expect(COMPONENT_TOOL_IDS).toContain(toolId);
+			expect(Object.keys(TOOLS_WITHOUT_BUNDLE_COMPONENT)).not.toContain(toolId);
+			expect(Object.keys(FALLBACK_EXAMPLES)).not.toContain(toolId);
+		}
 	});
 });
 

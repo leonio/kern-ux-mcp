@@ -767,9 +767,13 @@ describe("tool input schemas", () => {
 
 		expect(listedTool).toBeDefined();
 		expect(listedTool?.description).toContain(
-			"kern-col-md-{span} kern-col-sm-12",
+			"kern-grid kern-grid-cols-{n}-md",
 		);
-		expect(listedTool?.description).toContain("must divide 12");
+		expect(schema.properties.columns).toMatchObject({
+			type: "integer",
+			minimum: 1,
+			maximum: 12,
+		});
 		expect(schema.properties.containerFluid.description).toContain(
 			"kern-container-fluid",
 		);

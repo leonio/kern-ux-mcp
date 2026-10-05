@@ -1082,7 +1082,7 @@
     {
       "name": "render_composition",
       "title": "Render KERN Composition",
-      "description": "KERN UX: Renders nested content blocks as one layout: sections, grids, cards, disclosures, forms and multi-step forms (formFlow).\n\nEvery block must have a 'kind' discriminator. Valid kinds and their shapes:\n\n  text:       { kind: \"text\", text: \"...\" }\n  html:       { kind: \"html\", html: \"<p>...</p>\" }\n  button:     { kind: \"button\", button: { label: \"OK\", variant: \"primary\" } }\n  badge:      { kind: \"badge\", badge: { type: \"info\", text: \"Neu\" } }\n  field:      { kind: \"field\", field: { type: \"email\", name: \"email\", label: \"E-Mail\", hint?: \"...\", error?: \"...\" } }\n                 type: text|email|tel|url|number|date|password|textarea|select|radio|checkbox; select/radio need options: [{ value, label }].\n  fieldset:   { kind: \"fieldset\", fieldset: { legend: \"...\", legendSize?: \"large\", hint?: \"...\", contentBlocks: [field, ...] } }\n  form:       { kind: \"form\", form: { action?: \"/senden\", errorSummary?: {}, contentBlocks: [fieldset, field, ...], actions?: { submitLabel: \"Absenden\" } } }\n                 errorSummary lists every field inside the form that has an error, linked to the field.\n  card:       { kind: \"card\", card: { header: { title: \"...\" }, body: \"...\", contentBlocks?: [...], footer?: { primaryLabel: \"...\" } } }\n  section:    { kind: \"section\", section: { headingText: \"...\", contentBlocks: [...] } }\n                 Shorthand: paragraphs: [\"text1\", \"text2\"] is also accepted (auto-converted to text blocks).\n  disclosure: { kind: \"disclosure\", disclosure: { triggerLabel: \"...\", contentBlocks: [...] } }; content: \"...\" also works\n  grid:       { kind: \"grid\", grid: { columns: 3, columnsContent: [ [block, block], [block], [block] ] } }\n                 columnsContent is an array of arrays — one inner array per column. Each inner array holds content blocks.\n  formFlow:   { kind: \"formFlow\", formFlow: { currentStep: 1, heading?: \"...\", steps: [{ label: \"...\", contentBlocks: [...] }, ...], navigation?: { backLabel, nextLabel, submitLabel } } }\n                 The steps render inside a form; renderAllSteps: true renders every step, the inactive ones hidden.\n\nNested blocks (section.contentBlocks, card.contentBlocks, grid.columnsContent[][], disclosure.contentBlocks, fieldset.contentBlocks, form.contentBlocks) use the same kind-based shapes recursively.\nRules: forms don't nest (no form or formFlow inside a form or formFlow); no card directly inside a card; a section needs contentBlocks or paragraphs, a disclosure contentBlocks or content.\nLimits: blocks nest at most 4 levels deep, 60 blocks in all.",
+      "description": "KERN UX: Renders nested content blocks as one layout: sections, grids, cards, disclosures, forms and multi-step forms (formFlow).\n\nEvery block must have a 'kind' discriminator. Valid kinds and their shapes:\n\n  text:       { kind: \"text\", text: \"...\" }\n  html:       { kind: \"html\", html: \"<p>...</p>\" }\n  button:     { kind: \"button\", button: { label: \"OK\", variant: \"primary\" } }\n  badge:      { kind: \"badge\", badge: { type: \"info\", text: \"Neu\" } }\n  field:      { kind: \"field\", field: { type: \"email\", name: \"email\", label: \"E-Mail\", hint?: \"...\", error?: \"...\" } }\n                 type: text|email|tel|url|number|date|password|textarea|select|radio|checkbox; select/radio need options: [{ value, label }].\n  fieldset:   { kind: \"fieldset\", fieldset: { legend: \"...\", legendSize?: \"large\", hint?: \"...\", contentBlocks: [field, ...] } }\n  form:       { kind: \"form\", form: { action?: \"/senden\", errorSummary?: {}, contentBlocks: [fieldset, field, ...], actions?: { submitLabel: \"Absenden\" } } }\n                 errorSummary lists every field inside the form that has an error, linked to the field.\n  card:       { kind: \"card\", card: { header: { title: \"...\" }, body: \"...\", contentBlocks?: [...], footer?: { primaryLabel: \"...\" } } }\n  section:    { kind: \"section\", section: { headingText: \"...\", contentBlocks: [...] } }\n                 Shorthand: paragraphs: [\"text1\", \"text2\"] is also accepted (auto-converted to text blocks).\n  disclosure: { kind: \"disclosure\", disclosure: { triggerLabel: \"...\", contentBlocks: [...] } }; content: \"...\" also works\n  grid:       { kind: \"grid\", grid: { columnsContent: [ [block, block], [block], [block] ] } }\n                 One inner array of blocks per column, up to 12; columns defaults to their number.\n  formFlow:   { kind: \"formFlow\", formFlow: { currentStep: 1, heading?: \"...\", steps: [{ label: \"...\", contentBlocks: [...] }, ...], navigation?: { backLabel, nextLabel, submitLabel } } }\n                 The steps render inside a form; renderAllSteps: true renders every step, the inactive ones hidden.\n\nNested blocks (section.contentBlocks, card.contentBlocks, grid.columnsContent[][], disclosure.contentBlocks, fieldset.contentBlocks, form.contentBlocks) use the same kind-based shapes recursively.\nRules: forms don't nest (no form or formFlow inside a form or formFlow); no card directly inside a card; a section needs contentBlocks or paragraphs, a disclosure contentBlocks or content.\nLimits: blocks nest at most 4 levels deep, 60 blocks in all.",
       "inputSchema": {
         "$schema": "http://json-schema.org/draft-07/schema#",
         "type": "object",
@@ -1642,34 +1642,10 @@
                       "type": "object",
                       "properties": {
                         "columns": {
-                          "default": 2,
-                          "anyOf": [
-                            {
-                              "type": "number",
-                              "const": 1
-                            },
-                            {
-                              "type": "number",
-                              "const": 2
-                            },
-                            {
-                              "type": "number",
-                              "const": 3
-                            },
-                            {
-                              "type": "number",
-                              "const": 4
-                            },
-                            {
-                              "type": "number",
-                              "const": 6
-                            },
-                            {
-                              "type": "number",
-                              "const": 12
-                            }
-                          ],
-                          "description": "Columns in the 12-column grid; 12 / columns must be whole."
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 12,
+                          "description": "Equal-width columns, 1 to 12."
                         },
                         "containerFluid": {
                           "default": false,
@@ -1721,6 +1697,7 @@
                           "description": "Heading level, h1 to h6. Don't skip levels."
                         },
                         "columnsContent": {
+                          "maxItems": 12,
                           "type": "array",
                           "items": {
                             "type": "array",
@@ -2755,34 +2732,10 @@
                       "type": "object",
                       "properties": {
                         "columns": {
-                          "default": 2,
-                          "anyOf": [
-                            {
-                              "type": "number",
-                              "const": 1
-                            },
-                            {
-                              "type": "number",
-                              "const": 2
-                            },
-                            {
-                              "type": "number",
-                              "const": 3
-                            },
-                            {
-                              "type": "number",
-                              "const": 4
-                            },
-                            {
-                              "type": "number",
-                              "const": 6
-                            },
-                            {
-                              "type": "number",
-                              "const": 12
-                            }
-                          ],
-                          "description": "Columns in the 12-column grid; 12 / columns must be whole."
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 12,
+                          "description": "Equal-width columns, 1 to 12."
                         },
                         "containerFluid": {
                           "default": false,
@@ -2834,6 +2787,7 @@
                           "description": "Heading level, h1 to h6. Don't skip levels."
                         },
                         "columnsContent": {
+                          "maxItems": 12,
                           "type": "array",
                           "items": {
                             "type": "array",
@@ -7036,41 +6990,17 @@
     },
     {
       "name": "get_grid",
-      "title": "KERN Grid System",
-      "description": "KERN UX: HTML for equal-width columns in the 12-column grid: kern-container, kern-row and kern-col-md-{span} kern-col-sm-12, stacking on small screens. columns must divide 12: 1, 2, 3, 4, 6 or 12. For 5 or 7 equal columns, use the CSS grid utilities instead (get_utility_reference, e.g. kern-grid kern-grid-cols-5).",
+      "title": "KERN CSS Grid",
+      "description": "KERN UX: HTML for 1 to 12 equal-width columns on KERN's CSS Grid utilities (kern-grid kern-grid-cols-{n}-md), one column on small screens. For columns of different widths, see get_utility_reference.",
       "inputSchema": {
         "$schema": "http://json-schema.org/draft-07/schema#",
         "type": "object",
         "properties": {
           "columns": {
-            "default": 2,
-            "description": "Equal-width columns: 1, 2, 3, 4, 6 or 12, so they fit the 12-column grid.",
-            "anyOf": [
-              {
-                "type": "number",
-                "const": 1
-              },
-              {
-                "type": "number",
-                "const": 2
-              },
-              {
-                "type": "number",
-                "const": 3
-              },
-              {
-                "type": "number",
-                "const": 4
-              },
-              {
-                "type": "number",
-                "const": 6
-              },
-              {
-                "type": "number",
-                "const": 12
-              }
-            ]
+            "description": "Equal-width columns, 1 to 12; one column on small screens. Default: one per columnsContent list, or 2.",
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 12
           },
           "containerFluid": {
             "default": false,
@@ -7127,6 +7057,7 @@
           },
           "columnsContent": {
             "description": "Optional content per column, one block list per column: text, html, badge or field blocks. For cards in a grid use get_card_group; for other containers in columns, use render_composition with a grid block.",
+            "maxItems": 12,
             "type": "array",
             "items": {
               "maxItems": 60,

@@ -1,44 +1,103 @@
 import { describe, expect, it } from "vitest";
 import { GridRenderSchema } from "../schemas/grid.js";
+import { standaloneContext } from "./composition-renderer.js";
 import { buildGrid } from "./grid.js";
 
 describe("buildGrid", () => {
-	it("builds grid with responsive column classes", () => {
-		const result = buildGrid({ columns: 3 });
-		expect(result.html).toContain("Spalte 3");
-		expect(result.html).toContain('class="kern-row"');
-		expect(result.html).toContain("kern-col-md-4");
-		expect(result.html).toContain("kern-col-sm-12");
+	it("renders equal columns on kern-grid, one column on small screens, in a div of its own inside the container", () => {
+		const result = buildGrid({
+			columns: 3,
+			includeHeading: true,
+			headingText: "Partner",
+		});
+
+		expect(result.html).toBe(
+			[
+				'<div class="kern-container">',
+				'  <div class="kern-flex kern-flex-col kern-gap-lg">',
+				'    <h2 class="kern-heading-medium">Partner</h2>',
+				'    <div class="kern-grid kern-grid-cols-1 kern-grid-cols-3-md kern-gap-lg">',
+				"      <div>",
+				'        <p class="kern-body">Spalte 1</p>',
+				"      </div>",
+				"      <div>",
+				'        <p class="kern-body">Spalte 2</p>',
+				"      </div>",
+				"      <div>",
+				'        <p class="kern-body">Spalte 3</p>',
+				"      </div>",
+				"    </div>",
+				"  </div>",
+				"</div>",
+			].join("\n"),
+		);
+		expect(result.warnings).toEqual([]);
 	});
 
-	it("calculates correct column span for 2 columns", () => {
-		const result = buildGrid({ columns: 2 });
-		expect(result.html).toContain("kern-col-md-6");
-		expect(result.html).toContain("kern-col-sm-12");
+	it("needs no breakpoint class for one column", () => {
+		expect(buildGrid({ columns: 1 }).html).toContain(
+			'class="kern-grid kern-grid-cols-1 kern-gap-lg"',
+		);
 	});
 
-	it("calculates correct column span for 4 columns", () => {
-		const result = buildGrid({ columns: 4 });
-		expect(result.html).toContain("kern-col-md-3");
+	it.each([5, 7, 12])("takes %i columns", (columns) => {
+		const result = buildGrid({ columns });
+
+		expect(result.html).toContain(`kern-grid-cols-${columns}-md`);
+		expect(result.html).toContain(`Spalte ${columns}<`);
 	});
 
-	it("has no warning when the columns divide 12", () => {
-		expect(buildGrid({ columns: 2 }).warnings).toEqual([]);
+	it.each([0, 13, 2.5])("rejects %s columns", (columns) => {
+		expect(GridRenderSchema.safeParse({ columns }).success).toBe(false);
+	});
+
+	it("takes the column count from columnsContent when columns is missing", () => {
+		const column = [{ kind: "text" as const, text: "Logo" }];
+		const result = buildGrid({ columnsContent: Array(3).fill(column) });
+
+		expect(result.html).toContain("kern-grid-cols-3-md");
+		expect(result.html.match(/>Logo</g)).toHaveLength(3);
+		expect(result.warnings).toEqual([]);
+	});
+
+	it("renders two columns without columns or columnsContent", () => {
+		expect(buildGrid({}).html).toContain("kern-grid-cols-2-md");
 	});
 
 	it("warns when columnsContent doesn't match columns", () => {
 		const column = [{ kind: "text" as const, text: "Logo" }];
-		const result = buildGrid({ columnsContent: Array(3).fill(column) });
+		const result = buildGrid({
+			columns: 2,
+			columnsContent: Array(3).fill(column),
+		});
 
-		expect(result.html.match(/kern-col-md-6/g)).toHaveLength(2);
+		expect(result.html.match(/>Logo</g)).toHaveLength(2);
 		expect(result.warnings).toEqual([
 			expect.stringContaining("columnsContent length does not match columns"),
 		]);
 	});
 
-	it("rejects 5-column requests in the 12-column grid schema", () => {
-		const parsed = GridRenderSchema.safeParse({ columns: 5 });
-		expect(parsed.success).toBe(false);
+	it("rejects more than 12 columnsContent lists", () => {
+		const column = [{ kind: "text" as const, text: "x" }];
+		expect(
+			GridRenderSchema.safeParse({ columnsContent: Array(13).fill(column) })
+				.success,
+		).toBe(false);
+	});
+
+	it("keeps the plain div inside a surrounding container, so the container keeps its padding", () => {
+		const result = buildGrid({ columns: 2, containerFluid: true }, "de", {
+			...standaloneContext("de"),
+			inContainer: true,
+		});
+
+		expect(result.html).toMatch(
+			/^<div>\n {2}<div class="kern-grid kern-grid-cols-1 kern-grid-cols-2-md kern-gap-lg">/,
+		);
+		expect(result.html).not.toContain("kern-container");
+		expect(result.warnings).toEqual([
+			"containerFluid is ignored: this grid already sits inside a container.",
+		]);
 	});
 
 	it("supports fluid container and row alignment", () => {
@@ -47,8 +106,12 @@ describe("buildGrid", () => {
 			containerFluid: true,
 			rowAlignment: "center",
 		});
-		expect(result.html).toContain('class="kern-container-fluid"');
-		expect(result.html).toContain('class="kern-row kern-align-items-center"');
+		expect(result.html).toMatch(
+			/^<div class="kern-container-fluid">\n {2}<div>/,
+		);
+		expect(result.html).toContain(
+			'class="kern-grid kern-grid-cols-1 kern-grid-cols-2-md kern-gap-lg kern-align-items-center"',
+		);
 	});
 
 	it("supports configurable heading level", () => {

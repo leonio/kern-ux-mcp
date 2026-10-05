@@ -56,8 +56,8 @@ const LAYOUT_TOOLS: Record<string, LayoutToolSpec> = {
 	grid: {
 		inputSchema: GridToolSchema,
 		description:
-			"KERN UX: HTML for equal-width columns in the 12-column grid: kern-container, kern-row and kern-col-md-{span} kern-col-sm-12, stacking on small screens. " +
-			"columns must divide 12: 1, 2, 3, 4, 6 or 12. For 5 or 7 equal columns, use the CSS grid utilities instead (get_utility_reference, e.g. kern-grid kern-grid-cols-5).",
+			"KERN UX: HTML for 1 to 12 equal-width columns on KERN's CSS Grid utilities (kern-grid kern-grid-cols-{n}-md), one column on small screens. " +
+			"For columns of different widths, see get_utility_reference.",
 		build: (args, locale) =>
 			buildGrid(args as Parameters<typeof buildGrid>[0], locale),
 	},

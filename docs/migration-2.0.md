@@ -21,6 +21,7 @@ Pre-releases go out under the npm dist-tag `alpha`. "Next alpha" means landed on
 | Text in labels, hints, errors, values and option text is escaped | next alpha | Don't pass markup in these strings |
 | `get_index` is gone | next alpha | Nothing: it rendered a placeholder for an internal SCSS file, not a KERN component |
 | `get_section`, `get_card`, `get_card_group`, `get_grid`, `get_disclosure` and `get_fieldset` take only `text`, `html`, `badge` and `field` blocks | next alpha | Build nested layouts (cards in a section, a grid in a disclosure, buttons in a card's body) with `render_composition` or `render_page`; put card actions in `footer` |
+| `get_grid` and grid blocks render `kern-grid` instead of `kern-row` and `kern-col-*` | next alpha | Update CSS or scripts that select `.kern-row` or `.kern-col-md-*` in our grids |
 | `get_component_docs` returns KERN's guidance in new fields (`summary`, `whenToUse`, `dos`, `docs`, …); `excerpt`, `sections` and `files` are gone, and `canonicalHtml` comes only for `details`, `search`, `layers` and `pattern` | next alpha | Read the new fields; call the component's `tool` for its markup |
 
 ## Protocol and errors (2.0.0-alpha.69)
@@ -113,13 +114,13 @@ Pre-releases go out under the npm dist-tag `alpha`. "Next alpha" means landed on
 - Every nesting the schema accepts renders. In 1.x some were dropped with a warning: standalone `get_grid` dropped sections and disclosures, a grid inside a grid lost its sections, and a card inside a card lost its grids.
 - Model-supplied text is HTML-escaped in the text-like input (text, email, date, number, tel, url, password), select, radio, file, input-group and tasklist templates. In 1.x a `&` or `<` in a label broke the markup there. Checkbox and textarea already escaped.
 - The same now holds for `get_body`, `get_heading`, `get_label`, `get_link` (text and `href`), `get_lists`, `get_preline`, `get_subline`, `get_title`, `get_descriptionlist`, `get_badge` and badge blocks, `get_loader`'s `srText` and a grid's `headingText`. Their text is plain text: markup in it now shows as text. Use an `html` block or `get_table`'s `isHtml` where markup is meant.
-- A grid inside a container (`render_page`'s `<main>`, a grid column) renders only its row, without a second `kern-container`. `containerFluid` is ignored there, with a warning.
+- A grid inside a container (`render_page`'s `<main>`, a grid column) renders without a second `kern-container`. `containerFluid` is ignored there, with a warning.
 - Forms and `formFlow` steps stack their content with `kern-flex kern-flex-col kern-gap-lg`.
 - So do `render_page`'s `<main>` (its `h1` and blocks) and `render_composition` with more than one top-level block, which wraps them in a `<div>` with those classes. A single block renders as before. In 1.x the blocks sat on each other with no space between.
 - Where blocks stack, a `button` or `badge` block sits in a plain `<div>`, so the flex column doesn't stretch it to full width. This fixes forms and `formFlow` steps too.
 - A form's error summary lists a fieldset's group error too, before the errors of its fields, linked to the group's first input (a radio group's first option).
 - No default format hints. `get_inputtext`, `get_inputnumber`, `get_inputemail`, `get_inputtel`, `get_inputurl`, `get_inputdate`, `get_inputpassword` and `get_inputfile` render a hint only when one is given, like `field` blocks. The defaults were generic ("Pflichtformat: vollstaendigen Namen angeben"), and the file input's named a 10 MB limit nobody had set.
-- Grids no longer warn "KERN UX has two layout systems…" on every call. Columns that don't divide 12 are rejected, and that error's hint names the CSS Grid utilities (`kern-grid kern-grid-cols-5`).
+- Grids no longer warn "KERN UX has two layout systems…" on every call.
 - **No invented `kern-*` classes.**
   - `get_disclosure` and disclosure blocks render KERN's accordion markup, as `get_accordion` does for one item: `details.kern-accordion`, `summary.kern-accordion__header` around a `kern-title`, and `section.kern-accordion__body`. They used an undefined `kern-accordion__item` class and a chevron icon.
   - `formFlow` marks its parts with data attributes instead of classes KERN doesn't define: the wrapper with `data-form-flow`, each step with `data-step`, the step navigation with `data-step-navigation`.
@@ -141,9 +142,9 @@ KERN's facts and text now come from a knowledge bundle built from KERN's three s
   - `get_inputemail`: "KERN Input E-Mail"
   - `get_tasklist`: "KERN Task List"
   - `get_lists`: "KERN List"
-  - `get_grid`: "KERN Grid System"
+  - `get_grid`: "KERN CSS Grid" (see [Layout on CSS Grid](#layout-on-css-grid-next-alpha))
 - **Statuses follow KERN.**
-  - KERN deprecates the container grid, so `get_grid`'s HTML starts with the deprecation banner.
+  - KERN deprecates the container grid. `get_grid` renders its replacement, so it has no deprecation banner.
   - KERN marks lists experimental, so `get_lists`'s HTML starts with the experimental banner.
 - **`get_component_docs` returns KERN's guidance**, from the bundle, for every component. Its output is new:
   - **Identity:** `componentId`, `kernId` and `title`; `status`, which can be `docs-only`; and `tool`, the tool that renders the component.
@@ -169,6 +170,32 @@ KERN's facts and text now come from a knowledge bundle built from KERN's three s
 - **Fallback tools:** `get_details`, `get_search`, `get_layers` and `get_pattern` return KERN's example markup from the bundle.
   - It's on one line.
   - `get_pattern` no longer includes the story's inline toggle script.
+
+## Layout on CSS Grid (next alpha)
+
+KERN deprecates its container grid (`kern-row`, `kern-col-*`). Its CSS Grid utilities (`kern-grid`) replace it, and our layouts move to them.
+
+- **`get_grid` and grid blocks render `kern-grid`:**
+
+  ```html
+  <div class="kern-container">
+    <div>
+      <div class="kern-grid kern-grid-cols-1 kern-grid-cols-3-md kern-gap-lg">
+        <div>…</div>
+        <div>…</div>
+        <div>…</div>
+      </div>
+    </div>
+  </div>
+  ```
+
+  - One column on small screens, `columns` from the md breakpoint (768 px) up, with a 24 px gap (`kern-gap-lg`). A plain `kern-grid` has 12 columns and no gap, so both are set.
+  - The grid sits in a `div` of its own. KERN removes a `kern-container`'s padding when a `kern-grid` is its direct child, which would put the content against the screen edge. With a heading, that `div` stacks the heading and the grid (`kern-flex kern-flex-col kern-gap-lg`).
+  - Columns are plain `div`s. They were `kern-col-md-{12 / columns} kern-col-sm-12` in a `kern-row`.
+- **`columns` takes any count from 1 to 12.** It was 1, 2, 3, 4, 6 or 12.
+- **Without `columns`, a grid has one column per `columnsContent` list,** or two without either. Three lists without `columns` used to render two columns and drop the third.
+- **`get_grid` is "KERN CSS Grid", without the deprecation banner.** `get_component_docs` for `grid` returns the CSS Grid sections of KERN's utilities page, not the container grid's page.
+- **`get_utility_reference` lists `kern-col-{n}`** for an item that spans columns. It listed `kern-col-span-{n}`, which KERN's CSS doesn't define.
 
 ## Planned before 2.0.0 (may still change)
 

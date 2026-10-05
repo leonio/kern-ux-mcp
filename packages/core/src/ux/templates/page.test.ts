@@ -129,7 +129,9 @@ describe("buildPage", () => {
 		);
 
 		expect(root.querySelectorAll("main .kern-container")).toHaveLength(0);
-		expect(root.querySelector("main .kern-row")).not.toBeNull();
+		// A kern-grid right inside main would take main's padding away.
+		expect(root.querySelector("main > div > .kern-grid")).not.toBeNull();
+		expect(root.querySelector("main > .kern-grid")).toBeNull();
 		expect(root.querySelector("header .kern-p-md")).toBeNull();
 	});
 

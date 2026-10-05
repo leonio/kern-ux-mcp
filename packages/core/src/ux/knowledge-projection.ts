@@ -9,11 +9,14 @@ import type {
 } from "./knowledge-bundle.js";
 import {
 	findBundleExample,
+	findBundleSections,
 	type KnowledgeBundleFiles,
 } from "./knowledge-import.js";
 import {
+	type BundleSectionRange,
 	componentIdFromKernId,
 	FALLBACK_EXAMPLES,
+	TOOLS_FROM_SECTIONS,
 	TOOLS_WITHOUT_BUNDLE_COMPONENT,
 } from "./knowledge-map.js";
 import type {
@@ -41,11 +44,21 @@ export function projectRegistry(
 	const index = files.get("index.json") as BundleIndex;
 	const plain = index.sources.find((source) => source.id === "kern-ux-plain");
 
-	const components = index.components.map((entry) =>
-		projectComponent(files.get(entry.file) as BundleComponent),
-	);
+	const components = index.components
+		.map((entry) => files.get(entry.file) as BundleComponent)
+		.filter(
+			(component) =>
+				!Object.hasOwn(
+					TOOLS_FROM_SECTIONS,
+					componentIdFromKernId(component.id),
+				),
+		)
+		.map(projectComponent);
 	for (const [id, title] of Object.entries(TOOLS_WITHOUT_BUNDLE_COMPONENT)) {
 		components.push({ id, title, status: "stable" });
+	}
+	for (const [id, range] of Object.entries(TOOLS_FROM_SECTIONS)) {
+		components.push(projectSections(files, id, range));
 	}
 
 	for (const [toolId, ref] of Object.entries(FALLBACK_EXAMPLES)) {
@@ -151,6 +164,42 @@ function projectComponent(component: BundleComponent): ComponentInfo {
 		},
 		accessibility: projectAccessibility(component.accessibility ?? []),
 		sources: component.implementations.html?.sources,
+	});
+}
+
+/**
+ * A tool's entry from a run of a foundations document's sections: the first
+ * section gives the link and the docs summary, the rest are the docs sections.
+ * A section summary can be longer than a component's, so there's no summary.
+ */
+function projectSections(
+	files: KnowledgeBundleFiles,
+	id: string,
+	range: BundleSectionRange & { title: string },
+): ComponentInfo {
+	const sections = findBundleSections(files, range);
+	if (!sections) {
+		throw new Error(
+			`get_${id}'s sections ${range.from} to ${range.to} aren't in ${range.document}; run checkKnowledgeBundle first.`,
+		);
+	}
+	const [first, ...rest] = sections;
+	return compact({
+		id,
+		title: range.title,
+		status: "stable",
+		links: { docs: first.url },
+		docs: {
+			url: first.url,
+			...compact({ summary: first.summary?.en }),
+			sections: rest.map((section) =>
+				compact({
+					heading: section.heading,
+					url: section.url,
+					summary: section.summary?.en,
+				}),
+			),
+		},
 	});
 }
 

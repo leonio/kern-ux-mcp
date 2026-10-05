@@ -223,10 +223,7 @@ function toolHint(name: string, error: z.ZodError): string {
 	}
 
 	if (name === "get_grid") {
-		return (
-			`${base}\n${knownGoodPayload(name)}\n` +
-			'columns must be a divisor of 12: [1, 2, 3, 4, 6, 12]. For 5 or 7 equal columns, do not use get_grid; use CSS Grid utilities via get_utility_reference, e.g. class="kern-grid kern-grid-cols-5".'
-		);
+		return `${base}\n${knownGoodPayload(name)}`;
 	}
 
 	if (name === "get_button") {

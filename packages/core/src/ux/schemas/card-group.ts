@@ -2,12 +2,21 @@ import { z } from "zod";
 import { simpleBlocksSchema } from "./content-union.js";
 import {
 	ComponentSizeSchema,
-	GridColumnsSchema,
 	HeadingLevelSchema,
 	McpCommonSchema,
 } from "./foundations.js";
 
 const CommonParams = McpCommonSchema.shape;
+
+/** The divisors of 12, while card groups render the container grid. */
+const CardGroupColumnsSchema = z.union([
+	z.literal(1),
+	z.literal(2),
+	z.literal(3),
+	z.literal(4),
+	z.literal(6),
+	z.literal(12),
+]);
 
 /**
  * Simplified card definition for use within a card group.
@@ -69,7 +78,7 @@ const CardItemSchema = z.object({
 export const CardGroupSchema = z.object({
 	...CommonParams,
 	cards: z.array(CardItemSchema).min(1).max(6).describe("The cards, 1 to 6."),
-	columns: GridColumnsSchema.optional().describe(
+	columns: CardGroupColumnsSchema.optional().describe(
 		"Columns; by default the number of cards, at most 4.",
 	),
 	heading: z

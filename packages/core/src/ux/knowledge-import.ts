@@ -1,6 +1,7 @@
 import {
 	type BundleComponent,
 	type BundleComponentStatus,
+	type BundleDocsDigest,
 	type BundleExample,
 	type BundleExamplesFile,
 	type BundleIndex,
@@ -9,8 +10,10 @@ import {
 } from "./knowledge-bundle.js";
 import {
 	type BundleExampleRef,
+	type BundleSectionRange,
 	componentIdFromKernId,
 	FALLBACK_EXAMPLES,
+	TOOLS_FROM_SECTIONS,
 	TOOLS_WITHOUT_BUNDLE_COMPONENT,
 } from "./knowledge-map.js";
 import { COMPONENT_TOOL_IDS } from "./tool-builders/component-tools.js";
@@ -34,8 +37,9 @@ const KNOWN_STATUSES: readonly BundleComponentStatus[] = [
 /**
  * The checks only this repo can make, on a bundle that already validates
  * against the packer's own schema: the major version is one we read, the index
- * matches the files, every component tool finds its component, and the
- * examples picked for the fallback tools exist. Returns the problems found;
+ * matches the files, every component tool finds its component, the examples
+ * picked for the fallback tools exist, and so do the sections a tool's entry
+ * is made of (TOOLS_FROM_SECTIONS). Returns the problems found;
  * any of them stops an import.
  */
 export function checkKnowledgeBundle(files: KnowledgeBundleFiles): string[] {
@@ -90,6 +94,7 @@ export function checkKnowledgeBundle(files: KnowledgeBundleFiles): string[] {
 	}
 
 	for (const toolId of COMPONENT_TOOL_IDS) {
+		if (Object.hasOwn(TOOLS_FROM_SECTIONS, toolId)) continue;
 		const withoutComponent = Object.hasOwn(
 			TOOLS_WITHOUT_BUNDLE_COMPONENT,
 			toolId,
@@ -123,7 +128,35 @@ export function checkKnowledgeBundle(files: KnowledgeBundleFiles): string[] {
 		}
 	}
 
+	for (const [toolId, range] of Object.entries(TOOLS_FROM_SECTIONS)) {
+		if (!findBundleSections(files, range)) {
+			problems.push(
+				`get_${toolId}'s entry is the sections ${range.from} to ${range.to} of ${range.document}, which aren't there in that order.`,
+			);
+		}
+	}
+
 	return problems;
+}
+
+/**
+ * The sections from range.from to range.to, both included, of a document's
+ * docs; undefined when the document or either section is missing, or the run
+ * is backwards.
+ */
+export function findBundleSections(
+	files: KnowledgeBundleFiles,
+	range: BundleSectionRange,
+): BundleDocsDigest["sections"] | undefined {
+	const document = files.get(range.document) as
+		| { docs?: BundleDocsDigest }
+		| undefined;
+	const sections = document?.docs?.sections ?? [];
+	const first = sections.findIndex((section) => section.id === range.from);
+	const last = sections.findIndex((section) => section.id === range.to);
+	return first >= 0 && last >= first
+		? sections.slice(first, last + 1)
+		: undefined;
 }
 
 /**

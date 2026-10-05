@@ -313,7 +313,7 @@ describe("Elterngeld search-result composition", () => {
 		expect(result.html).toContain("Col 1");
 		expect(result.html).toContain("kern-badge");
 		expect(result.html).toContain("Col 3");
-		expect(result.html).toContain("kern-col-md-4");
+		expect(result.html).toContain("kern-grid-cols-3-md");
 	});
 
 	it("cheat sheet documents paragraphs shorthand for section", () => {
