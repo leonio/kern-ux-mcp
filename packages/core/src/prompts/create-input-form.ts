@@ -60,9 +60,10 @@ type Args = z.output<typeof argsSchema>;
 /**
  * create_input_form: a form from a list of fields, built with field, fieldset
  * and form blocks and rendered strictly. Given steps, a formFlow block instead,
- * with a review step. The forms guide is embedded and the cards of the inputs
- * (and of the step list, progress and summary) are linked; the workflow comes
- * last, ending with the answer it wants, so that's what the model reads last.
+ * with a summary in the step for checking the answers. The forms guide is
+ * embedded and the cards of the inputs (and of the step list, progress and
+ * summary) are linked; the workflow comes last, ending with the answer it
+ * wants, so that's what the model reads last.
  */
 export function createInputForm(
 	registry: Registry,
@@ -75,7 +76,7 @@ export function createInputForm(
 		name: "create_input_form",
 		title: "Create a KERN form",
 		description:
-			"Builds an accessible form from a list of fields with the KERN tools: input types, fieldsets, required and optional fields, the error summary, and strict validation. Given steps, a multi-step form with a step list, progress and a review step.",
+			"Builds an accessible form from a list of fields with the KERN tools: input types, fieldsets, required and optional fields, the error summary, and strict validation. Given steps, a multi-step form with a step list, progress, and a summary in the step for checking the answers.",
 		argsSchema,
 		content: async (args) => [
 			await embeddedResource(guides, "forms"),
@@ -119,8 +120,8 @@ function workflow(args: Args): string {
 
 function stepItems(locale: Locale): string[] {
 	return [
-		`**Steps:** one \`formFlow\` block with an entry in \`steps\` per step, its \`label\` as given. Spread the fields over the steps in the order given, each step's fields in a \`fieldset\` whose \`legend\` names the step, with \`legendSize: "large"\`. \`navigation: { backLabel, nextLabel, submitLabel }\` (such as ${NAVIGATION_LABELS[locale]}) gives every step but the first a back button, and only the last one a submit button. The step list and the progress bar come with the block.`,
-		`**Review:** people check their answers in the last step, which also sends them. If no step is for checking, add one at the end, such as "${REVIEW_STEP[locale]}"; never add a step for the submit button alone. Render its summary with \`get_summary\`: \`mode: "group"\` with a \`groupTitle\`, one summary per earlier step, titled and ordered like the steps, with example answers and an edit link (\`action\`). Add the HTML to that step as an \`html\` block, before the step's own fields.`,
+		`**Steps:** one \`formFlow\` block with exactly the steps given, in order, each \`label\` as given. Spread the fields over the steps in the order given, each step's fields in a \`fieldset\` whose \`legend\` names the step, with \`legendSize: "large"\`. \`navigation: { backLabel, nextLabel, submitLabel }\` (such as ${NAVIGATION_LABELS[locale]}) gives every step but the first a back button, and only the last one a submit button. The step list and the progress bar come with the block.`,
+		`**Review:** KERN asks for a summary where people check their answers before sending them. If a step is for that, such as "${REVIEW_STEP[locale]}", render its summary with \`get_summary\`: \`mode: "group"\` with a \`groupTitle\`, one summary per earlier step, titled and ordered like the steps, with example answers and an edit link (\`action\`). Add the HTML to that step as an \`html\` block, before the step's own fields.`,
 		"**The step shown:** `currentStep` is the step to show. Without `renderAllSteps`, each step is a page of its own; with `renderAllSteps: true`, every step is in the page and the inactive ones are hidden, so a script can switch between them. To show a step after a failed submit, give each field in error its `error` message and the `formFlow` block `errorSummary: {}`.",
 	];
 }

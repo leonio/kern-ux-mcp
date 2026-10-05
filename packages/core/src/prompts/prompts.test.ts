@@ -185,7 +185,7 @@ describe("create_input_form with steps", () => {
 
 		expect(text).toMatch(/^Build a multi-step form with the kern tools/);
 		expect(text).toContain("Steps: Person; Fahrzeug; Prüfen");
-		expect(text).toContain("one `formFlow` block");
+		expect(text).toContain("one `formFlow` block with exactly the steps given");
 		expect(text).toContain("`get_summary`");
 		expect(text).toContain("`renderAllSteps: true`");
 		expect(text).toContain("such as Zurück, Weiter and Absenden");
