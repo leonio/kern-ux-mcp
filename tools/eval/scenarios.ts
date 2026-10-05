@@ -191,10 +191,11 @@ export const NESTED_SCENARIOS: readonly Scenario[] = [
 
 /**
  * Tasks where a resource should help (roadmap R6, D16): run with and without
- * --resources on the same commit. The forms guide says to mark required fields
- * with aria-required, which our tools don't set. KERN documents a notification
- * banner but doesn't implement it; the bundle names no alternative, so its card
- * says no more than get_component_docs (r6-d-res-on: models still invent one).
+ * --resources on the same commit. KERN asks for aria-required on required
+ * fields; the field tools set it since be08fa7 (`required: true`), before which
+ * no run did. KERN documents a notification banner but doesn't implement it;
+ * since d70ae86 the docs tool and the card name get_alert instead
+ * (r6-fix-res-off: one run in three still invents the banner's classes).
  */
 export const RESOURCE_SCENARIOS: readonly Scenario[] = [
 	{
