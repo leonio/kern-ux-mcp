@@ -73,7 +73,7 @@ Three groups: the plumbing with the form prompt and the eval's prompt support (A
 
 6. **Every name resolves:** each tool name and `kern://` URI in prompts, guides and tool descriptions is one the server serves. A test, with the list of names it found in its snapshot.
 7. **Docs:** "Prompts" in the README's feature list, the migration notes complete, `codebase-guide.md`.
-8. **The full eval:** `service-page` and `fix-page` join the `prompts` suite. Run it, and compare each task with its run without the prompt on the same commit.
+8. **The full eval:** the `prompts` suite (all four tasks; `service-page` and `fix-page` joined it in B4 and B5) with and without the prompts on the same commit, plus `base` and `nested`. First the delivery check's fix (findings from group A).
 
 ## Evals
 
@@ -109,9 +109,20 @@ Three groups: the plumbing with the form prompt and the eval's prompt support (A
 - **Cold cache:** the first runs of an eval session pay the cache write. Compare cost on runs started in the same order, or run the plain suite first.
 - **A `summary` block kind** in `render_composition` would save copying `get_summary` HTML into an `html` block, and the large inputs that come with it. That's a tool change, after 2.0.
 - **Small misses:** one `r7-a-fix2` run left out the confirmation checkbox in the review step (no check covers it); one called `get_summary` without `mode` and retried.
+- **`r7-b` `fix-page` run 3 edited the rendered HTML** before answering (the answer contains neither render), though it stayed strict-valid.
 
-- [ ] B4: `create_page_layout`
-- [ ] B5: `review_kern_html`
+- [x] B4 `8260a11`: `create_page_layout`. The strict render step, the answer line, numbering and blank arguments moved to `definition.ts`; `create_input_form`'s text didn't change. `service-page` joined the `prompts` suite.
+- [x] B5 `1e5ad47`: `review_kern_html`, with `html` up to `VALIDATE_HTML_MAX_LENGTH`. `fix-page` joined the `prompts` suite. The migration notes have all three prompts.
+- [x] Evals after B: [r7-b](r5-eval/r7-b.json), [r7-b-plain](r5-eval/r7-b-plain.json).
+- **Checked by hand before writing the text:** a `render_page` call with a grid of cards in a section, a form, `get_table` as an `html` block and three disclosures passes strict validation. Card titles default to `h2`, so the page prompt asks for `titleLevel: 3` inside a section.
+- **The fix list cites the guide's WCAG criteria,** not rules it doesn't state: the guide has no rule on heading levels or placeholders, but it lists 1.3.1 and 3.3.2 per component.
+- **Tests:** 2,237 pass (2026-10-05); the build and e2e pass.
+- **The eval after B** (`r7-b` against `r7-b-plain`: `service-page` and `fix-page`, the same server `1e5ad47`, 3 runs each; the plain suite ran first, so it paid the cold cache):
+  - **Checks 57/57 with the prompts, 55/57 without.** Without, one `fix-page` run never called `validate_html` and one left the image without `alt`.
+  - **Answers:** 5 verbatim and 1 edited with the prompts; 2 verbatim, 1 edited and 3 described without. All six strict-valid either way.
+  - **Calls:** 18 against 21; `fix-page` 11 against 14. Cost $0.49 against $0.44; the first request is 4,480 tokens larger (the 12K accessibility guide).
+  - **The fix list:** all three `fix-page` runs wrote one in German by rule, including what the check can't see (a skipped heading level, the card in a card). Two wrote it between tool calls and ended with the HTML alone; a client shows both, the eval's final answer only the HTML.
+  - **One invalid input each way,** both on `render_page`'s blocks and retried: with the prompt, three `section` blocks without their `section` object.
 - [ ] C6: every tool name and `kern://` URI in text resolves
 - [ ] C7: docs
 - [ ] C8: the full eval
