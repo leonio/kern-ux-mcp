@@ -69,6 +69,12 @@ export const FieldSchema = z
 				"Error message; puts the field in its error state. A form's errorSummary lists it.",
 			),
 		optional: z.boolean().optional().describe("Marks the field as optional."),
+		required: z
+			.boolean()
+			.optional()
+			.describe(
+				'Adds aria-required="true" (text-like fields, textarea, select).',
+			),
 		value: z
 			.string()
 			.optional()

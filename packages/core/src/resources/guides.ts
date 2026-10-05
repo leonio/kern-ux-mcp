@@ -51,7 +51,7 @@ export const GUIDES: readonly Guide[] = [
 			'**Label:** every field has a `<label class="kern-label" for>` naming the input\'s generated `id`.',
 			'**Hint:** `hint` adds `<div class="kern-hint" id>` between label and input, and the input lists it in `aria-describedby`.',
 			'**Error:** `error` adds `kern-form-input--error` to the field and a `<p class="kern-error" id role="alert">` with a danger icon after the input. `aria-describedby` lists the hint, then the error.',
-			'**Optional:** `optional: true` adds `<span class="kern-label__optional">` to the label. Our tools don\'t mark required fields: add `aria-required="true"`, as KERN asks below.',
+			'**Optional and required:** `optional: true` adds `<span class="kern-label__optional">` to the label. `required: true` adds `aria-required="true"` to the input, as KERN asks below, with no visible marker and no native `required` (text-like fields, textarea, select and file).',
 			"**Groups:** a `fieldset` block puts fields under a `<legend>`. Its `error` marks the fieldset (`kern-fieldset--error`, `aria-describedby`) and follows its fields.",
 			"**Error summary:** a `form` block with `errorSummary` collects the errors inside it into a danger alert at the top, one link to each field. A group's error comes before its fields' errors and links to the group's first input.",
 			"**Checks:** `validate_html` reports labels without a field (`form.label_for`) and error messages without an `id` or an `aria-describedby` that names them (`form.error_id`, `form.error_describedby`).",

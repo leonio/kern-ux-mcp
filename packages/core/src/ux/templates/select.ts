@@ -39,6 +39,7 @@ export function buildSelect(
 
 	// Disabled attribute
 	const disabledAttr = params.disabled ? " disabled" : "";
+	const requiredAttr = params.required ? ' aria-required="true"' : "";
 
 	// Optional marker
 	const optionalMarker = params.optional
@@ -75,7 +76,7 @@ export function buildSelect(
 	const html = `<div class="${wrapperClasses.join(" ")}">
   <label class="kern-label" for="${id}">${escapeHtml(params.label)}${optionalMarker}</label>${hintHtml}
   <div class="kern-form-input__select-wrapper">
-    <select class="${selectClasses.join(" ")}" name="${escapeHtml(params.name)}" id="${id}"${disabledAttr}${ariaDescribedBy}>
+    <select class="${selectClasses.join(" ")}" name="${escapeHtml(params.name)}" id="${id}"${disabledAttr}${requiredAttr}${ariaDescribedBy}>
         ${optionsHtml}
     </select>
   </div>${errorHtml}

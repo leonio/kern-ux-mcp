@@ -10,6 +10,7 @@ const SelectFieldSchema = FormFieldBaseSchema.pick({
 	hint: true,
 	error: true,
 	optional: true,
+	required: true,
 	disabled: true,
 }).extend({
 	label: z

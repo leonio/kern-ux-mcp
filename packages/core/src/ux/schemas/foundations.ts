@@ -40,6 +40,13 @@ export const FormFieldBaseSchema = z.object({
 		.describe(
 			"Shows the optional marker on the label. KERN marks optional fields, not required ones.",
 		),
+	required: z
+		.boolean()
+		.optional()
+		.default(false)
+		.describe(
+			'Adds aria-required="true", as KERN asks for required fields; no visible marker, and no native required attribute.',
+		),
 	disabled: z
 		.boolean()
 		.optional()

@@ -12,7 +12,7 @@ import { buildTextarea } from "./textarea.js";
  */
 export function buildField(input: FieldInput, locale: Locale): BuildResult {
 	const field = FieldSchema.parse(input);
-	const { type, id, name, label, hint, error, optional } = field;
+	const { type, id, name, label, hint, error, optional, required } = field;
 	const options = field.options ?? [];
 	const ignored = ignoredProperties(field);
 
@@ -26,6 +26,7 @@ export function buildField(input: FieldInput, locale: Locale): BuildResult {
 						hint,
 						error,
 						optional,
+						required,
 						value: field.value,
 						placeholder: field.placeholder,
 						rows: field.rows,
@@ -41,6 +42,7 @@ export function buildField(input: FieldInput, locale: Locale): BuildResult {
 						hint,
 						error,
 						optional,
+						required,
 						options: options.map((option) => ({
 							value: option.value,
 							text: option.label,
@@ -110,6 +112,7 @@ export function buildField(input: FieldInput, locale: Locale): BuildResult {
 						hint,
 						error,
 						optional,
+						required,
 						value: field.value,
 						placeholder: field.placeholder,
 						autocomplete: field.autocomplete,

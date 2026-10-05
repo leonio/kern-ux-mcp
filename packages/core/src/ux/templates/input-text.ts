@@ -90,6 +90,9 @@ export function buildInputText(
 	if (params.disabled) {
 		attrs.push("disabled");
 	}
+	if (params.required) {
+		attrs.push('aria-required="true"');
+	}
 	if (ariaDescribedBy) {
 		attrs.push(ariaDescribedBy.trim());
 	}
