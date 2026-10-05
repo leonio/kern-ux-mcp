@@ -16,6 +16,7 @@ flowchart TD
   D --> E[packages/core/src/mcp/create-server.ts]
   E --> P[packages/core/src/invoke.ts]
   E --> R[packages/core/src/resources]
+  E --> Q[packages/core/src/prompts]
   E --> F[packages/core/src/ux/tools.ts]
   F --> G[packages/core/src/ux/tool-builders]
   G --> H[packages/core/src/ux/schemas]
@@ -39,8 +40,9 @@ The repo is an npm workspace:
 - [packages/http](../packages/http): `@leonio/kern-ux-mcp-http`, the published Streamable HTTP server. `src/server.ts` is the `node:http` host (Host/Origin guards, CORS, rate limit, bearer token, probes, drain), `src/config.ts` reads its environment variables. `Dockerfile` and `compose.yaml` build the container image from the standalone bundle; build from the repo root (the root `.dockerignore` applies).
 
 - [packages/stdio/src/index.ts](../packages/stdio/src/index.ts): stdio entry point (`serveStdio`), serving 2026-07-28 and 2025-era clients.
-- [packages/core/src/mcp](../packages/core/src/mcp): MCP SDK v2 wiring. `create-server.ts` registers every tool and resource on `McpServer`, `kern-schema.ts` adapts each tool's Zod schema for the SDK (our JSON Schema, our validation hints), and `catalog.ts` builds the tool and resource definitions once per process.
+- [packages/core/src/mcp](../packages/core/src/mcp): MCP SDK v2 wiring. `create-server.ts` registers every tool, resource and prompt on `McpServer`, `kern-schema.ts` adapts each tool's Zod schema for the SDK (our JSON Schema, our validation hints), and `catalog.ts` builds the tool, resource and prompt definitions once per process. `names.test.ts` checks that every tool name and `kern://` URI in the server's text resolves.
 - [packages/core/src/resources](../packages/core/src/resources): the MCP resources. `component-cards.ts` makes `kern://components/{id}`, `guides.ts` makes `kern://guides/{name}`, `field-digest.ts` turns a tool's input schema into tables, and `register.ts` registers each family as a template with listing, completion, an hour's public cache hint and a not-found error. Content is built on first read, with stable IDs (`withStableIds` in `ux/id.ts`), so every process serves the same bytes.
+- [packages/core/src/prompts](../packages/core/src/prompts): the MCP prompts. `definition.ts` has the definition type and the parts the prompts share: the `locale` argument with its completion, an embedded guide, card links, the strict render step and the answer line. `register.ts` registers each prompt, and `create-input-form.ts`, `create-page-layout.ts` and `review-kern-html.ts` write the workflows. A prompt's content blocks become user messages: the guide, the card links, then the workflow, so the model reads the answer it should give last.
 - [packages/core/src/invoke.ts](../packages/core/src/invoke.ts): the call pipeline independent of the SDK: argument normalization, input parsing, validation hints, handler and output validation.
 - [packages/core/src/ux/tools.ts](../packages/core/src/ux/tools.ts): creates the tool registry, selects tool builders, lists tools for MCP.
 - [packages/core/src/ux/tool-builders](../packages/core/src/ux/tool-builders): strategy-specific tool construction shared across many components. `component-tools.ts` says which components get a tool and which builder makes it.
@@ -55,6 +57,7 @@ The repo is an npm workspace:
 - [packages/core/src/ux/validate.ts](../packages/core/src/ux/validate.ts): strict HTML validation rules used by tools. Each rule's ID, severity, the markup it concerns and what it asks for are in [validation-rules.ts](../packages/core/src/ux/validation-rules.ts), which the component cards and the accessibility guide read too.
 - [knowledge](../knowledge): the KERN knowledge bundle as imported, checked in so upstream changes arrive as diffs. Never shipped; never edited by hand.
 - [tools/knowledge](../tools/knowledge): `npm run knowledge:import`, which validates a bundle against the packer's schema and our checks, prints what changes, replaces `knowledge/` and regenerates `registry.json`.
+- [tools/eval](../tools/eval): the scripted eval (`npm run eval`, `npm run eval:compare`). It runs scenarios through headless Claude Code with Haiku against the built stdio server and writes reports to `docs/plan-v2/r5-eval`. `--suite prompts` sends each task through its MCP prompt, rendered by `prompt-text.ts`; `--without-prompts` sends the task's own text, for comparison.
 - [tools/build/sbom.ts](../tools/build/sbom.ts): writes a host package's CycloneDX SBOM (`npm run sbom`), which the release ships in the tarball and attests for the image and the `.mcpb`.
 - [tools/build/mcpb.ts](../tools/build/mcpb.ts): packs `packages/stdio` as an MCP Bundle (`.mcpb`) from its standalone bundle and the `packages/stdio/mcpb/manifest.json` template, adding the version and the static `tools[]` list.
 - [tools/build/bundle.ts](../tools/build/bundle.ts): bundles a host package with esbuild: `dist/` for npm (core inlined, third-party packages external, undeclared imports fail the build) and `standalone/` for MCPB and the container (everything inlined, plus `THIRD_PARTY_LICENSES.txt`).
@@ -92,6 +95,7 @@ Typical path:
 1. Update [packages/core/src/ux/tools.ts](../packages/core/src/ux/tools.ts) or a file in [packages/core/src/ux/tool-builders](../packages/core/src/ux/tool-builders). A new component tool also needs an entry in `COMPONENT_TOOLS` (`component-tools.ts`), and a component in the bundle that `knowledge-map.ts` maps to it.
 2. If tool input listing changes, check [packages/core/src/ux/json-schema.ts](../packages/core/src/ux/json-schema.ts).
 3. If request handling or validation messaging changes, check [packages/core/src/invoke.ts](../packages/core/src/invoke.ts) and [packages/core/src/mcp](../packages/core/src/mcp).
+4. A new prompt is a file in [packages/core/src/prompts](../packages/core/src/prompts), an entry in `catalog.ts` and cases in `prompts.test.ts`; `names.test.ts` checks the tools and URIs it names. Measure a workflow change with the eval's `prompts` suite, with and without `--without-prompts` on the same commit.
 
 This is the normal path when you add a tool, change how tools are listed, or adjust validation behavior at the MCP boundary.
 

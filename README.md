@@ -1,6 +1,6 @@
 # Kern UX MCP Server
 
-MCP Language Server exposing component tools, recursive composition rendering, strict accessibility validation, and component cards and guides as resources for the [KERN-UX Component Library](https://www.kern-ux.de/).
+MCP Language Server exposing component tools, recursive composition rendering, strict accessibility validation, component cards and guides as resources, and prompts for forms, pages and reviews for the [KERN-UX Component Library](https://www.kern-ux.de/).
 
 ## Prerequisites
 - **Node.js**: 24.16.0+
@@ -143,6 +143,20 @@ Besides its tools, the server offers Markdown resources that a client can attach
 - `kern://guides/forms`, `kern://guides/layout` and `kern://guides/accessibility`: what our tools do, next to KERN's guidance on the topic.
 
 The tools work without them: a resource reaches the model only when the client or the user brings it in.
+
+---
+
+## Prompts
+
+The server also offers three prompts: workflows over the tools that you start from the client. With the server named `kern-ux`, that's `/mcp.kern-ux.create_input_form` in VS Code and `/mcp__kern-ux__create_input_form` in Claude Code.
+
+| Prompt | Arguments | What it does |
+|---|---|---|
+| `create_input_form` | `purpose`, `fields`, `steps`, `locale` | A form from a list of fields: input types, fieldsets, required and optional fields, and the error summary. Given `steps`, separated by semicolons, a multi-step form with the step list, progress, and a summary in the step for checking the answers. |
+| `create_page_layout` | `purpose`, `sections`, `locale` | A whole page from `render_page`: the header with navigation, the `h1`, one section per entry with grids and cards, and the footer. |
+| `review_kern_html` | `html`, `locale` | Checks the HTML with `validate_html`, rebuilds it with the tools, and answers with a fix list and the corrected HTML. The fix list says what a person still has to check, such as an `alt` text written without seeing the image. |
+
+Each prompt embeds the guide it relies on, links the component cards it uses, renders with `strict: true`, and asks for the final HTML verbatim. `locale` is `de` (the default) or `en` and sets the language of the page's text; the prompts themselves are in English.
 
 ---
 
