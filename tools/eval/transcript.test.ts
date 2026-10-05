@@ -185,6 +185,54 @@ describe("summarizeRun", () => {
 		});
 	});
 
+	it("counts Claude Code's resource tools apart from the kern tools", () => {
+		const withResources = [
+			line({
+				type: "system",
+				subtype: "init",
+				tools: ["ListMcpResourcesTool", "ReadMcpResourceTool"],
+				mcp_servers: [{ name: "kern", status: "connected" }],
+			}),
+			line({
+				type: "assistant",
+				message: {
+					content: [
+						{
+							type: "tool_use",
+							id: "r1",
+							name: "ListMcpResourcesTool",
+							input: { server: "kern" },
+						},
+					],
+				},
+			}),
+			line({
+				type: "assistant",
+				message: {
+					content: [
+						{
+							type: "tool_use",
+							id: "r2",
+							name: "ReadMcpResourceTool",
+							input: { server: "kern", uri: "kern://guides/forms" },
+						},
+					],
+				},
+			}),
+			line({ type: "result", subtype: "success", result: "Done." }),
+		].join("\n");
+		const resourceRun = summarizeRun(parseTranscript(withResources), scenario);
+
+		expect(resourceRun.resourceLists).toBe(1);
+		expect(resourceRun.resourceReads).toEqual(["kern://guides/forms"]);
+		expect(resourceRun.toolCalls).toBe(0);
+		expect(aggregate([resourceRun, resourceRun])).toMatchObject({
+			resourceLists: 2,
+			resourceReads: 2,
+		});
+		expect(run.resourceReads).toEqual([]);
+	});
+
 	it("treats a missing result as not completed", () => {
 		const cut = summarizeRun(
 			parseTranscript(transcript.split("\n").slice(0, 5).join("\n")),

@@ -72,8 +72,18 @@ export type RunSummary = {
 	fallback: boolean;
 	/** Errors validate_html finds in the delivered HTML; null when there is none */
 	strictErrors: number | null;
+	/** Calls to Claude Code's ListMcpResourcesTool (with --resources) */
+	resourceLists: number;
+	/** The URIs read with Claude Code's ReadMcpResourceTool, in order */
+	resourceReads: string[];
 	finalText: string;
 };
+
+/** Claude Code's tools for MCP resources, which --resources turns on. */
+export const RESOURCE_TOOLS = {
+	list: "ListMcpResourcesTool",
+	read: "ReadMcpResourceTool",
+} as const;
 
 type Usage = {
 	input_tokens?: number;
@@ -273,8 +283,23 @@ export function summarizeRun(
 	// The HTML the kern tools returned: a model may describe a long page instead
 	// of pasting it, so the checks look at what was built as well as the answer.
 	const toolHtml: string[] = [];
+	// Resource tool calls by id: a list, or a read of a URI.
+	const resourceCalls = new Map<string, { read: boolean; uri: string }>();
 	for (const event of events) {
 		for (const block of event.message?.content ?? []) {
+			if (
+				event.type === "assistant" &&
+				block.type === "tool_use" &&
+				block.id &&
+				(block.name === RESOURCE_TOOLS.list ||
+					block.name === RESOURCE_TOOLS.read)
+			) {
+				const uri = (block.input as { uri?: unknown } | undefined)?.uri;
+				resourceCalls.set(block.id, {
+					read: block.name === RESOURCE_TOOLS.read,
+					uri: typeof uri === "string" ? uri : "",
+				});
+			}
 			if (
 				event.type === "assistant" &&
 				block.type === "tool_use" &&
@@ -370,6 +395,11 @@ export function summarizeRun(
 					(issue) => issue.severity === "error",
 				).length
 			: null,
+		resourceLists: [...resourceCalls.values()].filter((call) => !call.read)
+			.length,
+		resourceReads: [...resourceCalls.values()]
+			.filter((call) => call.read)
+			.map((call) => call.uri),
 		finalText,
 	};
 }
@@ -396,6 +426,9 @@ export type Aggregate = {
 	fallbacks: number;
 	/** Runs whose delivered HTML has no validate_html errors */
 	strictValid: number;
+	/** Calls to Claude Code's resource tools: lists, and reads */
+	resourceLists: number;
+	resourceReads: number;
 	firstRequestTokens: number;
 	inputTokens: number;
 	outputTokens: number;
@@ -427,6 +460,8 @@ export function aggregate(runs: readonly RunSummary[]): Aggregate {
 		deliveredDescribed: runs.filter((r) => r.delivery === "described").length,
 		fallbacks: runs.filter((r) => r.fallback).length,
 		strictValid: runs.filter((r) => r.strictErrors === 0).length,
+		resourceLists: sum((r) => r.resourceLists),
+		resourceReads: sum((r) => r.resourceReads.length),
 		firstRequestTokens: Math.max(0, ...runs.map((r) => r.firstRequestTokens)),
 		inputTokens: sum((r) => r.inputTokens),
 		outputTokens: sum((r) => r.outputTokens),

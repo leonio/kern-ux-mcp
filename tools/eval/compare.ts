@@ -37,6 +37,8 @@ const ROWS: Array<[string, (a: Totals) => number | undefined]> = [
 	["answer: described", (a) => a.deliveredDescribed],
 	["hand-written", (a) => a.fallbacks],
 	["strict-valid runs", (a) => a.strictValid],
+	["resource lists", (a) => a.resourceLists],
+	["resource reads", (a) => a.resourceReads],
 	["first request tokens", (a) => a.firstRequestTokens],
 	["input tokens", (a) => a.inputTokens],
 	["output tokens", (a) => a.outputTokens],

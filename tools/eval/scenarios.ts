@@ -189,8 +189,55 @@ export const NESTED_SCENARIOS: readonly Scenario[] = [
 	},
 ];
 
+/**
+ * Tasks where a resource should help (roadmap R6, D16): run with and without
+ * --resources on the same commit. The forms guide says to mark required fields
+ * with aria-required, which our tools don't set; KERN documents a notification
+ * banner but doesn't implement it, and its card points to the alert.
+ */
+export const RESOURCE_SCENARIOS: readonly Scenario[] = [
+	{
+		id: "form-required",
+		prompt:
+			"Build the contact form of a city office (name, e-mail, message) as it looks after a failed submit: the e-mail address is missing, and an error summary at the top links to the field. Name and e-mail are required, the message is optional. Mark the required and optional fields the way KERN asks for.",
+		expectStructure: [
+			{
+				selector: '.kern-alert--danger a[href^="#"]',
+				min: 1,
+				label: "an error summary linking to the field",
+			},
+			{ selector: ".kern-error", min: 1, label: "the field error" },
+			{
+				selector: '[aria-required="true"]',
+				min: 2,
+				label: "required fields with aria-required",
+			},
+			{ selector: "[required]", max: 0, label: "no native required" },
+			{
+				selector: ".kern-label__optional",
+				min: 1,
+				label: "the optional marker",
+			},
+		],
+	},
+	{
+		id: "notice-banner",
+		prompt:
+			"Our citizen portal needs a site-wide notice at the very top of every page: planned maintenance on Saturday from 8 to 12, so online services are unavailable then. Use the KERN component meant for this and give me its markup.",
+		expectStructure: [
+			{ selector: ".kern-alert", min: 1, label: "an alert" },
+			{
+				selector: '[class*="kern-notification"]',
+				max: 0,
+				label: "no invented notification classes",
+			},
+		],
+	},
+];
+
 /** The scenario sets `npm run eval -- --suite <name>` can run. */
 export const SUITES: Readonly<Record<string, readonly Scenario[]>> = {
 	base: SCENARIOS,
 	nested: NESTED_SCENARIOS,
+	resources: RESOURCE_SCENARIOS,
 };

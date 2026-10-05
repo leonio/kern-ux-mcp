@@ -6,11 +6,14 @@
  *   npm run eval -- --label baseline [--suite base|nested]
  *                   [--server <path/to/stdio/dist/index.js>] [--runs 3]
  *                   [--only contact-form,faq] [--model claude-haiku-4-5] [--concurrency 2]
+ *                   [--resources]
  *   npm run eval -- --label baseline --from-transcripts
  *                   (re-scores the saved transcripts, e.g. after changing the checks)
  *
  * The base suite is the ten R5 scenarios; nested is four layouts that need the
- * recursive block union (scenarios.ts).
+ * recursive block union; resources is two tasks a card or guide should help
+ * with (scenarios.ts). --resources turns on Claude Code's tools for listing
+ * and reading MCP resources; run a suite with and without it to compare.
  *
  * It uses the Claude Code login of whoever runs it (no API key needed); each run
  * costs a few cents at Haiku rates. The summary goes to
@@ -26,6 +29,7 @@ import { type Scenario, SUITES } from "./scenarios.js";
 import {
 	aggregate,
 	parseTranscript,
+	RESOURCE_TOOLS,
 	type RunSummary,
 	summarizeRun,
 } from "./transcript.js";
@@ -45,7 +49,7 @@ function option(name: string, fallback?: string): string | undefined {
 const label = option("label");
 if (!label || !/^[\w.-]+$/.test(label)) {
 	console.error(
-		"Usage: npm run eval -- --label <name> [--suite base|nested] [--server <path>] [--runs 3] [--only a,b] [--model claude-haiku-4-5] [--concurrency 2]",
+		"Usage: npm run eval -- --label <name> [--suite base|nested] [--server <path>] [--runs 3] [--only a,b] [--model claude-haiku-4-5] [--concurrency 2] [--resources]",
 	);
 	process.exit(2);
 }
@@ -77,6 +81,9 @@ const runs = Number(option("runs", "3"));
 const model = option("model", "claude-haiku-4-5") ?? "claude-haiku-4-5";
 const concurrency = Number(option("concurrency", "2"));
 const only = option("only")?.split(",");
+// Claude Code's tools for MCP resources, so the model can list and read them.
+const withResources =
+	process.argv.includes("--resources") || previous?.resources === true;
 const scenarios = suiteScenarios.filter((s) => !only || only.includes(s.id));
 
 if (!fromTranscripts) {
@@ -130,6 +137,8 @@ await fs.writeFile(
 const rawDir = path.join(REPO_ROOT, "tools/eval/.runs", label);
 await fs.mkdir(rawDir, { recursive: true });
 
+const resourceTools = [RESOURCE_TOOLS.list, RESOURCE_TOOLS.read];
+
 function runOnce(scenario: Scenario, attempt: number): Promise<RunSummary> {
 	const args = [
 		"-p",
@@ -140,9 +149,9 @@ function runOnce(scenario: Scenario, attempt: number): Promise<RunSummary> {
 		mcpConfig,
 		"--strict-mcp-config",
 		"--tools",
-		"",
+		withResources ? resourceTools.join(",") : "",
 		"--allowedTools",
-		"mcp__kern__*",
+		["mcp__kern__*", ...(withResources ? resourceTools : [])].join(","),
 		"--system-prompt",
 		SYSTEM_PROMPT,
 		"--setting-sources",
@@ -188,7 +197,7 @@ function runOnce(scenario: Scenario, attempt: number): Promise<RunSummary> {
 
 const results: RunSummary[] = [];
 const describeRun = (summary: RunSummary, attempt: number) =>
-	`${summary.scenario} #${attempt}: ${summary.completed ? "done" : "FAILED"}, ${summary.toolCalls} calls, ${summary.errorResults} errors, ${summary.retries} retries, checks ${summary.checks.passed}/${summary.checks.total}, ${summary.delivery}${summary.fallback ? " (hand-written)" : ""}, strict errors ${summary.strictErrors ?? "-"}, $${summary.costUsd.toFixed(3)}`;
+	`${summary.scenario} #${attempt}: ${summary.completed ? "done" : "FAILED"}, ${summary.toolCalls} calls, ${summary.errorResults} errors, ${summary.retries} retries, checks ${summary.checks.passed}/${summary.checks.total}, ${summary.delivery}${summary.fallback ? " (hand-written)" : ""}, strict errors ${summary.strictErrors ?? "-"}, ${summary.resourceReads.length > 0 ? `read ${summary.resourceReads.join(" ")}, ` : ""}$${summary.costUsd.toFixed(3)}`;
 
 if (fromTranscripts) {
 	const files = await fs.readdir(rawDir);
@@ -217,7 +226,7 @@ if (fromTranscripts) {
 		}
 	};
 	console.log(
-		`Eval "${label}": ${jobs.length} runs (${scenarios.length} scenarios × ${runs}) with ${model} against ${server}`,
+		`Eval "${label}": ${jobs.length} runs (${scenarios.length} scenarios × ${runs}) with ${model} against ${server}${withResources ? ", with the resource tools" : ""}`,
 	);
 	await Promise.all(Array.from({ length: concurrency }, worker));
 }
@@ -231,6 +240,9 @@ const byScenario = scenarios.map((scenario) => {
 		calls: own.map((r) =>
 			r.calls.map((c) => (c.error ? `${c.tool}!${c.error}` : c.tool)),
 		),
+		...(withResources
+			? { resourceReads: own.map((r) => r.resourceReads) }
+			: {}),
 	};
 });
 const total = aggregate(results);
@@ -242,6 +254,7 @@ const report = {
 	model: previous?.model ?? model,
 	serverCommit: previous?.serverCommit ?? serverCommit(),
 	runsPerScenario: previous?.runsPerScenario ?? runs,
+	resources: withResources,
 	systemPrompt: previous?.systemPrompt ?? SYSTEM_PROMPT,
 	total,
 	scenarios: byScenario,
@@ -255,6 +268,11 @@ console.log(
 console.log(
 	`Answers: ${total.deliveredVerbatim} verbatim, ${total.deliveredEdited} edited, ${total.deliveredDescribed} described, ${total.fallbacks} hand-written; ${total.strictValid}/${total.runs} strict-valid. Composition: ${total.compositionCalls} calls, ${total.compositionErrors} errors, depth ${total.blockDepth}, ${total.blockNodes} blocks at most`,
 );
+if (withResources) {
+	console.log(
+		`Resources: ${total.resourceLists} lists, ${total.resourceReads} reads`,
+	);
+}
 console.log(
 	`Tokens: first request ${total.firstRequestTokens}, input ${total.inputTokens}, output ${total.outputTokens}; cost $${total.costUsd.toFixed(2)}; ${Math.round(total.durationMs / 1000)} s`,
 );
