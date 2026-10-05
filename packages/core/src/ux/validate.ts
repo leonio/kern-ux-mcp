@@ -300,6 +300,55 @@ export function validateHtmlStrict(html: string): ValidationResult {
 		}
 	}
 
+	// kern-grid in a container: KERN 2.8 removes the padding of a kern-container
+	// whose direct child is a kern-grid (.kern-container:has(> .kern-grid)).
+	const gridInContainer = root
+		.querySelectorAll(".kern-grid")
+		.find((grid) =>
+			["kern-container", "kern-container-fluid"].some((name) =>
+				grid.parentNode?.classList?.contains(name),
+			),
+		);
+	if (gridInContainer) {
+		issues.push(
+			issue(
+				"layout.grid_in_container",
+				"warning",
+				{
+					en: "A kern-grid directly inside kern-container takes the container's padding away, so the content touches the screen edge. Wrap the grid in a <div>.",
+					de: "Ein kern-grid direkt in kern-container nimmt dem Container das Padding, der Inhalt stößt an den Bildschirmrand. Das Grid in ein <div> setzen.",
+				},
+				".kern-container > .kern-grid",
+			),
+		);
+	}
+
+	// kern-grid has 12 columns until a kern-grid-cols-* class says otherwise, so
+	// a count from a breakpoint up needs one for small screens too.
+	const gridWithoutBaseColumns = root
+		.querySelectorAll(".kern-grid")
+		.find((grid) => {
+			const names = (grid.getAttribute("class") ?? "").split(/\s+/);
+			const counts = names.filter((name) => name.startsWith("kern-grid-cols-"));
+			return (
+				counts.length > 0 &&
+				counts.every((name) => /-(?:sm|md|lg|xl|xxl)$/.test(name))
+			);
+		});
+	if (gridWithoutBaseColumns) {
+		issues.push(
+			issue(
+				"layout.grid_columns_small",
+				"warning",
+				{
+					en: "This kern-grid sets its columns only from a breakpoint up, so small screens get 12 narrow columns. Add kern-grid-cols-1 (or another count) without a breakpoint.",
+					de: "Dieses kern-grid setzt seine Spalten erst ab einem Breakpoint, kleine Bildschirme bekommen 12 schmale Spalten. kern-grid-cols-1 (oder eine andere Zahl) ohne Breakpoint ergänzen.",
+				},
+				".kern-grid",
+			),
+		);
+	}
+
 	// kern-* classes KERN doesn't know: a typo, or an invented class that styles nothing.
 	const unknownClasses = new Set<string>();
 	for (const el of root.querySelectorAll("[class]")) {

@@ -129,6 +129,9 @@ Pre-releases go out under the npm dist-tag `alpha`. "Next alpha" means landed on
 
 - `form.error_id` and `form.error_describedby` check `.kern-error`, the class KERN and the templates use. In 1.x they looked for classes that don't exist and never fired. HTML that passed before can now get these warnings. They are warnings, so strict mode isn't affected.
 - A new warning, `class.unknown`, lists the `kern-*` classes KERN doesn't know, such as typos and invented classes like `kern-bg-subtle` or `kern-tabs`. "Known" means defined in kern-ux-plain's SCSS or used in KERN's own examples, from the knowledge bundle. It's one warning per document, and strict mode isn't affected.
+- Two new warnings catch the `kern-grid` pitfalls in hand-written markup (see [Layout on CSS Grid](#layout-on-css-grid-next-alpha)). Each comes once per document, and strict mode isn't affected:
+  - `layout.grid_in_container`: a `kern-grid` directly inside `kern-container` or `kern-container-fluid`, which removes the container's padding
+  - `layout.grid_columns_small`: a `kern-grid` whose column counts all have a breakpoint suffix (`kern-grid-cols-3-md`), so small screens get 12 columns
 
 ## KERN knowledge from the knowledge bundle (next alpha)
 

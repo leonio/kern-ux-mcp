@@ -402,3 +402,47 @@ describe("class.unknown", () => {
 		);
 	});
 });
+
+describe("kern-grid layout warnings", () => {
+	const layoutIssues = (html: string) =>
+		validateHtmlStrict(html)
+			.issues.filter((entry) => entry.ruleId.startsWith("layout."))
+			.map((entry) => entry.ruleId);
+
+	it("warns once about a kern-grid directly inside a container, without failing", () => {
+		const html =
+			'<main class="kern-container"><h1>x</h1><div class="kern-grid kern-grid-cols-1"></div></main><div class="kern-container-fluid"><div class="kern-grid kern-grid-cols-1"></div></div>';
+
+		expect(validateHtmlStrict(html).ok).toBe(true);
+		expect(layoutIssues(html)).toEqual(["layout.grid_in_container"]);
+	});
+
+	it("warns about columns set only from a breakpoint up", () => {
+		expect(
+			layoutIssues(
+				'<div class="kern-grid kern-grid-cols-3-md kern-gap-md"></div>',
+			),
+		).toEqual(["layout.grid_columns_small"]);
+	});
+
+	it.each([
+		[
+			"a grid in its own div",
+			'<div class="kern-container"><div><div class="kern-grid kern-grid-cols-1 kern-grid-cols-3-md"></div></div></div>',
+		],
+		[
+			"a grid without column counts",
+			'<div class="kern-grid"><div class="kern-col-4"></div></div>',
+		],
+		[
+			"a count for small screens",
+			'<div class="kern-grid kern-grid-cols-2 kern-grid-cols-4-lg"></div>',
+		],
+		[
+			"the container grid",
+			'<div class="kern-container"><div class="kern-row"></div></div>',
+		],
+	])("leaves %s alone", (_, html) => {
+		expect(layoutIssues(html)).toEqual([]);
+	});
+});
