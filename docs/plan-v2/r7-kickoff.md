@@ -135,7 +135,24 @@ Three groups: the plumbing with the form prompt and the eval's prompt support (A
   - **Why:** step 2 asked for the list and the answer line asked again. In `r7-b`, two runs wrote it right after `validate_html`, as a plan ("muss hinzugefügt werden"), and answered with the HTML alone.
   - **Now:** step 2 only collects the problems. The answer asks for the list once: per problem its rule, how the rebuild fixed it, and what a person still has to check, such as an `alt` text written without seeing the image.
   - **`r7-b-fix`** (`fix-page`, 3 runs): 33/33, 3/3 strict-valid. All three put the list in the final answer, after the rebuild, and all three flag the invented `alt` text. Two count as "edited", but both answers are their second render verbatim: the delivery check's known artifact.
-- [ ] C6: every tool name and `kern://` URI in text resolves
-- [ ] C7: three new `validate_html` rules
-- [ ] C8: docs
-- [ ] C9: the full eval
+- [x] C6 `a2a8dc6`: `names.test.ts` scans the wire tool listing, each prompt down each branch, both guides and all 48 cards. Every tool name and `kern://` URI resolves; the snapshot lists 52 tools (all but `get_tokens` and `get_section`) and 18 URIs, without self-mentions.
+- [x] C7 `881011a`: `form.field_label` and `table.headers` (errors), `heading.level_skip` (a warning). A label counts only with text; a select's options don't. The new rule caught `get_inputgroup`: no label at all, and no field for one. It now takes a required `label` and renders KERN's `group-with-label` story. The listing is 119,101 of 120,000 characters (+160). `review_kern_html`'s examples of what the check can't see moved to a link made to look like a button (4.1.2) and a vague heading (2.4.6).
+- [x] C8 `271599a`: the README's Prompts section (with the VS Code and Claude Code commands, to confirm in the client check), the codebase guide (`prompts/`, `names.test.ts`, `tools/eval`) and the migration notes.
+- [x] C9 `214203d`: the eval counts an answer that holds the last render as verbatim; rescored, `r7-a-fix2` and `r7-b-fix` are 3 of 3 verbatim. Then the full eval: [prompts-r7-c](r5-eval/prompts-r7-c.json), [prompts-r7-c-plain](r5-eval/prompts-r7-c-plain.json), [r7-c](r5-eval/r7-c.json), [nested-r7-c](r5-eval/nested-r7-c.json).
+- [x] From the eval: `9e80993` quotes the section, grid and card shapes in `create_page_layout`. Eval: [prompts-r7-c-fix](r5-eval/prompts-r7-c-fix.json).
+- **Tests:** 2,270 pass (2026-10-05); the build and e2e pass.
+- **The full eval** (all on `214203d`, 3 runs per task; the plain suite ran first):
+  - **`prompts`, with against without:** 96/96 against 95/96 (without, one `fix-page` run never called `validate_html`). Answers 12 verbatim against 3 verbatim, 3 edited and 6 described. All strict-valid either way. Cost $0.93 against $0.78.
+  - **But 6 invalid inputs with the prompts, none without,** all retried:
+    - `service-page`, 3 of 3: `section` blocks without their `section` object. Fixed in `9e80993`: in `prompts-r7-c-fix` all three runs passed 8/8 with no error, in 2 calls each.
+    - `application-flow`, 2 of 3: an empty fourth step (`null`, or an empty label and no content) after the review step, dropped on the retry. And one `get_summary` call with the single-summary fields. See the findings.
+  - **`base` (`r7-c`): 96/96,** 30/30 completed and strict-valid, no errors, as in `r6-d`. The prompts capability and the new rules change nothing there.
+  - **`nested` (`nested-r7-c`): 104/105,** 12/12 strict-valid. The miss is a `service-page` run without a select; two `application-flow` answers described the form in prose, as before.
+  - **Strict-valid counts** from here on include the three new rules, so they aren't comparable with reports before `881011a`.
+
+### Findings from group C
+
+- **The wizard's empty trailing step** is still there. Since `83d1b82` it's always empty (`null`, or an empty label and no content) and comes right after the step that holds the pasted `get_summary` HTML: 1 of 3 runs in `r7-a-fix2`, 2 of 3 in `prompts-r7-c`. Two rewordings didn't stop it, and every run recovers on the retry. Wording seems the wrong lever; two tool-side options:
+  - `formFlow` drops empty trailing steps with a warning instead of rejecting the call (input normalization, as `invoke.ts` does elsewhere)
+  - a `summary` block kind in `render_composition`, so the review step doesn't paste HTML (also the JSON-escaping finding from group A)
+- **The client commands in the README** (`/mcp.kern-ux.create_input_form`, `/mcp__kern-ux__create_input_form`) follow the clients' documented naming; the release's client check confirms them.

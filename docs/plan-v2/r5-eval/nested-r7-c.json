@@ -1,0 +1,228 @@
+{
+	"label": "nested-r7-c",
+	"suite": "nested",
+	"date": "2026-10-05T19:32:52.287Z",
+	"model": "claude-haiku-4-5",
+	"serverCommit": "214203d",
+	"runsPerScenario": 3,
+	"resources": false,
+	"mcpPrompts": false,
+	"systemPrompt": "You build web page markup with the KERN UX design system. Use the kern tools to render components instead of writing KERN markup by hand. When you're done, reply with the final HTML.",
+	"total": {
+		"runs": 12,
+		"completed": 12,
+		"toolCalls": 33,
+		"errorResults": 2,
+		"invalidInputErrors": 1,
+		"retries": 2,
+		"turns": 45,
+		"checksPassed": 104,
+		"checksTotal": 105,
+		"compositionCalls": 17,
+		"compositionErrors": 1,
+		"compositionRetries": 1,
+		"blockDepth": 4,
+		"blockNodes": 13,
+		"deliveredVerbatim": 6,
+		"deliveredEdited": 4,
+		"deliveredDescribed": 2,
+		"fallbacks": 0,
+		"strictValid": 12,
+		"resourceLists": 0,
+		"resourceReads": 0,
+		"firstRequestTokens": 37786,
+		"inputTokens": 1696118,
+		"outputTokens": 71766,
+		"costUsd": 0.7306391,
+		"durationMs": 585673
+	},
+	"scenarios": [
+		{
+			"id": "dashboard",
+			"runs": 3,
+			"completed": 3,
+			"toolCalls": 9,
+			"errorResults": 1,
+			"invalidInputErrors": 0,
+			"retries": 1,
+			"turns": 12,
+			"checksPassed": 21,
+			"checksTotal": 21,
+			"compositionCalls": 4,
+			"compositionErrors": 0,
+			"compositionRetries": 0,
+			"blockDepth": 4,
+			"blockNodes": 10,
+			"deliveredVerbatim": 3,
+			"deliveredEdited": 0,
+			"deliveredDescribed": 0,
+			"fallbacks": 0,
+			"strictValid": 3,
+			"resourceLists": 0,
+			"resourceReads": 0,
+			"firstRequestTokens": 37499,
+			"inputTokens": 448418,
+			"outputTokens": 15765,
+			"costUsd": 0.1687354,
+			"durationMs": 123001,
+			"failedChecks": [],
+			"calls": [
+				[
+					"get_table",
+					"render_composition"
+				],
+				[
+					"get_card_group!unparsable",
+					"get_table",
+					"get_card_group",
+					"render_composition"
+				],
+				[
+					"render_composition",
+					"get_table",
+					"render_composition"
+				]
+			]
+		},
+		{
+			"id": "application-flow",
+			"runs": 3,
+			"completed": 3,
+			"toolCalls": 3,
+			"errorResults": 0,
+			"invalidInputErrors": 0,
+			"retries": 0,
+			"turns": 6,
+			"checksPassed": 27,
+			"checksTotal": 27,
+			"compositionCalls": 3,
+			"compositionErrors": 0,
+			"compositionRetries": 0,
+			"blockDepth": 3,
+			"blockNodes": 10,
+			"deliveredVerbatim": 1,
+			"deliveredEdited": 0,
+			"deliveredDescribed": 2,
+			"fallbacks": 0,
+			"strictValid": 3,
+			"resourceLists": 0,
+			"resourceReads": 0,
+			"firstRequestTokens": 37548,
+			"inputTokens": 241628,
+			"outputTokens": 13569,
+			"costUsd": 0.1331461,
+			"durationMs": 107579,
+			"failedChecks": [],
+			"calls": [
+				[
+					"render_page"
+				],
+				[
+					"render_page"
+				],
+				[
+					"render_composition"
+				]
+			]
+		},
+		{
+			"id": "service-page",
+			"runs": 3,
+			"completed": 3,
+			"toolCalls": 7,
+			"errorResults": 0,
+			"invalidInputErrors": 0,
+			"retries": 0,
+			"turns": 10,
+			"checksPassed": 23,
+			"checksTotal": 24,
+			"compositionCalls": 3,
+			"compositionErrors": 0,
+			"compositionRetries": 0,
+			"blockDepth": 3,
+			"blockNodes": 13,
+			"deliveredVerbatim": 2,
+			"deliveredEdited": 1,
+			"deliveredDescribed": 0,
+			"fallbacks": 0,
+			"strictValid": 3,
+			"resourceLists": 0,
+			"resourceReads": 0,
+			"firstRequestTokens": 37510,
+			"inputTokens": 338998,
+			"outputTokens": 26766,
+			"costUsd": 0.22933199999999998,
+			"durationMs": 221199,
+			"failedChecks": [
+				"structure: the item type select (0)"
+			],
+			"calls": [
+				[
+					"get_accordion",
+					"get_table",
+					"render_page"
+				],
+				[
+					"render_page"
+				],
+				[
+					"get_table",
+					"get_accordion",
+					"render_page"
+				]
+			]
+		},
+		{
+			"id": "fix-page",
+			"runs": 3,
+			"completed": 3,
+			"toolCalls": 14,
+			"errorResults": 1,
+			"invalidInputErrors": 1,
+			"retries": 1,
+			"turns": 17,
+			"checksPassed": 33,
+			"checksTotal": 33,
+			"compositionCalls": 7,
+			"compositionErrors": 1,
+			"compositionRetries": 1,
+			"blockDepth": 3,
+			"blockNodes": 13,
+			"deliveredVerbatim": 0,
+			"deliveredEdited": 3,
+			"deliveredDescribed": 0,
+			"fallbacks": 0,
+			"strictValid": 3,
+			"resourceLists": 0,
+			"resourceReads": 0,
+			"firstRequestTokens": 37786,
+			"inputTokens": 667074,
+			"outputTokens": 15666,
+			"costUsd": 0.19942559999999998,
+			"durationMs": 133894,
+			"failedChecks": [],
+			"calls": [
+				[
+					"validate_html",
+					"render_composition",
+					"render_page"
+				],
+				[
+					"validate_html",
+					"render_page",
+					"render_page"
+				],
+				[
+					"validate_html",
+					"render_composition",
+					"get_table",
+					"get_disclosure",
+					"render_composition!invalid-input",
+					"get_heading",
+					"render_composition",
+					"validate_html"
+				]
+			]
+		}
+	]
+}
