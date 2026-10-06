@@ -39,7 +39,7 @@ To skip the build, create your own `compose.yaml` anywhere:
 ```yaml
 services:
   kern-ux-mcp-http:
-    image: ghcr.io/leonio/kern-ux-mcp-http:alpha   # or a fixed version tag
+    image: ghcr.io/leonio/kern-ux-mcp-http:latest   # or a fixed version tag
     ports:
       - "127.0.0.1:3000:3000"
     environment:
@@ -55,7 +55,7 @@ and run `docker compose up -d`. Image tags follow npm: the exact version, `alpha
 Without Compose, the same thing is:
 
 ```bash
-docker run --rm -p 127.0.0.1:3000:3000 -e KERN_ALLOWED_HOSTS=localhost ghcr.io/leonio/kern-ux-mcp-http:alpha
+docker run --rm -p 127.0.0.1:3000:3000 -e KERN_ALLOWED_HOSTS=localhost ghcr.io/leonio/kern-ux-mcp-http:latest
 ```
 
 ## Change settings

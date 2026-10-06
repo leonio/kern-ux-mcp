@@ -8,6 +8,6 @@
 - **Errors:** invalid arguments now come back as a tool result with `isError: true` instead of a JSON-RPC error, so models can read them and retry.
 - **Tools:** the tool list, tool names, descriptions (now English) and some rendered markup changed.
 
-Most users only need to update the version in their client config (`@alpha` during the alpha) and restart the client.
+Most users only need to update the version in their client config and restart the client.
 
 The full list, with what to change, is in [docs/migration-2.0.md](https://github.com/leonio/kern-ux-mcp/blob/main/docs/migration-2.0.md).

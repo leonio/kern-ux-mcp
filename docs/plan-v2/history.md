@@ -152,5 +152,5 @@ The R4 leftovers that change tool output, held back so R5's comparisons stayed c
 - **To do:**
   - **The client check:** VS Code Copilot, Claude Code and Claude Desktop, over stdio and HTTP, on both protocol versions, with tools, resources and prompts; the `.mcpb` on Desktop with Node 24. It also confirms the README's prompt commands (`/mcp.kern-ux.create_input_form` in VS Code, `/mcp__kern-ux__create_input_form` in Claude Code).
   - **The docs:** the migration notes' "next alpha" sections become 2.0.0; the merge PR's description is the release notes, since GitHub generates them from PRs.
-  - **The wiki** publishes from `main`, so its `@alpha` commands, the `alpha` image tag and the "2.0 is in alpha" note on its home page change in the merge. Its screenshots are still grey placeholders (listed on its Development page).
+  - **The wiki** publishes from `main` and already describes 2.0.0: untagged packages and the `latest` image (2026-10-06). Run the release right after the merge, or the untagged commands install 1.1.2 until it's out. Its screenshots are still grey placeholders (listed on its Development page).
   - **Merge** `feat/v2-alpha` into `main` and run the release.

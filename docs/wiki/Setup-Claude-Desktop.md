@@ -29,7 +29,7 @@ The bundle needs Node.js 24.16 or later, either built into Claude Desktop or ins
      "mcpServers": {
        "kern-ux": {
          "command": "npx",
-         "args": ["-y", "@leonio/kern-ux-mcp@alpha"]
+         "args": ["-y", "@leonio/kern-ux-mcp"]
        }
      }
    }

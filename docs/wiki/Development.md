@@ -9,7 +9,6 @@ You need Node.js 24.16+ and git. Docker is optional (for the container).
 ```bash
 git clone https://github.com/leonio/kern-ux-mcp.git
 cd kern-ux-mcp
-git checkout feat/v2-alpha   # the 2.0 line, until it's merged into main
 npm ci
 ```
 

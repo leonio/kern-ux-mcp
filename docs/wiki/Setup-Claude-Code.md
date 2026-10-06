@@ -5,15 +5,15 @@ Claude Code adds MCP servers with `claude mcp add`. You need Node.js 24.16+ for 
 ## stdio
 
 ```bash
-claude mcp add kern-ux -- npx -y @leonio/kern-ux-mcp@alpha
+claude mcp add kern-ux -- npx -y @leonio/kern-ux-mcp
 ```
 
-Everything after `--` is the command that starts the server. Drop `@alpha` once 2.0.0 is released.
+Everything after `--` is the command that starts the server.
 
 Add `--scope project` to save it in the project's `.mcp.json`, so everyone who opens the repo gets it:
 
 ```bash
-claude mcp add --scope project kern-ux -- npx -y @leonio/kern-ux-mcp@alpha
+claude mcp add --scope project kern-ux -- npx -y @leonio/kern-ux-mcp
 ```
 
 ## HTTP
@@ -51,5 +51,5 @@ Then ask: *"Using KERN, build a contact form with name, email and message, and v
 
 ## If it doesn't work
 
-- **`failed` in `/mcp`**: run the server command yourself (`npx -y @leonio/kern-ux-mcp@alpha`). It should wait silently; any error shows there.
+- **`failed` in `/mcp`**: run the server command yourself (`npx -y @leonio/kern-ux-mcp`). It should wait silently; any error shows there.
 - More in [Debugging and troubleshooting](Debugging-and-Troubleshooting).

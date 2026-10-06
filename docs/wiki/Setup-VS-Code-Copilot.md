@@ -12,13 +12,13 @@ GitHub Copilot Chat in VS Code uses MCP tools in **agent mode**. You need VS Cod
        "kern-ux": {
          "type": "stdio",
          "command": "npx",
-         "args": ["-y", "@leonio/kern-ux-mcp@alpha"]
+         "args": ["-y", "@leonio/kern-ux-mcp"]
        }
      }
    }
    ```
 
-   Drop `@alpha` once 2.0.0 is released. To use the server in every workspace, run **MCP: Open User Configuration** from the Command Palette and put the same entry there instead.
+   To use the server in every workspace, run **MCP: Open User Configuration** from the Command Palette and put the same entry there instead.
 
 2. Click **Start** above the `kern-ux` entry in the file, or run **MCP: List Servers** → `kern-ux` → **Start Server**.
 
@@ -30,7 +30,7 @@ GitHub Copilot Chat in VS Code uses MCP tools in **agent mode**. You need VS Cod
 
 ## HTTP
 
-Start the server first, for example with [Docker](HTTP-Server-with-Docker) or `npx -y @leonio/kern-ux-mcp-http@alpha`.
+Start the server first, for example with [Docker](HTTP-Server-with-Docker) or `npx -y @leonio/kern-ux-mcp-http`.
 
 1. Create `.vscode/mcp.json`:
 

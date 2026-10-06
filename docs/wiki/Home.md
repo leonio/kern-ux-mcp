@@ -2,8 +2,6 @@
 
 An [MCP](https://modelcontextprotocol.io/) server that lets AI assistants build accessible HTML with the [KERN-UX](https://www.kern-ux.de/) design system. It offers tools that render KERN components and whole pages, and a validator that checks HTML against KERN's accessibility rules (BITV/WCAG).
 
-> **2.0 is in alpha.** The pages in this wiki describe the `feat/v2-alpha` line (`2.0.0-alpha.*` packages and the `alpha` container tag). Things can still change before 2.0.0.
-
 ## Pick your path
 
 **I want to use it**

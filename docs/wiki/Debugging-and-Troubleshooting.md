@@ -8,7 +8,7 @@ Set `KERN_DEBUG=1`. The server then writes every request and tool call to stderr
 |---|---|
 | stdio in VS Code | Add `"env": { "KERN_DEBUG": "1" }` to the server in `mcp.json`. The log is in **MCP: List Servers** → `kern-ux` → **Show Output**. |
 | stdio in Claude Desktop | `.mcpb`: **Settings → Extensions → KERN UX → Debug logging**. Config file: add `"env": { "KERN_DEBUG": "1" }`. Logs are under **Settings → Developer**. |
-| stdio in Claude Code | `claude mcp add -e KERN_DEBUG=1 kern-ux -- npx -y @leonio/kern-ux-mcp@alpha` |
+| stdio in Claude Code | `claude mcp add -e KERN_DEBUG=1 kern-ux -- npx -y @leonio/kern-ux-mcp` |
 | HTTP / Docker | Uncomment `KERN_DEBUG: "1"` in `compose.yaml`; read it with `docker compose -f packages/http/compose.yaml logs -f` |
 
 ## Test the server without an AI: MCP Inspector
@@ -17,7 +17,7 @@ The [MCP Inspector](https://github.com/modelcontextprotocol/inspector) lets you 
 
 ```bash
 # stdio
-npx @modelcontextprotocol/inspector npx -y @leonio/kern-ux-mcp@alpha
+npx @modelcontextprotocol/inspector npx -y @leonio/kern-ux-mcp
 
 # your checkout (after npm run build)
 npx @modelcontextprotocol/inspector node packages/stdio/dist/index.js
