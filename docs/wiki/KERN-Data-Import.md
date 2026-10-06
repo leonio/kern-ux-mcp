@@ -2,8 +2,6 @@
 
 The server doesn't read KERN's sources at runtime. Everything it knows about KERN components (names, options, documentation, accessibility notes, example HTML) comes from one file, `registry.json`, that ships inside the package. This page explains where that file comes from and how to update it.
 
-> **Alpha:** this flow is being built in roadmap step R6 A. The `knowledge:import` command lands with R6 A2. Until then, use `registry:import` (see [Today](#today-registryimport)).
-
 ## How data flows in
 
 ```
@@ -48,22 +46,20 @@ The import stops, and writes nothing, when:
 - the bundle's major version isn't one this repo reads;
 - a component that one of our tools renders is missing from the bundle;
 - an example our tools pick by ID is missing;
-- two KERN IDs map to the same ID of ours.
+- two KERN IDs map to the same ID of ours;
+- a component has a status our tools don't know.
 
 Fix the bundle (in the packer) or the mapping (in this repo), and run the import again.
 
-## Today: `registry:import`
+## Regenerate `registry.json` only
 
-Until R6 A2 lands, `registry.json` is imported directly:
+After a change to the mapping (`packages/core/src/ux/knowledge-map.ts`), run the import without a path. It regenerates `registry.json` from the checked-in `knowledge/`:
 
 ```bash
-npm run registry:import -- path/to/registry.json --dry-run   # check only
-npm run registry:import -- path/to/registry.json             # write
+npm run knowledge:import
 ```
-
-It checks the file against the registry contract (`npm run registry:schema` exports it) and against the component tools, prints what changes, and writes `packages/core/src/ux/registry.json`.
 
 ## Deeper reading
 
 - [The knowledge bundle](https://github.com/leonio/kern-ux-mcp/blob/main/docs/plan-v2/knowledge-bundle.md): the design in full
-- [R6 kickoff](https://github.com/leonio/kern-ux-mcp/blob/main/docs/plan-v2/r6-kickoff.md): the decisions and the steps
+- [How the import was built](https://github.com/leonio/kern-ux-mcp/blob/main/docs/plan-v2/history.md#r6-the-knowledge-bundle-layout-and-resources): the decisions and the steps
