@@ -20,7 +20,7 @@
  *
  * It uses the Claude Code login of whoever runs it (no API key needed); each run
  * costs a few cents at Haiku rates. The summary goes to
- * docs/plan-v2/r5-eval/<label>.json, raw transcripts to tools/eval/.runs/<label>/.
+ * docs/plan-v2/evals/<label>.json, raw transcripts to tools/eval/.runs/<label>/.
  */
 import { execFileSync, spawn } from "node:child_process";
 import fs from "node:fs/promises";
@@ -61,7 +61,7 @@ if (!label || !/^[\w.-]+$/.test(label)) {
 	process.exit(2);
 }
 const fromTranscripts = process.argv.includes("--from-transcripts");
-const reportDir = path.join(REPO_ROOT, "docs/plan-v2/r5-eval");
+const reportDir = path.join(REPO_ROOT, "docs/plan-v2/evals");
 const reportPath = path.join(reportDir, `${label}.json`);
 // Re-scoring keeps what describes the original run, including its suite.
 const previous = fromTranscripts
@@ -127,7 +127,7 @@ function serverCommit(): string {
 				"--porcelain",
 				"--",
 				":/",
-				":(top,exclude)docs/plan-v2/r5-eval",
+				":(top,exclude)docs/plan-v2/evals",
 			],
 			{ encoding: "utf8" },
 		).trim();
@@ -324,5 +324,5 @@ console.log(
 	`Tokens: first request ${total.firstRequestTokens}, input ${total.inputTokens}, output ${total.outputTokens}; cost $${total.costUsd.toFixed(2)}; ${Math.round(total.durationMs / 1000)} s`,
 );
 console.log(
-	`Summary: docs/plan-v2/r5-eval/${label}.json, transcripts: tools/eval/.runs/${label}/`,
+	`Summary: docs/plan-v2/evals/${label}.json, transcripts: tools/eval/.runs/${label}/`,
 );

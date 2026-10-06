@@ -16,7 +16,7 @@ const outputSchemas = new WeakMap<ToolDef, StandardSchemaWithJSON>();
  * - `jsonSchema.input()` returns our own JSON Schema (json-schema.ts), memoised
  *   per Zod schema and shared with the domain listing. The SDK asks for draft
  *   2020-12 but our draft-07 document works with every client tested (plan-v2
- *   finding 17), and the SDK calls this on every tools/list.
+ *   history, R0), and the SDK calls this on every tools/list.
  * - `validate()` runs normalize → Zod parse, and on failure returns one issue
  *   without a path whose message is our hint. The SDK wraps it as
  *   "Input validation error: Invalid arguments for tool <name>: <hint>" and

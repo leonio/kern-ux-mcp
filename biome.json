@@ -10,7 +10,7 @@
 			"**",
 			"!packages/core/src/ux/registry.json",
 			"!knowledge",
-			"!docs/plan-v2/r5-eval",
+			"!docs/plan-v2/evals",
 			"!samples/basic-layout/assets",
 			"!**/__snapshots__"
 		]

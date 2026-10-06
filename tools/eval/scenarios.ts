@@ -121,7 +121,7 @@ const BROKEN_PAGE = `<main>
 /**
  * Layouts that need the recursive block union: several levels of containers,
  * the form rules, a whole page, and a repair loop on large input
- * (docs/plan-v2/post-alpha-work.md, section 4). Run with `--suite nested`.
+ * (docs/plan-v2/history.md, R5). Run with `--suite nested`.
  */
 export const NESTED_SCENARIOS: readonly Scenario[] = [
 	{

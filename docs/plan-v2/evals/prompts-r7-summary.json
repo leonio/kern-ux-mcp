@@ -4,7 +4,7 @@
 	"date": "2026-10-06T19:33:48.243Z",
 	"rescored": "2026-10-06T19:48:01.069Z",
 	"model": "claude-haiku-4-5",
-	"serverCommit": "d336901",
+	"serverCommit": "307866b",
 	"runsPerScenario": 3,
 	"resources": false,
 	"mcpPrompts": true,

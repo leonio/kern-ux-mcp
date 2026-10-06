@@ -1,5 +1,5 @@
 /**
- * Compares two eval reports (docs/plan-v2/r5-eval/<label>.json) side by side:
+ * Compares two eval reports (docs/plan-v2/evals/<label>.json) side by side:
  * the totals, then each scenario's errors, retries, calls and checks.
  *
  *   npm run eval:compare -- baseline option-b
@@ -110,7 +110,7 @@ if (
 		process.exit(2);
 	}
 	const dir = fileURLToPath(
-		new URL("../../docs/plan-v2/r5-eval/", import.meta.url),
+		new URL("../../docs/plan-v2/evals/", import.meta.url),
 	);
 	const read = async (label: string) =>
 		JSON.parse(

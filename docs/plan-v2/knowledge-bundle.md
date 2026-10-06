@@ -1,6 +1,6 @@
 # The KERN knowledge bundle: what the generator writes, and how this repo builds tooling from it
 
-Draft for review, 2026-10-02. It replaces the "what to add" and "how to generate" parts of [registry-requirements.md](registry-requirements.md) (sections 3, 5 and 6), which assumed two sources. The generator now reads three:
+Written on 2026-10-02 as the design the packer (`kern-ux-knowledge-packer`, then called the generator) was built from; R6 built this repo's side ([history.md](history.md#r6-the-knowledge-bundle-layout-and-resources)). The decisions in [section 10](#10-decisions-2026-10-02) are current: where an earlier section differs, section 10 wins. The generator reads three sources:
 
 - **`kern-ux-plain`**: the HTML/CSS implementation
 - **`technische-dokumentation`**: the kern-ux.de docs source
@@ -292,7 +292,7 @@ The maintainer is rebuilding the generator from this design. Until a bundle exis
 4. **English only** for generated text. German stays in component names, synonyms and the UI labels in examples.
 5. **The React checks wait** until K5.
 
-Added after reviewing the first bundle ([knowledge-bundle-review.md](knowledge-bundle-review.md)):
+Added after reviewing the first bundle (0.2.0):
 
 6. **The generator owns the bundle schema** (`kern-ux-scraper/schema/knowledge-bundle.schema.json`). ~~This repo owns a consumer contract: Zod for the fields it reads, unknown keys allowed, exported as JSON Schema. The generator's CI validates against both.~~ **Revised 2026-10-03:** the dependency is one-way. The packer publishes the bundle with its schema and knows nothing about this repo. This repo has plain types for the fields it reads and checks the bundle at import. Semver and the additive rule stay.
 7. **`registry.json` is derived from the bundle alone**, plus a code-owned map (component ID aliases, the tools without a bundle component, later the parameter map). The two aren't merged; a one-time parity diff against today's registry catches regressions.
@@ -301,7 +301,7 @@ Added later on 2026-10-02:
 
 8. **The generator builds everything, the docs text included.** It takes the kern-ux.de docs' German text and translates it into English; this repo only consumes the bundle as static JSON under `knowledge/`. The maintainer's decision, which supersedes the earlier "docs prose is never copied" (the docs repository's `LICENSE.md` is EUPL-1.2, while its licence page puts texts and graphics under CC BY-NC-SA).
 
-Added on 2026-10-03, after reviewing the bundle with its English text (details in [r6-kickoff.md](r6-kickoff.md#decisions)):
+Added on 2026-10-03, after reviewing the bundle with its English text (R6 in [history.md](history.md#r6-the-knowledge-bundle-layout-and-resources)):
 
 9. **One command, two files.** `knowledge:import` copies the bundle into `knowledge/` and generates `registry.json` from it, with the code-owned map. `registry.json` becomes internal: only what the server serves, never edited by hand. K1b no longer waits on the generator:
    - **Canonical HTML:** only the four fallback tools need it, so code picks their bundle examples by ID.

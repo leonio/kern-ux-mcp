@@ -44,7 +44,7 @@ export type ReviewedComponentGuidance = {
  * Reviewed notes about this repo's component tools: where a tool deliberately
  * differs from the upstream KERN component, and what that means for authors.
  * They describe our implementation, not KERN, so they live in code rather than
- * in the knowledge bundle (docs/plan-v2/registry-requirements.md, 2.4).
+ * in the knowledge bundle, which describes KERN and never names our tools.
  * get_component_docs serves them as reviewedGuidance.
  */
 const TOOL_NOTES: Readonly<Record<string, ReviewedComponentGuidance>> = {
