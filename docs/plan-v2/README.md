@@ -8,7 +8,7 @@ This folder keeps what's useful after the release:
 |---|---|
 | [history.md](history.md) | How the work was carried out, step by step: what each step did, the decisions that shaped it, the measurements and what was learned. |
 | [knowledge-bundle.md](knowledge-bundle.md) | The design of the KERN knowledge bundle and how this repo uses it, with the decisions behind it. The packer's schema and `knowledge-map.ts` cite it. |
-| [evals/](evals/) | The eval reports. `npm run eval` writes here; the newest reports are the reference for the next comparison. |
+| [evals/](evals/) | The eval reports; `npm run eval` writes here. It keeps the newest report of each kind on the 2.0 server: `r7-c` (base), `nested-r7-c`, `prompts-r7-c` and `prompts-r7-c-plain`, `prompts-r7-checkbox` (the wizard) and `r6-fix-res-off` (resources). The older ones are in git at `e0ee9bb`. |
 
 Elsewhere:
 - What changed for clients: [migration-2.0.md](../migration-2.0.md)

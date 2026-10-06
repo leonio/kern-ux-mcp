@@ -102,7 +102,7 @@ The open refactors from that list are the `defineTool()` migration in the [READM
   - Shorter isn't always safe: cutting the alert's `body` description to a phrase made one run send it as a sentence 13 times. Name an object's keys.
   - Read the assembled text in the snapshot diff, not the source fragments.
   - Read transcripts before trusting a new measurement: the harness had two scoring bugs, both found that way.
-  - What was evaluated is in [evals/](evals/): `baseline`, `option-b`, `english-1` to `-4`, `nested-baseline`, `nested-english-3` and `-4`.
+  - The reports (`baseline`, `option-b`, `english-1` to `-4`, `nested-baseline`, `nested-english-3` and `-4`) are in git at `e0ee9bb`, under `docs/plan-v2/r5-eval/`.
 
 ## R5.1: output polish
 
