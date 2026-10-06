@@ -1,32 +1,28 @@
 # Migrating from 1.x to 2.0
 
-This file lists what changes for clients and integrators between `@leonio/kern-ux-mcp` 1.1.2 and 2.0.0. It's also the record of *why* the contract looks the way it does, for anyone working on the server later. Each entry says which pre-release first has it. How the work was done is in [v2-migration/history.md](v2-migration/history.md).
-
-**Keep it current.** Every commit that changes the MCP contract (tool names, inputs, outputs, error behaviour, or rendered markup a client may rely on) adds an entry here in the same commit. Commit subjects on `feat/v2-alpha` don't use `!` or a `BREAKING CHANGE:` footer, because GitVersion would bump the major, so this file is where breaking changes are recorded.
-
-Pre-releases go out under the npm dist-tag `alpha`. "Next alpha" means landed on `feat/v2-alpha` but not released yet.
+What changes for clients and integrators between `@leonio/kern-ux-mcp` 1.1.2 and 2.0.0: the breaking changes first, with what to do about each, then the details by area. How the work was done is in [v2-migration/history.md](v2-migration/history.md).
 
 ## Breaking changes at a glance
 
-| Change | Since | What to do |
-|---|---|---|
-| Invalid arguments and strict-mode failures are tool results with `isError: true`, not JSON-RPC errors | 2.0.0-alpha.69 | Read the hint text from the result content |
-| An unknown tool fails with JSON-RPC `-32602` "Tool \<name\> not found" | 2.0.0-alpha.69 | Match on the code, not the old "Unknown tool" text |
-| `get_fieldset` wraps your own fields: `legend` and `contentBlocks` are required; `includeHint` and `hintText` are gone | next alpha | Pass `field` blocks in `contentBlocks`; use `hint` |
-| `get_kopfzeile` renders the upstream Kopfzeile: `title` and `includeNav` are replaced by `label` and `fluid` | next alpha | Use `render_page` for a header with navigation |
-| Buttons render `type="button"` unless you ask for `type: "submit"` | next alpha | Set `type: "submit"` on a button that should submit its form |
-| A button with `size: "small"` renders KERN's `kern-btn--small` (40 px), not `kern-btn--x-small` (32 px) | next alpha | Ask for `size: "x-small"` if you want the 32 px button |
-| Block content rejects nested forms, a card directly in a card, and a section or disclosure without content | next alpha | Restructure; the error names the path |
-| `formFlow`: `heading` is the form heading; the step list has its own `tasklistHeading` | next alpha | Set `tasklistHeading` if you relied on `heading` for the step list |
-| Text in labels, hints, errors, values and option text is escaped | next alpha | Don't pass markup in these strings |
-| `get_index` is gone | next alpha | Nothing: it rendered a placeholder for an internal SCSS file, not a KERN component |
-| `get_section`, `get_card`, `get_card_group`, `get_grid`, `get_disclosure` and `get_fieldset` take only `text`, `html`, `badge` and `field` blocks | next alpha | Build nested layouts (cards in a section, a grid in a disclosure, buttons in a card's body) with `render_composition` or `render_page`; put card actions in `footer` |
-| `get_grid`, grid blocks, `get_card_group` and `render_page`'s footer render `kern-grid` instead of `kern-row` and `kern-col-*` | next alpha | Update CSS or scripts that select `.kern-row` or `.kern-col-md-*` in our markup |
-| `get_inputgroup` needs a `label` and renders KERN's labelled input group: the group sits in `kern-form-input` under a `<label class="kern-label" for>` | next alpha | Pass `label`; update CSS or scripts that expect `kern-input-group` at the top |
-| `validate_html` reports fields without a label and tables without header cells as errors (`form.field_label`, `table.headers`) | next alpha | Label every field and give data tables `th` cells; with `strict: true` such HTML now fails |
-| `get_component_docs` returns KERN's guidance in new fields (`summary`, `whenToUse`, `dos`, `docs`, …); `excerpt`, `sections` and `files` are gone, and `canonicalHtml` comes only for `details`, `search`, `layers` and `pattern` | next alpha | Read the new fields; call the component's `tool` for its markup |
+| Change | What to do |
+|---|---|
+| Invalid arguments and strict-mode failures are tool results with `isError: true`, not JSON-RPC errors | Read the hint text from the result content |
+| An unknown tool fails with JSON-RPC `-32602` "Tool \<name\> not found" | Match on the code, not the old "Unknown tool" text |
+| `get_fieldset` wraps your own fields: `legend` and `contentBlocks` are required; `includeHint` and `hintText` are gone | Pass `field` blocks in `contentBlocks`; use `hint` |
+| `get_kopfzeile` renders the upstream Kopfzeile: `title` and `includeNav` are replaced by `label` and `fluid` | Use `render_page` for a header with navigation |
+| Buttons render `type="button"` unless you ask for `type: "submit"` | Set `type: "submit"` on a button that should submit its form |
+| A button with `size: "small"` renders KERN's `kern-btn--small` (40 px), not `kern-btn--x-small` (32 px) | Ask for `size: "x-small"` if you want the 32 px button |
+| Block content rejects nested forms, a card directly in a card, and a section or disclosure without content | Restructure; the error names the path |
+| `formFlow`: `heading` is the form heading; the step list has its own `tasklistHeading` | Set `tasklistHeading` if you relied on `heading` for the step list |
+| Text in labels, hints, errors, values and option text is escaped | Don't pass markup in these strings |
+| `get_index` is gone | Nothing: it rendered a placeholder for an internal SCSS file, not a KERN component |
+| `get_section`, `get_card`, `get_card_group`, `get_grid`, `get_disclosure` and `get_fieldset` take only `text`, `html`, `badge` and `field` blocks | Build nested layouts (cards in a section, a grid in a disclosure, buttons in a card's body) with `render_composition` or `render_page`; put card actions in `footer` |
+| `get_grid`, grid blocks, `get_card_group` and `render_page`'s footer render `kern-grid` instead of `kern-row` and `kern-col-*` | Update CSS or scripts that select `.kern-row` or `.kern-col-md-*` in our markup |
+| `get_inputgroup` needs a `label` and renders KERN's labelled input group: the group sits in `kern-form-input` under a `<label class="kern-label" for>` | Pass `label`; update CSS or scripts that expect `kern-input-group` at the top |
+| `validate_html` reports fields without a label and tables without header cells as errors (`form.field_label`, `table.headers`) | Label every field and give data tables `th` cells; with `strict: true` such HTML now fails |
+| `get_component_docs` returns KERN's guidance in new fields (`summary`, `whenToUse`, `dos`, `docs`, …); `excerpt`, `sections` and `files` are gone, and `canonicalHtml` comes only for `details`, `search`, `layers` and `pattern` | Read the new fields; call the component's `tool` for its markup |
 
-## Protocol and errors (2.0.0-alpha.69)
+## Protocol and errors
 
 - The server runs on the MCP TypeScript SDK v2 and speaks protocol **2026-07-28**. It still serves 2024-11-05 through 2025-11-25 clients.
 - **Invalid arguments** and **strict-mode validation failures** come back as tool results with `isError: true`. The text starts with `Input validation error: Invalid arguments for tool <name>:`, followed by the same hint as in 1.x. In 1.x these were JSON-RPC errors, which most models never see. Now a model can read the hint and correct its call.
@@ -34,14 +30,15 @@ Pre-releases go out under the npm dist-tag `alpha`. "Next alpha" means landed on
 - `serverInfo.version` is the package version. In 1.x it was always `0.1.0`.
 - On 2026-07-28, `tools/list`, `prompts/list`, `resources/list`, `resources/templates/list` and `server/discover` can be cached for one hour (`public`).
 
-## Tool listing (2.0.0-alpha.69)
+## Tool listing
 
 - Every tool has a `title` and `annotations` (`readOnlyHint`, `idempotentHint`, `openWorldHint: false`). The tools only generate or check markup.
 - Every tool advertises an `outputSchema`. Successful results add `structuredContent`, next to the unchanged JSON text block.
-- New tools from the KERN 2.8.2 registry: `get_details` and `get_search`. 1.1.2 had 52 tools; alpha.69 has 54.
+- 1.1.2 had 52 tools; 2.0 has 54. New: `get_details` and `get_search` (from KERN 2.8.2) and `render_page`. Gone: `get_index`.
+- The model-facing listing (names, descriptions and input schemas) is about 119K characters of compact JSON; 1.1.2's was about 142K. `outputSchema` adds about 48K, for clients that pass it to the model.
 - `validate_html.html` accepts at most 500,000 characters.
 
-## Packages and distribution (2.0.0-alpha.69)
+## Packages and distribution
 
 - `@leonio/kern-ux-mcp` stays the stdio server, with the same `kern-ux-mcp` bin and Node `>=24.16.0`. It's now one bundled file. Its dependencies are `@modelcontextprotocol/server` (replacing `@modelcontextprotocol/sdk`), `node-html-parser` and `zod`. `fast-glob` no longer installs.
 - **New:** `@leonio/kern-ux-mcp-http`, a Streamable HTTP server (`kern-ux-mcp-http` bin), configured through `HOST`, `PORT`, `KERN_ALLOWED_HOSTS`, `KERN_ALLOWED_ORIGINS`, `KERN_AUTH_TOKEN`, `KERN_RATE_LIMIT` and `KERN_CORS_ORIGINS`. See the [README](../README.md).
@@ -49,22 +46,20 @@ Pre-releases go out under the npm dist-tag `alpha`. "Next alpha" means landed on
 - **New:** an MCP Bundle (`kern-ux-mcp-<version>.mcpb`) attached to each GitHub release, for Claude Desktop.
 - npm packages are published with provenance and ship a CycloneDX SBOM.
 
-## Tool list (next alpha)
+## Which tools exist
 
-- **Code decides which tools exist, not the registry.** In 1.x and alpha.69, every component in `registry.json` became a `get_<id>` tool, so regenerating the registry could add or remove tools. That's how `get_details` and `get_search` arrived with KERN 2.8.2, and how `get_index` came from `_index.scss`, an internal partial. Now a table in code lists the 54 component tools; a registry component outside it is documented by `get_component_docs` but has no tool.
-- `get_index` is removed: 54 tools.
+- **Code decides which tools exist, not the registry.** In 1.x, every component in `registry.json` became a `get_<id>` tool, so regenerating the registry could add or remove tools. That's how `get_details` and `get_search` arrived with KERN 2.8.2, and how `get_index` came from `_index.scss`, an internal partial. Now a table in code lists the 43 component tools; a registry component outside it is documented by `get_component_docs` but has no tool.
 - `get_heading`, `get_label`, `get_preline`, `get_subline` and `get_title` no longer return the warning "No canonical story template extracted for …" on every call. It was a diagnostic from the registry generator.
-- `get_component_docs` takes `reviewedGuidance` (notes about where our tools differ from upstream KERN) from code instead of the registry. Its shape is unchanged. The Kopfzeile notes now describe the real Kopfzeile; alpha.69 still called the tool a placeholder.
+- `get_component_docs` takes `reviewedGuidance` (notes about where our tools differ from upstream KERN) from code instead of the registry. Its shape is unchanged. The Kopfzeile notes now describe the real Kopfzeile.
 - `list_components_by_category` no longer lists `index`. It reports `strategy: "interactive"` for `inputdate`, `inputemail`, `inputfile`, `inputgroup`, `inputnumber`, `inputpassword`, `inputtel`, `inputurl` and `tasklist`, whose tools have full schemas; it said `"fallback"`.
 
-## Smaller standalone block tools (next alpha)
+## Smaller standalone block tools
 
-- `get_section`, `get_card`, `get_card_group`, `get_grid`, `get_disclosure` and `get_fieldset` take **simple blocks only**: `text`, `html`, `badge` and `field`. Each of them used to list the full recursive block union, 12.5K characters of JSON Schema per tool. Without it the listing shrinks from 201K to 143K characters.
+- `get_section`, `get_card`, `get_card_group`, `get_grid`, `get_disclosure` and `get_fieldset` take **simple blocks only**: `text`, `html`, `badge` and `field`. Each of them used to list the full recursive block union, 12.5K characters of JSON Schema per tool.
 - Containers still nest in `render_composition` and `render_page`, which take every block kind. A `section`, `card`, `grid`, `disclosure` or `fieldset` block there holds any block, as before.
 - A container block sent to one of the six tools is rejected. The hint names the tool and points at `render_composition`.
-- Why: the R5 baseline (Haiku 4.5, ten scenarios, three runs each) sent composite tasks to `render_page` and `render_composition`. The six tools got 5 calls in 30 runs, all `get_fieldset` with field blocks only.
 
-## English descriptions (next alpha)
+## English descriptions
 
 - English text for:
   - the 13 form-field tools: `get_inputtext`, `get_inputdate`, `get_inputemail`, `get_inputnumber`, `get_inputpassword`, `get_inputtel`, `get_inputurl`, `get_inputfile`, `get_inputgroup`, `get_textarea`, `get_select`, `get_checkbox` and `get_radio`
@@ -76,19 +71,18 @@ Pre-releases go out under the npm dist-tag `alpha`. "Next alpha" means landed on
   - the parameters every tool shares: `locale`, `strict`, heading levels, grid columns, sizes and icons
 
   Names, types and defaults are unchanged. The tool descriptions no longer say "(Komposition)"; `get_section` says it's a composition helper of this repo, and `get_disclosure` points at `get_accordion` with mode `group` for several items.
-- These tools' input schemas no longer have a top-level `description`; it repeated the tool description. Their advice on when to use a component (a select or radios, a textarea or a text input) is gone too. It will come from the KERN knowledge bundle.
+- These tools' input schemas no longer have a top-level `description`; it repeated the tool description. Their advice on when to use a component (a select or radios, a textarea or a text input) is gone too. KERN's own guidance comes through `get_component_docs` and the component cards.
 - The tool descriptions say what each tool renders and what it leaves out, for example that `get_heading` uses `kern-heading-medium` at every level. They no longer carry a category such as "(Foundational/Layout)".
 - `get_pattern` points at `render_page` for a page with header and footer.
 - Descriptions no longer carry example payloads (`get_button`, `get_card_group`, `get_dialog`, `get_disclosure`, `get_heading`, `get_icon`, `get_section`, `get_select`, `get_tasklist`, `render_page`). The invalid-input hints keep their known-good payloads, and `render_page`'s hint now has one too.
 - The block schema's error messages are in English: "Blocks nest at most 4 levels deep.", "At most 60 blocks in all.", "Set contentBlocks or paragraphs." (`get_section`), "Set contentBlocks or content." (`get_disclosure`) and "Add at least one block." (`render_composition`). A client that matched the German messages needs updating.
 - `render_composition`'s cheat sheet states the limits (4 levels, 60 blocks).
-- `get_accordion` renders a group when it gets `items` without `content`, whatever `mode` says. Why: in the R5 evals the most frequent error was `items` sent with `mode: "single"` or no mode, which failed on the missing `title` and `content`.
-- `get_select` options accept `label` as well as `text`, and the options of a `field` block accept `text` as well as `label`. Why: the R5 baseline's only errors were `field` options written in `get_select`'s shape.
+- `get_accordion` renders a group when it gets `items` without `content`, whatever `mode` says.
+- `get_select` options accept `label` as well as `text`, and the options of a `field` block accept `text` as well as `label`.
 - An unknown icon name now fails with "Unknown icon name. Did you mean arrow-forward?" when a close name exists (`arrow_forward`, or `trash` for `delete`). It used to say "Invalid icon name. Use list_icons for allowed names."
-- A `disclosure` block takes `content` (and `contentIsHtml`) like `get_disclosure`, as one text or html block. Why: in the R5 baseline a `disclosure` block sent with `content` failed, because only the tool accepted it.
-- The model-facing listing shrinks from 143K to 116K characters.
+- A `disclosure` block takes `content` (and `contentIsHtml`) like `get_disclosure`, as one text or html block.
 
-## Tools and block content (next alpha)
+## Tools and block content
 
 **New**
 - `render_page` renders a whole page in one call: a skip link, an optional Kopfzeile, a header with navigation, `<main>` with an `h1` and content blocks, and a footer with up to four link columns. `document: true` returns a complete HTML5 document that loads the KERN CSS from jsDelivr, pinned to the KERN version the registry describes.
@@ -110,7 +104,7 @@ Pre-releases go out under the npm dist-tag `alpha`. "Next alpha" means landed on
   The error reports the exact path. A tool's own container counts too: `get_card` rejects a card among its blocks. A section without content gets a hint: put the blocks that belong under its heading into its `contentBlocks`, not after the section.
 - **Depth.** A tool's own blocks are depth 1, and the limit (4) means the same in the schema and the renderer. In 1.x, blocks past the limit could still render.
 
-## Rendered markup (next alpha)
+## Rendered markup
 
 - Buttons (`get_button` and button blocks) take KERN 2.8's five sizes: `x-small`, `small`, `default`, `large` and `x-large`. KERN 2.8.0 added `small`, `large` and `x-large`. Until now `small` was an alias that rendered `kern-btn--x-small`; it now renders `kern-btn--small`.
 - A button label hidden with `labelVisibility: "sr-only"` or `"sr-only-mobile"` keeps `kern-label`: `<span class="kern-label kern-sr-only">`, as in KERN's markup. It used to render `kern-sr-only` alone.
@@ -128,11 +122,11 @@ Pre-releases go out under the npm dist-tag `alpha`. "Next alpha" means landed on
   - `get_disclosure` and disclosure blocks render KERN's accordion markup, as `get_accordion` does for one item: `details.kern-accordion`, `summary.kern-accordion__header` around a `kern-title`, and `section.kern-accordion__body`. They used an undefined `kern-accordion__item` class and a chevron icon.
   - `formFlow` marks its parts with data attributes instead of classes KERN doesn't define: the wrapper with `data-form-flow`, each step with `data-step`, the step navigation with `data-step-navigation`.
 
-## Validation (next alpha)
+## Validation
 
 - `form.error_id` and `form.error_describedby` check `.kern-error`, the class KERN and the templates use. In 1.x they looked for classes that don't exist and never fired. HTML that passed before can now get these warnings. They are warnings, so strict mode isn't affected.
 - A new warning, `class.unknown`, lists the `kern-*` classes KERN doesn't know, such as typos and invented classes like `kern-bg-subtle` or `kern-tabs`. "Known" means defined in kern-ux-plain's SCSS or used in KERN's own examples, from the knowledge bundle. It's one warning per document, and strict mode isn't affected.
-- Two new warnings catch the `kern-grid` pitfalls in hand-written markup (see [Layout on CSS Grid](#layout-on-css-grid-next-alpha)). Each comes once per document, and strict mode isn't affected:
+- Two new warnings catch the `kern-grid` pitfalls in hand-written markup (see [Layout on CSS Grid](#layout-on-css-grid)). Each comes once per document, and strict mode isn't affected:
   - `layout.grid_in_container`: a `kern-grid` directly inside `kern-container` or `kern-container-fluid`, which removes the container's padding
   - `layout.grid_columns_small`: a `kern-grid` whose column counts all have a breakpoint suffix (`kern-grid-cols-3-md`), so small screens get 12 columns
 - Three new rules catch what `review_kern_html` used to find only by hand. **The two errors fail strict mode** on HTML that passed it before:
@@ -140,7 +134,7 @@ Pre-releases go out under the npm dist-tag `alpha`. "Next alpha" means landed on
   - `table.headers` (error): a `table` without any `th`, unless `role="presentation"` or `role="none"` marks it as layout. `table.th_scope` only checks the `th` cells that exist.
   - `heading.level_skip` (warning): a heading more than one level below the heading before it, such as `h3` after `h1`. The first heading may have any level, so a part of a page can start at `h2`. One warning per skip.
 
-## KERN knowledge from the knowledge bundle (next alpha)
+## KERN knowledge from the knowledge bundle
 
 KERN's facts and text now come from a knowledge bundle built from KERN's three sources (`kern-ux-plain`, the kern-ux.de docs and the React kit), not from the registry this repo generated from `kern-ux-plain` alone.
 
@@ -152,7 +146,7 @@ KERN's facts and text now come from a knowledge bundle built from KERN's three s
   - `get_inputemail`: "KERN Input E-Mail"
   - `get_tasklist`: "KERN Task List"
   - `get_lists`: "KERN List"
-  - `get_grid`: "KERN CSS Grid" (see [Layout on CSS Grid](#layout-on-css-grid-next-alpha))
+  - `get_grid`: "KERN CSS Grid" (see [Layout on CSS Grid](#layout-on-css-grid))
 - **Statuses follow KERN.**
   - KERN deprecates the container grid. `get_grid` renders its replacement, so it has no deprecation banner.
   - KERN marks lists experimental, so `get_lists`'s HTML starts with the experimental banner.
@@ -181,7 +175,7 @@ KERN's facts and text now come from a knowledge bundle built from KERN's three s
   - It's on one line.
   - `get_pattern` no longer includes the story's inline toggle script.
 
-## Layout on CSS Grid (next alpha)
+## Layout on CSS Grid
 
 KERN deprecates its container grid (`kern-row`, `kern-col-*`). Its CSS Grid utilities (`kern-grid`) replace it, and our layouts move to them.
 
@@ -210,7 +204,7 @@ KERN deprecates its container grid (`kern-row`, `kern-col-*`). Its CSS Grid util
 - **`get_grid` is "KERN CSS Grid", without the deprecation banner.** `get_component_docs` for `grid` returns the CSS Grid sections of KERN's utilities page, not the container grid's page.
 - **`get_utility_reference` lists `kern-col-{n}`** for an item that spans columns. It listed `kern-col-span-{n}`, which KERN's CSS doesn't define.
 
-## Resources (next alpha)
+## Resources
 
 The server now offers MCP resources: Markdown that a client can attach to a conversation. Nothing changes for clients that don't use them.
 
@@ -222,7 +216,7 @@ The server now offers MCP resources: Markdown that a client can attach to a conv
 - **An unknown URI** fails with JSON-RPC `-32602` and `data.uri`, on every protocol version.
 - **`get_component_docs`** returns the card's URI in a new `card` field and sends a `resource_link` to it after the JSON text.
 
-## Prompts (next alpha)
+## Prompts
 
 The server now offers MCP prompts: workflows over the tools that a user picks in the client, such as a slash command. Nothing changes for clients that don't use them.
 
@@ -233,9 +227,3 @@ The server now offers MCP prompts: workflows over the tools that a user picks in
 - **What a prompt returns:** user messages, one content block each. First the guide it relies on, embedded as a `resource` with the same text as `resources/read`. Then `resource_link`s to the component cards it uses. Last the workflow as text, which asks for the final HTML verbatim in an `html` code block.
 - **Arguments** are strings. `locale` is `de` (the default) or `en`, and `completion/complete` completes it. A blank optional argument counts as none.
 - **Errors:** an unknown prompt, a missing argument and an invalid `locale` fail with JSON-RPC `-32602`.
-
-## Planned before 2.0.0 (may still change)
-
-These are on the roadmap and not released. Entries move up when they land.
-
-None at the moment: R7's prompts were the last planned change to the contract.
