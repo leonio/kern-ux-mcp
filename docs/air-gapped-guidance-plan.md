@@ -1,6 +1,6 @@
 # Air-Gapped Guidance Plan (Historical)
 
-Status: Historical design context. Superseded on 2026-10-03: the guidance overlay and the in-repo generator are retired, and KERN knowledge comes from the knowledge bundle ([plan-v2/knowledge-bundle.md](plan-v2/knowledge-bundle.md)). Use [contributor-guide.md](contributor-guide.md) for current operations.
+Status: Historical design context. Superseded on 2026-10-03: the guidance overlay and the in-repo generator are retired, and KERN knowledge comes from the knowledge bundle ([v2-migration/knowledge-bundle.md](v2-migration/knowledge-bundle.md)). Use [contributor-guide.md](contributor-guide.md) for current operations.
 
 ## Goal
 

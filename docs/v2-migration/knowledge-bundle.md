@@ -270,7 +270,7 @@ An illustration, not a task: suppose the next KERN release adds `large` and `x-l
 
 To paste into a session in `kern-ux-scraper`:
 
-> **Goal.** Generate the KERN knowledge bundle described in `kern-ux-mcp/docs/plan-v2/knowledge-bundle.md` from the three sources under `kern-ux/`: `kern-ux-plain` (markup, SCSS, stories, `component-layouts.md`, tokens, icons, CHANGELOG), `technische-dokumentation` (MDX front matter and sections, `accessibility/*.json`, foundations, patterns) and `kern-react-kit` (TypeScript props, prop-to-class mapping, compound parts, stories). Start with phase K1 (identity, knowledge, accessibility, examples; icons and classes; report), then K2 (options with HTML bindings, tagged examples, states).
+> **Goal.** Generate the KERN knowledge bundle described in `kern-ux-mcp/docs/v2-migration/knowledge-bundle.md` from the three sources under `kern-ux/`: `kern-ux-plain` (markup, SCSS, stories, `component-layouts.md`, tokens, icons, CHANGELOG), `technische-dokumentation` (MDX front matter and sections, `accessibility/*.json`, foundations, patterns) and `kern-react-kit` (TypeScript props, prop-to-class mapping, compound parts, stories). Start with phase K1 (identity, knowledge, accessibility, examples; icons and classes; report), then K2 (options with HTML bindings, tagged examples, states).
 >
 > **Rules.**
 > - One JSON document per component, about 20 KB at most, stable IDs for components, parts, options, values, examples and criteria.

@@ -1,6 +1,6 @@
 # Migrating from 1.x to 2.0
 
-This file lists what changes for clients and integrators between `@leonio/kern-ux-mcp` 1.1.2 and 2.0.0. It's also the record of *why* the contract looks the way it does, for anyone working on the server later. Each entry says which pre-release first has it. How the work was done is in [plan-v2/history.md](plan-v2/history.md).
+This file lists what changes for clients and integrators between `@leonio/kern-ux-mcp` 1.1.2 and 2.0.0. It's also the record of *why* the contract looks the way it does, for anyone working on the server later. Each entry says which pre-release first has it. How the work was done is in [v2-migration/history.md](v2-migration/history.md).
 
 **Keep it current.** Every commit that changes the MCP contract (tool names, inputs, outputs, error behaviour, or rendered markup a client may rely on) adds an entry here in the same commit. Commit subjects on `feat/v2-alpha` don't use `!` or a `BREAKING CHANGE:` footer, because GitVersion would bump the major, so this file is where breaking changes are recorded.
 

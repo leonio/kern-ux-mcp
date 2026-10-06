@@ -46,4 +46,4 @@ Most rendering tools take:
 ## Deeper reading
 
 - [Codebase guide](https://github.com/leonio/kern-ux-mcp/blob/main/docs/codebase-guide.md): how the code is organised
-- [Plan v2](https://github.com/leonio/kern-ux-mcp/blob/main/docs/plan-v2/README.md): how 2.0 was built, and what's open after it
+- [The v2 migration](https://github.com/leonio/kern-ux-mcp/blob/main/docs/v2-migration/README.md): how 2.0 was built, and what's open after it

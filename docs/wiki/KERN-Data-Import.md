@@ -61,5 +61,5 @@ npm run knowledge:import
 
 ## Deeper reading
 
-- [The knowledge bundle](https://github.com/leonio/kern-ux-mcp/blob/main/docs/plan-v2/knowledge-bundle.md): the design in full
-- [How the import was built](https://github.com/leonio/kern-ux-mcp/blob/main/docs/plan-v2/history.md#r6-the-knowledge-bundle-layout-and-resources): the decisions and the steps
+- [The knowledge bundle](https://github.com/leonio/kern-ux-mcp/blob/main/docs/v2-migration/knowledge-bundle.md): the design in full
+- [How the import was built](https://github.com/leonio/kern-ux-mcp/blob/main/docs/v2-migration/history.md#r6-the-knowledge-bundle-layout-and-resources): the decisions and the steps

@@ -1,6 +1,6 @@
 # Release bootstrap: one-time steps for the 2.0 packages
 
-These are the manual steps for the workspace split (step R3 in [plan-v2/history.md](plan-v2/history.md#r3-workspaces-and-hosts)). Do them once, before the first release that publishes the new HTTP package and container image. Everything after that runs from [release.yml](../.github/workflows/release.yml) without manual steps.
+These are the manual steps for the workspace split (step R3 in [v2-migration/history.md](v2-migration/history.md#r3-workspaces-and-hosts)). Do them once, before the first release that publishes the new HTTP package and container image. Everything after that runs from [release.yml](../.github/workflows/release.yml) without manual steps.
 
 What gets published:
 

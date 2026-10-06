@@ -1,4 +1,4 @@
-# Plan v2: the 2.0 work
+# The v2 migration: the 2.0 work
 
 2.0 moved the server to MCP protocol `2026-07-28` and SDK v2, split it into a private core with stdio, MCPB and HTTP hosts, cut the model-facing tool listing from 201K to about 119K characters, built its KERN knowledge from the knowledge bundle, and added resources and prompts. The work ran on `feat/v2-alpha` from 2026-09-27 to 2026-10-06, in steps R0 to R7.
 

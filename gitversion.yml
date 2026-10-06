@@ -19,7 +19,7 @@ branches:
     label: ''
     prevent-increment-of-merged-branch-version: true
 
-  # 2.0 integration branch (docs/plan-v2/history.md). Pre-releases publish under the
+  # 2.0 integration branch (docs/v2-migration/history.md). Pre-releases publish under the
   # npm dist-tag "alpha" (release.yml maps the label to the dist-tag).
   v2-alpha:
     regex: ^feat[/-]v2-alpha$

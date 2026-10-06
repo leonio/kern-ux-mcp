@@ -1,6 +1,6 @@
 /**
  * The code-owned map between the knowledge bundle and this repo's tools
- * (docs/plan-v2/knowledge-bundle.md, decision 7). The bundle uses KERN's IDs
+ * (docs/v2-migration/knowledge-bundle.md, decision 7). The bundle uses KERN's IDs
  * and never names our tools; this map is the only place the two meet.
  */
 
