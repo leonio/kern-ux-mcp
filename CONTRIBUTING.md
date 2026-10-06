@@ -165,7 +165,14 @@ Releases are triggered manually: **Actions → Release → Run workflow**, or `g
 
 Every step skips what already exists, so after a failure, or an npm approval later than 60 minutes, use **Re-run failed jobs**. npm won't stage the same version twice, so approve or reject a version an earlier attempt staged before re-running.
 
-npm trusted publishing is configured for both `@leonio/kern-ux-mcp` and `@leonio/kern-ux-mcp-http`: user/org `leonio`, repository `kern-ux-mcp`, workflow filename `release.yml`, environment `release`. Under **Allowed actions**, direct `npm publish` stays unticked, since staging is always allowed. No npm secret is needed; GitHub Packages and GHCR use the workflow's `GITHUB_TOKEN`. One-time setup for a new package: [docs/release-bootstrap.md](docs/release-bootstrap.md).
+npm trusted publishing is configured for both `@leonio/kern-ux-mcp` and `@leonio/kern-ux-mcp-http`: user/org `leonio`, repository `kern-ux-mcp`, workflow filename `release.yml`, environment `release`. Under **Allowed actions**, direct `npm publish` stays unticked, since staging is always allowed. No npm secret is needed; GitHub Packages and GHCR use the workflow's `GITHUB_TOKEN`.
+
+**A new package** needs a few one-time steps, since npm can only set up trusted publishing for a package that exists:
+1. Publish its first version by hand from a dry run's tarball (`gh run download <run-id> -n release-assets`), logged in with 2FA: `npm publish <tarball> --access public --tag alpha --provenance=false` (provenance needs CI). npm points `latest` at a package's first version, whatever `--tag` says.
+2. On npmjs.com, add the trusted publisher as above, require 2FA and disallow tokens, and revoke any token made for the bootstrap.
+3. After the first release run, give the repo **Write** access to the GitHub Packages package (**Manage Actions access**) and match its visibility; a new GHCR image starts private, so make it public.
+
+The full steps as they were done for 2.0 are in git: `git show e0ee9bb:docs/release-bootstrap.md`.
 
 For consumer installs from GitHub Packages, users still need to configure `.npmrc` with:
 

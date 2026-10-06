@@ -8,7 +8,7 @@ name: Release
 # version is only staged (npm stage publish) until a maintainer approves it on
 # npmjs.com with 2FA. The job waits for that approval before anything else goes
 # out. Every publish step skips what already exists, so a re-run after a partial
-# failure finishes the release. One-time setup: docs/release-bootstrap.md.
+# failure finishes the release. One-time setup for a new package: CONTRIBUTING.md (Releasing).
 
 on:
   workflow_dispatch:

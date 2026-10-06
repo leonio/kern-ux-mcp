@@ -13,7 +13,7 @@ This folder keeps what's useful after the release:
 Elsewhere:
 - What changed for clients: [migration-2.0.md](../migration-2.0.md)
 - The code: [codebase-guide.md](../codebase-guide.md), [contributor-guide.md](../contributor-guide.md)
-- Releasing: [CONTRIBUTING.md](../../CONTRIBUTING.md#releasing), [release-bootstrap.md](../release-bootstrap.md)
+- Releasing: [CONTRIBUTING.md](../../CONTRIBUTING.md#releasing)
 
 ## Open after 2.0
 
