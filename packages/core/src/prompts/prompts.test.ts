@@ -219,6 +219,11 @@ describe("create_input_form with steps", () => {
 		expect(text).toContain(
 			'start its `contentBlocks` with a summary block, `{ kind: "summary", summary:',
 		);
+		// Told only what the review step starts with, two runs in three put the
+		// confirmation checkbox at the end of the step before it.
+		expect(text).toContain(
+			"such as a checkbox to confirm the answers, follow the summary in this step",
+		);
 		// Pasting get_summary's HTML into an html block made large, escape-heavy
 		// inputs: one unparsable, and an empty step after it in 3 of 6 runs.
 		expect(text).not.toContain("get_summary");

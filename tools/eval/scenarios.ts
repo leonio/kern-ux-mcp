@@ -166,6 +166,11 @@ export const NESTED_SCENARIOS: readonly Scenario[] = [
 				label: "an error summary linking to the field",
 			},
 			{ selector: "form form", max: 0, label: "no form in a form" },
+			{
+				selector: '[data-step="3"] input[type="checkbox"]',
+				min: 1,
+				label: "the confirmation checkbox in the review step",
+			},
 		],
 	},
 	{
