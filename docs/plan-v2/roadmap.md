@@ -18,7 +18,7 @@ Re-planned 2026-10-03. R0 to R5.1 are done apart from R0's client check. What's 
    - **B.** Put the bundle on the tool path: the docs tool, hint lines, icons, unknown classes.
    - **C.** Move layout to the CSS Grid utilities.
    - **D.** The component cards and the forms, layout and accessibility guides.
-2. **R7: three prompts** (done 2026-10-05; one eval to run, see [r7-handover.md](r7-handover.md)):
+2. **R7: three prompts** (done 2026-10-05, see [r7-handover.md](r7-handover.md)):
    - `create_page_layout`
    - `create_input_form`, which builds a wizard when given steps
    - `review_kern_html`
@@ -190,7 +190,7 @@ Done 2026-10-05 ([r7-kickoff.md](r7-kickoff.md)). `strict` turned out to be the 
 - [x] Each prompt embeds the guide it relies on, links the cards it uses, and asks for the final HTML verbatim. That settles R5.1's open question on long results: in `prompts-r7-c` all 12 answers are verbatim, against 3 without the prompts (6 described).
 - [x] Prompt snapshots; every tool name and resource URI in the server's text resolves (`a2a8dc6`); an eval scenario per prompt (the `prompts` suite, `7505e57`).
 - [x] Three new `validate_html` rules (`881011a`): a field without a label and a table without header cells (errors), a skipped heading level (a warning). `get_inputgroup` needed a `label` to pass them.
-- [x] The wizard's empty trailing step (`70a6292`): a `summary` block kind, so the review step no longer pastes `get_summary`'s HTML. Its eval (3 `application-flow` runs) is still to run ([r7-handover.md](r7-handover.md)).
+- [x] The wizard's empty trailing step (`70a6292`): a `summary` block kind, so the review step no longer pastes `get_summary`'s HTML. In `prompts-r7-summary` every run built exactly the given steps in one call, with no error; two of three put the confirmation checkbox before the review step ([r7-kickoff.md](r7-kickoff.md#after-c-the-summary-block)).
 
 ### Release 2.0.0
 

@@ -165,4 +165,6 @@ Decided 2026-10-05: the larger of the two options for the wizard's empty trailin
 - **The wizard's review step** starts with a summary block instead of pasting `get_summary`'s HTML into an `html` block.
 - **The listing** had 899 characters left and the block costs about 1,530 (it's in both render tools). The shared `locale` description ("Language of generated text (default: de).") and the `required` one got shorter: 119,420 of 120,000.
 - **Tests:** 2,274 pass; the build and e2e pass.
-- **Not measured yet:** the session's usage ran low, so the eval waits. Run it first next time ([r7-handover.md](r7-handover.md)).
+- **Eval** ([prompts-r7-summary](r5-eval/prompts-r7-summary.json), 3 `application-flow` runs on `d336901`, 2026-10-06): **the trailing step is gone.** Every run built exactly the three steps and started the review step with a summary block, in one `render_composition` call with no error and no retry (`prompts-r7-c`: 8 calls, 3 errors, 2 retries). 27/27 checks, 3 verbatim, 3 strict-valid, no `get_summary` call.
+  - **Cost:** $0.43 against $0.31. The three runs started together on a cold cache, and two of them wrote about 140K tokens to it each; input fell from 507K to 276K tokens.
+  - **A new miss:** two runs put the confirmation checkbox at the end of the "Fahrzeug" step, before the summary, so people confirm answers they haven't seen yet. Only one run put it in the review step, after the summary. The text says what the review step starts with, not what follows it, and the task lists the checkbox last among the fields. No check covers it.

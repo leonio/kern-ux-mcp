@@ -1,4 +1,4 @@
-# Handover: R7 done, one eval to run (2026-10-05)
+# Handover: R7 done, the release next (2026-10-05, updated 2026-10-06)
 
 Start here in a new session. R7's plan, progress, evals and findings are in [r7-kickoff.md](r7-kickoff.md). What's left before 2.0.0 is in [roadmap.md](roadmap.md#closing-out-the-alpha).
 
@@ -12,18 +12,11 @@ Start here in a new session. R7's plan, progress, evals and findings are in [r7-
 
 ## Do first
 
-1. **Measure the summary block** (`70a6292`, not yet evaluated): about $0.30.
-
-   ```bash
-   npm run build
-   npm run eval -- --label prompts-r7-summary --suite prompts --only application-flow
-   ```
-
-   Look for: no invalid input, no fourth step, a summary block in the review step's input (not `get_summary`), 9/9 checks, verbatim. Compare with `prompts-r7-c`'s `application-flow` (3 errors, 2 retries, 8 calls). Record it under "After C" in the kickoff.
+1. ~~**Measure the summary block**~~ Done 2026-10-06 ([prompts-r7-summary](r5-eval/prompts-r7-summary.json)): exactly three steps in every run, a summary block in the review step, one call each with no error, 27/27, 3 verbatim. But two runs put the confirmation checkbox before the review step (see the open findings).
 2. **Release 2.0.0** ([roadmap.md](roadmap.md#release-200)):
    - The client check, which also confirms the README's prompt commands (`/mcp.kern-ux.create_input_form` in VS Code, `/mcp__kern-ux__create_input_form` in Claude Code).
    - The docs: the release notes; the migration notes are complete.
-   - Merge `feat/v2-alpha` into `main`.
+   - Merge `feat/v2-alpha` into `main`. A local merge in a scratch clone computes `2.0.0` with GitVersion (2026-10-06), so the version config needs nothing.
 
 ## Lessons
 
@@ -35,4 +28,5 @@ Start here in a new session. R7's plan, progress, evals and findings are in [r7-
 ## Open findings
 
 - **Listing room:** 580 characters. The next schema addition needs a trim first; the shared `strict` description (52 tools) is the biggest one left.
-- **Small misses** without a check: a review step without its confirmation checkbox (once), `get_summary` called without `mode` (twice, before the summary block).
+- **The confirmation checkbox before the review step:** in `prompts-r7-summary`, two of three runs ended the "Fahrzeug" step with it, so people confirm answers before seeing the summary. Before the summary block, one run left it out of the review step. The text says what the review step starts with, not what follows, and no check covers it.
+- **Small misses** without a check: `get_summary` called without `mode` (twice, before the summary block; the wizard no longer calls it).
