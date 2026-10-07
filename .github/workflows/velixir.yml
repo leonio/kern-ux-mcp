@@ -1,0 +1,64 @@
+name: Deploy to velixir
+
+on:
+  workflow_dispatch:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    # One deploy at a time: a push that lands mid-deploy waits for the one before it.
+    concurrency:
+      group: velixir-deploy
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Setup Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+          cache: npm
+
+      - name: Build the HTTP server
+        run: |
+          npm ci --ignore-scripts --no-audit --no-fund
+          npm run build -w packages/http
+
+      # velixir builds the uploaded directory itself and runs its `start` script. The
+      # standalone bundle has no dependencies, so the app is that one file plus a
+      # minimal package.json: no install step, no container, no monorepo to detect.
+      - name: Stage the app
+        shell: bash
+        run: |
+          mkdir velixir-app
+          cp packages/http/standalone/index.js packages/http/standalone/THIRD_PARTY_LICENSES.txt LICENSE.md velixir-app/
+          cat > velixir-app/package.json <<'JSON'
+          {
+            "name": "kern-ux-mcp-http",
+            "private": true,
+            "type": "module",
+            "engines": { "node": ">=24" },
+            "scripts": { "start": "node index.js" }
+          }
+          JSON
+
+      - name: Install the velixir CLI
+        shell: bash
+        run: |
+          curl -fsSL https://velixir.net/install.sh | sh
+          echo "$HOME/.velixir/bin" >> "$GITHUB_PATH"
+
+      - name: Deploy
+        env:
+          VELIXIR_API_KEY: ${{ secrets.VELIXIR_API_KEY }}
+        run: |
+          if [ -z "$VELIXIR_API_KEY" ]; then
+            echo "::error::Add a repository secret named VELIXIR_API_KEY with a velixir API key that has Write permission (Settings > Secrets and variables > Actions)."
+            exit 1
+          fi
+          velixir deploy --app bb2b1dac-f2d1-4a60-a9a9-99459b0cfaea --source-dir velixir-app
