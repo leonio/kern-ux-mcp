@@ -84,6 +84,16 @@ Connect a client to `http://localhost:3000/mcp`, for example:
 claude mcp add --transport http kern-ux http://localhost:3000/mcp
 ```
 
+### Try it without installing
+
+A free, public instance runs at `https://kernuxmcphost.velixir.run/mcp`, with no sign-up and no token:
+
+```bash
+claude mcp add --transport http kern-ux https://kernuxmcphost.velixir.run/mcp
+```
+
+It's meant for trying the server out, on free hosting with limited capacity and no uptime guarantee, so run your own instance for anything you depend on. Thank you to [velixir](https://velixir.net) for hosting it for free in the EU.
+
 ### Settings
 
 | Variable | Default | Purpose |
