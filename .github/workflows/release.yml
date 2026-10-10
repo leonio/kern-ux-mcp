@@ -179,7 +179,7 @@ jobs:
         uses: actions/checkout@v7
 
       - name: Download Release Assets
-        uses: actions/download-artifact@v8.0.1
+        uses: actions/download-artifact@v8.0.2
         with:
           name: release-assets
           path: release-assets
