@@ -116,14 +116,25 @@ const CASES: ReadonlyArray<{
 			html: '<h1>Bürgerbüro</h1>\n<h3>Öffnungszeiten</h3>\n<img src="buergerbuero.jpg">\n<input type="text" id="name" placeholder="Name">\n<button class="kern-button">Senden</button>',
 		},
 	},
+	{ prompt: "create_figma_design", label: "last-screen", args: {} },
+	{
+		prompt: "create_figma_design",
+		label: "mobile",
+		args: {
+			screen: "Sperrmüll anmelden, Schritt 2",
+			figmaFile: "https://www.figma.com/design/AbC123/Musterstadt",
+			device: "mobile",
+		},
+	},
 ];
 
 describe("prompts", () => {
-	it("are create_input_form, create_page_layout and review_kern_html", () => {
+	it("are create_input_form, create_page_layout, review_kern_html and create_figma_design", () => {
 		expect(prompts.map((definition) => definition.name)).toEqual([
 			"create_input_form",
 			"create_page_layout",
 			"review_kern_html",
+			"create_figma_design",
 		]);
 	});
 
@@ -372,6 +383,52 @@ describe("review_kern_html", () => {
 			argsSchema.safeParse({ html: "x".repeat(VALIDATE_HTML_MAX_LENGTH + 1) })
 				.success,
 		).toBe(false);
+	});
+});
+
+describe("create_figma_design", () => {
+	it("asks for the Figma file when none is given, and builds the last screen", async () => {
+		const text = await workflowOf("create_figma_design", {});
+
+		expect(text).toContain("the last page or composition in this conversation");
+		expect(text).toContain("Ask the designer for the Figma file's URL first.");
+		expect(text).toContain("call `plan_figma_design` with that html.");
+	});
+
+	it("names the file and the screen, and plans for mobile", async () => {
+		const text = await workflowOf("create_figma_design", {
+			screen: "Start",
+			figmaFile: "https://www.figma.com/design/AbC/Test",
+			device: "mobile",
+		});
+
+		expect(text).toContain("components: Start.");
+		expect(text).toContain(
+			"The Figma file: https://www.figma.com/design/AbC/Test",
+		);
+		expect(text).toContain('with that html, and `device: "mobile"`.');
+	});
+
+	it("runs the keys, build and check steps with Figma's tools, in that order", async () => {
+		const text = await workflowOf("create_figma_design", {});
+		const order = [
+			"search_design_system",
+			"figma-use",
+			"use_figma",
+			"get_screenshot",
+		].map((name) => text.indexOf(name));
+
+		expect(order.every((index) => index > 0)).toBe(true);
+		expect(order).toEqual([...order].sort((a, b) => a - b));
+	});
+
+	it("takes desktop or mobile, and a blank device as none", () => {
+		const { argsSchema } = prompt("create_figma_design");
+
+		expect(argsSchema.parse({ device: "" })).toEqual({ device: undefined });
+		expect(() => argsSchema.parse({ device: "tablet" })).toThrow(
+			"device is desktop or mobile.",
+		);
 	});
 });
 

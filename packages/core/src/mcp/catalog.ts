@@ -1,3 +1,4 @@
+import { createFigmaDesign } from "../prompts/create-figma-design.js";
 import { createInputForm } from "../prompts/create-input-form.js";
 import { createPageLayout } from "../prompts/create-page-layout.js";
 import type { KernPromptDefinition } from "../prompts/definition.js";
@@ -49,6 +50,7 @@ function buildCatalog(): Catalog {
 			createInputForm(registry, guideResources),
 			createPageLayout(registry, guideResources),
 			reviewKernHtml(guideResources),
+			createFigmaDesign(),
 		],
 	};
 }

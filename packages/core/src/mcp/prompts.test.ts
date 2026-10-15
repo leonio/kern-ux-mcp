@@ -19,6 +19,7 @@ const SAMPLE_ARGS: Readonly<Record<string, Record<string, string>>> = {
 	create_input_form: FORM_ARGS,
 	create_page_layout: { purpose: "Startseite des Bürgerservice Musterstadt" },
 	review_kern_html: { html: '<img src="wappen.png">' },
+	create_figma_design: {},
 };
 
 describe.each(MCP_ERAS)("MCP prompts over $era", ({ era, connect }) => {
@@ -65,6 +66,11 @@ describe.each(MCP_ERAS)("MCP prompts over $era", ({ era, connect }) => {
 				name: "review_kern_html",
 				title: "Review HTML against KERN",
 				arguments: ["html", "locale?"],
+			},
+			{
+				name: "create_figma_design",
+				title: "Build the screen in Figma",
+				arguments: ["screen?", "figmaFile?", "device?", "locale?"],
 			},
 		]);
 		for (const prompt of prompts) {
