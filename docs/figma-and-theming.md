@@ -1,6 +1,6 @@
 # Figma designs, click dummies and themes: the design
 
-Status: design, written on 2026-10-15. Nothing here is built yet. [Section 8](#8-decisions-2026-10-15) has the decisions confirmed with the maintainer, and [section 9](#9-open-questions) the questions still open. F8 to F11 come from reading the kit itself the same day, through Figma's MCP server and a capture of the file. They answer most of the open questions and change the order of work.
+Status: written on 2026-10-15. F8 to F11 come from reading the kit itself the same day, through Figma's MCP server and a capture of the file. Figma designs from HTML ([section 5](#5-figma-designs-from-composed-screens)) are built, and not yet run in a real Figma file; themes and click dummies are not built. [Section 8](#8-decisions-2026-10-15) has the decisions confirmed with the maintainer, and [section 9](#9-open-questions) the questions still open.
 
 ## 1. The goal
 
@@ -202,39 +202,38 @@ The kit's colours work as in CSS ([F9](#f9-figmas-variables-are-kerns-css-variab
 
 ## 5. Figma designs from composed screens
 
+Built on 2026-10-15 in `packages/core/src/ux/figma/`, and not yet run in a real Figma file.
+
 1. The designer iterates in HTML with `render_page` and `render_composition`, as today.
-2. They ask for the screen in Figma. A prompt, `create_figma_design`, carries the workflow:
-   - the final composition tree and the kit map;
-   - then Figma's `figma-generate-design` workflow: a wrapper frame, one section per `use_figma` call, kit instances with their variant properties set from our options, text overrides, auto layout, and KERN's variables for spacing and colour.
-3. Optionally in parallel, as Figma's skill recommends: `html_to_figma` or `generate_figma_design` on the same page, as a pixel reference to compare against and then delete.
+2. They ask for the screen in Figma. The prompt `create_figma_design` carries the workflow, and the tool `plan_figma_design` does the translating. It takes the screen's **HTML**, not the composition tree, so any tool's output works, and so does HTML the designer edited. It returns the kit components to look up, the `use_figma` scripts that build the screen, and the steps.
+3. The assistant looks the components up with Figma's `search_design_system`, fills their keys into the script, runs it with `use_figma`, and checks the result with `get_screenshot`. A screen takes about three of the designer's calls ([F10](#f10-figmas-mcp-server-limits-reading-too)).
 
-What we build:
-- **The kit map:** our component and option values to the kit's component, variant property and value, with its text properties. Code-owned, served as a resource the prompt links to, and tested against the bundle's `options` and the kit's components in the bundle ([F11](#f11-a-kiwi-capture-is-a-full-offline-snapshot)).
-- **The prompt,** with cases in `prompts.test.ts`; `names.test.ts` checks the tools and URIs it names.
-- **Later, if evals show the need:** a tool that flattens a composition into a list of frames, kit components, variant properties and texts, so the assistant transcribes instead of translating.
+The parts:
+- **The kit map** (`kit.ts`): the 2.4.0 components a plan may use, with their variants, their text, boolean and swap properties, and the nested layers a plan sets. Read from the kit and its capture. Property names go without their prefixes (✏️, ↳) and ID suffixes, which differ in each team's copy.
+- **The plan** (`plan.ts`): our markup, by KERN class, as kit instances and auto-layout frames. Containers become frames with KERN's gaps, and a `kern-layer` a frame in `04_Level`'s mode. Content inside a card, fieldset, alert, accordion or grid column goes into the component's slot, the kit's instance-swap property. Markup with no kit component becomes a labelled `placeholder`. The kit's limits become warnings: its radios show five options, and its tables three rows of three columns.
+- **The script** (`runtime.ts`, `script.ts`): plain JavaScript for Figma's plugin sandbox. It imports each component by key, picks its variant, sets properties by name and type, fills nested instances, and builds slot content as local components on a slots frame next to the screen. Spacing and level backgrounds are bound to the Foundations' variables when the file links them; otherwise it uses KERN's values. It replaces a frame of the same name, so it can run again. A plan too big for one call (50,000 characters) comes in parts that run in order.
+- **The tests:** every tool example is planned against the kit map. Its script then runs against a fake of the Plugin API, built from the map, that throws where Figma throws: a child appended to an instance, FILL outside auto layout, an unloaded font, an unknown property or value.
 
-Risks: Figma's write access is in beta. One section per call is slow on big pages, and every call counts against the designer's budget ([F10](#f10-figmas-mcp-server-limits-reading-too)). `use_figma` can't fetch images; Figma's skill takes them from a capture of the page.
+| Markup | Kit component |
+|---|---|
+| `kern-btn` | `button-{variant}`, plus `-{size}` unless default; `icon` none, left, right or only; the icon swapped to the kit's |
+| `kern-link`, `kern-badge` | `link-{default,small,large}`, `badge` |
+| `kern-alert` | `alert`: body text as its description, other content in its slot |
+| `kern-form-input` | `input-text`, `-e-mail`, `-tel`, `-url`, `-number`, `-password`, `-select`, `-textarea`, `-file`; label, hint, error and optional on the nested `base-form` |
+| a fieldset of radios or checkboxes | `input-radios`, `input-radios-horizontal`, `input-checkboxes`, one nested `base-radio` or `base-checkbox` per option |
+| any other fieldset | `fieldset`, its fields in the slot |
+| `kern-card` | `card-{default,small,large}`, plus `-interactive`; footer buttons in the nested `card-actions` |
+| `kern-grid` | `row`: 1 to 4 equal columns are `12`, `6-6`, `3-3-3`, `4-4-4-4`; `kern-col-8-md` and `-4-md` make `8-4`; wider grids are frames |
+| `details.kern-accordion` | `accordion`, from the kit's subcomponents |
+| `kern-task-list`, `kern-progress` | `task-list`, `progress` |
+| `kern-summary`, `kern-description-list`, `kern-table` | `summary`, `description-list`, `table-default` or `table-small` |
+| headings, `kern-title`, `kern-body`, `kern-label` | `heading-*`, `title-*`, `body-*`, `label-*` |
+| `kern-kopfzeile`, `kern-divider`, `img`, `kern-loader` | `kopfzeile`, `divider`, `placeholder-image`, `loader` |
+| dialogs, dropdowns, tabs | a labelled `placeholder` |
 
-### The kit map, first draft
+Not built: `html_to_figma` as a pixel reference (not offered to the account used so far), and the kit map as a resource, which the tool applies so the assistant doesn't need it.
 
-Drafted from the kit's components ([F8](#f8-the-kit-is-two-community-libraries-and-each-team-publishes-its-own-copy)). Property names are given without their IDs.
-
-| Block | Kit component | Set from our options |
-|---|---|---|
-| `button` | `button-{variant}`, plus `-{size}` unless the size is default | `state=default`; `icon`: `left` or `right`, `only` when the label is sr-only, otherwise `none`; `✏️ label`; `↳ icon-type` |
-| `badge` | `badge` | `type`; `✏️ label`; `icon` |
-| `field` (text, email, tel, url, password, number, date, file, select, textarea) | `input-text`, `input-e-mail`, `input-tel`, `input-url`, `input-password`, `input-number`, `input-date`, `input-file`, `input-select`, `input-textarea` | `error`; the label and hint sit in a nested `form` instance, not read yet |
-| `field` (radio, checkbox group) | `input-radios`, `input-radios-horizontal`, `input-checkboxes` | `✏️ legend`, `✏️ hint`, `✏️ error`, `optional`, `legend-type` |
-| `fieldset` | `fieldset` | the same, with `component` as the slot |
-| `card` | `card-{size}`, plus `-interactive` with an `href` | `✏️ preline`, `✏️ title`, `✏️ subline` and their booleans; `media`; `action bar`; `stretch`; `surface` |
-| `summary` | `summary-group` of `summary` | `number` |
-| `formFlow` | `task-list`, `progress`, buttons | `task-list` `type=aufgabengruppe`, or `zusammenfassung` for the summary step |
-| `grid` | `row` | `layout`, one of 13 fixed splits (`12`, `6-6`, `4-8`, …), and `device`; only some equal splits exist |
-| `section` | `section` | none |
-| `text` | `body-default` | `weight` |
-| `disclosure` | none yet: the Accordion page has only `accordion-group` and a prototype | |
-| `html` | `placeholder` | |
-| the page | `page`, `kopfzeile` | `device`; `fluid` |
+Risks: the fake follows the Plugin API's documentation, not Figma itself, so the first run in a real file will find differences. Figma's write access is in beta and needs a Full seat. `use_figma` can't fetch images, so images are `placeholder-image`s.
 
 ## 6. Click dummies
 
@@ -273,13 +272,15 @@ Nothing in it names this repo's tools (bundle design rule 7).
 5. **Figma's colours:** designers change them in Figma's UI today. We try giving the assistant instructions to make the same change through Figma's MCP server.
 6. **The kit's component names match those on kern-ux.de.** The maintainer sends the list.
 7. **Not pursued: Angular Aria and React Aria.** Considered and dropped on the same day. KERN's CSS styles native elements (the checkbox's look is on the `<input>`, the accordion is `<details>`), while the aria libraries mostly cover widgets KERN has no CSS for, and React Aria's checkbox and select render markup KERN's CSS can't style. Retrofitting KERN onto them meant writing new CSS, not reusing knowledge.
+8. **The kit map comes from the kit itself:** the maintainer's captures of it and the live file, not a list the maintainer sends, and for now not the packer. This replaces the second half of decision 6. The Foundations file holds nothing more that helps.
+9. **Figma gets the HTML, through a tool that returns a script,** so the assistant transcribes instead of translating. Figma's rate limits don't shape the design for now.
 
 ## 9. Open questions
 
-1. **The kit:** mostly answered by F8 to F11. Its names follow kern-ux.de, and its semantic variables alias the primitives as in CSS. Still open: the labels and hints inside the fields' nested instances, which `row` layouts our equal columns map to, and the Foundations' full list of variables. If confirmed, decision 6 changes: the list comes from a capture of the kit, not from the maintainer.
+1. **The kit:** answered by F8 to F11 and decision 8. Its names follow kern-ux.de, and its semantic variables alias the primitives as in CSS. The capture showed the fields' nested `base-form` and the `row` layouts.
 2. **Copy or linked library:** both. Teams publish their own copy of each library and link those ([F8](#f8-the-kit-is-two-community-libraries-and-each-team-publishes-its-own-copy)). Extended collections are Enterprise only, so a theme becomes modes in the team's Foundations. Still open: do teams let designers add modes there?
 3. **Feedback colours** (danger, warning, success, info): fixed, or a role group a theme may move? Fixed is the proposal, since they carry meaning.
-4. **The listing trim** for `create_theme`: the shared `strict` description is the candidate.
+4. **The listing trim** for `create_theme`: the shared `strict` description has been shortened already, to make room for `plan_figma_design`. The listing is at 119,399 of 120,000 characters, so `create_theme` needs another trim.
 5. **Click dummies:** the Figma prototype, the HTML one, or both?
 6. **Testing against Figma:** our eval runs headless Claude Code against our server only. Checking Figma output needs the remote server, a test file, and a Full or Dev seat on a paid plan: a View seat's 20 calls a month don't cover even one read of the kit ([F10](#f10-figmas-mcp-server-limits-reading-too)). Which account?
 7. **`html_to_figma`:** does it take our page as it is, loading KERN's CSS from jsDelivr, or does it need the CSS inline? `kern.min.css` is 350 KB, too big to pass as a tool argument. Not offered to the account used so far, so untested.
@@ -289,17 +290,18 @@ Nothing in it names this repo's tools (bundle design rule 7).
 
 Each step can be released on its own:
 
-| Step | Repo | What | Needs |
-|---|---|---|---|
-| K-F | packer | The Figma capture as a source: `figma/` components and variables ([section 7](#7-asks-for-the-packer)) | a capture of both libraries; the decoder's property definitions and nested instances |
-| T0 | packer, then here | `tokens.json`; `get_tokens` from the bundle; a test that every `--kern-*` name in our source exists | — |
-| T1 | here | `kern://guides/theming`, `create_theme` with its checks and its Figma modes, the theme option of `render_page` | T0, a listing trim |
-| F1 | here | The kit map and its test against the bundle's `figma/` | K-F |
-| F2 | here | `create_figma_design` | F1, a test account with a Full seat |
-| F3 | here | Click dummies: frames and prototype links, the low-fidelity variant; the HTML step script | F2 |
-| F4 | here | Themes in Figma: the modes from `create_theme` applied in a Foundations copy, and a test that every Figma name `create_theme` returns exists | T1, K-F, a test account |
+| Step | Repo | What | Needs | State |
+|---|---|---|---|---|
+| F1 | here | The kit map, the plan, the script; `plan_figma_design` | the kit's names | built |
+| F2 | here | `create_figma_design` | F1 | built |
+| F2b | here | The first run in a real Figma file, and the fixes it brings | a Full seat, a file that links the kit | next |
+| T0 | packer, then here | `tokens.json`; `get_tokens` from the bundle; a test that every `--kern-*` name in our source exists | — | |
+| T1 | here | `kern://guides/theming`, `create_theme` with its checks and its Figma modes, the theme option of `render_page` | T0, a listing trim | |
+| F3 | here | Click dummies: frames and prototype links, the low-fidelity variant; the HTML step script | F2b | |
+| F4 | here | Themes in Figma: the modes from `create_theme` applied in a Foundations copy | T1, a test account | |
+| K-F | packer | Optional: the Figma capture as a source, so a test notices when a new kit version changes a name the map uses ([section 7](#7-asks-for-the-packer)) | a capture; the decoder's property definitions | later |
 
-K-F and T0 don't depend on each other and can run side by side. A test account is needed only from F2 on.
+T0 doesn't depend on the F steps and can run side by side with them.
 
 ## Sources
 
