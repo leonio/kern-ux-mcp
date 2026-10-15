@@ -182,7 +182,7 @@ function buildGetUtilityReferenceTool(): ToolDef {
 		title: "KERN Utility Classes",
 		description:
 			"KERN UX: Reference for KERN's CSS utility classes: flex, CSS grid, gap, spacing, stack, alignment, and Surface (background colours). " +
-			"KERN has no kern-bg-* classes: backgrounds use CSS custom properties such as --kern-color-background-subtle, listed under category 'surface'.",
+			"KERN has no kern-bg-* classes: a background comes from kern-layer with kern-level-1 or kern-level-2, listed under category 'surface'.",
 		inputSchema,
 		outputSchema: z.object({
 			sections: z.array(

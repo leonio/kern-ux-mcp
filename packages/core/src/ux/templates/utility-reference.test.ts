@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { isKnownKernClass } from "../kern-classes.js";
 import { buildUtilityReference } from "./utility-reference.js";
 
 describe("buildUtilityReference", () => {
@@ -49,6 +50,34 @@ describe("buildUtilityReference", () => {
 		expect(names).toContain("kern-align-items-center");
 		expect(names).toContain("kern-justify-content-between");
 		expect(names).toContain("kern-align-self-end");
+	});
+
+	it("names only classes KERN knows, in entries and examples", () => {
+		const { sections } = buildUtilityReference({ category: "all" });
+		const names = sections.flatMap((section) =>
+			section.entries.flatMap((entry) => [
+				// Patterns such as kern-m-{none|xs} aren't class names.
+				...(/^kern-[\w-]+$/.test(entry.className) ? [entry.className] : []),
+				...[...(entry.example ?? "").matchAll(/class="([^"]+)"/g)].flatMap(
+					(match) => match[1].split(/\s+/),
+				),
+			]),
+		);
+		expect(names.length).toBeGreaterThan(0);
+		expect(names.filter((name) => !isKnownKernClass(name))).toEqual([]);
+	});
+
+	it("gives the surface section's layer classes and contextual properties", () => {
+		const result = buildUtilityReference({ category: "surface" });
+		const names = result.sections[0].entries.map((e) => e.className);
+		expect(names).toContain("kern-layer");
+		expect(names).toContain("kern-level-1");
+		expect(names).toContain(
+			"--kern-color-layout-background-default-contextual",
+		);
+		expect(
+			names.filter((name) => /^--kern-color-(background|surface)-/.test(name)),
+		).toEqual([]);
 	});
 
 	it("includes examples where available", () => {
