@@ -60,7 +60,7 @@ describe("tool descriptions", () => {
 		expect(tool).toBeDefined();
 		expect(tool?.description).toContain("Surface");
 		expect(tool?.description).toContain("kern-bg-*");
-		expect(tool?.description).toContain("--kern-color-background-subtle");
+		expect(tool?.description).toContain("kern-layer");
 	});
 
 	it("get_tasklist description documents numbered:false checklist variant", () => {

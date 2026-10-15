@@ -193,57 +193,76 @@ const SURFACE_SECTION: UtilitySection = {
 	titleDe: "Oberflächen & Hintergrund",
 	titleEn: "Surface & Background",
 	descriptionDe:
-		"KERN UX bietet KEINE Background-Hilfsklassen (kein kern-bg-*, kein kern-surface-*). " +
-		"Hintergrundfarben werden ausschließlich über CSS Custom Properties gesteuert. " +
-		"Verwende diese Variablen in eigenem CSS oder style-Attribut.",
+		"KERN UX hat keine kern-bg-*-Klassen. Einen Hintergrund bekommt ein Bereich über kern-layer " +
+		"zusammen mit einer Ebene: kern-level-1 oder kern-level-2; kern-level-0 ist die Seite. " +
+		"Die Ebene stellt auch die kontextuellen Farben ihres Inhalts um, sodass Rahmen, Oberflächen und Text ihren Kontrast behalten. " +
+		"In eigenem CSS die kontextuellen Variablen statt fester Farben verwenden.",
 	descriptionEn:
-		"KERN UX provides NO background utility classes (no kern-bg-*, no kern-surface-*). " +
-		"Background colors are controlled exclusively via CSS custom properties. " +
-		"Use these variables in custom CSS or style attributes.",
+		"KERN UX has no kern-bg-* classes. A region gets its background from kern-layer " +
+		"together with a level: kern-level-1 or kern-level-2; kern-level-0 is the page. " +
+		"The level also switches the contextual colours of its content, so borders, surfaces and text keep their contrast. " +
+		"In custom CSS, use the contextual variables instead of fixed colours.",
 	entries: [
 		{
-			className: "--kern-color-background-default",
-			de: "Standard-Hintergrund (weiß im hellen Theme).",
-			en: "Default background (white in light theme).",
+			className: "kern-layer",
+			de: "Gibt dem Element den Hintergrund seiner Ebene. Nur zusammen mit einer kern-level-*-Klasse.",
+			en: "Gives the element the background of its level. Use it only together with a kern-level-* class.",
+			example: '<section class="kern-layer kern-level-1">…</section>',
+		},
+		{
+			className: "kern-level-0",
+			de: "Ebene 0: die Seite selbst (weiß im hellen Theme).",
+			en: "Level 0: the page itself (white in the light theme).",
+		},
+		{
+			className: "kern-level-1",
+			de: "Ebene 1: ein Bereich, der sich von der Seite abhebt (hellgrau im hellen Theme).",
+			en: "Level 1: a region that stands out from the page (light grey in the light theme).",
+			example: '<div class="kern-layer kern-level-1">…</div>',
+		},
+		{
+			className: "kern-level-2",
+			de: "Ebene 2: ein Element in Ebene 1, das sich weiter abhebt (weiß im hellen Theme).",
+			en: "Level 2: an element inside level 1 that stands out further (white in the light theme).",
 			example:
-				'<div style="background-color: var(--kern-color-background-default)">…</div>',
+				'<div class="kern-layer kern-level-1"><div class="kern-layer kern-level-2">…</div></div>',
 		},
 		{
-			className: "--kern-color-background-subtle",
-			de: "Dezenter Hintergrund für Abschnitte oder Karten (hellgrau im hellen Theme).",
-			en: "Subtle background for sections or cards (light gray in light theme).",
+			className: "--kern-color-layout-background-default-contextual",
+			de: "CSS-Variable: der Hintergrund der aktuellen Ebene, für eigenes CSS.",
+			en: "CSS variable: the background of the current level, for custom CSS.",
 			example:
-				'<div style="background-color: var(--kern-color-background-subtle); padding: var(--kern-metric-space-default)">…</div>',
+				'<div style="background-color: var(--kern-color-layout-background-default-contextual)">…</div>',
 		},
 		{
-			className: "--kern-color-background-inverse",
-			de: "Invertierter Hintergrund (dunkel im hellen Theme).",
-			en: "Inverse background (dark in light theme).",
+			className: "--kern-color-layout-layer-surface-contextual",
+			de: "CSS-Variable: die Oberfläche einer Komponente auf der aktuellen Ebene, wie bei Karten und Eingabefeldern.",
+			en: "CSS variable: the surface of a component on the current level, as cards and inputs use.",
 		},
 		{
-			className: "--kern-color-background-brand",
-			de: "Marken-Hintergrund (Primärfarbe).",
-			en: "Brand background (primary color).",
+			className: "--kern-color-feedback-info-background-contextual",
+			de: "CSS-Variable: Hintergrund für Info-Hinweise, wie bei Alerts.",
+			en: "CSS variable: background for info messages, as alerts use.",
 		},
 		{
-			className: "--kern-color-surface-info",
-			de: "Oberfläche für Info-Elemente (z.B. Hinweis-Boxen).",
-			en: "Surface for informational elements (e.g. hint boxes).",
+			className: "--kern-color-feedback-success-background-contextual",
+			de: "CSS-Variable: Hintergrund für Erfolgsmeldungen.",
+			en: "CSS variable: background for success messages.",
 		},
 		{
-			className: "--kern-color-surface-success",
-			de: "Oberfläche für Erfolgs-Elemente.",
-			en: "Surface for success elements.",
+			className: "--kern-color-feedback-warning-background-contextual",
+			de: "CSS-Variable: Hintergrund für Warnungen.",
+			en: "CSS variable: background for warnings.",
 		},
 		{
-			className: "--kern-color-surface-warning",
-			de: "Oberfläche für Warn-Elemente.",
-			en: "Surface for warning elements.",
+			className: "--kern-color-feedback-danger-background-contextual",
+			de: "CSS-Variable: Hintergrund für Fehlermeldungen.",
+			en: "CSS variable: background for error messages.",
 		},
 		{
-			className: "--kern-color-surface-danger",
-			de: "Oberfläche für Fehler-Elemente.",
-			en: "Surface for danger/error elements.",
+			className: "--kern-color-decorative-brand-contextual",
+			de: "CSS-Variable: die Markenfarbe für Schmuckelemente wie Formen oder Linien. Nicht als Hintergrund für Text, denn sie muss keinen Kontrast einhalten.",
+			en: "CSS variable: the brand colour for ornament such as shapes or lines. Not a background for text, since it need not meet contrast requirements.",
 		},
 	],
 };

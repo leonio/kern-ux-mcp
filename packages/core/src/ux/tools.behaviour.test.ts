@@ -67,7 +67,7 @@ describe("tool behaviour", () => {
 		});
 	});
 
-	it("get_utility_reference returns surface section with background custom properties", async () => {
+	it("get_utility_reference returns surface section with layer classes and contextual properties", async () => {
 		const tools = createTools(createRegistry([]));
 		const tool = tools.getTool("get_utility_reference");
 
@@ -78,13 +78,12 @@ describe("tool behaviour", () => {
 		expect(result.sections).toHaveLength(1);
 		expect(result.sections[0].id).toBe("surface");
 		expect(
-			result.sections[0].entries.some(
-				(e) => e.className === "--kern-color-background-subtle",
-			),
+			result.sections[0].entries.some((e) => e.className === "kern-layer"),
 		).toBe(true);
 		expect(
 			result.sections[0].entries.some(
-				(e) => e.className === "--kern-color-surface-success",
+				(e) =>
+					e.className === "--kern-color-feedback-success-background-contextual",
 			),
 		).toBe(true);
 	});
