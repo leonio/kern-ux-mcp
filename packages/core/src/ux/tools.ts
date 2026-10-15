@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { buildPlanFigmaDesignTool } from "./figma/tool.js";
 import { pickLocale } from "./i18n.js";
 import { VALID_ICON_NAMES } from "./icons.js";
 import {
@@ -516,6 +517,9 @@ export function createTools(registry: Registry): ToolRegistry {
 	toolDefs.push(buildGetSectionTool());
 	toolDefs.push(buildGetCardGroupTool());
 	toolDefs.push(buildGetDisclosureTool());
+
+	// HTML to a design in Figma, built by Figma's MCP server from the KERN kit.
+	toolDefs.push(buildPlanFigmaDesignTool());
 
 	// One get_* tool per component in COMPONENT_TOOLS, in registry order and titled
 	// from the registry. Registry components without an entry get no tool.

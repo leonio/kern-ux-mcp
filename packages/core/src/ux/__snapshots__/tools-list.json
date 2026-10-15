@@ -1092,7 +1092,7 @@
           ]
         },
         "strict": {
-          "description": "If true, validation errors fail the call instead of returning HTML.",
+          "description": "Fail on validation errors instead of returning HTML.",
           "type": "boolean"
         },
         "contentBlocks": {
@@ -2154,7 +2154,7 @@
           ]
         },
         "strict": {
-          "description": "If true, validation errors fail the call instead of returning HTML.",
+          "description": "Fail on validation errors instead of returning HTML.",
           "type": "boolean"
         },
         "title": {
@@ -3367,7 +3367,7 @@
           ]
         },
         "strict": {
-          "description": "If true, validation errors fail the call instead of returning HTML.",
+          "description": "Fail on validation errors instead of returning HTML.",
           "type": "boolean"
         },
         "headingText": {
@@ -3746,7 +3746,7 @@
           ]
         },
         "strict": {
-          "description": "If true, validation errors fail the call instead of returning HTML.",
+          "description": "Fail on validation errors instead of returning HTML.",
           "type": "boolean"
         },
         "cards": {
@@ -4230,7 +4230,7 @@
           ]
         },
         "strict": {
-          "description": "If true, validation errors fail the call instead of returning HTML.",
+          "description": "Fail on validation errors instead of returning HTML.",
           "type": "boolean"
         },
         "triggerLabel": {
@@ -4549,6 +4549,114 @@
     }
   },
   {
+    "name": "plan_figma_design",
+    "title": "Plan a Figma Design",
+    "description": "KERN UX: Turns KERN HTML into a design in Figma made of the KERN 2 Design-Kit's components, for Figma's MCP server: the kit components to look up with search_design_system, and the script that builds the screen with use_figma.",
+    "inputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "html": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 500000,
+          "description": "KERN HTML as render_page, render_composition or a get_* tool returns it."
+        },
+        "name": {
+          "description": "The Figma frame's name. Default: the page's h1.",
+          "type": "string",
+          "maxLength": 120
+        },
+        "device": {
+          "description": "desktop (1440 px wide, the default) or mobile (360 px).",
+          "type": "string",
+          "enum": [
+            "desktop",
+            "mobile"
+          ]
+        }
+      },
+      "required": [
+        "html"
+      ]
+    },
+    "outputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The frame the script builds."
+        },
+        "kit": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "version": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "name",
+            "version"
+          ],
+          "additionalProperties": false
+        },
+        "components": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The kit components to look up with search_design_system."
+        },
+        "scripts": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Code for use_figma, once KEYS is filled in: usually one script, several for a big page, run in order."
+        },
+        "steps": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "What to do with the result, in order."
+        },
+        "unmapped": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Markup with no kit component, drawn as a labelled placeholder."
+        },
+        "warnings": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "name",
+        "kit",
+        "components",
+        "scripts",
+        "steps",
+        "unmapped",
+        "warnings"
+      ],
+      "additionalProperties": false
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "idempotentHint": true,
+      "openWorldHint": false
+    }
+  },
+  {
     "name": "get_accordion",
     "title": "KERN Accordion",
     "description": "KERN UX: HTML for accordions, built on <details> and <summary>. mode 'single' (default) takes title and content; mode 'group' takes items, each with title and content. Sending items without content selects group. Several collapsible topics under headings; for a single one, get_disclosure.",
@@ -4567,7 +4675,7 @@
               ]
             },
             "strict": {
-              "description": "If true, validation errors fail the call instead of returning HTML.",
+              "description": "Fail on validation errors instead of returning HTML.",
               "type": "boolean"
             },
             "mode": {
@@ -4614,7 +4722,7 @@
               ]
             },
             "strict": {
-              "description": "If true, validation errors fail the call instead of returning HTML.",
+              "description": "Fail on validation errors instead of returning HTML.",
               "type": "boolean"
             },
             "mode": {
@@ -4768,7 +4876,7 @@
           ]
         },
         "strict": {
-          "description": "If true, validation errors fail the call instead of returning HTML.",
+          "description": "Fail on validation errors instead of returning HTML.",
           "type": "boolean"
         },
         "type": {
@@ -4942,7 +5050,7 @@
           ]
         },
         "strict": {
-          "description": "If true, validation errors fail the call instead of returning HTML.",
+          "description": "Fail on validation errors instead of returning HTML.",
           "type": "boolean"
         },
         "type": {
@@ -5093,7 +5201,7 @@
           ]
         },
         "strict": {
-          "description": "If true, validation errors fail the call instead of returning HTML.",
+          "description": "Fail on validation errors instead of returning HTML.",
           "type": "boolean"
         }
       }
@@ -5201,7 +5309,7 @@
           ]
         },
         "strict": {
-          "description": "If true, validation errors fail the call instead of returning HTML.",
+          "description": "Fail on validation errors instead of returning HTML.",
           "type": "boolean"
         },
         "variant": {
@@ -5390,7 +5498,7 @@
           ]
         },
         "strict": {
-          "description": "If true, validation errors fail the call instead of returning HTML.",
+          "description": "Fail on validation errors instead of returning HTML.",
           "type": "boolean"
         },
         "size": {
@@ -5818,7 +5926,7 @@
               ]
             },
             "strict": {
-              "description": "If true, validation errors fail the call instead of returning HTML.",
+              "description": "Fail on validation errors instead of returning HTML.",
               "type": "boolean"
             },
             "id": {
@@ -5885,7 +5993,7 @@
               ]
             },
             "strict": {
-              "description": "If true, validation errors fail the call instead of returning HTML.",
+              "description": "Fail on validation errors instead of returning HTML.",
               "type": "boolean"
             },
             "legend": {
@@ -6125,7 +6233,7 @@
           ]
         },
         "strict": {
-          "description": "If true, validation errors fail the call instead of returning HTML.",
+          "description": "Fail on validation errors instead of returning HTML.",
           "type": "boolean"
         }
       }
@@ -6233,7 +6341,7 @@
           ]
         },
         "strict": {
-          "description": "If true, validation errors fail the call instead of returning HTML.",
+          "description": "Fail on validation errors instead of returning HTML.",
           "type": "boolean"
         }
       }
@@ -6341,7 +6449,7 @@
           ]
         },
         "strict": {
-          "description": "If true, validation errors fail the call instead of returning HTML.",
+          "description": "Fail on validation errors instead of returning HTML.",
           "type": "boolean"
         },
         "id": {
@@ -6515,7 +6623,7 @@
           ]
         },
         "strict": {
-          "description": "If true, validation errors fail the call instead of returning HTML.",
+          "description": "Fail on validation errors instead of returning HTML.",
           "type": "boolean"
         }
       }
@@ -6623,7 +6731,7 @@
           ]
         },
         "strict": {
-          "description": "If true, validation errors fail the call instead of returning HTML.",
+          "description": "Fail on validation errors instead of returning HTML.",
           "type": "boolean"
         },
         "triggerLabel": {
@@ -7024,7 +7132,7 @@
           ]
         },
         "strict": {
-          "description": "If true, validation errors fail the call instead of returning HTML.",
+          "description": "Fail on validation errors instead of returning HTML.",
           "type": "boolean"
         }
       },
@@ -7404,7 +7512,7 @@
           ]
         },
         "strict": {
-          "description": "If true, validation errors fail the call instead of returning HTML.",
+          "description": "Fail on validation errors instead of returning HTML.",
           "type": "boolean"
         }
       }
@@ -7547,7 +7655,7 @@
           ]
         },
         "strict": {
-          "description": "If true, validation errors fail the call instead of returning HTML.",
+          "description": "Fail on validation errors instead of returning HTML.",
           "type": "boolean"
         }
       }
@@ -7655,7 +7763,7 @@
           ]
         },
         "strict": {
-          "description": "If true, validation errors fail the call instead of returning HTML.",
+          "description": "Fail on validation errors instead of returning HTML.",
           "type": "boolean"
         },
         "name": {
@@ -7790,7 +7898,7 @@
           ]
         },
         "strict": {
-          "description": "If true, validation errors fail the call instead of returning HTML.",
+          "description": "Fail on validation errors instead of returning HTML.",
           "type": "boolean"
         },
         "name": {
@@ -7956,7 +8064,7 @@
           ]
         },
         "strict": {
-          "description": "If true, validation errors fail the call instead of returning HTML.",
+          "description": "Fail on validation errors instead of returning HTML.",
           "type": "boolean"
         },
         "name": {
@@ -8122,7 +8230,7 @@
           ]
         },
         "strict": {
-          "description": "If true, validation errors fail the call instead of returning HTML.",
+          "description": "Fail on validation errors instead of returning HTML.",
           "type": "boolean"
         },
         "name": {
@@ -8270,7 +8378,7 @@
           ]
         },
         "strict": {
-          "description": "If true, validation errors fail the call instead of returning HTML.",
+          "description": "Fail on validation errors instead of returning HTML.",
           "type": "boolean"
         },
         "name": {
@@ -8417,7 +8525,7 @@
           ]
         },
         "strict": {
-          "description": "If true, validation errors fail the call instead of returning HTML.",
+          "description": "Fail on validation errors instead of returning HTML.",
           "type": "boolean"
         },
         "name": {
@@ -8578,7 +8686,7 @@
           ]
         },
         "strict": {
-          "description": "If true, validation errors fail the call instead of returning HTML.",
+          "description": "Fail on validation errors instead of returning HTML.",
           "type": "boolean"
         },
         "name": {
@@ -8735,7 +8843,7 @@
           ]
         },
         "strict": {
-          "description": "If true, validation errors fail the call instead of returning HTML.",
+          "description": "Fail on validation errors instead of returning HTML.",
           "type": "boolean"
         },
         "name": {
@@ -8901,7 +9009,7 @@
           ]
         },
         "strict": {
-          "description": "If true, validation errors fail the call instead of returning HTML.",
+          "description": "Fail on validation errors instead of returning HTML.",
           "type": "boolean"
         },
         "name": {
@@ -9076,7 +9184,7 @@
           ]
         },
         "strict": {
-          "description": "If true, validation errors fail the call instead of returning HTML.",
+          "description": "Fail on validation errors instead of returning HTML.",
           "type": "boolean"
         },
         "name": {
@@ -9251,7 +9359,7 @@
           ]
         },
         "strict": {
-          "description": "If true, validation errors fail the call instead of returning HTML.",
+          "description": "Fail on validation errors instead of returning HTML.",
           "type": "boolean"
         }
       }
@@ -9364,7 +9472,7 @@
           ]
         },
         "strict": {
-          "description": "If true, validation errors fail the call instead of returning HTML.",
+          "description": "Fail on validation errors instead of returning HTML.",
           "type": "boolean"
         }
       }
@@ -9472,7 +9580,7 @@
           ]
         },
         "strict": {
-          "description": "If true, validation errors fail the call instead of returning HTML.",
+          "description": "Fail on validation errors instead of returning HTML.",
           "type": "boolean"
         }
       }
@@ -9590,7 +9698,7 @@
           ]
         },
         "strict": {
-          "description": "If true, validation errors fail the call instead of returning HTML.",
+          "description": "Fail on validation errors instead of returning HTML.",
           "type": "boolean"
         }
       }
@@ -9708,7 +9816,7 @@
           ]
         },
         "strict": {
-          "description": "If true, validation errors fail the call instead of returning HTML.",
+          "description": "Fail on validation errors instead of returning HTML.",
           "type": "boolean"
         }
       }
@@ -9816,7 +9924,7 @@
           ]
         },
         "strict": {
-          "description": "If true, validation errors fail the call instead of returning HTML.",
+          "description": "Fail on validation errors instead of returning HTML.",
           "type": "boolean"
         },
         "visible": {
@@ -9933,7 +10041,7 @@
           ]
         },
         "strict": {
-          "description": "If true, validation errors fail the call instead of returning HTML.",
+          "description": "Fail on validation errors instead of returning HTML.",
           "type": "boolean"
         }
       }
@@ -10046,7 +10154,7 @@
           ]
         },
         "strict": {
-          "description": "If true, validation errors fail the call instead of returning HTML.",
+          "description": "Fail on validation errors instead of returning HTML.",
           "type": "boolean"
         }
       }
@@ -10154,7 +10262,7 @@
           ]
         },
         "strict": {
-          "description": "If true, validation errors fail the call instead of returning HTML.",
+          "description": "Fail on validation errors instead of returning HTML.",
           "type": "boolean"
         },
         "value": {
@@ -10291,7 +10399,7 @@
               ]
             },
             "strict": {
-              "description": "If true, validation errors fail the call instead of returning HTML.",
+              "description": "Fail on validation errors instead of returning HTML.",
               "type": "boolean"
             },
             "mode": {
@@ -10342,7 +10450,7 @@
               ]
             },
             "strict": {
-              "description": "If true, validation errors fail the call instead of returning HTML.",
+              "description": "Fail on validation errors instead of returning HTML.",
               "type": "boolean"
             },
             "mode": {
@@ -10526,7 +10634,7 @@
           ]
         },
         "strict": {
-          "description": "If true, validation errors fail the call instead of returning HTML.",
+          "description": "Fail on validation errors instead of returning HTML.",
           "type": "boolean"
         }
       }
@@ -10634,7 +10742,7 @@
           ]
         },
         "strict": {
-          "description": "If true, validation errors fail the call instead of returning HTML.",
+          "description": "Fail on validation errors instead of returning HTML.",
           "type": "boolean"
         },
         "name": {
@@ -10816,7 +10924,7 @@
           ]
         },
         "strict": {
-          "description": "If true, validation errors fail the call instead of returning HTML.",
+          "description": "Fail on validation errors instead of returning HTML.",
           "type": "boolean"
         }
       }
@@ -10926,7 +11034,7 @@
               ]
             },
             "strict": {
-              "description": "If true, validation errors fail the call instead of returning HTML.",
+              "description": "Fail on validation errors instead of returning HTML.",
               "type": "boolean"
             },
             "mode": {
@@ -11024,7 +11132,7 @@
               ]
             },
             "strict": {
-              "description": "If true, validation errors fail the call instead of returning HTML.",
+              "description": "Fail on validation errors instead of returning HTML.",
               "type": "boolean"
             },
             "mode": {
@@ -11246,7 +11354,7 @@
           ]
         },
         "strict": {
-          "description": "If true, validation errors fail the call instead of returning HTML.",
+          "description": "Fail on validation errors instead of returning HTML.",
           "type": "boolean"
         },
         "caption": {
@@ -11471,7 +11579,7 @@
           ]
         },
         "strict": {
-          "description": "If true, validation errors fail the call instead of returning HTML.",
+          "description": "Fail on validation errors instead of returning HTML.",
           "type": "boolean"
         },
         "heading": {
@@ -11629,7 +11737,7 @@
           ]
         },
         "strict": {
-          "description": "If true, validation errors fail the call instead of returning HTML.",
+          "description": "Fail on validation errors instead of returning HTML.",
           "type": "boolean"
         },
         "name": {
@@ -11811,7 +11919,7 @@
           ]
         },
         "strict": {
-          "description": "If true, validation errors fail the call instead of returning HTML.",
+          "description": "Fail on validation errors instead of returning HTML.",
           "type": "boolean"
         }
       }
