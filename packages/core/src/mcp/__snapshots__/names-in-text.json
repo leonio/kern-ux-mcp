@@ -38,6 +38,7 @@
 		"get_preline",
 		"get_progress",
 		"get_radio",
+		"get_screenshot",
 		"get_search",
 		"get_select",
 		"get_subline",
@@ -49,6 +50,7 @@
 		"get_utility_reference",
 		"list_components_by_category",
 		"list_icons",
+		"plan_figma_design",
 		"render_composition",
 		"render_page",
 		"validate_html"

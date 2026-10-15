@@ -3,6 +3,7 @@ import { afterAll, beforeAll, describe, expect, it } from "vitest";
 
 import type { KernPromptContent } from "../prompts/definition.js";
 import { MCP_ERAS } from "../test-support/mcp.js";
+import { FIGMA_TOOLS } from "../ux/figma/tool.js";
 import { getCatalog } from "./catalog.js";
 
 /**
@@ -12,7 +13,12 @@ import { getCatalog } from "./catalog.js";
  * of itself is checked but left out of it.
  */
 
-const TOOL_NAME = /\b(?:get|list|render|validate)_[a-z][a-z_]*[a-z]\b/g;
+const TOOL_NAME = /\b(?:get|list|plan|render|validate)_[a-z][a-z_]*[a-z]\b/g;
+
+/** Tools of Figma's MCP server, which the Figma prompt and steps name. */
+const FIGMA_TOOL_NAMES: ReadonlySet<string> = new Set(
+	Object.values(FIGMA_TOOLS),
+);
 const KERN_URI = /kern:\/\/[a-z]+\/(?:\{[a-z]+\}|[a-z0-9-]+)/g;
 
 /** Arguments that take each prompt down each of its branches. */
@@ -25,6 +31,15 @@ const PROMPT_ARGS: ReadonlyArray<[string, Record<string, string>]> = [
 	["create_page_layout", { purpose: "Startseite" }],
 	["create_page_layout", { purpose: "Startseite", sections: "Einleitung" }],
 	["review_kern_html", { html: "<p>Hallo</p>" }],
+	["create_figma_design", {}],
+	[
+		"create_figma_design",
+		{
+			screen: "Start",
+			figmaFile: "https://figma.com/design/x",
+			device: "mobile",
+		},
+	],
 ];
 
 /** A prompt's text as one string: its text, embedded resources and link URIs. */
@@ -106,7 +121,7 @@ describe("names in the server's text", () => {
 		const unknown = [...sources].flatMap(([source, { text }]) =>
 			[...text.matchAll(TOOL_NAME)]
 				.map(([name]) => name)
-				.filter((name) => !toolNames.has(name))
+				.filter((name) => !toolNames.has(name) && !FIGMA_TOOL_NAMES.has(name))
 				.map((name) => `${source}: ${name}`),
 		);
 
