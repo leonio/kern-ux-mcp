@@ -140,7 +140,7 @@ Findings in the discovery format: where, problem, proposal, risk.
 - **Facts:**
   - The capture `fDPttmdh80n5MARCJu8Pyh` is the KERN 2 Design-Kit: the same 35 pages, 717 cached variables, and every component with its variant axes.
   - The decoded output lacks the text, boolean and instance-swap properties, and doesn't descend into nested instances. `input-text`, for example, is a single instance, `form`, whose label and hint we can't see yet.
-  - The capture `D6e102ZZEd4Xf1tfCmhYZc` is another file. It uses an older KERN library (`kern-button-primary` with `icon position`, fixed hex fills, collections such as `Dachmarke-Semantic-Test`), so it isn't a source for the map.
+  - The capture `D6e102ZZEd4Xf1tfCmhYZc` is a file that uses the kit. It holds several versions of each component it uses, older ones (`kern-button-primary` with `icon position`, fixed hex fills) next to the current ones (`button-primary` with `state` and `icon`), so names from it need checking against the kit's pages.
 - **Proposal:** the packer takes a capture of both libraries as a fourth source and writes the kit's components and variables into the bundle ([section 7](#7-asks-for-the-packer)). The decoder needs to add the property definitions and nested instances.
 
 ## 4. Themes
