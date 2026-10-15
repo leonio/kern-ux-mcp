@@ -9,9 +9,7 @@ export const McpCommonSchema = z.object({
 	strict: z
 		.boolean()
 		.optional()
-		.describe(
-			"If true, validation errors fail the call instead of returning HTML.",
-		),
+		.describe("Fail on validation errors instead of returning HTML."),
 });
 
 export const FormFieldBaseSchema = z.object({
