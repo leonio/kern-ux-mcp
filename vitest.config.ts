@@ -25,6 +25,13 @@ export default defineConfig({
 			},
 			{
 				extends: true,
+				test: {
+					name: "tailwind",
+					include: ["packages/tailwind/src/**/*.test.ts"],
+				},
+			},
+			{
+				extends: true,
 				test: { name: "tools", include: ["tools/**/*.test.ts"] },
 			},
 		],

@@ -104,6 +104,9 @@ hotfix/*  ───────────────────────�
 # First-time: install
 npm install
 
+# Regenerate the Tailwind package's tokens.css and remap.css after updating @kern-ux/native or tailwindcss
+npm run tailwind:tokens
+
 # Import a new KERN knowledge bundle (written by kern-ux-knowledge-packer)
 npm run knowledge:import -- ../kern-ux-scraper/bundle/final --dry-run
 npm run knowledge:import -- ../kern-ux-scraper/bundle/final
@@ -158,16 +161,17 @@ All PRs targeting `main` or `develop` must pass:
 
 Releases are triggered manually: **Actions → Release → Run workflow**, or `gh workflow run release.yml --ref <branch> -f dry-run=false`. A release needs two approvals from a maintainer.
 
-1. **Verify** (no approval). GitVersion computes the version; a pre-release label such as `alpha` becomes the npm dist-tag. The job sets the version on all workspaces, builds, runs the unit and e2e tests, writes one CycloneDX SBOM per package, and packs the stdio and http tarballs and the `.mcpb`. With **dry-run** it stops here.
+1. **Verify** (no approval). GitVersion computes the version; a pre-release label such as `alpha` becomes the npm dist-tag. The job sets the version on all workspaces, builds, runs the unit and e2e tests, writes one CycloneDX SBOM per package, and packs the stdio, http and tailwind tarballs and the `.mcpb`. With **dry-run** it stops here.
 2. **Approve the `release` environment** (**Review deployments** on the run). The publish job starts.
-3. **Approve on npm.** The job stages both packages with `npm stage publish` (trusted publishing, with provenance). Nothing is live yet: approve each staged version on npmjs.com with 2FA (**Staged Packages → Approve**, or `npm stage list <package>` and `npm stage approve <stage-id>`). The job summary lists them, and the job waits up to 60 minutes.
-4. Once both versions are live, the job publishes to [GitHub Packages](https://github.com/leonio/kern-ux-mcp/packages), pushes `ghcr.io/leonio/kern-ux-mcp-http:<version>` and `:<dist-tag>` (amd64 and arm64) with provenance and SBOM attestations, attests the `.mcpb`, and creates the GitHub release with the tarballs, the `.mcpb` and the SBOMs.
+3. **Approve on npm.** The job stages each package with `npm stage publish` (trusted publishing, with provenance). Nothing is live yet: approve each staged version on npmjs.com with 2FA (**Staged Packages → Approve**, or `npm stage list <package>` and `npm stage approve <stage-id>`). The job summary lists them, and the job waits up to 60 minutes.
+4. Once every version is live, the job publishes to [GitHub Packages](https://github.com/leonio/kern-ux-mcp/packages), pushes `ghcr.io/leonio/kern-ux-mcp-http:<version>` and `:<dist-tag>` (amd64 and arm64) with provenance and SBOM attestations, attests the `.mcpb`, and creates the GitHub release with the tarballs, the `.mcpb` and the SBOMs.
 
 Every step skips what already exists, so after a failure, or an npm approval later than 60 minutes, use **Re-run failed jobs**. npm won't stage the same version twice, so approve or reject a version an earlier attempt staged before re-running.
 
-npm trusted publishing is configured for both `@leonio/kern-ux-mcp` and `@leonio/kern-ux-mcp-http`: user/org `leonio`, repository `kern-ux-mcp`, workflow filename `release.yml`, environment `release`. Under **Allowed actions**, direct `npm publish` stays unticked, since staging is always allowed. No npm secret is needed; GitHub Packages and GHCR use the workflow's `GITHUB_TOKEN`.
+npm trusted publishing is configured for `@leonio/kern-ux-mcp` and `@leonio/kern-ux-mcp-http`: user/org `leonio`, repository `kern-ux-mcp`, workflow filename `release.yml`, environment `release`. Under **Allowed actions**, direct `npm publish` stays unticked, since staging is always allowed. No npm secret is needed; GitHub Packages and GHCR use the workflow's `GITHUB_TOKEN`.
 
-**A new package** needs a few one-time steps, since npm can only set up trusted publishing for a package that exists:
+**A new package** needs a few one-time steps, since npm can only set up trusted publishing for a package that exists. `@leonio/kern-ux-tailwind` still needs them: until then, the publish job fails when it stages that package.
+
 1. Publish its first version by hand from a dry run's tarball (`gh run download <run-id> -n release-assets`), logged in with 2FA: `npm publish <tarball> --access public --tag alpha --provenance=false` (provenance needs CI). npm points `latest` at a package's first version, whatever `--tag` says.
 2. On npmjs.com, add the trusted publisher as above, require 2FA and disallow tokens, and revoke any token made for the bootstrap.
 3. After the first release run, give the repo **Write** access to the GitHub Packages package (**Manage Actions access**) and match its visibility; a new GHCR image starts private, so make it public.

@@ -1,15 +1,20 @@
 /*
- * KERN-UX as a Tailwind CSS v4 theme.
+ * KERN-UX as a Tailwind CSS v4 theme. Import it after Tailwind:
  *
- * Import it after tailwindcss and after @kern-ux/native in the `kern` layer,
- * with that layer declared between `base` and `components` (see app.css).
+ *   @import "tailwindcss";
+ *   @import "@leonio/kern-ux-tailwind";
+ *
+ * It loads KERN's stylesheet into Tailwind's base layer, after preflight, so
+ * KERN's components keep their look and utilities still override them
+ * (kern-btn w-full). Imported before Tailwind, preflight would come last.
  *
  * Everything here is `@theme inline`: a utility like bg-primary compiles to
  * var(--kern-color-action-default-contextual) instead of a Tailwind variable
  * set once on :root. KERN redefines its tokens on [data-kern-theme], .kern-dark,
  * .kern-level-* and body, and only the inlined reference follows them there.
  */
-@import "./kern-tokens.css";
+@import "@kern-ux/native/dist/kern.min.css" layer(base);
+@import "./tokens.css";
 
 /*
  * KERN's dark theme comes from the system preference unless an ancestor sets
@@ -40,7 +45,8 @@
 	}
 }
 
-@layer kern {
+/* After KERN in the same layer, so these win where specificity ties. */
+@layer base {
 	/*
 	 * KERN gives every element its font (*:not(i)), so font-mono on a <pre>
 	 * wouldn't reach the <code> inside. Below body, inherit it instead: the

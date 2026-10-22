@@ -1,8 +1,9 @@
 name: Release
 
 # Publishes @leonio/kern-ux-mcp (npm, GitHub Packages, .mcpb on the GitHub
-# release) and @leonio/kern-ux-mcp-http (npm, GitHub Packages, GHCR image).
-# @leonio/kern-ux-core is private: it's inlined into both and never published.
+# release), @leonio/kern-ux-mcp-http (npm, GitHub Packages, GHCR image) and
+# @leonio/kern-ux-tailwind (npm, GitHub Packages). @leonio/kern-ux-core is
+# private: it's inlined into both servers and never published.
 #
 # Two approvals: the `release` environment starts the publish job, and each npm
 # version is only staged (npm stage publish) until a maintainer approves it on
@@ -105,11 +106,12 @@ jobs:
           SEMVER: ${{ steps.gitversion.outputs.semVer }}
         run: |
           mkdir -p release-assets
-          npm pack -w packages/stdio -w packages/http --pack-destination release-assets
+          npm pack -w packages/stdio -w packages/http -w packages/tailwind --pack-destination release-assets
           npm run pack:mcpb -w packages/stdio
           cp packages/stdio/mcpb-dist/*.mcpb release-assets/
           cp packages/stdio/sbom.cyclonedx.json "release-assets/kern-ux-mcp-${SEMVER}.cdx.json"
           cp packages/http/sbom.cyclonedx.json "release-assets/kern-ux-mcp-http-${SEMVER}.cdx.json"
+          cp packages/tailwind/sbom.cyclonedx.json "release-assets/kern-ux-tailwind-${SEMVER}.cdx.json"
           ls -l release-assets
 
       - name: Generate Release Notes Preview
@@ -203,7 +205,7 @@ jobs:
           ' "$(npm --version)"
 
       # Trusted publishing (OIDC), staged: nothing is live until approved with 2FA.
-      # Only the stdio and http tarballs are in release-assets; core is never packed.
+      # The stdio, http and tailwind tarballs are in release-assets; core is never packed.
       # The ./ matters: npm reads "release-assets/x.tgz" as a GitHub repo shorthand.
       - name: Stage on npm
         shell: bash

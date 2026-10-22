@@ -1,0 +1,60 @@
+{
+	"name": "@leonio/kern-ux-tailwind",
+	"version": "0.0.0-semver",
+	"type": "module",
+	"description": "KERN-UX as a Tailwind CSS v4 theme: Tailwind utilities and components in KERN's colours, type, spacing, breakpoints and light and dark themes.",
+	"license": "EUPL-1.2",
+	"author": "Leon Ioannides <leonio@users.noreply.github.com>",
+	"homepage": "https://github.com/leonio/kern-ux-mcp/tree/main/packages/tailwind#readme",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/leonio/kern-ux-mcp.git",
+		"directory": "packages/tailwind"
+	},
+	"bugs": {
+		"url": "https://github.com/leonio/kern-ux-mcp/issues"
+	},
+	"keywords": [
+		"kern-ux",
+		"tailwindcss",
+		"tailwind",
+		"theme",
+		"design-tokens",
+		"css"
+	],
+	"style": "./src/theme.css",
+	"exports": {
+		".": {
+			"style": "./src/theme.css",
+			"default": "./src/theme.css"
+		},
+		"./remap.css": "./src/remap.css",
+		"./package.json": "./package.json"
+	},
+	"files": [
+		"src/*.css",
+		"sbom.cyclonedx.json",
+		"README.md",
+		"LICENSE.md"
+	],
+	"sideEffects": [
+		"*.css"
+	],
+	"publishConfig": {
+		"access": "public",
+		"provenance": true
+	},
+	"scripts": {
+		"sbom": "tsx ../../tools/build/sbom.ts",
+		"prepack": "node -e \"require('node:fs').copyFileSync('../../LICENSE.md', 'LICENSE.md')\""
+	},
+	"peerDependencies": {
+		"@kern-ux/native": "~2.8.2",
+		"tailwindcss": "^4.1.0"
+	},
+	"devDependencies": {
+		"@kern-ux/native": "2.8.2",
+		"@tailwindcss/node": "^4.3.3",
+		"tailwindcss": "^4.3.3"
+	}
+}

@@ -1,10 +1,10 @@
 /**
- * Writes sbom.cyclonedx.json for a host package (packages/stdio,
- * packages/http): a CycloneDX SBOM of the package as npm users install it,
- * with its runtime dependencies. The private core is inlined into the bundle,
- * not a dependency. The release ships the SBOM in the npm tarball, attaches it
- * to the GitHub release, and attests it for the container image and the .mcpb,
- * which inline these same packages.
+ * Writes sbom.cyclonedx.json for a published package (packages/stdio,
+ * packages/http, packages/tailwind): a CycloneDX SBOM of the package as npm
+ * users install it, with its runtime dependencies. The private core is inlined
+ * into the host bundles, not a dependency. The release ships the SBOM in the
+ * npm tarball, attaches it to the GitHub release, and attests the hosts' SBOMs
+ * for the container image and the .mcpb, which inline these same packages.
  *
  * `npm sbom -w` gets workspaces wrong (with --omit dev it drops zod), so this
  * runs the CycloneDX generator instead. In a workspace that describes the root
@@ -38,7 +38,7 @@ type Bom = {
 const packageDir = process.cwd();
 const pkg = JSON.parse(
 	readFileSync(path.join(packageDir, "package.json"), "utf8"),
-) as { name: string; version: string };
+) as { name: string; version: string; bin?: unknown };
 const npmCli = process.env.npm_execpath;
 if (!npmCli) {
 	console.error("Run this through npm: npm run sbom -w packages/<host>");
@@ -81,7 +81,11 @@ if (!subject) {
 }
 
 const workspaceRef = bom.metadata.component["bom-ref"];
-bom.metadata.component = { ...subject, type: "application" };
+// The hosts are programs; the Tailwind theme is a stylesheet other builds import.
+bom.metadata.component = {
+	...subject,
+	type: pkg.bin ? "application" : "library",
+};
 bom.components = bom.components?.filter((component) => component !== subject);
 bom.dependencies = bom.dependencies?.filter(
 	(entry) => entry.ref !== workspaceRef,

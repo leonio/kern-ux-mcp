@@ -48,6 +48,8 @@ standalone/
 # README.md and LICENSE.md are copied from the repo root when a package is packed
 packages/*/README.md
 packages/*/LICENSE.md
+# The Tailwind package has its own README; only its LICENSE.md is copied
+!packages/tailwind/README.md
 # MCP Bundle staging and output (tools/build/mcpb.ts)
 mcpb-dist/
 

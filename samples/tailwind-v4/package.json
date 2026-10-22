@@ -2,15 +2,14 @@
 	"name": "tailwind-v4-kern",
 	"version": "1.0.0",
 	"private": true,
-	"description": "Tailwind CSS v4 themed with KERN-UX design tokens",
+	"description": "A page built with @leonio/kern-ux-tailwind: KERN's components next to Tailwind ones",
 	"scripts": {
 		"build": "tailwindcss -i ./src/app.css -o ./dist/app.css",
-		"watch": "tailwindcss -i ./src/app.css -o ./dist/app.css --watch",
-		"tokens": "node scripts/kern-tokens.mjs",
-		"check": "node scripts/kern-tokens.mjs --check"
+		"watch": "tailwindcss -i ./src/app.css -o ./dist/app.css --watch"
 	},
 	"devDependencies": {
 		"@kern-ux/native": "2.8.2",
+		"@leonio/kern-ux-tailwind": "file:../../packages/tailwind",
 		"@tailwindcss/cli": "^4.3.3",
 		"tailwindcss": "^4.3.3"
 	},

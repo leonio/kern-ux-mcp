@@ -13,14 +13,12 @@
 				<h1 class="text-kern-heading-x-large">KERN-UX with Tailwind CSS v4</h1>
 				<p class="max-w-3xl text-kern-body">
 					Each row shows a component three ways: KERN's own markup, Tailwind utilities on KERN's tokens, and
-					generic Tailwind markup that hard-codes Tailwind's palette, which <code class="font-mono">kern-remap.css</code>
+					generic Tailwind markup that hard-codes Tailwind's palette, which <code class="font-mono">remap.css</code>
 					points at KERN.
 				</p>
-				<pre class="overflow-x-auto rounded-kern-default bg-muted p-kern-default font-mono text-kern-body-small"><code>@layer theme, base, kern, components, utilities;
-@import "tailwindcss";
-@import "@kern-ux/native/dist/kern.min.css" layer(kern);
-@import "./kern-theme.css";
-@import "./kern-remap.css";</code></pre>
+				<pre class="overflow-x-auto rounded-kern-default bg-muted p-kern-default font-mono text-kern-body-small"><code>@import "tailwindcss";
+@import "@leonio/kern-ux-tailwind";
+@import "@leonio/kern-ux-tailwind/remap.css";</code></pre>
 				<fieldset class="kern-fieldset">
 					<legend class="kern-label">Theme</legend>
 					<div class="kern-fieldset__body kern-fieldset__body--horizontal">
