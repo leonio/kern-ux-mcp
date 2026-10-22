@@ -1,0 +1,187 @@
+/*
+ * KERN-UX as a Tailwind CSS v4 theme.
+ *
+ * Import it after tailwindcss and after @kern-ux/native in the `kern` layer,
+ * with that layer declared between `base` and `components` (see app.css).
+ *
+ * Everything here is `@theme inline`: a utility like bg-primary compiles to
+ * var(--kern-color-action-default-contextual) instead of a Tailwind variable
+ * set once on :root. KERN redefines its tokens on [data-kern-theme], .kern-dark,
+ * .kern-level-* and body, and only the inlined reference follows them there.
+ */
+@import "./kern-tokens.css";
+
+/*
+ * KERN's dark theme comes from the system preference unless an ancestor sets
+ * data-kern-theme="light|dark" or .kern-light|.kern-dark. A light section
+ * inside a dark page still gets dark: styles; the token utilities are right
+ * at any depth, so prefer them over dark: pairs.
+ */
+@custom-variant dark {
+	&:where(
+		[data-kern-theme="dark"],
+		[data-kern-theme="dark"] *,
+		.kern-dark,
+		.kern-dark *
+	) {
+		@slot;
+	}
+	@media (prefers-color-scheme: dark) {
+		&:not(
+				:where(
+					[data-kern-theme="light"],
+					[data-kern-theme="light"] *,
+					.kern-light,
+					.kern-light *
+				)
+			) {
+			@slot;
+		}
+	}
+}
+
+@layer kern {
+	/*
+	 * KERN gives every element its font (*:not(i)), so font-mono on a <pre>
+	 * wouldn't reach the <code> inside. Below body, inherit it instead: the
+	 * body still gets KERN's font, and KERN's components set theirs by class.
+	 */
+	:where(body *):not(i) {
+		font-family: inherit;
+	}
+
+	/*
+	 * KERN centres its dialog with the browser's margin: auto, which
+	 * preflight resets. :where() keeps KERN's own dialog margins ahead.
+	 */
+	:where(.kern-dialog) {
+		margin: auto;
+	}
+}
+
+@theme inline {
+	--font-sans: var(--kern-typography-font-family-default);
+	--font-mono: var(--kern-typography-font-family-fira-mono);
+
+	/*
+	 * The semantic names most Tailwind component code uses, shadcn/ui's among
+	 * them, on KERN's contextual tokens: they resolve from the light or dark
+	 * theme and the level a component sits on.
+	 */
+	--color-background: var(--kern-color-layout-background-default-contextual);
+	--color-foreground: var(--kern-color-layout-text-default-contextual);
+	--color-card: var(--kern-color-layout-background-default-contextual);
+	--color-card-foreground: var(--kern-color-layout-text-default-contextual);
+	--color-popover: var(--kern-color-layout-background-default-contextual);
+	--color-popover-foreground: var(--kern-color-layout-text-default-contextual);
+	--color-primary: var(--kern-color-action-default-contextual);
+	--color-primary-foreground: var(--kern-color-action-on-default-contextual);
+	--color-secondary: var(--kern-color-layout-layer-surface-contextual);
+	--color-secondary-foreground: var(
+		--kern-color-layout-text-default-contextual
+	);
+	--color-muted: var(--kern-color-layout-layer-surface-contextual);
+	--color-muted-foreground: var(--kern-color-layout-text-muted-contextual);
+	--color-accent: var(--kern-color-layout-layer-surface-contextual);
+	--color-accent-foreground: var(--kern-color-layout-text-default-contextual);
+	--color-destructive: var(--kern-color-feedback-danger-contextual);
+	--color-border: var(--kern-color-decorative-border-contextual);
+	--color-input: var(--kern-color-form-input-border-contextual);
+	--color-ring: var(--kern-color-action-focus-default-contextual);
+
+	/* KERN's type roles: text-kern-body sets size, line height and weight. */
+	--text-kern-body-small: var(--kern-typography-font-size-small-static);
+	--text-kern-body-small--line-height: var(
+		--kern-typography-line-height-medium-static
+	);
+	--text-kern-body-small--font-weight: var(
+		--kern-typography-font-weight-body-default
+	);
+	--text-kern-body: var(--kern-typography-font-size-medium-static);
+	--text-kern-body--line-height: var(
+		--kern-typography-line-height-medium-static
+	);
+	--text-kern-body--font-weight: var(
+		--kern-typography-font-weight-body-default
+	);
+	--text-kern-body-large: var(--kern-typography-font-size-large-static);
+	--text-kern-body-large--line-height: var(
+		--kern-typography-line-height-large-static
+	);
+	--text-kern-body-large--font-weight: var(
+		--kern-typography-font-weight-body-default
+	);
+	--text-kern-label: var(--kern-typography-font-size-medium-static);
+	--text-kern-label--line-height: var(
+		--kern-typography-line-height-medium-static
+	);
+	--text-kern-label--font-weight: var(
+		--kern-typography-font-weight-label-default
+	);
+	--text-kern-heading-small: var(--kern-typography-font-size-medium-static);
+	--text-kern-heading-small--line-height: var(
+		--kern-typography-line-height-medium-static
+	);
+	--text-kern-heading-small--font-weight: var(
+		--kern-typography-font-weight-heading-default
+	);
+	--text-kern-heading-medium: var(--kern-typography-font-size-medium-adaptive);
+	--text-kern-heading-medium--line-height: var(
+		--kern-typography-line-height-medium-adaptive
+	);
+	--text-kern-heading-medium--font-weight: var(
+		--kern-typography-font-weight-heading-default
+	);
+	--text-kern-heading-large: var(--kern-typography-font-size-large-adaptive);
+	--text-kern-heading-large--line-height: var(
+		--kern-typography-line-height-large-adaptive
+	);
+	--text-kern-heading-large--font-weight: var(
+		--kern-typography-font-weight-heading-default
+	);
+	--text-kern-heading-x-large: var(
+		--kern-typography-font-size-x-large-adaptive
+	);
+	--text-kern-heading-x-large--line-height: var(
+		--kern-typography-line-height-x-large-adaptive
+	);
+	--text-kern-heading-x-large--font-weight: var(
+		--kern-typography-font-weight-heading-balanced
+	);
+	--text-kern-heading-display: var(
+		--kern-typography-font-size-2x-large-adaptive
+	);
+	--text-kern-heading-display--line-height: var(
+		--kern-typography-line-height-2x-large-adaptive
+	);
+	--text-kern-heading-display--font-weight: var(
+		--kern-typography-font-weight-heading-balanced
+	);
+
+	/* Tailwind's 0.25rem spacing step is KERN's grid: p-4 is space-default. */
+	--spacing-kern-2x-small: var(--kern-metric-space-2x-small);
+	--spacing-kern-x-small: var(--kern-metric-space-x-small);
+	--spacing-kern-small: var(--kern-metric-space-small);
+	--spacing-kern-default: var(--kern-metric-space-default);
+	--spacing-kern-large: var(--kern-metric-space-large);
+	--spacing-kern-x-large: var(--kern-metric-space-x-large);
+	--spacing-kern-2x-large: var(--kern-metric-space-2x-large);
+	--spacing-kern-3x-large: var(--kern-metric-space-3x-large);
+	--spacing-kern-4x-large: var(--kern-metric-space-4x-large);
+	--spacing-kern-5x-large: var(--kern-metric-space-5x-large);
+
+	--radius-kern-small: var(--kern-metric-border-radius-small);
+	--radius-kern-default: var(--kern-metric-border-radius-default);
+	--radius-kern-large: var(--kern-metric-border-radius-large);
+
+	--shadow-kern-low: var(--kern-shadow-elevation-low);
+	--shadow-kern-default: var(--kern-shadow-elevation-default);
+	--shadow-kern-high: var(--kern-shadow-elevation-high);
+
+	/* KERN's grid breakpoints. Media queries can't read custom properties, so these are values. */
+	--breakpoint-sm: 36rem;
+	--breakpoint-md: 48rem;
+	--breakpoint-lg: 62rem;
+	--breakpoint-xl: 75rem;
+	--breakpoint-2xl: 100rem;
+}

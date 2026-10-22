@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>KERN-UX with Tailwind CSS v4</title>
+		<link rel="stylesheet" href="node_modules/@kern-ux/native/dist/fonts/fira-sans.css" />
+		<link rel="stylesheet" href="dist/app.css" />
+	</head>
+	<body class="bg-background text-foreground">
+		<main class="mx-auto flex max-w-7xl flex-col gap-kern-2x-large px-kern-default py-kern-x-large">
+			<header class="flex flex-col gap-kern-default">
+				<h1 class="text-kern-heading-x-large">KERN-UX with Tailwind CSS v4</h1>
+				<p class="max-w-3xl text-kern-body">
+					Each row shows a component three ways: KERN's own markup, Tailwind utilities on KERN's tokens, and
+					generic Tailwind markup that hard-codes Tailwind's palette, which <code class="font-mono">kern-remap.css</code>
+					points at KERN.
+				</p>
+				<pre class="overflow-x-auto rounded-kern-default bg-muted p-kern-default font-mono text-kern-body-small"><code>@layer theme, base, kern, components, utilities;
+@import "tailwindcss";
+@import "@kern-ux/native/dist/kern.min.css" layer(kern);
+@import "./kern-theme.css";
+@import "./kern-remap.css";</code></pre>
+				<fieldset class="kern-fieldset">
+					<legend class="kern-label">Theme</legend>
+					<div class="kern-fieldset__body kern-fieldset__body--horizontal">
+						<div class="kern-form-check">
+							<input class="kern-form-check__radio" id="theme-system" name="theme" type="radio" value="system" checked />
+							<label class="kern-label" for="theme-system">System</label>
+						</div>
+						<div class="kern-form-check">
+							<input class="kern-form-check__radio" id="theme-light" name="theme" type="radio" value="light" />
+							<label class="kern-label" for="theme-light">Light</label>
+						</div>
+						<div class="kern-form-check">
+							<input class="kern-form-check__radio" id="theme-dark" name="theme" type="radio" value="dark" />
+							<label class="kern-label" for="theme-dark">Dark</label>
+						</div>
+					</div>
+				</fieldset>
+			</header>
+
+			<section class="flex flex-col gap-kern-default" aria-labelledby="buttons">
+				<h2 id="buttons" class="text-kern-heading-medium">Button</h2>
+				<div class="grid gap-kern-large lg:grid-cols-3">
+					<div class="flex flex-col gap-kern-small">
+						<p class="text-kern-body-small text-muted-foreground">KERN</p>
+						<div class="flex flex-wrap gap-kern-default">
+							<button type="button" class="kern-btn kern-btn--primary"><span class="kern-label">Submit</span></button>
+							<button type="button" class="kern-btn kern-btn--secondary"><span class="kern-label">Cancel</span></button>
+						</div>
+					</div>
+					<div class="flex flex-col gap-kern-small">
+						<p class="text-kern-body-small text-muted-foreground">Tailwind on KERN tokens</p>
+						<div class="flex flex-wrap gap-kern-default">
+							<button type="button" class="inline-flex min-h-12 items-center rounded-kern-default bg-primary px-kern-large text-kern-label text-primary-foreground hover:bg-kern-action-state-indicator-shade-hover focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-ring">
+								Submit
+							</button>
+							<button type="button" class="inline-flex min-h-12 items-center rounded-kern-default border border-primary px-kern-large text-kern-label text-primary hover:bg-kern-action-state-indicator-tint-hover-opacity focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-ring">
+								Cancel
+							</button>
+						</div>
+					</div>
+					<div class="flex flex-col gap-kern-small">
+						<p class="text-kern-body-small text-muted-foreground">Tailwind palette, remapped</p>
+						<div class="flex flex-wrap gap-kern-default">
+							<button type="button" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 dark:bg-indigo-400 dark:text-gray-950">
+								Submit
+							</button>
+							<button type="button" class="rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-gray-300 ring-inset hover:bg-gray-50 dark:bg-gray-800 dark:text-white dark:ring-gray-600">
+								Cancel
+							</button>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<section class="flex flex-col gap-kern-default" aria-labelledby="alerts">
+				<h2 id="alerts" class="text-kern-heading-medium">Alert</h2>
+				<div class="grid gap-kern-large lg:grid-cols-3">
+					<div class="flex flex-col gap-kern-small">
+						<p class="text-kern-body-small text-muted-foreground">KERN</p>
+						<div class="kern-alert kern-alert--info" role="alert">
+							<div class="kern-alert__header">
+								<span class="kern-icon kern-icon--info" aria-hidden="true"></span>
+								<p class="kern-title">Your application was saved</p>
+							</div>
+						</div>
+					</div>
+					<div class="flex flex-col gap-kern-small">
+						<p class="text-kern-body-small text-muted-foreground">Tailwind on KERN tokens</p>
+						<div class="flex items-center gap-kern-small rounded-kern-default bg-kern-feedback-info-background-contextual p-kern-default outline-2 outline-kern-feedback-info-contextual" role="alert">
+							<span class="kern-icon kern-icon--info bg-kern-feedback-info-contextual" aria-hidden="true"></span>
+							<p class="text-kern-heading-medium">Your application was saved</p>
+						</div>
+					</div>
+					<div class="flex flex-col gap-kern-small">
+						<p class="text-kern-body-small text-muted-foreground">Tailwind palette, remapped</p>
+						<div class="rounded-md bg-sky-50 p-4 dark:bg-sky-950" role="alert">
+							<p class="text-sm font-medium text-sky-800 dark:text-sky-200">Your application was saved</p>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<section class="flex flex-col gap-kern-default" aria-labelledby="badges">
+				<h2 id="badges" class="text-kern-heading-medium">Badge</h2>
+				<div class="grid gap-kern-large lg:grid-cols-3">
+					<div class="flex flex-col gap-kern-small">
+						<p class="text-kern-body-small text-muted-foreground">KERN</p>
+						<div class="flex flex-wrap gap-kern-small">
+							<span class="kern-badge kern-badge--success"><span class="kern-label">Approved</span></span>
+							<span class="kern-badge kern-badge--warning"><span class="kern-label">Pending</span></span>
+						</div>
+					</div>
+					<div class="flex flex-col gap-kern-small">
+						<p class="text-kern-body-small text-muted-foreground">Tailwind on KERN tokens</p>
+						<div class="flex flex-wrap gap-kern-small">
+							<span class="inline-flex min-h-8 items-center rounded-kern-default border border-kern-feedback-success-contextual bg-kern-feedback-success-background-contextual pr-kern-default pl-3 text-kern-body-small font-semibold">Approved</span>
+							<span class="inline-flex min-h-8 items-center rounded-kern-default border border-kern-feedback-warning-contextual bg-kern-feedback-warning-background-contextual pr-kern-default pl-3 text-kern-body-small font-semibold">Pending</span>
+						</div>
+					</div>
+					<div class="flex flex-col gap-kern-small">
+						<p class="text-kern-body-small text-muted-foreground">Tailwind palette, remapped</p>
+						<div class="flex flex-wrap gap-kern-small">
+							<span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-green-600/20 ring-inset dark:bg-green-950 dark:text-green-300">Approved</span>
+							<span class="inline-flex items-center rounded-md bg-amber-50 px-2 py-1 text-xs font-medium text-amber-800 ring-1 ring-amber-600/20 ring-inset dark:bg-amber-950 dark:text-amber-300">Pending</span>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<section class="flex flex-col gap-kern-default" aria-labelledby="inputs">
+				<h2 id="inputs" class="text-kern-heading-medium">Text input and textarea</h2>
+				<div class="grid gap-kern-large lg:grid-cols-3">
+					<div class="flex flex-col gap-kern-small">
+						<p class="text-kern-body-small text-muted-foreground">KERN</p>
+						<div class="kern-form-input">
+							<label class="kern-label" for="kern-name">Name</label>
+							<input class="kern-form-input__input" id="kern-name" name="kern-name" type="text" />
+						</div>
+						<div class="kern-form-input">
+							<label class="kern-label" for="kern-notes">Notes</label>
+							<textarea class="kern-form-input__input" id="kern-notes" name="kern-notes"></textarea>
+						</div>
+					</div>
+					<div class="flex flex-col gap-kern-small">
+						<p class="text-kern-body-small text-muted-foreground">Tailwind on KERN tokens</p>
+						<label class="text-kern-label" for="tw-name">Name</label>
+						<input class="h-12 w-full rounded-kern-small border-b-2 border-input bg-muted px-kern-default text-kern-body focus:outline-4 focus:outline-ring" id="tw-name" name="tw-name" type="text" />
+						<label class="text-kern-label" for="tw-notes">Notes</label>
+						<textarea class="min-h-24 w-full rounded-kern-small border-b-2 border-input bg-muted px-kern-default py-kern-small text-kern-body focus:outline-4 focus:outline-ring" id="tw-notes" name="tw-notes"></textarea>
+					</div>
+					<div class="flex flex-col gap-kern-small">
+						<p class="text-kern-body-small text-muted-foreground">Tailwind palette, remapped</p>
+						<label class="block text-sm/6 font-medium text-gray-900 dark:text-white" for="pal-name">Name</label>
+						<input class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 dark:bg-gray-900 dark:text-white dark:outline-gray-600" id="pal-name" name="pal-name" type="text" />
+						<label class="block text-sm/6 font-medium text-gray-900 dark:text-white" for="pal-notes">Notes</label>
+						<textarea class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 dark:bg-gray-900 dark:text-white dark:outline-gray-600" id="pal-notes" name="pal-notes" rows="3"></textarea>
+					</div>
+				</div>
+			</section>
+
+			<section class="flex flex-col gap-kern-default" aria-labelledby="cards">
+				<h2 id="cards" class="text-kern-heading-medium">Card</h2>
+				<div class="grid gap-kern-large lg:grid-cols-3">
+					<div class="flex flex-col gap-kern-small">
+						<p class="text-kern-body-small text-muted-foreground">KERN</p>
+						<article class="kern-card kern-card--hug">
+							<div class="kern-card__container">
+								<header class="kern-card__header">
+									<h3 class="kern-title" id="kern-card-title">Parking permit</h3>
+								</header>
+								<section class="kern-card__body">
+									<p class="kern-body">Apply for a residents' parking permit online.</p>
+								</section>
+								<footer class="kern-card__footer">
+									<button type="button" class="kern-btn kern-btn--primary" aria-describedby="kern-card-title"><span class="kern-label">Apply</span></button>
+								</footer>
+							</div>
+						</article>
+					</div>
+					<div class="flex flex-col gap-kern-small">
+						<p class="text-kern-body-small text-muted-foreground">Tailwind on KERN tokens</p>
+						<article class="flex flex-col gap-kern-default rounded-kern-default border border-border bg-card p-kern-large text-card-foreground">
+							<h3 class="text-kern-heading-medium" id="tw-card-title">Parking permit</h3>
+							<p class="text-kern-body">Apply for a residents' parking permit online.</p>
+							<div class="pt-kern-default">
+								<button type="button" class="inline-flex min-h-12 items-center rounded-kern-default bg-primary px-kern-large text-kern-label text-primary-foreground hover:bg-kern-action-state-indicator-shade-hover focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-ring" aria-describedby="tw-card-title">
+									Apply
+								</button>
+							</div>
+						</article>
+					</div>
+					<div class="flex flex-col gap-kern-small">
+						<p class="text-kern-body-small text-muted-foreground">Tailwind palette, remapped</p>
+						<article class="overflow-hidden rounded-lg bg-white shadow-sm ring-1 ring-gray-900/5 dark:bg-gray-800 dark:ring-white/10">
+							<div class="px-4 py-5 sm:p-6">
+								<h3 class="text-base font-semibold text-gray-900 dark:text-white" id="pal-card-title">Parking permit</h3>
+								<p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Apply for a residents' parking permit online.</p>
+								<button type="button" class="mt-4 rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 dark:bg-indigo-400 dark:text-gray-950" aria-describedby="pal-card-title">Apply</button>
+							</div>
+						</article>
+					</div>
+				</div>
+			</section>
+
+			<section class="flex flex-col gap-kern-default rounded-kern-large bg-background p-kern-large text-foreground" data-kern-theme="dark" aria-labelledby="island">
+				<h2 id="island" class="text-kern-heading-medium">A dark section in any theme</h2>
+				<p class="max-w-3xl text-kern-body">
+					<code class="font-mono">data-kern-theme="dark"</code> on this section switches KERN's tokens here only. The token
+					utilities follow because <code class="font-mono">@theme inline</code> compiles them to KERN's variables.
+				</p>
+				<div class="flex flex-wrap gap-kern-default">
+					<button type="button" class="kern-btn kern-btn--primary"><span class="kern-label">KERN</span></button>
+					<button type="button" class="inline-flex min-h-12 items-center rounded-kern-default bg-primary px-kern-large text-kern-label text-primary-foreground">
+						Tailwind on KERN tokens
+					</button>
+					<button type="button" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs dark:bg-indigo-400 dark:text-gray-950">
+						Tailwind palette, remapped
+					</button>
+				</div>
+			</section>
+		</main>
+		<script>
+			for (const input of document.querySelectorAll('input[name="theme"]')) {
+				input.addEventListener("change", () => {
+					if (input.value === "system") {
+						document.documentElement.removeAttribute("data-kern-theme");
+					} else {
+						document.documentElement.dataset.kernTheme = input.value;
+					}
+				});
+			}
+		</script>
+	</body>
+</html>

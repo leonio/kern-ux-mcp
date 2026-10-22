@@ -65,6 +65,7 @@ The repo is an npm workspace:
 - [.github/instructions](../.github/instructions): targeted file-scoped workflow rules.
 - [.github/skills/component-update-workflow](../.github/skills/component-update-workflow): self-contained workflow skill with YAML references.
 - [samples/basic-layout](../samples/basic-layout): sample app and MCP wiring for local development.
+- [samples/tailwind-v4](../samples/tailwind-v4): a Tailwind CSS v4 theme built from KERN's tokens, with a page comparing KERN's components to Tailwind ones.
 
 ## Common Change Paths
 

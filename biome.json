@@ -12,6 +12,8 @@
 			"!knowledge",
 			"!docs/v2-migration/evals",
 			"!samples/basic-layout/assets",
+			"!samples/tailwind-v4/src/kern-tokens.css",
+			"!samples/tailwind-v4/src/kern-remap.css",
 			"!**/__snapshots__"
 		]
 	},
@@ -19,6 +21,14 @@
 		"enabled": true
 	},
 	"overrides": [
+		{
+			"includes": ["samples/tailwind-v4/**/*.css"],
+			"css": {
+				"parser": {
+					"tailwindDirectives": true
+				}
+			}
+		},
 		{
 			"includes": ["packages/core/src/ux/**"],
 			"linter": {

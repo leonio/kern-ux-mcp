@@ -1,0 +1,14 @@
+/*
+ * KERN sits in its own layer: after Tailwind's preflight, so its components
+ * keep their look, and before the utilities, so `kern-btn w-full` works.
+ * Declare the order before anything else; a layer named for the first time
+ * later would land after the utilities.
+ */
+@layer theme, base, kern, components, utilities;
+
+@import "tailwindcss" source("../");
+@import "@kern-ux/native/dist/kern.min.css" layer(kern);
+@import "./kern-theme.css";
+
+/* Optional: KERN colours, radii and shadows for components that hard-code Tailwind's. */
+@import "./kern-remap.css";
