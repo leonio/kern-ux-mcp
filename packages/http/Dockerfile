@@ -30,7 +30,7 @@ ARG VERSION
 RUN if [ -n "$VERSION" ]; then npm pkg set version="$VERSION" -w packages/http; fi \
 	&& npm run build -w packages/http
 
-FROM gcr.io/distroless/nodejs24-debian13:nonroot@sha256:59c479c9b8c123e66047315c968aa2d35e31ae5149c856e4110a79c8b3563f0b
+FROM gcr.io/distroless/nodejs24-debian13:nonroot@sha256:a6c34457f6da4295807e051411c7783739c65b997a324fed14e4fa292615ae91
 
 LABEL org.opencontainers.image.source="https://github.com/leonio/kern-ux-mcp" \
 	org.opencontainers.image.licenses="EUPL-1.2" \
