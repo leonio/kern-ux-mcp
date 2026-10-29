@@ -172,6 +172,12 @@ Each prompt embeds the guide it relies on, links the component cards it uses, re
 
 ---
 
+## Tailwind CSS
+
+[`@leonio/kern-ux-tailwind`](https://github.com/leonio/kern-ux-tailwind) is KERN-UX as a Tailwind CSS v4 theme: Tailwind's utilities, and Tailwind components you paste in, in KERN's colours, fonts, spacing, breakpoints and light and dark themes, next to KERN's own components. It's a separate project and works without the MCP server.
+
+---
+
 ## Protocol and Errors
 
 Since 2.0 the server is built on MCP TypeScript SDK v2. It speaks protocol `2026-07-28` and still serves older clients (`2024-11-05` through `2025-11-25`) from the same process.
