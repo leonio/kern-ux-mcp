@@ -11,7 +11,7 @@
 # KERN_ALLOWED_HOSTS (the hostnames clients use). See README.md for all settings.
 
 # The bundle is plain JavaScript, so it's built once on the build machine's platform.
-FROM --platform=$BUILDPLATFORM node:24-slim@sha256:a5f4366e834695d5f363b920c104953a535d3a9864d1bdf74566a0ebe01daee5 AS build
+FROM --platform=$BUILDPLATFORM node:24-slim@sha256:c86ecead9e55a5210ac1727de38a4ca840bf03dcaf34dc9749addbf383b1920c AS build
 WORKDIR /repo
 
 COPY package.json package-lock.json ./
