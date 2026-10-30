@@ -516,11 +516,11 @@ describe("drain (SIGTERM)", () => {
 });
 
 describe("per-request server factory", () => {
-	it("stays within a few milliseconds per request", () => {
-		createKernServer({ version: VERSION });
+	it("stays within a few milliseconds per request", async () => {
+		await createKernServer({ version: VERSION });
 		const runs = 30;
 		const started = performance.now();
-		for (let i = 0; i < runs; i++) createKernServer({ version: VERSION });
+		for (let i = 0; i < runs; i++) await createKernServer({ version: VERSION });
 		const meanMs = (performance.now() - started) / runs;
 
 		expect(meanMs).toBeLessThan(5);

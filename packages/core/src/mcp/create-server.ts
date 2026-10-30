@@ -10,6 +10,7 @@ import {
 import { RELEASE_CACHE_HINT } from "./cache-hint.js";
 import { getCatalog } from "./catalog.js";
 import { kernInputSchema, kernOutputSchema } from "./kern-schema.js";
+import { getSkills } from "./skills.js";
 
 /**
  * Registers one tool. Input validation happens in the SDK through
@@ -49,12 +50,16 @@ export type KernServerOptions = {
 };
 
 /**
- * Creates a server with every KERN tool, resource and prompt registered. It's
- * cheap enough to call per connection or per request: definitions, JSON
- * Schemas and resource content are built once.
+ * Creates a server with every KERN tool, resource, prompt and skill
+ * registered. It's cheap enough to call per connection or per request:
+ * definitions, JSON Schemas, resource content and the skill catalog are built
+ * once. Async because loading the skill catalog is; only the first call waits.
  */
-export function createKernServer({ version }: KernServerOptions): McpServer {
+export async function createKernServer({
+	version,
+}: KernServerOptions): Promise<McpServer> {
 	const { tools, resources, prompts } = getCatalog();
+	const skills = await getSkills();
 	const server = new McpServer(
 		{ name: "kern-ux", version },
 		{
@@ -79,6 +84,8 @@ export function createKernServer({ version }: KernServerOptions): McpServer {
 	}
 	registerKernResources(server, resources);
 	registerKernPrompts(server, prompts);
+	// skills/list, skills/get, resources/directory/read and the skill:// template.
+	skills.attach(server);
 
 	return server;
 }

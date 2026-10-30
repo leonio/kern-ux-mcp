@@ -4,10 +4,11 @@ import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import type { KernPromptContent } from "../prompts/definition.js";
 import { MCP_ERAS } from "../test-support/mcp.js";
 import { getCatalog } from "./catalog.js";
+import { catalogFiles } from "./skills.js";
 
 /**
  * Every tool name and kern:// URI the server writes, in the tool listing, the
- * prompts, the guides and the cards, is one it serves. The names found go in
+ * prompts, the guides, the cards and the skills, is one it serves. The names found go in
  * a snapshot, so a new mention shows up in review; a tool's or card's mention
  * of itself is checked but left out of it.
  */
@@ -41,7 +42,7 @@ function promptText(content: readonly KernPromptContent[]): string {
 }
 
 describe("names in the server's text", () => {
-	const { prompts, resources } = getCatalog();
+	const { prompts, resources, skills } = getCatalog();
 	let client: Client;
 	/** Each source's text and its own name or URI, by a name for the report. */
 	const sources = new Map<string, { text: string; own?: string }>();
@@ -76,6 +77,9 @@ describe("names in the server's text", () => {
 					own: entry.uri,
 				});
 			}
+		}
+		for (const [path, text] of Object.entries(await catalogFiles(skills))) {
+			sources.set(`skill://${path}`, { text });
 		}
 	});
 

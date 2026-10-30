@@ -2,6 +2,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { Client } from "@modelcontextprotocol/client";
+import { SkillsClient } from "@modelcontextprotocol/client/ext/skills";
 import { StdioClientTransport } from "@modelcontextprotocol/client/stdio";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 
@@ -112,5 +113,20 @@ describe.each(CASES)("stdio: $name on $era", ({ entry, era }) => {
 			arguments: { label: "OK", variant: "rainbow" },
 		});
 		expect(invalid.isError).toBe(true);
+	});
+
+	it("serves the kern-ux-forms skill, its files matching their digests", async () => {
+		const skills = new SkillsClient(client);
+		const { skills: listed } = await skills.list();
+		expect(listed.map((skill) => skill.frontmatter.name)).toEqual([
+			"kern-ux-forms",
+		]);
+
+		const [skill] = listed;
+		if (!skill) throw new Error("No skill listed.");
+		expect((await skills.read(skill)).verified).toBe(true);
+		expect((await skills.read(skill, "references/inputs.md")).verified).toBe(
+			true,
+		);
 	});
 });

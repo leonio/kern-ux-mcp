@@ -231,6 +231,13 @@ function toolSection(
 /** Our reviewed notes about the tool, in English, grouped by kind. */
 function toolNotes(notes: ReviewedComponentGuidance | undefined): string {
 	if (!notes) return "";
+	return (
+		list("Notes on our tool", toolNoteLines(notes), notes.summary.text.en) ?? ""
+	);
+}
+
+/** One line per reviewed note, in English, labelled with its kind. The kern-ux-forms skill shares them. */
+export function toolNoteLines(notes: ReviewedComponentGuidance): string[] {
 	const groups: Array<[string, readonly ReviewedGuidanceStatement[]]> = [
 		["Use it for", notes.primaryUseCases],
 		["Not for", notes.antiUseCases],
@@ -240,10 +247,9 @@ function toolNotes(notes: ReviewedComponentGuidance | undefined): string {
 		["Authoring", notes.authoringNotes],
 		["Migration", notes.migrationNotes],
 	];
-	const lines = groups.flatMap(([label, statements]) =>
+	return groups.flatMap(([label, statements]) =>
 		statements.map((statement) => `**${label}:** ${statement.text.en}`),
 	);
-	return list("Notes on our tool", lines, notes.summary.text.en) ?? "";
 }
 
 /** A heading and a bullet list, or nothing for an empty list. */

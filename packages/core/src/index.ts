@@ -8,3 +8,4 @@ export {
 	createKernServer,
 	type KernServerOptions,
 } from "./mcp/create-server.js";
+export { getSkills } from "./mcp/skills.js";

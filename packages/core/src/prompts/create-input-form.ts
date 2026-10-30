@@ -96,14 +96,8 @@ function workflow(args: Args): string {
 	const steps = filledIn(args.steps);
 
 	const items = [
-		"**Fields:** one `field` block per field. Pick its `type`: text, email, tel, url, number, date, password, textarea, select, radio or checkbox. select and radio need `options`; a checkbox with `options` is a group. A file upload has no field type: render it with `get_inputfile` and add its HTML as an `html` block.",
-		`**Labels:** a short \`label\` in ${LOCALE_NAMES[locale]} without a trailing colon, a \`name\`, and an \`autocomplete\` token where one fits (given-name, family-name, email, tel, bday, street-address, postal-code). A \`hint\` only where it helps, such as for an expected format.`,
-		"**Required and optional:** `required: true` on the fields the form needs, `optional: true` on the few it doesn't. Radio and checkbox fields ignore `required`.",
-		...(steps
-			? stepItems(locale)
-			: [
-					'**Groups:** related fields go in a `fieldset` block with a `legend`, with `legendSize: "large"` for a main part of the form such as an address. Everything goes in one `form` block with `actions: { submitLabel }`. To show the form after a failed submit, give each field in error its `error` message and the form `errorSummary: {}`.',
-				]),
+		...fieldItems(LOCALE_NAMES[locale]),
+		...(steps ? stepItems(locale) : [GROUPS_ITEM]),
 		strictRender("render_composition", locale),
 	];
 
@@ -117,7 +111,24 @@ function workflow(args: Args): string {
 	].join("\n\n");
 }
 
-function stepItems(locale: Locale): string[] {
+/**
+ * The steps for the fields of any form, with labels in `language` (such as
+ * "German"). The kern-ux-forms skill shares them.
+ */
+export function fieldItems(language: string): string[] {
+	return [
+		"**Fields:** one `field` block per field. Pick its `type`: text, email, tel, url, number, date, password, textarea, select, radio or checkbox. select and radio need `options`; a checkbox with `options` is a group. A file upload has no field type: render it with `get_inputfile` and add its HTML as an `html` block.",
+		`**Labels:** a short \`label\` in ${language} without a trailing colon, a \`name\`, and an \`autocomplete\` token where one fits (given-name, family-name, email, tel, bday, street-address, postal-code). A \`hint\` only where it helps, such as for an expected format.`,
+		"**Required and optional:** `required: true` on the fields the form needs, `optional: true` on the few it doesn't. Radio and checkbox fields ignore `required`.",
+	];
+}
+
+/** The step that groups the fields of a form on one page. */
+export const GROUPS_ITEM =
+	'**Groups:** related fields go in a `fieldset` block with a `legend`, with `legendSize: "large"` for a main part of the form such as an address. Everything goes in one `form` block with `actions: { submitLabel }`. To show the form after a failed submit, give each field in error its `error` message and the form `errorSummary: {}`.';
+
+/** The steps of a multi-step form, with example labels in `locale`. */
+export function stepItems(locale: Locale): string[] {
 	return [
 		`**Steps:** one \`formFlow\` block with exactly the steps given, in order, each \`label\` as given. Spread the fields over the steps in the order given, each step's fields in a \`fieldset\` whose \`legend\` names the step, with \`legendSize: "large"\`. \`navigation: { backLabel, nextLabel, submitLabel }\` (such as ${NAVIGATION_LABELS[locale]}) gives every step but the first a back button, and only the last one a submit button. The step list and the progress bar come with the block.`,
 		`**Review:** KERN asks for a summary where people check their answers before sending them. If a step is for that, such as "${REVIEW_STEP[locale]}", start its \`contentBlocks\` with a summary block, \`{ kind: "summary", summary: { summaries: [{ title, items: [{ key, value }], editHref }] } }\`: one summary per earlier step, titled and ordered like the steps, with example answers and a link back to the step. The fields for sending the form, such as a checkbox to confirm the answers, follow the summary in this step.`,

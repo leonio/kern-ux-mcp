@@ -1,13 +1,14 @@
 #!/usr/bin/env node
 
-import { createKernServer, getCatalog } from "@leonio/kern-ux-core";
+import { createKernServer, getCatalog, getSkills } from "@leonio/kern-ux-core";
 import { serveStdio } from "@modelcontextprotocol/server/stdio";
 import pkg from "../package.json" with { type: "json" };
 
 try {
-	// Build the tool catalog up front, so a broken registry fails at startup
-	// rather than on the first request.
+	// Build the tool catalog and the skills up front, so a broken registry or
+	// skill fails at startup rather than on the first request.
 	getCatalog();
+	await getSkills();
 } catch (err) {
 	console.error("Fatal error starting Kern UX MCP server", err);
 	process.exit(1);

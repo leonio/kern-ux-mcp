@@ -2,7 +2,7 @@
 
 import type { AddressInfo } from "node:net";
 
-import { getCatalog } from "@leonio/kern-ux-core";
+import { getCatalog, getSkills } from "@leonio/kern-ux-core";
 
 import pkg from "../package.json" with { type: "json" };
 import { ConfigError, type HttpConfig, loadConfig } from "./config.js";
@@ -14,9 +14,10 @@ const DRAIN_TIMEOUT_MS = 8_000;
 let config: HttpConfig;
 try {
 	config = loadConfig();
-	// Build the tool catalog up front, so a broken registry fails at startup
-	// rather than on the first request.
+	// Build the tool catalog and the skills up front, so a broken registry or
+	// skill fails at startup rather than on the first request.
 	getCatalog();
+	await getSkills();
 } catch (err) {
 	if (err instanceof ConfigError) {
 		console.error(`Kern UX MCP HTTP server: ${err.message}`);

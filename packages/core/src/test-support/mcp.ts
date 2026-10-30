@@ -29,7 +29,7 @@ export const MCP_ERAS: McpEraSetup[] = [
 			const [clientTransport, serverTransport] =
 				InMemoryTransport.createLinkedPair();
 			const client = new Client(CLIENT_INFO);
-			const server = createKernServer({ version: TEST_SERVER_VERSION });
+			const server = await createKernServer({ version: TEST_SERVER_VERSION });
 			await Promise.all([
 				server.connect(serverTransport),
 				client.connect(clientTransport),

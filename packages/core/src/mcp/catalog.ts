@@ -5,6 +5,8 @@ import { reviewKernHtml } from "../prompts/review-kern-html.js";
 import { componentCards } from "../resources/component-cards.js";
 import type { KernResourceDefinition } from "../resources/definition.js";
 import { guides } from "../resources/guides.js";
+import type { KernSkillDefinition } from "../skills/definition.js";
+import { kernUxForms } from "../skills/forms.js";
 import { loadRegistryFromManifest } from "../ux/registry.js";
 import { assertComponentToolsInRegistry } from "../ux/tool-builders/component-tools.js";
 import type { ToolDef } from "../ux/tool-builders/shared.js";
@@ -14,12 +16,13 @@ export type Catalog = {
 	tools: readonly ToolDef[];
 	resources: readonly KernResourceDefinition[];
 	prompts: readonly KernPromptDefinition[];
+	skills: readonly KernSkillDefinition[];
 };
 
 let catalog: Catalog | undefined;
 
 /**
- * Every tool, resource and prompt definition, built once per process. Server
+ * Every tool, resource, prompt and skill definition, built once per process. Server
  * instances only register from this, so creating one per connection or per
  * HTTP request stays cheap. Resource content is built on first read and kept.
  */
@@ -50,5 +53,6 @@ function buildCatalog(): Catalog {
 			createPageLayout(registry, guideResources),
 			reviewKernHtml(guideResources),
 		],
+		skills: [kernUxForms(registry, guideResources)],
 	};
 }

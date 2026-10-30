@@ -1,6 +1,6 @@
 # Kern UX MCP Server
 
-MCP Language Server exposing component tools, recursive composition rendering, strict accessibility validation, component cards and guides as resources, and prompts for forms, pages and reviews for the [KERN-UX Component Library](https://www.kern-ux.de/).
+MCP Language Server exposing component tools, recursive composition rendering, strict accessibility validation, component cards and guides as resources, prompts for forms, pages and reviews, and a skill for forms for the [KERN-UX Component Library](https://www.kern-ux.de/).
 
 Setup guides for VS Code Copilot, Claude Desktop and Claude Code, Docker hosting and debugging are in the [wiki](https://github.com/leonio/kern-ux-mcp/wiki).
 
@@ -169,6 +169,18 @@ The server also offers three prompts: workflows over the tools that you start fr
 | `review_kern_html` | `html`, `locale` | Checks the HTML with `validate_html`, rebuilds it with the tools, and answers with a fix list and the corrected HTML. The fix list says what a person still has to check, such as an `alt` text written without seeing the image. |
 
 Each prompt embeds the guide it relies on, links the component cards it uses, renders with `strict: true`, and asks for the final HTML verbatim. `locale` is `de` (the default) or `en` and sets the language of the page's text; the prompts themselves are in English.
+
+---
+
+## Skills
+
+The server also offers skills through the MCP Skills extension (`io.modelcontextprotocol/skills`). A client that supports it shows the model each skill's name and description, and the model loads the skill when a task needs it. Unlike a resource or a prompt, nobody has to bring it in.
+
+| Skill | What it does |
+|---|---|
+| `kern-ux-forms` | Builds a form with the tools: the field type for each input, labels, required and optional fields, fieldsets, the error summary, and multi-step forms with a step list, progress and a step for checking the answers. It also has KERN's rules for the text of a form, which the tools can't check. Its references are KERN's guidance for each input and for multi-step forms, and the forms guide. |
+
+A skill is a `SKILL.md` and its reference files under `skill://<name>/`, such as `skill://kern-ux-forms/SKILL.md`. A client that doesn't support the extension still lists each `SKILL.md` among the resources. `kern-ux-forms` follows the same workflow as the `create_input_form` prompt, which you start yourself.
 
 ---
 

@@ -17,6 +17,7 @@ flowchart TD
   E --> P[packages/core/src/invoke.ts]
   E --> R[packages/core/src/resources]
   E --> Q[packages/core/src/prompts]
+  E --> S[packages/core/src/skills]
   E --> F[packages/core/src/ux/tools.ts]
   F --> G[packages/core/src/ux/tool-builders]
   G --> H[packages/core/src/ux/schemas]
@@ -40,9 +41,10 @@ The repo is an npm workspace:
 - [packages/http](../packages/http): `@leonio/kern-ux-mcp-http`, the published Streamable HTTP server. `src/server.ts` is the `node:http` host (Host/Origin guards, CORS, rate limit, bearer token, probes, drain), `src/config.ts` reads its environment variables. `Dockerfile` and `compose.yaml` build the container image from the standalone bundle; build from the repo root (the root `.dockerignore` applies).
 
 - [packages/stdio/src/index.ts](../packages/stdio/src/index.ts): stdio entry point (`serveStdio`), serving 2026-07-28 and 2025-era clients.
-- [packages/core/src/mcp](../packages/core/src/mcp): MCP SDK v2 wiring. `create-server.ts` registers every tool, resource and prompt on `McpServer`, `kern-schema.ts` adapts each tool's Zod schema for the SDK (our JSON Schema, our validation hints), and `catalog.ts` builds the tool, resource and prompt definitions once per process. `names.test.ts` checks that every tool name and `kern://` URI in the server's text resolves.
+- [packages/core/src/mcp](../packages/core/src/mcp): MCP SDK v2 wiring. `create-server.ts` registers every tool, resource and prompt on `McpServer` and attaches the skills, `kern-schema.ts` adapts each tool's Zod schema for the SDK (our JSON Schema, our validation hints), `catalog.ts` builds the tool, resource, prompt and skill definitions once per process, and `skills.ts` loads the skills into the SDK's catalog once per process. `names.test.ts` checks that every tool name and `kern://` URI in the server's text resolves.
 - [packages/core/src/resources](../packages/core/src/resources): the MCP resources. `component-cards.ts` makes `kern://components/{id}`, `guides.ts` makes `kern://guides/{name}`, `field-digest.ts` turns a tool's input schema into tables, and `register.ts` registers each family as a template with listing, completion, an hour's public cache hint and a not-found error. Content is built on first read, with stable IDs (`withStableIds` in `ux/id.ts`), so every process serves the same bytes.
 - [packages/core/src/prompts](../packages/core/src/prompts): the MCP prompts. `definition.ts` has the definition type and the parts the prompts share: the `locale` argument with its completion, an embedded guide, card links, the strict render step and the answer line. `register.ts` registers each prompt, and `create-input-form.ts`, `create-page-layout.ts` and `review-kern-html.ts` write the workflows. A prompt's content blocks become user messages: the guide, the card links, then the workflow, so the model reads the answer it should give last.
+- [packages/core/src/skills](../packages/core/src/skills): the skills of the MCP Skills extension (`ext/skills` in the SDK). `definition.ts` has the definition type and writes a skill's files, `SKILL.md` with its frontmatter first. `forms.ts` writes `kern-ux-forms` from the `create_input_form` prompt's steps, the registry's guidance and the forms guide. `mcp/skills.ts` loads them with `strict`, so a skill the extension would skip fails the load, and with the release cache hint. The files are built in memory, since the bundled hosts have no folder to read, and are the same in every process, since hosts check each file's digest.
 - [packages/core/src/invoke.ts](../packages/core/src/invoke.ts): the call pipeline independent of the SDK: argument normalization, input parsing, validation hints, handler and output validation.
 - [packages/core/src/ux/tools.ts](../packages/core/src/ux/tools.ts): creates the tool registry, selects tool builders, lists tools for MCP.
 - [packages/core/src/ux/tool-builders](../packages/core/src/ux/tool-builders): strategy-specific tool construction shared across many components. `component-tools.ts` says which components get a tool and which builder makes it.
@@ -96,6 +98,7 @@ Typical path:
 2. If tool input listing changes, check [packages/core/src/ux/json-schema.ts](../packages/core/src/ux/json-schema.ts).
 3. If request handling or validation messaging changes, check [packages/core/src/invoke.ts](../packages/core/src/invoke.ts) and [packages/core/src/mcp](../packages/core/src/mcp).
 4. A new prompt is a file in [packages/core/src/prompts](../packages/core/src/prompts), an entry in `catalog.ts` and cases in `prompts.test.ts`; `names.test.ts` checks the tools and URIs it names. Measure a workflow change with the eval's `prompts` suite, with and without `--without-prompts` on the same commit.
+5. A new skill is a file in [packages/core/src/skills](../packages/core/src/skills), an entry in `catalog.ts`, and snapshots of its files in `skills.test.ts`. Its name starts with `kern-ux-` and its description says when to use it, in at most 1024 characters. `names.test.ts` checks the tools and URIs it names, and `mcp/skills.test.ts` reads it through the SDK's `SkillsClient`, which checks each file's digest.
 
 This is the normal path when you add a tool, change how tools are listed, or adjust validation behavior at the MCP boundary.
 
