@@ -207,6 +207,14 @@ describe("health probes and routing", () => {
 		expect(ready).toMatchObject({ status: 200, body: "ready\n" });
 	});
 
+	it("answers 405 with Allow: POST to other methods on /mcp, since it's stateless", async () => {
+		for (const method of ["GET", "DELETE"]) {
+			const response = await request(running, { method });
+			expect(response.status).toBe(405);
+			expect(response.headers.allow).toBe("POST");
+		}
+	});
+
 	it("answers 404 outside /mcp and the probes", async () => {
 		const response = await request(running, { method: "GET", path: "/" });
 		expect(response.status).toBe(404);
