@@ -15,7 +15,8 @@
 				"/^vitest/",
 				"/^tsx/",
 				"/^typescript/",
-				"/^@types//"
+				"/^@types//",
+				"/^vitepress$/"
 			]
 		},
 		{

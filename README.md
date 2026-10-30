@@ -2,7 +2,7 @@
 
 MCP Language Server exposing component tools, recursive composition rendering, strict accessibility validation, component cards and guides as resources, prompts for forms, pages and reviews, and a skill for forms for the [KERN-UX Component Library](https://www.kern-ux.de/).
 
-Setup guides for VS Code Copilot, Claude Desktop and Claude Code, Docker hosting and debugging are in the [wiki](https://github.com/leonio/kern-ux-mcp/wiki).
+**Documentation: [leonio.github.io/kern-ux-mcp](https://leonio.github.io/kern-ux-mcp/)**: setup guides for VS Code Copilot, Claude Desktop and Claude Code, the HTTP server and its container, configuration, the resources, prompts and skills, and debugging.
 
 ## Prerequisites
 - **Node.js**: 24.16.0+
@@ -94,100 +94,19 @@ claude mcp add --transport http kern-ux https://kernuxmcphost.velixir.run/mcp
 
 It's meant for trying the server out, on free hosting with limited capacity and no uptime guarantee, so run your own instance for anything you depend on. Thank you to [velixir](https://velixir.net) for hosting it for free in the EU.
 
-### Settings
-
-| Variable | Default | Purpose |
-|---|---|---|
-| `HOST` | `127.0.0.1` | Bind address. |
-| `PORT` | `3000` | Listen port. |
-| `KERN_ALLOWED_HOSTS` | `localhost,127.0.0.1,[::1]` | Hostnames accepted in the `Host` header, which protects against DNS rebinding. Ports are ignored. **Required** when `HOST` isn't a loopback address, for example `0.0.0.0` in a container. |
-| `KERN_ALLOWED_ORIGINS` | The loopback names on a loopback bind, otherwise none | Hostnames accepted in the `Origin` header. Requests without an `Origin` (clients that aren't browsers) always pass. |
-| `KERN_AUTH_TOKEN` | unset | When set, `/mcp` requires `Authorization: Bearer <token>`. |
-| `KERN_RATE_LIMIT` | unset | When set, the maximum `/mcp` requests per minute from one client address. Further requests get `429` with `Retry-After`. |
-| `KERN_CORS_ORIGINS` | unset | Origins such as `https://app.example.com` that get CORS headers, for browser-based clients. They're added to the allowed origins. |
-| `KERN_DEBUG` | unset | `1` logs every request and tool call to stderr. |
-
-The server refuses to start with a setting it can't apply, such as a public `HOST` without `KERN_ALLOWED_HOSTS`.
-
-### Endpoints and shutdown
-
-- `/mcp`: the MCP endpoint. Request bodies are limited to 4 MiB.
-- `/healthz`: liveness, `200` while the process runs.
-- `/readyz`: readiness, `503` once shutdown has started.
-
-The probes skip the `Host` check and the token, so orchestrators can call them by IP. On `SIGTERM` or `SIGINT` the server stops accepting connections, gives in-flight requests up to 8 seconds to finish, and exits.
-
-### Container
-
-The image `ghcr.io/leonio/kern-ux-mcp-http` runs the server on distroless Node 24 as a non-root user, with no shell and no `node_modules`. It sets `HOST=0.0.0.0`, so it needs `KERN_ALLOWED_HOSTS`:
-
-```bash
-docker run --rm -p 127.0.0.1:3000:3000 -e KERN_ALLOWED_HOSTS=localhost ghcr.io/leonio/kern-ux-mcp-http:<version>
-```
-
-Tags follow npm: the version, plus `alpha` for pre-releases or `latest` for releases. The image has a `HEALTHCHECK` on `/healthz` and works with a read-only root filesystem (`--read-only`). To build it from a checkout, run `npm run docker:build`, or `docker compose -f packages/http/compose.yaml up --build`: [compose.yaml](https://github.com/leonio/kern-ux-mcp/blob/main/packages/http/compose.yaml) has the settings commented in.
-
-### Security
-
-- Without `KERN_AUTH_TOKEN`, anyone who can reach the port can use the server. Keep it on a trusted network, or set a long random token.
-- The rate limit counts per client address. Behind a reverse proxy every request comes from the proxy's address, so limit at the proxy instead.
-
-### Clients that need a public HTTPS URL
-
-ChatGPT and the OpenAI Responses API `mcp` tool only connect to public HTTPS URLs. For local testing, put a tunnel in front of the server and allow the tunnel's hostname:
-
-```bash
-cloudflared tunnel --url http://localhost:3000
-# prints https://<name>.trycloudflare.com
-
-KERN_ALLOWED_HOSTS=localhost,<name>.trycloudflare.com npx -y @leonio/kern-ux-mcp-http
-```
-
-Then use `https://<name>.trycloudflare.com/mcp` as the server URL. `ngrok http 3000` works the same way. The tunnel makes the server public, so set `KERN_AUTH_TOKEN` if your client can send an `Authorization` header.
+The server's settings, its endpoints, the container image `ghcr.io/leonio/kern-ux-mcp-http`, security, and clients that need a public HTTPS URL are in [Run the HTTP server](https://leonio.github.io/kern-ux-mcp/http-server) and [Configuration](https://leonio.github.io/kern-ux-mcp/configuration).
 
 ---
 
-## Resources
+## What the server offers
 
-Besides its tools, the server offers Markdown resources that a client can attach to a conversation, for example from VS Code's context picker or with an `@`-mention in Claude:
-
-- `kern://components/{id}`: a card for each component the server knows, 48 in all. It has KERN's guidance (when to use it, do's and don'ts, similar components, the WCAG criteria left to the page) and our tool with its fields, a rendered example and the validation rules that apply. `get_component_docs` links to the card.
-- `kern://guides/forms`, `kern://guides/layout` and `kern://guides/accessibility`: what our tools do, next to KERN's guidance on the topic.
-
-The tools work without them: a resource reaches the model only when the client or the user brings it in.
-
----
-
-## Prompts
-
-The server also offers three prompts: workflows over the tools that you start from the client. With the server named `kern-ux`, that's `/mcp.kern-ux.create_input_form` in VS Code and `/mcp__kern-ux__create_input_form` in Claude Code.
-
-| Prompt | Arguments | What it does |
-|---|---|---|
-| `create_input_form` | `purpose`, `fields`, `steps`, `locale` | A form from a list of fields: input types, fieldsets, required and optional fields, and the error summary. Given `steps`, separated by semicolons, a multi-step form with the step list, progress, and a summary in the step for checking the answers. |
-| `create_page_layout` | `purpose`, `sections`, `locale` | A whole page from `render_page`: the header with navigation, the `h1`, one section per entry with grids and cards, and the footer. |
-| `review_kern_html` | `html`, `locale` | Checks the HTML with `validate_html`, rebuilds it with the tools, and answers with a fix list and the corrected HTML. The fix list says what a person still has to check, such as an `alt` text written without seeing the image. |
-
-Each prompt embeds the guide it relies on, links the component cards it uses, renders with `strict: true`, and asks for the final HTML verbatim. `locale` is `de` (the default) or `en` and sets the language of the page's text; the prompts themselves are in English.
-
----
-
-## Skills
-
-The server also offers skills through the MCP Skills extension (`io.modelcontextprotocol/skills`). A client that supports it shows the model each skill's name and description, and the model loads the skill when a task needs it. Unlike a resource or a prompt, nobody has to bring it in.
-
-| Skill | What it does |
-|---|---|
-| `kern-ux-forms` | Builds a form with the tools: the field type for each input, labels, required and optional fields, fieldsets, the error summary, and multi-step forms with a step list, progress and a step for checking the answers. It also has KERN's rules for the text of a form, which the tools can't check. Its references are KERN's guidance for each input and for multi-step forms, and the forms guide. |
-
-A skill is a `SKILL.md` and its reference files under `skill://<name>/`, such as `skill://kern-ux-forms/SKILL.md`. A client that doesn't support the extension still lists each `SKILL.md` among the resources. `kern-ux-forms` follows the same workflow as the `create_input_form` prompt, which you start yourself.
+- **Tools**: 54 of them, from one component to a whole page, and `validate_html`, which checks HTML against KERN's accessibility rules. See [How it works](https://leonio.github.io/kern-ux-mcp/how-it-works).
+- **[Resources](https://leonio.github.io/kern-ux-mcp/resources)**: a card for each of the 48 components at `kern://components/{id}`, and guides for forms, layout and accessibility at `kern://guides/{name}`.
+- **[Prompts](https://leonio.github.io/kern-ux-mcp/prompts)**: `create_input_form`, `create_page_layout` and `review_kern_html`, workflows over the tools that you start from the client.
+- **[Skills](https://leonio.github.io/kern-ux-mcp/skills)**: `kern-ux-forms`, which a client that supports the MCP Skills extension offers to the model, so it loads the form workflow when a task needs it.
 
 ---
 
 ## Protocol and Errors
 
-Since 2.0 the server is built on MCP TypeScript SDK v2. It speaks protocol `2026-07-28` and still serves older clients (`2024-11-05` through `2025-11-25`) from the same process.
-
-- **Invalid arguments** come back as a normal tool result with `isError: true`. The text starts with `Input validation error: Invalid arguments for tool <name>:`, followed by one line per problem and, for many tools, a known-good payload. Models can read it and retry. (1.x returned a JSON-RPC error instead.)
-- **`strict: true` validation failures** also come back as `isError: true`, listing the accessibility errors.
-- **Unknown tool names** are rejected with JSON-RPC error `-32602` (`Tool <name> not found`).
+Since 2.0 the server is built on MCP TypeScript SDK v2. It speaks protocol `2026-07-28` and still serves older clients (`2024-11-05` through `2025-11-25`) from the same process. Invalid arguments and `strict: true` failures come back as tool results with `isError: true`, which models can read and retry; details are in [Protocol and errors](https://leonio.github.io/kern-ux-mcp/protocol-and-errors).

@@ -10,7 +10,7 @@ The **HTTP server** reads these environment variables at start-up. It refuses to
 | `KERN_ALLOWED_ORIGINS` | The loopback names on a loopback bind, otherwise none | Hostnames accepted in the `Origin` header. Requests without an `Origin` (non-browser clients) always pass. |
 | `KERN_AUTH_TOKEN` | unset | When set, `/mcp` requires `Authorization: Bearer <token>`. |
 | `KERN_RATE_LIMIT` | unset | Maximum `/mcp` requests per minute per client address. Further requests get `429` with `Retry-After`. |
-| `KERN_CORS_ORIGINS` | unset | Origins such as `https://app.example.com` that get CORS headers, for browser-based clients. |
+| `KERN_CORS_ORIGINS` | unset | Origins such as `https://app.example.com` that get CORS headers, for browser-based clients. They're added to the allowed origins. |
 | `KERN_DEBUG` | unset | `1` logs every request and tool call to stderr. |
 
 The **stdio server** reads only `KERN_DEBUG`. In Claude Desktop's `.mcpb` bundle it's the **Debug logging** switch.
@@ -25,8 +25,10 @@ The **stdio server** reads only `KERN_DEBUG`. In Claude Desktop's `.mcpb` bundle
 
 The probes skip the `Host` check and the token, so orchestrators can call them by IP.
 
+On `SIGTERM` or `SIGINT` the server stops accepting connections, gives in-flight requests up to 8 seconds to finish, and exits.
+
 ## Security checklist
 
-- On anything but `localhost`: set `KERN_AUTH_TOKEN` to a long random value.
+- Without `KERN_AUTH_TOKEN`, anyone who can reach the port can use the server. On anything but `localhost`, set it to a long random value, or keep the server on a trusted network.
 - List only the hostnames you use in `KERN_ALLOWED_HOSTS`.
 - Behind a reverse proxy, every request comes from the proxy's address, so rate-limit at the proxy instead of with `KERN_RATE_LIMIT`.

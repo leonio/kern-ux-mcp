@@ -134,6 +134,10 @@ npm run scan:vulns
 
 # Build and inspect the published package contents, including the SBOM
 npm run pack:inspect
+
+# Preview the docs site (docs/site has its own install, outside the workspace)
+npm ci --prefix docs/site
+npm run docs:dev
 ```
 
 > `knowledge:import` is a **local-only** script. CI and release builds use the checked-in `knowledge/` and `packages/core/src/ux/registry.json`; a test checks that the registry is what the bundle and `knowledge-map.ts` produce. After changing `knowledge-map.ts`, run `npm run knowledge:import` without a path to regenerate the registry.
@@ -153,6 +157,8 @@ All PRs targeting `main` or `develop` must pass:
 | `container` | `ci.yml` | The image builds for amd64 and arm64, becomes healthy and passes the HTTP e2e tests |
 | `branch-name` | `pr-lint.yml` | Branch prefix convention |
 | `conventional-commit-title` | `pr-lint.yml` | PR title format |
+
+A PR that changes `docs/site/` also runs `pages.yml`, which builds the [documentation site](https://leonio.github.io/kern-ux-mcp/) and fails on a dead link between its pages. After a merge into `main` it publishes the site to GitHub Pages.
 
 ## Releasing
 

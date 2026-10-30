@@ -1,0 +1,64 @@
+name: Pages
+
+# Builds the documentation site in docs/site with VitePress and publishes it to
+# GitHub Pages from main. Pull requests only build it, so a dead link between
+# pages fails there. Settings → Pages → Source must be "GitHub Actions".
+on:
+  push:
+    branches: [main]
+    paths: ["docs/site/**", ".github/workflows/pages.yml"]
+  pull_request:
+    branches: [main]
+    paths: ["docs/site/**", ".github/workflows/pages.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  build:
+    name: Build docs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+          cache: 'npm'
+          cache-dependency-path: docs/site/package-lock.json
+
+      # The site has its own lockfile, outside the npm workspace.
+      - name: Install Dependencies
+        run: npm ci --prefix docs/site
+
+      - name: Build
+        run: npm run docs:build
+
+      - name: Upload Pages Artifact
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: docs/site/.vitepress/dist
+
+  deploy:
+    name: Deploy to GitHub Pages
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v5

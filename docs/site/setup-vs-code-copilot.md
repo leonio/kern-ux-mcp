@@ -22,15 +22,15 @@ GitHub Copilot Chat in VS Code uses MCP tools in **agent mode**. You need VS Cod
 
 2. Click **Start** above the `kern-ux` entry in the file, or run **MCP: List Servers** → `kern-ux` → **Start Server**.
 
-   ![The mcp.json file in VS Code with the Start link above the kern-ux server](images/vscode-stdio-mcp-json.png)
+   ![The mcp.json file in VS Code with the Start link above the kern-ux server](./images/vscode-stdio-mcp-json.png)
 
 3. Open Copilot Chat, switch to **Agent**, and open the tools picker. The `kern-ux` tools are listed.
 
-   ![The Copilot Chat tools picker showing the kern-ux tools](images/vscode-tools-picker.png)
+   ![The Copilot Chat tools picker showing the kern-ux tools](./images/vscode-tools-picker.png)
 
 ## HTTP
 
-Start the server first, for example with [Docker](HTTP-Server-with-Docker) or `npx -y @leonio/kern-ux-mcp-http`.
+Start the server first, for example with [Docker](./http-server.md) or `npx -y @leonio/kern-ux-mcp-http`.
 
 1. Create `.vscode/mcp.json`:
 
@@ -64,16 +64,16 @@ Start the server first, for example with [Docker](HTTP-Server-with-Docker) or `n
 
 3. Start the server entry as above. **MCP: List Servers** shows it as running.
 
-   ![MCP: List Servers showing kern-ux running over HTTP](images/vscode-http-server-running.png)
+   ![MCP: List Servers showing kern-ux running over HTTP](./images/vscode-http-server-running.png)
 
 ## Try it
 
 In agent mode, ask: *"Using KERN, build a contact form with name, email and message, and validate it."* Copilot asks before the first tool call; allow it.
 
-![Copilot Chat calling render_composition and showing the HTML result](images/vscode-first-tool-call.png)
+![Copilot Chat calling render_composition and showing the HTML result](./images/vscode-first-tool-call.png)
 
 ## If it doesn't work
 
 - **No tools in the picker**: the server isn't running. Run **MCP: List Servers** → `kern-ux` → **Show Output** for the log.
 - **HTTP 403**: the hostname in `url` isn't in the server's `KERN_ALLOWED_HOSTS`.
-- More in [Debugging and troubleshooting](Debugging-and-Troubleshooting).
+- More in [Debugging and troubleshooting](./debugging-and-troubleshooting.md).

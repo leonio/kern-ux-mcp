@@ -1,0 +1,19 @@
+{
+	"name": "kern-ux-mcp-docs",
+	"version": "0.0.0",
+	"private": true,
+	"type": "module",
+	"description": "The Kern UX MCP documentation site, published to GitHub Pages. Kept out of the npm workspace, with its own lockfile.",
+	"license": "EUPL-1.2",
+	"engines": {
+		"node": ">=24.16.0"
+	},
+	"scripts": {
+		"dev": "vitepress dev",
+		"build": "vitepress build",
+		"preview": "vitepress preview"
+	},
+	"devDependencies": {
+		"vitepress": "^1.6.4"
+	}
+}

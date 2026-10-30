@@ -18,7 +18,7 @@ claude mcp add --scope project kern-ux -- npx -y @leonio/kern-ux-mcp
 
 ## HTTP
 
-Start the server first, for example with [Docker](HTTP-Server-with-Docker). Then:
+Start the server first, for example with [Docker](./http-server.md). Then:
 
 ```bash
 claude mcp add --transport http kern-ux http://localhost:3000/mcp
@@ -35,11 +35,11 @@ claude mcp add --transport http kern-ux https://mcp.example.com/mcp \
 
 Start `claude` and type `/mcp`. `kern-ux` shows as connected, and you can list its tools.
 
-![The /mcp panel in Claude Code showing kern-ux connected](images/claude-code-mcp-panel.png)
+![The /mcp panel in Claude Code showing kern-ux connected](./images/claude-code-mcp-panel.png)
 
 Then ask: *"Using KERN, build a contact form with name, email and message, and validate it."*
 
-![Claude Code calling a kern-ux tool](images/claude-code-first-tool-call.png)
+![Claude Code calling a kern-ux tool](./images/claude-code-first-tool-call.png)
 
 ## Useful commands
 
@@ -52,4 +52,4 @@ Then ask: *"Using KERN, build a contact form with name, email and message, and v
 ## If it doesn't work
 
 - **`failed` in `/mcp`**: run the server command yourself (`npx -y @leonio/kern-ux-mcp`). It should wait silently; any error shows there.
-- More in [Debugging and troubleshooting](Debugging-and-Troubleshooting).
+- More in [Debugging and troubleshooting](./debugging-and-troubleshooting.md).

@@ -37,11 +37,13 @@ Most rendering tools take:
 - **Strict failures**: also an error result, listing the accessibility errors.
 - **Unknown tool name**: a protocol error. Usually a client with an old tool list: restart the server in your client.
 
+More detail on errors: [Protocol and errors](./protocol-and-errors.md).
+
 ## Beyond the tools
 
-- **Resources**: component cards and guides for forms, layout and accessibility, which clients can attach as context.
-- **Prompts**: `create_page_layout`, `create_input_form` and `review_kern_html` as ready-made starting points.
-- **Skills**: `kern-ux-forms`, the form workflow with KERN's guidance for each input. Clients that support the MCP Skills extension offer it to the assistant, which loads it when a task needs a form.
+- **[Resources](./resources.md)**: component cards and guides for forms, layout and accessibility, which clients can attach as context.
+- **[Prompts](./prompts.md)**: `create_page_layout`, `create_input_form` and `review_kern_html` as ready-made starting points.
+- **[Skills](./skills.md)**: `kern-ux-forms`, the form workflow with KERN's guidance for each input. Clients that support the MCP Skills extension offer it to the assistant, which loads it when a task needs a form.
 
 ## Deeper reading
 

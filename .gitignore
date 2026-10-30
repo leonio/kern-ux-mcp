@@ -50,6 +50,8 @@ packages/*/README.md
 packages/*/LICENSE.md
 # MCP Bundle staging and output (tools/build/mcpb.ts)
 mcpb-dist/
+# VitePress cache (docs/site); its build output is .vitepress/dist/
+docs/site/.vitepress/cache/
 
 # Eval transcripts (summaries go to docs/v2-migration/evals/)
 tools/eval/.runs/

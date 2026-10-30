@@ -17,8 +17,8 @@ The server comes in two packages with the same tools.
 
 | Client | stdio | HTTP on `localhost` | HTTP on a public URL |
 |---|---|---|---|
-| [VS Code Copilot](Setup-VS-Code-Copilot) | ✅ | ✅ | ✅ |
-| [Claude Code](Setup-Claude-Code) | ✅ | ✅ | ✅ |
-| [Claude Desktop](Setup-Claude-Desktop) | ✅ (config or `.mcpb`) | ❌ | ✅ as a custom connector |
+| [VS Code Copilot](./setup-vs-code-copilot.md) | ✅ | ✅ | ✅ |
+| [Claude Code](./setup-claude-code.md) | ✅ | ✅ | ✅ |
+| [Claude Desktop](./setup-claude-desktop.md) | ✅ (config or `.mcpb`) | ❌ | ✅ as a custom connector |
 
-Claude Desktop connects to remote servers from Anthropic's side, so it can't reach `localhost`. See [its page](Setup-Claude-Desktop#http) for the details.
+Claude Desktop connects to remote servers from Anthropic's side, so it can't reach `localhost`. See [its page](./setup-claude-desktop.md#http) for the details.

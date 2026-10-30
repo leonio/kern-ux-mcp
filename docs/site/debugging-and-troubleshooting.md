@@ -25,7 +25,7 @@ npx @modelcontextprotocol/inspector node packages/stdio/dist/index.js
 
 For HTTP, start the Inspector with `npx @modelcontextprotocol/inspector`, choose **Streamable HTTP** and enter `http://localhost:3000/mcp` (and the token under **Authentication**, if set).
 
-![MCP Inspector listing the kern-ux tools and a tool result](images/inspector-tools.png)
+![MCP Inspector listing the kern-ux tools and a tool result](./images/inspector-tools.png)
 
 ## Common problems
 
@@ -39,7 +39,7 @@ For HTTP, start the Inspector with `npx @modelcontextprotocol/inspector`, choose
 | `EADDRINUSE` | Port 3000 is taken | Set `PORT`, or change the left side of the Compose port mapping (`"127.0.0.1:3001:3000"`) |
 | `Unsupported engine` or syntax errors at start | Node.js older than 24.16 | Upgrade Node.js, or use Docker or the `.mcpb` bundle |
 | Tool result starts with `Input validation error:` | The model sent wrong arguments | Nothing to fix: the message lists the problems and models retry. If it keeps failing, report it with the debug log. |
-| `Tool <name> not found` | The client has an old tool list (tools were renamed in 2.0) | Restart the server in the client; see [Migrating from 1.x](Migrating-from-1.x) |
+| `Tool <name> not found` | The client has an old tool list (tools were renamed in 2.0) | Restart the server in the client; see [Migrating from 1.x](./migrating-from-1-x.md) |
 | Client shows no tools | The server didn't start or crashed | Run the server command yourself in a terminal to see the error |
 
 ## Reporting a bug
