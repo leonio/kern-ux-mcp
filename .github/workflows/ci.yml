@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [main, feat/v2-alpha]
+    branches: [main, feat/figma-designs]
   pull_request:
-    branches: [main, feat/v2-alpha]
+    branches: [main, feat/figma-designs]
 
 permissions:
   contents: read
