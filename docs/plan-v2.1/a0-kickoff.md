@@ -18,13 +18,15 @@ On 2026-11-15, in a scratch worktree of `fb0235c`, with nothing committed:
 - **Bundles:** the npm `dist/` is unchanged at 703,362 bytes, since the SDK stays external. The standalone bundles grow by about 30 KB (stdio 2,260,692 to 2,290,876 bytes) and 23 KB (http).
 - **A spike for A2:** a test built a catalog with `SkillsExtension.load(memorySkillFiles(…))` and attached it to `createKernServer()` on both protocol eras. The server declared `io.modelcontextprotocol/skills`; `SkillsClient` listed the skill, got it, and read a reference file with its digest verified. `resources/list` had the `SKILL.md` after the cards and guides, and not the reference file. The 55 tools and the `kern://` reads were unchanged. So A2 is mostly wiring.
 
-## Decisions to confirm
+## Decisions
 
-| # | Decision | Recommended | Alternative |
-|---|---|---|---|
-| A0.1 | How `main` comes in | merge `origin/main` into the branch, since the branch is pushed | rebase the branch and force-push |
-| A0.2 | Pre-releases from the branch | none for now; add a GitVersion branch, like 2.0's `v2-alpha`, if A4's client check needs an npm pre-release | an `alpha` label from the start |
-| A0.3 | The commit type for the SDK | `fix(deps):`, as Renovate writes it | `feat(deps):`, since 2.1 builds on it |
+Confirmed by the maintainer on 2026-11-15:
+
+| # | Decision | Confirmed |
+|---|---|---|
+| A0.1 | How `main` comes in | merge `origin/main` into the branch, since the branch is pushed |
+| A0.2 | Pre-releases from the branch | an `alpha` label from the start, as 2.0's `v2-alpha` had, and an alpha release at the end of A0, so 2.1 can be tested from npm |
+| A0.3 | The commit type for the SDK | `fix(deps):`, as Renovate writes it |
 
 ## The plan
 
@@ -32,8 +34,14 @@ On 2026-11-15, in a scratch worktree of `fb0235c`, with nothing committed:
 
 - [ ] Merge `origin/main` into `feat/figma-designs`.
 - [ ] `fix(deps): the MCP SDK at 2.4, for the skills extension`: the four ranges and the lock file. The body says why the ranges move: `ext/skills` is new in 2.4.0, and `@modelcontextprotocol/node` 2.1.2 needs that server.
-- [ ] Run typecheck, lint, `npm test`, the build and `npm run test:e2e`; the listing snapshots and the budget test stay unchanged.
-- [ ] `docs:` record A0 here: what was done, the numbers, and what A1 needs to know.
+- [ ] `chore:` alpha pre-releases from the 2.1 branch: a GitVersion branch for `feat/figma-designs` with the `alpha` label, in place of 2.0's `v2-alpha`.
+- [ ] Run typecheck, lint, `npm test`, the build and `npm run test:e2e`; the listing snapshots and the budget test stay unchanged. GitVersion computes `2.1.0-alpha.N`.
+
+### Group 2: the alpha
+
+- [ ] Push the branch, and run the release workflow on it as a dry run.
+- [ ] Run it for real: `@leonio/kern-ux-mcp@alpha` and `-http@alpha` on npm, the `alpha` image, and a GitHub pre-release with the `.mcpb`. The maintainer approves the `release` environment and both npm versions.
+- [ ] `docs:` record A0 here: what was done, the numbers, the alpha's version, and what A1 needs to know.
 
 Then pause for review, and write the A1 kickoff.
 
