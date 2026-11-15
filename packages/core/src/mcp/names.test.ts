@@ -3,12 +3,13 @@ import { afterAll, beforeAll, describe, expect, it } from "vitest";
 
 import type { KernPromptContent } from "../prompts/definition.js";
 import { MCP_ERAS } from "../test-support/mcp.js";
+import { readSkillFiles } from "../test-support/skills.js";
 import { FIGMA_TOOLS } from "../ux/figma/tool.js";
 import { getCatalog } from "./catalog.js";
 
 /**
  * Every tool name and kern:// URI the server writes, in the tool listing, the
- * prompts, the guides and the cards, is one it serves. The names found go in
+ * prompts, the guides, the cards and the skills, is one it serves. The names found go in
  * a snapshot, so a new mention shows up in review; a tool's or card's mention
  * of itself is checked but left out of it.
  */
@@ -91,6 +92,9 @@ describe("names in the server's text", () => {
 					own: entry.uri,
 				});
 			}
+		}
+		for (const file of await readSkillFiles()) {
+			sources.set(`skills/${file.path}`, { text: file.text });
 		}
 	});
 

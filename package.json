@@ -47,6 +47,7 @@
 		"check-version": "dotnet-gitversion /version",
 		"pre-commit": "npm run lint && npm run check-version",
 		"knowledge:import": "tsx tools/knowledge/import.ts",
+		"skills:build": "tsx tools/skills/build.ts",
 		"listing:sizes": "tsx tools/listing/sizes.ts",
 		"eval": "tsx tools/eval/run.ts",
 		"eval:compare": "tsx tools/eval/compare.ts"
