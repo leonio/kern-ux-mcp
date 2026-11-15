@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { getCatalog } from "../mcp/catalog.js";
+import { GENERATED_SKILL_FILES } from "../skills/generated.js";
 import { loadRegistryFromManifest } from "../ux/registry.js";
 import { validateHtmlStrict } from "../ux/validate.js";
 import { byteLength } from "./definition.js";
@@ -59,12 +60,12 @@ describe("kern://guides/{name}", () => {
 		expect(await definition.read("composition")).toBeUndefined();
 	});
 
+	// A guide's text is checked in as a skill's reference, and skills.test.ts
+	// fails when that file differs from what the guide renders now.
 	it.each(GUIDES.map((guide) => guide.name))(
-		"renders the %s guide",
-		async (name) => {
-			await expect(await definition.read(name)).toMatchFileSnapshot(
-				`__snapshots__/guides/${name}.md`,
-			);
+		"keeps the %s guide in a skill",
+		(name) => {
+			expect(GENERATED_SKILL_FILES.map((file) => file.guide)).toContain(name);
 		},
 	);
 });
