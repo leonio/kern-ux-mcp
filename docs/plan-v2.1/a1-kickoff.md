@@ -102,13 +102,19 @@ Confirmed by the maintainer on 2026-11-15: the recommended column.
 
 ### Group 1: the source and its checks
 
-- [ ] `chore: skills:build and the checks for the skills folder`: the script with `--check`, the npm script, the folder test, `names.test.ts` over `skills/`, and `skills:build --check` in CI's quality job.
-- [ ] `feat: the kern-forms skill`
-- [ ] `feat: the kern-page-layout skill`
-- [ ] `feat: the kern-review skill`
-- [ ] Typecheck, lint, `npm test`; the listing snapshots and the budget test unchanged.
+- [x] `chore: skills:build and the checks for the skills folder` (`cf01a81`): the script, the npm script, the folder test and `names.test.ts` over `skills/`. Changed from the plan: no `--check` and no CI step, since the folder test already fails in `npm test` when a reference is stale.
+- [x] `feat: the kern-forms skill` (`62e9898`)
+- [x] `feat: the kern-page-layout skill` (`e1fdfe3`)
+- [x] `feat: the kern-review skill` (`79b28b8`)
+- [x] `test: the guides are checked as the skills' references` (`6f4ebc0`): the guides' snapshots went, as planned; the guide test asks that every guide is in a skill.
+- [x] Typecheck, lint, `npm test` (2,423 tests in 95 files); the listing snapshots, the budget test and `names-in-text.json` unchanged.
 
 Then pause for review of the three `SKILL.md` texts.
+
+Group 1 was done on 2026-11-15:
+- **Each reference is its guide's old snapshot, byte for byte.** The SDK loads the folder under `strict: true` with no warning.
+- **Each `SKILL.md` keeps its prompt's wording.** Only what came from arguments changed: "the steps asked for" for `steps`, the site and sections "from the request" for `purpose` and `sections`, the HTML "the person gives you" for `html`, and a language rule for `locale`. The card links became `get_component_docs`. Any rewording waits for the eval, so it compares a skill with its prompt.
+- **The description has no `: `**, which YAML reads as a mapping inside a plain value.
 
 ### Group 2: the measurement
 
