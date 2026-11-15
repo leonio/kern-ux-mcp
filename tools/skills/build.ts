@@ -22,4 +22,6 @@ for (const [file, text] of files) {
 	await fs.writeFile(target, text, "utf8");
 	console.log(`${before === undefined ? "Wrote" : "Updated"} skills/${file}`);
 }
-console.log(`The ${files.size} generated skill files are current.`);
+console.log(
+	`${files.size} generated skill ${files.size === 1 ? "file is" : "files are"} current.`,
+);
