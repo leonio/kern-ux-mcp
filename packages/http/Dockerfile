@@ -11,7 +11,7 @@
 # KERN_ALLOWED_HOSTS (the hostnames clients use). See README.md for all settings.
 
 # The bundle is plain JavaScript, so it's built once on the build machine's platform.
-FROM --platform=$BUILDPLATFORM node:24-slim@sha256:a5f4366e834695d5f363b920c104953a535d3a9864d1bdf74566a0ebe01daee5 AS build
+FROM --platform=$BUILDPLATFORM node:24-slim@sha256:c86ecead9e55a5210ac1727de38a4ca840bf03dcaf34dc9749addbf383b1920c AS build
 WORKDIR /repo
 
 COPY package.json package-lock.json ./
@@ -30,7 +30,7 @@ ARG VERSION
 RUN if [ -n "$VERSION" ]; then npm pkg set version="$VERSION" -w packages/http; fi \
 	&& npm run build -w packages/http
 
-FROM gcr.io/distroless/nodejs24-debian13:nonroot@sha256:59c479c9b8c123e66047315c968aa2d35e31ae5149c856e4110a79c8b3563f0b
+FROM gcr.io/distroless/nodejs24-debian13:nonroot@sha256:a6c34457f6da4295807e051411c7783739c65b997a324fed14e4fa292615ae91
 
 LABEL org.opencontainers.image.source="https://github.com/leonio/kern-ux-mcp" \
 	org.opencontainers.image.licenses="EUPL-1.2" \
