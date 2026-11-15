@@ -1,6 +1,6 @@
 # A1: the skills source
 
-Status: kickoff, written on 2026-11-15. Not started. Step A1 of the [2.1 roadmap](roadmap.md#5-steps), after [A0](a0-kickoff.md).
+Status: kickoff, written on 2026-11-15; group 1 started the same day. Step A1 of the [2.1 roadmap](roadmap.md#5-steps), after [A0](a0-kickoff.md).
 
 ## The task
 
@@ -87,6 +87,8 @@ Each `SKILL.md` stays under 150 lines.
 - **What counts as good enough:** the skill is loaded in every run, and `skills` scores at least what `--without-prompts` does, and close to `prompts`. If it doesn't, the wording changes, at most twice; then the tool or the skill's shape changes instead (2.0's lesson).
 
 ## Decisions to confirm
+
+Confirmed by the maintainer on 2026-11-15: the recommended column.
 
 | # | Decision | Recommended | Alternative |
 |---|---|---|---|
