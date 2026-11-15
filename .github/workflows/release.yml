@@ -343,7 +343,7 @@ jobs:
           sbom-path: release-assets/kern-ux-mcp-${{ env.SEMVER }}.cdx.json
 
       # --target pins the tag to the released commit; without it gh tags the
-      # default branch, which is wrong for pre-releases from feat/v2-alpha.
+      # default branch, which is wrong for pre-releases from an integration branch.
       - name: Create or Update the GitHub Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
