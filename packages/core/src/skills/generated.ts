@@ -15,6 +15,7 @@ export type GeneratedSkillFile = {
 /** Every generated file of the skills folder. A skill adds its own here. */
 export const GENERATED_SKILL_FILES: readonly GeneratedSkillFile[] = [
 	{ path: "kern-forms/references/forms.md", guide: "forms" },
+	{ path: "kern-page-layout/references/layout.md", guide: "layout" },
 ];
 
 /** Each generated file's text by its path, as the guide builder writes it now. */
