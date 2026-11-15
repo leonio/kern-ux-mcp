@@ -106,6 +106,7 @@ This is how 2.0 ran, and it worked:
 
 - Git Bash heredocs and inline `node -e` mangle backslashes and apostrophes. Write scripts with escapes to a file first, and open files with `newline="\n"` in Python.
 - `dotnet-gitversion` needs the repo path when run from Git Bash (or run it from PowerShell in the repo root).
+- Run `npm ci` and vitest from a working directory that starts with an uppercase `C:\`. With a lowercase `c:\` (as an agent's Bash shell may have), vitest loads itself twice, and `npm ci` writes the workspace junctions with `c:\` targets, so the MCP SDK loads twice and the HTTP host answers 2026-07-28 clients with a 500. Check with `(Get-Item node_modules\@leonio\kern-ux-core).Target`.
 - Scripts with top-level await run as `.mts` with `node --import tsx`, importing repo modules by `file:///C:/…` URL.
 - Headless Chrome or Edge for visual checks: `--headless=new --window-size=W,H --screenshot=<png>` or `--dump-dom`; the narrowest window is about 500 px.
 - `vitest run -u` updates every file snapshot, not just one file's. Review them all.
