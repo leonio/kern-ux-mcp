@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-/** The skills folder at the repo's root. Test-only: the server inlines the files. */
+/** The skills folder at the repo's root. Tests and skills:build only: the server gets the files from SKILL_FILES_MODULE. */
 export const SKILLS_DIR = fileURLToPath(
 	new URL("../../../../skills/", import.meta.url),
 );

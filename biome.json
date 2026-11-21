@@ -10,6 +10,7 @@
 			"**",
 			"!packages/core/src/ux/registry.json",
 			"!knowledge",
+			"!packages/core/src/skills/files.generated.ts",
 			"!docs/v2-migration/evals",
 			"!docs/plan-v2.1/evals",
 			"!samples/basic-layout/assets",

@@ -1,4 +1,6 @@
+import fs from "node:fs/promises";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 import {
 	type SkillCatalog,
@@ -13,9 +15,12 @@ import {
 	SKILLS_DIR,
 	skillFolders,
 } from "../test-support/skills.js";
+import { SKILL_FILES } from "./files.generated.js";
 import {
 	buildGeneratedSkillFiles,
 	GENERATED_SKILL_FILES,
+	renderSkillFilesModule,
+	SKILL_FILES_MODULE,
 } from "./generated.js";
 
 /**
@@ -106,6 +111,22 @@ describe("the generated skill files", () => {
 				`skills/${file} differs: run pnpm skills:build`,
 			).toBe(text);
 		}
+	});
+
+	it("are in the module the server reads, with every other file of the folder", async () => {
+		const module = await fs.readFile(
+			fileURLToPath(
+				new URL(`../../../../${SKILL_FILES_MODULE}`, import.meta.url),
+			),
+			"utf8",
+		);
+
+		expect(module, `${SKILL_FILES_MODULE} differs: run pnpm skills:build`).toBe(
+			renderSkillFilesModule(files),
+		);
+		expect(Object.keys(SKILL_FILES).sort()).toEqual(
+			files.map((file) => file.path).sort(),
+		);
 	});
 
 	it("each belong to a skill", () => {
