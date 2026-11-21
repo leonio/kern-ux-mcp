@@ -11,6 +11,11 @@ export type Scenario = {
 	 * text instead of `prompt`, unless it runs --without-prompts.
 	 */
 	mcpPrompt?: McpPromptCall;
+	/**
+	 * The skill (skills/<name>) the run must load with Claude Code's Skill tool.
+	 * A scenario with one runs with the skills folder (--suite skills).
+	 */
+	expectSkill?: string;
 	/** Tool groups that must each be called at least once (any tool in a group counts). */
 	expectTools?: string[][];
 	/** Strings the final answer must contain. */
@@ -303,10 +308,34 @@ export const PROMPT_SCENARIOS: readonly Scenario[] = [
 	}),
 ];
 
+function withSkill(
+	scenarios: readonly Scenario[],
+	id: string,
+	expectSkill: string,
+): Scenario {
+	const scenario = scenarios.find((candidate) => candidate.id === id);
+	if (!scenario) throw new Error(`No scenario ${id}.`);
+	return { ...scenario, expectSkill };
+}
+
+/**
+ * The prompts suite's tasks in their own words, with the skills folder in the
+ * working directory (2.1, A1): the same checks, and the skill each should load.
+ * Compare with `--suite prompts` and `--suite prompts --without-prompts` on
+ * the same commit.
+ */
+export const SKILL_SCENARIOS: readonly Scenario[] = [
+	withSkill(SCENARIOS, "contact-form", "kern-forms"),
+	withSkill(NESTED_SCENARIOS, "application-flow", "kern-forms"),
+	withSkill(NESTED_SCENARIOS, "service-page", "kern-page-layout"),
+	withSkill(NESTED_SCENARIOS, "fix-page", "kern-review"),
+];
+
 /** The scenario sets `pnpm eval --suite <name>` can run. */
 export const SUITES: Readonly<Record<string, readonly Scenario[]>> = {
 	base: SCENARIOS,
 	nested: NESTED_SCENARIOS,
 	resources: RESOURCE_SCENARIOS,
 	prompts: PROMPT_SCENARIOS,
+	skills: SKILL_SCENARIOS,
 };

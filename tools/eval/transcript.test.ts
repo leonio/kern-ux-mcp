@@ -233,6 +233,67 @@ describe("summarizeRun", () => {
 		expect(run.resourceReads).toEqual([]);
 	});
 
+	it("records the skills loaded and the files read, and checks the expected skill", () => {
+		const withSkills = (skill: string) =>
+			[
+				line({
+					type: "assistant",
+					message: {
+						content: [
+							{
+								type: "tool_use",
+								id: "s1",
+								name: "Skill",
+								input: { skill },
+							},
+						],
+					},
+				}),
+				line({
+					type: "assistant",
+					message: {
+						content: [
+							{
+								type: "tool_use",
+								id: "s2",
+								name: "Read",
+								input: {
+									file_path:
+										"C:\\Temp\\kern-eval-x\\.claude\\skills\\kern-forms\\references\\forms.md",
+								},
+							},
+						],
+					},
+				}),
+				line({ type: "result", subtype: "success", result: "Done." }),
+			].join("\n");
+		const skillScenario: Scenario = {
+			id: "demo",
+			prompt: "…",
+			expectSkill: "kern-forms",
+		};
+
+		const loaded = summarizeRun(
+			parseTranscript(withSkills("kern-forms")),
+			skillScenario,
+		);
+		expect(loaded.skillLoads).toEqual(["kern-forms"]);
+		expect(loaded.fileReads).toEqual(["kern-forms/references/forms.md"]);
+		expect(loaded.checks).toEqual({ passed: 1, total: 1, failed: [] });
+		expect(loaded.toolCalls).toBe(0);
+		expect(aggregate([loaded, loaded])).toMatchObject({
+			skillLoads: 2,
+			fileReads: 2,
+		});
+
+		const other = summarizeRun(
+			parseTranscript(withSkills("verify")),
+			skillScenario,
+		);
+		expect(other.checks.failed).toEqual(["loaded skill kern-forms"]);
+		expect(run.skillLoads).toEqual([]);
+	});
+
 	it("treats a missing result as not completed", () => {
 		const cut = summarizeRun(
 			parseTranscript(transcript.split("\n").slice(0, 5).join("\n")),

@@ -1,13 +1,13 @@
 /**
- * Compares two eval reports (docs/v2-migration/evals/<label>.json) side by side:
+ * Compares two eval reports (<label>.json in a folder of reports.ts) side by side:
  * the totals, then each scenario's errors, retries, calls and checks.
  *
  *   pnpm eval:compare baseline option-b
  */
 import fs from "node:fs/promises";
-import path from "node:path";
-import { fileURLToPath, pathToFileURL } from "node:url";
+import { pathToFileURL } from "node:url";
 
+import { findReport } from "./reports.js";
 import type { Aggregate } from "./transcript.js";
 
 /** Reports written before a measurement existed lack it; the table shows "-". */
@@ -39,6 +39,8 @@ const ROWS: Array<[string, (a: Totals) => number | undefined]> = [
 	["strict-valid runs", (a) => a.strictValid],
 	["resource lists", (a) => a.resourceLists],
 	["resource reads", (a) => a.resourceReads],
+	["skill loads", (a) => a.skillLoads],
+	["file reads", (a) => a.fileReads],
 	["first request tokens", (a) => a.firstRequestTokens],
 	["input tokens", (a) => a.inputTokens],
 	["output tokens", (a) => a.outputTokens],
@@ -107,12 +109,13 @@ if (
 		console.error("Usage: pnpm eval:compare <label-before> <label-after>");
 		process.exit(2);
 	}
-	const dir = fileURLToPath(
-		new URL("../../docs/v2-migration/evals/", import.meta.url),
-	);
-	const read = async (label: string) =>
-		JSON.parse(
-			await fs.readFile(path.join(dir, `${label}.json`), "utf8"),
-		) as Report;
+	const read = async (label: string) => {
+		const file = await findReport(label);
+		if (!file) {
+			console.error(`No report "${label}".`);
+			process.exit(1);
+		}
+		return JSON.parse(await fs.readFile(file, "utf8")) as Report;
+	};
 	console.log(compareReports(await read(a), await read(b)));
 }

@@ -11,6 +11,7 @@
 			"!packages/core/src/ux/registry.json",
 			"!knowledge",
 			"!docs/v2-migration/evals",
+			"!docs/plan-v2.1/evals",
 			"!samples/basic-layout/assets",
 			"!**/__snapshots__"
 		]

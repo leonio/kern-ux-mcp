@@ -76,6 +76,10 @@ export type RunSummary = {
 	resourceLists: number;
 	/** The URIs read with Claude Code's ReadMcpResourceTool, in order */
 	resourceReads: string[];
+	/** The skills loaded with Claude Code's Skill tool, in order (--suite skills) */
+	skillLoads: string[];
+	/** The files read with Claude Code's Read tool, a skill's as <skill>/<path> */
+	fileReads: string[];
 	finalText: string;
 };
 
@@ -84,6 +88,21 @@ export const RESOURCE_TOOLS = {
 	list: "ListMcpResourcesTool",
 	read: "ReadMcpResourceTool",
 } as const;
+
+/** Claude Code's tools for skills, which the skills suite turns on. */
+export const SKILL_TOOLS = { load: "Skill", read: "Read" } as const;
+
+/** A path read with Read: a skill's file as <skill>/<path>, any other as is. */
+export function skillFilePath(filePath: string): string {
+	const normalized = filePath.replace(/\\/g, "/");
+	const marker = "/.claude/skills/";
+	const index = normalized.indexOf(marker);
+	return index >= 0 ? normalized.slice(index + marker.length) : normalized;
+}
+
+/** A Skill call loaded the skill: by its name, or a plugin's <plugin>:<name>. */
+const loadsSkill = (loaded: string, name: string) =>
+	loaded === name || loaded.endsWith(`:${name}`);
 
 type Usage = {
 	input_tokens?: number;
@@ -293,8 +312,28 @@ export function summarizeRun(
 	let lastRender: string | undefined;
 	// Resource tool calls by id: a list, or a read of a URI.
 	const resourceCalls = new Map<string, { read: boolean; uri: string }>();
+	// Skill loads and file reads by id, since a tool_use id can repeat.
+	const skillLoads = new Map<string, string>();
+	const fileReads = new Map<string, string>();
 	for (const event of events) {
 		for (const block of event.message?.content ?? []) {
+			if (event.type === "assistant" && block.type === "tool_use" && block.id) {
+				const input = isRecord(block.input) ? block.input : {};
+				if (block.name === SKILL_TOOLS.load) {
+					skillLoads.set(
+						block.id,
+						typeof input.skill === "string" ? input.skill : "",
+					);
+				}
+				if (block.name === SKILL_TOOLS.read) {
+					fileReads.set(
+						block.id,
+						typeof input.file_path === "string"
+							? skillFilePath(input.file_path)
+							: "",
+					);
+				}
+			}
 			if (
 				event.type === "assistant" &&
 				block.type === "tool_use" &&
@@ -359,7 +398,12 @@ export function summarizeRun(
 	// What the user gets: the answer's HTML, or what the tools built if it only describes it.
 	const delivered =
 		answerHtml ?? (toolHtml.length > 0 ? toolHtml.join("\n") : undefined);
+	const loaded = [...skillLoads.values()];
 	const failed = [
+		...(scenario.expectSkill &&
+		!loaded.some((name) => loadsSkill(name, scenario.expectSkill ?? ""))
+			? [`loaded skill ${scenario.expectSkill}`]
+			: []),
 		...(scenario.expectTools ?? [])
 			.filter(
 				(group) => !group.some((tool) => ordered.some((c) => c.tool === tool)),
@@ -369,6 +413,7 @@ export function summarizeRun(
 		...failedStructure(scenario, delivered),
 	];
 	const total =
+		(scenario.expectSkill ? 1 : 0) +
 		(scenario.expectTools?.length ?? 0) +
 		(scenario.expectHtml?.length ?? 0) +
 		(scenario.expectStructure?.length ?? 0);
@@ -409,6 +454,8 @@ export function summarizeRun(
 		resourceReads: [...resourceCalls.values()]
 			.filter((call) => call.read)
 			.map((call) => call.uri),
+		skillLoads: loaded,
+		fileReads: [...fileReads.values()],
 		finalText,
 	};
 }
@@ -438,6 +485,9 @@ export type Aggregate = {
 	/** Calls to Claude Code's resource tools: lists, and reads */
 	resourceLists: number;
 	resourceReads: number;
+	/** Calls to Claude Code's Skill and Read tools (--suite skills) */
+	skillLoads: number;
+	fileReads: number;
 	firstRequestTokens: number;
 	inputTokens: number;
 	outputTokens: number;
@@ -471,6 +521,8 @@ export function aggregate(runs: readonly RunSummary[]): Aggregate {
 		strictValid: runs.filter((r) => r.strictErrors === 0).length,
 		resourceLists: sum((r) => r.resourceLists),
 		resourceReads: sum((r) => r.resourceReads.length),
+		skillLoads: sum((r) => r.skillLoads.length),
+		fileReads: sum((r) => r.fileReads.length),
 		firstRequestTokens: Math.max(0, ...runs.map((r) => r.firstRequestTokens)),
 		inputTokens: sum((r) => r.inputTokens),
 		outputTokens: sum((r) => r.outputTokens),

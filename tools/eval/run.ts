@@ -3,7 +3,7 @@
  * mode, with a small model and the kern stdio server as its only tools, and
  * records tool calls, errors, retries, tokens and cost per run.
  *
- *   pnpm eval --label baseline [--suite base|nested|resources|prompts]
+ *   pnpm eval --label baseline [--suite base|nested|resources|prompts|skills]
  *                   [--server <path/to/stdio/dist/index.js>] [--runs 3]
  *                   [--only contact-form,faq] [--model claude-haiku-4-5] [--concurrency 2]
  *                   [--resources] [--without-prompts]
@@ -17,31 +17,35 @@
  * reading MCP resources; run a suite with and without it to compare. The
  * prompts suite renders each prompt from the server under test (prompt-text.ts)
  * and sends that text; --without-prompts sends the tasks' own text instead.
+ * The skills suite sends the prompts suite's tasks in their own words, with
+ * skills/ copied into the working directory as .claude/skills and Claude
+ * Code's Skill and Read tools on, and checks that each loads its skill.
  *
  * It uses the Claude Code login of whoever runs it (no API key needed); each run
  * costs a few cents at Haiku rates. The summary goes to
- * docs/v2-migration/evals/<label>.json, raw transcripts to tools/eval/.runs/<label>/.
+ * docs/plan-v2.1/evals/<label>.json (reports.ts), raw transcripts to
+ * tools/eval/.runs/<label>/.
  */
 import { execFileSync, spawn } from "node:child_process";
 import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
 
 import { Client } from "@modelcontextprotocol/client";
 import { StdioClientTransport } from "@modelcontextprotocol/client/stdio";
 
 import { promptText } from "./prompt-text.js";
+import { findReport, REPO_ROOT, REPORT_DIRS } from "./reports.js";
 import { type Scenario, SUITES } from "./scenarios.js";
 import {
 	aggregate,
 	parseTranscript,
 	RESOURCE_TOOLS,
 	type RunSummary,
+	SKILL_TOOLS,
 	summarizeRun,
 } from "./transcript.js";
 
-const REPO_ROOT = fileURLToPath(new URL("../../", import.meta.url));
 const RUN_TIMEOUT_MS = 6 * 60_000;
 
 // Like a plain MCP client: no coding instructions, only the task and the tools.
@@ -56,13 +60,15 @@ function option(name: string, fallback?: string): string | undefined {
 const label = option("label");
 if (!label || !/^[\w.-]+$/.test(label)) {
 	console.error(
-		"Usage: pnpm eval --label <name> [--suite base|nested|resources|prompts] [--server <path>] [--runs 3] [--only a,b] [--model claude-haiku-4-5] [--concurrency 2] [--resources] [--without-prompts]",
+		"Usage: pnpm eval --label <name> [--suite base|nested|resources|prompts|skills] [--server <path>] [--runs 3] [--only a,b] [--model claude-haiku-4-5] [--concurrency 2] [--resources] [--without-prompts]",
 	);
 	process.exit(2);
 }
 const fromTranscripts = process.argv.includes("--from-transcripts");
-const reportDir = path.join(REPO_ROOT, "docs/v2-migration/evals");
-const reportPath = path.join(reportDir, `${label}.json`);
+// Re-scoring writes the report back where it was found.
+const reportPath =
+	(fromTranscripts ? await findReport(label) : undefined) ??
+	path.join(REPO_ROOT, REPORT_DIRS[0], `${label}.json`);
 // Re-scoring keeps what describes the original run, including its suite.
 const previous = fromTranscripts
 	? (JSON.parse(await fs.readFile(reportPath, "utf8")) as Record<
@@ -97,6 +103,8 @@ const withPrompts =
 	!process.argv.includes("--without-prompts") &&
 	previous?.mcpPrompts !== false &&
 	scenarios.some((s) => s.mcpPrompt);
+// The skills suite: the skills folder in the working directory, and the tools to use it.
+const withSkills = scenarios.some((s) => s.expectSkill);
 
 if (!fromTranscripts) {
 	try {
@@ -127,7 +135,7 @@ function serverCommit(): string {
 				"--porcelain",
 				"--",
 				":/",
-				":(top,exclude)docs/v2-migration/evals",
+				...REPORT_DIRS.map((dir) => `:(top,exclude)${dir}`),
 			],
 			{ encoding: "utf8" },
 		).trim();
@@ -148,8 +156,20 @@ await fs.writeFile(
 );
 const rawDir = path.join(REPO_ROOT, "tools/eval/.runs", label);
 await fs.mkdir(rawDir, { recursive: true });
+// Where Claude Code finds a project's skills, with --setting-sources project.
+if (withSkills) {
+	await fs.cp(
+		path.join(REPO_ROOT, "skills"),
+		path.join(workDir, ".claude/skills"),
+		{ recursive: true },
+	);
+}
 
-const resourceTools = [RESOURCE_TOOLS.list, RESOURCE_TOOLS.read];
+// Claude Code's own tools the runs may use, besides the kern server's.
+const ownTools = [
+	...(withResources ? [RESOURCE_TOOLS.list, RESOURCE_TOOLS.read] : []),
+	...(withSkills ? [SKILL_TOOLS.load, SKILL_TOOLS.read] : []),
+];
 
 /**
  * Each scenario's MCP prompt, rendered once by the server under test, as the
@@ -192,9 +212,9 @@ function runOnce(scenario: Scenario, attempt: number): Promise<RunSummary> {
 		mcpConfig,
 		"--strict-mcp-config",
 		"--tools",
-		withResources ? resourceTools.join(",") : "",
+		ownTools.join(","),
 		"--allowedTools",
-		["mcp__kern__*", ...(withResources ? resourceTools : [])].join(","),
+		["mcp__kern__*", ...ownTools].join(","),
 		"--system-prompt",
 		SYSTEM_PROMPT,
 		"--setting-sources",
@@ -203,7 +223,8 @@ function runOnce(scenario: Scenario, attempt: number): Promise<RunSummary> {
 		"stream-json",
 		"--verbose",
 		"--no-session-persistence",
-		"--disable-slash-commands",
+		// It disables skills too, so the skills suite leaves it out.
+		...(withSkills ? [] : ["--disable-slash-commands"]),
 	];
 	return new Promise((resolve) => {
 		const child = spawn(process.env.CLAUDE_BIN ?? "claude", args, {
@@ -240,7 +261,7 @@ function runOnce(scenario: Scenario, attempt: number): Promise<RunSummary> {
 
 const results: RunSummary[] = [];
 const describeRun = (summary: RunSummary, attempt: number) =>
-	`${summary.scenario} #${attempt}: ${summary.completed ? "done" : "FAILED"}, ${summary.toolCalls} calls, ${summary.errorResults} errors, ${summary.retries} retries, checks ${summary.checks.passed}/${summary.checks.total}, ${summary.delivery}${summary.fallback ? " (hand-written)" : ""}, strict errors ${summary.strictErrors ?? "-"}, ${summary.resourceReads.length > 0 ? `read ${summary.resourceReads.join(" ")}, ` : ""}$${summary.costUsd.toFixed(3)}`;
+	`${summary.scenario} #${attempt}: ${summary.completed ? "done" : "FAILED"}, ${summary.toolCalls} calls, ${summary.errorResults} errors, ${summary.retries} retries, checks ${summary.checks.passed}/${summary.checks.total}, ${summary.delivery}${summary.fallback ? " (hand-written)" : ""}, strict errors ${summary.strictErrors ?? "-"}, ${summary.resourceReads.length > 0 ? `read ${summary.resourceReads.join(" ")}, ` : ""}${summary.skillLoads.length > 0 ? `skills ${summary.skillLoads.join(" ")}, ` : ""}${summary.fileReads.length > 0 ? `files ${summary.fileReads.join(" ")}, ` : ""}$${summary.costUsd.toFixed(3)}`;
 
 if (fromTranscripts) {
 	const files = await fs.readdir(rawDir);
@@ -269,7 +290,7 @@ if (fromTranscripts) {
 		}
 	};
 	console.log(
-		`Eval "${label}": ${jobs.length} runs (${scenarios.length} scenarios × ${runs}) with ${model} against ${server}${withResources ? ", with the resource tools" : ""}${withPrompts ? ", through the MCP prompts" : ""}`,
+		`Eval "${label}": ${jobs.length} runs (${scenarios.length} scenarios × ${runs}) with ${model} against ${server}${withResources ? ", with the resource tools" : ""}${withPrompts ? ", through the MCP prompts" : ""}${withSkills ? ", with the skills" : ""}`,
 	);
 	await Promise.all(Array.from({ length: concurrency }, worker));
 }
@@ -285,6 +306,13 @@ const byScenario = scenarios.map((scenario) => {
 		),
 		...(withResources
 			? { resourceReads: own.map((r) => r.resourceReads) }
+			: {}),
+		...(withSkills
+			? {
+					expectSkill: scenario.expectSkill,
+					skillLoads: own.map((r) => r.skillLoads),
+					fileReads: own.map((r) => r.fileReads),
+				}
 			: {}),
 		...(withPrompts && scenario.mcpPrompt
 			? { mcpPrompt: scenario.mcpPrompt.name }
@@ -302,11 +330,12 @@ const report = {
 	runsPerScenario: previous?.runsPerScenario ?? runs,
 	resources: withResources,
 	mcpPrompts: withPrompts,
+	skills: withSkills,
 	systemPrompt: previous?.systemPrompt ?? SYSTEM_PROMPT,
 	total,
 	scenarios: byScenario,
 };
-await fs.mkdir(reportDir, { recursive: true });
+await fs.mkdir(path.dirname(reportPath), { recursive: true });
 await fs.writeFile(reportPath, `${JSON.stringify(report, null, "\t")}\n`);
 
 console.log(
@@ -320,9 +349,14 @@ if (withResources) {
 		`Resources: ${total.resourceLists} lists, ${total.resourceReads} reads`,
 	);
 }
+if (withSkills) {
+	console.log(
+		`Skills: ${total.skillLoads} loads, ${total.fileReads} file reads`,
+	);
+}
 console.log(
 	`Tokens: first request ${total.firstRequestTokens}, input ${total.inputTokens}, output ${total.outputTokens}; cost $${total.costUsd.toFixed(2)}; ${Math.round(total.durationMs / 1000)} s`,
 );
 console.log(
-	`Summary: docs/v2-migration/evals/${label}.json, transcripts: tools/eval/.runs/${label}/`,
+	`Summary: ${path.relative(REPO_ROOT, reportPath).replace(/\\/g, "/")}, transcripts: tools/eval/.runs/${label}/`,
 );
