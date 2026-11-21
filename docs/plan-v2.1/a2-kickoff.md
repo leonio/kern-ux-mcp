@@ -130,13 +130,21 @@ Confirmed by the maintainer on 2026-11-21: the recommended column.
 
 ### Group 1: serve the skills
 
-- [ ] `feat: the skills' files in core`: `files.generated.ts`, `skills:build` writes it, and the folder test checks it.
-- [ ] `feat: skills over MCP`: `loadKernSkills()`, the `skills` option, both hosts, `create-server.test.ts` and the snapshots.
-- [ ] `feat: the server's instructions name the skills`: the text, its builder, `names.test.ts` and the `server/discover` snapshot.
-- [ ] `test(e2e): skills on both eras`: stdio and HTTP, each file checked against its digest.
-- [ ] Typecheck, lint, `pnpm test`, the build, e2e and `pack:mcpb`; then push for CI, which builds the container and runs the packed install.
+- [x] `feat: the skills' files in core` (`3c45dd1`): `files.generated.ts`, `skills:build` writes it, and the folder test checks it.
+- [x] `feat: skills over MCP` (`68f112d`): `loadKernSkills()`, the `skills` option, both hosts, `create-server.test.ts` and the snapshots.
+- [x] `feat: the server's instructions name the skills` (`0fffa70`): the text, its builder, `names.test.ts` and the `server/discover` snapshot.
+- [x] `test(e2e): skills on both eras` (`af72e88`): stdio and HTTP, each file checked against its digest.
+- [x] Typecheck, lint, `pnpm test` (2,437 tests in 97 files), the build, e2e (22 tests) and `pack:mcpb`; then push for CI, which builds the container and runs the packed install.
 
 Then pause for review.
+
+Group 1 was done on 2026-11-21:
+- **Changed from the plan:**
+  - the SDK lists the skill template as `io.modelcontextprotocol/skills`, `skill://{+path}`, after our two;
+  - `names.test.ts` now also checks every `skill://` URI the server writes, and records them in its snapshot;
+  - the HTTP host takes `KernServerOptions` whole.
+- **The instructions,** as sent: "KERN UX: tools that render KERN UX markup and check it strictly. Before you build, load the matching skill: kern-forms for a form or a multi-step form, kern-page-layout for a whole page (with kern-forms for a form on it), kern-review for HTML to check or fix. Over MCP they're skill://kern-forms/SKILL.md, skill://kern-page-layout/SKILL.md and skill://kern-review/SKILL.md; where they're installed as files, use those."
+- **Unchanged:** the tool listing snapshots and the budget.
 
 ### Group 2: the pointers and the measurement
 
