@@ -1,6 +1,6 @@
 # A2: skills over MCP
 
-Status: kickoff, written on 2026-11-21. Step A2 of the [2.1 roadmap](roadmap.md#5-steps), after [A1](a1-kickoff.md).
+Status: kickoff, written on 2026-11-21; group 1 started the same day. Step A2 of the [2.1 roadmap](roadmap.md#5-steps), after [A1](a1-kickoff.md).
 
 ## The task
 
@@ -115,6 +115,8 @@ That's three runs a scenario each time, about $3 in all.
 **The bar:** the right skill loads in every run, as in A1. If it doesn't, the record says how close the runs got and which pointer helped; nothing that doesn't help stays.
 
 ## Decisions to confirm
+
+Confirmed by the maintainer on 2026-11-21: the recommended column.
 
 | # | Decision | Recommended | Alternative |
 |---|---|---|---|
