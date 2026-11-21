@@ -14,11 +14,20 @@
 FROM --platform=$BUILDPLATFORM node:24-slim@sha256:dc26ae92c9fb15cf6b1d63e20f0944b2efe0f115b20e00be48fb23fceb061c54 AS build
 WORKDIR /repo
 
-COPY package.json package-lock.json ./
+# pnpm at the version package.json's packageManager names, through Node's Corepack.
+ENV COREPACK_ENABLE_DOWNLOAD_PROMPT=0
+RUN corepack enable pnpm
+
+# Every workspace manifest, so the frozen lockfile matches; only the root's and
+# http's dependencies are installed.
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 COPY packages/core/package.json packages/core/
 COPY packages/stdio/package.json packages/stdio/
 COPY packages/http/package.json packages/http/
-RUN --mount=type=cache,target=/root/.npm npm ci --ignore-scripts --no-audit --no-fund
+COPY samples/basic-layout/package.json samples/basic-layout/
+RUN --mount=type=cache,id=pnpm-store,target=/pnpm/store \
+	pnpm install --frozen-lockfile --ignore-scripts --store-dir /pnpm/store \
+		--filter kern-ux-mcp-workspace --filter @leonio/kern-ux-mcp-http...
 
 COPY tsconfig.json tsconfig.base.json ./
 COPY tools/build tools/build
@@ -27,8 +36,8 @@ COPY packages/http/src packages/http/src
 
 # The release passes its version; the server reports it and the bundle inlines it.
 ARG VERSION
-RUN if [ -n "$VERSION" ]; then npm pkg set version="$VERSION" -w packages/http; fi \
-	&& npm run build -w packages/http
+RUN if [ -n "$VERSION" ]; then pnpm --filter @leonio/kern-ux-mcp-http pkg set version="$VERSION"; fi \
+	&& pnpm --filter @leonio/kern-ux-mcp-http run build
 
 FROM gcr.io/distroless/nodejs24-debian13:nonroot@sha256:6abfcb367ebc291572c774c1592a986be2ab26a2486f73093401327495a5962a
 

@@ -1,7 +1,8 @@
 # Build context for packages/http/Dockerfile: only what the image build needs.
 *
 !package.json
-!package-lock.json
+!pnpm-lock.yaml
+!pnpm-workspace.yaml
 !tsconfig.json
 !tsconfig.base.json
 !LICENSE.md
@@ -11,6 +12,7 @@
 !packages/stdio/package.json
 !packages/http/package.json
 !packages/http/src/
+!samples/basic-layout/package.json
 **/*.test.ts
 **/__snapshots__/
 packages/core/src/test-support/

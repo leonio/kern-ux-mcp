@@ -22,31 +22,34 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v6
+
       - name: Setup Node
         uses: actions/setup-node@v7
         with:
           node-version: '24'
-          cache: 'npm'
+          cache: 'pnpm'
 
       - name: Install Dependencies
-        run: npm ci
+        run: pnpm install --frozen-lockfile
 
       - name: Run Biome
-        run: npx @biomejs/biome ci .
+        run: pnpm exec biome ci .
 
       - name: TypeScript Compile
-        run: npx tsc --noEmit
+        run: pnpm exec tsc --noEmit
 
       # tools/ and vitest.config.ts run through tsx/Vitest, which don't type-check.
       - name: TypeScript Check (tooling)
-        run: npx tsc -p tsconfig.tools.json
+        run: pnpm exec tsc -p tsconfig.tools.json
 
       # Same build the release workflow runs, so bundling breakage fails the PR, not the release.
       - name: Build
-        run: npm run build
+        run: pnpm run build
 
       - name: Run Tests (with coverage)
-        run: npm run test:coverage
+        run: pnpm run test:coverage
 
       - name: Coverage Summary
         if: ${{ !cancelled() && hashFiles('coverage/coverage-summary.json') != '' }}
@@ -81,20 +84,23 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v6
+
       - name: Setup Node
         uses: actions/setup-node@v7
         with:
           node-version: '24'
-          cache: 'npm'
+          cache: 'pnpm'
 
       - name: Install Dependencies
-        run: npm ci
+        run: pnpm install --frozen-lockfile
 
       - name: Build
-        run: npm run build
+        run: pnpm run build
 
       - name: Run E2E Tests
-        run: npm run test:e2e
+        run: pnpm run test:e2e
 
   # What users get from npm: the stdio and http tarballs installed into an empty
   # directory, where the private core isn't available.
@@ -106,17 +112,20 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v6
+
       - name: Setup Node
         uses: actions/setup-node@v7
         with:
           node-version: '24'
-          cache: 'npm'
+          cache: 'pnpm'
 
       - name: Install Dependencies
-        run: npm ci
+        run: pnpm install --frozen-lockfile
 
       - name: Build
-        run: npm run build
+        run: pnpm run build
 
       - name: Pack and Install the Tarballs
         shell: bash
@@ -124,10 +133,10 @@ jobs:
           tarballs="$RUNNER_TEMP/tarballs"
           install_dir="$RUNNER_TEMP/install"
           mkdir -p "$tarballs" "$install_dir"
-          npm pack -w packages/stdio -w packages/http --pack-destination "$tarballs"
+          pnpm --filter @leonio/kern-ux-mcp --filter @leonio/kern-ux-mcp-http pack --pack-destination "$tarballs"
           cd "$install_dir"
           echo '{ "name": "packed-install-check", "private": true }' > package.json
-          npm install --no-audit --no-fund "$tarballs"/*.tgz
+          pnpm add "$tarballs"/*.tgz
           if [ -e node_modules/@leonio/kern-ux-core ]; then
             echo "::error::@leonio/kern-ux-core was installed; it must stay private and inlined"
             exit 1
@@ -135,7 +144,7 @@ jobs:
           echo "KERN_E2E_INSTALL_DIR=$install_dir" >> "$GITHUB_ENV"
 
       - name: Run E2E Tests Against the Installed Bins
-        run: npm run test:e2e
+        run: pnpm run test:e2e
 
   mcpb:
     name: MCP Bundle
@@ -145,18 +154,21 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v6
+
       - name: Setup Node
         uses: actions/setup-node@v7
         with:
           node-version: '24'
-          cache: 'npm'
+          cache: 'pnpm'
 
       - name: Install Dependencies
-        run: npm ci
+        run: pnpm install --frozen-lockfile
 
       # Builds stdio, then validates and packs the .mcpb.
       - name: Pack the MCP Bundle
-        run: npm run pack:mcpb
+        run: pnpm run pack:mcpb
 
       - name: Upload the MCP Bundle
         uses: actions/upload-artifact@v7
@@ -210,19 +222,22 @@ jobs:
           echo "::error::the container didn't become healthy"
           exit 1
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v6
+
       - name: Setup Node
         uses: actions/setup-node@v7
         with:
           node-version: '24'
-          cache: 'npm'
+          cache: 'pnpm'
 
       - name: Install Dependencies
-        run: npm ci
+        run: pnpm install --frozen-lockfile
 
       - name: Run E2E Tests Against the Container
         env:
           KERN_E2E_HTTP_URL: http://localhost:3000/mcp
-        run: npx vitest run -c vitest.e2e.config.ts packages/http
+        run: pnpm exec vitest run -c vitest.e2e.config.ts packages/http
 
       - name: Stop the Container (SIGTERM Drain)
         run: |

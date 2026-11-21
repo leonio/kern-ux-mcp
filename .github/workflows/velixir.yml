@@ -27,18 +27,21 @@ jobs:
         id: gitversion
         uses: gittools/actions/gitversion/execute@v4.7.0
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v6
+
       - name: Setup Node
         uses: actions/setup-node@v7
         with:
           node-version: '24'
-          cache: npm
+          cache: 'pnpm'
 
       # Before the build: the bundle inlines the version the server reports.
       - name: Build the HTTP server
         run: |
-          npm ci --ignore-scripts --no-audit --no-fund
-          npm pkg set version="${{ steps.gitversion.outputs.semVer }}" -w packages/http
-          npm run build -w packages/http
+          pnpm install --frozen-lockfile --ignore-scripts
+          pnpm --filter @leonio/kern-ux-mcp-http pkg set version="${{ steps.gitversion.outputs.semVer }}"
+          pnpm --filter @leonio/kern-ux-mcp-http run build
 
       # velixir builds the uploaded directory itself and runs its `start` script. The
       # standalone bundle has no dependencies, so the app is that one file plus a
