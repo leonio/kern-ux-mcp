@@ -1,7 +1,11 @@
 import { createHash, timingSafeEqual } from "node:crypto";
 import http, { type IncomingMessage, type ServerResponse } from "node:http";
 
-import { createKernServer, debugLog } from "@leonio/kern-ux-core";
+import {
+	createKernServer,
+	debugLog,
+	type KernServerOptions,
+} from "@leonio/kern-ux-core";
 import {
 	hostHeaderValidation,
 	originValidation,
@@ -70,9 +74,9 @@ function sendText(res: ServerResponse, status: number, text: string): void {
  */
 export function createKernHttpServer(
 	config: HttpConfig,
-	{ version }: { version: string },
+	kern: KernServerOptions,
 ): KernHttpServer {
-	const mcpHandler = createMcpHandler(() => createKernServer({ version }), {
+	const mcpHandler = createMcpHandler(() => createKernServer(kern), {
 		// Also called for rejected requests, so only in debug logs.
 		onerror: (err) => debugLog("http handler error", { message: err.message }),
 	});

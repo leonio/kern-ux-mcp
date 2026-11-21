@@ -31,7 +31,7 @@ describe.each(MCP_ERAS)("MCP resources over $era", ({ era, connect }) => {
 		});
 	});
 
-	it("lists a card per component, with a title, Markdown type and size", async () => {
+	it("lists a card per component, the guides and each skill's SKILL.md", async () => {
 		const { resources } = await client.listResources();
 
 		expect(resources.map((resource) => resource.uri)).toEqual([
@@ -39,6 +39,9 @@ describe.each(MCP_ERAS)("MCP resources over $era", ({ era, connect }) => {
 			"kern://guides/forms",
 			"kern://guides/layout",
 			"kern://guides/accessibility",
+			"skill://kern-forms/SKILL.md",
+			"skill://kern-page-layout/SKILL.md",
+			"skill://kern-review/SKILL.md",
 		]);
 		expect(resources.find((resource) => resource.name === "button")).toEqual({
 			uri: "kern://components/button",
@@ -50,7 +53,7 @@ describe.each(MCP_ERAS)("MCP resources over $era", ({ era, connect }) => {
 		});
 	});
 
-	it("lists the card and guide templates", async () => {
+	it("lists the card, guide and skill templates", async () => {
 		const { resourceTemplates } = await client.listResourceTemplates();
 
 		expect(resourceTemplates).toEqual([
@@ -65,6 +68,10 @@ describe.each(MCP_ERAS)("MCP resources over $era", ({ era, connect }) => {
 				uriTemplate: "kern://guides/{name}",
 				title: "KERN guides",
 				mimeType: "text/markdown",
+			}),
+			expect.objectContaining({
+				name: "io.modelcontextprotocol/skills",
+				uriTemplate: "skill://{+path}",
 			}),
 		]);
 	});

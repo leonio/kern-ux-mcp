@@ -1,4 +1,5 @@
 import { McpServer } from "@modelcontextprotocol/server";
+import type { SkillCatalog } from "@modelcontextprotocol/server/ext/skills";
 
 import { runTool } from "../invoke.js";
 import { registerKernPrompts } from "../prompts/register.js";
@@ -46,14 +47,20 @@ export function registerKernTool(server: McpServer, tool: ToolDef): void {
 export type KernServerOptions = {
 	/** Reported as the server version: the version of the host package. */
 	version: string;
+	/** The skills to serve, from loadKernSkills(), which the host awaits once. */
+	skills: SkillCatalog;
 };
 
 /**
- * Creates a server with every KERN tool, resource and prompt registered. It's
- * cheap enough to call per connection or per request: definitions, JSON
- * Schemas and resource content are built once.
+ * Creates a server with every KERN tool, resource, prompt and skill
+ * registered. It's cheap enough to call per connection or per request:
+ * definitions, JSON Schemas, resource content and the skill catalog are built
+ * once.
  */
-export function createKernServer({ version }: KernServerOptions): McpServer {
+export function createKernServer({
+	version,
+	skills,
+}: KernServerOptions): McpServer {
 	const { tools, resources, prompts } = getCatalog();
 	const server = new McpServer(
 		{ name: "kern-ux", version },
@@ -79,6 +86,8 @@ export function createKernServer({ version }: KernServerOptions): McpServer {
 	}
 	registerKernResources(server, resources);
 	registerKernPrompts(server, prompts);
+	// The skill:// template, skills/list, skills/get and the capability.
+	skills.attach(server);
 
 	return server;
 }

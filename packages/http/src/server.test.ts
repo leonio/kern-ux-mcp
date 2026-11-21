@@ -1,7 +1,7 @@
 import http from "node:http";
 import type { AddressInfo } from "node:net";
 
-import { createKernServer } from "@leonio/kern-ux-core";
+import { createKernServer, loadKernSkills } from "@leonio/kern-ux-core";
 import {
 	Client,
 	StreamableHTTPClientTransport,
@@ -23,7 +23,10 @@ const ERAS = ["2025-11-25", "2026-07-28"] as const;
 type Running = KernHttpServer & { port: number; url: string };
 
 async function start(env: NodeJS.ProcessEnv = {}): Promise<Running> {
-	const kern = createKernHttpServer(loadConfig(env), { version: VERSION });
+	const kern = createKernHttpServer(loadConfig(env), {
+		version: VERSION,
+		skills: await loadKernSkills(),
+	});
 	await new Promise<void>((resolve) =>
 		kern.server.listen(0, "127.0.0.1", resolve),
 	);
@@ -508,11 +511,13 @@ describe("drain (SIGTERM)", () => {
 });
 
 describe("per-request server factory", () => {
-	it("stays within a few milliseconds per request", () => {
-		createKernServer({ version: VERSION });
+	it("stays within a few milliseconds per request, skills attached", async () => {
+		const skills = await loadKernSkills();
+		createKernServer({ version: VERSION, skills });
 		const runs = 30;
 		const started = performance.now();
-		for (let i = 0; i < runs; i++) createKernServer({ version: VERSION });
+		for (let i = 0; i < runs; i++)
+			createKernServer({ version: VERSION, skills });
 		const meanMs = (performance.now() - started) / runs;
 
 		expect(meanMs).toBeLessThan(5);

@@ -6,6 +6,7 @@ import {
 import { createMcpHandler } from "@modelcontextprotocol/server";
 
 import { createKernServer } from "../mcp/create-server.js";
+import { loadKernSkills } from "../skills/catalog.js";
 
 /** The version the tests pass as the host version. */
 export const TEST_SERVER_VERSION = "0.0.0-test";
@@ -29,7 +30,10 @@ export const MCP_ERAS: McpEraSetup[] = [
 			const [clientTransport, serverTransport] =
 				InMemoryTransport.createLinkedPair();
 			const client = new Client(CLIENT_INFO);
-			const server = createKernServer({ version: TEST_SERVER_VERSION });
+			const server = createKernServer({
+				version: TEST_SERVER_VERSION,
+				skills: await loadKernSkills(),
+			});
 			await Promise.all([
 				server.connect(serverTransport),
 				client.connect(clientTransport),
@@ -40,8 +44,9 @@ export const MCP_ERAS: McpEraSetup[] = [
 	{
 		era: "2026-07-28",
 		connect: async () => {
+			const skills = await loadKernSkills();
 			const handler = createMcpHandler(() =>
-				createKernServer({ version: TEST_SERVER_VERSION }),
+				createKernServer({ version: TEST_SERVER_VERSION, skills }),
 			);
 			const client = new Client(CLIENT_INFO, {
 				versionNegotiation: { mode: { pin: "2026-07-28" } },
