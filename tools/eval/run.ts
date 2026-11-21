@@ -6,7 +6,7 @@
  *   pnpm eval --label baseline [--suite base|nested|resources|prompts|skills]
  *                   [--server <path/to/stdio/dist/index.js>] [--runs 3]
  *                   [--only contact-form,faq] [--model claude-haiku-4-5] [--concurrency 2]
- *                   [--resources] [--without-prompts]
+ *                   [--resources] [--without-prompts] [--append-system-prompt]
  *   pnpm eval --label baseline --from-transcripts
  *                   (re-scores the saved transcripts, e.g. after changing the checks)
  *
@@ -20,6 +20,8 @@
  * The skills suite sends the prompts suite's tasks in their own words, with
  * skills/ copied into the working directory as .claude/skills and Claude
  * Code's Skill and Read tools on, and checks that each loads its skill.
+ * --append-system-prompt keeps Claude Code's own system prompt and adds ours
+ * to it, as a client with skills would, instead of replacing it.
  *
  * It uses the Claude Code login of whoever runs it (no API key needed); each run
  * costs a few cents at Haiku rates. The summary goes to
@@ -60,7 +62,7 @@ function option(name: string, fallback?: string): string | undefined {
 const label = option("label");
 if (!label || !/^[\w.-]+$/.test(label)) {
 	console.error(
-		"Usage: pnpm eval --label <name> [--suite base|nested|resources|prompts|skills] [--server <path>] [--runs 3] [--only a,b] [--model claude-haiku-4-5] [--concurrency 2] [--resources] [--without-prompts]",
+		"Usage: pnpm eval --label <name> [--suite base|nested|resources|prompts|skills] [--server <path>] [--runs 3] [--only a,b] [--model claude-haiku-4-5] [--concurrency 2] [--resources] [--without-prompts] [--append-system-prompt]",
 	);
 	process.exit(2);
 }
@@ -95,6 +97,10 @@ const model = option("model", "claude-haiku-4-5") ?? "claude-haiku-4-5";
 const concurrency = Number(option("concurrency", "2"));
 const only = option("only")?.split(",");
 // Claude Code's tools for MCP resources, so the model can list and read them.
+// Claude Code's own system prompt with ours after it, instead of ours alone.
+const appendSystemPrompt =
+	process.argv.includes("--append-system-prompt") ||
+	previous?.systemPromptMode === "append";
 const withResources =
 	process.argv.includes("--resources") || previous?.resources === true;
 const scenarios = suiteScenarios.filter((s) => !only || only.includes(s.id));
@@ -215,7 +221,7 @@ function runOnce(scenario: Scenario, attempt: number): Promise<RunSummary> {
 		ownTools.join(","),
 		"--allowedTools",
 		["mcp__kern__*", ...ownTools].join(","),
-		"--system-prompt",
+		appendSystemPrompt ? "--append-system-prompt" : "--system-prompt",
 		SYSTEM_PROMPT,
 		"--setting-sources",
 		"project",
@@ -290,7 +296,7 @@ if (fromTranscripts) {
 		}
 	};
 	console.log(
-		`Eval "${label}": ${jobs.length} runs (${scenarios.length} scenarios × ${runs}) with ${model} against ${server}${withResources ? ", with the resource tools" : ""}${withPrompts ? ", through the MCP prompts" : ""}${withSkills ? ", with the skills" : ""}`,
+		`Eval "${label}": ${jobs.length} runs (${scenarios.length} scenarios × ${runs}) with ${model} against ${server}${withResources ? ", with the resource tools" : ""}${withPrompts ? ", through the MCP prompts" : ""}${withSkills ? ", with the skills" : ""}${appendSystemPrompt ? ", after Claude Code's system prompt" : ""}`,
 	);
 	await Promise.all(Array.from({ length: concurrency }, worker));
 }
@@ -332,6 +338,7 @@ const report = {
 	mcpPrompts: withPrompts,
 	skills: withSkills,
 	systemPrompt: previous?.systemPrompt ?? SYSTEM_PROMPT,
+	systemPromptMode: appendSystemPrompt ? "append" : "replace",
 	total,
 	scenarios: byScenario,
 };
