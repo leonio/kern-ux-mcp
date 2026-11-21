@@ -11,17 +11,16 @@
 		"type": "git",
 		"url": "https://github.com/leonio/kern-ux-mcp.git"
 	},
-	"workspaces": [
-		"packages/*"
-	],
+	"packageManager": "pnpm@11.15.0",
 	"engines": {
-		"node": ">=24.16.0"
+		"node": ">=24.16.0",
+		"pnpm": ">=11.3.0"
 	},
 	"scripts": {
 		"dev": "tsx --conditions=@leonio/source packages/stdio/src/index.ts",
 		"dev:http": "tsx --conditions=@leonio/source packages/http/src/index.ts",
-		"build": "npm run build -ws --if-present",
-		"build:watch": "npm run build:watch -w packages/stdio",
+		"build": "pnpm -r build",
+		"build:watch": "pnpm --filter @leonio/kern-ux-mcp build:watch",
 		"start": "node packages/stdio/dist/index.js",
 		"start:http": "node packages/http/dist/index.js",
 		"docker:build": "docker build -f packages/http/Dockerfile -t kern-ux-mcp-http:dev .",
@@ -29,14 +28,14 @@
 		"loop:start": "pwsh -NoLogo -ExecutionPolicy Bypass -File ./tools/dev/dev-loop.ps1",
 		"loop:full": "pwsh -NoLogo -ExecutionPolicy Bypass -File ./tools/dev/dev-loop.ps1 -WatchTests -WatchBuild -OpenSample -DebugMcp",
 		"loop:stop": "pwsh -NoLogo -ExecutionPolicy Bypass -File ./tools/dev/dev-loop.ps1 -Stop",
-		"sbom": "npm run sbom -w packages/stdio -w packages/http",
+		"sbom:write": "pnpm --filter @leonio/kern-ux-mcp --filter @leonio/kern-ux-mcp-http run sbom:write",
 		"sbom:generate": "syft scan dir:. --output cyclonedx-json=sbom.cyclonedx.json",
-		"scan:vulns": "npm run sbom:generate && grype sbom:sbom.cyclonedx.json",
-		"scan:vulns:high": "npm run sbom:generate && grype sbom:sbom.cyclonedx.json --fail-on high",
-		"pack:inspect": "npm run build && npm pack --dry-run -w packages/stdio",
-		"pack:release": "npm run build && npm pack -w packages/stdio",
-		"pack:mcpb": "npm run build -w packages/stdio && npm run pack:mcpb -w packages/stdio",
-		"sample:dev": "npm --prefix samples/basic-layout run dev",
+		"scan:vulns": "pnpm sbom:generate && grype sbom:sbom.cyclonedx.json",
+		"scan:vulns:high": "pnpm sbom:generate && grype sbom:sbom.cyclonedx.json --fail-on high",
+		"pack:inspect": "pnpm build && pnpm --filter @leonio/kern-ux-mcp pack --dry-run",
+		"pack:release": "pnpm build && pnpm --filter @leonio/kern-ux-mcp pack",
+		"pack:mcpb": "pnpm --filter @leonio/kern-ux-mcp build && pnpm --filter @leonio/kern-ux-mcp pack:mcpb",
+		"sample:dev": "pnpm --filter basic-kern dev",
 		"test": "vitest run",
 		"test:watch": "vitest",
 		"test:coverage": "vitest run --coverage",
@@ -45,7 +44,7 @@
 		"format": "biome format --write .",
 		"version:json": "dotnet-gitversion /output json",
 		"check-version": "dotnet-gitversion /version",
-		"pre-commit": "npm run lint && npm run check-version",
+		"pre-commit": "pnpm lint && pnpm check-version",
 		"knowledge:import": "tsx tools/knowledge/import.ts",
 		"skills:build": "tsx tools/skills/build.ts",
 		"listing:sizes": "tsx tools/listing/sizes.ts",
@@ -54,14 +53,17 @@
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^2.5.11",
+		"@leonio/kern-ux-core": "workspace:*",
 		"@modelcontextprotocol/client": "^2.4.0",
 		"@types/node": "^26.0.0",
 		"@vitest/coverage-v8": "^5.0.2",
 		"ajv": "^8.20.0",
 		"ajv-formats": "^3.0.1",
 		"esbuild": "^0.28.2",
+		"node-html-parser": "^9.0.7",
 		"tsx": "^4.23.12",
 		"typescript": "^7.0.0",
+		"vite": "^8.3.8",
 		"vitest": "^5.0.0"
 	}
 }

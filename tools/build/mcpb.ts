@@ -3,7 +3,7 @@
  * MCPB hosts. It ships standalone/ (the fully inlined bundle, no node_modules),
  * so run it from packages/stdio after the build:
  *
- *   npm run build -w packages/stdio && npm run pack:mcpb -w packages/stdio
+ *   pnpm pack:mcpb   (from the repo root; it builds stdio first)
  *
  * mcpb-dist/bundle/ gets manifest.json (the mcpb/manifest.json template with the
  * package version and the static tools[] list, which is fixed per release),
@@ -11,7 +11,6 @@
  * README.md, and mcpb/icon.png if there is one. `mcpb validate` and `mcpb pack`
  * then write mcpb-dist/kern-ux-mcp-<version>.mcpb.
  */
-import { execFileSync } from "node:child_process";
 import {
 	cpSync,
 	existsSync,
@@ -25,8 +24,10 @@ import { fileURLToPath } from "node:url";
 
 import { getCatalog } from "@leonio/kern-ux-core";
 
+import { pnpm } from "./pnpm.js";
+
 /**
- * Pinned, and run through npm exec rather than installed: its interactive
+ * Pinned, and run through pnpm dlx rather than installed: its interactive
  * `init` pulls in packages with audit advisories that would otherwise sit in
  * the lockfile, and pack/validate don't need them.
  */
@@ -38,16 +39,11 @@ const pkg = JSON.parse(
 	readFileSync(path.join(packageDir, "package.json"), "utf8"),
 ) as { version: string };
 const standalone = path.join(packageDir, "standalone");
-const npmCli = process.env.npm_execpath;
 
 if (!existsSync(path.join(standalone, "index.js"))) {
 	console.error(
-		"standalone/index.js is missing. Build first: npm run build -w packages/stdio",
+		"standalone/index.js is missing. Build first: pnpm --filter @leonio/kern-ux-mcp build",
 	);
-	process.exit(1);
-}
-if (!npmCli) {
-	console.error("Run this through npm: npm run pack:mcpb -w packages/stdio");
 	process.exit(1);
 }
 
@@ -58,19 +54,7 @@ function summary(description: string): string {
 }
 
 function mcpb(...args: string[]): void {
-	execFileSync(
-		process.execPath,
-		[
-			npmCli as string,
-			"exec",
-			"--yes",
-			`--package=${MCPB_CLI}`,
-			"--",
-			"mcpb",
-			...args,
-		],
-		{ stdio: "inherit" },
-	);
+	pnpm(["dlx", MCPB_CLI, ...args], { stdio: "inherit" });
 }
 
 const outDir = path.join(packageDir, "mcpb-dist");

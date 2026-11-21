@@ -1,5 +1,5 @@
 /**
- * Bundles a host package (packages/stdio, packages/http) with esbuild. npm runs
+ * Bundles a host package (packages/stdio, packages/http) with esbuild. pnpm runs
  * workspace scripts from the package directory, so that's the package it builds.
  * Both outputs start from src/index.ts:
  *
@@ -90,7 +90,7 @@ function checkDeclaredRanges(): string[] {
 		}
 		const installed = installedManifestPath(name);
 		if (!installed) {
-			problems.push(`${name} is declared but not installed. Run npm install.`);
+			problems.push(`${name} is declared but not installed. Run pnpm install.`);
 			continue;
 		}
 		const dependency = readManifest(installed);

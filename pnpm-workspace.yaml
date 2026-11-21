@@ -1,2 +1,8 @@
+packages:
+  - packages/*
+  - samples/*
+
+# esbuild ships its binary as an optional platform package; its install
+# script only checks that binary, so it doesn't need to run.
 allowBuilds:
   esbuild: false
