@@ -1,6 +1,6 @@
 ---
 name: kern-page-layout
-description: Load this skill first, before you call any KERN tool, whenever a task asks for a complete KERN HTML page, such as a start page or a service page with a header, a main part and a footer. It says how to build it with one render_page call of the KERN UX MCP server, with the header and its navigation, the main heading, sections with grids, cards, tables and FAQs, and the footer, on KERN's grid. For a form on the page, load kern-forms too.
+description: Load this skill first, before you call any KERN tool, whenever a task asks for a complete KERN page with a header, a main part and a footer, such as a start page or a service page, also when the page holds a form, a table or an FAQ. It says how to build the whole page with one render_page call of the KERN UX MCP server, with the header and its navigation, the main heading, the sections with grids, cards, tables and FAQs, and the footer, on KERN's grid. For a form on the page, load kern-forms too.
 license: EUPL-1.2
 compatibility: Needs the KERN UX MCP server (@leonio/kern-ux-mcp).
 ---

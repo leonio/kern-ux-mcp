@@ -1,6 +1,6 @@
 ---
 name: kern-review
-description: Load this skill first, before you call any KERN tool, whenever someone gives you HTML to check, review, fix, correct or move to KERN, a whole page or a part of one, against KERN's accessibility or markup rules. It says how to check it with the KERN UX MCP server's validate_html, rebuild it with the KERN tools, and list the fixes by rule.
+description: Load this skill first, before you call any KERN tool, whenever a task gives you existing HTML, a whole page or a part of one, to check, review, fix or correct against KERN's accessibility or markup rules, or to rebuild with KERN components. It says how to check it with the KERN UX MCP server's validate_html, rebuild it with the KERN tools, and list the fixes by rule.
 license: EUPL-1.2
 compatibility: Needs the KERN UX MCP server (@leonio/kern-ux-mcp).
 ---

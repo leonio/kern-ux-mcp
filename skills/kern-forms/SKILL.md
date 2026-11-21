@@ -1,6 +1,6 @@
 ---
 name: kern-forms
-description: Load this skill first, before you call any KERN tool, whenever a task asks for a KERN form, form fields or a multi-step form or application. It says how to build it with the KERN UX MCP server's tools, with the right field types, labels, hints, required and optional fields, error messages and the error summary, and for several steps the step list, progress and a review step. For the page around the form, load kern-page-layout too.
+description: Load this skill first, before you call any KERN tool, whenever a task asks for a KERN form, form fields or a multi-step form or application. It says how to build it with the KERN UX MCP server's tools, with the right field types, labels, hints, required and optional fields, error messages and the error summary, and for several steps the step list, progress and a review step. When the form is part of a complete page with a header and a footer, load kern-page-layout first and this skill with it.
 license: EUPL-1.2
 compatibility: Needs the KERN UX MCP server (@leonio/kern-ux-mcp).
 ---
