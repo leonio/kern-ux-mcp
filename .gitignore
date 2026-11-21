@@ -54,3 +54,6 @@ mcpb-dist/
 
 # Eval transcripts (summaries go to docs/v2-migration/evals/)
 tools/eval/.runs/
+
+# Local MCP client config (each person's own servers)
+.mcp.json
