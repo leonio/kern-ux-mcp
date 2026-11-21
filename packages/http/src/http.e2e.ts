@@ -9,6 +9,7 @@ import {
 } from "@modelcontextprotocol/client";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 
+import { expectSkillsServed } from "../../core/src/test-support/served-skills.js";
 import domainListing from "../../core/src/ux/__snapshots__/tools-list.json" with {
 	type: "json",
 };
@@ -134,7 +135,7 @@ describe.each(TARGETS)("http: $name", ({ start }) => {
 	});
 
 	it.each(["2025-11-25", "2026-07-28"] as const)(
-		"lists the tools and calls one on %s",
+		"lists the tools, calls one and serves the skills on %s",
 		async (era) => {
 			const client = new Client(
 				{ name: "kern-e2e", version: "0.0.0" },
@@ -158,6 +159,7 @@ describe.each(TARGETS)("http: $name", ({ start }) => {
 			expect(result.structuredContent).toMatchObject({
 				html: expect.stringContaining("Absenden"),
 			});
+			await expectSkillsServed(client);
 			await client.close();
 		},
 	);

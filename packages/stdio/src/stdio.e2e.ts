@@ -5,6 +5,7 @@ import { Client } from "@modelcontextprotocol/client";
 import { StdioClientTransport } from "@modelcontextprotocol/client/stdio";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 
+import { expectSkillsServed } from "../../core/src/test-support/served-skills.js";
 import domainListing from "../../core/src/ux/__snapshots__/tools-list.json" with {
 	type: "json",
 };
@@ -95,6 +96,10 @@ describe.each(CASES)("stdio: $name on $era", ({ entry, era }) => {
 		expect(tools.map((tool) => tool.name)).toEqual(
 			domainListing.map((tool) => tool.name),
 		);
+	});
+
+	it("serves every skill file as skills/ has it, matching its digest", async () => {
+		await expectSkillsServed(client);
 	});
 
 	it("renders a component and reports invalid input as isError", async () => {
