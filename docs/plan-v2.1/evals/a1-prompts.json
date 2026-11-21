@@ -1,0 +1,230 @@
+{
+	"label": "a1-prompts",
+	"suite": "prompts",
+	"date": "2026-11-21T21:21:45.594Z",
+	"model": "claude-haiku-4-5",
+	"serverCommit": "41c4904",
+	"runsPerScenario": 3,
+	"resources": false,
+	"mcpPrompts": true,
+	"skills": false,
+	"systemPrompt": "You build web page markup with the KERN UX design system. Use the kern tools to render components instead of writing KERN markup by hand. When you're done, reply with the final HTML.",
+	"total": {
+		"runs": 12,
+		"completed": 12,
+		"toolCalls": 22,
+		"errorResults": 0,
+		"invalidInputErrors": 0,
+		"retries": 0,
+		"turns": 34,
+		"checksPassed": 99,
+		"checksTotal": 99,
+		"compositionCalls": 14,
+		"compositionErrors": 0,
+		"compositionRetries": 0,
+		"blockDepth": 4,
+		"blockNodes": 18,
+		"deliveredVerbatim": 12,
+		"deliveredEdited": 0,
+		"deliveredDescribed": 0,
+		"fallbacks": 0,
+		"strictValid": 12,
+		"resourceLists": 0,
+		"resourceReads": 0,
+		"skillLoads": 0,
+		"fileReads": 0,
+		"firstRequestTokens": 42962,
+		"inputTokens": 1544557,
+		"outputTokens": 91602,
+		"costUsd": 1.0367094,
+		"durationMs": 528689
+	},
+	"scenarios": [
+		{
+			"id": "contact-form",
+			"runs": 3,
+			"completed": 3,
+			"toolCalls": 3,
+			"errorResults": 0,
+			"invalidInputErrors": 0,
+			"retries": 0,
+			"turns": 6,
+			"checksPassed": 12,
+			"checksTotal": 12,
+			"compositionCalls": 3,
+			"compositionErrors": 0,
+			"compositionRetries": 0,
+			"blockDepth": 2,
+			"blockNodes": 5,
+			"deliveredVerbatim": 3,
+			"deliveredEdited": 0,
+			"deliveredDescribed": 0,
+			"fallbacks": 0,
+			"strictValid": 3,
+			"resourceLists": 0,
+			"resourceReads": 0,
+			"skillLoads": 0,
+			"fileReads": 0,
+			"firstRequestTokens": 40578,
+			"inputTokens": 253397,
+			"outputTokens": 10546,
+			"costUsd": 0.25969719999999996,
+			"durationMs": 61854,
+			"failedChecks": [],
+			"calls": [
+				[
+					"render_composition"
+				],
+				[
+					"render_composition"
+				],
+				[
+					"render_composition"
+				]
+			],
+			"mcpPrompt": "create_input_form"
+		},
+		{
+			"id": "application-flow",
+			"runs": 3,
+			"completed": 3,
+			"toolCalls": 3,
+			"errorResults": 0,
+			"invalidInputErrors": 0,
+			"retries": 0,
+			"turns": 6,
+			"checksPassed": 30,
+			"checksTotal": 30,
+			"compositionCalls": 3,
+			"compositionErrors": 0,
+			"compositionRetries": 0,
+			"blockDepth": 3,
+			"blockNodes": 11,
+			"deliveredVerbatim": 3,
+			"deliveredEdited": 0,
+			"deliveredDescribed": 0,
+			"fallbacks": 0,
+			"strictValid": 3,
+			"resourceLists": 0,
+			"resourceReads": 0,
+			"skillLoads": 0,
+			"fileReads": 0,
+			"firstRequestTokens": 40972,
+			"inputTokens": 280638,
+			"outputTokens": 36345,
+			"costUsd": 0.3011861,
+			"durationMs": 186986,
+			"failedChecks": [],
+			"calls": [
+				[
+					"render_composition"
+				],
+				[
+					"render_composition"
+				],
+				[
+					"render_composition"
+				]
+			],
+			"mcpPrompt": "create_input_form"
+		},
+		{
+			"id": "service-page",
+			"runs": 3,
+			"completed": 3,
+			"toolCalls": 6,
+			"errorResults": 0,
+			"invalidInputErrors": 0,
+			"retries": 0,
+			"turns": 9,
+			"checksPassed": 24,
+			"checksTotal": 24,
+			"compositionCalls": 3,
+			"compositionErrors": 0,
+			"compositionRetries": 0,
+			"blockDepth": 4,
+			"blockNodes": 18,
+			"deliveredVerbatim": 3,
+			"deliveredEdited": 0,
+			"deliveredDescribed": 0,
+			"fallbacks": 0,
+			"strictValid": 3,
+			"resourceLists": 0,
+			"resourceReads": 0,
+			"skillLoads": 0,
+			"fileReads": 0,
+			"firstRequestTokens": 40619,
+			"inputTokens": 411535,
+			"outputTokens": 29732,
+			"costUsd": 0.2703159,
+			"durationMs": 168275,
+			"failedChecks": [],
+			"calls": [
+				[
+					"get_table",
+					"render_page"
+				],
+				[
+					"get_table",
+					"render_page"
+				],
+				[
+					"get_table",
+					"render_page"
+				]
+			],
+			"mcpPrompt": "create_page_layout"
+		},
+		{
+			"id": "fix-page",
+			"runs": 3,
+			"completed": 3,
+			"toolCalls": 10,
+			"errorResults": 0,
+			"invalidInputErrors": 0,
+			"retries": 0,
+			"turns": 13,
+			"checksPassed": 33,
+			"checksTotal": 33,
+			"compositionCalls": 5,
+			"compositionErrors": 0,
+			"compositionRetries": 0,
+			"blockDepth": 3,
+			"blockNodes": 12,
+			"deliveredVerbatim": 3,
+			"deliveredEdited": 0,
+			"deliveredDescribed": 0,
+			"fallbacks": 0,
+			"strictValid": 3,
+			"resourceLists": 0,
+			"resourceReads": 0,
+			"skillLoads": 0,
+			"fileReads": 0,
+			"firstRequestTokens": 42962,
+			"inputTokens": 598987,
+			"outputTokens": 14979,
+			"costUsd": 0.2055102,
+			"durationMs": 111574,
+			"failedChecks": [],
+			"calls": [
+				[
+					"validate_html",
+					"render_composition",
+					"render_page"
+				],
+				[
+					"validate_html",
+					"render_page",
+					"get_utility_reference",
+					"get_table",
+					"render_page"
+				],
+				[
+					"validate_html",
+					"render_page"
+				]
+			],
+			"mcpPrompt": "review_kern_html"
+		}
+	]
+}

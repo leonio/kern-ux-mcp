@@ -1,6 +1,6 @@
 # A1: the skills source
 
-Status: kickoff, written on 2026-11-15; group 1 started the same day. Step A1 of the [2.1 roadmap](roadmap.md#5-steps), after [A0](a0-kickoff.md).
+Status: done on 2026-11-21; kickoff written on 2026-11-15. The record is [at the end](#the-record). Step A1 of the [2.1 roadmap](roadmap.md#5-steps), after [A0](a0-kickoff.md).
 
 ## The task
 
@@ -118,9 +118,54 @@ Group 1 was done on 2026-11-15:
 
 ### Group 2: the measurement
 
-- [ ] `test(eval): a skills suite`: the suite, the `expectSkill` check, the copied skills and the tools, and the report folder.
-- [ ] Build, commit, and run `prompts`, `prompts --without-prompts` and `skills` on the same commit, three runs each.
-- [ ] Wording fixes, if the numbers ask for them, one commit each and measured again.
-- [ ] `docs:` record A1 here: the numbers, what changed, and what A2 needs to know.
+- [x] `test(eval): a skills suite` (`41c4904`): the suite, the `expectSkill` check, the copied skills and the tools, and the report folder. The runs also record the skills loaded and the files read.
+- [x] Build, commit, and run `prompts`, `prompts --without-prompts` and `skills` on the same commit, three runs each.
+- [x] Added: `test(eval): --append-system-prompt keeps Claude Code's system prompt` (`60f4ffd`), to see whether the eval's own system prompt kept the skills from loading.
+- [x] Wording fixes, one commit each and measured again: `7b53418` and `93a5ade`.
+- [x] `docs:` record A1 here: the numbers, what changed, and what A2 needs to know.
 
 Then pause for review, and write the A2 kickoff.
+
+## The record
+
+Group 2 was done on 2026-11-21, with Haiku 4.5, three runs a scenario. The reports are in [evals](evals).
+
+### The numbers
+
+| Report | Commit | Task checks | Right skill loaded | Answer verbatim | Cost |
+|---|---|---|---|---|---|
+| `a1-prompts` | `41c4904` | 99/99 | – | 12/12 | $1.04 |
+| `a1-without-prompts` | `41c4904` | 99/99 | – | 6/12 | $0.66 |
+| `a1-skills` | `41c4904` | 99/99 | 4/12 | 5/12 | $0.74 |
+| `a1-skills-append` | `60f4ffd` | 99/99 | 0/12 | 6/12 | $0.91 |
+| `a1-skills-fix1` | `7b53418` | 98/99 | 8/12 | 9/12 | $0.84 |
+| `a1-skills-fix2` | `93a5ade` | 99/99 | 6/12 | 6/12 | $0.85 |
+
+"Task checks" leaves out the `expectSkill` check, which the reports count with the others (103/111 in `a1-skills`). Every run completed, and all were strict-valid.
+
+By scenario, the right skill loaded:
+
+| Scenario | Skill | `a1-skills` | `fix1` | `fix2` |
+|---|---|---|---|---|
+| contact-form | kern-forms | 3/3 | 3/3 | 2/3 |
+| application-flow | kern-forms | 1/3 | 3/3 | 3/3 |
+| service-page | kern-page-layout | 0/3 | 1/3 | 1/3 |
+| fix-page | kern-review | 0/3 | 1/3 | 0/3 |
+
+### What it shows
+
+- **A loaded skill works as well as its prompt.** Over the three `skills` reports, the 18 runs that loaded the right skill all answered with the tools' HTML verbatim. The 18 that didn't did so twice. No run read a reference file, so `SKILL.md` alone carried the task, as designed.
+- **Loading is the problem.** The bar (the skill loaded in every run) isn't met. Forms load reliably since the first fix. A whole page loads `kern-forms` for its form, not `kern-page-layout`, and existing HTML rarely loads `kern-review`.
+- **Claude Code's own system prompt doesn't help.** With it (`--append-system-prompt`), no run loaded a skill. The eval keeps its own prompt.
+- **The second wording fix measured no better than the first.** It stays, since its guidance is the right one (a whole page loads `kern-page-layout` first), but the plan's two wording fixes are used up.
+
+### What changed from the plan
+
+- The `--append-system-prompt` run, added to rule out the eval's setup.
+- The reports' folder is in [reports.ts](../../tools/eval/reports.ts); `pnpm eval:compare` and re-scoring find a label there or in `docs/v2-migration/evals`.
+
+### What A2 needs to know
+
+- **The next lever isn't the description.** By the plan, the tool or the skill's shape changes instead. Two places A2 already touches can point a model to the skills: the server's `instructions` (A2's pointer), and the descriptions of `render_page` and `validate_html`, which a model reads when it skips the skill. Measure each with the `skills` suite, against `a1-skills-fix2`.
+- **A3 is the safe path meanwhile.** A prompt returns its skill's text with no loading step, so `prompts` keeps its 12 of 12.
+- **The skills suite tests skills as files**, through Claude Code's `Skill` tool. Skills over MCP (A2) load through the client's own mechanism, VS Code Insiders only today; the suite can't measure that yet.
