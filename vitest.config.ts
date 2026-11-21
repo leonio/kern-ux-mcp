@@ -13,7 +13,7 @@ export default defineConfig({
 		// under instrumentation, which can pass the 5 s default.
 		testTimeout: 15_000,
 		// One project per workspace package plus the build tooling; all inherit this config.
-		// Run one with `npx vitest run --project core`.
+		// Run one with `pnpm exec vitest run --project core`.
 		projects: [
 			{
 				extends: true,

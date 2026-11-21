@@ -2,7 +2,7 @@
  * Prints the model-facing size of every tool in tools/list, largest first, with
  * the totals and the context budget (packages/core/src/ux/listing-budget.ts).
  *
- *   npm run listing:sizes
+ *   pnpm listing:sizes
  */
 import {
 	formatListingSizes,

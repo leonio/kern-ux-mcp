@@ -109,7 +109,7 @@ if (Test-Path $statePath) {
   }
 
   if ($live.Count -gt 0) {
-    throw "A dev loop appears to be running (PID(s): $($live -join ', ')). Run: npm run loop:stop"
+    throw "A dev loop appears to be running (PID(s): $($live -join ', ')). Run: pnpm loop:stop"
   }
 
   Remove-Item $statePath -Force
@@ -119,17 +119,17 @@ if ($Port -le 0) {
   $Port = Get-AvailablePort -Candidates (3000..3010)
 }
 
-$sampleCommand = "Set-Location '$repoRoot'; `$env:PORT='$Port'; npm run sample:dev"
+$sampleCommand = "Set-Location '$repoRoot'; `$env:PORT='$Port'; pnpm sample:dev"
 $sampleProc = Start-LoopProcess -Title "sample app on http://localhost:$Port" -Command $sampleCommand
 
 $testProc = $null
 if ($WatchTests) {
-  $testProc = Start-LoopProcess -Title "vitest watcher" -Command "Set-Location '$repoRoot'; npm run test:watch"
+  $testProc = Start-LoopProcess -Title "vitest watcher" -Command "Set-Location '$repoRoot'; pnpm test:watch"
 }
 
 $buildProc = $null
 if ($WatchBuild) {
-  $buildProc = Start-LoopProcess -Title "stdio bundle watcher" -Command "Set-Location '$repoRoot'; npm run build:watch"
+  $buildProc = Start-LoopProcess -Title "stdio bundle watcher" -Command "Set-Location '$repoRoot'; pnpm build:watch"
 }
 
 if ($OpenSample) {
@@ -150,7 +150,7 @@ $state | ConvertTo-Json | Set-Content -Path $statePath -Encoding UTF8
 Write-Host ""
 Write-Host "Dev loop started."
 Write-Host "Sample app: http://localhost:$Port"
-Write-Host "Stop loop: npm run loop:stop"
+Write-Host "Stop loop: pnpm loop:stop"
 Write-Host ""
 Write-Host "MCP testing steps:"
 Write-Host "1) Open samples/basic-layout in a second VS Code instance."

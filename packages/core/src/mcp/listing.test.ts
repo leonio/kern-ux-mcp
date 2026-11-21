@@ -13,7 +13,7 @@ import { kernInputSchema } from "./kern-schema.js";
  * check that SDK v2 delivers exactly that on both eras, and snapshot the raw
  * 2026-07-28 wire listing so SDK-added fields show up in review.
  *
- * Update the wire snapshot with `npx vitest run -u packages/core/src/mcp/listing.test.ts`.
+ * Update the wire snapshot with `pnpm exec vitest run -u packages/core/src/mcp/listing.test.ts`.
  */
 
 function deepFreeze<T>(value: T): T {

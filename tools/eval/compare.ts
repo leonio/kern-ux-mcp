@@ -2,7 +2,7 @@
  * Compares two eval reports (docs/v2-migration/evals/<label>.json) side by side:
  * the totals, then each scenario's errors, retries, calls and checks.
  *
- *   npm run eval:compare -- baseline option-b
+ *   pnpm eval:compare baseline option-b
  */
 import fs from "node:fs/promises";
 import path from "node:path";
@@ -104,9 +104,7 @@ if (
 ) {
 	const [a, b] = process.argv.slice(2);
 	if (!a || !b) {
-		console.error(
-			"Usage: npm run eval:compare -- <label-before> <label-after>",
-		);
+		console.error("Usage: pnpm eval:compare <label-before> <label-after>");
 		process.exit(2);
 	}
 	const dir = fileURLToPath(

@@ -8,7 +8,7 @@ This folder keeps what's useful after the release:
 |---|---|
 | [history.md](history.md) | How the work was carried out, step by step: what each step did, the decisions that shaped it, the measurements and what was learned. |
 | [knowledge-bundle.md](knowledge-bundle.md) | The design of the KERN knowledge bundle and how this repo uses it, with the decisions behind it. The packer's schema and `knowledge-map.ts` cite it. |
-| [evals/](evals/) | The eval reports; `npm run eval` writes here. It keeps the newest report of each kind on the 2.0 server: `r7-c` (base), `nested-r7-c`, `prompts-r7-c` and `prompts-r7-c-plain`, `prompts-r7-checkbox` (the wizard) and `r6-fix-res-off` (resources). The older ones are in git at `e0ee9bb`. |
+| [evals/](evals/) | The eval reports; `pnpm eval` writes here. It keeps the newest report of each kind on the 2.0 server: `r7-c` (base), `nested-r7-c`, `prompts-r7-c` and `prompts-r7-c-plain`, `prompts-r7-checkbox` (the wizard) and `r6-fix-res-off` (resources). The older ones are in git at `e0ee9bb`. |
 
 Elsewhere:
 - What changed for clients: [migration-2.0.md](../migration-2.0.md)
@@ -79,7 +79,7 @@ This is how 2.0 ran, and it worked:
 
 ### Running the eval
 
-- `npm run eval -- --label <name> [--suite base|nested|prompts|resources] [--only <scenario>] [--runs 3]`, then `npm run eval:compare -- <a> <b>`. `--from-transcripts` rescores saved runs for free, after a new check. `--without-prompts` runs the prompts suite on the tasks' own text; `--resources` gives the model Claude Code's resource tools.
+- `pnpm eval --label <name> [--suite base|nested|prompts|resources] [--only <scenario>] [--runs 3]`, then `pnpm eval:compare <a> <b>`. `--from-transcripts` rescores saved runs for free, after a new check. `--without-prompts` runs the prompts suite on the tasks' own text; `--resources` gives the model Claude Code's resource tools.
 - **Commit and build first, and don't touch the repo while it runs:** it records the commit as `+dirty` otherwise, untracked files included.
 - **The first runs of a session write the prompt cache** and cost more. Run the comparison suite first, or compare cost only on warm runs.
 - **Read the transcripts** (`tools/eval/.runs/<label>/`) before trusting a number, and add a check for any miss you care about: the checks only see what they look for.
@@ -98,7 +98,7 @@ This is how 2.0 ran, and it worked:
 
 **Working against KERN:**
 - Check KERN before "fixing" towards it; count KERN's own uses when it's inconsistent.
-- Check markup against the published CSS (`npm pack @kern-ux/native`), not a sample's copy, and look at it in a headless browser.
+- Check markup against the published CSS (the tarball `pnpm view @kern-ux/native dist.tarball` names), not a sample's copy, and look at it in a headless browser.
 - Check that a warning or rule can fire with a test that renders the case.
 - Sweep, don't list: grep every instance of a pattern, then add a test that covers all of them.
 
@@ -106,8 +106,8 @@ This is how 2.0 ran, and it worked:
 
 - Git Bash heredocs and inline `node -e` mangle backslashes and apostrophes. Write scripts with escapes to a file first, and open files with `newline="\n"` in Python.
 - `dotnet-gitversion` needs the repo path when run from Git Bash (or run it from PowerShell in the repo root).
-- Run `npm ci` and vitest from a working directory that starts with an uppercase `C:\`. With a lowercase `c:\` (as an agent's Bash shell may have), vitest loads itself twice, and `npm ci` writes the workspace junctions with `c:\` targets, so the MCP SDK loads twice and the HTTP host answers 2026-07-28 clients with a 500. Check with `(Get-Item node_modules\@leonio\kern-ux-core).Target`.
+- Run `pnpm install --frozen-lockfile` and vitest from a working directory that starts with an uppercase `C:\`. With a lowercase `c:\` (as an agent's Bash shell may have), vitest loads itself twice, and `pnpm install --frozen-lockfile` writes the workspace junctions with `c:\` targets, so the MCP SDK loads twice and the HTTP host answers 2026-07-28 clients with a 500. Check with `(Get-Item node_modules\@leonio\kern-ux-core).Target`.
 - Scripts with top-level await run as `.mts` with `node --import tsx`, importing repo modules by `file:///C:/…` URL.
 - Headless Chrome or Edge for visual checks: `--headless=new --window-size=W,H --screenshot=<png>` or `--dump-dom`; the narrowest window is about 500 px.
 - `vitest run -u` updates every file snapshot, not just one file's. Review them all.
-- For Node 24 checks: `npx -y -p node@24 node …`.
+- For Node 24 checks: `pnpm --package=node@24 dlx node …`.

@@ -5,8 +5,8 @@ The server doesn't read KERN's sources at runtime. Everything it knows about KER
 ## How data flows in
 
 ```
-KERN sources ──▶ knowledge packer ──▶ knowledge bundle ──▶ npm run knowledge:import ──▶ knowledge/      (checked in, dev only)
-(kern-ux-plain,   (separate project)   (JSON + its schema)                         └──▶ registry.json  (shipped, read by the server)
+KERN sources ──▶ knowledge packer ──▶ knowledge bundle ──▶ pnpm knowledge:import ──▶ knowledge/      (checked in, dev only)
+(kern-ux-plain,   (separate project)   (JSON + its schema)                      └──▶ registry.json  (shipped, read by the server)
  kern-ux.de docs,
  kern-react-kit)
 ```
@@ -21,20 +21,20 @@ KERN sources ──▶ knowledge packer ──▶ knowledge bundle ──▶ npm
 2. Check it without changing anything:
 
    ```bash
-   npm run knowledge:import -- ../path/to/bundle --dry-run
+   pnpm knowledge:import ../path/to/bundle --dry-run
    ```
 
    It prints what would change, by component and section, and any problems.
 3. If the checks pass, import it:
 
    ```bash
-   npm run knowledge:import -- ../path/to/bundle
+   pnpm knowledge:import ../path/to/bundle
    ```
 
 4. Run the tests and look at the snapshot changes: they show how the tools' output changed.
 
    ```bash
-   npm test
+   pnpm test
    ```
 
 5. Commit `knowledge/` and `packages/core/src/ux/registry.json` together, in one `feat:` or `fix:` commit that says which bundle you imported.
@@ -56,7 +56,7 @@ Fix the bundle (in the packer) or the mapping (in this repo), and run the import
 After a change to the mapping (`packages/core/src/ux/knowledge-map.ts`), run the import without a path. It regenerates `registry.json` from the checked-in `knowledge/`:
 
 ```bash
-npm run knowledge:import
+pnpm knowledge:import
 ```
 
 ## Deeper reading

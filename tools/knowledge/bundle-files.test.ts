@@ -56,7 +56,7 @@ describe("the checked-in knowledge/", async () => {
 		expect(staleToolHints(json)).toEqual([]);
 	});
 
-	it("is what registry.json was generated from (npm run knowledge:import)", () => {
+	it("is what registry.json was generated from (pnpm knowledge:import)", () => {
 		const registry = JSON.parse(readFileSync(REGISTRY, "utf8"));
 
 		expect(projectRegistry(json, registry.tokens)).toEqual(registry);

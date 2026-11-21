@@ -3,7 +3,7 @@ import { REGISTRY_CONTRACT_MAJOR } from "./registry.js";
 
 /**
  * The registry contract: the shape of registry.json, the data the server reads.
- * `npm run knowledge:import` generates the file from the knowledge bundle in
+ * `pnpm knowledge:import` generates the file from the knowledge bundle in
  * knowledge/ (knowledge-projection.ts). It holds only what the server serves,
  * with our component IDs; nobody edits it by hand. Tests check the checked-in
  * file against this contract and against a fresh projection. The server

@@ -33,7 +33,7 @@ Important distinction:
 
 ## Directory Map
 
-The repo is an npm workspace:
+The repo is a pnpm workspace:
 
 - [packages/core](../packages/core): `@leonio/kern-ux-core`, everything below except the entry point. It's private and never published: the hosts import it from source (the `@leonio/source` export condition) and esbuild inlines it into their bundles.
 - [packages/stdio](../packages/stdio): `@leonio/kern-ux-mcp`, the published stdio server.
@@ -43,7 +43,7 @@ The repo is an npm workspace:
 - [packages/core/src/mcp](../packages/core/src/mcp): MCP SDK v2 wiring. `create-server.ts` registers every tool, resource and prompt on `McpServer`, `kern-schema.ts` adapts each tool's Zod schema for the SDK (our JSON Schema, our validation hints), and `catalog.ts` builds the tool, resource and prompt definitions once per process. `names.test.ts` checks that every tool name and `kern://` URI in the server's text resolves.
 - [packages/core/src/resources](../packages/core/src/resources): the MCP resources. `component-cards.ts` makes `kern://components/{id}`, `guides.ts` makes `kern://guides/{name}`, `field-digest.ts` turns a tool's input schema into tables, and `register.ts` registers each family as a template with listing, completion, an hour's public cache hint and a not-found error. Content is built on first read, with stable IDs (`withStableIds` in `ux/id.ts`), so every process serves the same bytes.
 - [packages/core/src/prompts](../packages/core/src/prompts): the MCP prompts. `definition.ts` has the definition type and the parts the prompts share: the `locale` argument with its completion, an embedded guide, card links, the strict render step and the answer line. `register.ts` registers each prompt, and `create-input-form.ts`, `create-page-layout.ts` and `review-kern-html.ts` write the workflows. A prompt's content blocks become user messages: the guide, the card links, then the workflow, so the model reads the answer it should give last.
-- [skills](../skills): the Agent Skills, one folder per skill. Its `SKILL.md` is written by hand; the references that are guides are written by `npm run skills:build` from [packages/core/src/skills/generated.ts](../packages/core/src/skills/generated.ts), and `skills.test.ts` fails when one is stale. The same test loads the folder with the SDK's strict checks, as a host would.
+- [skills](../skills): the Agent Skills, one folder per skill. Its `SKILL.md` is written by hand; the references that are guides are written by `pnpm skills:build` from [packages/core/src/skills/generated.ts](../packages/core/src/skills/generated.ts), and `skills.test.ts` fails when one is stale. The same test loads the folder with the SDK's strict checks, as a host would.
 - [packages/core/src/invoke.ts](../packages/core/src/invoke.ts): the call pipeline independent of the SDK: argument normalization, input parsing, validation hints, handler and output validation.
 - [packages/core/src/ux/tools.ts](../packages/core/src/ux/tools.ts): creates the tool registry, selects tool builders, lists tools for MCP.
 - [packages/core/src/ux/tool-builders](../packages/core/src/ux/tool-builders): strategy-specific tool construction shared across many components. `component-tools.ts` says which components get a tool and which builder makes it.
@@ -57,9 +57,9 @@ The repo is an npm workspace:
 - [packages/core/src/ux/knowledge-import.ts](../packages/core/src/ux/knowledge-import.ts) and [knowledge-projection.ts](../packages/core/src/ux/knowledge-projection.ts): the import's checks and diff, and the projection to `registry.json`. Build-time only.
 - [packages/core/src/ux/validate.ts](../packages/core/src/ux/validate.ts): strict HTML validation rules used by tools. Each rule's ID, severity, the markup it concerns and what it asks for are in [validation-rules.ts](../packages/core/src/ux/validation-rules.ts), which the component cards and the accessibility guide read too.
 - [knowledge](../knowledge): the KERN knowledge bundle as imported, checked in so upstream changes arrive as diffs. Never shipped; never edited by hand.
-- [tools/knowledge](../tools/knowledge): `npm run knowledge:import`, which validates a bundle against the packer's schema and our checks, prints what changes, replaces `knowledge/` and regenerates `registry.json`.
-- [tools/eval](../tools/eval): the scripted eval (`npm run eval`, `npm run eval:compare`). It runs scenarios through headless Claude Code with Haiku against the built stdio server and writes reports to `docs/v2-migration/evals`. `--suite prompts` sends each task through its MCP prompt, rendered by `prompt-text.ts`; `--without-prompts` sends the task's own text, for comparison.
-- [tools/build/sbom.ts](../tools/build/sbom.ts): writes a host package's CycloneDX SBOM (`npm run sbom`), which the release ships in the tarball and attests for the image and the `.mcpb`.
+- [tools/knowledge](../tools/knowledge): `pnpm knowledge:import`, which validates a bundle against the packer's schema and our checks, prints what changes, replaces `knowledge/` and regenerates `registry.json`.
+- [tools/eval](../tools/eval): the scripted eval (`pnpm eval`, `pnpm eval:compare`). It runs scenarios through headless Claude Code with Haiku against the built stdio server and writes reports to `docs/v2-migration/evals`. `--suite prompts` sends each task through its MCP prompt, rendered by `prompt-text.ts`; `--without-prompts` sends the task's own text, for comparison.
+- [tools/build/sbom.ts](../tools/build/sbom.ts): writes a host package's CycloneDX SBOM (`pnpm sbom:write`), which the release ships in the tarball and attests for the image and the `.mcpb`.
 - [tools/build/mcpb.ts](../tools/build/mcpb.ts): packs `packages/stdio` as an MCP Bundle (`.mcpb`) from its standalone bundle and the `packages/stdio/mcpb/manifest.json` template, adding the version and the static `tools[]` list.
 - [tools/build/bundle.ts](../tools/build/bundle.ts): bundles a host package with esbuild: `dist/` for npm (core inlined, third-party packages external, undeclared imports fail the build) and `standalone/` for MCPB and the container (everything inlined, plus `THIRD_PARTY_LICENSES.txt`).
 - [docs](../docs): contributor docs, the migration notes, the plans, and historical notes.
@@ -84,10 +84,10 @@ This is the normal path when you change HTML output, validation-friendly default
 Typical path:
 
 1. Run the packer (`kern-ux-knowledge-packer`), which writes the bundle to its `bundle/final`.
-2. `npm run knowledge:import -- <bundle-dir> --dry-run` to see what changes, then without `--dry-run` to replace `knowledge/` and regenerate `registry.json`.
-3. `npm test`, and review the snapshot diffs.
+2. `pnpm knowledge:import <bundle-dir> --dry-run` to see what changes, then without `--dry-run` to replace `knowledge/` and regenerate `registry.json`.
+3. `pnpm test`, and review the snapshot diffs.
 
-KERN knowledge (titles, statuses, summaries, do's and don'ts, docs sections, WCAG criteria) comes only from the bundle. Facts about our tools are code: the notes in [packages/core/src/ux/tool-notes.ts](../packages/core/src/ux/tool-notes.ts), the ID map in [knowledge-map.ts](../packages/core/src/ux/knowledge-map.ts). After changing the map, run `npm run knowledge:import` without a path.
+KERN knowledge (titles, statuses, summaries, do's and don'ts, docs sections, WCAG criteria) comes only from the bundle. Facts about our tools are code: the notes in [packages/core/src/ux/tool-notes.ts](../packages/core/src/ux/tool-notes.ts), the ID map in [knowledge-map.ts](../packages/core/src/ux/knowledge-map.ts). After changing the map, run `pnpm knowledge:import` without a path.
 
 ### 3. Change the MCP surface
 
@@ -105,34 +105,34 @@ This is the normal path when you add a tool, change how tools are listed, or adj
 Install:
 
 ```bash
-npm install
+pnpm install
 ```
 
 Regenerate the registry from `knowledge/`:
 
 ```bash
-npm run knowledge:import
+pnpm knowledge:import
 ```
 
 Build:
 
 ```bash
-npm run build
+pnpm build
 ```
 
 Validate code:
 
 ```bash
-npm run lint
-npx tsc --noEmit
-npm run test
+pnpm lint
+pnpm exec tsc --noEmit
+pnpm test
 ```
 
 Focused knowledge workflow:
 
 ```bash
-npm run knowledge:import -- <bundle-dir> --dry-run
-npm test -- packages/core/src/ux/knowledge tools/knowledge packages/core/src/ux/tools.behaviour.test.ts packages/core/src/ux/tools.listing.test.ts
+pnpm knowledge:import <bundle-dir> --dry-run
+pnpm test packages/core/src/ux/knowledge tools/knowledge packages/core/src/ux/tools.behaviour.test.ts packages/core/src/ux/tools.listing.test.ts
 ```
 
 ## Where To Start Reading

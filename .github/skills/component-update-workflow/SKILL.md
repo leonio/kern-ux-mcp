@@ -27,7 +27,7 @@ Use this skill for the end-to-end contributor workflow when a change might touch
 
 ## Rules
 
-- Do not edit `packages/core/src/ux/registry.json` or `knowledge/` directly: `npm run knowledge:import` generates them.
+- Do not edit `packages/core/src/ux/registry.json` or `knowledge/` directly: `pnpm knowledge:import` generates them.
 - Keep KERN's guidance (from the bundle) separate from the notes about our tools (`reviewedGuidance`, from `tool-notes.ts`).
 - Keep the public MCP contract stable unless the task explicitly requires change.
 

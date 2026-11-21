@@ -9,7 +9,7 @@ flowchart LR
   subgraph Build_Time
     A[knowledge bundle from kern-ux-knowledge-packer]
     B[knowledge/]
-    C[npm run knowledge:import]
+    C[pnpm knowledge:import]
     D[packages/core/src/ux/registry.json]
     A --> C
     C --> B
@@ -49,7 +49,7 @@ Build-only tooling:
 
 ## The runtime registry
 
-`packages/core/src/ux/registry.json` holds only what the server serves, with our component IDs. `npm run knowledge:import` generates it from `knowledge/`; nobody edits it by hand. Its contract is `RegistryManifestSchema` in `packages/core/src/ux/registry.schema.ts` (major 2), and tests check the checked-in file against the contract and against a fresh projection of `knowledge/`.
+`packages/core/src/ux/registry.json` holds only what the server serves, with our component IDs. `pnpm knowledge:import` generates it from `knowledge/`; nobody edits it by hand. Its contract is `RegistryManifestSchema` in `packages/core/src/ux/registry.schema.ts` (major 2), and tests check the checked-in file against the contract and against a fresh projection of `knowledge/`.
 
 Per component, from the bundle:
 
@@ -70,12 +70,12 @@ Plus the upstream pins from the bundle's index, the token names (carried over fr
 The packer (`kern-ux-knowledge-packer`) owns the bundle and its schema, and knows nothing about this repo. To take in a new bundle:
 
 ```bash
-npm run knowledge:import -- ../kern-ux-scraper/bundle/final --dry-run   # check it and print what changes
-npm run knowledge:import -- ../kern-ux-scraper/bundle/final             # replace knowledge/ and regenerate registry.json
-npm run knowledge:import                                                 # regenerate registry.json from knowledge/ only
+pnpm knowledge:import ../kern-ux-scraper/bundle/final --dry-run   # check it and print what changes
+pnpm knowledge:import ../kern-ux-scraper/bundle/final             # replace knowledge/ and regenerate registry.json
+pnpm knowledge:import                                                 # regenerate registry.json from knowledge/ only
 ```
 
-The import validates every file against the schema that ships inside the bundle, then runs the checks only this repo can make: the bundle's major version is one we read, every component tool finds its component, the picked examples exist, and no status is new to the tools. It prints the bundle's version, the packer's text and drift counts, and what changed per file. After an import, run `npm test` and review the snapshot diffs: tool titles and `get_component_docs` come from the registry.
+The import validates every file against the schema that ships inside the bundle, then runs the checks only this repo can make: the bundle's major version is one we read, every component tool finds its component, the picked examples exist, and no status is new to the tools. It prints the bundle's version, the packer's text and drift counts, and what changed per file. After an import, run `pnpm test` and review the snapshot diffs: tool titles and `get_component_docs` come from the registry.
 
 The build inlines `registry.json` into each host bundle; `knowledge/` is never shipped. If you only run the server, you don't need the import.
 
@@ -121,16 +121,16 @@ Current high-value schema facts:
 Tests are colocated with the code as `packages/*/src/**/*.test.ts` and run with Vitest:
 
 ```bash
-npm test               # full suite
-npm run test:watch     # watch mode
-npm run test:coverage  # suite + coverage; fails below the thresholds in vitest.config.ts
-npm test -- packages/core/src/ux/validate.test.ts   # a single file
+pnpm test               # full suite
+pnpm test:watch     # watch mode
+pnpm test:coverage  # suite + coverage; fails below the thresholds in vitest.config.ts
+pnpm test packages/core/src/ux/validate.test.ts   # a single file
 ```
 
 End-to-end tests (`packages/*/src/*.e2e.ts`) spawn the built hosts as separate processes, so build first:
 
 ```bash
-npm run build && npm run test:e2e
+pnpm build && pnpm test:e2e
 ```
 
 CI also runs them against the npm tarballs installed into an empty directory (`KERN_E2E_INSTALL_DIR`) and against the container image (`KERN_E2E_HTTP_URL`).
@@ -156,7 +156,7 @@ Tool-listing snapshot:
 - A failing snapshot means clients would see a change. If the change is intended, update the snapshot and review the JSON diff in the PR:
 
   ```bash
-  npx vitest run -u packages/core/src/ux/tools.listing.test.ts
+  pnpm exec vitest run -u packages/core/src/ux/tools.listing.test.ts
   ```
 
 - CI never writes snapshots. A missing or stale snapshot fails the build, so generate it locally and commit it.
@@ -180,7 +180,7 @@ Coverage:
 Module cache:
 
 - `fsModuleCache: true` keeps transformed modules between runs, in `node_modules/.vitest-cache`. It's keyed on file content, so edits invalidate it, and a reinstall clears it.
-- If results ever look stale, run with `--fsModuleCache=false`, or inspect the cache with `DEBUG=vitest:cache:fs npm test`.
+- If results ever look stale, run with `--fsModuleCache=false`, or inspect the cache with `DEBUG=vitest:cache:fs pnpm test`.
 
 ## Architecture Rules
 

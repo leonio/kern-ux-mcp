@@ -6,8 +6,8 @@
  * Without a path it regenerates registry.json from the checked-in knowledge/,
  * e.g. after a change to knowledge-map.ts.
  *
- *   npm run knowledge:import -- <path/to/bundle> [--dry-run]
- *   npm run knowledge:import
+ *   pnpm knowledge:import <path/to/bundle> [--dry-run]
+ *   pnpm knowledge:import
  */
 import fs from "node:fs/promises";
 import path from "node:path";
@@ -31,7 +31,7 @@ const args = process.argv.slice(2);
 const dryRun = args.includes("--dry-run");
 const source = args.find((arg) => !arg.startsWith("--"));
 
-// npm runs scripts from the repo root; resolve the path from where it was typed.
+// pnpm runs root scripts from the repo root; resolve the path from where it was typed.
 const sourcePath = source
 	? path.resolve(process.env.INIT_CWD ?? process.cwd(), source)
 	: KNOWLEDGE;
@@ -89,7 +89,7 @@ const current = JSON.parse(
 const registry = projectRegistry(next.json, current.tokens);
 await fs.writeFile(REGISTRY, `${JSON.stringify(registry, null, 2)}\n`, "utf8");
 console.log(
-	`Wrote registry.json: ${registry.components.length} components. Next: npm test, then review the snapshot diffs.`,
+	`Wrote registry.json: ${registry.components.length} components. Next: pnpm test, then review the snapshot diffs.`,
 );
 
 async function exists(dir: string) {

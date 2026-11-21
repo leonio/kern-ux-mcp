@@ -1,7 +1,7 @@
 import { getCatalog } from "../mcp/catalog.js";
 
 /**
- * A file of the skills folder that `npm run skills:build` writes, never a
+ * A file of the skills folder that `pnpm skills:build` writes, never a
  * person: a skill's reference that is one of our guides, byte for byte, so
  * kern://guides/{name} and the skill's file are the same text.
  */

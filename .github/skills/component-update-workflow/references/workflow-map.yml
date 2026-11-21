@@ -16,6 +16,6 @@ phases:
     goal: Confirm human review remains the final gate for reviewed guidance and mixed behavior changes.
     stop_if: The workflow would merge or publish without review.
 requirements:
-  - Never edit generated artifacts directly: registry.json and knowledge/ come from npm run knowledge:import.
+  - Never edit generated artifacts directly: registry.json and knowledge/ come from pnpm knowledge:import.
   - Keep the public MCP contract stable unless explicitly changed.
   - Keep reviewed guidance additive and evidence-backed.

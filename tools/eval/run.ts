@@ -3,11 +3,11 @@
  * mode, with a small model and the kern stdio server as its only tools, and
  * records tool calls, errors, retries, tokens and cost per run.
  *
- *   npm run eval -- --label baseline [--suite base|nested|resources|prompts]
+ *   pnpm eval --label baseline [--suite base|nested|resources|prompts]
  *                   [--server <path/to/stdio/dist/index.js>] [--runs 3]
  *                   [--only contact-form,faq] [--model claude-haiku-4-5] [--concurrency 2]
  *                   [--resources] [--without-prompts]
- *   npm run eval -- --label baseline --from-transcripts
+ *   pnpm eval --label baseline --from-transcripts
  *                   (re-scores the saved transcripts, e.g. after changing the checks)
  *
  * The base suite is the ten R5 scenarios; nested is four layouts that need the
@@ -56,7 +56,7 @@ function option(name: string, fallback?: string): string | undefined {
 const label = option("label");
 if (!label || !/^[\w.-]+$/.test(label)) {
 	console.error(
-		"Usage: npm run eval -- --label <name> [--suite base|nested|resources|prompts] [--server <path>] [--runs 3] [--only a,b] [--model claude-haiku-4-5] [--concurrency 2] [--resources] [--without-prompts]",
+		"Usage: pnpm eval --label <name> [--suite base|nested|resources|prompts] [--server <path>] [--runs 3] [--only a,b] [--model claude-haiku-4-5] [--concurrency 2] [--resources] [--without-prompts]",
 	);
 	process.exit(2);
 }
@@ -102,7 +102,7 @@ if (!fromTranscripts) {
 	try {
 		await fs.access(server);
 	} catch {
-		console.error(`No server at ${server}. Build it first (npm run build).`);
+		console.error(`No server at ${server}. Build it first (pnpm build).`);
 		process.exit(1);
 	}
 }

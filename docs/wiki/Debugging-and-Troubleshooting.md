@@ -19,8 +19,8 @@ The [MCP Inspector](https://github.com/modelcontextprotocol/inspector) lets you 
 # stdio
 npx @modelcontextprotocol/inspector npx -y @leonio/kern-ux-mcp
 
-# your checkout (after npm run build)
-npx @modelcontextprotocol/inspector node packages/stdio/dist/index.js
+# your checkout (after pnpm build)
+pnpm dlx @modelcontextprotocol/inspector node packages/stdio/dist/index.js
 ```
 
 For HTTP, start the Inspector with `npx @modelcontextprotocol/inspector`, choose **Streamable HTTP** and enter `http://localhost:3000/mcp` (and the token under **Authentication**, if set).

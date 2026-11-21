@@ -70,7 +70,7 @@ Findings in the discovery format: where, problem or facts, proposal, risk.
 
 ### S7. The listing has 599 characters of room, and skills won't make more
 
-- **Where:** `npm run listing:sizes` on 2026-11-15: 119,401 of 120,000 characters in 55 tools, of which descriptions are 12,636 and input schemas 103,607.
+- **Where:** `pnpm listing:sizes` on 2026-11-15: 119,401 of 120,000 characters in 55 tools, of which descriptions are 12,636 and input schemas 103,607.
 - **Facts:** skills cost nothing in the listing. Moving guidance out of descriptions into skills would save little, since nine tenths of the listing are schemas.
 - **Proposal:** no tool for skills. A skill-reading tool like Figma's `get_figma_skill` only if the eval shows models missing the skills in clients without them, and after a trim. New Figma tools need a trim first too.
 
@@ -124,7 +124,7 @@ skills/
 
 - **Frontmatter:** `name`, a `description` written as a routing rule (when to use it, and what to use instead), `license: EUPL-1.2`. Every skill can be chosen by the model; whether `kern-figma-design` should be manual-only is [open question 7](#8-open-questions).
 - **Tools by bare name** (`render_page`), "from the KERN UX MCP server": the prefix a client adds depends on the name the user gave the server.
-- **Generated references** come from code and the bundle with `npm run skills:build`, checked in so changes arrive as diffs, with a test that fails when they're stale. KERN's text still comes only from the bundle, as for the guides today.
+- **Generated references** come from code and the bundle with `pnpm skills:build`, checked in so changes arrive as diffs, with a test that fails when they're stale. KERN's text still comes only from the bundle, as for the guides today.
 - **Checks:** `names.test.ts` covers the skills: every tool name and `kern://` URI exists, and every relative link is a file of the skill. A test holds each skill to the Agent Skills naming rules and the extension's limits.
 - **No arguments:** the page's text follows the user's language, German when it's unclear, as the prompts' `locale` does.
 
@@ -220,4 +220,4 @@ Confirmed by the maintainer on 2026-11-15: the recommended column.
 - Clients: [microsoft/vscode#338300](https://github.com/microsoft/vscode/issues/338300); [anthropics/claude-code#38253](https://github.com/anthropics/claude-code/issues/38253) and the [Claude Code changelog](https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md).
 - Figma: [Create Skills for the Figma MCP server](https://help.figma.com/hc/en-us/articles/42495326765591-Create-Skills-for-the-Figma-MCP-server); [Use skills with the Figma MCP server](https://help.figma.com/hc/en-us/articles/39287396773399-Use-skills-with-the-Figma-MCP-server); [figma-use](https://github.com/figma/mcp-server-guide/blob/main/skills/figma-use/SKILL.md); [Code Connect](https://developers.figma.com/docs/code-connect) and its [HTML guide](https://developers.figma.com/docs/code-connect/html).
 - KERN: `@kern-ux-annex/webc` 3.5.0's README; `npm search @kern-ux` on 2026-11-15.
-- This repo: [figma-and-theming.md](../figma-and-theming.md), [v2-migration/README.md](../v2-migration/README.md), [history.md](../v2-migration/history.md), `npm run listing:sizes`.
+- This repo: [figma-and-theming.md](../figma-and-theming.md), [v2-migration/README.md](../v2-migration/README.md), [history.md](../v2-migration/history.md), `pnpm listing:sizes`.

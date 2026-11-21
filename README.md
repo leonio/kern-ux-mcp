@@ -125,7 +125,7 @@ The image `ghcr.io/leonio/kern-ux-mcp-http` runs the server on distroless Node 2
 docker run --rm -p 127.0.0.1:3000:3000 -e KERN_ALLOWED_HOSTS=localhost ghcr.io/leonio/kern-ux-mcp-http:<version>
 ```
 
-Tags follow npm: the version, plus `alpha` for pre-releases or `latest` for releases. The image has a `HEALTHCHECK` on `/healthz` and works with a read-only root filesystem (`--read-only`). To build it from a checkout, run `npm run docker:build`, or `docker compose -f packages/http/compose.yaml up --build`: [compose.yaml](https://github.com/leonio/kern-ux-mcp/blob/main/packages/http/compose.yaml) has the settings commented in.
+Tags follow npm: the version, plus `alpha` for pre-releases or `latest` for releases. The image has a `HEALTHCHECK` on `/healthz` and works with a read-only root filesystem (`--read-only`). To build it from a checkout, run `pnpm docker:build`, or `docker compose -f packages/http/compose.yaml up --build`: [compose.yaml](https://github.com/leonio/kern-ux-mcp/blob/main/packages/http/compose.yaml) has the settings commented in.
 
 ### Security
 

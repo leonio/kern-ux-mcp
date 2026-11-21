@@ -219,7 +219,7 @@ What each section is for:
 
 ### Import
 
-`npm run knowledge:import -- <bundle-dir> [--dry-run]` will:
+`pnpm knowledge:import <bundle-dir> [--dry-run]` will:
 1. Validate the bundle against the schema that ships inside it, then run the checks only this repo can make: its tools' components exist, the picked examples exist, the major version is one it reads. The packer owns its schemas and knows nothing of this repo (decision 6, revised 2026-10-03).
 2. Print a diff by component and section ("button: options.size.values +large +x-large").
 3. Write the bundle to `knowledge/`, checked in, so upstream changes show up as reviewable diffs.

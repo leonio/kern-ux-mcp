@@ -4,12 +4,12 @@ How to build, test and run the server from a checkout. For branch names, commit 
 
 ## Setup
 
-You need Node.js 24.16+ and git. Docker is optional (for the container).
+You need Node.js 24.16+, pnpm 11 and git. Docker is optional (for the container). The repo is a pnpm workspace, and `package.json` names the pnpm version in `packageManager`: with Node 24, `corepack enable pnpm` gets that version.
 
 ```bash
 git clone https://github.com/leonio/kern-ux-mcp.git
 cd kern-ux-mcp
-npm ci
+pnpm install
 ```
 
 `registry.json` is checked in, so you don't need KERN's sources to run or test the server.
@@ -29,16 +29,16 @@ npm ci
 No build needed; these run the TypeScript directly:
 
 ```bash
-npm run dev        # stdio server
-npm run dev:http   # HTTP server on http://127.0.0.1:3000/mcp
+pnpm dev        # stdio server
+pnpm dev:http   # HTTP server on http://127.0.0.1:3000/mcp
 ```
 
 To run the built output, as users do:
 
 ```bash
-npm run build
-npm run start        # stdio
-npm run start:http   # HTTP
+pnpm build
+pnpm start        # stdio
+pnpm start:http   # HTTP
 ```
 
 To point a client at your checkout, use the built file as the command, e.g. for Claude Code:
@@ -53,17 +53,17 @@ Run these before you push; CI runs the same:
 
 | Command | Checks |
 |---|---|
-| `npm test` | Unit tests (Vitest), including the tool-list snapshots |
-| `npm run test:e2e` | End-to-end tests against the built stdio and HTTP servers (run `npm run build` first) |
-| `npm run lint` | Biome lint (`npm run format` fixes formatting) |
-| `npm run typecheck` | TypeScript, for the packages and for `tools/` |
-| `npm run docker:build` | Builds the container image |
+| `pnpm test` | Unit tests (Vitest), including the tool-list snapshots |
+| `pnpm test:e2e` | End-to-end tests against the built stdio and HTTP servers (run `pnpm build` first) |
+| `pnpm lint` | Biome lint (`pnpm format` fixes formatting) |
+| `pnpm typecheck` | TypeScript, for the packages and for `tools/` |
+| `pnpm docker:build` | Builds the container image |
 
-If a snapshot test fails because you meant to change a tool, update the snapshots with `npx vitest run -u` and review the diff.
+If a snapshot test fails because you meant to change a tool, update the snapshots with `pnpm exec vitest run -u` and review the diff.
 
 ## Eval
 
-`npm run eval -- --label <name>` runs scripted scenarios through Claude Code with the stdio server and records tool calls, errors and cost. It uses your Claude Code login. Compare two runs with `npm run eval:compare`. See the header of [`tools/eval/run.ts`](https://github.com/leonio/kern-ux-mcp/blob/main/tools/eval/run.ts) for the options.
+`pnpm eval --label <name>` runs scripted scenarios through Claude Code with the stdio server and records tool calls, errors and cost. It uses your Claude Code login. Compare two runs with `pnpm eval:compare`. See the header of [`tools/eval/run.ts`](https://github.com/leonio/kern-ux-mcp/blob/main/tools/eval/run.ts) for the options.
 
 ## Updating KERN data
 

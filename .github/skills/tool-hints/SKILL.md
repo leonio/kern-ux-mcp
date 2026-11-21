@@ -30,8 +30,8 @@ Otherwise, record nothing. Never restate what the description already says.
 2. Read the source document in `knowledge/`, usually `components/<kernId>.json`. `knowledge-map.ts` maps our IDs to KERN's. A tool without a component names its document in the table (`get_layers`: `foundations/layering.json`). `get_grid`'s source is the CSS Grid sections of `foundations/utilities.json` (`TOOLS_FROM_SECTIONS`).
 3. Apply the rule. If no line is needed, remove the tool's entry, if any, and stop.
 4. Write the entry in `packages/core/src/ux/tool-hints.ts`: the text, the source document, and that document's `provenance["knowledge.summary"].inputHash`.
-5. Run `npm test -- packages/core/src/ux/tool-hints.test.ts tools/knowledge`, then the listing tests. Update the snapshots (`npx vitest run -u`) and read the diff.
-6. Hints are model-facing: run the eval (`npm run eval`) before and after a batch of changes, and compare with `npm run eval:compare`.
+5. Run `pnpm test packages/core/src/ux/tool-hints.test.ts tools/knowledge`, then the listing tests. Update the snapshots (`pnpm exec vitest run -u`) and read the diff.
+6. Hints are model-facing: run the eval (`pnpm eval`) before and after a batch of changes, and compare with `pnpm eval:compare`.
 
 ## When a hint goes stale
 

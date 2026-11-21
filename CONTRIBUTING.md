@@ -100,43 +100,45 @@ hotfix/*  ───────────────────────�
 
 ## Local Development
 
+The repo is a pnpm workspace: you need Node.js 24.16+ and pnpm 11, the version `package.json` names in `packageManager` (`corepack enable pnpm` gets it with Node 24). npm can't install it: the `workspace:` dependencies are pnpm's.
+
 ```sh
 # First-time: install
-npm install
+pnpm install
 
 # Import a new KERN knowledge bundle (written by kern-ux-knowledge-packer)
-npm run knowledge:import -- ../kern-ux-scraper/bundle/final --dry-run
-npm run knowledge:import -- ../kern-ux-scraper/bundle/final
+pnpm knowledge:import ../kern-ux-scraper/bundle/final --dry-run
+pnpm knowledge:import ../kern-ux-scraper/bundle/final
 
 # Start the dev loop (TypeScript watch + MCP inspector)
-npm run loop:start
+pnpm loop:start
 
 # Run full dev loop with tests and sample
-npm run loop:full
+pnpm loop:full
 
 # Run tests once
-npm test
+pnpm test
 
 # Run Biome lint + format check
-npx @biomejs/biome ci .
+pnpm exec biome ci .
 
 # TypeScript type check only
-npx tsc --noEmit
+pnpm exec tsc --noEmit
 
 # Type check the tooling (tools/, vitest.config.ts), which tsx and Vitest run unchecked
-npx tsc -p tsconfig.tools.json
+pnpm exec tsc -p tsconfig.tools.json
 
 # Generate a CycloneDX SBOM locally
-npm run sbom:generate
+pnpm sbom:generate
 
 # Generate an SBOM and scan it with Grype
-npm run scan:vulns
+pnpm scan:vulns
 
 # Build and inspect the published package contents, including the SBOM
-npm run pack:inspect
+pnpm pack:inspect
 ```
 
-> `knowledge:import` is a **local-only** script. CI and release builds use the checked-in `knowledge/` and `packages/core/src/ux/registry.json`; a test checks that the registry is what the bundle and `knowledge-map.ts` produce. After changing `knowledge-map.ts`, run `npm run knowledge:import` without a path to regenerate the registry.
+> `knowledge:import` is a **local-only** script. CI and release builds use the checked-in `knowledge/` and `packages/core/src/ux/registry.json`; a test checks that the registry is what the bundle and `knowledge-map.ts` produce. After changing `knowledge-map.ts`, run `pnpm knowledge:import` without a path to regenerate the registry.
 
 > `sbom:generate` and `scan:vulns*` expect local `syft` and `grype` binaries on `PATH`.
 
@@ -160,7 +162,7 @@ Releases are triggered manually: **Actions → Release → Run workflow**, or `g
 
 1. **Verify** (no approval). GitVersion computes the version; a pre-release label such as `alpha` becomes the npm dist-tag. The job sets the version on all workspaces, builds, runs the unit and e2e tests, writes one CycloneDX SBOM per package, and packs the stdio and http tarballs and the `.mcpb`. With **dry-run** it stops here.
 2. **Approve the `release` environment** (**Review deployments** on the run). The publish job starts.
-3. **Approve on npm.** The job stages both packages with `npm stage publish` (trusted publishing, with provenance). Nothing is live yet: approve each staged version on npmjs.com with 2FA (**Staged Packages → Approve**, or `npm stage list <package>` and `npm stage approve <stage-id>`). The job summary lists them, and the job waits up to 60 minutes.
+3. **Approve on npm.** The job stages both packages with `pnpm stage publish` (trusted publishing, with provenance). Nothing is live yet: approve each staged version on npmjs.com with 2FA (**Staged Packages → Approve**, or `pnpm stage list <package>` and `pnpm stage approve <stage-id>`). The job summary lists them, and the job waits up to 60 minutes.
 4. Once both versions are live, the job publishes to [GitHub Packages](https://github.com/leonio/kern-ux-mcp/packages), pushes `ghcr.io/leonio/kern-ux-mcp-http:<version>` and `:<dist-tag>` (amd64 and arm64) with provenance and SBOM attestations, attests the `.mcpb`, and creates the GitHub release with the tarballs, the `.mcpb` and the SBOMs.
 
 Every step skips what already exists, so after a failure, or an npm approval later than 60 minutes, use **Re-run failed jobs**. npm won't stage the same version twice, so approve or reject a version an earlier attempt staged before re-running.
@@ -168,7 +170,7 @@ Every step skips what already exists, so after a failure, or an npm approval lat
 npm trusted publishing is configured for both `@leonio/kern-ux-mcp` and `@leonio/kern-ux-mcp-http`: user/org `leonio`, repository `kern-ux-mcp`, workflow filename `release.yml`, environment `release`. Under **Allowed actions**, direct `npm publish` stays unticked, since staging is always allowed. No npm secret is needed; GitHub Packages and GHCR use the workflow's `GITHUB_TOKEN`.
 
 **A new package** needs a few one-time steps, since npm can only set up trusted publishing for a package that exists:
-1. Publish its first version by hand from a dry run's tarball (`gh run download <run-id> -n release-assets`), logged in with 2FA: `npm publish <tarball> --access public --tag alpha --provenance=false` (provenance needs CI). npm points `latest` at a package's first version, whatever `--tag` says.
+1. Publish its first version by hand from a dry run's tarball (`gh run download <run-id> -n release-assets`), logged in with 2FA (`pnpm login`): `pnpm publish <tarball> --access public --tag alpha --no-git-checks`, which attaches no provenance outside CI. npm points `latest` at a package's first version, whatever `--tag` says.
 2. On npmjs.com, add the trusted publisher as above, require 2FA and disallow tokens, and revoke any token made for the bootstrap.
 3. After the first release run, give the repo **Write** access to the GitHub Packages package (**Manage Actions access**) and match its visibility; a new GHCR image starts private, so make it public.
 

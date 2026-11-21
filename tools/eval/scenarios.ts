@@ -303,7 +303,7 @@ export const PROMPT_SCENARIOS: readonly Scenario[] = [
 	}),
 ];
 
-/** The scenario sets `npm run eval -- --suite <name>` can run. */
+/** The scenario sets `pnpm eval --suite <name>` can run. */
 export const SUITES: Readonly<Record<string, readonly Scenario[]>> = {
 	base: SCENARIOS,
 	nested: NESTED_SCENARIOS,

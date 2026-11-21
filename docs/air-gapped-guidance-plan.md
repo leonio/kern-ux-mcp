@@ -27,7 +27,7 @@ The current repo already includes the core offline workflow:
 
 - overlay contract in [guidance-overlay.schema.json](guidance-overlay.schema.json)
 - reviewed payload in [guidance-overlay.json](guidance-overlay.json)
-- standalone validation via `npm run validate-guidance-overlay`
+- standalone validation via `pnpm validate-guidance-overlay`
 - build-time merge in [tools/manifest/build-manifest.ts](tools/manifest/build-manifest.ts)
 - merged runtime artifact in [packages/core/src/ux/registry.json](../packages/core/src/ux/registry.json)
 - runtime docs exposure through `get_component_docs`
@@ -209,8 +209,8 @@ The storage-format decision is now JSON plus JSON Schema validation. The key req
 2. Human gathers local evidence, optionally starting from the repo-local drafting prompt.
 3. Human or Copilot drafts updated guidance overlay content in [guidance-overlay.json](guidance-overlay.json).
 4. Human reviews and edits as needed.
-5. Run `npm run validate-guidance-overlay`.
-6. Run `npm run generate-manifest`.
+5. Run `pnpm validate-guidance-overlay`.
+6. Run `pnpm generate-manifest`.
 7. Run focused tests to validate registry shape and MCP docs behavior.
 
 ## Implementation Phases

@@ -12,7 +12,7 @@ import pkg from "../package.json" with { type: "json" };
 
 /**
  * The built stdio server, spawned as a child process the way MCP clients run
- * it, on both protocol eras. Run with `npm run test:e2e` after `npm run build`.
+ * it, on both protocol eras. Run with `pnpm test:e2e` after `pnpm build`.
  *
  * With KERN_E2E_INSTALL_DIR set, it tests the kern-ux-mcp bin of the package
  * installed there from its npm tarball instead (CI's packed-install check).

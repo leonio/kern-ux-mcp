@@ -15,7 +15,7 @@ import domainListing from "../../core/src/ux/__snapshots__/tools-list.json" with
 
 /**
  * The built HTTP server as a separate process, on both protocol eras. Run with
- * `npm run test:e2e` after `npm run build`. Targets:
+ * `pnpm test:e2e` after `pnpm build`. Targets:
  * - by default, the npm bundle and the standalone (container) bundle
  * - with KERN_E2E_INSTALL_DIR, the kern-ux-mcp-http bin of the package
  *   installed there from its npm tarball (CI's packed-install check)

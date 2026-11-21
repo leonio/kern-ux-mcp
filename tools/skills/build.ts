@@ -3,7 +3,7 @@
  * that are one of our guides (GENERATED_SKILL_FILES). A SKILL.md is written by
  * hand and never touched here. The folder test fails until this has run.
  *
- *   npm run skills:build
+ *   pnpm skills:build
  */
 import fs from "node:fs/promises";
 import path from "node:path";

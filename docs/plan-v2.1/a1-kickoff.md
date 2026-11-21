@@ -39,7 +39,7 @@ skills/
 ```
 
 - **`SKILL.md` alone is enough to do the task right.** It carries the prompt's workflow, the answer it asks for and the language rule. The reference adds KERN's rules for depth, which the model reads when it needs them. That's R6's lesson: guidance that matters goes where the model will see it.
-- **A reference is its guide, byte for byte.** `npm run skills:build` writes each one from the guide builder, so `kern://guides/forms` and `skills/kern-forms/references/forms.md` are the same text. A3 then serves the guide URIs from the files. The guides' snapshots go once the files are checked by the same test.
+- **A reference is its guide, byte for byte.** `pnpm skills:build` writes each one from the guide builder, so `kern://guides/forms` and `skills/kern-forms/references/forms.md` are the same text. A3 then serves the guide URIs from the files. The guides' snapshots go once the files are checked by the same test.
 - **Components:** a skill names `get_component_docs` for a component's details, not the `kern://components/{id}` URIs the prompts link. A skill installed as files can't read a `kern://` URI; every client can call a tool.
 
 ### `SKILL.md`
@@ -70,7 +70,7 @@ Each `SKILL.md` stays under 150 lines.
 
 ### `skills:build` and the checks
 
-- **`npm run skills:build`** (`tools/skills/build.ts`) writes every generated reference from the guide builder. `--check` exits non-zero when a file differs, for CI. It never touches a `SKILL.md`.
+- **`pnpm skills:build`** (`tools/skills/build.ts`) writes every generated reference from the guide builder. `--check` exits non-zero when a file differs, for CI. It never touches a `SKILL.md`.
 - **A test over the folder** (`packages/core/src/skills/skills.test.ts`):
   - `SkillsExtension.load(nodeSkillFiles("skills"), { strict: true })` loads it with no warning: the SDK's naming, frontmatter and limit checks, the ones a host will apply;
   - each skill has the four frontmatter fields, a description of at most 1,024 characters, and a `SKILL.md` under 150 lines;
@@ -102,12 +102,12 @@ Confirmed by the maintainer on 2026-11-15: the recommended column.
 
 ### Group 1: the source and its checks
 
-- [x] `chore: skills:build and the checks for the skills folder` (`cf01a81`): the script, the npm script, the folder test and `names.test.ts` over `skills/`. Changed from the plan: no `--check` and no CI step, since the folder test already fails in `npm test` when a reference is stale.
+- [x] `chore: skills:build and the checks for the skills folder` (`cf01a81`): the script, the package.json script, the folder test and `names.test.ts` over `skills/`. Changed from the plan: no `--check` and no CI step, since the folder test already fails in `pnpm test` when a reference is stale.
 - [x] `feat: the kern-forms skill` (`62e9898`)
 - [x] `feat: the kern-page-layout skill` (`e1fdfe3`)
 - [x] `feat: the kern-review skill` (`79b28b8`)
 - [x] `test: the guides are checked as the skills' references` (`6f4ebc0`): the guides' snapshots went, as planned; the guide test asks that every guide is in a skill.
-- [x] Typecheck, lint, `npm test` (2,423 tests in 95 files); the listing snapshots, the budget test and `names-in-text.json` unchanged.
+- [x] Typecheck, lint, `pnpm test` (2,423 tests in 95 files); the listing snapshots, the budget test and `names-in-text.json` unchanged.
 
 Then pause for review of the three `SKILL.md` texts.
 

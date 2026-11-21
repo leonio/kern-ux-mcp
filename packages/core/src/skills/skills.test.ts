@@ -103,7 +103,7 @@ describe("the generated skill files", () => {
 		for (const [file, text] of built) {
 			expect(
 				fileText.get(file),
-				`skills/${file} differs: run npm run skills:build`,
+				`skills/${file} differs: run pnpm skills:build`,
 			).toBe(text);
 		}
 	});
