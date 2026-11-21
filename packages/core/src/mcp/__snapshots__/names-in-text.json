@@ -74,5 +74,10 @@
 		"kern://guides/accessibility",
 		"kern://guides/forms",
 		"kern://guides/layout"
+	],
+	"skillUris": [
+		"skill://kern-forms/SKILL.md",
+		"skill://kern-page-layout/SKILL.md",
+		"skill://kern-review/SKILL.md"
 	]
 }

@@ -38,6 +38,15 @@ describe.each(MCP_ERAS)("MCP skills over $era", ({ era, connect }) => {
 		).toBeDefined();
 	});
 
+	it("names each skill in its instructions, by name and by URI", () => {
+		const instructions = client.getInstructions() ?? "";
+
+		for (const name of SKILL_NAMES) {
+			expect(instructions).toContain(`${name} for `);
+			expect(instructions).toContain(`skill://${name}/SKILL.md`);
+		}
+	});
+
 	it("lists each skill with its frontmatter and every file", async () => {
 		const listing = await skills.list();
 

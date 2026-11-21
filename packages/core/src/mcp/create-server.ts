@@ -4,6 +4,7 @@ import type { SkillCatalog } from "@modelcontextprotocol/server/ext/skills";
 import { runTool } from "../invoke.js";
 import { registerKernPrompts } from "../prompts/register.js";
 import { registerKernResources } from "../resources/register.js";
+import { serverInstructions } from "../skills/instructions.js";
 import {
 	KERN_TOOL_ANNOTATIONS,
 	type ToolDef,
@@ -44,6 +45,9 @@ export function registerKernTool(server: McpServer, tool: ToolDef): void {
 	);
 }
 
+/** What the server is for, and which skill to load for what. */
+const INSTRUCTIONS = serverInstructions();
+
 export type KernServerOptions = {
 	/** Reported as the server version: the version of the host package. */
 	version: string;
@@ -65,6 +69,7 @@ export function createKernServer({
 	const server = new McpServer(
 		{ name: "kern-ux", version },
 		{
+			instructions: INSTRUCTIONS,
 			// Tools, resources and prompts are fixed per release: no list-changed notifications.
 			capabilities: {
 				tools: { listChanged: false },

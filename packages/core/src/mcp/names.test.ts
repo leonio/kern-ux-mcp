@@ -21,6 +21,7 @@ const FIGMA_TOOL_NAMES: ReadonlySet<string> = new Set(
 	Object.values(FIGMA_TOOLS),
 );
 const KERN_URI = /kern:\/\/[a-z]+\/(?:\{[a-z]+\}|[a-z0-9-]+)/g;
+const SKILL_URI = /skill:\/\/[a-z0-9-]+\/[A-Za-z0-9._/-]*[A-Za-z0-9_]/g;
 
 /** Arguments that take each prompt down each of its branches. */
 const PROMPT_ARGS: ReadonlyArray<[string, Record<string, string>]> = [
@@ -69,6 +70,7 @@ describe("names in the server's text", () => {
 		if (!setup) throw new Error("No MCP setup.");
 		client = await setup.connect();
 
+		sources.set("instructions", { text: client.getInstructions() ?? "" });
 		const { tools } = await client.listTools();
 		toolNames = new Set(tools.map((tool) => tool.name));
 		for (const { name, ...listed } of tools) {
@@ -134,7 +136,7 @@ describe("names in the server's text", () => {
 
 	it("links only resources that read, and templates the server lists", async () => {
 		const broken: string[] = [];
-		for (const uri of found(KERN_URI)) {
+		for (const uri of [...found(KERN_URI), ...found(SKILL_URI)]) {
 			if (uri.includes("{")) {
 				if (!templates.has(uri)) broken.push(uri);
 				continue;
@@ -155,6 +157,7 @@ describe("names in the server's text", () => {
 				{
 					tools: found(TOOL_NAME, { withOwn: false }),
 					uris: found(KERN_URI, { withOwn: false }),
+					skillUris: found(SKILL_URI, { withOwn: false }),
 				},
 				null,
 				"\t",
