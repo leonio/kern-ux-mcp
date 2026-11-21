@@ -1,6 +1,6 @@
 # A2: skills over MCP
 
-Status: kickoff, written on 2026-11-21; group 1 started the same day. Step A2 of the [2.1 roadmap](roadmap.md#5-steps), after [A1](a1-kickoff.md).
+Status: done on 2026-11-22; kickoff written on 2026-11-21. The record is [at the end](#the-record). Step A2 of the [2.1 roadmap](roadmap.md#5-steps), after [A1](a1-kickoff.md).
 
 ## The task
 
@@ -148,10 +148,55 @@ Group 1 was done on 2026-11-21:
 
 ### Group 2: the pointers and the measurement
 
-- [ ] The instructions probe, in both setups.
-- [ ] `skills` on group 1's last commit, against `a1-skills-fix2`.
-- [ ] `feat: the render and validate tools name their skills`: the three sentences, `listing:sizes`, the listing snapshots; then `skills` and `prompts` on that commit. Reverted if the numbers don't ask for it.
-- [ ] By hand: the MCP Inspector, and VS Code Insiders if it's available.
-- [ ] `docs:` record A2 here: the numbers, the hand checks, and what A3 needs to know.
+- [x] The instructions probe, in both setups.
+- [x] `skills` on group 1's last commit, against `a1-skills-fix2`.
+- [x] ~~`feat: the render and validate tools name their skills`~~: not built. The instructions alone reached 12 of 12, which the pointers can't improve on (decision A2.4). In its place: `prompts` and `prompts --without-prompts` on the same commit, to check that the instructions cost nothing elsewhere.
+- [x] ~~By hand: the MCP Inspector, and VS Code Insiders~~: skipped by the maintainer's choice.
+- [x] `docs:` record A2 here: the numbers, and what A3 needs to know.
 
 Then pause for review, and write the A3 kickoff.
+
+## The record
+
+Group 2 was done on 2026-11-22, with Haiku 4.5, three runs a scenario, all on `48081f4`. The reports are in [evals](evals).
+
+### The probe
+
+With the eval's system prompt and with `--append-system-prompt`, the model quoted the server's instructions word for word. Claude Code passes them on in both setups, so the `skills` suite measures them.
+
+### The numbers
+
+| Report | Instructions | Task checks | Right skill loaded | Answer verbatim | Cost |
+|---|---|---|---|---|---|
+| `a1-skills-fix2` | no | 99/99 | 6/12 | 6/12 | $0.85 |
+| `a2-instructions` | yes | 99/99 | **12/12** | **12/12** | $0.81 |
+| `a1-prompts` | no | 99/99 | – | 12/12 | $1.04 |
+| `a2-prompts` | yes | 99/99 | – | 12/12 | $0.87 |
+| `a1-without-prompts` | no | 99/99 | – | 6/12 | $0.66 |
+| `a2-without-prompts` | yes | 98/99 | – | 5/12 | $0.78 |
+
+By scenario, `a2-instructions` loaded:
+- contact-form: `kern-forms` in each run;
+- application-flow: `kern-forms` in each run, and once `kern-page-layout` as well;
+- service-page: `kern-page-layout`, then `kern-forms`, in each run, as the instructions say;
+- fix-page: `kern-review` in each run.
+
+### What it shows
+
+- **The instructions meet A1's bar.** The right skill loaded in every run, and every answer was verbatim, as with the prompts. The descriptions alone had reached 6 to 8 of 12.
+- **They cost nothing elsewhere.**
+  - `prompts` keeps 12 of 12.
+  - `--without-prompts` is a client without skills, which reads skill names it can't load. Its 5 of 12 is within the noise of A1's 6. The one failed check is a fix-page run whose image lost its alt text. No answer mentioned a skill.
+- **No pointers in the tools.** They'd have spent about 250 of the listing's 599 free characters for nothing.
+
+### What changed from the plan
+
+- The pointers commit wasn't built, and the hand checks were skipped.
+- The listing is unchanged: 119,401 of 120,000.
+
+### What A3 needs to know
+
+- **Measure A3 against `a2-prompts`,** on the same Haiku setup, not against R7's reports: the instructions are now part of every run.
+- **A skill needs a route:** each new skill (`kern-figma-design` in F6, `kern-web-components` in W1) needs an entry in `SKILL_ROUTES` ([instructions.ts](../../packages/core/src/skills/instructions.ts)). `serverInstructions()` throws without one, so the server won't start.
+- **Guide text is in the bundle twice** until A3 serves the guide URIs from `SKILL_FILES`: about 31 KB.
+- **Not yet measured:** delivery over MCP in a model loop. The `skills` suite installs the skills as files, and no client we can drive loads MCP skills yet. The e2e tests cover the wire.
