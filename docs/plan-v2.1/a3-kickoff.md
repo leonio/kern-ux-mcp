@@ -81,7 +81,7 @@ The maintainer's on 2026-11-22: remove the prompts and the guides in 2.1, no dep
 ### Group 1: remove
 
 - [ ] `refactor: the guide builder runs only for the skills`: `guide-builder.ts`, `generated.ts` calls it, its test.
-- [ ] `feat!: the skills replace the prompts and the guides`: the catalog, `create-server.ts`, the removed files and tests, `names.test.ts` and the snapshots.
+- [ ] `feat: the skills replace the prompts and the guides`: the catalog, `create-server.ts`, the removed files and tests, `names.test.ts` and the snapshots. Not `feat!:`: [GitVersion.yml](../../GitVersion.yml) bumps the major on a `!`, and this ships as 2.1.
 - [ ] `test(eval): one suite for the workflows`: `--without-skills`, the `prompts` suite's code removed.
 - [ ] `docs: the skills replace the prompts and the guides`: README, How-It-Works, codebase-guide.md, figma-and-theming.md, the roadmap.
 - [ ] Typecheck, lint, `pnpm test`, the build with its size, e2e and `pack:mcpb`; then push for CI.
