@@ -1,106 +1,96 @@
-# A3: the prompts from the skills
+# A3: the skills replace the prompts and the guides
 
-Status: kickoff written on 2026-11-22. Step A3 of the [2.1 roadmap](roadmap.md#5-steps), after [A2](a2-kickoff.md).
+Status: kickoff written on 2026-11-22, and rewritten the same day after the maintainer's decision to remove the prompts and the guides in 2.1. Step A3 of the [2.1 roadmap](roadmap.md#5-steps), after [A2](a2-kickoff.md).
 
 ## The task
 
-Give each workflow one source, the skill:
+Make the skills the only workflows:
 
-- **The prompts:** `create_input_form`, `create_page_layout` and `review_kern_html` return their skill's text, with the arguments filled in as the task. Their own workflow code goes.
-- **The guides:** `kern://guides/{name}` serves the skills' reference files, and is deprecated in 2.1 and removed in 3.0 ([roadmap decision 3](roadmap.md#7-decisions)).
+- **The prompts go:** `create_input_form`, `create_page_layout`, `review_kern_html` and `create_figma_design`. The server no longer declares the prompts capability.
+- **The guides go:** `kern://guides/{name}`. The same text is each skill's reference, at `skill://kern-forms/references/forms.md` and so on.
+- **What stays:** the tools, the 48 component cards at `kern://components/{id}` (the reference data a model discovers through `get_component_docs`), the skills over MCP, and the server's instructions.
 
-Nothing a 2.0 client uses goes away: the same prompts with the same arguments, the same guide URIs with the same text. `create_figma_design` has no skill yet; F6 writes `kern-figma-design` and then gives it the same treatment.
+Released as 2.1. Removing a prompt or a resource breaks semver, but 2.1 has no known users who depend on them; the release notes say what went and what replaces it.
+
+## Why
+
+- **Decided by the maintainer on 2026-11-22:** skills over MCP are where MCP is going, and reference files a model reads when it needs them are the token-cheap way to progressive discovery. Prompts the user has to start by name, and guides nobody reads on their own ([S5](roadmap.md#s5-resources-arent-read-on-their-own-skills-do-that-job)), don't fit that.
+- **What A2 measured:** with the skills installed as files, the instructions got the right skill loaded in 12 of 12 runs, with every answer verbatim, as with the prompts.
+- **What it costs:** a client that has neither MCP skills nor the skill files gets the instructions and the tools, which A2 measured at 5 of 12 verbatim answers. A4 makes installing the files the documented path, and both target clients are bringing MCP skills ([S3](roadmap.md#s3-our-target-clients-dont-load-mcp-skills-yet)).
 
 ## What we start from
 
-- **The prompts are code** ([packages/core/src/prompts](../../packages/core/src/prompts)):
-  - each one embeds its guide as `kern://guides/{name}`;
-  - `create_input_form` and `create_page_layout` link component cards (six, plus three with steps; five);
-  - each ends with a text: the task from the arguments, "Work in this order:", four to six numbered steps, and the answer it wants.
-- **The skills are the same workflows** ([A1](a1-kickoff.md#the-record)). Only what came from arguments changed:
-  - "the steps asked for" for `steps`, the site and sections "from the request" for `purpose` and `sections`, "the HTML the person gives you" for `html`;
-  - a language rule for `locale`: "the language the person writes in, German when it's unclear";
-  - `get_component_docs` for the card links;
-  - `kern-forms` keeps the one-page and the multi-step branch side by side, where the prompt picks one.
-- **A reference is its guide, byte for byte.** `pnpm skills:build` writes each one from the guide builder, and `SKILL_FILES` carries them into the bundles (A2).
-- **The guide builder runs in the server.** `guides()` builds each guide on first read: it quotes the registry's foundations pages and runs a tool for the example. Since A2 the same text is in `SKILL_FILES` too.
-- **What A2 measured:** `a2-prompts`, with the server's instructions, scored 99/99 task checks and 12 of 12 verbatim answers. That's the bar ([A2's record](a2-kickoff.md#what-a3-needs-to-know)).
-- **Where the guide URIs appear:** the [README](../../README.md#resources), [codebase-guide.md](../codebase-guide.md), [migration-2.0.md](../migration-2.0.md) (history, stays), `resources.test.ts`, `prompts.test.ts`, `guides.test.ts`, and the `names-in-text` snapshot.
+- **The prompts:** [packages/core/src/prompts](../../packages/core/src/prompts), built in [catalog.ts](../../packages/core/src/mcp/catalog.ts) and registered in [create-server.ts](../../packages/core/src/mcp/create-server.ts), with `prompts: { listChanged: false }` and a cache hint for `prompts/list`. Tested in `prompts/prompts.test.ts` with eight snapshots and in `mcp/prompts.test.ts`; `names.test.ts` checks their text. The e2e tests don't use them.
+- **The guides:** [guides.ts](../../packages/core/src/resources/guides.ts) builds each one on first read, quoting the registry's foundations pages and running a tool for the example. `pnpm skills:build` writes the skills' references from the same builder, through the catalog's guides resource. Tested in `guides.test.ts` and `resources.test.ts`.
+- **The eval:** the `prompts` suite renders each scenario's MCP prompt (`promptName` in [scenarios.ts](../../tools/eval/scenarios.ts), [prompt-text.ts](../../tools/eval/prompt-text.ts)); `--without-prompts` sends the task's own words instead. The `skills` suite sends those same words with the skills installed as files.
+- **The `create_figma_design` workflow** has no skill yet. F6 writes `kern-figma-design` from the prompt's text, which stays in git at this kickoff's commit.
+- **Where they're named:** the [README](../../README.md#resources) (Resources and Prompts), [How-It-Works](../wiki/How-It-Works.md), [codebase-guide.md](../codebase-guide.md), [figma-and-theming.md](../figma-and-theming.md) (section 5 and the F2 row), and the roadmap. [migration-2.0.md](../migration-2.0.md) and the 2.0 history stay as they are.
 
 ## The design
 
-### A prompt is its skill with a task
+### The server
 
-A prompt's messages, in this order:
+- **`catalog.ts`** builds the tools and the component cards. No prompts, no guides.
+- **`create-server.ts`** registers no prompts and declares no prompts capability. `prompts/list` leaves the cache hints.
+- **Removed:** `packages/core/src/prompts/` whole, with its snapshots, and `mcp/prompts.test.ts`.
+- **`names.test.ts`** checks the tool descriptions, the cards, the skills and the instructions. Its snapshot drops the prompts' entries.
+- **The snapshots** of the capabilities, `server/discover` and the resource listings change; the review reads that diff.
 
-1. **The reference, embedded** under its skill URI, `skill://kern-forms/references/forms.md`. Every host can read that URI: the skills' template is an ordinary resource template, read with `resources/read`.
-2. **The card links,** as today, so a client that shows them still can.
-3. **One text:**
-   - the task from the arguments, as today: "Build a form with the kern tools: Kontaktformular des Bürgerbüros", "Fields: …", "Steps: …";
-   - the language, named: "Write it in German, with `locale: "de"`.";
-   - one line that says what follows: "The kern-forms skill below says how, and its reference is above; you don't need to load it.";
-   - the `SKILL.md` body, without its frontmatter. Its relative links become the full `skill://` URI, so `references/forms.md` names the resource embedded above.
+### The guide builder
 
-The body ends with the answer it wants, so that's still what the model reads last (R7).
-
-- **A helper does it for all three:** `skillPrompt(name)` in `definition.ts` reads `SKILL_FILES` and throws if the skill or its reference is missing, so a renamed skill fails the build, not a client.
-- **What goes:** each prompt's `workflow()`, `strictRender`, `NAVIGATION_LABELS` and `REVIEW_STEP`. The argument schemas, names, titles and descriptions stay.
-- **The snapshots** in `prompts/__snapshots__` change. The review reads that diff: it's the prompt text the eval sends.
-
-### The guides serve the skill files
-
-- **`kern://guides/{name}`** reads from `SKILL_FILES` through `GENERATED_SKILL_FILES`: `forms` is `kern-forms/references/forms.md`, and so on. The listing, the sizes, completion and the not-found error stay as they are.
-- **Deprecated in the description:** the template's description and each entry's say so, and name the file: "Deprecated, removed in 3.0: the same text as skill://kern-forms/references/forms.md." The text itself doesn't change, so it stays the file byte for byte.
-- **The builder runs only in `pnpm skills:build` and the tests.** `GUIDES` and `buildGuide` move to `packages/core/src/skills/guide-builder.ts`, which `generated.ts` calls directly instead of going through the catalog. The server then builds nothing on first read and runs no tool for an example, and the bundles drop the builder. The record has the bundle size before and after.
-- **The tests:**
-  - the folder test already fails when a reference is stale against the builder;
-  - `guides.test.ts` keeps the builder's checks (budget, strict-valid HTML, the quoted sections) and adds one: each guide URI serves its file byte for byte;
-  - `resources.test.ts` checks the deprecation in the listing.
-
-### The docs
-
-- **README:** the guides are deprecated, with the skill each one moved to; each prompt returns its skill with the arguments as the task.
-- **codebase-guide.md:** where the guides are built now.
-- **Migration notes** for 2.1 are step R. A3 adds a line to a list in this record for R to pick up.
+- **`GUIDES` and `buildGuide`** move to `packages/core/src/skills/guide-builder.ts`, which `generated.ts` calls directly. Only `pnpm skills:build` and the tests run it, so the server builds nothing on first read and the bundles drop the builder. The record has the bundle size before and after.
+- **`guides.test.ts`** becomes `guide-builder.test.ts`: the budget, strict-valid HTML in the examples, the quoted sections that exist, the same text every time. The folder test still fails when a reference is stale.
+- **The name "guide"** stays in the builder, since it builds a skill's reference from our code and KERN's text. Only the resource goes.
 
 ### The eval
 
-One run: `prompts` on the prompts commit, three runs a scenario, about $0.90, against `a2-prompts`.
+- **One suite for the workflows:** `skills`, with `--without-skills` for a client that has only the server, which is what `--without-prompts` measured.
+- **Removed:** the `prompts` suite, `promptName`, `prompt-text.ts` and its test, and `--without-prompts`. The old reports stay in `evals/` for the record.
+- **`compare.ts`** reads the old reports as before.
 
-- **The bar:** 99/99 task checks and 12 of 12 verbatim, as in `a2-prompts`.
-- **If it drops:** the prompt's own lines change first (the task, the line before the body), at most twice. `SKILL.md` stays as it is, since the `skills` suite measured it; a change to it means running `skills` again too.
-- **Not rerun:** `skills` and `--without-prompts`, since neither sends the prompts and `SKILL.md` doesn't change.
+### The docs
 
-### Risks
+- **README:**
+  - Resources lists only the component cards.
+  - A short Skills section replaces Prompts: the three skills, what each is for, and that the server serves them over MCP. A4 adds how to install them as files.
+- **How-It-Works, codebase-guide.md:** the same.
+- **figma-and-theming.md:** `kern-figma-design` (F6) carries the Figma workflow, where it said the prompt does.
+- **The roadmap:** decisions 2 and 3 as changed, with the date; sections 1, 3.2, 4 and 5 to match.
+- **The release notes for 2.1** are step R. This record keeps the list for it.
 
-- **The model loads the skill again.** The instructions say to load a skill before building, and the prompt already holds it. "You don't need to load it" is there for that; the eval's prompts suite has no `Skill` tool, so only a real client shows it.
-- **The language example.** `kern-forms` names "Zurück, Weiter and Absenden" whatever the language, where the prompt gave "Back, Next and Submit" for `en`. The task names the language, and no eval scenario has steps in English.
-- **Both branches in a form prompt.** The prompt used to give one page or steps, and now shows both. The eval's `application-flow` has steps and `contact-form` doesn't.
+### The measurement
 
-## Decisions to confirm
+What a model sees doesn't change: the tools, the instructions and the skill files are the same. So there's no question for the eval, only the harness to check after its change:
+
+- **`skills` and `skills --without-skills`** on group 1's last commit, three runs a scenario, about $1.60, against `a2-instructions` and `a2-without-prompts`.
+- **The bar:** the same results within noise: 12 of 12 with the skills, around 5 or 6 of 12 without.
+
+## Decisions
+
+The maintainer's on 2026-11-22: remove the prompts and the guides in 2.1, no deprecation, and keep the component cards. What's left to confirm:
 
 | # | Decision | Recommended | Alternative |
 |---|---|---|---|
-| A3.1 | What a prompt sends | the reference, the card links, then the task with the language and the `SKILL.md` body last | the body first and the task after it, so the answer line isn't last |
-| A3.2 | The embedded reference's URI | `skill://<name>/references/<file>`, served by the catalog | `kern://guides/{name}`, which A3 deprecates |
-| A3.3 | The card links | kept, as R7 and A2 measured them | dropped, so the prompt is exactly the skill and the task |
-| A3.4 | How the guides say they're deprecated | in the template's and each entry's description | also a line at the top of each guide, which breaks byte-for-byte with the file |
-| A3.5 | The guide builder | build time only, in `skills/guide-builder.ts`; the server serves `SKILL_FILES` | stays in the server, with a test that it matches the files |
+| A3.1 | The guide builder | build time only, in `skills/guide-builder.ts` | keep it in the server's code, unused at runtime |
+| A3.2 | The eval's suites | `skills` and `--without-skills`; the `prompts` suite and its code go | keep the `prompts` suite's code for the old reports |
+| A3.3 | The measurement | the two runs above, to check the harness, about $1.60 | none, since what the model sees doesn't change |
+| A3.4 | The README | a short Skills section now; installing them is A4's | nothing about skills until A4 |
 
 ## The plan
 
-### Group 1: one source
+### Group 1: remove
 
-- [ ] `refactor: the guides are built only for the skills`: `guide-builder.ts`, `kern://guides/{name}` from `SKILL_FILES` with the deprecation, the tests, the resource snapshots.
-- [ ] `feat: the prompts return their skills`: `skillPrompt()`, the three prompts, `prompts.test.ts`, the prompt and `names-in-text` snapshots.
-- [ ] `docs: the guides are deprecated, the prompts come from the skills`: README and codebase-guide.md.
+- [ ] `refactor: the guide builder runs only for the skills`: `guide-builder.ts`, `generated.ts` calls it, its test.
+- [ ] `feat!: the skills replace the prompts and the guides`: the catalog, `create-server.ts`, the removed files and tests, `names.test.ts` and the snapshots.
+- [ ] `test(eval): one suite for the workflows`: `--without-skills`, the `prompts` suite's code removed.
+- [ ] `docs: the skills replace the prompts and the guides`: README, How-It-Works, codebase-guide.md, figma-and-theming.md, the roadmap.
 - [ ] Typecheck, lint, `pnpm test`, the build with its size, e2e and `pack:mcpb`; then push for CI.
 
 Then pause for review.
 
-### Group 2: the measurement
+### Group 2: the check
 
-- [ ] `prompts` on group 1's last commit, against `a2-prompts`.
-- [ ] `docs:` record A3 here: the numbers, the bundle size, the lines for R's migration notes, and what F6 needs to know.
+- [ ] `skills` and `skills --without-skills` on group 1's last commit.
+- [ ] `docs:` record A3 here: the numbers, the bundle size, the list for the 2.1 release notes, and what F6 needs to know.
 
 Then pause for review, and write the next kickoff.
