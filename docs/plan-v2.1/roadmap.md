@@ -1,12 +1,12 @@
 # 2.1: skills, and the server as the KERN tooling between Figma and code
 
-Status: discovery and roadmap, written on 2026-11-15. The decisions in [section 7](#7-decisions) were confirmed the same day as recommended. The first step is [A0](a0-kickoff.md); [section 8](#8-open-questions) has the questions still open.
+Status: discovery and roadmap, written on 2026-11-15. The decisions in [section 7](#7-decisions) were confirmed the same day as recommended; on 2026-11-22 the maintainer changed decisions 2 and 3: the prompts and the guides go in 2.1 ([A3](a3-kickoff.md)). The first step is [A0](a0-kickoff.md); [section 8](#8-open-questions) has the questions still open.
 
 ## 1. The goal
 
 1. **Skills.** The server's workflows become [Agent Skills](https://agentskills.io/specification): served over MCP's Skills extension, and shipped as files for the clients that don't load MCP skills yet. In a client with skills, the assistant picks the KERN workflow itself ("build a form for …", "put this screen in Figma"), where today the user has to start a prompt by name.
 2. **Figma and code.** The server is the KERN tooling in both directions: code to Figma (built on `feat/figma-designs`), and Figma back to KERN HTML (new). Web Components start as a skill on top of the HTML.
-3. **A minor release.** Nothing a 2.0 client uses goes away in 2.1. What skills make redundant is deprecated in 2.1 and removed in 3.0 ([section 4](#4-what-goes-and-what-stays)).
+3. **A minor release.** What skills make redundant, the prompts and the guide resources, goes in 2.1 without a deprecation: no known users depend on them ([section 4](#4-what-goes-and-what-stays)). The release notes say what went and what replaces it.
 
 ## 2. What we start from
 
@@ -59,13 +59,13 @@ Findings in the discovery format: where, problem or facts, proposal, risk.
 - **Where:** [history.md](../v2-migration/history.md), R6: "Resources aren't read on their own"; [guides.ts](../../packages/core/src/resources/guides.ts), [component-cards.ts](../../packages/core/src/resources/component-cards.ts).
 - **Facts:** with Claude Code's resource tools, Haiku never listed resources or read a guide. It read a card only through `get_component_docs`'s `resource_link`. A guide reaches a model only when a prompt embeds it or a person attaches it.
 - **Proposal:** the guides' content becomes reference files of the skills, read when the skill needs them. The component cards stay resources: reference data per component, reached through the tool path that works.
-- **Risk:** removing the guide URIs breaks a user's saved `@`-mention; hence a deprecation first.
+- **Risk:** removing the guide URIs breaks a user's saved `@`-mention. Decided on 2026-11-22 to accept that: there are no known users.
 
 ### S6. The prompts are the workflows; skills are the same workflows, chosen by the model
 
 - **Where:** [packages/core/src/prompts](../../packages/core/src/prompts): `create_input_form`, `create_page_layout`, `review_kern_html`, `create_figma_design`. R7: with the prompts 12 of 12 answers were verbatim, against 3 of 12 without.
 - **Problem:** a prompt only works when the user starts it, by name and with arguments. "Put this in Figma" doesn't start `create_figma_design`.
-- **Proposal:** each prompt's workflow becomes a skill. The prompt stays, and returns its skill's text with the arguments filled in, so each workflow has one source.
+- **Proposal:** each prompt's workflow becomes a skill. ~~The prompt stays, and returns its skill's text with the arguments filled in.~~ Changed on 2026-11-22: the prompts go in 2.1, so each workflow has one source.
 - **Risk:** wording that works when the user starts it may not work when the model chooses to load it. The eval decides ([section 6](#6-measuring)).
 
 ### S7. The listing has 599 characters of room, and skills won't make more
@@ -126,7 +126,7 @@ skills/
 - **Tools by bare name** (`render_page`), "from the KERN UX MCP server": the prefix a client adds depends on the name the user gave the server.
 - **Generated references** come from code and the bundle with `pnpm skills:build`, checked in so changes arrive as diffs, with a test that fails when they're stale. KERN's text still comes only from the bundle, as for the guides today.
 - **Checks:** `names.test.ts` covers the skills: every tool name and `kern://` URI exists, and every relative link is a file of the skill. A test holds each skill to the Agent Skills naming rules and the extension's limits.
-- **No arguments:** the page's text follows the user's language, German when it's unclear, as the prompts' `locale` does.
+- **No arguments:** the page's text follows the user's language, German when it's unclear, as the prompts' `locale` did.
 
 ### 3.2 One source, three deliveries
 
@@ -135,7 +135,7 @@ skills/
    - a Claude Code plugin with a marketplace in this repo, which installs the server and the skills together, as Figma's plugin does;
    - a zip per skill on each GitHub release, for Claude Desktop and claude.ai;
    - for VS Code, a copy into `.github/skills`, or an install command if one works with our layout ([section 8](#8-open-questions)).
-3. **Without skills:** the prompts, generated from the skills ([S6](#s6-the-prompts-are-the-workflows-skills-are-the-same-workflows-chosen-by-the-model)), and a short `instructions` text that names each skill's URI and says to prefer the plugin's copy, as Figma's does. Claude Code can read those URIs with its resource tools.
+3. **Without skills:** a short `instructions` text that names each skill and its URI and says to prefer an installed copy, as Figma's does. Claude Code can read those URIs with its resource tools. The prompts did this job until A3 removed them ([S6](#s6-the-prompts-are-the-workflows-skills-are-the-same-workflows-chosen-by-the-model)).
 
 ### 3.3 Figma: our server plans, Figma's draws, and back
 
@@ -157,12 +157,12 @@ Decision 2 of [figma-and-theming.md](../figma-and-theming.md#8-decisions-2026-10
 | Today | 2.1 | 3.0 |
 |---|---|---|
 | `kern://components/{id}`, 48 cards | stays; `get_component_docs` and the skills link to it | stays |
-| `kern://guides/forms`, `/layout`, `/accessibility` | the content moves into the skills' `references/`; the URIs serve the same files, with "deprecated" in their description | removed |
-| 4 prompts | stay; generated from the skills, each returns its skill with the arguments | looked at again, by how many clients load skills by then |
+| `kern://guides/forms`, `/layout`, `/accessibility` | removed; the content is the skills' `references/` | |
+| 4 prompts | removed; the skills carry the workflows, `create_figma_design`'s in F6 | |
 | the planned `kern://guides/theming` | not built; `kern-theme` instead | |
 | tools | unchanged; no skill tool | candidates: `get_tokens` (its names are stale, [F5](../figma-and-theming.md#f5-the-token-data-isnt-in-the-bundle)), and the fallback tools of docs-only components (`get_layers`, `get_search`, `get_details`, `get_pattern`), whose guidance fits a card or a skill |
 
-Removing a resource, prompt or tool is a breaking change, so each 2.1 deprecation gets an entry in the migration notes, and 3.0 does the removals.
+Removing a resource, prompt or tool is a breaking change. 2.1 removes the prompts and the guides anyway (decisions 2 and 3, changed on 2026-11-22), and the release notes list them; the tool candidates wait for 3.0.
 
 ## 5. Steps
 
@@ -173,9 +173,9 @@ Each step ends in a state that could be released. Each step starts with a kickof
 | **A0** | The branch ([decision 7](#7-decisions)); the SDK to 2.4; nothing a client sees changes | | e2e on both protocol eras, the listing snapshots unchanged |
 | **A1** | The skills source: `skills/`, `skills:build`, the tests; `kern-forms`, `kern-page-layout` and `kern-review` from the prompts and guides | A0 | the eval's new `skills` suite against `prompts`, on the same commit |
 | **A2** | Skills over MCP: the catalog in `createKernServer`, cache hints, the `instructions` pointer | A1 | e2e for `skills/list`, `skills/get` and `resources/read` against the digests, on both eras; the MCP Inspector's skill check |
-| **A3** | Prompts from the skills; the guide URIs serve the skill files, deprecated | A1 | the `prompts` suite against the `prompts-r7-*` reports |
+| **A3** | The prompts and the guide URIs removed; the guide builder runs only for the skills; one eval suite for the workflows | A1 | `skills` and `--without-skills` against A2's reports |
 | **A4** | Skills as files: the plugin and marketplace, the release zips, the README and a wiki page | A1 | the client check: Claude Code plugin, VS Code `.github/skills` and the Insiders flag, a Claude Desktop upload |
-| **F6** | `kern-figma-design` from `create_figma_design` | A1 | the prompt's tests; no Figma in the eval |
+| **F6** | `kern-figma-design` from `create_figma_design`'s text, in git before A3 | A1 | the skill's tests and the names check; no Figma in the eval |
 | **F7** | Figma to KERN: the read script, the reverse kit map, `kern-from-figma` | A1; a few View-seat calls | the eval on recorded frames |
 | **W1** | `kern-web-components` | A1 | an eval scenario: a Lit element with a KERN form |
 | **R** | The release: migration notes for 2.1, the client check, then condense this folder | the steps chosen | |
@@ -191,13 +191,13 @@ F2b, T0 to F4 and K-F stay as [planned](../figma-and-theming.md#10-order-of-work
 
 ## 7. Decisions
 
-Confirmed by the maintainer on 2026-11-15: the recommended column.
+Confirmed by the maintainer on 2026-11-15: the recommended column. On 2026-11-22 the maintainer chose the alternatives of decisions 2 and 3: skills over MCP are where MCP is going, and reference files read when needed are the token-cheap way to progressive discovery.
 
 | # | Decision | Recommended | Alternative |
 |---|---|---|---|
 | 1 | How skills reach users | over MCP and as files, both in 2.1 ([S3](#s3-our-target-clients-dont-load-mcp-skills-yet)) | over MCP only, and wait for the clients |
-| 2 | The prompts | stay in 2.1, generated from the skills | remove them in 2.1 |
-| 3 | The guide resources | deprecated in 2.1, removed in 3.0 | removed in 2.1, called out in the release notes |
+| 2 | The prompts | ~~stay in 2.1, generated from the skills~~ | **remove them in 2.1** (changed on 2026-11-22) |
+| 3 | The guide resources | ~~deprecated in 2.1, removed in 3.0~~ | **removed in 2.1, called out in the release notes** (changed on 2026-11-22) |
 | 4 | A skill-reading tool, like `get_figma_skill` | none, unless the eval asks for it | one now, after a listing trim |
 | 5 | Names and URIs | `kern-*` names, `skill://kern-forms/SKILL.md`, no prefix | a prefix: `skill://kern-ux/kern-forms/SKILL.md` |
 | 6 | Web Components in 2.1 | the `kern-web-components` skill only | the webc kit, or KoliBri, as an output target (packer first) |

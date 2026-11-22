@@ -188,7 +188,7 @@ The decorative brand colour has no contrast requirement (KERN: "for ornament onl
 
 ### Where it lives
 
-- `kern://guides/theming`: how KERN's theming works, the role groups, the rules above. A resource, so it costs no listing.
+- The `kern-theme` skill ([2.1 roadmap](plan-v2.1/roadmap.md#31-the-skills)): how KERN's theming works, the role groups, the rules above. A skill, so it costs no listing.
 - `create_theme`: a tool, because the contrast check must be computed, not estimated. It needs a listing trim first ([F6](#f6-the-listing-has-580-characters-of-room)).
 
 ### In Figma
@@ -205,7 +205,7 @@ The kit's colours work as in CSS ([F9](#f9-figmas-variables-are-kerns-css-variab
 Built on 2026-10-15 in `packages/core/src/ux/figma/`, and not yet run in a real Figma file.
 
 1. The designer iterates in HTML with `render_page` and `render_composition`, as today.
-2. They ask for the screen in Figma. The prompt `create_figma_design` carries the workflow, and the tool `plan_figma_design` does the translating. It takes the screen's **HTML**, not the composition tree, so any tool's output works, and so does HTML the designer edited. It returns the kit components to look up, the `use_figma` scripts that build the screen, and the steps.
+2. They ask for the screen in Figma. The `kern-figma-design` skill will carry the workflow (F6 in the [2.1 roadmap](plan-v2.1/roadmap.md#5-steps); 2.1 removed the prompt `create_figma_design` that carried it before), and the tool `plan_figma_design` does the translating. It takes the screen's **HTML**, not the composition tree, so any tool's output works, and so does HTML the designer edited. It returns the kit components to look up, the `use_figma` scripts that build the screen, and the steps.
 3. The assistant looks the components up with Figma's `search_design_system`, fills their keys into the script, runs it with `use_figma`, and checks the result with `get_screenshot`. A screen takes about three of the designer's calls ([F10](#f10-figmas-mcp-server-limits-reading-too)).
 
 The parts:
@@ -293,10 +293,10 @@ Each step can be released on its own:
 | Step | Repo | What | Needs | State |
 |---|---|---|---|---|
 | F1 | here | The kit map, the plan, the script; `plan_figma_design` | the kit's names | built |
-| F2 | here | `create_figma_design` | F1 | built |
+| F2 | here | `create_figma_design`; removed in 2.1, where F6 makes it the `kern-figma-design` skill | F1 | built |
 | F2b | here | The first run in a real Figma file, and the fixes it brings | a Full seat, a file that links the kit | next |
 | T0 | packer, then here | `tokens.json`; `get_tokens` from the bundle; a test that every `--kern-*` name in our source exists | — | |
-| T1 | here | `kern://guides/theming`, `create_theme` with its checks and its Figma modes, the theme option of `render_page` | T0, a listing trim | |
+| T1 | here | the `kern-theme` skill, `create_theme` with its checks and its Figma modes, the theme option of `render_page` | T0, a listing trim | |
 | F3 | here | Click dummies: frames and prototype links, the low-fidelity variant; the HTML step script | F2b | |
 | F4 | here | Themes in Figma: the modes from `create_theme` applied in a Foundations copy | T1, a test account | |
 | K-F | packer | Optional: the Figma capture as a source, so a test notices when a new kit version changes a name the map uses ([section 7](#7-asks-for-the-packer)) | a capture; the decoder's property definitions | later |

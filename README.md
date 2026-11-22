@@ -1,6 +1,6 @@
 # Kern UX MCP Server
 
-MCP Language Server exposing component tools, recursive composition rendering, strict accessibility validation, component cards and guides as resources, and prompts for forms, pages and reviews for the [KERN-UX Component Library](https://www.kern-ux.de/).
+MCP Language Server exposing component tools, recursive composition rendering, strict accessibility validation, component cards as resources, and skills for forms, pages and reviews for the [KERN-UX Component Library](https://www.kern-ux.de/).
 
 Setup guides for VS Code Copilot, Claude Desktop and Claude Code, Docker hosting and debugging are in the [wiki](https://github.com/leonio/kern-ux-mcp/wiki).
 
@@ -147,28 +147,29 @@ Then use `https://<name>.trycloudflare.com/mcp` as the server URL. `ngrok http 3
 
 ---
 
-## Resources
+## Skills
 
-Besides its tools, the server offers Markdown resources that a client can attach to a conversation, for example from VS Code's context picker or with an `@`-mention in Claude:
+The server's workflows are [Agent Skills](https://agentskills.io/specification): in a client that loads skills, the assistant picks the one that fits the task and follows it, with no command to start.
 
-- `kern://components/{id}`: a card for each component the server knows, 48 in all. It has KERN's guidance (when to use it, do's and don'ts, similar components, the WCAG criteria left to the page) and our tool with its fields, a rendered example and the validation rules that apply. `get_component_docs` links to the card.
-- `kern://guides/forms`, `kern://guides/layout` and `kern://guides/accessibility`: what our tools do, next to KERN's guidance on the topic.
+| Skill | Use it to |
+|---|---|
+| `kern-forms` | build a form or a multi-step form: field types, labels, hints, required and optional fields, the error summary, and for steps the step list, progress and a review step |
+| `kern-page-layout` | build a whole page with `render_page`: the header with navigation, the `h1`, sections with grids, cards, tables and FAQs, and the footer |
+| `kern-review` | check given HTML with `validate_html`, rebuild it with the tools, and answer with a fix list and the corrected HTML |
 
-The tools work without them: a resource reaches the model only when the client or the user brings it in.
+Each skill renders with `strict: true` and asks for the tool's HTML verbatim. The page's text follows the language you write in, German when it's unclear.
+
+The server serves them over MCP's [Skills extension](https://modelcontextprotocol.io/seps/2640-skills-extension), at `skill://kern-forms/SKILL.md` and so on, and its instructions tell the model which skill to load for what. A skill's reference files, such as `skill://kern-forms/references/forms.md`, put what our tools do next to KERN's guidance on the topic. The source is the [skills](https://github.com/leonio/kern-ux-mcp/tree/main/skills) folder. Few clients load skills over MCP yet; a client without them still gets the tools and the instructions.
 
 ---
 
-## Prompts
+## Resources
 
-The server also offers three prompts: workflows over the tools that you start from the client. With the server named `kern-ux`, that's `/mcp.kern-ux.create_input_form` in VS Code and `/mcp__kern-ux__create_input_form` in Claude Code.
+Besides its tools and skills, the server offers Markdown resources that a client can attach to a conversation, for example from VS Code's context picker or with an `@`-mention in Claude:
 
-| Prompt | Arguments | What it does |
-|---|---|---|
-| `create_input_form` | `purpose`, `fields`, `steps`, `locale` | A form from a list of fields: input types, fieldsets, required and optional fields, and the error summary. Given `steps`, separated by semicolons, a multi-step form with the step list, progress, and a summary in the step for checking the answers. |
-| `create_page_layout` | `purpose`, `sections`, `locale` | A whole page from `render_page`: the header with navigation, the `h1`, one section per entry with grids and cards, and the footer. |
-| `review_kern_html` | `html`, `locale` | Checks the HTML with `validate_html`, rebuilds it with the tools, and answers with a fix list and the corrected HTML. The fix list says what a person still has to check, such as an `alt` text written without seeing the image. |
+- `kern://components/{id}`: a card for each component the server knows, 48 in all. It has KERN's guidance (when to use it, do's and don'ts, similar components, the WCAG criteria left to the page) and our tool with its fields, a rendered example and the validation rules that apply. `get_component_docs` links to the card.
 
-Each prompt embeds the guide it relies on, links the component cards it uses, renders with `strict: true`, and asks for the final HTML verbatim. `locale` is `de` (the default) or `en` and sets the language of the page's text; the prompts themselves are in English.
+The tools work without them: a resource reaches the model only when the client or the user brings it in, or a tool links it.
 
 ---
 
