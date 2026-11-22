@@ -80,13 +80,31 @@ The maintainer's on 2026-11-22: remove the prompts and the guides in 2.1, no dep
 
 ### Group 1: remove
 
-- [ ] `refactor: the guide builder runs only for the skills`: `guide-builder.ts`, `generated.ts` calls it, its test.
-- [ ] `feat: the skills replace the prompts and the guides`: the catalog, `create-server.ts`, the removed files and tests, `names.test.ts` and the snapshots. Not `feat!:`: [GitVersion.yml](../../GitVersion.yml) bumps the major on a `!`, and this ships as 2.1.
-- [ ] `test(eval): one suite for the workflows`: `--without-skills`, the `prompts` suite's code removed.
-- [ ] `docs: the skills replace the prompts and the guides`: README, How-It-Works, codebase-guide.md, figma-and-theming.md, the roadmap.
-- [ ] Typecheck, lint, `pnpm test`, the build with its size, e2e and `pack:mcpb`; then push for CI.
+- [x] `refactor: the guide builder runs only for the skills` (`59a5dd8`): `guide-builder.ts`, `generated.ts` calls it, its test.
+- [x] `test(eval): one suite for the workflows` (`a636569`): `--without-skills`, the `prompts` suite's code removed.
+- [x] `feat: the skills replace the prompts and the guides` (`22b2833`): the catalog, `create-server.ts`, the removed files and tests, `names.test.ts` and the snapshots. Not `feat!:`: [GitVersion.yml](../../GitVersion.yml) bumps the major on a `!`, and this ships as 2.1.
+- [x] `docs: the skills replace the prompts and the guides` (`ac64160`): README, How-It-Works, codebase-guide.md, figma-and-theming.md, the roadmap.
+- [x] Typecheck, lint, `pnpm test` (2,360 tests in 93 files), the build, e2e (22 tests) and `pack:mcpb`; then push for CI.
 
 Then pause for review.
+
+Group 1 was done on 2026-11-22:
+- **Changed from the plan:**
+  - the eval commit comes before the removal, so each commit passes its tests: the prompts suite's test needed the prompts;
+  - `resources.test.ts` now checks that `kern://guides/forms` fails with -32602, and reads the forms guide at its skill URI.
+- **The bundles,** before (`f92bbf4`) and after:
+
+  | Bundle | Before | After |
+  |---|---|---|
+  | stdio `dist/index.js` | 742,749 | 712,683 |
+  | stdio `standalone/index.js` | 2,395,627 | 2,365,648 |
+  | http `dist/index.js` | 752,749 | 722,680 |
+  | http `standalone/index.js` | 2,487,936 | 2,457,954 |
+
+  About 30 KB less in each, as A2 estimated. The builder isn't in them.
+- **The `names-in-text` snapshot** loses what only the prompts named: the cards they linked, the guide URIs, and the Figma tools only `create_figma_design` mentioned.
+- **The tool listing** is unchanged: 119,401 of 120,000.
+- **A follow-up, not in A3:** the registry carries KERN's foundations pages (`GUIDE_FOUNDATIONS`) only for the guide builder, so the server bundles text it no longer reads. Building from the knowledge bundle instead would drop it, but that's a change to the import.
 
 ### Group 2: the check
 
