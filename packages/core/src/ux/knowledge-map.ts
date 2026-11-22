@@ -64,7 +64,7 @@ export const TOOLS_FROM_SECTIONS = {
 } as const satisfies Record<string, BundleSectionRange & { title: string }>;
 
 /**
- * The foundations pages the guides quote (kern://guides/{name}), by KERN's
+ * The foundations pages the guides quote (skills/guide-builder.ts), by KERN's
  * ID. The registry carries their text; the guides pick sections by ID.
  */
 export const GUIDE_FOUNDATIONS = [

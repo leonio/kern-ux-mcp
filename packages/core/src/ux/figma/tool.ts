@@ -8,7 +8,7 @@ import { figmaScripts } from "./script.js";
 /** The same bound as validate_html's: far above any page our tools render. */
 const HTML_MAX_LENGTH = 500_000;
 
-/** The tools and skill of Figma's MCP server that our steps and prompt name. */
+/** The tools and skill of Figma's MCP server that our steps name. */
 export const FIGMA_TOOLS = {
 	search: "search_design_system",
 	run: "use_figma",

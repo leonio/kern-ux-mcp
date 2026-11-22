@@ -31,14 +31,11 @@ describe.each(MCP_ERAS)("MCP resources over $era", ({ era, connect }) => {
 		});
 	});
 
-	it("lists a card per component, the guides and each skill's SKILL.md", async () => {
+	it("lists a card per component and each skill's SKILL.md", async () => {
 		const { resources } = await client.listResources();
 
 		expect(resources.map((resource) => resource.uri)).toEqual([
 			...componentIds.map((id) => `kern://components/${id}`),
-			"kern://guides/forms",
-			"kern://guides/layout",
-			"kern://guides/accessibility",
 			"skill://kern-forms/SKILL.md",
 			"skill://kern-page-layout/SKILL.md",
 			"skill://kern-review/SKILL.md",
@@ -53,7 +50,7 @@ describe.each(MCP_ERAS)("MCP resources over $era", ({ era, connect }) => {
 		});
 	});
 
-	it("lists the card, guide and skill templates", async () => {
+	it("lists the card and skill templates", async () => {
 		const { resourceTemplates } = await client.listResourceTemplates();
 
 		expect(resourceTemplates).toEqual([
@@ -64,30 +61,20 @@ describe.each(MCP_ERAS)("MCP resources over $era", ({ era, connect }) => {
 				mimeType: "text/markdown",
 			}),
 			expect.objectContaining({
-				name: "guides",
-				uriTemplate: "kern://guides/{name}",
-				title: "KERN guides",
-				mimeType: "text/markdown",
-			}),
-			expect.objectContaining({
 				name: "io.modelcontextprotocol/skills",
 				uriTemplate: "skill://{+path}",
 			}),
 		]);
 	});
 
-	it("reads a guide and completes its name", async () => {
-		const guide = await client.readResource({ uri: "kern://guides/forms" });
-		const completion = await client.complete({
-			ref: { type: "ref/resource", uri: "kern://guides/{name}" },
-			argument: { name: "name", value: "l" },
+	it("reads a guide as a skill's reference", async () => {
+		const guide = await client.readResource({
+			uri: "skill://kern-forms/references/forms.md",
 		});
 
 		expect(guide.contents[0]).toMatchObject({
-			mimeType: "text/markdown",
 			text: expect.stringMatching(/^# KERN guide: forms\n/),
 		});
-		expect(completion.completion.values).toEqual(["layout"]);
 	});
 
 	it("reads a card as Markdown, cacheable for an hour on 2026-07-28 only", async () => {
@@ -116,7 +103,7 @@ describe.each(MCP_ERAS)("MCP resources over $era", ({ era, connect }) => {
 	it.each([
 		"kern://components/nope",
 		"kern://components/input-text",
-		"kern://guides/nope",
+		"kern://guides/forms",
 	])("rejects %s with -32602 and the URI", async (uri) => {
 		const read = client.readResource({ uri });
 

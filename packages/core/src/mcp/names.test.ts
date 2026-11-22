@@ -1,64 +1,29 @@
 import type { Client } from "@modelcontextprotocol/client";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 
-import type { KernPromptContent } from "../prompts/definition.js";
 import { MCP_ERAS } from "../test-support/mcp.js";
 import { readSkillFiles } from "../test-support/skills.js";
 import { FIGMA_TOOLS } from "../ux/figma/tool.js";
 import { getCatalog } from "./catalog.js";
 
 /**
- * Every tool name and kern:// URI the server writes, in the tool listing, the
- * prompts, the guides, the cards and the skills, is one it serves. The names found go in
- * a snapshot, so a new mention shows up in review; a tool's or card's mention
+ * Every tool name and kern:// or skill:// URI the server writes, in the
+ * instructions, the tool listing, the cards and the skills, is one it serves.
+ * The names found go in a snapshot, so a new mention shows up in review; a tool's or card's mention
  * of itself is checked but left out of it.
  */
 
 const TOOL_NAME = /\b(?:get|list|plan|render|validate)_[a-z][a-z_]*[a-z]\b/g;
 
-/** Tools of Figma's MCP server, which the Figma prompt and steps name. */
+/** Tools of Figma's MCP server, which plan_figma_design names. */
 const FIGMA_TOOL_NAMES: ReadonlySet<string> = new Set(
 	Object.values(FIGMA_TOOLS),
 );
 const KERN_URI = /kern:\/\/[a-z]+\/(?:\{[a-z]+\}|[a-z0-9-]+)/g;
 const SKILL_URI = /skill:\/\/[a-z0-9-]+\/[A-Za-z0-9._/-]*[A-Za-z0-9_]/g;
 
-/** Arguments that take each prompt down each of its branches. */
-const PROMPT_ARGS: ReadonlyArray<[string, Record<string, string>]> = [
-	["create_input_form", { purpose: "Kontakt", fields: "Name, E-Mail" }],
-	[
-		"create_input_form",
-		{ purpose: "Antrag", fields: "Name, Kennzeichen", steps: "Person; Prüfen" },
-	],
-	["create_page_layout", { purpose: "Startseite" }],
-	["create_page_layout", { purpose: "Startseite", sections: "Einleitung" }],
-	["review_kern_html", { html: "<p>Hallo</p>" }],
-	["create_figma_design", {}],
-	[
-		"create_figma_design",
-		{
-			screen: "Start",
-			figmaFile: "https://figma.com/design/x",
-			device: "mobile",
-		},
-	],
-];
-
-/** A prompt's text as one string: its text, embedded resources and link URIs. */
-function promptText(content: readonly KernPromptContent[]): string {
-	return content
-		.map((block) => {
-			if (block.type === "text") return block.text;
-			if (block.type === "resource") {
-				return `${block.resource.uri}\n${block.resource.text}`;
-			}
-			return block.uri;
-		})
-		.join("\n");
-}
-
 describe("names in the server's text", () => {
-	const { prompts, resources } = getCatalog();
+	const { resources } = getCatalog();
 	let client: Client;
 	/** Each source's text and its own name or URI, by a name for the report. */
 	const sources = new Map<string, { text: string; own?: string }>();
@@ -79,14 +44,6 @@ describe("names in the server's text", () => {
 		const { resourceTemplates } = await client.listResourceTemplates();
 		templates = new Set(resourceTemplates.map((t) => t.uriTemplate));
 
-		for (const [name, args] of PROMPT_ARGS) {
-			const prompt = prompts.find((candidate) => candidate.name === name);
-			if (!prompt) throw new Error(`No prompt ${name}.`);
-			const content = await prompt.content(prompt.argsSchema.parse(args));
-			sources.set(`prompt ${name} ${Object.keys(args).join(",")}`, {
-				text: promptText(content),
-			});
-		}
 		for (const resource of resources) {
 			for (const entry of await resource.entries()) {
 				sources.set(entry.uri, {
