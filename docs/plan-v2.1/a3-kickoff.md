@@ -104,7 +104,10 @@ Group 1 was done on 2026-11-22:
   About 30 KB less in each, as A2 estimated. The builder isn't in them.
 - **The `names-in-text` snapshot** loses what only the prompts named: the cards they linked, the guide URIs, and the Figma tools only `create_figma_design` mentioned.
 - **The tool listing** is unchanged: 119,401 of 120,000.
-- **A follow-up, not in A3:** the registry carries KERN's foundations pages (`GUIDE_FOUNDATIONS`) only for the guide builder, so the server bundles text it no longer reads. Building from the knowledge bundle instead would drop it, but that's a change to the import.
+- **Added after review:** the registry carried KERN's foundations pages (`GUIDE_FOUNDATIONS`) only for the guide builder, so the server bundled text it no longer read. The maintainer chose to trim it: nothing on the roadmap needs those pages at runtime, and `knowledge/` keeps all 24 in the repo.
+  - [x] `refactor: the guide builder reads the foundations from knowledge/`: `readGuideFoundations()`, `projectFoundation` exported, `foundations` out of the registry, its schema and `Registry`; the contract to 2.2.0; `registry.json` regenerated. The three references came out byte for byte the same, and the import still fails when the bundle lacks a page the guides quote.
+  - The bundles lost another 45 KB: stdio `dist/index.js` 667,811, `standalone/index.js` 2,320,776; http `dist/index.js` 677,808, `standalone/index.js` 2,413,082. Against `f92bbf4`, 75 KB less in each.
+  - A later skill that quotes a foundations page, such as `kern-theme` with the colour pages, adds its ID to `GUIDE_FOUNDATIONS` and a guide to the builder; the registry doesn't change.
 
 ### Group 2: the check
 
