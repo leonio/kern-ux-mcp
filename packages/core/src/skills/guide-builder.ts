@@ -1,15 +1,44 @@
+import fs from "node:fs/promises";
+
 import { invokeTool } from "../invoke.js";
 import { withStableIds } from "../ux/id.js";
+import type { BundleFoundation } from "../ux/knowledge-bundle.js";
+import { GUIDE_FOUNDATIONS } from "../ux/knowledge-map.js";
+import {
+	type FoundationInfo,
+	projectFoundation,
+} from "../ux/knowledge-projection.js";
 import type { ToolDef } from "../ux/tool-builders/shared.js";
-import type { FoundationInfo, Registry } from "../ux/types.js";
+import type { Registry } from "../ux/types.js";
 import { VALIDATION_RULES } from "../ux/validation-rules.js";
 
 /*
  * The guides: Markdown that puts what our tools do next to KERN's guidance on
- * the same topic, quoted section by section from the registry's foundations
- * pages. Each is a skill's reference (GENERATED_SKILL_FILES), which
- * `pnpm skills:build` writes from here; the server only serves the files.
+ * the same topic, quoted section by section from the foundations pages of the
+ * checked-in knowledge bundle (knowledge/). Each is a skill's reference
+ * (GENERATED_SKILL_FILES), which `pnpm skills:build` writes from here; the
+ * server only serves the files, and never reads the pages.
  */
+
+/** The checked-in knowledge bundle, at the repo's root. */
+const KNOWLEDGE_DIR = new URL("../../../../knowledge/", import.meta.url);
+
+/** The foundations pages the guides quote (GUIDE_FOUNDATIONS), by KERN's ID. */
+export type GuideFoundations = ReadonlyMap<string, FoundationInfo>;
+
+/** Reads the foundations pages the guides quote from knowledge/. */
+export async function readGuideFoundations(): Promise<GuideFoundations> {
+	const pages = await Promise.all(
+		GUIDE_FOUNDATIONS.map(async (id) => {
+			const text = await fs.readFile(
+				new URL(`foundations/${id}.json`, KNOWLEDGE_DIR),
+				"utf8",
+			);
+			return projectFoundation(JSON.parse(text) as BundleFoundation);
+		}),
+	);
+	return new Map(pages.map((page) => [page.id, page]));
+}
 
 /** Sections of a foundations page a guide quotes, by ID, in this order. */
 export type GuideQuote = {
@@ -270,14 +299,22 @@ export const GUIDES: readonly Guide[] = [
  * example runs the tool with stable IDs, so every build writes the same text.
  */
 export async function buildGuide(
-	registry: Registry,
 	name: string,
-	tools: readonly ToolDef[],
+	{
+		registry,
+		tools,
+		foundations,
+	}: {
+		registry: Registry;
+		tools: readonly ToolDef[];
+		foundations: GuideFoundations;
+	},
 ): Promise<string> {
 	const guide = GUIDES.find((candidate) => candidate.name === name);
 	if (!guide) throw new Error(`There's no guide ${name}.`);
 	return renderGuide(
 		registry,
+		foundations,
 		guide,
 		new Map(tools.map((tool) => [tool.name, tool])),
 	);
@@ -285,6 +322,7 @@ export async function buildGuide(
 
 async function renderGuide(
 	registry: Registry,
+	foundations: GuideFoundations,
 	guide: Guide,
 	toolsByName: ReadonlyMap<string, ToolDef>,
 ): Promise<string> {
@@ -297,7 +335,7 @@ async function renderGuide(
 		...guide.kern.map(({ heading, quotes }) =>
 			[
 				`## ${heading}`,
-				...quotes.map((quote) => quoteText(registry, quote)),
+				...quotes.map((quote) => quoteText(foundations, quote)),
 			].join("\n\n"),
 		),
 		...(guide.closing
@@ -330,8 +368,13 @@ async function exampleText(
 }
 
 /** The quoted sections as bullets, with the page's do's and don'ts and a link. */
-function quoteText(registry: Registry, quote: GuideQuote): string {
-	const page = foundation(registry, quote.page);
+function quoteText(foundations: GuideFoundations, quote: GuideQuote): string {
+	const page = foundations.get(quote.page);
+	if (!page) {
+		throw new Error(
+			`No foundations page ${quote.page} to quote; add it to GUIDE_FOUNDATIONS.`,
+		);
+	}
 	const sections = quote.sections.map((id) => {
 		const section = page.sections.find((candidate) => candidate.id === id);
 		if (!section) {
@@ -352,14 +395,4 @@ function quoteText(registry: Registry, quote: GuideQuote): string {
 			: []),
 		`Source: [${page.title}](${page.url}) on kern-ux.de`,
 	].join("\n\n");
-}
-
-function foundation(registry: Registry, id: string): FoundationInfo {
-	const page = registry.foundations.get(id);
-	if (!page) {
-		throw new Error(
-			`The registry has no foundations page ${id}; add it to GUIDE_FOUNDATIONS.`,
-		);
-	}
-	return page;
 }

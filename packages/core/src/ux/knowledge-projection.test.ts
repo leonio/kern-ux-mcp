@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
+import type { BundleFoundation } from "./knowledge-bundle.js";
 import { GUIDE_FOUNDATIONS } from "./knowledge-map.js";
-import { projectRegistry } from "./knowledge-projection.js";
+import { projectFoundation, projectRegistry } from "./knowledge-projection.js";
 import { COMPONENT_TOOL_IDS } from "./tool-builders/component-tools.js";
 
 const TOKENS = { colors: ["--kern-color-x"], spacing: [], rawVariables: [] };
@@ -121,7 +122,7 @@ describe("projectRegistry", () => {
 	it("takes the version, date and pins from the index, and keeps the tokens", () => {
 		const registry = project();
 
-		expect(registry.manifestVersion).toBe("2.1.0");
+		expect(registry.manifestVersion).toBe("2.2.0");
 		expect(registry.generatedAt).toBe("2026-10-03T09:09:48Z");
 		expect(registry.upstream).toEqual({
 			package: "@kern-ux/native",
@@ -375,9 +376,13 @@ describe("projectRegistry", () => {
 		]);
 	});
 
-	it("carries the foundations pages the guides quote, with their sections by ID", () => {
-		const registry = project({
-			"foundations/layout.json": {
+	it("leaves the foundations pages to the guide builder", () => {
+		expect(project()).not.toHaveProperty("foundations");
+	});
+
+	it("projects a foundations page the guides quote, with its sections by ID", () => {
+		expect(
+			projectFoundation({
 				id: "layout",
 				title: { en: "Layout", de: "Layout" },
 				status: "documented",
@@ -398,13 +403,8 @@ describe("projectRegistry", () => {
 					summary: { en: "Short." },
 					dos: [{ en: "Think mobile-first." }],
 				},
-			},
-		});
-
-		expect(registry.foundations.map((page) => page.id)).toEqual([
-			...GUIDE_FOUNDATIONS,
-		]);
-		expect(registry.foundations.find((page) => page.id === "layout")).toEqual({
+			} as unknown as BundleFoundation),
+		).toEqual({
 			id: "layout",
 			title: "Layout",
 			url: "https://www.kern-ux.de/layout",

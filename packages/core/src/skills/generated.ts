@@ -1,6 +1,6 @@
 import { getCatalog } from "../mcp/catalog.js";
 import { loadRegistryFromManifest } from "../ux/registry.js";
-import { buildGuide } from "./guide-builder.js";
+import { buildGuide, readGuideFoundations } from "./guide-builder.js";
 
 /**
  * A file of the skills folder that `pnpm skills:build` writes, never a
@@ -22,12 +22,15 @@ export const GENERATED_SKILL_FILES: readonly GeneratedSkillFile[] = [
 
 /** Each generated file's text by its path, as the guide builder writes it now. */
 export async function buildGeneratedSkillFiles(): Promise<Map<string, string>> {
-	const registry = loadRegistryFromManifest();
-	const { tools } = getCatalog();
+	const sources = {
+		registry: loadRegistryFromManifest(),
+		tools: getCatalog().tools,
+		foundations: await readGuideFoundations(),
+	};
 
 	const files = new Map<string, string>();
 	for (const file of GENERATED_SKILL_FILES) {
-		files.set(file.path, await buildGuide(registry, file.guide, tools));
+		files.set(file.path, await buildGuide(file.guide, sources));
 	}
 	return files;
 }

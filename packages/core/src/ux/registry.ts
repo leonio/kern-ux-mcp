@@ -23,9 +23,6 @@ function toRegistry(manifest: RegistryManifest): Registry {
 		tokens: manifest.tokens ?? { colors: [], spacing: [], rawVariables: [] },
 		components,
 		byId,
-		foundations: new Map(
-			(manifest.foundations ?? []).map((page) => [page.id, page] as const),
-		),
 	};
 }
 

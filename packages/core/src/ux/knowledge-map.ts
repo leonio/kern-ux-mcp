@@ -65,7 +65,8 @@ export const TOOLS_FROM_SECTIONS = {
 
 /**
  * The foundations pages the guides quote (skills/guide-builder.ts), by KERN's
- * ID. The registry carries their text; the guides pick sections by ID.
+ * ID. The builder reads them from knowledge/ and picks sections by ID; the
+ * import fails if the bundle lacks one.
  */
 export const GUIDE_FOUNDATIONS = [
 	"accessibility",

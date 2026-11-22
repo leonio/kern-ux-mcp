@@ -1,6 +1,5 @@
 import type {
 	ComponentInfo,
-	FoundationInfo,
 	TokenSnapshot,
 	UpstreamSource,
 } from "./registry.schema.js";
@@ -14,7 +13,6 @@ export type {
 	ComponentInfo,
 	ComponentKnowledge,
 	ComponentStatus,
-	FoundationInfo,
 	RegistryManifest,
 	TokenSnapshot,
 	UpstreamSource,
@@ -38,8 +36,6 @@ export type Registry = {
 	tokens: TokenSnapshot;
 	components: ComponentInfo[];
 	byId: Map<string, ComponentInfo>;
-	/** The foundations pages the guides quote, by KERN's ID. */
-	foundations: Map<string, FoundationInfo>;
 };
 
 export type { ValidationIssue } from "./validate.schema.js";

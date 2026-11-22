@@ -17,7 +17,6 @@ import {
 	type BundleSectionRange,
 	componentIdFromKernId,
 	FALLBACK_EXAMPLES,
-	GUIDE_FOUNDATIONS,
 	TOOLS_FROM_SECTIONS,
 	TOOLS_WITHOUT_BUNDLE_COMPONENT,
 } from "./knowledge-map.js";
@@ -25,13 +24,12 @@ import type {
 	AccessibilityCriterion,
 	ComponentInfo,
 	ComponentKnowledge,
-	FoundationInfo,
 	RegistryManifest,
 	TokenSnapshot,
 } from "./registry.schema.js";
 
 /** The registry contract version knowledge:import writes. */
-export const REGISTRY_MANIFEST_VERSION = "2.1.0";
+export const REGISTRY_MANIFEST_VERSION = "2.2.0";
 
 /**
  * registry.json from a checked bundle (checkKnowledgeBundle) and the code-owned
@@ -91,19 +89,33 @@ export function projectRegistry(
 		),
 		classes: projectClasses(files),
 		components: components.sort((a, b) => a.id.localeCompare(b.id)),
-		foundations: GUIDE_FOUNDATIONS.map((id) =>
-			projectFoundation(
-				files.get(`foundations/${id}.json`) as BundleFoundation,
-			),
-		),
 	};
 }
 
+/** A foundations page as the guides quote it, with its sections by ID. */
+export type FoundationInfo = {
+	/** KERN's ID, e.g. form-inputs-overview. */
+	id: string;
+	title: string;
+	/** The page on kern-ux.de. */
+	url: string;
+	summary?: string;
+	knowledge?: ComponentKnowledge;
+	sections: Array<{
+		id: string;
+		/** The page's heading, in German. */
+		heading: string;
+		url: string;
+		summary?: string;
+	}>;
+};
+
 /**
  * A foundations page the guides quote: its English text, sections by ID. The
- * utilities page has no title, so its ID stands in.
+ * utilities page has no title, so its ID stands in. Only skills:build and the
+ * tests read these (skills/guide-builder.ts); the registry doesn't carry them.
  */
-function projectFoundation(
+export function projectFoundation(
 	page: Omit<BundleFoundation, "title"> &
 		Partial<Pick<BundleFoundation, "title">>,
 ): FoundationInfo {

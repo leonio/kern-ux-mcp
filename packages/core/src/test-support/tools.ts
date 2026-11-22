@@ -25,7 +25,6 @@ export function createRegistry<T extends ComponentInfo>(
 		byId: new Map(
 			components.map((component) => [component.id, component] as const),
 		),
-		foundations: new Map(),
 	};
 }
 
