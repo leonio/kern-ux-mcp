@@ -3,23 +3,21 @@
  * mode, with a small model and the kern stdio server as its only tools, and
  * records tool calls, errors, retries, tokens and cost per run.
  *
- *   pnpm eval --label baseline [--suite base|nested|resources|prompts|skills]
+ *   pnpm eval --label baseline [--suite base|nested|resources|skills]
  *                   [--server <path/to/stdio/dist/index.js>] [--runs 3]
  *                   [--only contact-form,faq] [--model claude-haiku-4-5] [--concurrency 2]
- *                   [--resources] [--without-prompts] [--append-system-prompt]
+ *                   [--resources] [--without-skills] [--append-system-prompt]
  *   pnpm eval --label baseline --from-transcripts
  *                   (re-scores the saved transcripts, e.g. after changing the checks)
  *
  * The base suite is the ten R5 scenarios; nested is four layouts that need the
- * recursive block union; resources is two tasks a card or guide should help
- * with; prompts is tasks of the others asked through our MCP prompts
+ * recursive block union; resources is two tasks a card should help with
  * (scenarios.ts). --resources turns on Claude Code's tools for listing and
  * reading MCP resources; run a suite with and without it to compare. The
- * prompts suite renders each prompt from the server under test (prompt-text.ts)
- * and sends that text; --without-prompts sends the tasks' own text instead.
- * The skills suite sends the prompts suite's tasks in their own words, with
- * skills/ copied into the working directory as .claude/skills and Claude
- * Code's Skill and Read tools on, and checks that each loads its skill.
+ * skills suite sends four tasks of the others with skills/ copied into the
+ * working directory as .claude/skills and Claude Code's Skill and Read tools
+ * on, and checks that each loads its skill. --without-skills sends the same
+ * tasks without them, as a client that has only the server.
  * --append-system-prompt keeps Claude Code's own system prompt and adds ours
  * to it, as a client with skills would, instead of replacing it.
  *
@@ -33,10 +31,6 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 
-import { Client } from "@modelcontextprotocol/client";
-import { StdioClientTransport } from "@modelcontextprotocol/client/stdio";
-
-import { promptText } from "./prompt-text.js";
 import { findReport, REPO_ROOT, REPORT_DIRS } from "./reports.js";
 import { type Scenario, SUITES } from "./scenarios.js";
 import {
@@ -62,7 +56,7 @@ function option(name: string, fallback?: string): string | undefined {
 const label = option("label");
 if (!label || !/^[\w.-]+$/.test(label)) {
 	console.error(
-		"Usage: pnpm eval --label <name> [--suite base|nested|resources|prompts|skills] [--server <path>] [--runs 3] [--only a,b] [--model claude-haiku-4-5] [--concurrency 2] [--resources] [--without-prompts] [--append-system-prompt]",
+		"Usage: pnpm eval --label <name> [--suite base|nested|resources|skills] [--server <path>] [--runs 3] [--only a,b] [--model claude-haiku-4-5] [--concurrency 2] [--resources] [--without-skills] [--append-system-prompt]",
 	);
 	process.exit(2);
 }
@@ -103,13 +97,14 @@ const appendSystemPrompt =
 	previous?.systemPromptMode === "append";
 const withResources =
 	process.argv.includes("--resources") || previous?.resources === true;
-const scenarios = suiteScenarios.filter((s) => !only || only.includes(s.id));
-// The prompts suite sends each task through its MCP prompt, unless told not to.
-const withPrompts =
-	!process.argv.includes("--without-prompts") &&
-	previous?.mcpPrompts !== false &&
-	scenarios.some((s) => s.mcpPrompt);
-// The skills suite: the skills folder in the working directory, and the tools to use it.
+// The skills suite runs with the skills, unless told not to; without them,
+// no run can load one, so the check that it did goes too.
+const withoutSkills =
+	process.argv.includes("--without-skills") || previous?.skills === false;
+const scenarios = suiteScenarios
+	.filter((s) => !only || only.includes(s.id))
+	.map((s) => (withoutSkills ? { ...s, expectSkill: undefined } : s));
+// The skills folder in the working directory, and the tools to use it.
 const withSkills = scenarios.some((s) => s.expectSkill);
 
 if (!fromTranscripts) {
@@ -177,41 +172,10 @@ const ownTools = [
 	...(withSkills ? [SKILL_TOOLS.load, SKILL_TOOLS.read] : []),
 ];
 
-/**
- * Each scenario's MCP prompt, rendered once by the server under test, as the
- * text the runs send. The text goes next to the transcripts for reading.
- */
-async function renderPrompts(): Promise<Map<string, string>> {
-	const texts = new Map<string, string>();
-	if (!withPrompts || fromTranscripts) return texts;
-	const client = new Client({ name: "kern-eval", version: "0.0.0" });
-	await client.connect(
-		new StdioClientTransport({
-			command: process.execPath,
-			args: [server],
-			stderr: "inherit",
-		}),
-	);
-	try {
-		for (const scenario of scenarios) {
-			if (!scenario.mcpPrompt) continue;
-			const { messages } = await client.getPrompt(scenario.mcpPrompt);
-			const text = promptText(messages);
-			texts.set(scenario.id, text);
-			await fs.writeFile(path.join(rawDir, `${scenario.id}.prompt.md`), text);
-		}
-	} finally {
-		await client.close();
-	}
-	return texts;
-}
-
-const promptTexts = await renderPrompts();
-
 function runOnce(scenario: Scenario, attempt: number): Promise<RunSummary> {
 	const args = [
 		"-p",
-		promptTexts.get(scenario.id) ?? scenario.prompt,
+		scenario.prompt,
 		"--model",
 		model,
 		"--mcp-config",
@@ -296,7 +260,7 @@ if (fromTranscripts) {
 		}
 	};
 	console.log(
-		`Eval "${label}": ${jobs.length} runs (${scenarios.length} scenarios × ${runs}) with ${model} against ${server}${withResources ? ", with the resource tools" : ""}${withPrompts ? ", through the MCP prompts" : ""}${withSkills ? ", with the skills" : ""}${appendSystemPrompt ? ", after Claude Code's system prompt" : ""}`,
+		`Eval "${label}": ${jobs.length} runs (${scenarios.length} scenarios × ${runs}) with ${model} against ${server}${withResources ? ", with the resource tools" : ""}${withSkills ? ", with the skills" : withoutSkills ? ", without the skills" : ""}${appendSystemPrompt ? ", after Claude Code's system prompt" : ""}`,
 	);
 	await Promise.all(Array.from({ length: concurrency }, worker));
 }
@@ -320,9 +284,6 @@ const byScenario = scenarios.map((scenario) => {
 					fileReads: own.map((r) => r.fileReads),
 				}
 			: {}),
-		...(withPrompts && scenario.mcpPrompt
-			? { mcpPrompt: scenario.mcpPrompt.name }
-			: {}),
 	};
 });
 const total = aggregate(results);
@@ -335,7 +296,6 @@ const report = {
 	serverCommit: previous?.serverCommit ?? serverCommit(),
 	runsPerScenario: previous?.runsPerScenario ?? runs,
 	resources: withResources,
-	mcpPrompts: withPrompts,
 	skills: withSkills,
 	systemPrompt: previous?.systemPrompt ?? SYSTEM_PROMPT,
 	systemPromptMode: appendSystemPrompt ? "append" : "replace",

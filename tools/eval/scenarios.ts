@@ -7,13 +7,9 @@ export type Scenario = {
 	id: string;
 	prompt: string;
 	/**
-	 * An MCP prompt that asks for the same task: the harness sends its rendered
-	 * text instead of `prompt`, unless it runs --without-prompts.
-	 */
-	mcpPrompt?: McpPromptCall;
-	/**
 	 * The skill (skills/<name>) the run must load with Claude Code's Skill tool.
-	 * A scenario with one runs with the skills folder (--suite skills).
+	 * A scenario with one runs with the skills folder (--suite skills), unless
+	 * the run is --without-skills.
 	 */
 	expectSkill?: string;
 	/** Tool groups that must each be called at least once (any tool in a group counts). */
@@ -25,11 +21,6 @@ export type Scenario = {
 	 * times: the final answer's HTML, or every tool's HTML if the answer has none.
 	 */
 	expectStructure?: StructureCheck[];
-};
-
-export type McpPromptCall = {
-	name: string;
-	arguments: Record<string, string>;
 };
 
 export type StructureCheck = {
@@ -257,57 +248,6 @@ export const RESOURCE_SCENARIOS: readonly Scenario[] = [
 	},
 ];
 
-function withPrompt(
-	scenarios: readonly Scenario[],
-	id: string,
-	mcpPrompt: McpPromptCall,
-): Scenario {
-	const scenario = scenarios.find((candidate) => candidate.id === id);
-	if (!scenario) throw new Error(`No scenario ${id}.`);
-	return { ...scenario, mcpPrompt };
-}
-
-/**
- * Tasks of the other suites, asked through our MCP prompts (R7), with the
- * same IDs and checks. The arguments carry the same task: what the original
- * says beyond the fields and steps goes in purpose. Run the suite with and
- * without --without-prompts on the same commit, and compare the two reports.
- */
-export const PROMPT_SCENARIOS: readonly Scenario[] = [
-	withPrompt(SCENARIOS, "contact-form", {
-		name: "create_input_form",
-		arguments: {
-			purpose:
-				'Contact form for a city office, with a submit button labelled "Absenden". Show the state after someone submitted it without an email address: the email field shows an error and the form shows an error summary.',
-			fields:
-				"Full name, email address, a message over several lines, a required checkbox to accept the privacy policy",
-		},
-	}),
-	withPrompt(NESTED_SCENARIOS, "application-flow", {
-		name: "create_input_form",
-		arguments: {
-			purpose:
-				"Online application for a residents' parking permit (Bewohnerparkausweis). Render all three steps in the page so a script can switch between them, with step 2 active, as it looks after a submit without a licence plate: that field shows an error and the form shows an error summary.",
-			fields:
-				"First name, last name, date of birth, licence plate, vehicle type (a select with PKW, Motorrad and Wohnmobil), a checkbox to confirm the details are correct",
-			steps: "Persönliche Daten; Fahrzeug; Prüfen und Absenden",
-		},
-	}),
-	withPrompt(NESTED_SCENARIOS, "service-page", {
-		name: "create_page_layout",
-		arguments: {
-			purpose:
-				'The complete HTML page "Sperrmüll anmelden" for the city of Musterstadt, with a header with the site name and navigation (Start, Abfall, Kontakt), a main heading, and a footer with two columns of links.',
-			sections:
-				"A short intro; a form to book a bulky-waste pickup (name, street and house number, postcode, preferred date, a select of item types, and a submit button); a table of the fees for three item types with a price column; an FAQ with three questions that expand when clicked",
-		},
-	}),
-	withPrompt(NESTED_SCENARIOS, "fix-page", {
-		name: "review_kern_html",
-		arguments: { html: BROKEN_PAGE },
-	}),
-];
-
 function withSkill(
 	scenarios: readonly Scenario[],
 	id: string,
@@ -319,10 +259,10 @@ function withSkill(
 }
 
 /**
- * The prompts suite's tasks in their own words, with the skills folder in the
- * working directory (2.1, A1): the same checks, and the skill each should load.
- * Compare with `--suite prompts` and `--suite prompts --without-prompts` on
- * the same commit.
+ * Tasks of the other suites, with the skills folder in the working directory
+ * (2.1, A1): the same checks, and the skill each should load. Compare with
+ * `--suite skills --without-skills` on the same commit. Until A3 (2.1) the
+ * same tasks also ran through our MCP prompts, as the prompts suite.
  */
 export const SKILL_SCENARIOS: readonly Scenario[] = [
 	withSkill(SCENARIOS, "contact-form", "kern-forms"),
@@ -336,6 +276,5 @@ export const SUITES: Readonly<Record<string, readonly Scenario[]>> = {
 	base: SCENARIOS,
 	nested: NESTED_SCENARIOS,
 	resources: RESOURCE_SCENARIOS,
-	prompts: PROMPT_SCENARIOS,
 	skills: SKILL_SCENARIOS,
 };
