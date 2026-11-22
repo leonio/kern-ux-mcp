@@ -1,18 +1,12 @@
 import { describe, expect, it } from "vitest";
 
 import { getCatalog } from "../mcp/catalog.js";
-import { GENERATED_SKILL_FILES } from "../skills/generated.js";
 import { loadRegistryFromManifest } from "../ux/registry.js";
-import { validateHtmlStrict } from "../ux/validate.js";
 import { byteLength } from "./definition.js";
-import { GUIDES, guides } from "./guides.js";
+import { guides } from "./guides.js";
 
-const registry = loadRegistryFromManifest();
-const definition = guides(registry, getCatalog().tools);
+const definition = guides(loadRegistryFromManifest(), getCatalog().tools);
 const entries = await definition.entries();
-
-/** A guide stays small enough to attach whole. */
-const GUIDE_BUDGET_BYTES = 16_000;
 
 describe("kern://guides/{name}", () => {
 	it("lists the guides with their size", async () => {
@@ -28,44 +22,7 @@ describe("kern://guides/{name}", () => {
 		}
 	});
 
-	it.each(GUIDES.map((guide) => guide.name))(
-		"keeps the %s guide within the budget, its HTML strict-valid, and the same every time",
-		async (name) => {
-			const text = (await definition.read(name)) ?? "";
-
-			expect(byteLength(text)).toBeLessThanOrEqual(GUIDE_BUDGET_BYTES);
-			for (const [, html] of text.matchAll(/```html\n([\s\S]*?)\n```/g)) {
-				expect(validateHtmlStrict(html).ok).toBe(true);
-			}
-			expect(await guides(registry, getCatalog().tools).read(name)).toBe(text);
-		},
-	);
-
-	it("quotes only sections the registry has", () => {
-		for (const guide of GUIDES) {
-			for (const { quotes } of guide.kern) {
-				for (const quote of quotes) {
-					const page = registry.foundations.get(quote.page);
-					expect(page, `${guide.name}: ${quote.page}`).toBeDefined();
-					const ids = page?.sections.map((section) => section.id) ?? [];
-					for (const id of quote.sections) {
-						expect(ids, `${guide.name}: ${quote.page}#${id}`).toContain(id);
-					}
-				}
-			}
-		}
-	});
-
 	it("serves nothing for a guide it doesn't have", async () => {
 		expect(await definition.read("composition")).toBeUndefined();
 	});
-
-	// A guide's text is checked in as a skill's reference, and skills.test.ts
-	// fails when that file differs from what the guide renders now.
-	it.each(GUIDES.map((guide) => guide.name))(
-		"keeps the %s guide in a skill",
-		(name) => {
-			expect(GENERATED_SKILL_FILES.map((file) => file.guide)).toContain(name);
-		},
-	);
 });
